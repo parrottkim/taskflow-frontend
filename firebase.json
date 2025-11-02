@@ -1,0 +1,44 @@
+{
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "taskflow-a6f6e",
+          "appId": "1:536987531282:android:abb70a6971328c8a9cc0cb",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "taskflow-a6f6e",
+          "appId": "1:536987531282:ios:fa82e082ea20e3aa9cc0cb",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "taskflow-a6f6e",
+          "appId": "1:536987531282:ios:fa82e082ea20e3aa9cc0cb",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "taskflow-a6f6e",
+          "configurations": {
+            "android": "1:536987531282:android:abb70a6971328c8a9cc0cb",
+            "ios": "1:536987531282:ios:fa82e082ea20e3aa9cc0cb",
+            "macos": "1:536987531282:ios:fa82e082ea20e3aa9cc0cb",
+            "web": "1:536987531282:web:2de8ec291bef220e9cc0cb",
+            "windows": "1:536987531282:web:304cea02ef3547e49cc0cb"
+          }
+        }
+      }
+    }
+  }
+}

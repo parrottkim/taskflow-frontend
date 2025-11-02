@@ -1,0 +1,156 @@
+name: taskflow
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+  
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # architecture
+  flutter_hooks: ^0.21.2
+  freezed_annotation: ^3.0.0
+  hooks_riverpod: ^2.6.1
+  json_annotation: ^4.9.0
+  riverpod_annotation: ^2.6.1
+
+  # editor
+  gpt_markdown: ^1.1.2
+  super_clipboard: ^0.9.1
+  super_editor: ^0.3.0-dev.33
+  super_editor_markdown: ^0.1.8
+
+  # error
+  sentry_flutter: ^8.14.2
+
+  # file
+  image: ^4.5.4
+  file_selector: ^1.0.3
+  mime: ^2.0.0
+  cross_file: ^0.3.4+2
+  desktop_drop: ^0.6.1
+  flutter_web_file_selector: ^0.3.1
+
+  # firebase
+  firebase_core: ^3.13.1
+  firebase_remote_config: ^5.4.4
+
+  # io
+  camera: ^0.11.2
+  flutter_secure_storage: ^9.2.4
+  share_plus: ^11.0.0
+  shared_preferences: ^2.5.3
+
+  # localization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+  # map
+  flutter_map: ^7.0.2
+  flutter_map_geojson: ^1.0.8
+  latlong2: ^0.9.1
+
+  # network
+  dio: ^5.8.0+1
+  http_parser: ^4.1.2
+  retrofit: ^4.7.0
+
+  # router
+  go_router: ^15.1.2
+  path: ^1.9.1
+
+  # web plugins
+  flutter_web_plugins:
+    sdk: flutter
+  universal_html: ^2.2.4
+  url_launcher: ^6.3.0
+
+  # widget
+  flex_seed_scheme: ^3.5.1
+  flutter_svg: ^2.1.0
+  fluttertoast: ^8.2.12
+  follow_the_leader: ^0.0.4+8
+  loading_animation_widget: ^1.3.0
+  material_symbols_icons: ^4.2815.1
+  skeletonizer: ^2.0.1
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+    
+  # lints
+  flutter_lints: ^5.0.0
+  custom_lint: ^0.7.2
+  riverpod_lint: ^2.3.13
+
+  # code generation
+  build_runner: ^2.4.15
+  freezed: ^3.0.6
+  json_serializable: ^6.8.0
+  riverpod_generator: ^2.4.3
+  retrofit_generator: ^9.1.7
+
+  # error
+  sentry_dart_plugin: ^3.1.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/files/
+    - assets/fonts/
+    - assets/icons/
+    - assets/images/
+    - assets/scripts/
+
+  fonts:
+    - family: Pretendard
+      fonts:
+        - asset: assets/fonts/Pretendard/Pretendard-Black.otf
+          weight: 900
+        - asset: assets/fonts/Pretendard/Pretendard-ExtraBold.otf
+          weight: 800
+        - asset: assets/fonts/Pretendard/Pretendard-Bold.otf
+          weight: 700
+        - asset: assets/fonts/Pretendard/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Pretendard/Pretendard-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Pretendard/Pretendard-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Pretendard/Pretendard-Light.otf
+          weight: 300
+        - asset: assets/fonts/Pretendard/Pretendard-ExtraLight.otf
+          weight: 200
+        - asset: assets/fonts/Pretendard/Pretendard-Thin.otf
+          weight: 100
+    - family: Archivo
+      fonts:
+        - asset: assets/fonts/Archivo/Archivo-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Archivo/Archivo-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Archivo/Archivo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Archivo/Archivo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Archivo/Archivo-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Archivo/Archivo-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Archivo/Archivo-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Archivo/Archivo-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Archivo/Archivo-Thin.ttf
+          weight: 100
+
+flutter_intl:
+  enabled: true
+  main_locale: ko_KR

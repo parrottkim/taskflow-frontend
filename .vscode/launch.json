@@ -1,0 +1,52 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "dev",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--dart-define=ENVIRONMENT=dev",
+        "--flavor",
+        "dev"
+      ]
+    },
+    {
+      "name": "local-web",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--web-port=8080",
+        "--dart-define=ENVIRONMENT=local",
+        "--web-browser-flag",
+        "--disable-web-security",
+      ]
+    },
+    {
+      "name": "dev-web",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--web-port=8080",
+        "--dart-define=ENVIRONMENT=dev",
+        "--web-browser-flag",
+        "--disable-web-security",
+      ]
+    },
+    {
+      "name": "pord-web",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--web-port=8080",
+        "--dart-define=ENVIRONMENT=prod",
+        "--web-browser-flag",
+        "--disable-web-security",
+      ]
+    },
+  ]
+}
