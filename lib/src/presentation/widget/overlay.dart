@@ -1,0 +1,144 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:taskflow/src/presentation/widget/button.dart';
+
+class LoadingOverlay {
+  static OverlayEntry? _overlayEntry;
+  static bool _isVisible = false;
+
+  static void show(BuildContext context) {
+    if (!_isVisible) {
+      _overlayEntry = OverlayEntry(
+        builder: (context) => Stack(
+          children: [
+            // Background overlay
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {}, // Handle tap events if needed
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.5),
+                ),
+              ),
+            ),
+            // Centered loading indicator
+            Positioned.fill(
+              child: Center(
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.white,
+                  size: 24.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      Overlay.of(context, rootOverlay: true).insert(_overlayEntry!);
+      _isVisible = true;
+    }
+  }
+
+  static void hide() {
+    if (_isVisible && _overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+      _isVisible = false;
+    }
+  }
+}
+
+class TooltipOverlay extends HookWidget {
+  final Widget message;
+  final Widget child;
+  final Duration animationDuration;
+
+  const TooltipOverlay({
+    super.key,
+    required this.message,
+    required this.child,
+    this.animationDuration = const Duration(milliseconds: 200),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final overlayEntry = useRef<OverlayEntry?>(null);
+    final isVisible = useState(false);
+    final animationController = useAnimationController(
+      duration: animationDuration,
+      reverseDuration: animationDuration,
+    );
+
+    void hide() async {
+      if (overlayEntry.value == null) return;
+      await animationController.reverse();
+      overlayEntry.value?.remove();
+      overlayEntry.value = null;
+      isVisible.value = false;
+    }
+
+    void show() {
+      if (overlayEntry.value != null) return;
+
+      final renderBox = context.findRenderObject() as RenderBox;
+      final target = renderBox.localToGlobal(Offset.zero);
+      final size = renderBox.size;
+
+      overlayEntry.value = OverlayEntry(
+        builder: (_) => Positioned(
+          left: target.dx,
+          top: target.dy + size.height + 8,
+          child: FadeTransition(
+            opacity: animationController,
+            child: Material(
+              elevation: 1.0,
+              borderRadius: BorderRadius.circular(4.0),
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16.0, right: 42.0, top: 12.0, bottom: 12.0),
+                    child: message,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomIconButton(
+                      onTap: hide,
+                      icon: Icon(
+                        Symbols.close,
+                        size: 16.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      Overlay.of(context, rootOverlay: true).insert(overlayEntry.value!);
+      animationController.forward();
+      isVisible.value = true;
+    }
+
+    useEffect(() {
+      return () {
+        overlayEntry.value?.remove();
+      };
+    }, []);
+
+    return GestureDetector(
+      onTap: () {
+        if (isVisible.value) {
+          hide();
+        } else {
+          show();
+        }
+      },
+      child: child,
+    );
+  }
+}

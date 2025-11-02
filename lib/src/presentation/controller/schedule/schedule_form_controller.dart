@@ -1,0 +1,69 @@
+part of '../controller.dart';
+
+@riverpod
+class ScheduleFormController extends _$ScheduleFormController {
+  @override
+  FutureOr<ScheduleFormState> build(
+      {required int categoryId, int? scheduleId}) async {
+    return await _init(categoryId: categoryId, scheduleId: scheduleId);
+  }
+
+  Future<ScheduleFormState> _init(
+      {required int categoryId, int? scheduleId}) async {
+    if (scheduleId == null) {
+      return ScheduleFormState();
+    }
+
+    final result =
+        await ref.read(scheduleRepositoryProvider).getSchedule(id: scheduleId);
+
+    return ScheduleFormState(
+      projectId: result.projectId,
+      projectName: result.projectName,
+      projectClientId: result.projectClientId,
+      projectClientName: result.projectClientName,
+      description: result.description,
+      start: result.start,
+      end: result.end,
+    );
+  }
+
+  void setProject({Project? project}) {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
+    state = AsyncData(value.copyWith(
+      projectId: project?.id,
+      projectName: project?.name,
+      projectClientId: project?.clients.first.id,
+      projectClientName: project?.clients.last.name,
+    ));
+  }
+
+  void setDate({DateTime? start, DateTime? end}) {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
+    state = AsyncData(value.copyWith(start: start, end: end));
+  }
+
+  void setSummary({required String summary}) {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
+    state = AsyncData(value.copyWith(summary: summary));
+  }
+
+  void setDescription({required String description}) {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
+    state = AsyncData(value.copyWith(description: description));
+  }
+
+  Future<void> deleteSchedule() async {}
+}

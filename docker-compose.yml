@@ -1,0 +1,47 @@
+services:
+  frontend-dev:
+    image: dantechhjkim/frontend-dev
+    container_name: frontend-dev
+    ports:
+      - "8080:80"
+      - "8444:8444"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - D:/00-SFTP/sftpuser-dev/files:/var/www/cdn_files:ro
+    networks:
+      - backend_default
+    depends_on:
+      - certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    restart: unless-stopped
+
+  frontend-prod:
+    image: dantechhjkim/frontend-prod
+    container_name: frontend-prod
+    ports:
+      - "80:80"
+      - "8443:8443"
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - D:/00-SFTP/sftpuser/files:/var/www/cdn_files:ro
+    networks:
+      - backend_default
+    depends_on:
+      - certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    restart: unless-stopped
+
+networks:
+  backend_default:
+    external: true
