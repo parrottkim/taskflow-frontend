@@ -65,7 +65,7 @@ class _DesktopWidget extends StatelessWidget {
             type: SummaryCardType.secondary,
             icon: Symbols.mountain_flag_rounded,
             title: Intl.message('dashboard_summary_2'),
-            value: item.finished,
+            value: item.closed,
           ),
         ),
         BentoTile(
@@ -122,7 +122,7 @@ class _MobileWidget extends StatelessWidget {
             type: SummaryCardType.secondary,
             icon: Symbols.mountain_flag_rounded,
             title: Intl.message('dashboard_summary_2'),
-            value: item.finished,
+            value: item.closed,
           ),
         ),
         BentoTile(

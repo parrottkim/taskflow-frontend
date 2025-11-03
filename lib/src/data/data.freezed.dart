@@ -5940,7 +5940,7 @@ class __$ProjectCopyWithImpl<$Res> implements _$ProjectCopyWith<$Res> {
 /// @nodoc
 mixin _$ProjectSummary {
   int get total;
-  int get finished;
+  int get closed;
   int get kickedOff;
   int get active;
 
@@ -5961,8 +5961,7 @@ mixin _$ProjectSummary {
         (other.runtimeType == runtimeType &&
             other is ProjectSummary &&
             (identical(other.total, total) || other.total == total) &&
-            (identical(other.finished, finished) ||
-                other.finished == finished) &&
+            (identical(other.closed, closed) || other.closed == closed) &&
             (identical(other.kickedOff, kickedOff) ||
                 other.kickedOff == kickedOff) &&
             (identical(other.active, active) || other.active == active));
@@ -5971,11 +5970,11 @@ mixin _$ProjectSummary {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, total, finished, kickedOff, active);
+      Object.hash(runtimeType, total, closed, kickedOff, active);
 
   @override
   String toString() {
-    return 'ProjectSummary(total: $total, finished: $finished, kickedOff: $kickedOff, active: $active)';
+    return 'ProjectSummary(total: $total, closed: $closed, kickedOff: $kickedOff, active: $active)';
   }
 }
 
@@ -5985,7 +5984,7 @@ abstract mixin class $ProjectSummaryCopyWith<$Res> {
           ProjectSummary value, $Res Function(ProjectSummary) _then) =
       _$ProjectSummaryCopyWithImpl;
   @useResult
-  $Res call({int total, int finished, int kickedOff, int active});
+  $Res call({int total, int closed, int kickedOff, int active});
 }
 
 /// @nodoc
@@ -6002,7 +6001,7 @@ class _$ProjectSummaryCopyWithImpl<$Res>
   @override
   $Res call({
     Object? total = null,
-    Object? finished = null,
+    Object? closed = null,
     Object? kickedOff = null,
     Object? active = null,
   }) {
@@ -6011,9 +6010,9 @@ class _$ProjectSummaryCopyWithImpl<$Res>
           ? _self.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
-      finished: null == finished
-          ? _self.finished
-          : finished // ignore: cast_nullable_to_non_nullable
+      closed: null == closed
+          ? _self.closed
+          : closed // ignore: cast_nullable_to_non_nullable
               as int,
       kickedOff: null == kickedOff
           ? _self.kickedOff
@@ -6120,7 +6119,7 @@ extension ProjectSummaryPatterns on ProjectSummary {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int total, int finished, int kickedOff, int active)?
+    TResult Function(int total, int closed, int kickedOff, int active)?
         $default, {
     required TResult orElse(),
   }) {
@@ -6128,7 +6127,7 @@ extension ProjectSummaryPatterns on ProjectSummary {
     switch (_that) {
       case _ProjectSummary() when $default != null:
         return $default(
-            _that.total, _that.finished, _that.kickedOff, _that.active);
+            _that.total, _that.closed, _that.kickedOff, _that.active);
       case _:
         return orElse();
     }
@@ -6149,14 +6148,13 @@ extension ProjectSummaryPatterns on ProjectSummary {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int total, int finished, int kickedOff, int active)
-        $default,
+    TResult Function(int total, int closed, int kickedOff, int active) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ProjectSummary():
         return $default(
-            _that.total, _that.finished, _that.kickedOff, _that.active);
+            _that.total, _that.closed, _that.kickedOff, _that.active);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -6176,14 +6174,14 @@ extension ProjectSummaryPatterns on ProjectSummary {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int total, int finished, int kickedOff, int active)?
+    TResult? Function(int total, int closed, int kickedOff, int active)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ProjectSummary() when $default != null:
         return $default(
-            _that.total, _that.finished, _that.kickedOff, _that.active);
+            _that.total, _that.closed, _that.kickedOff, _that.active);
       case _:
         return null;
     }
@@ -6195,7 +6193,7 @@ extension ProjectSummaryPatterns on ProjectSummary {
 class _ProjectSummary implements ProjectSummary {
   _ProjectSummary(
       {required this.total,
-      required this.finished,
+      required this.closed,
       required this.kickedOff,
       required this.active});
   factory _ProjectSummary.fromJson(Map<String, dynamic> json) =>
@@ -6204,7 +6202,7 @@ class _ProjectSummary implements ProjectSummary {
   @override
   final int total;
   @override
-  final int finished;
+  final int closed;
   @override
   final int kickedOff;
   @override
@@ -6231,8 +6229,7 @@ class _ProjectSummary implements ProjectSummary {
         (other.runtimeType == runtimeType &&
             other is _ProjectSummary &&
             (identical(other.total, total) || other.total == total) &&
-            (identical(other.finished, finished) ||
-                other.finished == finished) &&
+            (identical(other.closed, closed) || other.closed == closed) &&
             (identical(other.kickedOff, kickedOff) ||
                 other.kickedOff == kickedOff) &&
             (identical(other.active, active) || other.active == active));
@@ -6241,11 +6238,11 @@ class _ProjectSummary implements ProjectSummary {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, total, finished, kickedOff, active);
+      Object.hash(runtimeType, total, closed, kickedOff, active);
 
   @override
   String toString() {
-    return 'ProjectSummary(total: $total, finished: $finished, kickedOff: $kickedOff, active: $active)';
+    return 'ProjectSummary(total: $total, closed: $closed, kickedOff: $kickedOff, active: $active)';
   }
 }
 
@@ -6257,7 +6254,7 @@ abstract mixin class _$ProjectSummaryCopyWith<$Res>
       __$ProjectSummaryCopyWithImpl;
   @override
   @useResult
-  $Res call({int total, int finished, int kickedOff, int active});
+  $Res call({int total, int closed, int kickedOff, int active});
 }
 
 /// @nodoc
@@ -6274,7 +6271,7 @@ class __$ProjectSummaryCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? total = null,
-    Object? finished = null,
+    Object? closed = null,
     Object? kickedOff = null,
     Object? active = null,
   }) {
@@ -6283,9 +6280,9 @@ class __$ProjectSummaryCopyWithImpl<$Res>
           ? _self.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
-      finished: null == finished
-          ? _self.finished
-          : finished // ignore: cast_nullable_to_non_nullable
+      closed: null == closed
+          ? _self.closed
+          : closed // ignore: cast_nullable_to_non_nullable
               as int,
       kickedOff: null == kickedOff
           ? _self.kickedOff
