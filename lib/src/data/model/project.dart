@@ -48,14 +48,14 @@ abstract class Project with _$Project {
 abstract class ProjectSummary with _$ProjectSummary {
   factory ProjectSummary({
     required int total,
-    required int finished,
+    required int closed,
     required int kickedOff,
     required int active,
   }) = _ProjectSummary;
 
   factory ProjectSummary.dummy() => ProjectSummary(
         total: 100,
-        finished: 50,
+        closed: 50,
         kickedOff: 20,
         active: 30,
       );
