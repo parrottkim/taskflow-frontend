@@ -362,7 +362,7 @@ Map<String, dynamic> _$ProjectToJson(_Project instance) => <String, dynamic>{
 _ProjectSummary _$ProjectSummaryFromJson(Map<String, dynamic> json) =>
     _ProjectSummary(
       total: (json['total'] as num).toInt(),
-      finished: (json['finished'] as num).toInt(),
+      closed: (json['closed'] as num).toInt(),
       kickedOff: (json['kickedOff'] as num).toInt(),
       active: (json['active'] as num).toInt(),
     );
@@ -370,7 +370,7 @@ _ProjectSummary _$ProjectSummaryFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ProjectSummaryToJson(_ProjectSummary instance) =>
     <String, dynamic>{
       'total': instance.total,
-      'finished': instance.finished,
+      'closed': instance.closed,
       'kickedOff': instance.kickedOff,
       'active': instance.active,
     };

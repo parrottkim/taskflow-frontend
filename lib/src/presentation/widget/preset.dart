@@ -272,7 +272,7 @@ enum ProjectSegment {
   all('project_segment_1'),
   preexecuted('project_segment_2'),
   active('project_segment_3'),
-  finished('project_segment_4');
+  closed('project_segment_4');
 
   final String labelKey;
 
