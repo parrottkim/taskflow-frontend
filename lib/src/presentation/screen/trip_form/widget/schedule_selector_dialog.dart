@@ -98,6 +98,8 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
                       projectId: projectId,
                       tripId: tripId,
                       items: value.items,
+                      hasNext: value.hasNext,
+                      hasPrevious: value.hasPrevious,
                     ),
                   AsyncError(:final error, :final stackTrace) =>
                     ErrorContainerWidget(error: error, stackTrace: stackTrace),
@@ -107,7 +109,7 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
                         tripId: tripId,
                         items: List.filled(
                           5,
-                          Schedule.dummy(),
+                          ScheduleGroup.dummy(),
                         ),
                       ),
                     ),

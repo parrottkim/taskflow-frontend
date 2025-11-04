@@ -549,6 +549,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_form_invalid_2": MessageLookupByLibrary.simpleMessage(
       "일정을 선택해 주세요",
     ),
+    "schedule_form_invalid_3": MessageLookupByLibrary.simpleMessage(
+      "출장 목적을 입력해 주세요",
+    ),
     "schedule_form_optional": MessageLookupByLibrary.simpleMessage("선택항목"),
     "schedule_form_project": MessageLookupByLibrary.simpleMessage("프로젝트"),
     "schedule_form_project_emtpy": MessageLookupByLibrary.simpleMessage(
@@ -570,6 +573,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_new_choose_2_1": MessageLookupByLibrary.simpleMessage("해외 출장"),
     "schedule_new_choose_2_2": MessageLookupByLibrary.simpleMessage(
       "새로운 해외 출장 일정을 등록합니다",
+    ),
+    "schedule_new_choose_3": MessageLookupByLibrary.simpleMessage("🏭 "),
+    "schedule_new_choose_3_1": MessageLookupByLibrary.simpleMessage("화성 조립 센터"),
+    "schedule_new_choose_3_2": MessageLookupByLibrary.simpleMessage(
+      "새로운 화성 조립 센터 일정을 등록합니다",
     ),
     "schedule_not_found": MessageLookupByLibrary.simpleMessage(
       "근무 일정을 찾을 수 없습니다.",
@@ -645,6 +653,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "입력한 이메일이 존재하지 않습니다.\n정보를 확인하고 다시 시도하세요.",
     ),
     "work": MessageLookupByLibrary.simpleMessage("업무"),
+    "work_1": MessageLookupByLibrary.simpleMessage("근무 일정"),
+    "work_1_1": MessageLookupByLibrary.simpleMessage("국내외 출장 계획을 관리합니다."),
+    "work_2": MessageLookupByLibrary.simpleMessage("휴가"),
+    "work_2_1": MessageLookupByLibrary.simpleMessage(
+      "잔여 휴가 일수를 조회하고, 휴가 신청 및 승인 내역을 관리합니다.",
+    ),
+    "work_3": MessageLookupByLibrary.simpleMessage("주간 업무 보고"),
+    "work_3_1": MessageLookupByLibrary.simpleMessage(
+      "이번 주 주요 업무 실적과 현안, 다음 주 계획을 정리해 공유합니다.",
+    ),
     "wrong_approach_content": MessageLookupByLibrary.simpleMessage(
       "확인 버튼을 누르면 이전 화면으로 돌아갑니다.",
     ),

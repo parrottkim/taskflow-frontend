@@ -132,12 +132,19 @@ class ErrorContainerWidget extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(Intl.message('connection_timeout')),
             )
-          else if (error is DioException)
+          else if (error is DioException &&
+              (error as DioException).response?.data is String)
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(Intl.message(
-                  (error as DioException).response?.data['message'] ??
-                      'error_unexpected')),
+                  (error as DioException).response?.data['message'])),
+            )
+          else
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Text(
+                Intl.message('error_unexpected'),
+              ),
             ),
           const SizedBox(height: 16.0),
           ElevatedButton(

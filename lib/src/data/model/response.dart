@@ -4,16 +4,12 @@ part of '../data.dart';
 abstract class Result<T> with _$Result<T> {
   const Result._();
   const factory Result({
-    required List<T> items,
-    required int page,
-    required int total,
+    @Default([]) List<T> items,
+    @Default(0) int page,
+    @Default(0) int total,
+    @Default(false) bool hasNext,
+    @Default(false) bool hasPrevious,
   }) = _Result;
-
-  static Result<T> empty<T>() => Result<T>(
-        items: [],
-        page: 0,
-        total: 0,
-      );
 
   factory Result.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =>

@@ -28,12 +28,12 @@ abstract class ProjectRepository {
   });
 
   Future<Project> createProject({
-    required ProjectRequest request,
+    required CreateProjectRequest request,
   });
 
   Future<Project> updateProject({
     required int id,
-    required ProjectRequest request,
+    required UpdateProjectRequest request,
   });
 
   Future<void> deleteProject({required int id});

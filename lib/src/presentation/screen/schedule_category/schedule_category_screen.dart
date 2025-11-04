@@ -30,7 +30,7 @@ class ScheduleCategoryScreen extends ConsumerWidget {
           _ => Skeletonizer(
               child: _DesktopWidget(
                 items: List.filled(
-                  2,
+                  3,
                   ScheduleCategory.dummy(),
                 ),
               ),

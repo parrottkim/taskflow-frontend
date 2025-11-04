@@ -64,12 +64,13 @@ abstract class ClientCount with _$ClientCount {
 }
 
 @freezed
-abstract class QuickMenu with _$QuickMenu {
-  factory QuickMenu({
+abstract class MenuOption with _$MenuOption {
+  factory MenuOption({
     required IconData icon,
     required String label,
+    @Default('') String description,
     required VoidCallback? onPressed,
-  }) = _QuickMenu;
+  }) = _MenuOption;
 }
 
 @freezed

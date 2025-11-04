@@ -13,9 +13,7 @@ abstract class ScheduleService {
   });
 
   @GET('schedule')
-  Future<Result<Schedule>> getSchedules({
-    @Query('page') int page = 1,
-    @Query('limit') int limit = 20,
+  Future<Result<ScheduleGroup>> getSchedules({
     @Query('project_id') required int projectId,
     @Query('search') String? search,
     @Query('start') @DateTimeConverter(format: 'yyyy-MM-dd') DateTime? start,

@@ -70,6 +70,9 @@ class _DesktopWidget extends HookConsumerWidget {
     final summaryController = useTextEditingController();
     final descriptionController = useTextEditingController();
 
+    final summaryFocus = useFocusNode();
+    final descriptionFocus = useFocusNode();
+
     final isProjectSelected = useState(false);
     final isDateSelected = useState(false);
     final isSummaryNotEmpty = useState(false);
@@ -179,9 +182,10 @@ class _DesktopWidget extends HookConsumerWidget {
                 SizedBox(height: 8.0),
                 Skeleton.keep(
                   child: TextField(
+                    focusNode: summaryFocus,
                     controller: summaryController,
                     onChanged: (value) {
-                      isSummaryNotEmpty.value = value.isNotEmpty;
+                      isSummaryNotEmpty.value = false;
 
                       ref
                           .read(scheduleFormControllerProvider(
@@ -192,11 +196,13 @@ class _DesktopWidget extends HookConsumerWidget {
                     },
                     maxLines: 1,
                     decoration: InputDecoration(filled: true),
+                    onSubmitted: (value) =>
+                        FocusScope.of(context).requestFocus(descriptionFocus),
                   ),
                 ),
                 InvalidWidget(
-                  visible: isDateSelected.value,
-                  text: Intl.message('schedule_form_invalid_2'),
+                  visible: isSummaryNotEmpty.value,
+                  text: Intl.message('schedule_form_invalid_3'),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 24.0),
@@ -216,6 +222,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 SizedBox(height: 8.0),
                 Skeleton.keep(
                   child: TextField(
+                    focusNode: descriptionFocus,
                     controller: descriptionController,
                     onChanged: (value) {
                       ref
@@ -246,6 +253,8 @@ class _DesktopWidget extends HookConsumerWidget {
                     isProjectSelected.value = value.projectId == null;
                     isDateSelected.value =
                         value.start == null || value.end == null;
+                    isSummaryNotEmpty.value =
+                        value.summary == null || value.summary!.isEmpty;
 
                     if (isProjectSelected.value || isDateSelected.value) {
                       LoadingOverlay.hide();

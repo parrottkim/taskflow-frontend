@@ -440,8 +440,29 @@ Map<String, dynamic> _$RegisterRequestToJson(_RegisterRequest instance) =>
       'password': instance.password,
     };
 
-_ProjectRequest _$ProjectRequestFromJson(Map<String, dynamic> json) =>
-    _ProjectRequest(
+_CreateProjectRequest _$CreateProjectRequestFromJson(
+        Map<String, dynamic> json) =>
+    _CreateProjectRequest(
+      managerId: (json['managerId'] as num?)?.toInt(),
+      clientId: (json['clientId'] as num?)?.toInt(),
+      projectCode: json['projectCode'] as String?,
+      projectName: json['projectName'] as String?,
+      isPreexecuted: json['isPreexecuted'] as bool?,
+    );
+
+Map<String, dynamic> _$CreateProjectRequestToJson(
+        _CreateProjectRequest instance) =>
+    <String, dynamic>{
+      'managerId': instance.managerId,
+      'clientId': instance.clientId,
+      'projectCode': instance.projectCode,
+      'projectName': instance.projectName,
+      'isPreexecuted': instance.isPreexecuted,
+    };
+
+_UpdateProjectRequest _$UpdateProjectRequestFromJson(
+        Map<String, dynamic> json) =>
+    _UpdateProjectRequest(
       managerId: (json['managerId'] as num?)?.toInt(),
       clientId: (json['clientId'] as num?)?.toInt(),
       projectCode: json['projectCode'] as String?,
@@ -451,7 +472,8 @@ _ProjectRequest _$ProjectRequestFromJson(Map<String, dynamic> json) =>
       closureMessage: json['closureMessage'] as String?,
     );
 
-Map<String, dynamic> _$ProjectRequestToJson(_ProjectRequest instance) =>
+Map<String, dynamic> _$UpdateProjectRequestToJson(
+        _UpdateProjectRequest instance) =>
     <String, dynamic>{
       'managerId': instance.managerId,
       'clientId': instance.clientId,
@@ -956,9 +978,12 @@ _Result<T> _$ResultFromJson<T>(
   T Function(Object? json) fromJsonT,
 ) =>
     _Result<T>(
-      items: (json['items'] as List<dynamic>).map(fromJsonT).toList(),
-      page: (json['page'] as num).toInt(),
-      total: (json['total'] as num).toInt(),
+      items: (json['items'] as List<dynamic>?)?.map(fromJsonT).toList() ??
+          const [],
+      page: (json['page'] as num?)?.toInt() ?? 0,
+      total: (json['total'] as num?)?.toInt() ?? 0,
+      hasNext: json['hasNext'] as bool? ?? false,
+      hasPrevious: json['hasPrevious'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ResultToJson<T>(
@@ -969,6 +994,8 @@ Map<String, dynamic> _$ResultToJson<T>(
       'items': instance.items.map(toJsonT).toList(),
       'page': instance.page,
       'total': instance.total,
+      'hasNext': instance.hasNext,
+      'hasPrevious': instance.hasPrevious,
     };
 
 _File _$FileFromJson(Map<String, dynamic> json) => _File(
@@ -1011,6 +1038,37 @@ Map<String, dynamic> _$ScheduleOverseasToJson(ScheduleOverseas instance) =>
       'name': instance.name,
       'color': instance.color,
       'type': instance.$type,
+    };
+
+ScheduleCenter _$ScheduleCenterFromJson(Map<String, dynamic> json) =>
+    ScheduleCenter(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      color: json['color'] as String,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$ScheduleCenterToJson(ScheduleCenter instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'color': instance.color,
+      'type': instance.$type,
+    };
+
+_ScheduleGroup _$ScheduleGroupFromJson(Map<String, dynamic> json) =>
+    _ScheduleGroup(
+      date: DateTime.parse(json['date'] as String),
+      items: (json['items'] as List<dynamic>?)
+              ?.map((e) => Schedule.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$ScheduleGroupToJson(_ScheduleGroup instance) =>
+    <String, dynamic>{
+      'date': instance.date.toIso8601String(),
+      'items': instance.items,
     };
 
 _Schedule _$ScheduleFromJson(Map<String, dynamic> json) => _Schedule(
@@ -1638,9 +1696,7 @@ class _ScheduleService implements ScheduleService {
   }
 
   @override
-  Future<Result<Schedule>> getSchedules({
-    int page = 1,
-    int limit = 20,
+  Future<Result<ScheduleGroup>> getSchedules({
     required int projectId,
     String? search,
     DateTime? start,
@@ -1648,8 +1704,6 @@ class _ScheduleService implements ScheduleService {
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'limit': limit,
       r'project_id': projectId,
       r'search': search,
       r'start': start?.toIso8601String(),
@@ -1658,7 +1712,7 @@ class _ScheduleService implements ScheduleService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Result<Schedule>>(
+    final _options = _setStreamType<Result<ScheduleGroup>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -1669,11 +1723,11 @@ class _ScheduleService implements ScheduleService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Result<Schedule> _value;
+    late Result<ScheduleGroup> _value;
     try {
-      _value = Result<Schedule>.fromJson(
+      _value = Result<ScheduleGroup>.fromJson(
         _result.data!,
-        (json) => Schedule.fromJson(json as Map<String, dynamic>),
+        (json) => ScheduleGroup.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -2470,7 +2524,7 @@ class _ProjectService implements ProjectService {
   }
 
   @override
-  Future<Project> createProject({required ProjectRequest request}) async {
+  Future<Project> createProject({required CreateProjectRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -2499,7 +2553,7 @@ class _ProjectService implements ProjectService {
   @override
   Future<Project> updateProject({
     required int id,
-    required ProjectRequest request,
+    required UpdateProjectRequest request,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

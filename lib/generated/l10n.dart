@@ -2854,6 +2854,36 @@ class S {
     );
   }
 
+  /// `🏭 `
+  String get schedule_new_choose_3 {
+    return Intl.message(
+      '🏭 ',
+      name: 'schedule_new_choose_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `화성 조립 센터`
+  String get schedule_new_choose_3_1 {
+    return Intl.message(
+      '화성 조립 센터',
+      name: 'schedule_new_choose_3_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `새로운 화성 조립 센터 일정을 등록합니다`
+  String get schedule_new_choose_3_2 {
+    return Intl.message(
+      '새로운 화성 조립 센터 일정을 등록합니다',
+      name: 'schedule_new_choose_3_2',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `프로젝트`
   String get schedule_form_project {
     return Intl.message(
@@ -2964,6 +2994,16 @@ class S {
     return Intl.message(
       '일정을 선택해 주세요',
       name: 'schedule_form_invalid_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 목적을 입력해 주세요`
+  String get schedule_form_invalid_3 {
+    return Intl.message(
+      '출장 목적을 입력해 주세요',
+      name: 'schedule_form_invalid_3',
       desc: '',
       args: [],
     );
@@ -3249,6 +3289,51 @@ class S {
     return Intl.message(
       '모든 내용을 빠짐없이 입력해 주세요',
       name: 'trip_form_invalid_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `근무 일정`
+  String get work_1 {
+    return Intl.message('근무 일정', name: 'work_1', desc: '', args: []);
+  }
+
+  /// `국내외 출장 계획을 관리합니다.`
+  String get work_1_1 {
+    return Intl.message(
+      '국내외 출장 계획을 관리합니다.',
+      name: 'work_1_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴가`
+  String get work_2 {
+    return Intl.message('휴가', name: 'work_2', desc: '', args: []);
+  }
+
+  /// `잔여 휴가 일수를 조회하고, 휴가 신청 및 승인 내역을 관리합니다.`
+  String get work_2_1 {
+    return Intl.message(
+      '잔여 휴가 일수를 조회하고, 휴가 신청 및 승인 내역을 관리합니다.',
+      name: 'work_2_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `주간 업무 보고`
+  String get work_3 {
+    return Intl.message('주간 업무 보고', name: 'work_3', desc: '', args: []);
+  }
+
+  /// `이번 주 주요 업무 실적과 현안, 다음 주 계획을 정리해 공유합니다.`
+  String get work_3_1 {
+    return Intl.message(
+      '이번 주 주요 업무 실적과 현안, 다음 주 계획을 정리해 공유합니다.',
+      name: 'work_3_1',
       desc: '',
       args: [],
     );
