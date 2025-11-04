@@ -4,8 +4,8 @@ part of '../controller.dart';
 abstract class ScheduleFilterState with _$ScheduleFilterState {
   factory ScheduleFilterState({
     String? search,
-    DateTime? start,
-    DateTime? end,
+    required DateTime start,
+    required DateTime end,
     @Default([]) List<ScheduleCategory> categoryItems,
   }) = _ScheduleFilterState;
 }

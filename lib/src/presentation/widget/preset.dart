@@ -181,25 +181,46 @@ class WidgetPreset {
         ),
       ];
 
-  List<QuickMenu> get quickMenu => [
-        QuickMenu(
-          icon: Symbols.today_rounded,
+  List<MenuOption> get quickMenu => [
+        MenuOption(
+          icon: Symbols.beach_access_rounded,
           label: Intl.message('dashboard_functions_1'),
           onPressed: null,
         ),
-        QuickMenu(
+        MenuOption(
           icon: Symbols.today_rounded,
           label: Intl.message('dashboard_functions_2'),
           onPressed: () {
             context.goNamed(RouteNames.scheduleNewChoose);
           },
         ),
-        QuickMenu(
+        MenuOption(
           icon: Symbols.description_rounded,
           label: Intl.message('dashboard_functions_3'),
           onPressed: () {
             context.goNamed(RouteNames.projectNew);
           },
+        ),
+      ];
+
+  List<MenuOption> get workMenu => [
+        MenuOption(
+          icon: Symbols.today_rounded,
+          label: Intl.message('work_1'),
+          description: Intl.message('work_1_1'),
+          onPressed: () {},
+        ),
+        MenuOption(
+          icon: Symbols.beach_access_rounded,
+          label: Intl.message('work_2'),
+          description: Intl.message('work_2_1'),
+          onPressed: null,
+        ),
+        MenuOption(
+          icon: Symbols.summarize_rounded,
+          label: Intl.message('work_3'),
+          description: Intl.message('work_3_1'),
+          onPressed: null,
         ),
       ];
 }

@@ -367,6 +367,9 @@
   "schedule_new_choose_2": "✈️ ",
   "schedule_new_choose_2_1": "해외 출장",
   "schedule_new_choose_2_2": "새로운 해외 출장 일정을 등록합니다",
+  "schedule_new_choose_3": "🏭 ",
+  "schedule_new_choose_3_1": "화성 조립 센터",
+  "schedule_new_choose_3_2": "새로운 화성 조립 센터 일정을 등록합니다",
   
   "@_SCHEDULE_FORM": {},
   "schedule_form_project": "프로젝트",
@@ -381,6 +384,7 @@
   "schedule_form_delete_dialog_2": "일정을 삭제하면 모든 내용과 구글 캘린더의 일정이 함께 삭제됩니다.\n계속하시겠습니까?",
   "schedule_form_invalid_1": "프로젝트를 선택해 주세요",
   "schedule_form_invalid_2": "일정을 선택해 주세요",
+  "schedule_form_invalid_3": "출장 목적을 입력해 주세요",
   "schedule_form_success": "일정을 등록했습니다",
 
   "@_TRIP_FORM": {},
@@ -419,5 +423,13 @@
   "trip_form_invalid_1": "일정을 선택해 주세요",
   "trip_form_invalid_2": "{step} 금액을 빈 칸 없이 입력해 주세요",
   "trip_form_invalid_3": "{step} 일 수를 입력해 주세요",
-  "trip_form_invalid_4": "모든 내용을 빠짐없이 입력해 주세요"
+  "trip_form_invalid_4": "모든 내용을 빠짐없이 입력해 주세요",
+  
+  "@_WORK": {},
+  "work_1": "근무 일정",
+  "work_1_1": "국내외 출장 계획을 관리합니다.",
+  "work_2": "휴가",
+  "work_2_1": "잔여 휴가 일수를 조회하고, 휴가 신청 및 승인 내역을 관리합니다.",
+  "work_3": "주간 업무 보고",
+  "work_3_1": "이번 주 주요 업무 실적과 현안, 다음 주 계획을 정리해 공유합니다."
 }
