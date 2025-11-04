@@ -24,8 +24,22 @@ abstract class RegisterRequest with _$RegisterRequest {
 }
 
 @freezed
-abstract class ProjectRequest with _$ProjectRequest {
-  factory ProjectRequest({
+abstract class CreateProjectRequest with _$CreateProjectRequest {
+  factory CreateProjectRequest({
+    int? managerId,
+    int? clientId,
+    String? projectCode,
+    String? projectName,
+    bool? isPreexecuted,
+  }) = _CreateProjectRequest;
+
+  factory CreateProjectRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateProjectRequestFromJson(json);
+}
+
+@freezed
+abstract class UpdateProjectRequest with _$UpdateProjectRequest {
+  factory UpdateProjectRequest({
     int? managerId,
     int? clientId,
     String? projectCode,
@@ -33,10 +47,10 @@ abstract class ProjectRequest with _$ProjectRequest {
     bool? isPreexecuted,
     bool? isClosed,
     String? closureMessage,
-  }) = _ProjectRequest;
+  }) = _UpdateProjectRequest;
 
-  factory ProjectRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProjectRequestFromJson(json);
+  factory UpdateProjectRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProjectRequestFromJson(json);
 }
 
 @freezed

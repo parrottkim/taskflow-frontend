@@ -26,6 +26,7 @@ class AttachmentWidget extends ConsumerWidget {
       padding: const EdgeInsets.only(top: 24.0),
       child: ListView.separated(
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemCount: attachments.length,
         itemBuilder: (context, index) => ContainerWidget(
           elevation: 0.0,

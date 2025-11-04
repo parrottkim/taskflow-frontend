@@ -19,11 +19,13 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     try {
       final clientUrl = ref.read(clientUrlProvider);
 
+      final summary =
+          '[${Intl.message('schedule_new_choose_${categoryId}_1')}][${value.projectClientName}][${auth.user.username}] ${value.summary} (${DateFormat('MM/dd').format(value.start!)} - ${DateFormat('MM/dd').format(value.end!)})';
       final description =
-          '${path.join(clientUrl, Routes.project, value.projectId!.toString())}\n${value.description}';
+          '${path.join(clientUrl, Routes.project, value.projectId!.toString())}\n\n${value.description}';
 
       final request = ScheduleRequest(
-        summary: value.summary!,
+        summary: summary,
         description: description,
         projectId: value.projectId!,
         categoryId: categoryId,
@@ -57,11 +59,13 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     try {
       final clientUrl = ref.read(clientUrlProvider);
 
+      final summary =
+          '[${Intl.message('schedule_new_choose_${categoryId}_1')}][${value.projectClientName}][${auth.user.username}] ${value.summary} (${DateFormat('MM/dd').format(value.start!)} - ${DateFormat('MM/dd').format(value.end!)})';
       final description =
-          '${path.join(clientUrl, Routes.project, value.projectId!.toString())}\n${value.description}';
+          '${path.join(clientUrl, Routes.project, value.projectId!.toString())}\n\n${value.description}';
 
       final request = ScheduleRequest(
-        summary: value.summary!,
+        summary: summary,
         description: description,
         projectId: value.projectId!,
         categoryId: categoryId,

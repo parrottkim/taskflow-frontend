@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,22 +11,55 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
-class ScheduleListWidget extends ConsumerWidget {
+class ScheduleListWidget extends HookConsumerWidget {
   final int projectId;
   final int? tripId;
-  final List<Schedule> items;
+  final List<ScheduleGroup> items;
+  final bool hasNext;
+  final bool hasPrevious;
 
   const ScheduleListWidget({
     super.key,
     required this.projectId,
     this.tripId,
     required this.items,
+    this.hasNext = false,
+    this.hasPrevious = false,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    final controller = useScrollController();
+
+    final headerKeys = useMemoized(
+        () => List.generate(items.length, (_) => GlobalKey()), [items.length]);
+
+    useEffect(() {
+      if (items.isEmpty) return null;
+
+      final today = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      int initialIndex = items.indexWhere((g) => !g.date.isBefore(today));
+      if (initialIndex == -1) initialIndex = 0;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final key = headerKeys[initialIndex];
+        if (key.currentContext != null) {
+          await Scrollable.ensureVisible(
+            key.currentContext!,
+            duration: const Duration(
+                milliseconds: 300), // animate or Duration.zero for instant
+            alignment: -0.2,
+            curve: Curves.easeOut,
+          );
+        }
+      });
+
+      return null;
+    }, []);
 
     if (items.isEmpty) {
       return Center(
@@ -51,182 +86,94 @@ class ScheduleListWidget extends ConsumerWidget {
 
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        if (notification.metrics.pixels >=
-            notification.metrics.maxScrollExtent - 20.0) {
-          ref
-              .read(
-                scheduleListControllerProvider(projectId: projectId).notifier,
-              )
-              .load();
-        }
-        return false;
-      },
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (context, index) => InkWell(
-          onTap: () {
+        final metrics = notification.metrics;
+
+        // 상단 100 픽셀 근처에 도달했고 이전 페이지가 있을 때 로드
+        if (metrics.pixels <= metrics.minScrollExtent + 100) {
+          if (hasPrevious == true) {
             ref
-                .read(tripFormControllerProvider(
-                        projectId: projectId, tripId: tripId)
+                .read(scheduleListControllerProvider(projectId: projectId)
                     .notifier)
-                .setSchedule(schedule: items[index]);
-            context.pop();
-          },
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Symbols.event_rounded,
-                  size: 20.0,
-                ),
-                SizedBox(width: 4.0),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          if (items[index].end.isBefore(DateTime.now()))
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Skeleton.unite(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 2.0),
-                                  decoration: ShapeDecoration(
-                                    shape: StadiumBorder(),
-                                    color: colorScheme.error,
-                                  ),
-                                  child: Text(
-                                    formatRelativeDate(items[index].end),
-                                    style: textTheme.labelMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: colorScheme.onError,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          else if (items[index]
-                                  .start
-                                  .isBefore(DateTime.now()) &&
-                              items[index].end.isAfter(DateTime.now()))
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Skeleton.unite(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 2.0),
-                                  decoration: ShapeDecoration(
-                                    shape: StadiumBorder(),
-                                    color: colorScheme.primary,
-                                  ),
-                                  child: Text(
-                                    Intl.message(
-                                        'trip_form_schedule_in_progress'),
-                                    style: textTheme.labelMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: colorScheme.onPrimary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          else
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Skeleton.unite(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 2.0),
-                                  decoration: ShapeDecoration(
-                                    shape: StadiumBorder(),
-                                    color: colorScheme.surfaceContainerHighest,
-                                  ),
-                                  child: Text(
-                                    Intl.message(
-                                        'trip_form_schedule_scheduled'),
-                                    style: textTheme.labelMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.4),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          Skeleton.unite(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 2.0),
-                              decoration: ShapeDecoration(
-                                shape: StadiumBorder(
-                                  side: BorderSide(
-                                    color: Functions(context)
-                                        .generateColorFromId(
-                                            items[index].category.id),
-                                  ),
-                                ),
-                                color: Functions(context)
-                                    .generateColorFromId(
-                                        items[index].category.id)
-                                    .withValues(alpha: 0.2),
-                              ),
-                              child: Text(
-                                items[index].category.name,
-                                style: textTheme.labelMedium?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: Functions(context).generateColorFromId(
-                                      items[index].category.id),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                .loadPrevious();
+          }
+        }
+
+        // 하단 100 픽셀 근처에 도달했고 다음 페이지가 있을 때 로드
+        else if (metrics.pixels >= metrics.maxScrollExtent - 100) {
+          if (hasNext == true) {
+            ref
+                .read(scheduleListControllerProvider(projectId: projectId)
+                    .notifier)
+                .loadNext();
+          }
+        }
+        return false; // 이벤트를 소비하지 않고 상위 위젯으로 전달
+      },
+      child: CustomScrollView(
+        controller: controller,
+        slivers: [
+          ...items.asMap().entries.map(
+            (entry) {
+              final i = entry.key;
+              final group = entry.value;
+
+              final isPast = group.date.isBefore(DateTime(DateTime.now().year,
+                  DateTime.now().month, DateTime.now().day));
+
+              return SliverStickyHeader(
+                header: Container(
+                  key: headerKeys[i],
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: colorScheme.outline.withValues(alpha: 0.2),
                       ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(items[index].start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(items[index].end)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 4.0),
-                      Text(
-                        items[index].summary,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(
-                            alpha: 0.7,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        items[index].description == null ||
-                                items[index].description!.isEmpty
-                            ? Intl.message(
-                                'trip_form_schedule_description_empty')
-                            : items[index].description!,
-                        maxLines: 1,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(
-                            alpha: 0.7,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                    color: colorScheme.surfaceBright,
+                  ),
+                  child: Text(
+                    '${DateFormat.MMMMd(Intl.getCurrentLocale()).format(group.date)} ${DateFormat.EEEE(Intl.getCurrentLocale()).format(group.date)}',
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: isPast
+                          ? colorScheme.onSurface.withValues(alpha: 0.4)
+                          : colorScheme.primary,
+                    ),
                   ),
                 ),
-              ],
-            ),
+                sliver: SliverPadding(
+                  padding: EdgeInsets.only(bottom: 16.0),
+                  sliver: SliverList.builder(
+                    itemCount: group.items.length,
+                    itemBuilder: (context, index) {
+                      final schedule = group.items[index];
+
+                      return InkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24.0, vertical: 8.0),
+                          child: Text(
+                            schedule.summary,
+                            style: textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: isPast
+                                  ? colorScheme.onSurface
+                                      .withValues(alpha: 0.4) // 지난 날짜는 흐리게
+                                  : colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
           ),
-        ),
-        separatorBuilder: (_, __) => Divider(),
+        ],
       ),
     );
   }

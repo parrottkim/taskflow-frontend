@@ -14,21 +14,14 @@ class ScheduleDataSource implements ScheduleRepository {
       _service.getSchedule(id: id);
 
   @override
-  Future<Result<Schedule>> getSchedules({
-    int page = 1,
-    int limit = 20,
+  Future<Result<ScheduleGroup>> getSchedules({
     required int projectId,
     String? search,
     DateTime? start,
     DateTime? end,
   }) =>
       _service.getSchedules(
-          page: page,
-          limit: limit,
-          projectId: projectId,
-          search: search,
-          start: start,
-          end: end);
+          projectId: projectId, search: search, start: start, end: end);
 
   @override
   Future<List<Schedule>> getTodaysSchedule() => _service.getTodaysSchedule();

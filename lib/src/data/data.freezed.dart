@@ -7954,7 +7954,405 @@ class __$RegisterRequestCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ProjectRequest {
+mixin _$CreateProjectRequest {
+  int? get managerId;
+  int? get clientId;
+  String? get projectCode;
+  String? get projectName;
+  bool? get isPreexecuted;
+
+  /// Create a copy of CreateProjectRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CreateProjectRequestCopyWith<CreateProjectRequest> get copyWith =>
+      _$CreateProjectRequestCopyWithImpl<CreateProjectRequest>(
+          this as CreateProjectRequest, _$identity);
+
+  /// Serializes this CreateProjectRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CreateProjectRequest &&
+            (identical(other.managerId, managerId) ||
+                other.managerId == managerId) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.projectCode, projectCode) ||
+                other.projectCode == projectCode) &&
+            (identical(other.projectName, projectName) ||
+                other.projectName == projectName) &&
+            (identical(other.isPreexecuted, isPreexecuted) ||
+                other.isPreexecuted == isPreexecuted));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, managerId, clientId, projectCode,
+      projectName, isPreexecuted);
+
+  @override
+  String toString() {
+    return 'CreateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $CreateProjectRequestCopyWith<$Res> {
+  factory $CreateProjectRequestCopyWith(CreateProjectRequest value,
+          $Res Function(CreateProjectRequest) _then) =
+      _$CreateProjectRequestCopyWithImpl;
+  @useResult
+  $Res call(
+      {int? managerId,
+      int? clientId,
+      String? projectCode,
+      String? projectName,
+      bool? isPreexecuted});
+}
+
+/// @nodoc
+class _$CreateProjectRequestCopyWithImpl<$Res>
+    implements $CreateProjectRequestCopyWith<$Res> {
+  _$CreateProjectRequestCopyWithImpl(this._self, this._then);
+
+  final CreateProjectRequest _self;
+  final $Res Function(CreateProjectRequest) _then;
+
+  /// Create a copy of CreateProjectRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? managerId = freezed,
+    Object? clientId = freezed,
+    Object? projectCode = freezed,
+    Object? projectName = freezed,
+    Object? isPreexecuted = freezed,
+  }) {
+    return _then(_self.copyWith(
+      managerId: freezed == managerId
+          ? _self.managerId
+          : managerId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientId: freezed == clientId
+          ? _self.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      projectCode: freezed == projectCode
+          ? _self.projectCode
+          : projectCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectName: freezed == projectName
+          ? _self.projectName
+          : projectName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isPreexecuted: freezed == isPreexecuted
+          ? _self.isPreexecuted
+          : isPreexecuted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [CreateProjectRequest].
+extension CreateProjectRequestPatterns on CreateProjectRequest {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_CreateProjectRequest value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _CreateProjectRequest() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_CreateProjectRequest value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _CreateProjectRequest():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_CreateProjectRequest value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _CreateProjectRequest() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int? managerId, int? clientId, String? projectCode,
+            String? projectName, bool? isPreexecuted)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _CreateProjectRequest() when $default != null:
+        return $default(_that.managerId, _that.clientId, _that.projectCode,
+            _that.projectName, _that.isPreexecuted);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int? managerId, int? clientId, String? projectCode,
+            String? projectName, bool? isPreexecuted)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _CreateProjectRequest():
+        return $default(_that.managerId, _that.clientId, _that.projectCode,
+            _that.projectName, _that.isPreexecuted);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int? managerId, int? clientId, String? projectCode,
+            String? projectName, bool? isPreexecuted)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _CreateProjectRequest() when $default != null:
+        return $default(_that.managerId, _that.clientId, _that.projectCode,
+            _that.projectName, _that.isPreexecuted);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _CreateProjectRequest implements CreateProjectRequest {
+  _CreateProjectRequest(
+      {this.managerId,
+      this.clientId,
+      this.projectCode,
+      this.projectName,
+      this.isPreexecuted});
+  factory _CreateProjectRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateProjectRequestFromJson(json);
+
+  @override
+  final int? managerId;
+  @override
+  final int? clientId;
+  @override
+  final String? projectCode;
+  @override
+  final String? projectName;
+  @override
+  final bool? isPreexecuted;
+
+  /// Create a copy of CreateProjectRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$CreateProjectRequestCopyWith<_CreateProjectRequest> get copyWith =>
+      __$CreateProjectRequestCopyWithImpl<_CreateProjectRequest>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$CreateProjectRequestToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _CreateProjectRequest &&
+            (identical(other.managerId, managerId) ||
+                other.managerId == managerId) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.projectCode, projectCode) ||
+                other.projectCode == projectCode) &&
+            (identical(other.projectName, projectName) ||
+                other.projectName == projectName) &&
+            (identical(other.isPreexecuted, isPreexecuted) ||
+                other.isPreexecuted == isPreexecuted));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, managerId, clientId, projectCode,
+      projectName, isPreexecuted);
+
+  @override
+  String toString() {
+    return 'CreateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$CreateProjectRequestCopyWith<$Res>
+    implements $CreateProjectRequestCopyWith<$Res> {
+  factory _$CreateProjectRequestCopyWith(_CreateProjectRequest value,
+          $Res Function(_CreateProjectRequest) _then) =
+      __$CreateProjectRequestCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {int? managerId,
+      int? clientId,
+      String? projectCode,
+      String? projectName,
+      bool? isPreexecuted});
+}
+
+/// @nodoc
+class __$CreateProjectRequestCopyWithImpl<$Res>
+    implements _$CreateProjectRequestCopyWith<$Res> {
+  __$CreateProjectRequestCopyWithImpl(this._self, this._then);
+
+  final _CreateProjectRequest _self;
+  final $Res Function(_CreateProjectRequest) _then;
+
+  /// Create a copy of CreateProjectRequest
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? managerId = freezed,
+    Object? clientId = freezed,
+    Object? projectCode = freezed,
+    Object? projectName = freezed,
+    Object? isPreexecuted = freezed,
+  }) {
+    return _then(_CreateProjectRequest(
+      managerId: freezed == managerId
+          ? _self.managerId
+          : managerId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientId: freezed == clientId
+          ? _self.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      projectCode: freezed == projectCode
+          ? _self.projectCode
+          : projectCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectName: freezed == projectName
+          ? _self.projectName
+          : projectName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isPreexecuted: freezed == isPreexecuted
+          ? _self.isPreexecuted
+          : isPreexecuted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$UpdateProjectRequest {
   int? get managerId;
   int? get clientId;
   String? get projectCode;
@@ -7963,22 +8361,22 @@ mixin _$ProjectRequest {
   bool? get isClosed;
   String? get closureMessage;
 
-  /// Create a copy of ProjectRequest
+  /// Create a copy of UpdateProjectRequest
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ProjectRequestCopyWith<ProjectRequest> get copyWith =>
-      _$ProjectRequestCopyWithImpl<ProjectRequest>(
-          this as ProjectRequest, _$identity);
+  $UpdateProjectRequestCopyWith<UpdateProjectRequest> get copyWith =>
+      _$UpdateProjectRequestCopyWithImpl<UpdateProjectRequest>(
+          this as UpdateProjectRequest, _$identity);
 
-  /// Serializes this ProjectRequest to a JSON map.
+  /// Serializes this UpdateProjectRequest to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is ProjectRequest &&
+            other is UpdateProjectRequest &&
             (identical(other.managerId, managerId) ||
                 other.managerId == managerId) &&
             (identical(other.clientId, clientId) ||
@@ -8002,15 +8400,15 @@ mixin _$ProjectRequest {
 
   @override
   String toString() {
-    return 'ProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, isClosed: $isClosed, closureMessage: $closureMessage)';
+    return 'UpdateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, isClosed: $isClosed, closureMessage: $closureMessage)';
   }
 }
 
 /// @nodoc
-abstract mixin class $ProjectRequestCopyWith<$Res> {
-  factory $ProjectRequestCopyWith(
-          ProjectRequest value, $Res Function(ProjectRequest) _then) =
-      _$ProjectRequestCopyWithImpl;
+abstract mixin class $UpdateProjectRequestCopyWith<$Res> {
+  factory $UpdateProjectRequestCopyWith(UpdateProjectRequest value,
+          $Res Function(UpdateProjectRequest) _then) =
+      _$UpdateProjectRequestCopyWithImpl;
   @useResult
   $Res call(
       {int? managerId,
@@ -8023,14 +8421,14 @@ abstract mixin class $ProjectRequestCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ProjectRequestCopyWithImpl<$Res>
-    implements $ProjectRequestCopyWith<$Res> {
-  _$ProjectRequestCopyWithImpl(this._self, this._then);
+class _$UpdateProjectRequestCopyWithImpl<$Res>
+    implements $UpdateProjectRequestCopyWith<$Res> {
+  _$UpdateProjectRequestCopyWithImpl(this._self, this._then);
 
-  final ProjectRequest _self;
-  final $Res Function(ProjectRequest) _then;
+  final UpdateProjectRequest _self;
+  final $Res Function(UpdateProjectRequest) _then;
 
-  /// Create a copy of ProjectRequest
+  /// Create a copy of UpdateProjectRequest
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -8076,8 +8474,8 @@ class _$ProjectRequestCopyWithImpl<$Res>
   }
 }
 
-/// Adds pattern-matching-related methods to [ProjectRequest].
-extension ProjectRequestPatterns on ProjectRequest {
+/// Adds pattern-matching-related methods to [UpdateProjectRequest].
+extension UpdateProjectRequestPatterns on UpdateProjectRequest {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -8092,12 +8490,12 @@ extension ProjectRequestPatterns on ProjectRequest {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_ProjectRequest value)? $default, {
+    TResult Function(_UpdateProjectRequest value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _ProjectRequest() when $default != null:
+      case _UpdateProjectRequest() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -8119,11 +8517,11 @@ extension ProjectRequestPatterns on ProjectRequest {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_ProjectRequest value) $default,
+    TResult Function(_UpdateProjectRequest value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _ProjectRequest():
+      case _UpdateProjectRequest():
         return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
@@ -8144,11 +8542,11 @@ extension ProjectRequestPatterns on ProjectRequest {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_ProjectRequest value)? $default,
+    TResult? Function(_UpdateProjectRequest value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _ProjectRequest() when $default != null:
+      case _UpdateProjectRequest() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -8182,7 +8580,7 @@ extension ProjectRequestPatterns on ProjectRequest {
   }) {
     final _that = this;
     switch (_that) {
-      case _ProjectRequest() when $default != null:
+      case _UpdateProjectRequest() when $default != null:
         return $default(
             _that.managerId,
             _that.clientId,
@@ -8223,7 +8621,7 @@ extension ProjectRequestPatterns on ProjectRequest {
   ) {
     final _that = this;
     switch (_that) {
-      case _ProjectRequest():
+      case _UpdateProjectRequest():
         return $default(
             _that.managerId,
             _that.clientId,
@@ -8263,7 +8661,7 @@ extension ProjectRequestPatterns on ProjectRequest {
   ) {
     final _that = this;
     switch (_that) {
-      case _ProjectRequest() when $default != null:
+      case _UpdateProjectRequest() when $default != null:
         return $default(
             _that.managerId,
             _that.clientId,
@@ -8280,8 +8678,8 @@ extension ProjectRequestPatterns on ProjectRequest {
 
 /// @nodoc
 @JsonSerializable()
-class _ProjectRequest implements ProjectRequest {
-  _ProjectRequest(
+class _UpdateProjectRequest implements UpdateProjectRequest {
+  _UpdateProjectRequest(
       {this.managerId,
       this.clientId,
       this.projectCode,
@@ -8289,8 +8687,8 @@ class _ProjectRequest implements ProjectRequest {
       this.isPreexecuted,
       this.isClosed,
       this.closureMessage});
-  factory _ProjectRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProjectRequestFromJson(json);
+  factory _UpdateProjectRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProjectRequestFromJson(json);
 
   @override
   final int? managerId;
@@ -8307,17 +8705,18 @@ class _ProjectRequest implements ProjectRequest {
   @override
   final String? closureMessage;
 
-  /// Create a copy of ProjectRequest
+  /// Create a copy of UpdateProjectRequest
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$ProjectRequestCopyWith<_ProjectRequest> get copyWith =>
-      __$ProjectRequestCopyWithImpl<_ProjectRequest>(this, _$identity);
+  _$UpdateProjectRequestCopyWith<_UpdateProjectRequest> get copyWith =>
+      __$UpdateProjectRequestCopyWithImpl<_UpdateProjectRequest>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ProjectRequestToJson(
+    return _$UpdateProjectRequestToJson(
       this,
     );
   }
@@ -8326,7 +8725,7 @@ class _ProjectRequest implements ProjectRequest {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _ProjectRequest &&
+            other is _UpdateProjectRequest &&
             (identical(other.managerId, managerId) ||
                 other.managerId == managerId) &&
             (identical(other.clientId, clientId) ||
@@ -8350,16 +8749,16 @@ class _ProjectRequest implements ProjectRequest {
 
   @override
   String toString() {
-    return 'ProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, isClosed: $isClosed, closureMessage: $closureMessage)';
+    return 'UpdateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, isClosed: $isClosed, closureMessage: $closureMessage)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$ProjectRequestCopyWith<$Res>
-    implements $ProjectRequestCopyWith<$Res> {
-  factory _$ProjectRequestCopyWith(
-          _ProjectRequest value, $Res Function(_ProjectRequest) _then) =
-      __$ProjectRequestCopyWithImpl;
+abstract mixin class _$UpdateProjectRequestCopyWith<$Res>
+    implements $UpdateProjectRequestCopyWith<$Res> {
+  factory _$UpdateProjectRequestCopyWith(_UpdateProjectRequest value,
+          $Res Function(_UpdateProjectRequest) _then) =
+      __$UpdateProjectRequestCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -8373,14 +8772,14 @@ abstract mixin class _$ProjectRequestCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ProjectRequestCopyWithImpl<$Res>
-    implements _$ProjectRequestCopyWith<$Res> {
-  __$ProjectRequestCopyWithImpl(this._self, this._then);
+class __$UpdateProjectRequestCopyWithImpl<$Res>
+    implements _$UpdateProjectRequestCopyWith<$Res> {
+  __$UpdateProjectRequestCopyWithImpl(this._self, this._then);
 
-  final _ProjectRequest _self;
-  final $Res Function(_ProjectRequest) _then;
+  final _UpdateProjectRequest _self;
+  final $Res Function(_UpdateProjectRequest) _then;
 
-  /// Create a copy of ProjectRequest
+  /// Create a copy of UpdateProjectRequest
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -8393,7 +8792,7 @@ class __$ProjectRequestCopyWithImpl<$Res>
     Object? isClosed = freezed,
     Object? closureMessage = freezed,
   }) {
-    return _then(_ProjectRequest(
+    return _then(_UpdateProjectRequest(
       managerId: freezed == managerId
           ? _self.managerId
           : managerId // ignore: cast_nullable_to_non_nullable
@@ -18085,6 +18484,8 @@ mixin _$Result<T> {
   List<T> get items;
   int get page;
   int get total;
+  bool get hasNext;
+  bool get hasPrevious;
 
   /// Create a copy of Result
   /// with the given fields replaced by the non-null parameter values.
@@ -18103,17 +18504,25 @@ mixin _$Result<T> {
             other is Result<T> &&
             const DeepCollectionEquality().equals(other.items, items) &&
             (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total));
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.hasNext, hasNext) || other.hasNext == hasNext) &&
+            (identical(other.hasPrevious, hasPrevious) ||
+                other.hasPrevious == hasPrevious));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(items), page, total);
+      runtimeType,
+      const DeepCollectionEquality().hash(items),
+      page,
+      total,
+      hasNext,
+      hasPrevious);
 
   @override
   String toString() {
-    return 'Result<$T>(items: $items, page: $page, total: $total)';
+    return 'Result<$T>(items: $items, page: $page, total: $total, hasNext: $hasNext, hasPrevious: $hasPrevious)';
   }
 }
 
@@ -18122,7 +18531,8 @@ abstract mixin class $ResultCopyWith<T, $Res> {
   factory $ResultCopyWith(Result<T> value, $Res Function(Result<T>) _then) =
       _$ResultCopyWithImpl;
   @useResult
-  $Res call({List<T> items, int page, int total});
+  $Res call(
+      {List<T> items, int page, int total, bool hasNext, bool hasPrevious});
 }
 
 /// @nodoc
@@ -18140,6 +18550,8 @@ class _$ResultCopyWithImpl<T, $Res> implements $ResultCopyWith<T, $Res> {
     Object? items = null,
     Object? page = null,
     Object? total = null,
+    Object? hasNext = null,
+    Object? hasPrevious = null,
   }) {
     return _then(_self.copyWith(
       items: null == items
@@ -18154,6 +18566,14 @@ class _$ResultCopyWithImpl<T, $Res> implements $ResultCopyWith<T, $Res> {
           ? _self.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
+      hasNext: null == hasNext
+          ? _self.hasNext
+          : hasNext // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasPrevious: null == hasPrevious
+          ? _self.hasPrevious
+          : hasPrevious // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -18251,13 +18671,16 @@ extension ResultPatterns<T> on Result<T> {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<T> items, int page, int total)? $default, {
+    TResult Function(
+            List<T> items, int page, int total, bool hasNext, bool hasPrevious)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _Result() when $default != null:
-        return $default(_that.items, _that.page, _that.total);
+        return $default(_that.items, _that.page, _that.total, _that.hasNext,
+            _that.hasPrevious);
       case _:
         return orElse();
     }
@@ -18278,12 +18701,15 @@ extension ResultPatterns<T> on Result<T> {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<T> items, int page, int total) $default,
+    TResult Function(
+            List<T> items, int page, int total, bool hasNext, bool hasPrevious)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Result():
-        return $default(_that.items, _that.page, _that.total);
+        return $default(_that.items, _that.page, _that.total, _that.hasNext,
+            _that.hasPrevious);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -18303,12 +18729,15 @@ extension ResultPatterns<T> on Result<T> {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<T> items, int page, int total)? $default,
+    TResult? Function(
+            List<T> items, int page, int total, bool hasNext, bool hasPrevious)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Result() when $default != null:
-        return $default(_that.items, _that.page, _that.total);
+        return $default(_that.items, _that.page, _that.total, _that.hasNext,
+            _that.hasPrevious);
       case _:
         return null;
     }
@@ -18319,7 +18748,11 @@ extension ResultPatterns<T> on Result<T> {
 @JsonSerializable(genericArgumentFactories: true)
 class _Result<T> extends Result<T> {
   const _Result(
-      {required final List<T> items, required this.page, required this.total})
+      {final List<T> items = const [],
+      this.page = 0,
+      this.total = 0,
+      this.hasNext = false,
+      this.hasPrevious = false})
       : _items = items,
         super._();
   factory _Result.fromJson(
@@ -18328,6 +18761,7 @@ class _Result<T> extends Result<T> {
 
   final List<T> _items;
   @override
+  @JsonKey()
   List<T> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
@@ -18335,9 +18769,17 @@ class _Result<T> extends Result<T> {
   }
 
   @override
+  @JsonKey()
   final int page;
   @override
+  @JsonKey()
   final int total;
+  @override
+  @JsonKey()
+  final bool hasNext;
+  @override
+  @JsonKey()
+  final bool hasPrevious;
 
   /// Create a copy of Result
   /// with the given fields replaced by the non-null parameter values.
@@ -18359,17 +18801,25 @@ class _Result<T> extends Result<T> {
             other is _Result<T> &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total));
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.hasNext, hasNext) || other.hasNext == hasNext) &&
+            (identical(other.hasPrevious, hasPrevious) ||
+                other.hasPrevious == hasPrevious));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_items), page, total);
+      runtimeType,
+      const DeepCollectionEquality().hash(_items),
+      page,
+      total,
+      hasNext,
+      hasPrevious);
 
   @override
   String toString() {
-    return 'Result<$T>(items: $items, page: $page, total: $total)';
+    return 'Result<$T>(items: $items, page: $page, total: $total, hasNext: $hasNext, hasPrevious: $hasPrevious)';
   }
 }
 
@@ -18380,7 +18830,8 @@ abstract mixin class _$ResultCopyWith<T, $Res>
       __$ResultCopyWithImpl;
   @override
   @useResult
-  $Res call({List<T> items, int page, int total});
+  $Res call(
+      {List<T> items, int page, int total, bool hasNext, bool hasPrevious});
 }
 
 /// @nodoc
@@ -18398,6 +18849,8 @@ class __$ResultCopyWithImpl<T, $Res> implements _$ResultCopyWith<T, $Res> {
     Object? items = null,
     Object? page = null,
     Object? total = null,
+    Object? hasNext = null,
+    Object? hasPrevious = null,
   }) {
     return _then(_Result<T>(
       items: null == items
@@ -18412,6 +18865,14 @@ class __$ResultCopyWithImpl<T, $Res> implements _$ResultCopyWith<T, $Res> {
           ? _self.total
           : total // ignore: cast_nullable_to_non_nullable
               as int,
+      hasNext: null == hasNext
+          ? _self.hasNext
+          : hasNext // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasPrevious: null == hasPrevious
+          ? _self.hasPrevious
+          : hasPrevious // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -18731,6 +19192,8 @@ ScheduleCategory _$ScheduleCategoryFromJson(Map<String, dynamic> json) {
       return ScheduleDomestic.fromJson(json);
     case 'overseas':
       return ScheduleOverseas.fromJson(json);
+    case 'center':
+      return ScheduleCenter.fromJson(json);
 
     default:
       throw CheckedFromJsonException(json, 'type', 'ScheduleCategory',
@@ -18836,6 +19299,7 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ScheduleDomestic value)? domestic,
     TResult Function(ScheduleOverseas value)? overseas,
+    TResult Function(ScheduleCenter value)? center,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -18844,6 +19308,8 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
         return domestic(_that);
       case ScheduleOverseas() when overseas != null:
         return overseas(_that);
+      case ScheduleCenter() when center != null:
+        return center(_that);
       case _:
         return orElse();
     }
@@ -18866,6 +19332,7 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
   TResult map<TResult extends Object?>({
     required TResult Function(ScheduleDomestic value) domestic,
     required TResult Function(ScheduleOverseas value) overseas,
+    required TResult Function(ScheduleCenter value) center,
   }) {
     final _that = this;
     switch (_that) {
@@ -18873,6 +19340,8 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
         return domestic(_that);
       case ScheduleOverseas():
         return overseas(_that);
+      case ScheduleCenter():
+        return center(_that);
     }
   }
 
@@ -18892,6 +19361,7 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ScheduleDomestic value)? domestic,
     TResult? Function(ScheduleOverseas value)? overseas,
+    TResult? Function(ScheduleCenter value)? center,
   }) {
     final _that = this;
     switch (_that) {
@@ -18899,6 +19369,8 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
         return domestic(_that);
       case ScheduleOverseas() when overseas != null:
         return overseas(_that);
+      case ScheduleCenter() when center != null:
+        return center(_that);
       case _:
         return null;
     }
@@ -18920,6 +19392,7 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int id, String name, String color)? domestic,
     TResult Function(int id, String name, String color)? overseas,
+    TResult Function(int id, String name, String color)? center,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -18928,6 +19401,8 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
         return domestic(_that.id, _that.name, _that.color);
       case ScheduleOverseas() when overseas != null:
         return overseas(_that.id, _that.name, _that.color);
+      case ScheduleCenter() when center != null:
+        return center(_that.id, _that.name, _that.color);
       case _:
         return orElse();
     }
@@ -18950,6 +19425,7 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
   TResult when<TResult extends Object?>({
     required TResult Function(int id, String name, String color) domestic,
     required TResult Function(int id, String name, String color) overseas,
+    required TResult Function(int id, String name, String color) center,
   }) {
     final _that = this;
     switch (_that) {
@@ -18957,6 +19433,8 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
         return domestic(_that.id, _that.name, _that.color);
       case ScheduleOverseas():
         return overseas(_that.id, _that.name, _that.color);
+      case ScheduleCenter():
+        return center(_that.id, _that.name, _that.color);
     }
   }
 
@@ -18976,6 +19454,7 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int id, String name, String color)? domestic,
     TResult? Function(int id, String name, String color)? overseas,
+    TResult? Function(int id, String name, String color)? center,
   }) {
     final _that = this;
     switch (_that) {
@@ -18983,6 +19462,8 @@ extension ScheduleCategoryPatterns on ScheduleCategory {
         return domestic(_that.id, _that.name, _that.color);
       case ScheduleOverseas() when overseas != null:
         return overseas(_that.id, _that.name, _that.color);
+      case ScheduleCenter() when center != null:
+        return center(_that.id, _that.name, _that.color);
       case _:
         return null;
     }
@@ -19189,6 +19670,433 @@ class _$ScheduleOverseasCopyWithImpl<$Res>
           ? _self.color
           : color // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class ScheduleCenter implements ScheduleCategory {
+  ScheduleCenter(
+      {required this.id,
+      required this.name,
+      required this.color,
+      final String? $type})
+      : $type = $type ?? 'center';
+  factory ScheduleCenter.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleCenterFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final String name;
+  @override
+  final String color;
+
+  @JsonKey(name: 'type')
+  final String $type;
+
+  /// Create a copy of ScheduleCategory
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ScheduleCenterCopyWith<ScheduleCenter> get copyWith =>
+      _$ScheduleCenterCopyWithImpl<ScheduleCenter>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ScheduleCenterToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ScheduleCenter &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.color, color) || other.color == color));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, color);
+
+  @override
+  String toString() {
+    return 'ScheduleCategory.center(id: $id, name: $name, color: $color)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ScheduleCenterCopyWith<$Res>
+    implements $ScheduleCategoryCopyWith<$Res> {
+  factory $ScheduleCenterCopyWith(
+          ScheduleCenter value, $Res Function(ScheduleCenter) _then) =
+      _$ScheduleCenterCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int id, String name, String color});
+}
+
+/// @nodoc
+class _$ScheduleCenterCopyWithImpl<$Res>
+    implements $ScheduleCenterCopyWith<$Res> {
+  _$ScheduleCenterCopyWithImpl(this._self, this._then);
+
+  final ScheduleCenter _self;
+  final $Res Function(ScheduleCenter) _then;
+
+  /// Create a copy of ScheduleCategory
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? color = null,
+  }) {
+    return _then(ScheduleCenter(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      color: null == color
+          ? _self.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$ScheduleGroup {
+  DateTime get date;
+  List<Schedule> get items;
+
+  /// Create a copy of ScheduleGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ScheduleGroupCopyWith<ScheduleGroup> get copyWith =>
+      _$ScheduleGroupCopyWithImpl<ScheduleGroup>(
+          this as ScheduleGroup, _$identity);
+
+  /// Serializes this ScheduleGroup to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ScheduleGroup &&
+            (identical(other.date, date) || other.date == date) &&
+            const DeepCollectionEquality().equals(other.items, items));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, date, const DeepCollectionEquality().hash(items));
+
+  @override
+  String toString() {
+    return 'ScheduleGroup(date: $date, items: $items)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ScheduleGroupCopyWith<$Res> {
+  factory $ScheduleGroupCopyWith(
+          ScheduleGroup value, $Res Function(ScheduleGroup) _then) =
+      _$ScheduleGroupCopyWithImpl;
+  @useResult
+  $Res call({DateTime date, List<Schedule> items});
+}
+
+/// @nodoc
+class _$ScheduleGroupCopyWithImpl<$Res>
+    implements $ScheduleGroupCopyWith<$Res> {
+  _$ScheduleGroupCopyWithImpl(this._self, this._then);
+
+  final ScheduleGroup _self;
+  final $Res Function(ScheduleGroup) _then;
+
+  /// Create a copy of ScheduleGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = null,
+    Object? items = null,
+  }) {
+    return _then(_self.copyWith(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      items: null == items
+          ? _self.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Schedule>,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ScheduleGroup].
+extension ScheduleGroupPatterns on ScheduleGroup {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ScheduleGroup value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ScheduleGroup() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ScheduleGroup value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ScheduleGroup():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ScheduleGroup value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ScheduleGroup() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(DateTime date, List<Schedule> items)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ScheduleGroup() when $default != null:
+        return $default(_that.date, _that.items);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(DateTime date, List<Schedule> items) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ScheduleGroup():
+        return $default(_that.date, _that.items);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(DateTime date, List<Schedule> items)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ScheduleGroup() when $default != null:
+        return $default(_that.date, _that.items);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _ScheduleGroup implements ScheduleGroup {
+  _ScheduleGroup({required this.date, final List<Schedule> items = const []})
+      : _items = items;
+  factory _ScheduleGroup.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleGroupFromJson(json);
+
+  @override
+  final DateTime date;
+  final List<Schedule> _items;
+  @override
+  @JsonKey()
+  List<Schedule> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  /// Create a copy of ScheduleGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ScheduleGroupCopyWith<_ScheduleGroup> get copyWith =>
+      __$ScheduleGroupCopyWithImpl<_ScheduleGroup>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ScheduleGroupToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ScheduleGroup &&
+            (identical(other.date, date) || other.date == date) &&
+            const DeepCollectionEquality().equals(other._items, _items));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, date, const DeepCollectionEquality().hash(_items));
+
+  @override
+  String toString() {
+    return 'ScheduleGroup(date: $date, items: $items)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ScheduleGroupCopyWith<$Res>
+    implements $ScheduleGroupCopyWith<$Res> {
+  factory _$ScheduleGroupCopyWith(
+          _ScheduleGroup value, $Res Function(_ScheduleGroup) _then) =
+      __$ScheduleGroupCopyWithImpl;
+  @override
+  @useResult
+  $Res call({DateTime date, List<Schedule> items});
+}
+
+/// @nodoc
+class __$ScheduleGroupCopyWithImpl<$Res>
+    implements _$ScheduleGroupCopyWith<$Res> {
+  __$ScheduleGroupCopyWithImpl(this._self, this._then);
+
+  final _ScheduleGroup _self;
+  final $Res Function(_ScheduleGroup) _then;
+
+  /// Create a copy of ScheduleGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? date = null,
+    Object? items = null,
+  }) {
+    return _then(_ScheduleGroup(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      items: null == items
+          ? _self._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Schedule>,
     ));
   }
 }
@@ -26803,60 +27711,70 @@ class __$ClientCountCopyWithImpl<$Res> implements _$ClientCountCopyWith<$Res> {
 }
 
 /// @nodoc
-mixin _$QuickMenu {
+mixin _$MenuOption {
   IconData get icon;
   String get label;
+  String get description;
   VoidCallback? get onPressed;
 
-  /// Create a copy of QuickMenu
+  /// Create a copy of MenuOption
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $QuickMenuCopyWith<QuickMenu> get copyWith =>
-      _$QuickMenuCopyWithImpl<QuickMenu>(this as QuickMenu, _$identity);
+  $MenuOptionCopyWith<MenuOption> get copyWith =>
+      _$MenuOptionCopyWithImpl<MenuOption>(this as MenuOption, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is QuickMenu &&
+            other is MenuOption &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.label, label) || other.label == label) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.onPressed, onPressed) ||
                 other.onPressed == onPressed));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, icon, label, onPressed);
+  int get hashCode =>
+      Object.hash(runtimeType, icon, label, description, onPressed);
 
   @override
   String toString() {
-    return 'QuickMenu(icon: $icon, label: $label, onPressed: $onPressed)';
+    return 'MenuOption(icon: $icon, label: $label, description: $description, onPressed: $onPressed)';
   }
 }
 
 /// @nodoc
-abstract mixin class $QuickMenuCopyWith<$Res> {
-  factory $QuickMenuCopyWith(QuickMenu value, $Res Function(QuickMenu) _then) =
-      _$QuickMenuCopyWithImpl;
+abstract mixin class $MenuOptionCopyWith<$Res> {
+  factory $MenuOptionCopyWith(
+          MenuOption value, $Res Function(MenuOption) _then) =
+      _$MenuOptionCopyWithImpl;
   @useResult
-  $Res call({IconData icon, String label, VoidCallback? onPressed});
+  $Res call(
+      {IconData icon,
+      String label,
+      String description,
+      VoidCallback? onPressed});
 }
 
 /// @nodoc
-class _$QuickMenuCopyWithImpl<$Res> implements $QuickMenuCopyWith<$Res> {
-  _$QuickMenuCopyWithImpl(this._self, this._then);
+class _$MenuOptionCopyWithImpl<$Res> implements $MenuOptionCopyWith<$Res> {
+  _$MenuOptionCopyWithImpl(this._self, this._then);
 
-  final QuickMenu _self;
-  final $Res Function(QuickMenu) _then;
+  final MenuOption _self;
+  final $Res Function(MenuOption) _then;
 
-  /// Create a copy of QuickMenu
+  /// Create a copy of MenuOption
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? icon = null,
     Object? label = null,
+    Object? description = null,
     Object? onPressed = freezed,
   }) {
     return _then(_self.copyWith(
@@ -26868,6 +27786,10 @@ class _$QuickMenuCopyWithImpl<$Res> implements $QuickMenuCopyWith<$Res> {
           ? _self.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
       onPressed: freezed == onPressed
           ? _self.onPressed
           : onPressed // ignore: cast_nullable_to_non_nullable
@@ -26876,8 +27798,8 @@ class _$QuickMenuCopyWithImpl<$Res> implements $QuickMenuCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [QuickMenu].
-extension QuickMenuPatterns on QuickMenu {
+/// Adds pattern-matching-related methods to [MenuOption].
+extension MenuOptionPatterns on MenuOption {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -26892,12 +27814,12 @@ extension QuickMenuPatterns on QuickMenu {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_QuickMenu value)? $default, {
+    TResult Function(_MenuOption value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _QuickMenu() when $default != null:
+      case _MenuOption() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -26919,11 +27841,11 @@ extension QuickMenuPatterns on QuickMenu {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_QuickMenu value) $default,
+    TResult Function(_MenuOption value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _QuickMenu():
+      case _MenuOption():
         return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
@@ -26944,11 +27866,11 @@ extension QuickMenuPatterns on QuickMenu {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_QuickMenu value)? $default,
+    TResult? Function(_MenuOption value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _QuickMenu() when $default != null:
+      case _MenuOption() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -26969,14 +27891,16 @@ extension QuickMenuPatterns on QuickMenu {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(IconData icon, String label, VoidCallback? onPressed)?
+    TResult Function(IconData icon, String label, String description,
+            VoidCallback? onPressed)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _QuickMenu() when $default != null:
-        return $default(_that.icon, _that.label, _that.onPressed);
+      case _MenuOption() when $default != null:
+        return $default(
+            _that.icon, _that.label, _that.description, _that.onPressed);
       case _:
         return orElse();
     }
@@ -26997,13 +27921,15 @@ extension QuickMenuPatterns on QuickMenu {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(IconData icon, String label, VoidCallback? onPressed)
+    TResult Function(IconData icon, String label, String description,
+            VoidCallback? onPressed)
         $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _QuickMenu():
-        return $default(_that.icon, _that.label, _that.onPressed);
+      case _MenuOption():
+        return $default(
+            _that.icon, _that.label, _that.description, _that.onPressed);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -27023,13 +27949,15 @@ extension QuickMenuPatterns on QuickMenu {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(IconData icon, String label, VoidCallback? onPressed)?
+    TResult? Function(IconData icon, String label, String description,
+            VoidCallback? onPressed)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _QuickMenu() when $default != null:
-        return $default(_that.icon, _that.label, _that.onPressed);
+      case _MenuOption() when $default != null:
+        return $default(
+            _that.icon, _that.label, _that.description, _that.onPressed);
       case _:
         return null;
     }
@@ -27038,73 +27966,87 @@ extension QuickMenuPatterns on QuickMenu {
 
 /// @nodoc
 
-class _QuickMenu implements QuickMenu {
-  _QuickMenu(
-      {required this.icon, required this.label, required this.onPressed});
+class _MenuOption implements MenuOption {
+  _MenuOption(
+      {required this.icon,
+      required this.label,
+      this.description = '',
+      required this.onPressed});
 
   @override
   final IconData icon;
   @override
   final String label;
   @override
+  @JsonKey()
+  final String description;
+  @override
   final VoidCallback? onPressed;
 
-  /// Create a copy of QuickMenu
+  /// Create a copy of MenuOption
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$QuickMenuCopyWith<_QuickMenu> get copyWith =>
-      __$QuickMenuCopyWithImpl<_QuickMenu>(this, _$identity);
+  _$MenuOptionCopyWith<_MenuOption> get copyWith =>
+      __$MenuOptionCopyWithImpl<_MenuOption>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _QuickMenu &&
+            other is _MenuOption &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.label, label) || other.label == label) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.onPressed, onPressed) ||
                 other.onPressed == onPressed));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, icon, label, onPressed);
+  int get hashCode =>
+      Object.hash(runtimeType, icon, label, description, onPressed);
 
   @override
   String toString() {
-    return 'QuickMenu(icon: $icon, label: $label, onPressed: $onPressed)';
+    return 'MenuOption(icon: $icon, label: $label, description: $description, onPressed: $onPressed)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$QuickMenuCopyWith<$Res>
-    implements $QuickMenuCopyWith<$Res> {
-  factory _$QuickMenuCopyWith(
-          _QuickMenu value, $Res Function(_QuickMenu) _then) =
-      __$QuickMenuCopyWithImpl;
+abstract mixin class _$MenuOptionCopyWith<$Res>
+    implements $MenuOptionCopyWith<$Res> {
+  factory _$MenuOptionCopyWith(
+          _MenuOption value, $Res Function(_MenuOption) _then) =
+      __$MenuOptionCopyWithImpl;
   @override
   @useResult
-  $Res call({IconData icon, String label, VoidCallback? onPressed});
+  $Res call(
+      {IconData icon,
+      String label,
+      String description,
+      VoidCallback? onPressed});
 }
 
 /// @nodoc
-class __$QuickMenuCopyWithImpl<$Res> implements _$QuickMenuCopyWith<$Res> {
-  __$QuickMenuCopyWithImpl(this._self, this._then);
+class __$MenuOptionCopyWithImpl<$Res> implements _$MenuOptionCopyWith<$Res> {
+  __$MenuOptionCopyWithImpl(this._self, this._then);
 
-  final _QuickMenu _self;
-  final $Res Function(_QuickMenu) _then;
+  final _MenuOption _self;
+  final $Res Function(_MenuOption) _then;
 
-  /// Create a copy of QuickMenu
+  /// Create a copy of MenuOption
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
     Object? icon = null,
     Object? label = null,
+    Object? description = null,
     Object? onPressed = freezed,
   }) {
-    return _then(_QuickMenu(
+    return _then(_MenuOption(
       icon: null == icon
           ? _self.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -27112,6 +28054,10 @@ class __$QuickMenuCopyWithImpl<$Res> implements _$QuickMenuCopyWith<$Res> {
       label: null == label
           ? _self.label
           : label // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
       onPressed: freezed == onPressed
           ? _self.onPressed

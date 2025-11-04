@@ -11,7 +11,14 @@ class ScheduleFilterController extends _$ScheduleFilterController {
     final categories =
         await ref.read(scheduleRepositoryProvider).getAllCategories();
 
-    return ScheduleFilterState(categoryItems: categories);
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    final defaultStart = today.subtract(const Duration(days: 7));
+    final defaultEnd = today.add(const Duration(days: 7));
+
+    return ScheduleFilterState(
+        categoryItems: categories, start: defaultStart, end: defaultEnd);
   }
 
   void setSearch({String? search}) {
@@ -27,6 +34,7 @@ class ScheduleFilterController extends _$ScheduleFilterController {
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(start: start, end: end));
+    state = AsyncData(
+        value.copyWith(start: start ?? value.start, end: end ?? value.end));
   }
 }

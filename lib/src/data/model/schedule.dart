@@ -12,12 +12,30 @@ sealed class ScheduleCategory with _$ScheduleCategory {
     required String name,
     required String color,
   }) = ScheduleOverseas;
+  factory ScheduleCategory.center({
+    required int id,
+    required String name,
+    required String color,
+  }) = ScheduleCenter;
 
   factory ScheduleCategory.dummy() =>
       ScheduleCategory.domestic(id: 1, name: '임시 이름', color: '0');
 
   factory ScheduleCategory.fromJson(Map<String, dynamic> json) =>
       _$ScheduleCategoryFromJson(json);
+}
+
+@freezed
+abstract class ScheduleGroup with _$ScheduleGroup {
+  factory ScheduleGroup({
+    required DateTime date,
+    @Default([]) List<Schedule> items,
+  }) = _ScheduleGroup;
+
+  factory ScheduleGroup.dummy() => ScheduleGroup(date: DateTime.now());
+
+  factory ScheduleGroup.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleGroupFromJson(json);
 }
 
 @freezed

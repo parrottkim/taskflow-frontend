@@ -8840,8 +8840,8 @@ class _$ProjectSubmitFailureCopyWithImpl<$Res>
 /// @nodoc
 mixin _$ScheduleFilterState {
   String? get search;
-  DateTime? get start;
-  DateTime? get end;
+  DateTime get start;
+  DateTime get end;
   List<ScheduleCategory> get categoryItems;
 
   /// Create a copy of ScheduleFilterState
@@ -8882,8 +8882,8 @@ abstract mixin class $ScheduleFilterStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String? search,
-      DateTime? start,
-      DateTime? end,
+      DateTime start,
+      DateTime end,
       List<ScheduleCategory> categoryItems});
 }
 
@@ -8901,8 +8901,8 @@ class _$ScheduleFilterStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? search = freezed,
-    Object? start = freezed,
-    Object? end = freezed,
+    Object? start = null,
+    Object? end = null,
     Object? categoryItems = null,
   }) {
     return _then(_self.copyWith(
@@ -8910,14 +8910,14 @@ class _$ScheduleFilterStateCopyWithImpl<$Res>
           ? _self.search
           : search // ignore: cast_nullable_to_non_nullable
               as String?,
-      start: freezed == start
+      start: null == start
           ? _self.start
           : start // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      end: freezed == end
+              as DateTime,
+      end: null == end
           ? _self.end
           : end // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       categoryItems: null == categoryItems
           ? _self.categoryItems
           : categoryItems // ignore: cast_nullable_to_non_nullable
@@ -9019,7 +9019,7 @@ extension ScheduleFilterStatePatterns on ScheduleFilterState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String? search, DateTime? start, DateTime? end,
+    TResult Function(String? search, DateTime start, DateTime end,
             List<ScheduleCategory> categoryItems)?
         $default, {
     required TResult orElse(),
@@ -9049,7 +9049,7 @@ extension ScheduleFilterStatePatterns on ScheduleFilterState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String? search, DateTime? start, DateTime? end,
+    TResult Function(String? search, DateTime start, DateTime end,
             List<ScheduleCategory> categoryItems)
         $default,
   ) {
@@ -9077,7 +9077,7 @@ extension ScheduleFilterStatePatterns on ScheduleFilterState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String? search, DateTime? start, DateTime? end,
+    TResult? Function(String? search, DateTime start, DateTime end,
             List<ScheduleCategory> categoryItems)?
         $default,
   ) {
@@ -9097,17 +9097,17 @@ extension ScheduleFilterStatePatterns on ScheduleFilterState {
 class _ScheduleFilterState implements ScheduleFilterState {
   _ScheduleFilterState(
       {this.search,
-      this.start,
-      this.end,
+      required this.start,
+      required this.end,
       final List<ScheduleCategory> categoryItems = const []})
       : _categoryItems = categoryItems;
 
   @override
   final String? search;
   @override
-  final DateTime? start;
+  final DateTime start;
   @override
-  final DateTime? end;
+  final DateTime end;
   final List<ScheduleCategory> _categoryItems;
   @override
   @JsonKey()
@@ -9158,8 +9158,8 @@ abstract mixin class _$ScheduleFilterStateCopyWith<$Res>
   @useResult
   $Res call(
       {String? search,
-      DateTime? start,
-      DateTime? end,
+      DateTime start,
+      DateTime end,
       List<ScheduleCategory> categoryItems});
 }
 
@@ -9177,8 +9177,8 @@ class __$ScheduleFilterStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? search = freezed,
-    Object? start = freezed,
-    Object? end = freezed,
+    Object? start = null,
+    Object? end = null,
     Object? categoryItems = null,
   }) {
     return _then(_ScheduleFilterState(
@@ -9186,14 +9186,14 @@ class __$ScheduleFilterStateCopyWithImpl<$Res>
           ? _self.search
           : search // ignore: cast_nullable_to_non_nullable
               as String?,
-      start: freezed == start
+      start: null == start
           ? _self.start
           : start // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      end: freezed == end
+              as DateTime,
+      end: null == end
           ? _self.end
           : end // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       categoryItems: null == categoryItems
           ? _self._categoryItems
           : categoryItems // ignore: cast_nullable_to_non_nullable
@@ -9683,10 +9683,11 @@ class __$ScheduleFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 mixin _$ScheduleListState {
-  List<Schedule> get items;
-  int get page;
-  int get total;
-  bool get hasReachEnd;
+  List<ScheduleGroup> get items;
+  bool get hasNext;
+  bool get hasPrevious;
+  DateTime get start;
+  DateTime get end;
 
   /// Create a copy of ScheduleListState
   /// with the given fields replaced by the non-null parameter values.
@@ -9702,19 +9703,25 @@ mixin _$ScheduleListState {
         (other.runtimeType == runtimeType &&
             other is ScheduleListState &&
             const DeepCollectionEquality().equals(other.items, items) &&
-            (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.hasReachEnd, hasReachEnd) ||
-                other.hasReachEnd == hasReachEnd));
+            (identical(other.hasNext, hasNext) || other.hasNext == hasNext) &&
+            (identical(other.hasPrevious, hasPrevious) ||
+                other.hasPrevious == hasPrevious) &&
+            (identical(other.start, start) || other.start == start) &&
+            (identical(other.end, end) || other.end == end));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(items),
+      hasNext,
+      hasPrevious,
+      start,
+      end);
 
   @override
   String toString() {
-    return 'ScheduleListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+    return 'ScheduleListState(items: $items, hasNext: $hasNext, hasPrevious: $hasPrevious, start: $start, end: $end)';
   }
 }
 
@@ -9724,7 +9731,12 @@ abstract mixin class $ScheduleListStateCopyWith<$Res> {
           ScheduleListState value, $Res Function(ScheduleListState) _then) =
       _$ScheduleListStateCopyWithImpl;
   @useResult
-  $Res call({List<Schedule> items, int page, int total, bool hasReachEnd});
+  $Res call(
+      {List<ScheduleGroup> items,
+      bool hasNext,
+      bool hasPrevious,
+      DateTime start,
+      DateTime end});
 }
 
 /// @nodoc
@@ -9741,27 +9753,32 @@ class _$ScheduleListStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? items = null,
-    Object? page = null,
-    Object? total = null,
-    Object? hasReachEnd = null,
+    Object? hasNext = null,
+    Object? hasPrevious = null,
+    Object? start = null,
+    Object? end = null,
   }) {
     return _then(_self.copyWith(
       items: null == items
           ? _self.items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<Schedule>,
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      total: null == total
-          ? _self.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-      hasReachEnd: null == hasReachEnd
-          ? _self.hasReachEnd
-          : hasReachEnd // ignore: cast_nullable_to_non_nullable
+              as List<ScheduleGroup>,
+      hasNext: null == hasNext
+          ? _self.hasNext
+          : hasNext // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasPrevious: null == hasPrevious
+          ? _self.hasPrevious
+          : hasPrevious // ignore: cast_nullable_to_non_nullable
+              as bool,
+      start: null == start
+          ? _self.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      end: null == end
+          ? _self.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -9859,16 +9876,16 @@ extension ScheduleListStatePatterns on ScheduleListState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            List<Schedule> items, int page, int total, bool hasReachEnd)?
+    TResult Function(List<ScheduleGroup> items, bool hasNext, bool hasPrevious,
+            DateTime start, DateTime end)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ScheduleListState() when $default != null:
-        return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
+        return $default(_that.items, _that.hasNext, _that.hasPrevious,
+            _that.start, _that.end);
       case _:
         return orElse();
     }
@@ -9889,15 +9906,15 @@ extension ScheduleListStatePatterns on ScheduleListState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            List<Schedule> items, int page, int total, bool hasReachEnd)
+    TResult Function(List<ScheduleGroup> items, bool hasNext, bool hasPrevious,
+            DateTime start, DateTime end)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ScheduleListState():
-        return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
+        return $default(_that.items, _that.hasNext, _that.hasPrevious,
+            _that.start, _that.end);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -9917,15 +9934,15 @@ extension ScheduleListStatePatterns on ScheduleListState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            List<Schedule> items, int page, int total, bool hasReachEnd)?
+    TResult? Function(List<ScheduleGroup> items, bool hasNext, bool hasPrevious,
+            DateTime start, DateTime end)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ScheduleListState() when $default != null:
-        return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
+        return $default(_that.items, _that.hasNext, _that.hasPrevious,
+            _that.start, _that.end);
       case _:
         return null;
     }
@@ -9936,16 +9953,17 @@ extension ScheduleListStatePatterns on ScheduleListState {
 
 class _ScheduleListState implements ScheduleListState {
   _ScheduleListState(
-      {final List<Schedule> items = const [],
-      this.page = 0,
-      this.total = 0,
-      this.hasReachEnd = false})
+      {final List<ScheduleGroup> items = const [],
+      this.hasNext = false,
+      this.hasPrevious = false,
+      required this.start,
+      required this.end})
       : _items = items;
 
-  final List<Schedule> _items;
+  final List<ScheduleGroup> _items;
   @override
   @JsonKey()
-  List<Schedule> get items {
+  List<ScheduleGroup> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_items);
@@ -9953,13 +9971,14 @@ class _ScheduleListState implements ScheduleListState {
 
   @override
   @JsonKey()
-  final int page;
+  final bool hasNext;
   @override
   @JsonKey()
-  final int total;
+  final bool hasPrevious;
   @override
-  @JsonKey()
-  final bool hasReachEnd;
+  final DateTime start;
+  @override
+  final DateTime end;
 
   /// Create a copy of ScheduleListState
   /// with the given fields replaced by the non-null parameter values.
@@ -9975,19 +9994,25 @@ class _ScheduleListState implements ScheduleListState {
         (other.runtimeType == runtimeType &&
             other is _ScheduleListState &&
             const DeepCollectionEquality().equals(other._items, _items) &&
-            (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.hasReachEnd, hasReachEnd) ||
-                other.hasReachEnd == hasReachEnd));
+            (identical(other.hasNext, hasNext) || other.hasNext == hasNext) &&
+            (identical(other.hasPrevious, hasPrevious) ||
+                other.hasPrevious == hasPrevious) &&
+            (identical(other.start, start) || other.start == start) &&
+            (identical(other.end, end) || other.end == end));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_items),
+      hasNext,
+      hasPrevious,
+      start,
+      end);
 
   @override
   String toString() {
-    return 'ScheduleListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+    return 'ScheduleListState(items: $items, hasNext: $hasNext, hasPrevious: $hasPrevious, start: $start, end: $end)';
   }
 }
 
@@ -9999,7 +10024,12 @@ abstract mixin class _$ScheduleListStateCopyWith<$Res>
       __$ScheduleListStateCopyWithImpl;
   @override
   @useResult
-  $Res call({List<Schedule> items, int page, int total, bool hasReachEnd});
+  $Res call(
+      {List<ScheduleGroup> items,
+      bool hasNext,
+      bool hasPrevious,
+      DateTime start,
+      DateTime end});
 }
 
 /// @nodoc
@@ -10016,27 +10046,32 @@ class __$ScheduleListStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? items = null,
-    Object? page = null,
-    Object? total = null,
-    Object? hasReachEnd = null,
+    Object? hasNext = null,
+    Object? hasPrevious = null,
+    Object? start = null,
+    Object? end = null,
   }) {
     return _then(_ScheduleListState(
       items: null == items
           ? _self._items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<Schedule>,
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      total: null == total
-          ? _self.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-      hasReachEnd: null == hasReachEnd
-          ? _self.hasReachEnd
-          : hasReachEnd // ignore: cast_nullable_to_non_nullable
+              as List<ScheduleGroup>,
+      hasNext: null == hasNext
+          ? _self.hasNext
+          : hasNext // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasPrevious: null == hasPrevious
+          ? _self.hasPrevious
+          : hasPrevious // ignore: cast_nullable_to_non_nullable
+              as bool,
+      start: null == start
+          ? _self.start
+          : start // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      end: null == end
+          ? _self.end
+          : end // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }

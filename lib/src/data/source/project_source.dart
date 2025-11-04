@@ -50,7 +50,7 @@ class ProjectDataSource implements ProjectRepository {
       );
 
   @override
-  Future<Project> createProject({required ProjectRequest request}) =>
+  Future<Project> createProject({required CreateProjectRequest request}) =>
       _service.createProject(
         request: request,
       );
@@ -58,7 +58,7 @@ class ProjectDataSource implements ProjectRepository {
   @override
   Future<Project> updateProject({
     required int id,
-    required ProjectRequest request,
+    required UpdateProjectRequest request,
   }) =>
       _service.updateProject(
         id: id,
