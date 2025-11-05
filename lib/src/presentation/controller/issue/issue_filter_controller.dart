@@ -11,6 +11,10 @@ class IssueFilterController extends _$IssueFilterController {
     final transactionCategories =
         await ref.read(issueRepositoryProvider).getAllTransactionCategories();
 
-    return IssueFilterState(transactionCategories: transactionCategories);
+    final currencies =
+        await ref.read(currencyRepositoryProvider).getAllCurrencies();
+
+    return IssueFilterState(
+        transactionCategories: transactionCategories, currencies: currencies);
   }
 }

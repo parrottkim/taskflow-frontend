@@ -131,6 +131,7 @@ abstract class ContractItem with _$ContractItem {
   factory ContractItem({
     int? id,
     required String item,
+    Currency? currency,
     required String price,
   }) = _ContractItem;
 
@@ -185,6 +186,7 @@ abstract class TransactionItem with _$TransactionItem {
   factory TransactionItem({
     int? id,
     TransactionItemCategory? category,
+    Currency? currency,
     required String price,
     required String note,
   }) = _TransactionItem;

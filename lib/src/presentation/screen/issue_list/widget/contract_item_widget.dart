@@ -13,14 +13,18 @@ class ContractItemWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final total = items.map((e) => e.price).fold(0.0, (sum, priceString) {
-      // priceString이 null이면 ''로 처리
-      String cleanedPrice = priceString.replaceAll(',', '');
+    final Map<String, double> total =
+        items.fold({}, (Map<String, double> totals, item) {
+      final cleanedPrice = item.price.replaceAll(',', '');
+      final price = double.tryParse(cleanedPrice) ?? 0.0;
+      final code = item.currency?.code ?? 'Unknown';
 
-      // 숫자로 변환
-      double price = double.tryParse(cleanedPrice) ?? 0.0;
-
-      return sum + price;
+      totals.update(
+        code,
+        (existingTotal) => existingTotal + price,
+        ifAbsent: () => price,
+      );
+      return totals;
     });
 
     return Padding(
@@ -87,7 +91,7 @@ class ContractItemWidget extends StatelessWidget {
                       ),
                       SizedBox(width: 4.0),
                       Text(
-                        Intl.message('issue_form_contract_4'),
+                        Intl.message('issue_form_contract_5'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -116,7 +120,7 @@ class ContractItemWidget extends StatelessWidget {
                           horizontal: 12.0, vertical: 8.0),
                       width: double.infinity,
                       child: Text(
-                        '${items[index].price} ₩',
+                        '${items[index].price} ${items[index].currency!.code}',
                         textAlign: TextAlign.end,
                       ),
                     ),
@@ -125,7 +129,9 @@ class ContractItemWidget extends StatelessWidget {
               ),
             ),
           ),
-          DecoratedBox(
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
@@ -136,32 +142,29 @@ class ContractItemWidget extends StatelessWidget {
               color: colorScheme.surfaceContainer,
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 6,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
-                    child: Text(
-                      Intl.message('issue_form_contract_6'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                Text(
+                  Intl.message('issue_form_contract_8'),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 Expanded(
-                  flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
-                    child: Text(
-                      '${NumberFormat('#,###').format(total)} ₩',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    spacing: 8.0,
+                    children: total.entries
+                        .map(
+                          (entry) => Text(
+                            '${NumberFormat('#,###').format(entry.value)} ${entry.key}',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ],

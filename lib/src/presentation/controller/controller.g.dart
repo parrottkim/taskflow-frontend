@@ -673,7 +673,7 @@ class _IssueDetailControllerProviderElement
 }
 
 String _$issueFilterControllerHash() =>
-    r'e245c1bd8c1d21bf866b11ae3f2866cf698f3c48';
+    r'0ed6798af0752b7eeac933a5e507513b6c5a16c7';
 
 /// See also [IssueFilterController].
 @ProviderFor(IssueFilterController)
@@ -690,7 +690,7 @@ final issueFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$IssueFilterController = AutoDisposeAsyncNotifier<IssueFilterState>;
 String _$issueFormControllerHash() =>
-    r'e5803d7f77300a2a202294d4b4592836e6e91e1d';
+    r'9b691fb76831295ecf28cafd7b83c38ac21d31b5';
 
 abstract class _$IssueFormController
     extends BuildlessAutoDisposeAsyncNotifier<IssueFormState> {
@@ -1029,7 +1029,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'1e93f5dbd83e8cb4068438ab77b6cf989ce64f9e';
+    r'396baac8e50db73daadacf47999a7911ddf2ac28';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)
@@ -1775,7 +1775,7 @@ class _ScheduleListControllerProviderElement
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'947ea077f2267799c294ae0d49be53c1cca5361a';
+    r'752a28168fd1bbb4c027ce71b5c60c6e34e46949';
 
 /// See also [ScheduleSubmitController].
 @ProviderFor(ScheduleSubmitController)

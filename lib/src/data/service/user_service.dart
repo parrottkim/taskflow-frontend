@@ -10,6 +10,9 @@ abstract class UserService {
   @GET('user/position')
   Future<List<UserPosition>> getAllPositions();
 
+  @GET('user/all')
+  Future<List<User>> getAllUsers();
+
   @GET('user/{id}')
   Future<User> getUser({@Path('id') required int id});
 

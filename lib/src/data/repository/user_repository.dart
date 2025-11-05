@@ -5,6 +5,8 @@ abstract class UserRepository {
 
   Future<List<UserPosition>> getAllPositions();
 
+  Future<List<User>> getAllUsers();
+
   Future<User> getUser({required int id});
 
   Future<Result<User>> getUsers({

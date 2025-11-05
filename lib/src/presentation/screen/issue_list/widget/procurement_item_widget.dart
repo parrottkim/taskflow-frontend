@@ -326,6 +326,9 @@ class ProcurementItemWidget extends StatelessWidget {
                                               ),
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () async {
+                                                  print(items[index]
+                                                      .purchaseUrl!);
+
                                                   await launchUrl(
                                                     Uri.parse(items[index]
                                                         .purchaseUrl!),
@@ -344,7 +347,9 @@ class ProcurementItemWidget extends StatelessWidget {
               ),
             ),
           ),
-          DecoratedBox(
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
@@ -356,30 +361,18 @@ class ProcurementItemWidget extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Expanded(
-                  flex: 6,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
-                    child: Text(
-                      Intl.message('issue_form_procurement_15'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                Text(
+                  Intl.message('issue_form_procurement_15'),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 Expanded(
-                  flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
-                    child: Text(
-                      '${NumberFormat('#,###').format(total)} ₩',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                  child: Text(
+                    '${NumberFormat('#,###').format(total)} ₩',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),

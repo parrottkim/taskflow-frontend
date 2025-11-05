@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 import 'package:taskflow/src/presentation/widget/preset.dart';
 import 'package:taskflow/src/shared/tool/converter.dart';
@@ -18,6 +17,7 @@ part 'data.g.dart';
 part 'data.freezed.dart';
 
 part 'model/bookmark.dart';
+part 'model/currency.dart';
 part 'model/issue.dart';
 part 'model/project.dart';
 part 'model/request.dart';
@@ -37,9 +37,9 @@ part 'repository/bookmark_repository.dart';
 part 'service/bookmark_service.dart';
 part 'source/bookmark_source.dart';
 
-part 'repository/exchange_repository.dart';
-part 'service/exchange_service.dart';
-part 'source/exchange_source.dart';
+part 'repository/currency_repository.dart';
+part 'service/currency_service.dart';
+part 'source/currency_source.dart';
 
 part 'repository/schedule_repository.dart';
 part 'service/schedule_service.dart';

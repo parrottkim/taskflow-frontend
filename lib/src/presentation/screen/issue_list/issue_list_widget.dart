@@ -71,16 +71,13 @@ class _DesktopWidget extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final selected = useState<int?>(issueId);
-    final itemKeys = useRef<Map<int, GlobalKey>>({});
-
-    useEffect(() {
+    final itemKeys = useMemoized<Map<int, GlobalKey>>(() {
+      final Map<int, GlobalKey> keys = {};
       for (final issue in items) {
-        itemKeys.value.putIfAbsent(issue.id, () => GlobalKey());
+        keys[issue.id] = GlobalKey();
       }
-      return null;
+      return keys;
     }, [items]);
-
-    final controller = PrimaryScrollController.of(context);
 
     useEffect(() {
       selected.value = issueId;
@@ -89,29 +86,20 @@ class _DesktopWidget extends HookConsumerWidget {
         Future.microtask(() async {
           await WidgetsBinding.instance.endOfFrame;
 
-          final ctx = itemKeys.value[selected.value]?.currentContext;
+          // itemKeys는 이제 .value가 아닌 useMemoized의 결과 Map입니다.
+          final ctx = itemKeys[selected.value]?.currentContext;
           if (ctx == null) return;
 
-          // 1. Target RenderBox
-          final box = ctx.findRenderObject() as RenderBox;
-          // 2. Scrollable container's RenderBox
-          final scrollBox = controller.position.context.storageContext
-              .findRenderObject() as RenderBox;
-          // 3. Position of item relative to scrollable
-          final position = box.localToGlobal(Offset.zero, ancestor: scrollBox);
-          // 4. Subtract SliverHeader or pinned AppBar height
-          const headerHeight = 120.0; // adjust to your SliverHeader height
-          final targetOffset = controller.offset + position.dy - headerHeight;
-
-          controller.animateTo(
-            targetOffset.clamp(0.0, controller.position.maxScrollExtent),
+          Scrollable.ensureVisible(
+            ctx,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInQuad,
+            alignment: 0.0,
           );
         });
       }
       return null;
-    }, [issueId, items]);
+    }, [issueId, items, itemKeys]);
 
     if (items.isEmpty) {
       return Center(
@@ -161,7 +149,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 padding: EdgeInsets.only(
                     bottom: index < items.length - 1 ? 8.0 : 0.0),
                 child: Row(
-                  key: itemKeys.value[items[index].id],
+                  key: itemKeys[items[index].id],
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (Responsive.isDesktop(context))
