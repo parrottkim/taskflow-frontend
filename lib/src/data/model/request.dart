@@ -116,6 +116,7 @@ abstract class CreateTransactionDetailsRequest
 abstract class CreateContractItemRequest with _$CreateContractItemRequest {
   factory CreateContractItemRequest({
     required String item,
+    required int currencyId,
     required String price,
   }) = _CreateContractItemRequest;
 
@@ -146,6 +147,7 @@ abstract class CreateTransactionItemRequest
     with _$CreateTransactionItemRequest {
   factory CreateTransactionItemRequest({
     required int categoryId,
+    required int currencyId,
     required String price,
     required String note,
   }) = _CreateTransactionItemRequest;
@@ -220,6 +222,7 @@ abstract class UpdateContractItemRequest with _$UpdateContractItemRequest {
   factory UpdateContractItemRequest({
     int? id,
     required String item,
+    required int currencyId,
     required String price,
   }) = _UpdateContractItemRequest;
 
@@ -252,6 +255,7 @@ abstract class UpdateTransactionItemRequest
   factory UpdateTransactionItemRequest({
     int? id,
     required int categoryId,
+    required int currencyId,
     required String price,
     required String note,
   }) = _UpdateTransactionItemRequest;

@@ -8,9 +8,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/button.dart';
+import 'package:taskflow/src/presentation/widget/dropdown.dart';
 import 'package:taskflow/src/presentation/widget/overlay.dart';
 import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
@@ -19,7 +21,7 @@ import 'package:taskflow/src/shared/tool/formatter.dart';
 import 'package:taskflow/src/shared/tool/js_interop.dart';
 import 'package:universal_html/html.dart';
 
-class ContractItemWidget extends HookConsumerWidget {
+class ContractItemWidget extends ConsumerWidget {
   final int categoryId;
   final int projectId;
   final int? issueId;
@@ -39,8 +41,65 @@ class ContractItemWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filter = ref.watch(issueFilterControllerProvider);
+
+    return switch (filter) {
+      AsyncData(:final value) => _DesktopWidget(
+          categoryId: categoryId,
+          projectId: projectId,
+          issueId: issueId,
+          currencies: value.currencies,
+          items: items,
+          hasContractItems: hasContractItems,
+          isContractItemEmpty: isContractItemEmpty,
+        ),
+      AsyncError(:final error, :final stackTrace) =>
+        ErrorContainerWidget(error: error, stackTrace: stackTrace),
+      _ => Skeletonizer(
+          child: _DesktopWidget(
+              categoryId: categoryId,
+              projectId: projectId,
+              currencies: [],
+              hasContractItems: hasContractItems,
+              isContractItemEmpty: isContractItemEmpty),
+        ),
+    };
+  }
+}
+
+class _DesktopWidget extends HookConsumerWidget {
+  final int categoryId;
+  final int projectId;
+  final int? issueId;
+  final List<Currency> currencies;
+  final List<ContractItem>? items;
+  final ValueNotifier<bool> hasContractItems;
+  final ValueNotifier<bool> isContractItemEmpty;
+
+  const _DesktopWidget({
+    required this.categoryId,
+    required this.projectId,
+    this.issueId,
+    required this.currencies,
+    this.items,
+    required this.hasContractItems,
+    required this.isContractItemEmpty,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    final selectedCurrencies = useMemoized(
+      () =>
+          items
+              ?.map((element) =>
+                  ValueNotifier(element.currency ?? currencies.first))
+              .toList() ??
+          [],
+      [items?.length],
+    );
 
     final itemControllers = useMemoized(
       () =>
@@ -100,6 +159,31 @@ class ContractItemWidget extends HookConsumerWidget {
       }
       return null;
     }, [items]);
+
+    useEffect(() {
+      if (items != null && items!.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final formController = ref.read(issueFormControllerProvider(
+            categoryId: categoryId,
+            projectId: projectId,
+            issueId: issueId,
+          ).notifier);
+
+          for (int i = 0; i < items!.length; i++) {
+            final item = items![i];
+            // ContractItem에 currency 값이 null이면, 기본 통화로 업데이트합니다.
+            if (item.currency == null) {
+              // ref.read()로 가져온 formController를 사용해 상태 업데이트
+              formController.updateContractItem(
+                index: i,
+                currency: currencies.first,
+              );
+            }
+          }
+        });
+      }
+      return null;
+    }, [items, currencies]);
 
     Future<void> processFile(XFile file) async {
       hasContractItems.value = false;
@@ -355,7 +439,7 @@ class ContractItemWidget extends HookConsumerWidget {
               Symbols.add_rounded,
             ),
             label: Text(
-              Intl.message('issue_form_contract_5'),
+              Intl.message('issue_form_contract_7'),
             ),
           ),
           if (items != null && items!.isNotEmpty)
@@ -395,7 +479,7 @@ class ContractItemWidget extends HookConsumerWidget {
                         ),
                         columns: [
                           DataColumn(
-                            columnWidth: FlexColumnWidth(0.6),
+                            columnWidth: FlexColumnWidth(0.7),
                             label: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
@@ -421,7 +505,33 @@ class ContractItemWidget extends HookConsumerWidget {
                             ),
                           ),
                           DataColumn(
-                            columnWidth: FlexColumnWidth(0.4),
+                            columnWidth: FixedColumnWidth(120.0),
+                            label: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Symbols.attach_money_rounded,
+                                    color: colorScheme.onSurface
+                                        .withValues(alpha: 0.7),
+                                    size: 16.0,
+                                  ),
+                                  SizedBox(width: 4.0),
+                                  Text(
+                                    Intl.message('issue_form_contract_4'),
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: colorScheme.onSurface
+                                          .withValues(alpha: 0.7),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            columnWidth: FlexColumnWidth(0.5),
                             label: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
@@ -435,7 +545,7 @@ class ContractItemWidget extends HookConsumerWidget {
                                   ),
                                   SizedBox(width: 4.0),
                                   Text(
-                                    Intl.message('issue_form_contract_4'),
+                                    Intl.message('issue_form_contract_5'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: colorScheme.onSurface
@@ -505,6 +615,50 @@ class ContractItemWidget extends HookConsumerWidget {
                                   ),
                                 ),
                                 DataCell(
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedDropdownButton<Currency>(
+                                      isExpanded: true,
+                                      showClose: false,
+                                      items: currencies,
+                                      selectedItem: selectedCurrencies[index],
+                                      icon: SizedBox(
+                                        width: 16.0,
+                                        height: 16.0,
+                                        child: Center(
+                                          child: Text(
+                                            selectedCurrencies[index]
+                                                .value
+                                                .symbol,
+                                            style:
+                                                textTheme.labelMedium?.copyWith(
+                                              textBaseline:
+                                                  TextBaseline.ideographic,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      label: Text(
+                                        Intl.message('issue_form_contract_6'),
+                                      ),
+                                      itemBuilder: (currency) =>
+                                          Text(currency.code),
+                                      onChanged: (value) {
+                                        isContractItemEmpty.value = false;
+                                        ref
+                                            .read(issueFormControllerProvider(
+                                                    categoryId: categoryId,
+                                                    projectId: projectId,
+                                                    issueId: issueId)
+                                                .notifier)
+                                            .updateContractItem(
+                                                index: index, currency: value);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                DataCell(
                                   Row(
                                     children: [
                                       Expanded(
@@ -544,7 +698,10 @@ class ContractItemWidget extends HookConsumerWidget {
                                                     width: 2.0,
                                                     color: colorScheme.primary),
                                               ),
-                                              suffixText: '₩',
+                                              suffixText:
+                                                  selectedCurrencies[index]
+                                                      .value
+                                                      .symbol,
                                             ),
                                             onChanged: (value) {
                                               isContractItemEmpty.value = false;
@@ -620,7 +777,7 @@ class ContractItemWidget extends HookConsumerWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12.0, vertical: 8.0),
                                 child: Text(
-                                  Intl.message('issue_form_contract_6'),
+                                  Intl.message('issue_form_contract_8'),
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                   ),

@@ -93,7 +93,12 @@ class ToolbarWidget extends ConsumerWidget {
           ),
         ),
         CustomIconButton(
-          onTap: () async {},
+          onTap: () async {
+            await ref.read(issueSubmitControllerProvider.notifier).sendEmail(
+                  projectId: projectId,
+                  issueId: item.id,
+                );
+          },
           icon: const Icon(
             Symbols.forward_to_inbox_rounded,
           ),
@@ -171,10 +176,7 @@ class ToolbarWidget extends ConsumerWidget {
                     if (result) {
                       await ref
                           .read(issueSubmitControllerProvider.notifier)
-                          .deleteIssue(
-                              categoryId: item.category.id,
-                              projectId: projectId,
-                              issueId: item.id);
+                          .deleteIssue(projectId: projectId, issueId: item.id);
 
                       ref.read(toastProvider).showToast(
                             child: Toast(

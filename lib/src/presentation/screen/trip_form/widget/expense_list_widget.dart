@@ -202,7 +202,7 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                 Symbols.add_rounded,
               ),
               label: Text(
-                Intl.message('issue_form_contract_5'),
+                Intl.message('issue_form_contract_7'),
               ),
             ),
           ),

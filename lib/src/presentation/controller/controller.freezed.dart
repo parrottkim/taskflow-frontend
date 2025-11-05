@@ -3484,6 +3484,7 @@ class __$IssueDetailStateCopyWithImpl<$Res>
 /// @nodoc
 mixin _$IssueFilterState {
   List<TransactionItemCategory> get transactionCategories;
+  List<Currency> get currencies;
 
   /// Create a copy of IssueFilterState
   /// with the given fields replaced by the non-null parameter values.
@@ -3499,16 +3500,20 @@ mixin _$IssueFilterState {
         (other.runtimeType == runtimeType &&
             other is IssueFilterState &&
             const DeepCollectionEquality()
-                .equals(other.transactionCategories, transactionCategories));
+                .equals(other.transactionCategories, transactionCategories) &&
+            const DeepCollectionEquality()
+                .equals(other.currencies, currencies));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(transactionCategories));
+      runtimeType,
+      const DeepCollectionEquality().hash(transactionCategories),
+      const DeepCollectionEquality().hash(currencies));
 
   @override
   String toString() {
-    return 'IssueFilterState(transactionCategories: $transactionCategories)';
+    return 'IssueFilterState(transactionCategories: $transactionCategories, currencies: $currencies)';
   }
 }
 
@@ -3518,7 +3523,9 @@ abstract mixin class $IssueFilterStateCopyWith<$Res> {
           IssueFilterState value, $Res Function(IssueFilterState) _then) =
       _$IssueFilterStateCopyWithImpl;
   @useResult
-  $Res call({List<TransactionItemCategory> transactionCategories});
+  $Res call(
+      {List<TransactionItemCategory> transactionCategories,
+      List<Currency> currencies});
 }
 
 /// @nodoc
@@ -3535,12 +3542,17 @@ class _$IssueFilterStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? transactionCategories = null,
+    Object? currencies = null,
   }) {
     return _then(_self.copyWith(
       transactionCategories: null == transactionCategories
           ? _self.transactionCategories
           : transactionCategories // ignore: cast_nullable_to_non_nullable
               as List<TransactionItemCategory>,
+      currencies: null == currencies
+          ? _self.currencies
+          : currencies // ignore: cast_nullable_to_non_nullable
+              as List<Currency>,
     ));
   }
 }
@@ -3638,14 +3650,15 @@ extension IssueFilterStatePatterns on IssueFilterState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<TransactionItemCategory> transactionCategories)?
+    TResult Function(List<TransactionItemCategory> transactionCategories,
+            List<Currency> currencies)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _IssueFilterState() when $default != null:
-        return $default(_that.transactionCategories);
+        return $default(_that.transactionCategories, _that.currencies);
       case _:
         return orElse();
     }
@@ -3666,13 +3679,14 @@ extension IssueFilterStatePatterns on IssueFilterState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<TransactionItemCategory> transactionCategories)
+    TResult Function(List<TransactionItemCategory> transactionCategories,
+            List<Currency> currencies)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IssueFilterState():
-        return $default(_that.transactionCategories);
+        return $default(_that.transactionCategories, _that.currencies);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -3692,13 +3706,14 @@ extension IssueFilterStatePatterns on IssueFilterState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<TransactionItemCategory> transactionCategories)?
+    TResult? Function(List<TransactionItemCategory> transactionCategories,
+            List<Currency> currencies)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IssueFilterState() when $default != null:
-        return $default(_that.transactionCategories);
+        return $default(_that.transactionCategories, _that.currencies);
       case _:
         return null;
     }
@@ -3709,8 +3724,10 @@ extension IssueFilterStatePatterns on IssueFilterState {
 
 class _IssueFilterState implements IssueFilterState {
   _IssueFilterState(
-      {final List<TransactionItemCategory> transactionCategories = const []})
-      : _transactionCategories = transactionCategories;
+      {final List<TransactionItemCategory> transactionCategories = const [],
+      final List<Currency> currencies = const []})
+      : _transactionCategories = transactionCategories,
+        _currencies = currencies;
 
   final List<TransactionItemCategory> _transactionCategories;
   @override
@@ -3720,6 +3737,15 @@ class _IssueFilterState implements IssueFilterState {
       return _transactionCategories;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_transactionCategories);
+  }
+
+  final List<Currency> _currencies;
+  @override
+  @JsonKey()
+  List<Currency> get currencies {
+    if (_currencies is EqualUnmodifiableListView) return _currencies;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_currencies);
   }
 
   /// Create a copy of IssueFilterState
@@ -3736,16 +3762,20 @@ class _IssueFilterState implements IssueFilterState {
         (other.runtimeType == runtimeType &&
             other is _IssueFilterState &&
             const DeepCollectionEquality()
-                .equals(other._transactionCategories, _transactionCategories));
+                .equals(other._transactionCategories, _transactionCategories) &&
+            const DeepCollectionEquality()
+                .equals(other._currencies, _currencies));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_transactionCategories));
+      runtimeType,
+      const DeepCollectionEquality().hash(_transactionCategories),
+      const DeepCollectionEquality().hash(_currencies));
 
   @override
   String toString() {
-    return 'IssueFilterState(transactionCategories: $transactionCategories)';
+    return 'IssueFilterState(transactionCategories: $transactionCategories, currencies: $currencies)';
   }
 }
 
@@ -3757,7 +3787,9 @@ abstract mixin class _$IssueFilterStateCopyWith<$Res>
       __$IssueFilterStateCopyWithImpl;
   @override
   @useResult
-  $Res call({List<TransactionItemCategory> transactionCategories});
+  $Res call(
+      {List<TransactionItemCategory> transactionCategories,
+      List<Currency> currencies});
 }
 
 /// @nodoc
@@ -3774,12 +3806,17 @@ class __$IssueFilterStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? transactionCategories = null,
+    Object? currencies = null,
   }) {
     return _then(_IssueFilterState(
       transactionCategories: null == transactionCategories
           ? _self._transactionCategories
           : transactionCategories // ignore: cast_nullable_to_non_nullable
               as List<TransactionItemCategory>,
+      currencies: null == currencies
+          ? _self._currencies
+          : currencies // ignore: cast_nullable_to_non_nullable
+              as List<Currency>,
     ));
   }
 }

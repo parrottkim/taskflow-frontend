@@ -13,6 +13,9 @@ class UserDataSource implements UserRepository {
   Future<List<UserPosition>> getAllPositions() => _service.getAllPositions();
 
   @override
+  Future<List<User>> getAllUsers() => _service.getAllUsers();
+
+  @override
   Future<User> getUser({required int id}) => _service.getUser(id: id);
 
   @override
