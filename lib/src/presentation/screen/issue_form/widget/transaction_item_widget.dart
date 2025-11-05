@@ -39,6 +39,7 @@ class TransactionItemWidget extends ConsumerWidget {
           projectId: projectId,
           issueId: issueId,
           categories: value.transactionCategories,
+          currencies: value.currencies,
           items: items,
           hasTransactionItems: hasTransactionItems,
           isTransactionItemEmpty: isTransactionItemEmpty),
@@ -49,6 +50,7 @@ class TransactionItemWidget extends ConsumerWidget {
             categoryId: categoryId,
             projectId: projectId,
             categories: [],
+            currencies: [],
             hasTransactionItems: hasTransactionItems,
             isTransactionItemEmpty: isTransactionItemEmpty,
           ),
@@ -62,6 +64,7 @@ class _DesktopWidget extends HookConsumerWidget {
   final int projectId;
   final int? issueId;
   final List<TransactionItemCategory> categories;
+  final List<Currency> currencies;
   final List<TransactionItem>? items;
   final ValueNotifier<bool> hasTransactionItems;
   final ValueNotifier<bool> isTransactionItemEmpty;
@@ -71,6 +74,7 @@ class _DesktopWidget extends HookConsumerWidget {
     required this.projectId,
     this.issueId,
     required this.categories,
+    required this.currencies,
     this.items,
     required this.hasTransactionItems,
     required this.isTransactionItemEmpty,
@@ -84,6 +88,16 @@ class _DesktopWidget extends HookConsumerWidget {
     final selectedCategories = useMemoized(
       () =>
           items?.map((element) => ValueNotifier(element.category)).toList() ??
+          [],
+      [items?.length],
+    );
+
+    final selectedCurrencies = useMemoized(
+      () =>
+          items
+              ?.map((element) =>
+                  ValueNotifier(element.currency ?? currencies.first))
+              .toList() ??
           [],
       [items?.length],
     );
@@ -166,7 +180,7 @@ class _DesktopWidget extends HookConsumerWidget {
               Symbols.add_rounded,
             ),
             label: Text(
-              Intl.message('issue_form_procurement_11'),
+              Intl.message('issue_form_transaction_2'),
             ),
           ),
           if (items != null && items!.isNotEmpty)
@@ -206,7 +220,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                         columns: [
                           DataColumn(
-                            columnWidth: FlexColumnWidth(0.4),
+                            columnWidth: FixedColumnWidth(160.0),
                             label: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
@@ -221,6 +235,32 @@ class _DesktopWidget extends HookConsumerWidget {
                                   SizedBox(width: 4.0),
                                   Text(
                                     Intl.message('issue_form_transaction_3'),
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: colorScheme.onSurface
+                                          .withValues(alpha: 0.7),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          DataColumn(
+                            columnWidth: FixedColumnWidth(120.0),
+                            label: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Symbols.attach_money_rounded,
+                                    color: colorScheme.onSurface
+                                        .withValues(alpha: 0.7),
+                                    size: 16.0,
+                                  ),
+                                  SizedBox(width: 4.0),
+                                  Text(
+                                    Intl.message('issue_form_transaction_7'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: colorScheme.onSurface
@@ -324,6 +364,51 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                 ),
                                 DataCell(
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedDropdownButton<Currency>(
+                                      isExpanded: true,
+                                      showClose: false,
+                                      items: currencies,
+                                      selectedItem: selectedCurrencies[index],
+                                      icon: SizedBox(
+                                        width: 16.0,
+                                        height: 16.0,
+                                        child: Center(
+                                          child: Text(
+                                            selectedCurrencies[index]
+                                                .value
+                                                .symbol,
+                                            style:
+                                                textTheme.labelMedium?.copyWith(
+                                              textBaseline:
+                                                  TextBaseline.ideographic,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      label: Text(
+                                        Intl.message(
+                                            'issue_form_transaction_8'),
+                                      ),
+                                      itemBuilder: (currency) =>
+                                          Text(currency.code),
+                                      onChanged: (value) {
+                                        isTransactionItemEmpty.value = false;
+                                        ref
+                                            .read(issueFormControllerProvider(
+                                                    categoryId: categoryId,
+                                                    projectId: projectId,
+                                                    issueId: issueId)
+                                                .notifier)
+                                            .updateTransactionItem(
+                                                index: index, currency: value);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                DataCell(
                                   Material(
                                     elevation: priceFocusNodes[index].hasFocus
                                         ? 1.0
@@ -358,7 +443,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                               width: 2.0,
                                               color: colorScheme.primary),
                                         ),
-                                        suffixText: '₩',
+                                        suffixText: selectedCurrencies[index]
+                                            .value
+                                            .symbol,
                                       ),
                                       onChanged: (value) {
                                         isTransactionItemEmpty.value = false;

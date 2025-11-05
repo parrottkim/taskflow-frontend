@@ -172,9 +172,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "현대/기아 견적서만 업로드 가능합니다",
     ),
     "issue_form_contract_3": MessageLookupByLibrary.simpleMessage("계약 내역"),
-    "issue_form_contract_4": MessageLookupByLibrary.simpleMessage("금액 (원)"),
-    "issue_form_contract_5": MessageLookupByLibrary.simpleMessage("품목 추가"),
-    "issue_form_contract_6": MessageLookupByLibrary.simpleMessage("수주 금액"),
+    "issue_form_contract_4": MessageLookupByLibrary.simpleMessage("통화"),
+    "issue_form_contract_5": MessageLookupByLibrary.simpleMessage("금액 (원)"),
+    "issue_form_contract_6": MessageLookupByLibrary.simpleMessage("통화 선택"),
+    "issue_form_contract_7": MessageLookupByLibrary.simpleMessage("품목 추가"),
+    "issue_form_contract_8": MessageLookupByLibrary.simpleMessage("수주 금액"),
     "issue_form_contract_drop": MessageLookupByLibrary.simpleMessage(
       "견적서 여기에 놓기",
     ),
@@ -270,6 +272,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_transaction_6": MessageLookupByLibrary.simpleMessage(
       "지급 단계 선택",
     ),
+    "issue_form_transaction_7": MessageLookupByLibrary.simpleMessage("통화"),
+    "issue_form_transaction_8": MessageLookupByLibrary.simpleMessage("통화 선택"),
     "issue_form_transaction_item_invalid_1":
         MessageLookupByLibrary.simpleMessage("청구 내역을 최소 하나 이상 입력해 주세요"),
     "issue_form_transaction_item_invalid_2":
@@ -419,7 +423,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "project_edit": MessageLookupByLibrary.simpleMessage("프로젝트 수정"),
     "project_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 존재하는 프로젝트입니다.\n다른 프로젝트 코드를 사용해 주세요.",
+      "이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.",
     ),
     "project_filter_1": MessageLookupByLibrary.simpleMessage("고객사"),
     "project_filter_1_1": MessageLookupByLibrary.simpleMessage("고객사 선택"),

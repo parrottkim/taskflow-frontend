@@ -414,10 +414,10 @@ class S {
     );
   }
 
-  /// `이미 존재하는 프로젝트입니다.\n다른 프로젝트 코드를 사용해 주세요.`
+  /// `이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.`
   String get project_exists {
     return Intl.message(
-      '이미 존재하는 프로젝트입니다.\n다른 프로젝트 코드를 사용해 주세요.',
+      '이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.',
       name: 'project_exists',
       desc: '',
       args: [],
@@ -2314,31 +2314,51 @@ class S {
     );
   }
 
-  /// `금액 (원)`
+  /// `통화`
   String get issue_form_contract_4 {
     return Intl.message(
-      '금액 (원)',
+      '통화',
       name: 'issue_form_contract_4',
       desc: '',
       args: [],
     );
   }
 
-  /// `품목 추가`
+  /// `금액 (원)`
   String get issue_form_contract_5 {
     return Intl.message(
-      '품목 추가',
+      '금액 (원)',
       name: 'issue_form_contract_5',
       desc: '',
       args: [],
     );
   }
 
-  /// `수주 금액`
+  /// `통화 선택`
   String get issue_form_contract_6 {
     return Intl.message(
-      '수주 금액',
+      '통화 선택',
       name: 'issue_form_contract_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `품목 추가`
+  String get issue_form_contract_7 {
+    return Intl.message(
+      '품목 추가',
+      name: 'issue_form_contract_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `수주 금액`
+  String get issue_form_contract_8 {
+    return Intl.message(
+      '수주 금액',
+      name: 'issue_form_contract_8',
       desc: '',
       args: [],
     );
@@ -2729,6 +2749,26 @@ class S {
     return Intl.message(
       '지급 단계 선택',
       name: 'issue_form_transaction_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `통화`
+  String get issue_form_transaction_7 {
+    return Intl.message(
+      '통화',
+      name: 'issue_form_transaction_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `통화 선택`
+  String get issue_form_transaction_8 {
+    return Intl.message(
+      '통화 선택',
+      name: 'issue_form_transaction_8',
       desc: '',
       args: [],
     );

@@ -5,11 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ScheduleListWidget extends HookConsumerWidget {
   final int projectId;
@@ -151,7 +149,14 @@ class ScheduleListWidget extends HookConsumerWidget {
                       final schedule = group.items[index];
 
                       return InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          ref
+                              .read(tripFormControllerProvider(
+                                      projectId: projectId, tripId: tripId)
+                                  .notifier)
+                              .setSchedule(schedule: schedule);
+                          context.pop();
+                        },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 24.0, vertical: 8.0),

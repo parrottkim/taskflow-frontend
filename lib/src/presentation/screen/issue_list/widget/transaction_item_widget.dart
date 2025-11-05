@@ -129,7 +129,8 @@ class TransactionItemWidget extends StatelessWidget {
                           horizontal: 12.0, vertical: 8.0),
                       width: double.infinity,
                       child: Text(
-                        items[index].price,
+                        '${items[index].price} ${items[index].currency!.code}',
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ),

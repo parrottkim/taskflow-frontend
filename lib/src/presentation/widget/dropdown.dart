@@ -13,6 +13,7 @@ class ElevatedDropdownButton<T> extends HookWidget {
   final ValueChanged<T?>? onChanged;
   final FocusNode? focus;
   final bool isExpanded;
+  final bool showClose;
 
   const ElevatedDropdownButton({
     super.key,
@@ -24,6 +25,7 @@ class ElevatedDropdownButton<T> extends HookWidget {
     this.onChanged,
     this.focus,
     this.isExpanded = false,
+    this.showClose = true,
   });
 
   @override
@@ -125,7 +127,7 @@ class ElevatedDropdownButton<T> extends HookWidget {
                 else
                   label,
                 if (isExpanded) Spacer(),
-                if (selectedItem.value != null)
+                if (showClose && selectedItem.value != null)
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: InkWell(

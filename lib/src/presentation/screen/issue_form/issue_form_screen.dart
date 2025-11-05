@@ -326,7 +326,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         isContractItemEmpty.value = items != null &&
                             items.isNotEmpty &&
                             items.any((item) =>
-                                item.item.isEmpty || item.price.isEmpty);
+                                item.item.isEmpty ||
+                                item.currency == null ||
+                                item.price.isEmpty);
                       }
 
                       if (value is IssueFormKickoff) {

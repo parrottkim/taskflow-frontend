@@ -48,7 +48,8 @@ class IssueSubmitController extends _$IssueSubmitController {
 
       if (value is IssueFormContract) {
         final items = value.items!
-            .map((e) => CreateContractItemRequest(item: e.item, price: e.price))
+            .map((e) => CreateContractItemRequest(
+                item: e.item, currencyId: e.currency!.id, price: e.price))
             .toList();
 
         request = request.copyWith(
@@ -84,6 +85,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final items = value.items!
             .map((e) => CreateTransactionItemRequest(
                   categoryId: e.category!.id,
+                  currencyId: e.currency!.id,
                   price: e.price,
                   note: e.note,
                 ))
@@ -176,7 +178,10 @@ class IssueSubmitController extends _$IssueSubmitController {
       if (value is IssueFormContract) {
         final items = value.items!
             .map((e) => UpdateContractItemRequest(
-                id: e.id, item: e.item, price: e.price))
+                id: e.id,
+                item: e.item,
+                currencyId: e.currency!.id,
+                price: e.price))
             .toList();
 
         request = request.copyWith(
@@ -213,6 +218,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final items = value.items!
             .map((e) => UpdateTransactionItemRequest(
                   categoryId: e.category!.id,
+                  currencyId: e.currency!.id,
                   price: e.price,
                   note: e.note,
                 ))
@@ -254,9 +260,7 @@ class IssueSubmitController extends _$IssueSubmitController {
   }
 
   Future<void> deleteIssue(
-      {required int categoryId,
-      required int projectId,
-      required int issueId}) async {
+      {required int projectId, required int issueId}) async {
     state = const IssueSubmitState.pending();
 
     try {
@@ -269,5 +273,49 @@ class IssueSubmitController extends _$IssueSubmitController {
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
     }
+  }
+
+  Future<void> sendEmail({
+    required int projectId,
+    required int issueId,
+  }) async {
+    final issue = await ref.read(issueRepositoryProvider).getIssue(id: issueId);
+    final project =
+        await ref.read(projectRepositoryProvider).getProject(id: projectId);
+    final users = await ref.read(userRepositoryProvider).getAllUsers();
+
+    final uri = Uri(
+      scheme: Uri.base.scheme,
+      host: Uri.base.host,
+      port: Uri.base.hasPort ? Uri.base.port : null,
+      path: path.join(Routes.project, projectId.toString()),
+      queryParameters: {
+        'view': 'issue',
+        'issue': issueId.toString(),
+      },
+    );
+
+    final to = users
+        .map((e) => '${e.username} ${e.position?.name ?? '직급 없음'} <${e.email}>')
+        .join(',');
+
+    final subject =
+        '[${issue.category.name}][${project.clients.first.name}][${project.clients.last.name}] ${project.code}, ${project.name}';
+
+    final body =
+        '[담당 PM] ${project.manager?.username ?? '미지정'} ${project.manager != null ? '(${project.manager!.email})' : ''}\n'
+        '[URL] ${uri}\n\n'
+        '[업무 내용]\n'
+        '${issue.content}';
+
+    final queryParameters = {'subject': subject, 'body': body}
+        .entries
+        .map((e) =>
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
+
+    final mailto = Uri(scheme: 'mailto', path: to, query: queryParameters);
+
+    await launchUrl(mailto);
   }
 }

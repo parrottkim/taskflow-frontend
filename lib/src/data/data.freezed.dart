@@ -344,6 +344,332 @@ class __$BookmarkCopyWithImpl<$Res> implements _$BookmarkCopyWith<$Res> {
 }
 
 /// @nodoc
+mixin _$Currency {
+  int get id;
+  String get code;
+  String get symbol;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CurrencyCopyWith<Currency> get copyWith =>
+      _$CurrencyCopyWithImpl<Currency>(this as Currency, _$identity);
+
+  /// Serializes this Currency to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Currency &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, code, symbol);
+
+  @override
+  String toString() {
+    return 'Currency(id: $id, code: $code, symbol: $symbol)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $CurrencyCopyWith<$Res> {
+  factory $CurrencyCopyWith(Currency value, $Res Function(Currency) _then) =
+      _$CurrencyCopyWithImpl;
+  @useResult
+  $Res call({int id, String code, String symbol});
+}
+
+/// @nodoc
+class _$CurrencyCopyWithImpl<$Res> implements $CurrencyCopyWith<$Res> {
+  _$CurrencyCopyWithImpl(this._self, this._then);
+
+  final Currency _self;
+  final $Res Function(Currency) _then;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? code = null,
+    Object? symbol = null,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      code: null == code
+          ? _self.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+      symbol: null == symbol
+          ? _self.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Currency].
+extension CurrencyPatterns on Currency {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Currency value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Currency() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Currency value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Currency():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Currency value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Currency() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int id, String code, String symbol)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Currency() when $default != null:
+        return $default(_that.id, _that.code, _that.symbol);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int id, String code, String symbol) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Currency():
+        return $default(_that.id, _that.code, _that.symbol);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int id, String code, String symbol)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Currency() when $default != null:
+        return $default(_that.id, _that.code, _that.symbol);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Currency implements Currency {
+  _Currency({required this.id, required this.code, required this.symbol});
+  factory _Currency.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final String code;
+  @override
+  final String symbol;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$CurrencyCopyWith<_Currency> get copyWith =>
+      __$CurrencyCopyWithImpl<_Currency>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$CurrencyToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Currency &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, code, symbol);
+
+  @override
+  String toString() {
+    return 'Currency(id: $id, code: $code, symbol: $symbol)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$CurrencyCopyWith<$Res>
+    implements $CurrencyCopyWith<$Res> {
+  factory _$CurrencyCopyWith(_Currency value, $Res Function(_Currency) _then) =
+      __$CurrencyCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int id, String code, String symbol});
+}
+
+/// @nodoc
+class __$CurrencyCopyWithImpl<$Res> implements _$CurrencyCopyWith<$Res> {
+  __$CurrencyCopyWithImpl(this._self, this._then);
+
+  final _Currency _self;
+  final $Res Function(_Currency) _then;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? code = null,
+    Object? symbol = null,
+  }) {
+    return _then(_Currency(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      code: null == code
+          ? _self.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+      symbol: null == symbol
+          ? _self.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
 mixin _$LatestIssue {
   int get id;
   int get projectId;
@@ -3539,6 +3865,7 @@ class _$IssuePaymentDetailsCopyWithImpl<$Res>
 mixin _$ContractItem {
   int? get id;
   String get item;
+  Currency? get currency;
   String get price;
 
   /// Create a copy of ContractItem
@@ -3559,16 +3886,18 @@ mixin _$ContractItem {
             other is ContractItem &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.item, item) || other.item == item) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, item, price);
+  int get hashCode => Object.hash(runtimeType, id, item, currency, price);
 
   @override
   String toString() {
-    return 'ContractItem(id: $id, item: $item, price: $price)';
+    return 'ContractItem(id: $id, item: $item, currency: $currency, price: $price)';
   }
 }
 
@@ -3578,7 +3907,9 @@ abstract mixin class $ContractItemCopyWith<$Res> {
           ContractItem value, $Res Function(ContractItem) _then) =
       _$ContractItemCopyWithImpl;
   @useResult
-  $Res call({int? id, String item, String price});
+  $Res call({int? id, String item, Currency? currency, String price});
+
+  $CurrencyCopyWith<$Res>? get currency;
 }
 
 /// @nodoc
@@ -3595,6 +3926,7 @@ class _$ContractItemCopyWithImpl<$Res> implements $ContractItemCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? item = null,
+    Object? currency = freezed,
     Object? price = null,
   }) {
     return _then(_self.copyWith(
@@ -3606,11 +3938,29 @@ class _$ContractItemCopyWithImpl<$Res> implements $ContractItemCopyWith<$Res> {
           ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
               as String,
+      currency: freezed == currency
+          ? _self.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as Currency?,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
               as String,
     ));
+  }
+
+  /// Create a copy of ContractItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CurrencyCopyWith<$Res>? get currency {
+    if (_self.currency == null) {
+      return null;
+    }
+
+    return $CurrencyCopyWith<$Res>(_self.currency!, (value) {
+      return _then(_self.copyWith(currency: value));
+    });
   }
 }
 
@@ -3707,13 +4057,14 @@ extension ContractItemPatterns on ContractItem {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int? id, String item, String price)? $default, {
+    TResult Function(int? id, String item, Currency? currency, String price)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ContractItem() when $default != null:
-        return $default(_that.id, _that.item, _that.price);
+        return $default(_that.id, _that.item, _that.currency, _that.price);
       case _:
         return orElse();
     }
@@ -3734,12 +4085,13 @@ extension ContractItemPatterns on ContractItem {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int? id, String item, String price) $default,
+    TResult Function(int? id, String item, Currency? currency, String price)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ContractItem():
-        return $default(_that.id, _that.item, _that.price);
+        return $default(_that.id, _that.item, _that.currency, _that.price);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -3759,12 +4111,13 @@ extension ContractItemPatterns on ContractItem {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int? id, String item, String price)? $default,
+    TResult? Function(int? id, String item, Currency? currency, String price)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ContractItem() when $default != null:
-        return $default(_that.id, _that.item, _that.price);
+        return $default(_that.id, _that.item, _that.currency, _that.price);
       case _:
         return null;
     }
@@ -3774,7 +4127,8 @@ extension ContractItemPatterns on ContractItem {
 /// @nodoc
 @JsonSerializable()
 class _ContractItem implements ContractItem {
-  _ContractItem({this.id, required this.item, required this.price});
+  _ContractItem(
+      {this.id, required this.item, this.currency, required this.price});
   factory _ContractItem.fromJson(Map<String, dynamic> json) =>
       _$ContractItemFromJson(json);
 
@@ -3782,6 +4136,8 @@ class _ContractItem implements ContractItem {
   final int? id;
   @override
   final String item;
+  @override
+  final Currency? currency;
   @override
   final String price;
 
@@ -3807,16 +4163,18 @@ class _ContractItem implements ContractItem {
             other is _ContractItem &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.item, item) || other.item == item) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, item, price);
+  int get hashCode => Object.hash(runtimeType, id, item, currency, price);
 
   @override
   String toString() {
-    return 'ContractItem(id: $id, item: $item, price: $price)';
+    return 'ContractItem(id: $id, item: $item, currency: $currency, price: $price)';
   }
 }
 
@@ -3828,7 +4186,10 @@ abstract mixin class _$ContractItemCopyWith<$Res>
       __$ContractItemCopyWithImpl;
   @override
   @useResult
-  $Res call({int? id, String item, String price});
+  $Res call({int? id, String item, Currency? currency, String price});
+
+  @override
+  $CurrencyCopyWith<$Res>? get currency;
 }
 
 /// @nodoc
@@ -3846,6 +4207,7 @@ class __$ContractItemCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? item = null,
+    Object? currency = freezed,
     Object? price = null,
   }) {
     return _then(_ContractItem(
@@ -3857,11 +4219,29 @@ class __$ContractItemCopyWithImpl<$Res>
           ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
               as String,
+      currency: freezed == currency
+          ? _self.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as Currency?,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
               as String,
     ));
+  }
+
+  /// Create a copy of ContractItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CurrencyCopyWith<$Res>? get currency {
+    if (_self.currency == null) {
+      return null;
+    }
+
+    return $CurrencyCopyWith<$Res>(_self.currency!, (value) {
+      return _then(_self.copyWith(currency: value));
+    });
   }
 }
 
@@ -4739,6 +5119,7 @@ class __$TransactionItemCategoryCopyWithImpl<$Res>
 mixin _$TransactionItem {
   int? get id;
   TransactionItemCategory? get category;
+  Currency? get currency;
   String get price;
   String get note;
 
@@ -4761,17 +5142,20 @@ mixin _$TransactionItem {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.category, category) ||
                 other.category == category) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.note, note) || other.note == note));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, category, price, note);
+  int get hashCode =>
+      Object.hash(runtimeType, id, category, currency, price, note);
 
   @override
   String toString() {
-    return 'TransactionItem(id: $id, category: $category, price: $price, note: $note)';
+    return 'TransactionItem(id: $id, category: $category, currency: $currency, price: $price, note: $note)';
   }
 }
 
@@ -4782,9 +5166,14 @@ abstract mixin class $TransactionItemCopyWith<$Res> {
       _$TransactionItemCopyWithImpl;
   @useResult
   $Res call(
-      {int? id, TransactionItemCategory? category, String price, String note});
+      {int? id,
+      TransactionItemCategory? category,
+      Currency? currency,
+      String price,
+      String note});
 
   $TransactionItemCategoryCopyWith<$Res>? get category;
+  $CurrencyCopyWith<$Res>? get currency;
 }
 
 /// @nodoc
@@ -4802,6 +5191,7 @@ class _$TransactionItemCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? category = freezed,
+    Object? currency = freezed,
     Object? price = null,
     Object? note = null,
   }) {
@@ -4814,6 +5204,10 @@ class _$TransactionItemCopyWithImpl<$Res>
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable
               as TransactionItemCategory?,
+      currency: freezed == currency
+          ? _self.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as Currency?,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -4836,6 +5230,20 @@ class _$TransactionItemCopyWithImpl<$Res>
 
     return $TransactionItemCategoryCopyWith<$Res>(_self.category!, (value) {
       return _then(_self.copyWith(category: value));
+    });
+  }
+
+  /// Create a copy of TransactionItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CurrencyCopyWith<$Res>? get currency {
+    if (_self.currency == null) {
+      return null;
+    }
+
+    return $CurrencyCopyWith<$Res>(_self.currency!, (value) {
+      return _then(_self.copyWith(currency: value));
     });
   }
 }
@@ -4933,15 +5341,16 @@ extension TransactionItemPatterns on TransactionItem {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int? id, TransactionItemCategory? category, String price,
-            String note)?
+    TResult Function(int? id, TransactionItemCategory? category,
+            Currency? currency, String price, String note)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _TransactionItem() when $default != null:
-        return $default(_that.id, _that.category, _that.price, _that.note);
+        return $default(
+            _that.id, _that.category, _that.currency, _that.price, _that.note);
       case _:
         return orElse();
     }
@@ -4962,14 +5371,15 @@ extension TransactionItemPatterns on TransactionItem {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int? id, TransactionItemCategory? category, String price,
-            String note)
+    TResult Function(int? id, TransactionItemCategory? category,
+            Currency? currency, String price, String note)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TransactionItem():
-        return $default(_that.id, _that.category, _that.price, _that.note);
+        return $default(
+            _that.id, _that.category, _that.currency, _that.price, _that.note);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -4989,14 +5399,15 @@ extension TransactionItemPatterns on TransactionItem {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int? id, TransactionItemCategory? category, String price,
-            String note)?
+    TResult? Function(int? id, TransactionItemCategory? category,
+            Currency? currency, String price, String note)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TransactionItem() when $default != null:
-        return $default(_that.id, _that.category, _that.price, _that.note);
+        return $default(
+            _that.id, _that.category, _that.currency, _that.price, _that.note);
       case _:
         return null;
     }
@@ -5007,7 +5418,11 @@ extension TransactionItemPatterns on TransactionItem {
 @JsonSerializable()
 class _TransactionItem implements TransactionItem {
   _TransactionItem(
-      {this.id, this.category, required this.price, required this.note});
+      {this.id,
+      this.category,
+      this.currency,
+      required this.price,
+      required this.note});
   factory _TransactionItem.fromJson(Map<String, dynamic> json) =>
       _$TransactionItemFromJson(json);
 
@@ -5015,6 +5430,8 @@ class _TransactionItem implements TransactionItem {
   final int? id;
   @override
   final TransactionItemCategory? category;
+  @override
+  final Currency? currency;
   @override
   final String price;
   @override
@@ -5043,17 +5460,20 @@ class _TransactionItem implements TransactionItem {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.category, category) ||
                 other.category == category) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.note, note) || other.note == note));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, category, price, note);
+  int get hashCode =>
+      Object.hash(runtimeType, id, category, currency, price, note);
 
   @override
   String toString() {
-    return 'TransactionItem(id: $id, category: $category, price: $price, note: $note)';
+    return 'TransactionItem(id: $id, category: $category, currency: $currency, price: $price, note: $note)';
   }
 }
 
@@ -5066,10 +5486,16 @@ abstract mixin class _$TransactionItemCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id, TransactionItemCategory? category, String price, String note});
+      {int? id,
+      TransactionItemCategory? category,
+      Currency? currency,
+      String price,
+      String note});
 
   @override
   $TransactionItemCategoryCopyWith<$Res>? get category;
+  @override
+  $CurrencyCopyWith<$Res>? get currency;
 }
 
 /// @nodoc
@@ -5087,6 +5513,7 @@ class __$TransactionItemCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? category = freezed,
+    Object? currency = freezed,
     Object? price = null,
     Object? note = null,
   }) {
@@ -5099,6 +5526,10 @@ class __$TransactionItemCopyWithImpl<$Res>
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable
               as TransactionItemCategory?,
+      currency: freezed == currency
+          ? _self.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as Currency?,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -5121,6 +5552,20 @@ class __$TransactionItemCopyWithImpl<$Res>
 
     return $TransactionItemCategoryCopyWith<$Res>(_self.category!, (value) {
       return _then(_self.copyWith(category: value));
+    });
+  }
+
+  /// Create a copy of TransactionItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CurrencyCopyWith<$Res>? get currency {
+    if (_self.currency == null) {
+      return null;
+    }
+
+    return $CurrencyCopyWith<$Res>(_self.currency!, (value) {
+      return _then(_self.copyWith(currency: value));
     });
   }
 }
@@ -10684,6 +11129,7 @@ class __$CreateTransactionDetailsRequestCopyWithImpl<$Res>
 /// @nodoc
 mixin _$CreateContractItemRequest {
   String get item;
+  int get currencyId;
   String get price;
 
   /// Create a copy of CreateContractItemRequest
@@ -10703,16 +11149,18 @@ mixin _$CreateContractItemRequest {
         (other.runtimeType == runtimeType &&
             other is CreateContractItemRequest &&
             (identical(other.item, item) || other.item == item) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, item, price);
+  int get hashCode => Object.hash(runtimeType, item, currencyId, price);
 
   @override
   String toString() {
-    return 'CreateContractItemRequest(item: $item, price: $price)';
+    return 'CreateContractItemRequest(item: $item, currencyId: $currencyId, price: $price)';
   }
 }
 
@@ -10722,7 +11170,7 @@ abstract mixin class $CreateContractItemRequestCopyWith<$Res> {
           $Res Function(CreateContractItemRequest) _then) =
       _$CreateContractItemRequestCopyWithImpl;
   @useResult
-  $Res call({String item, String price});
+  $Res call({String item, int currencyId, String price});
 }
 
 /// @nodoc
@@ -10739,6 +11187,7 @@ class _$CreateContractItemRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? item = null,
+    Object? currencyId = null,
     Object? price = null,
   }) {
     return _then(_self.copyWith(
@@ -10746,6 +11195,10 @@ class _$CreateContractItemRequestCopyWithImpl<$Res>
           ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
               as String,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as int,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -10847,13 +11300,13 @@ extension CreateContractItemRequestPatterns on CreateContractItemRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String item, String price)? $default, {
+    TResult Function(String item, int currencyId, String price)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _CreateContractItemRequest() when $default != null:
-        return $default(_that.item, _that.price);
+        return $default(_that.item, _that.currencyId, _that.price);
       case _:
         return orElse();
     }
@@ -10874,12 +11327,12 @@ extension CreateContractItemRequestPatterns on CreateContractItemRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String item, String price) $default,
+    TResult Function(String item, int currencyId, String price) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CreateContractItemRequest():
-        return $default(_that.item, _that.price);
+        return $default(_that.item, _that.currencyId, _that.price);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -10899,12 +11352,12 @@ extension CreateContractItemRequestPatterns on CreateContractItemRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String item, String price)? $default,
+    TResult? Function(String item, int currencyId, String price)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CreateContractItemRequest() when $default != null:
-        return $default(_that.item, _that.price);
+        return $default(_that.item, _that.currencyId, _that.price);
       case _:
         return null;
     }
@@ -10914,12 +11367,15 @@ extension CreateContractItemRequestPatterns on CreateContractItemRequest {
 /// @nodoc
 @JsonSerializable()
 class _CreateContractItemRequest implements CreateContractItemRequest {
-  _CreateContractItemRequest({required this.item, required this.price});
+  _CreateContractItemRequest(
+      {required this.item, required this.currencyId, required this.price});
   factory _CreateContractItemRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateContractItemRequestFromJson(json);
 
   @override
   final String item;
+  @override
+  final int currencyId;
   @override
   final String price;
 
@@ -10946,16 +11402,18 @@ class _CreateContractItemRequest implements CreateContractItemRequest {
         (other.runtimeType == runtimeType &&
             other is _CreateContractItemRequest &&
             (identical(other.item, item) || other.item == item) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, item, price);
+  int get hashCode => Object.hash(runtimeType, item, currencyId, price);
 
   @override
   String toString() {
-    return 'CreateContractItemRequest(item: $item, price: $price)';
+    return 'CreateContractItemRequest(item: $item, currencyId: $currencyId, price: $price)';
   }
 }
 
@@ -10967,7 +11425,7 @@ abstract mixin class _$CreateContractItemRequestCopyWith<$Res>
       __$CreateContractItemRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({String item, String price});
+  $Res call({String item, int currencyId, String price});
 }
 
 /// @nodoc
@@ -10984,6 +11442,7 @@ class __$CreateContractItemRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? item = null,
+    Object? currencyId = null,
     Object? price = null,
   }) {
     return _then(_CreateContractItemRequest(
@@ -10991,6 +11450,10 @@ class __$CreateContractItemRequestCopyWithImpl<$Res>
           ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
               as String,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as int,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -11502,6 +11965,7 @@ class __$CreateProcurementItemRequestCopyWithImpl<$Res>
 /// @nodoc
 mixin _$CreateTransactionItemRequest {
   int get categoryId;
+  int get currencyId;
   String get price;
   String get note;
 
@@ -11524,17 +11988,20 @@ mixin _$CreateTransactionItemRequest {
             other is CreateTransactionItemRequest &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.note, note) || other.note == note));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, categoryId, price, note);
+  int get hashCode =>
+      Object.hash(runtimeType, categoryId, currencyId, price, note);
 
   @override
   String toString() {
-    return 'CreateTransactionItemRequest(categoryId: $categoryId, price: $price, note: $note)';
+    return 'CreateTransactionItemRequest(categoryId: $categoryId, currencyId: $currencyId, price: $price, note: $note)';
   }
 }
 
@@ -11545,7 +12012,7 @@ abstract mixin class $CreateTransactionItemRequestCopyWith<$Res> {
           $Res Function(CreateTransactionItemRequest) _then) =
       _$CreateTransactionItemRequestCopyWithImpl;
   @useResult
-  $Res call({int categoryId, String price, String note});
+  $Res call({int categoryId, int currencyId, String price, String note});
 }
 
 /// @nodoc
@@ -11562,6 +12029,7 @@ class _$CreateTransactionItemRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? categoryId = null,
+    Object? currencyId = null,
     Object? price = null,
     Object? note = null,
   }) {
@@ -11569,6 +12037,10 @@ class _$CreateTransactionItemRequestCopyWithImpl<$Res>
       categoryId: null == categoryId
           ? _self.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
               as int,
       price: null == price
           ? _self.price
@@ -11675,13 +12147,15 @@ extension CreateTransactionItemRequestPatterns on CreateTransactionItemRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int categoryId, String price, String note)? $default, {
+    TResult Function(int categoryId, int currencyId, String price, String note)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _CreateTransactionItemRequest() when $default != null:
-        return $default(_that.categoryId, _that.price, _that.note);
+        return $default(
+            _that.categoryId, _that.currencyId, _that.price, _that.note);
       case _:
         return orElse();
     }
@@ -11702,12 +12176,14 @@ extension CreateTransactionItemRequestPatterns on CreateTransactionItemRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int categoryId, String price, String note) $default,
+    TResult Function(int categoryId, int currencyId, String price, String note)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CreateTransactionItemRequest():
-        return $default(_that.categoryId, _that.price, _that.note);
+        return $default(
+            _that.categoryId, _that.currencyId, _that.price, _that.note);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -11727,12 +12203,15 @@ extension CreateTransactionItemRequestPatterns on CreateTransactionItemRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int categoryId, String price, String note)? $default,
+    TResult? Function(
+            int categoryId, int currencyId, String price, String note)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CreateTransactionItemRequest() when $default != null:
-        return $default(_that.categoryId, _that.price, _that.note);
+        return $default(
+            _that.categoryId, _that.currencyId, _that.price, _that.note);
       case _:
         return null;
     }
@@ -11743,12 +12222,17 @@ extension CreateTransactionItemRequestPatterns on CreateTransactionItemRequest {
 @JsonSerializable()
 class _CreateTransactionItemRequest implements CreateTransactionItemRequest {
   _CreateTransactionItemRequest(
-      {required this.categoryId, required this.price, required this.note});
+      {required this.categoryId,
+      required this.currencyId,
+      required this.price,
+      required this.note});
   factory _CreateTransactionItemRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateTransactionItemRequestFromJson(json);
 
   @override
   final int categoryId;
+  @override
+  final int currencyId;
   @override
   final String price;
   @override
@@ -11777,17 +12261,20 @@ class _CreateTransactionItemRequest implements CreateTransactionItemRequest {
             other is _CreateTransactionItemRequest &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.note, note) || other.note == note));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, categoryId, price, note);
+  int get hashCode =>
+      Object.hash(runtimeType, categoryId, currencyId, price, note);
 
   @override
   String toString() {
-    return 'CreateTransactionItemRequest(categoryId: $categoryId, price: $price, note: $note)';
+    return 'CreateTransactionItemRequest(categoryId: $categoryId, currencyId: $currencyId, price: $price, note: $note)';
   }
 }
 
@@ -11800,7 +12287,7 @@ abstract mixin class _$CreateTransactionItemRequestCopyWith<$Res>
       __$CreateTransactionItemRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({int categoryId, String price, String note});
+  $Res call({int categoryId, int currencyId, String price, String note});
 }
 
 /// @nodoc
@@ -11817,6 +12304,7 @@ class __$CreateTransactionItemRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? categoryId = null,
+    Object? currencyId = null,
     Object? price = null,
     Object? note = null,
   }) {
@@ -11824,6 +12312,10 @@ class __$CreateTransactionItemRequestCopyWithImpl<$Res>
       categoryId: null == categoryId
           ? _self.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
               as int,
       price: null == price
           ? _self.price
@@ -13761,6 +14253,7 @@ class __$UpdateTransactionDetailsRequestCopyWithImpl<$Res>
 mixin _$UpdateContractItemRequest {
   int? get id;
   String get item;
+  int get currencyId;
   String get price;
 
   /// Create a copy of UpdateContractItemRequest
@@ -13781,16 +14274,18 @@ mixin _$UpdateContractItemRequest {
             other is UpdateContractItemRequest &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.item, item) || other.item == item) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, item, price);
+  int get hashCode => Object.hash(runtimeType, id, item, currencyId, price);
 
   @override
   String toString() {
-    return 'UpdateContractItemRequest(id: $id, item: $item, price: $price)';
+    return 'UpdateContractItemRequest(id: $id, item: $item, currencyId: $currencyId, price: $price)';
   }
 }
 
@@ -13800,7 +14295,7 @@ abstract mixin class $UpdateContractItemRequestCopyWith<$Res> {
           $Res Function(UpdateContractItemRequest) _then) =
       _$UpdateContractItemRequestCopyWithImpl;
   @useResult
-  $Res call({int? id, String item, String price});
+  $Res call({int? id, String item, int currencyId, String price});
 }
 
 /// @nodoc
@@ -13818,6 +14313,7 @@ class _$UpdateContractItemRequestCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? item = null,
+    Object? currencyId = null,
     Object? price = null,
   }) {
     return _then(_self.copyWith(
@@ -13829,6 +14325,10 @@ class _$UpdateContractItemRequestCopyWithImpl<$Res>
           ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
               as String,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as int,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -13930,13 +14430,14 @@ extension UpdateContractItemRequestPatterns on UpdateContractItemRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int? id, String item, String price)? $default, {
+    TResult Function(int? id, String item, int currencyId, String price)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UpdateContractItemRequest() when $default != null:
-        return $default(_that.id, _that.item, _that.price);
+        return $default(_that.id, _that.item, _that.currencyId, _that.price);
       case _:
         return orElse();
     }
@@ -13957,12 +14458,13 @@ extension UpdateContractItemRequestPatterns on UpdateContractItemRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int? id, String item, String price) $default,
+    TResult Function(int? id, String item, int currencyId, String price)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateContractItemRequest():
-        return $default(_that.id, _that.item, _that.price);
+        return $default(_that.id, _that.item, _that.currencyId, _that.price);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -13982,12 +14484,13 @@ extension UpdateContractItemRequestPatterns on UpdateContractItemRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int? id, String item, String price)? $default,
+    TResult? Function(int? id, String item, int currencyId, String price)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateContractItemRequest() when $default != null:
-        return $default(_that.id, _that.item, _that.price);
+        return $default(_that.id, _that.item, _that.currencyId, _that.price);
       case _:
         return null;
     }
@@ -13998,7 +14501,10 @@ extension UpdateContractItemRequestPatterns on UpdateContractItemRequest {
 @JsonSerializable()
 class _UpdateContractItemRequest implements UpdateContractItemRequest {
   _UpdateContractItemRequest(
-      {this.id, required this.item, required this.price});
+      {this.id,
+      required this.item,
+      required this.currencyId,
+      required this.price});
   factory _UpdateContractItemRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateContractItemRequestFromJson(json);
 
@@ -14006,6 +14512,8 @@ class _UpdateContractItemRequest implements UpdateContractItemRequest {
   final int? id;
   @override
   final String item;
+  @override
+  final int currencyId;
   @override
   final String price;
 
@@ -14033,16 +14541,18 @@ class _UpdateContractItemRequest implements UpdateContractItemRequest {
             other is _UpdateContractItemRequest &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.item, item) || other.item == item) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, item, price);
+  int get hashCode => Object.hash(runtimeType, id, item, currencyId, price);
 
   @override
   String toString() {
-    return 'UpdateContractItemRequest(id: $id, item: $item, price: $price)';
+    return 'UpdateContractItemRequest(id: $id, item: $item, currencyId: $currencyId, price: $price)';
   }
 }
 
@@ -14054,7 +14564,7 @@ abstract mixin class _$UpdateContractItemRequestCopyWith<$Res>
       __$UpdateContractItemRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({int? id, String item, String price});
+  $Res call({int? id, String item, int currencyId, String price});
 }
 
 /// @nodoc
@@ -14072,6 +14582,7 @@ class __$UpdateContractItemRequestCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? item = null,
+    Object? currencyId = null,
     Object? price = null,
   }) {
     return _then(_UpdateContractItemRequest(
@@ -14083,6 +14594,10 @@ class __$UpdateContractItemRequestCopyWithImpl<$Res>
           ? _self.item
           : item // ignore: cast_nullable_to_non_nullable
               as String,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as int,
       price: null == price
           ? _self.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -14619,6 +15134,7 @@ class __$UpdateProcurementItemRequestCopyWithImpl<$Res>
 mixin _$UpdateTransactionItemRequest {
   int? get id;
   int get categoryId;
+  int get currencyId;
   String get price;
   String get note;
 
@@ -14642,17 +15158,20 @@ mixin _$UpdateTransactionItemRequest {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.note, note) || other.note == note));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, categoryId, price, note);
+  int get hashCode =>
+      Object.hash(runtimeType, id, categoryId, currencyId, price, note);
 
   @override
   String toString() {
-    return 'UpdateTransactionItemRequest(id: $id, categoryId: $categoryId, price: $price, note: $note)';
+    return 'UpdateTransactionItemRequest(id: $id, categoryId: $categoryId, currencyId: $currencyId, price: $price, note: $note)';
   }
 }
 
@@ -14663,7 +15182,8 @@ abstract mixin class $UpdateTransactionItemRequestCopyWith<$Res> {
           $Res Function(UpdateTransactionItemRequest) _then) =
       _$UpdateTransactionItemRequestCopyWithImpl;
   @useResult
-  $Res call({int? id, int categoryId, String price, String note});
+  $Res call(
+      {int? id, int categoryId, int currencyId, String price, String note});
 }
 
 /// @nodoc
@@ -14681,6 +15201,7 @@ class _$UpdateTransactionItemRequestCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? categoryId = null,
+    Object? currencyId = null,
     Object? price = null,
     Object? note = null,
   }) {
@@ -14692,6 +15213,10 @@ class _$UpdateTransactionItemRequestCopyWithImpl<$Res>
       categoryId: null == categoryId
           ? _self.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
               as int,
       price: null == price
           ? _self.price
@@ -14798,14 +15323,16 @@ extension UpdateTransactionItemRequestPatterns on UpdateTransactionItemRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int? id, int categoryId, String price, String note)?
+    TResult Function(
+            int? id, int categoryId, int currencyId, String price, String note)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UpdateTransactionItemRequest() when $default != null:
-        return $default(_that.id, _that.categoryId, _that.price, _that.note);
+        return $default(_that.id, _that.categoryId, _that.currencyId,
+            _that.price, _that.note);
       case _:
         return orElse();
     }
@@ -14826,13 +15353,15 @@ extension UpdateTransactionItemRequestPatterns on UpdateTransactionItemRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int? id, int categoryId, String price, String note)
+    TResult Function(
+            int? id, int categoryId, int currencyId, String price, String note)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateTransactionItemRequest():
-        return $default(_that.id, _that.categoryId, _that.price, _that.note);
+        return $default(_that.id, _that.categoryId, _that.currencyId,
+            _that.price, _that.note);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -14852,13 +15381,15 @@ extension UpdateTransactionItemRequestPatterns on UpdateTransactionItemRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int? id, int categoryId, String price, String note)?
+    TResult? Function(
+            int? id, int categoryId, int currencyId, String price, String note)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateTransactionItemRequest() when $default != null:
-        return $default(_that.id, _that.categoryId, _that.price, _that.note);
+        return $default(_that.id, _that.categoryId, _that.currencyId,
+            _that.price, _that.note);
       case _:
         return null;
     }
@@ -14871,6 +15402,7 @@ class _UpdateTransactionItemRequest implements UpdateTransactionItemRequest {
   _UpdateTransactionItemRequest(
       {this.id,
       required this.categoryId,
+      required this.currencyId,
       required this.price,
       required this.note});
   factory _UpdateTransactionItemRequest.fromJson(Map<String, dynamic> json) =>
@@ -14880,6 +15412,8 @@ class _UpdateTransactionItemRequest implements UpdateTransactionItemRequest {
   final int? id;
   @override
   final int categoryId;
+  @override
+  final int currencyId;
   @override
   final String price;
   @override
@@ -14909,17 +15443,20 @@ class _UpdateTransactionItemRequest implements UpdateTransactionItemRequest {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.note, note) || other.note == note));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, categoryId, price, note);
+  int get hashCode =>
+      Object.hash(runtimeType, id, categoryId, currencyId, price, note);
 
   @override
   String toString() {
-    return 'UpdateTransactionItemRequest(id: $id, categoryId: $categoryId, price: $price, note: $note)';
+    return 'UpdateTransactionItemRequest(id: $id, categoryId: $categoryId, currencyId: $currencyId, price: $price, note: $note)';
   }
 }
 
@@ -14932,7 +15469,8 @@ abstract mixin class _$UpdateTransactionItemRequestCopyWith<$Res>
       __$UpdateTransactionItemRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({int? id, int categoryId, String price, String note});
+  $Res call(
+      {int? id, int categoryId, int currencyId, String price, String note});
 }
 
 /// @nodoc
@@ -14950,6 +15488,7 @@ class __$UpdateTransactionItemRequestCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? categoryId = null,
+    Object? currencyId = null,
     Object? price = null,
     Object? note = null,
   }) {
@@ -14961,6 +15500,10 @@ class __$UpdateTransactionItemRequestCopyWithImpl<$Res>
       categoryId: null == categoryId
           ? _self.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
+              as int,
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
               as int,
       price: null == price
           ? _self.price

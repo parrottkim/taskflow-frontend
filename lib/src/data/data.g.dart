@@ -18,6 +18,18 @@ Map<String, dynamic> _$BookmarkToJson(_Bookmark instance) => <String, dynamic>{
       'createdAt': instance.createdAt.toIso8601String(),
     };
 
+_Currency _$CurrencyFromJson(Map<String, dynamic> json) => _Currency(
+      id: (json['id'] as num).toInt(),
+      code: json['code'] as String,
+      symbol: json['symbol'] as String,
+    );
+
+Map<String, dynamic> _$CurrencyToJson(_Currency instance) => <String, dynamic>{
+      'id': instance.id,
+      'code': instance.code,
+      'symbol': instance.symbol,
+    };
+
 _LatestIssue _$LatestIssueFromJson(Map<String, dynamic> json) => _LatestIssue(
       id: (json['id'] as num).toInt(),
       projectId: (json['projectId'] as num).toInt(),
@@ -241,6 +253,9 @@ _ContractItem _$ContractItemFromJson(Map<String, dynamic> json) =>
     _ContractItem(
       id: (json['id'] as num?)?.toInt(),
       item: json['item'] as String,
+      currency: json['currency'] == null
+          ? null
+          : Currency.fromJson(json['currency'] as Map<String, dynamic>),
       price: json['price'] as String,
     );
 
@@ -248,6 +263,7 @@ Map<String, dynamic> _$ContractItemToJson(_ContractItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'item': instance.item,
+      'currency': instance.currency,
       'price': instance.price,
     };
 
@@ -300,6 +316,9 @@ _TransactionItem _$TransactionItemFromJson(Map<String, dynamic> json) =>
           ? null
           : TransactionItemCategory.fromJson(
               json['category'] as Map<String, dynamic>),
+      currency: json['currency'] == null
+          ? null
+          : Currency.fromJson(json['currency'] as Map<String, dynamic>),
       price: json['price'] as String,
       note: json['note'] as String,
     );
@@ -308,6 +327,7 @@ Map<String, dynamic> _$TransactionItemToJson(_TransactionItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'category': instance.category,
+      'currency': instance.currency,
       'price': instance.price,
       'note': instance.note,
     };
@@ -579,6 +599,7 @@ _CreateContractItemRequest _$CreateContractItemRequestFromJson(
         Map<String, dynamic> json) =>
     _CreateContractItemRequest(
       item: json['item'] as String,
+      currencyId: (json['currencyId'] as num).toInt(),
       price: json['price'] as String,
     );
 
@@ -586,6 +607,7 @@ Map<String, dynamic> _$CreateContractItemRequestToJson(
         _CreateContractItemRequest instance) =>
     <String, dynamic>{
       'item': instance.item,
+      'currencyId': instance.currencyId,
       'price': instance.price,
     };
 
@@ -619,6 +641,7 @@ _CreateTransactionItemRequest _$CreateTransactionItemRequestFromJson(
         Map<String, dynamic> json) =>
     _CreateTransactionItemRequest(
       categoryId: (json['categoryId'] as num).toInt(),
+      currencyId: (json['currencyId'] as num).toInt(),
       price: json['price'] as String,
       note: json['note'] as String,
     );
@@ -627,6 +650,7 @@ Map<String, dynamic> _$CreateTransactionItemRequestToJson(
         _CreateTransactionItemRequest instance) =>
     <String, dynamic>{
       'categoryId': instance.categoryId,
+      'currencyId': instance.currencyId,
       'price': instance.price,
       'note': instance.note,
     };
@@ -734,6 +758,7 @@ _UpdateContractItemRequest _$UpdateContractItemRequestFromJson(
     _UpdateContractItemRequest(
       id: (json['id'] as num?)?.toInt(),
       item: json['item'] as String,
+      currencyId: (json['currencyId'] as num).toInt(),
       price: json['price'] as String,
     );
 
@@ -742,6 +767,7 @@ Map<String, dynamic> _$UpdateContractItemRequestToJson(
     <String, dynamic>{
       'id': instance.id,
       'item': instance.item,
+      'currencyId': instance.currencyId,
       'price': instance.price,
     };
 
@@ -778,6 +804,7 @@ _UpdateTransactionItemRequest _$UpdateTransactionItemRequestFromJson(
     _UpdateTransactionItemRequest(
       id: (json['id'] as num?)?.toInt(),
       categoryId: (json['categoryId'] as num).toInt(),
+      currencyId: (json['currencyId'] as num).toInt(),
       price: json['price'] as String,
       note: json['note'] as String,
     );
@@ -787,6 +814,7 @@ Map<String, dynamic> _$UpdateTransactionItemRequestToJson(
     <String, dynamic>{
       'id': instance.id,
       'categoryId': instance.categoryId,
+      'currencyId': instance.currencyId,
       'price': instance.price,
       'note': instance.note,
     };
@@ -1562,14 +1590,43 @@ class _BookmarkService implements BookmarkService {
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter
 
-class _ExchangeService implements ExchangeService {
-  _ExchangeService(this._dio, {this.baseUrl, this.errorLogger});
+class _CurrencyService implements CurrencyService {
+  _CurrencyService(this._dio, {this.baseUrl, this.errorLogger});
 
   final Dio _dio;
 
   String? baseUrl;
 
   final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<List<Currency>> getAllCurrencies() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<Currency>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'currency',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<Currency> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => Currency.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
 
   @override
   Future<String> getRate({required DateTime date}) async {
@@ -1581,7 +1638,7 @@ class _ExchangeService implements ExchangeService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'exchange',
+            'currency/exchange',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -3208,6 +3265,35 @@ class _UserService implements UserService {
   }
 
   @override
+  Future<List<User>> getAllUsers() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<User>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'user/all',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<User> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => User.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<User> getUser({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -3345,25 +3431,25 @@ final bookmarkRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BookmarkRepositoryRef = AutoDisposeProviderRef<BookmarkRepository>;
-String _$exchangeRepositoryHash() =>
-    r'f6a5e64192aed1509588c15791af8d9e3618779f';
+String _$currencyRepositoryHash() =>
+    r'ca894e9ab203b794585d74f814956dc740cac4cd';
 
-/// See also [exchangeRepository].
-@ProviderFor(exchangeRepository)
-final exchangeRepositoryProvider =
-    AutoDisposeProvider<ExchangeRepository>.internal(
-  exchangeRepository,
-  name: r'exchangeRepositoryProvider',
+/// See also [currencyRepository].
+@ProviderFor(currencyRepository)
+final currencyRepositoryProvider =
+    AutoDisposeProvider<CurrencyRepository>.internal(
+  currencyRepository,
+  name: r'currencyRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$exchangeRepositoryHash,
+      : _$currencyRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ExchangeRepositoryRef = AutoDisposeProviderRef<ExchangeRepository>;
+typedef CurrencyRepositoryRef = AutoDisposeProviderRef<CurrencyRepository>;
 String _$scheduleRepositoryHash() =>
     r'cbbd0adadc392e36de981842db8c5b60ed3f977c';
 

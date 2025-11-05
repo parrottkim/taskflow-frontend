@@ -153,7 +153,8 @@ class IssueFormController extends _$IssueFormController {
         value.copyWith(items: [...?value.items, item ?? ContractItem.empty()]));
   }
 
-  void updateContractItem({required int index, String? item, String? price}) {
+  void updateContractItem(
+      {required int index, String? item, Currency? currency, String? price}) {
     final value = state.valueOrNull;
 
     if (value == null) return;
@@ -166,6 +167,7 @@ class IssueFormController extends _$IssueFormController {
       final oldItem = newItems[index];
       newItems[index] = oldItem.copyWith(
         item: item ?? oldItem.item,
+        currency: currency ?? oldItem.currency,
         price: price ?? oldItem.price,
       );
       state = AsyncData(value.copyWith(items: newItems));
@@ -322,6 +324,7 @@ class IssueFormController extends _$IssueFormController {
   void updateTransactionItem(
       {required int index,
       TransactionItemCategory? category,
+      Currency? currency,
       String? price,
       String? note}) {
     final value = state.valueOrNull;
@@ -336,6 +339,7 @@ class IssueFormController extends _$IssueFormController {
       final oldItem = newItems[index];
       newItems[index] = oldItem.copyWith(
         category: category ?? oldItem.category,
+        currency: currency ?? oldItem.currency,
         price: price ?? oldItem.price,
         note: note ?? oldItem.note,
       );

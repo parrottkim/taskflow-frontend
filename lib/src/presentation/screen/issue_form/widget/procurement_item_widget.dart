@@ -810,9 +810,10 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                                   purchaseUrlControllers[index],
                                               focusNode:
                                                   purchaseUrlFocusNodes[index],
-                                              keyboardType:
-                                                  TextInputType.number,
                                               maxLines: 1,
+                                              inputFormatters: [
+                                                UrlPrefixFormatter()
+                                              ],
                                               style: textTheme.bodyMedium,
                                               decoration: InputDecoration(
                                                 border: OutlineInputBorder(

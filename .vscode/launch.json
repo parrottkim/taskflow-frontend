@@ -37,7 +37,7 @@
       ]
     },
     {
-      "name": "pord-web",
+      "name": "prod-web",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
