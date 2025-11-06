@@ -8,6 +8,10 @@ class SftpDataSource implements SftpRepository {
   @override
   Future<List<File>> uploadInlineImage({required List<MultipartFile> files}) =>
       _service.uploadInlineImage(files: files);
+
+  @override
+  Future<HttpResponse<List<int>>> downloadFile({required String path}) =>
+      _service.downloadFile(path: path);
 }
 
 @riverpod

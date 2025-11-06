@@ -22,8 +22,8 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
       final summary =
           '[${Intl.message('schedule_new_choose_${categoryId}_1')}][${value.projectClientName}][${auth.user.username}] ${value.summary} (${DateFormat('MM/dd').format(value.start!)} - ${DateFormat('MM/dd').format(value.end!)})';
       final description = value.description == null
-          ? path.join(clientUrl, Routes.project, value.projectId!.toString())
-          : '${value.description}\n\n${path.join(clientUrl, Routes.project, value.projectId!.toString())}';
+          ? join(clientUrl, Routes.project, value.projectId!.toString())
+          : '${value.description}\n\n${join(clientUrl, Routes.project, value.projectId!.toString())}';
 
       final request = ScheduleRequest(
         summary: summary,
@@ -63,8 +63,8 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
       final summary =
           '[${Intl.message('schedule_new_choose_${categoryId}_1')}][${value.projectClientName}][${auth.user.username}] ${value.summary} (${DateFormat('MM/dd').format(value.start!)} - ${DateFormat('MM/dd').format(value.end!)})';
       final description = value.description == null
-          ? path.join(clientUrl, Routes.project, value.projectId!.toString())
-          : '${value.description}\n\n${path.join(clientUrl, Routes.project, value.projectId!.toString())}';
+          ? join(clientUrl, Routes.project, value.projectId!.toString())
+          : '${value.description}\n\n${join(clientUrl, Routes.project, value.projectId!.toString())}';
 
       final request = ScheduleRequest(
         summary: summary,

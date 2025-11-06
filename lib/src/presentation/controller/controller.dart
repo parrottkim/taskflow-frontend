@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
@@ -7,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
 import 'package:super_editor/super_editor.dart';
 import 'package:super_editor_markdown/super_editor_markdown.dart';
 import 'package:taskflow/src/data/data.dart';
@@ -18,6 +19,7 @@ import 'package:taskflow/src/shared/provider.dart';
 import 'package:taskflow/src/shared/tool/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
+import 'package:universal_html/html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'controller.g.dart';
@@ -38,6 +40,9 @@ part 'dashboard/summary_controller.dart';
 part 'dashboard/summary_state.dart';
 part 'dashboard/world_map_controller.dart';
 part 'dashboard/world_map_state.dart';
+
+part 'download/download_controller.dart';
+part 'download/download_state.dart';
 
 part 'error/error_controller.dart';
 part 'error/error_state.dart';

@@ -63,7 +63,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "common_copied": MessageLookupByLibrary.simpleMessage("링크가 클립보드에 복사되었습니다."),
     "common_created_at": MessageLookupByLibrary.simpleMessage("생성"),
     "common_delete": MessageLookupByLibrary.simpleMessage("삭제하기"),
-    "common_downloaded": MessageLookupByLibrary.simpleMessage("다운로드가 완료되었습니다."),
+    "common_download_1": MessageLookupByLibrary.simpleMessage("다운로드가 진행 중입니다."),
+    "common_download_2": MessageLookupByLibrary.simpleMessage(
+      "다운로드가 완료되면 창이 자동으로 닫힙니다.",
+    ),
+    "common_download_3": MessageLookupByLibrary.simpleMessage(
+      "다운로드가 시작되지 않으면 아래 버튼을 눌러주세요.",
+    ),
+    "common_download_4": MessageLookupByLibrary.simpleMessage("다운로드"),
     "common_edit": MessageLookupByLibrary.simpleMessage("수정하기"),
     "common_edit_by": MessageLookupByLibrary.simpleMessage("최종 편집"),
     "common_fold": MessageLookupByLibrary.simpleMessage("닫기"),

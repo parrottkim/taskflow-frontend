@@ -100,12 +100,12 @@ class AuthenticationInterceptor extends Interceptor {
     if (options.path != 'auth/refresh' && accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
 
-      // if (options.method == 'POST' &&
-      //     (options.path == 'file/inline-image' || options.path == 'issue')) {
-      //   options.headers['Content-Type'] = 'multipart/form-data';
-      // } else {
-      options.headers['Content-Type'] = 'application/json';
-      // }
+      if (options.method == 'GET' && options.path == 'files/download') {
+        options.responseType = ResponseType.bytes;
+        options.headers['Content-Type'] = 'application/octet-stream';
+      } else {
+        options.headers['Content-Type'] = 'application/json';
+      }
     }
 
     return handler.next(options);

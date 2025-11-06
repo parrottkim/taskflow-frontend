@@ -4,10 +4,10 @@ part of '../controller.dart';
 class TripListController extends _$TripListController {
   @override
   FutureOr<TripListState> build({required int projectId}) async {
-    return await _init(projectId: projectId);
+    return await _init();
   }
 
-  Future<TripListState> _init({required int projectId}) async {
+  Future<TripListState> _init() async {
     final result = await ref.read(tripRepositoryProvider).getTrips(
           projectId: projectId,
         );
