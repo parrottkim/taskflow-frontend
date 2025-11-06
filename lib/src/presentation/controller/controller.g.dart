@@ -507,6 +507,177 @@ final worldMapControllerProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$WorldMapController = AutoDisposeAsyncNotifier<WorldMapState>;
+String _$downloadControllerHash() =>
+    r'ff5f1051616ed9e219c896a35ccf5f0127d2b373';
+
+abstract class _$DownloadController
+    extends BuildlessAutoDisposeAsyncNotifier<DownloadState> {
+  late final String? path;
+  late final String? filename;
+
+  FutureOr<DownloadState> build({
+    String? path,
+    String? filename,
+  });
+}
+
+/// See also [DownloadController].
+@ProviderFor(DownloadController)
+const downloadControllerProvider = DownloadControllerFamily();
+
+/// See also [DownloadController].
+class DownloadControllerFamily extends Family<AsyncValue<DownloadState>> {
+  /// See also [DownloadController].
+  const DownloadControllerFamily();
+
+  /// See also [DownloadController].
+  DownloadControllerProvider call({
+    String? path,
+    String? filename,
+  }) {
+    return DownloadControllerProvider(
+      path: path,
+      filename: filename,
+    );
+  }
+
+  @override
+  DownloadControllerProvider getProviderOverride(
+    covariant DownloadControllerProvider provider,
+  ) {
+    return call(
+      path: provider.path,
+      filename: provider.filename,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'downloadControllerProvider';
+}
+
+/// See also [DownloadController].
+class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    DownloadController, DownloadState> {
+  /// See also [DownloadController].
+  DownloadControllerProvider({
+    String? path,
+    String? filename,
+  }) : this._internal(
+          () => DownloadController()
+            ..path = path
+            ..filename = filename,
+          from: downloadControllerProvider,
+          name: r'downloadControllerProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$downloadControllerHash,
+          dependencies: DownloadControllerFamily._dependencies,
+          allTransitiveDependencies:
+              DownloadControllerFamily._allTransitiveDependencies,
+          path: path,
+          filename: filename,
+        );
+
+  DownloadControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.path,
+    required this.filename,
+  }) : super.internal();
+
+  final String? path;
+  final String? filename;
+
+  @override
+  FutureOr<DownloadState> runNotifierBuild(
+    covariant DownloadController notifier,
+  ) {
+    return notifier.build(
+      path: path,
+      filename: filename,
+    );
+  }
+
+  @override
+  Override overrideWith(DownloadController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: DownloadControllerProvider._internal(
+        () => create()
+          ..path = path
+          ..filename = filename,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        path: path,
+        filename: filename,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<DownloadController, DownloadState>
+      createElement() {
+    return _DownloadControllerProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DownloadControllerProvider &&
+        other.path == path &&
+        other.filename == filename;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, path.hashCode);
+    hash = _SystemHash.combine(hash, filename.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin DownloadControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<DownloadState> {
+  /// The parameter `path` of this provider.
+  String? get path;
+
+  /// The parameter `filename` of this provider.
+  String? get filename;
+}
+
+class _DownloadControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<DownloadController,
+        DownloadState> with DownloadControllerRef {
+  _DownloadControllerProviderElement(super.provider);
+
+  @override
+  String? get path => (origin as DownloadControllerProvider).path;
+  @override
+  String? get filename => (origin as DownloadControllerProvider).filename;
+}
+
 String _$errorControllerHash() => r'0fd87ff4f7beae181ea91dd0e6c76efc310afcae';
 
 /// See also [ErrorController].
@@ -524,7 +695,7 @@ final errorControllerProvider =
 
 typedef _$ErrorController = AutoDisposeNotifier<ErrorState>;
 String _$issueDetailControllerHash() =>
-    r'f62322fd1bdf4bb9fbeedbbf6b9bc3dc2b4e52a8';
+    r'd40f8c876ff10675633622c04b0c180aeb30d72a';
 
 abstract class _$IssueDetailController
     extends BuildlessAutoDisposeAsyncNotifier<IssueDetailState> {
@@ -690,7 +861,7 @@ final issueFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$IssueFilterController = AutoDisposeAsyncNotifier<IssueFilterState>;
 String _$issueFormControllerHash() =>
-    r'9b691fb76831295ecf28cafd7b83c38ac21d31b5';
+    r'a278ada2d6733bd744d6fcf0fc11bb4fce62071d';
 
 abstract class _$IssueFormController
     extends BuildlessAutoDisposeAsyncNotifier<IssueFormState> {
@@ -881,7 +1052,7 @@ class _IssueFormControllerProviderElement
 }
 
 String _$issueListControllerHash() =>
-    r'59e2a79f976e17fea568783e6f014e080b058c12';
+    r'd2535505ffede766e95e1be56740589e2f3f0e0b';
 
 abstract class _$IssueListController
     extends BuildlessAutoDisposeAsyncNotifier<IssueListState> {
@@ -1029,7 +1200,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'396baac8e50db73daadacf47999a7911ddf2ac28';
+    r'ce5bbad80ef510c82d126b0ebf175aa11c865ac6';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)
@@ -1062,7 +1233,7 @@ final localControllerProvider =
 
 typedef _$LocalController = AutoDisposeAsyncNotifier<LocalState>;
 String _$projectDetailControllerHash() =>
-    r'7efd1f906dd62bfe9fb973535f277b4f18a6ad06';
+    r'12d9a90039e9e8e0521572bfe4175631ee8bc25a';
 
 abstract class _$ProjectDetailController
     extends BuildlessAutoDisposeAsyncNotifier<ProjectDetailState> {
@@ -1249,7 +1420,7 @@ final projectFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 typedef _$ProjectFilterController
     = AutoDisposeAsyncNotifier<ProjectFilterState>;
 String _$projectFormControllerHash() =>
-    r'894c6cdab43aab554e1c377b235b15976fe84e71';
+    r'a7a20b55a3815c3a09013cc9088e0dc31b69703f';
 
 abstract class _$ProjectFormController
     extends BuildlessAutoDisposeAsyncNotifier<ProjectFormState> {
@@ -1451,7 +1622,7 @@ final scheduleFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 typedef _$ScheduleFilterController
     = AutoDisposeAsyncNotifier<ScheduleFilterState>;
 String _$scheduleFormControllerHash() =>
-    r'd65ad67f7eed22077b6c989673e49945f36b492d';
+    r'78d657ae1d1306075acf0fe582fe2ec454c39dec';
 
 abstract class _$ScheduleFormController
     extends BuildlessAutoDisposeAsyncNotifier<ScheduleFormState> {
@@ -1624,7 +1795,7 @@ class _ScheduleFormControllerProviderElement
 }
 
 String _$scheduleListControllerHash() =>
-    r'b9cbaf3b4f3c8f87cf4a7d3b266d8b86dbead460';
+    r'542a01fdde2b1f380118d180c07a0fe571588bf8';
 
 abstract class _$ScheduleListController
     extends BuildlessAutoDisposeAsyncNotifier<ScheduleListState> {
@@ -1775,7 +1946,7 @@ class _ScheduleListControllerProviderElement
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'752a28168fd1bbb4c027ce71b5c60c6e34e46949';
+    r'667980ae54181b143123f814ea25a5fb0d5a103a';
 
 /// See also [ScheduleSubmitController].
 @ProviderFor(ScheduleSubmitController)
@@ -1809,7 +1980,7 @@ final supplierSearchControllerProvider = AutoDisposeNotifierProvider<
 
 typedef _$SupplierSearchController = AutoDisposeNotifier<SupplierSearchState>;
 String _$tripFilterControllerHash() =>
-    r'458b1e1990686eb8bae4e2eda5e8c22c71b78958';
+    r'33d8c8a8097ba01d1a001e5c70d64435792d99e8';
 
 abstract class _$TripFilterController
     extends BuildlessAutoDisposeAsyncNotifier<TripFilterState> {
@@ -1958,7 +2129,7 @@ class _TripFilterControllerProviderElement
 }
 
 String _$tripFormControllerHash() =>
-    r'df8f630fc4d5dd06d14e867a9783f5c137aa6e91';
+    r'093d616e18ad75b8d64fb089fd2cff3b98eb4c50';
 
 abstract class _$TripFormController
     extends BuildlessAutoDisposeAsyncNotifier<TripFormState> {
@@ -2129,7 +2300,7 @@ class _TripFormControllerProviderElement
 }
 
 String _$tripListControllerHash() =>
-    r'4288a9fa7e82ebd0b9e3d8dd989455245afe6900';
+    r'e2fdb12f51baa49694a63b878a236ffa5b53385b';
 
 abstract class _$TripListController
     extends BuildlessAutoDisposeAsyncNotifier<TripListState> {

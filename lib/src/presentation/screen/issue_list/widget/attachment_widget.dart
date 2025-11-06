@@ -9,8 +9,10 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/provider.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AttachmentWidget extends ConsumerWidget {
   final List<IssueAttachment> attachments;
@@ -52,7 +54,7 @@ class AttachmentWidget extends ConsumerWidget {
                         color: colorScheme.primary.withValues(alpha: 0.7),
                       ),
                       child: Text(
-                        extension(attachments[index].name).substring(1),
+                        extension(attachments[index].filename).substring(1),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 8.0,
@@ -65,13 +67,17 @@ class AttachmentWidget extends ConsumerWidget {
                 ],
               ),
               SizedBox(width: 8.0),
-              Text(
-                attachments[index].name,
-                style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  attachments[index].filename,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-              Spacer(),
+              SizedBox(width: 8.0),
               // 파일 크기 표시
               Text(
                 formatBytes(attachments[index].size),
@@ -83,10 +89,23 @@ class AttachmentWidget extends ConsumerWidget {
               SizedBox(width: 8.0),
               CustomIconButton(
                 onTap: () async {
-                  final url = attachments[index].url;
+                  final path = attachments[index].path;
+                  final filename = attachments[index].filename;
+
+                  final uri = Uri(
+                    scheme: Uri.base.scheme,
+                    host: Uri.base.host,
+                    port: Uri.base.hasPort ? Uri.base.port : null,
+                    path: Routes.download,
+                    queryParameters: {
+                      'path': path,
+                      'filename': filename,
+                    },
+                  );
 
                   if (isDesktopPlatform()) {
-                    await Clipboard.setData(ClipboardData(text: url));
+                    await Clipboard.setData(
+                        ClipboardData(text: uri.toString()));
 
                     ref.read(toastProvider).showToast(
                           child: Toast(
@@ -95,7 +114,7 @@ class AttachmentWidget extends ConsumerWidget {
                           ),
                         );
                   } else {
-                    SharePlus.instance.share(ShareParams(uri: Uri.parse(url)));
+                    SharePlus.instance.share(ShareParams(uri: uri));
                   }
                 },
                 icon: Padding(
@@ -108,13 +127,25 @@ class AttachmentWidget extends ConsumerWidget {
                 ),
               ),
               CustomIconButton(
-                onTap: () {
-                  ref.read(toastProvider).showToast(
-                        child: Toast(
-                          message: Intl.message('common_downloaded'),
-                          path: 'temp',
-                        ),
-                      );
+                onTap: () async {
+                  final path = attachments[index].path;
+                  final filename = attachments[index].filename;
+
+                  final uri = Uri(
+                    scheme: Uri.base.scheme,
+                    host: Uri.base.host,
+                    port: Uri.base.hasPort ? Uri.base.port : null,
+                    path: Routes.download,
+                    queryParameters: {
+                      'path': path,
+                      'filename': filename,
+                    },
+                  );
+
+                  await launchUrl(
+                    uri,
+                    webOnlyWindowName: '_blank',
+                  );
                 },
                 icon: Icon(
                   Symbols.download_rounded,

@@ -4,10 +4,10 @@ part of '../controller.dart';
 class ProjectDetailController extends _$ProjectDetailController {
   @override
   FutureOr<ProjectDetailState> build({required int projectId}) async {
-    return _init(projectId: projectId);
+    return _init();
   }
 
-  Future<ProjectDetailState> _init({required int projectId}) async {
+  Future<ProjectDetailState> _init() async {
     if (projectId == 0) return ProjectDetailState(project: Project.dummy());
 
     final result =

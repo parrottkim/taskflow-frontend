@@ -126,16 +126,15 @@ class _DesktopWidget extends HookConsumerWidget {
       [items?.length],
     );
 
-    final total = useMemoized(
-      () {
-        return items?.map((e) => e.price).fold(0.0, (sum, priceString) {
-          String cleanedPrice = priceString.replaceAll(',', '');
-          double price = double.tryParse(cleanedPrice) ?? 0.0;
-          return sum + price;
-        });
-      },
-      [items],
-    );
+    final total = useMemoized(() {
+      final currentItems = items ?? [];
+      return currentItems.fold<Map<String, double>>({}, (totals, item) {
+        final price = double.tryParse(item.price.replaceAll(',', '')) ?? 0.0;
+        final code = item.currency?.code ?? 'Unknown';
+        totals[code] = (totals[code] ?? 0) + price;
+        return totals;
+      });
+    }, [items]);
 
     final dragged = useState(false);
 
@@ -318,35 +317,37 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
               child: Column(
                 children: [
-                  Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: Icon(
-                          Symbols.contract_rounded,
-                          size: 36.0,
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 4.0,
-                        right: 4.0,
-                        child: Container(
-                          padding: EdgeInsets.all(3.0),
-                          decoration: ShapeDecoration(
-                            shape: CircleBorder(),
+                  Skeleton.unite(
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Icon(
+                            Symbols.contract_rounded,
+                            size: 36.0,
                             color: colorScheme.primary,
                           ),
-                          child: Icon(
-                            Symbols.upload_rounded,
-                            size: 14.0,
-                            weight: 700.0,
-                            color: colorScheme.onPrimary,
+                        ),
+                        Positioned(
+                          bottom: 4.0,
+                          right: 4.0,
+                          child: Container(
+                            padding: EdgeInsets.all(3.0),
+                            decoration: ShapeDecoration(
+                              shape: CircleBorder(),
+                              color: colorScheme.primary,
+                            ),
+                            child: Icon(
+                              Symbols.upload_rounded,
+                              size: 14.0,
+                              weight: 700.0,
+                              color: colorScheme.onPrimary,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(height: 12.0),
                   Text(
@@ -363,58 +364,60 @@ class _DesktopWidget extends HookConsumerWidget {
                     ),
                   ),
                   SizedBox(height: 12.0),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final xlsxType =
-                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                  Skeleton.unite(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final xlsxType =
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-                      final group = XTypeGroup(mimeTypes: [xlsxType]);
+                        final group = XTypeGroup(mimeTypes: [xlsxType]);
 
-                      final XFile? file = await openFile(
-                          acceptedTypeGroups: <XTypeGroup>[group]);
+                        final XFile? file = await openFile(
+                            acceptedTypeGroups: <XTypeGroup>[group]);
 
-                      LoadingOverlay.show(context);
+                        LoadingOverlay.show(context);
 
-                      if (file == null) {
-                        LoadingOverlay.hide();
-                        return;
-                      }
+                        if (file == null) {
+                          LoadingOverlay.hide();
+                          return;
+                        }
 
-                      if (extension(file.name) != '.xlsx') {
-                        ref.read(toastProvider).showToast(
-                              child: Toast(
-                                type: ToastType.alert,
-                                message: Intl.message(
-                                  'issue_form_contract_invalid',
+                        if (extension(file.name) != '.xlsx') {
+                          ref.read(toastProvider).showToast(
+                                child: Toast(
+                                  type: ToastType.alert,
+                                  message: Intl.message(
+                                    'issue_form_contract_invalid',
+                                  ),
                                 ),
-                              ),
-                            );
-                        LoadingOverlay.hide();
-                        return;
-                      }
+                              );
+                          LoadingOverlay.hide();
+                          return;
+                        }
 
-                      // final bytes = await file.readAsBytes();
-                      // UNDONE: .xlsx mimeType 확인 불가
-                      // final mimeType =
-                      //     lookupMimeType(file.path, headerBytes: bytes);
+                        // final bytes = await file.readAsBytes();
+                        // UNDONE: .xlsx mimeType 확인 불가
+                        // final mimeType =
+                        //     lookupMimeType(file.path, headerBytes: bytes);
 
-                      // if (mimeType == null || mimeType != xlsxType) {
-                      //   ref.read(toastProvider).showToast(
-                      //         child: Toast(
-                      //           type: ToastType.alert,
-                      //           message: Intl.message(
-                      //             'issue_form_contract_invalid',
-                      //             args: [file.name],
-                      //           ),
-                      //         ),
-                      //       );
-                      //   return;
-                      // }
+                        // if (mimeType == null || mimeType != xlsxType) {
+                        //   ref.read(toastProvider).showToast(
+                        //         child: Toast(
+                        //           type: ToastType.alert,
+                        //           message: Intl.message(
+                        //             'issue_form_contract_invalid',
+                        //             args: [file.name],
+                        //           ),
+                        //         ),
+                        //       );
+                        //   return;
+                        // }
 
-                      await processFile(file);
-                    },
-                    child: Text(
-                      Intl.message('issue_form_contract_upload'),
+                        await processFile(file);
+                      },
+                      child: Text(
+                        Intl.message('issue_form_contract_upload'),
+                      ),
                     ),
                   ),
                 ],
@@ -759,7 +762,9 @@ class _DesktopWidget extends HookConsumerWidget {
                           },
                         ),
                       ),
-                      DecoratedBox(
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 8.0),
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
@@ -770,32 +775,29 @@ class _DesktopWidget extends HookConsumerWidget {
                           color: colorScheme.surfaceContainer,
                         ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 6,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 8.0),
-                                child: Text(
-                                  Intl.message('issue_form_contract_8'),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            Text(
+                              Intl.message('issue_form_contract_8'),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                             Expanded(
-                              flex: 4,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 8.0),
-                                child: Text(
-                                  '${NumberFormat('#,###').format(total)} ₩',
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                spacing: 8.0,
+                                children: total.entries
+                                    .map(
+                                      (entry) => Text(
+                                        '${NumberFormat('#,###').format(entry.value)} ${entry.key}',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ),
                           ],

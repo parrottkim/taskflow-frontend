@@ -7,9 +7,9 @@ class IssueFormController extends _$IssueFormController {
           {required int categoryId,
           required int projectId,
           int? issueId}) async =>
-      await _init(categoryId: categoryId, issueId: issueId);
+      await _init();
 
-  Future<IssueFormState> _init({required int categoryId, int? issueId}) async {
+  Future<IssueFormState> _init() async {
     if (issueId == null) {
       if (categoryId == 1) {
         return IssueFormState.contract();

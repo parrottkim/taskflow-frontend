@@ -4,16 +4,16 @@ part of '../controller.dart';
 class ProjectFormController extends _$ProjectFormController {
   @override
   FutureOr<ProjectFormState> build({int? projectId}) async {
-    return await _init(projectId: projectId);
+    return await _init();
   }
 
-  Future<ProjectFormState> _init({int? projectId}) async {
+  Future<ProjectFormState> _init() async {
     if (projectId == null) {
       return ProjectFormState();
     }
 
     final result =
-        await ref.read(projectRepositoryProvider).getProject(id: projectId);
+        await ref.read(projectRepositoryProvider).getProject(id: projectId!);
 
     return ProjectFormState(
       clients: result.clients,

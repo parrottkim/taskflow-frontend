@@ -4,10 +4,10 @@ part of '../controller.dart';
 class IssueDetailController extends _$IssueDetailController {
   @override
   FutureOr<IssueDetailState> build({required int issueId}) async {
-    return _init(issueId: issueId);
+    return _init();
   }
 
-  Future<IssueDetailState> _init({required int issueId}) async {
+  Future<IssueDetailState> _init() async {
     if (issueId == 0) return IssueDetailState(issue: Issue.dummy());
 
     final result =

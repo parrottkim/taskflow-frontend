@@ -123,6 +123,7 @@ class _DesktopWidget extends HookWidget {
 
     return ListView.separated(
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemCount: groupedItems.keys.length,
       itemBuilder: (context, index) {
         final category = groupedItems.keys.elementAt(index);

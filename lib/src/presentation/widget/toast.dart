@@ -8,13 +8,11 @@ enum ToastType { standard, alert, error, verified }
 class Toast extends StatelessWidget {
   final ToastType type;
   final String message;
-  final String? path;
 
   const Toast({
     super.key,
     this.type = ToastType.standard,
     required this.message,
-    this.path,
   });
 
   @override
@@ -98,21 +96,6 @@ class Toast extends StatelessWidget {
                 ),
               ),
             ),
-            if (path != null)
-              Padding(
-                padding: EdgeInsets.only(left: 8.0),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(56, 32),
-                    padding: EdgeInsets.zero,
-                  ),
-                  child: Text(
-                    Intl.message('common_open'),
-                    style: textTheme.labelMedium,
-                  ),
-                ),
-              ),
           ],
         ),
       ),

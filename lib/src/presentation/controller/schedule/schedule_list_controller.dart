@@ -4,10 +4,10 @@ part of '../controller.dart';
 class ScheduleListController extends _$ScheduleListController {
   @override
   FutureOr<ScheduleListState> build({required int projectId}) async {
-    return _init(projectId: projectId);
+    return _init();
   }
 
-  Future<ScheduleListState> _init({required int projectId}) async {
+  Future<ScheduleListState> _init() async {
     final filter = await ref.watch(scheduleFilterControllerProvider.future);
 
     final result = await ref.read(scheduleRepositoryProvider).getSchedules(
