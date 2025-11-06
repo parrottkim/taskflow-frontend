@@ -2514,9 +2514,9 @@ class __$IssueCategoryChargeCopyWithImpl<$Res>
 /// @nodoc
 mixin _$IssueAttachment {
   int get id;
-  String get name;
+  String get filename;
   int get size;
-  String get url;
+  String get path;
   DateTime get createdAt;
 
   /// Create a copy of IssueAttachment
@@ -2536,20 +2536,22 @@ mixin _$IssueAttachment {
         (other.runtimeType == runtimeType &&
             other is IssueAttachment &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename) &&
             (identical(other.size, size) || other.size == size) &&
-            (identical(other.url, url) || other.url == url) &&
+            (identical(other.path, path) || other.path == path) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, size, url, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, filename, size, path, createdAt);
 
   @override
   String toString() {
-    return 'IssueAttachment(id: $id, name: $name, size: $size, url: $url, createdAt: $createdAt)';
+    return 'IssueAttachment(id: $id, filename: $filename, size: $size, path: $path, createdAt: $createdAt)';
   }
 }
 
@@ -2559,7 +2561,8 @@ abstract mixin class $IssueAttachmentCopyWith<$Res> {
           IssueAttachment value, $Res Function(IssueAttachment) _then) =
       _$IssueAttachmentCopyWithImpl;
   @useResult
-  $Res call({int id, String name, int size, String url, DateTime createdAt});
+  $Res call(
+      {int id, String filename, int size, String path, DateTime createdAt});
 }
 
 /// @nodoc
@@ -2576,9 +2579,9 @@ class _$IssueAttachmentCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? filename = null,
     Object? size = null,
-    Object? url = null,
+    Object? path = null,
     Object? createdAt = null,
   }) {
     return _then(_self.copyWith(
@@ -2586,17 +2589,17 @@ class _$IssueAttachmentCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
               as String,
       size: null == size
           ? _self.size
           : size // ignore: cast_nullable_to_non_nullable
               as int,
-      url: null == url
-          ? _self.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: null == path
+          ? _self.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _self.createdAt
@@ -2700,7 +2703,7 @@ extension IssueAttachmentPatterns on IssueAttachment {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            int id, String name, int size, String url, DateTime createdAt)?
+            int id, String filename, int size, String path, DateTime createdAt)?
         $default, {
     required TResult orElse(),
   }) {
@@ -2708,7 +2711,7 @@ extension IssueAttachmentPatterns on IssueAttachment {
     switch (_that) {
       case _IssueAttachment() when $default != null:
         return $default(
-            _that.id, _that.name, _that.size, _that.url, _that.createdAt);
+            _that.id, _that.filename, _that.size, _that.path, _that.createdAt);
       case _:
         return orElse();
     }
@@ -2730,14 +2733,14 @@ extension IssueAttachmentPatterns on IssueAttachment {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            int id, String name, int size, String url, DateTime createdAt)
+            int id, String filename, int size, String path, DateTime createdAt)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IssueAttachment():
         return $default(
-            _that.id, _that.name, _that.size, _that.url, _that.createdAt);
+            _that.id, _that.filename, _that.size, _that.path, _that.createdAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -2758,14 +2761,14 @@ extension IssueAttachmentPatterns on IssueAttachment {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            int id, String name, int size, String url, DateTime createdAt)?
+            int id, String filename, int size, String path, DateTime createdAt)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IssueAttachment() when $default != null:
         return $default(
-            _that.id, _that.name, _that.size, _that.url, _that.createdAt);
+            _that.id, _that.filename, _that.size, _that.path, _that.createdAt);
       case _:
         return null;
     }
@@ -2777,9 +2780,9 @@ extension IssueAttachmentPatterns on IssueAttachment {
 class _IssueAttachment implements IssueAttachment {
   _IssueAttachment(
       {required this.id,
-      required this.name,
+      required this.filename,
       required this.size,
-      required this.url,
+      required this.path,
       required this.createdAt});
   factory _IssueAttachment.fromJson(Map<String, dynamic> json) =>
       _$IssueAttachmentFromJson(json);
@@ -2787,11 +2790,11 @@ class _IssueAttachment implements IssueAttachment {
   @override
   final int id;
   @override
-  final String name;
+  final String filename;
   @override
   final int size;
   @override
-  final String url;
+  final String path;
   @override
   final DateTime createdAt;
 
@@ -2816,20 +2819,22 @@ class _IssueAttachment implements IssueAttachment {
         (other.runtimeType == runtimeType &&
             other is _IssueAttachment &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename) &&
             (identical(other.size, size) || other.size == size) &&
-            (identical(other.url, url) || other.url == url) &&
+            (identical(other.path, path) || other.path == path) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, size, url, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, filename, size, path, createdAt);
 
   @override
   String toString() {
-    return 'IssueAttachment(id: $id, name: $name, size: $size, url: $url, createdAt: $createdAt)';
+    return 'IssueAttachment(id: $id, filename: $filename, size: $size, path: $path, createdAt: $createdAt)';
   }
 }
 
@@ -2841,7 +2846,8 @@ abstract mixin class _$IssueAttachmentCopyWith<$Res>
       __$IssueAttachmentCopyWithImpl;
   @override
   @useResult
-  $Res call({int id, String name, int size, String url, DateTime createdAt});
+  $Res call(
+      {int id, String filename, int size, String path, DateTime createdAt});
 }
 
 /// @nodoc
@@ -2858,9 +2864,9 @@ class __$IssueAttachmentCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? filename = null,
     Object? size = null,
-    Object? url = null,
+    Object? path = null,
     Object? createdAt = null,
   }) {
     return _then(_IssueAttachment(
@@ -2868,17 +2874,17 @@ class __$IssueAttachmentCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
               as String,
       size: null == size
           ? _self.size
           : size // ignore: cast_nullable_to_non_nullable
               as int,
-      url: null == url
-          ? _self.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: null == path
+          ? _self.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _self.createdAt
@@ -15520,7 +15526,7 @@ class __$UpdateTransactionItemRequestCopyWithImpl<$Res>
 /// @nodoc
 mixin _$UpdateIssueAttachmentRequest {
   int get id;
-  String get name;
+  String get filename;
   int get size;
   String get url;
 
@@ -15542,18 +15548,19 @@ mixin _$UpdateIssueAttachmentRequest {
         (other.runtimeType == runtimeType &&
             other is UpdateIssueAttachmentRequest &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename) &&
             (identical(other.size, size) || other.size == size) &&
             (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, size, url);
+  int get hashCode => Object.hash(runtimeType, id, filename, size, url);
 
   @override
   String toString() {
-    return 'UpdateIssueAttachmentRequest(id: $id, name: $name, size: $size, url: $url)';
+    return 'UpdateIssueAttachmentRequest(id: $id, filename: $filename, size: $size, url: $url)';
   }
 }
 
@@ -15564,7 +15571,7 @@ abstract mixin class $UpdateIssueAttachmentRequestCopyWith<$Res> {
           $Res Function(UpdateIssueAttachmentRequest) _then) =
       _$UpdateIssueAttachmentRequestCopyWithImpl;
   @useResult
-  $Res call({int id, String name, int size, String url});
+  $Res call({int id, String filename, int size, String url});
 }
 
 /// @nodoc
@@ -15581,7 +15588,7 @@ class _$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? filename = null,
     Object? size = null,
     Object? url = null,
   }) {
@@ -15590,9 +15597,9 @@ class _$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
               as String,
       size: null == size
           ? _self.size
@@ -15699,13 +15706,13 @@ extension UpdateIssueAttachmentRequestPatterns on UpdateIssueAttachmentRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int id, String name, int size, String url)? $default, {
+    TResult Function(int id, String filename, int size, String url)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UpdateIssueAttachmentRequest() when $default != null:
-        return $default(_that.id, _that.name, _that.size, _that.url);
+        return $default(_that.id, _that.filename, _that.size, _that.url);
       case _:
         return orElse();
     }
@@ -15726,12 +15733,12 @@ extension UpdateIssueAttachmentRequestPatterns on UpdateIssueAttachmentRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int id, String name, int size, String url) $default,
+    TResult Function(int id, String filename, int size, String url) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateIssueAttachmentRequest():
-        return $default(_that.id, _that.name, _that.size, _that.url);
+        return $default(_that.id, _that.filename, _that.size, _that.url);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -15751,12 +15758,12 @@ extension UpdateIssueAttachmentRequestPatterns on UpdateIssueAttachmentRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int id, String name, int size, String url)? $default,
+    TResult? Function(int id, String filename, int size, String url)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateIssueAttachmentRequest() when $default != null:
-        return $default(_that.id, _that.name, _that.size, _that.url);
+        return $default(_that.id, _that.filename, _that.size, _that.url);
       case _:
         return null;
     }
@@ -15768,7 +15775,7 @@ extension UpdateIssueAttachmentRequestPatterns on UpdateIssueAttachmentRequest {
 class _UpdateIssueAttachmentRequest implements UpdateIssueAttachmentRequest {
   _UpdateIssueAttachmentRequest(
       {required this.id,
-      required this.name,
+      required this.filename,
       required this.size,
       required this.url});
   factory _UpdateIssueAttachmentRequest.fromJson(Map<String, dynamic> json) =>
@@ -15777,7 +15784,7 @@ class _UpdateIssueAttachmentRequest implements UpdateIssueAttachmentRequest {
   @override
   final int id;
   @override
-  final String name;
+  final String filename;
   @override
   final int size;
   @override
@@ -15805,18 +15812,19 @@ class _UpdateIssueAttachmentRequest implements UpdateIssueAttachmentRequest {
         (other.runtimeType == runtimeType &&
             other is _UpdateIssueAttachmentRequest &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.filename, filename) ||
+                other.filename == filename) &&
             (identical(other.size, size) || other.size == size) &&
             (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, size, url);
+  int get hashCode => Object.hash(runtimeType, id, filename, size, url);
 
   @override
   String toString() {
-    return 'UpdateIssueAttachmentRequest(id: $id, name: $name, size: $size, url: $url)';
+    return 'UpdateIssueAttachmentRequest(id: $id, filename: $filename, size: $size, url: $url)';
   }
 }
 
@@ -15829,7 +15837,7 @@ abstract mixin class _$UpdateIssueAttachmentRequestCopyWith<$Res>
       __$UpdateIssueAttachmentRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({int id, String name, int size, String url});
+  $Res call({int id, String filename, int size, String url});
 }
 
 /// @nodoc
@@ -15846,7 +15854,7 @@ class __$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
-    Object? name = null,
+    Object? filename = null,
     Object? size = null,
     Object? url = null,
   }) {
@@ -15855,9 +15863,9 @@ class __$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
+      filename: null == filename
+          ? _self.filename
+          : filename // ignore: cast_nullable_to_non_nullable
               as String,
       size: null == size
           ? _self.size

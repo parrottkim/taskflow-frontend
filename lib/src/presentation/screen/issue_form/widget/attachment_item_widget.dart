@@ -50,7 +50,7 @@ class AttachmentItemWidget extends HookConsumerWidget {
                     color: colorScheme.primary.withValues(alpha: 0.7),
                   ),
                   child: Text(
-                    extension(attachment.name).substring(1),
+                    extension(attachment.filename).substring(1),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 8.0,
@@ -64,7 +64,7 @@ class AttachmentItemWidget extends HookConsumerWidget {
           ),
           SizedBox(width: 8.0),
           Text(
-            attachment.name,
+            attachment.filename,
             style: textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),

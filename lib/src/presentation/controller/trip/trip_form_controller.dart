@@ -4,15 +4,15 @@ part of '../controller.dart';
 class TripFormController extends _$TripFormController {
   @override
   FutureOr<TripFormState> build({required int projectId, int? tripId}) async {
-    return await _init(projectId: projectId, tripId: tripId);
+    return await _init();
   }
 
-  Future<TripFormState> _init({required int projectId, int? tripId}) async {
+  Future<TripFormState> _init() async {
     if (tripId == null) {
       return TripFormState.domestic();
     }
 
-    final result = await ref.read(tripRepositoryProvider).getTrip(id: tripId);
+    final result = await ref.read(tripRepositoryProvider).getTrip(id: tripId!);
 
     if (result.schedule.category is ScheduleDomestic) {
       return TripFormState.domestic(

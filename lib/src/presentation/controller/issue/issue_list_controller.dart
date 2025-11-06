@@ -4,10 +4,10 @@ part of '../controller.dart';
 class IssueListController extends _$IssueListController {
   @override
   FutureOr<IssueListState> build({required int projectId}) async {
-    return _init(projectId: projectId);
+    return _init();
   }
 
-  Future<IssueListState> _init({required int projectId}) async {
+  Future<IssueListState> _init() async {
     final result =
         await ref.read(issueRepositoryProvider).getIssues(projectId: projectId);
 
@@ -68,4 +68,6 @@ class IssueListController extends _$IssueListController {
 
     state = AsyncValue.data(value.copyWith(items: updatedIssues));
   }
+
+  Future<void> downloadAttachment() async {}
 }

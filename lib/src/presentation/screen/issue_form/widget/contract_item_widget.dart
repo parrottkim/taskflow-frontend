@@ -126,16 +126,15 @@ class _DesktopWidget extends HookConsumerWidget {
       [items?.length],
     );
 
-    final total = useMemoized(
-      () {
-        return items?.map((e) => e.price).fold(0.0, (sum, priceString) {
-          String cleanedPrice = priceString.replaceAll(',', '');
-          double price = double.tryParse(cleanedPrice) ?? 0.0;
-          return sum + price;
-        });
-      },
-      [items],
-    );
+    final total = useMemoized(() {
+      final currentItems = items ?? [];
+      return currentItems.fold<Map<String, double>>({}, (totals, item) {
+        final price = double.tryParse(item.price.replaceAll(',', '')) ?? 0.0;
+        final code = item.currency?.code ?? 'Unknown';
+        totals[code] = (totals[code] ?? 0) + price;
+        return totals;
+      });
+    }, [items]);
 
     final dragged = useState(false);
 
@@ -759,7 +758,9 @@ class _DesktopWidget extends HookConsumerWidget {
                           },
                         ),
                       ),
-                      DecoratedBox(
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 8.0),
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
@@ -770,32 +771,29 @@ class _DesktopWidget extends HookConsumerWidget {
                           color: colorScheme.surfaceContainer,
                         ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 6,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 8.0),
-                                child: Text(
-                                  Intl.message('issue_form_contract_8'),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            Text(
+                              Intl.message('issue_form_contract_8'),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                             Expanded(
-                              flex: 4,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 8.0),
-                                child: Text(
-                                  '${NumberFormat('#,###').format(total)} ₩',
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                spacing: 8.0,
+                                children: total.entries
+                                    .map(
+                                      (entry) => Text(
+                                        '${NumberFormat('#,###').format(entry.value)} ${entry.key}',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                               ),
                             ),
                           ],

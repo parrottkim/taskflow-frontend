@@ -144,14 +144,39 @@ class S {
     );
   }
 
-  /// `다운로드가 완료되었습니다.`
-  String get common_downloaded {
+  /// `다운로드가 진행 중입니다.`
+  String get common_download_1 {
     return Intl.message(
-      '다운로드가 완료되었습니다.',
-      name: 'common_downloaded',
+      '다운로드가 진행 중입니다.',
+      name: 'common_download_1',
       desc: '',
       args: [],
     );
+  }
+
+  /// `다운로드가 완료되면 창이 자동으로 닫힙니다.`
+  String get common_download_2 {
+    return Intl.message(
+      '다운로드가 완료되면 창이 자동으로 닫힙니다.',
+      name: 'common_download_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `다운로드가 시작되지 않으면 아래 버튼을 눌러주세요.`
+  String get common_download_3 {
+    return Intl.message(
+      '다운로드가 시작되지 않으면 아래 버튼을 눌러주세요.',
+      name: 'common_download_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `다운로드`
+  String get common_download_4 {
+    return Intl.message('다운로드', name: 'common_download_4', desc: '', args: []);
   }
 
   /// `펼쳐보기`

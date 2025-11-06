@@ -13,17 +13,10 @@ class ContractItemWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final Map<String, double> total =
-        items.fold({}, (Map<String, double> totals, item) {
-      final cleanedPrice = item.price.replaceAll(',', '');
-      final price = double.tryParse(cleanedPrice) ?? 0.0;
+    final total = items.fold<Map<String, double>>({}, (totals, item) {
+      final price = double.tryParse(item.price.replaceAll(',', '')) ?? 0.0;
       final code = item.currency?.code ?? 'Unknown';
-
-      totals.update(
-        code,
-        (existingTotal) => existingTotal + price,
-        ifAbsent: () => price,
-      );
+      totals[code] = (totals[code] ?? 0) + price;
       return totals;
     });
 

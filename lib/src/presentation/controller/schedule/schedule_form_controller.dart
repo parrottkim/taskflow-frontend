@@ -5,17 +5,16 @@ class ScheduleFormController extends _$ScheduleFormController {
   @override
   FutureOr<ScheduleFormState> build(
       {required int categoryId, int? scheduleId}) async {
-    return await _init(categoryId: categoryId, scheduleId: scheduleId);
+    return await _init();
   }
 
-  Future<ScheduleFormState> _init(
-      {required int categoryId, int? scheduleId}) async {
+  Future<ScheduleFormState> _init() async {
     if (scheduleId == null) {
       return ScheduleFormState();
     }
 
     final result =
-        await ref.read(scheduleRepositoryProvider).getSchedule(id: scheduleId);
+        await ref.read(scheduleRepositoryProvider).getSchedule(id: scheduleId!);
 
     return ScheduleFormState(
       projectId: result.projectId,

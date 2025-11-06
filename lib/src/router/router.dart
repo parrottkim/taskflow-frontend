@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/dashboard_layout.dart';
 import 'package:taskflow/src/presentation/screen/analytics/analytics_screen.dart';
+import 'package:taskflow/src/presentation/screen/download/download_screen.dart';
 import 'package:taskflow/src/presentation/screen/issue_category/issue_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/issue_form/issue_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/project_detail/project_detail_screen.dart';
@@ -39,6 +40,7 @@ final _setttingKey = GlobalKey<NavigatorState>();
 class RouteNames {
   static const String splash = 'splash';
   static const String login = 'login';
+  static const String download = 'download';
   static const String register = 'register';
   static const String dashboard = 'dashboard';
   static const String project = 'project';
@@ -62,6 +64,7 @@ class RouteNames {
 class Routes {
   static const String splash = '/';
   static const String login = '/login';
+  static const String download = '/download';
   static const String register = 'register';
   static const String dashboard = '/dashboard';
   static const String project = '/project';
@@ -643,6 +646,20 @@ class AppRouter {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        name: RouteNames.download,
+        path: Routes.download,
+        pageBuilder: (context, state) {
+          final path = state.uri.queryParameters['path'];
+          final filename = state.uri.queryParameters['filename'];
+
+          return NoTransitionPage(
+            key: state.pageKey,
+            name: state.name,
+            child: DownloadScreen(path: path, filename: filename),
+          );
+        },
       ),
     ],
   );

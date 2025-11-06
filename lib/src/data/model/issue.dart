@@ -89,9 +89,9 @@ abstract class IssueCategoryCharge with _$IssueCategoryCharge {
 abstract class IssueAttachment with _$IssueAttachment {
   factory IssueAttachment({
     required int id,
-    required String name,
+    required String filename,
     required int size,
-    required String url,
+    required String path,
     required DateTime createdAt,
   }) = _IssueAttachment;
 

@@ -165,7 +165,7 @@ class IssueSubmitController extends _$IssueSubmitController {
 
       final attachments = value.attachments!
           .map((e) => UpdateIssueAttachmentRequest(
-              id: e.id, name: e.name, size: e.size, url: e.url))
+              id: e.id, filename: e.filename, size: e.size, url: e.path))
           .toList();
 
       UpdateIssueRequest request = UpdateIssueRequest(
@@ -288,7 +288,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       scheme: Uri.base.scheme,
       host: Uri.base.host,
       port: Uri.base.hasPort ? Uri.base.port : null,
-      path: path.join(Routes.project, projectId.toString()),
+      path: join(Routes.project, projectId.toString()),
       queryParameters: {
         'view': 'issue',
         'issue': issueId.toString(),
@@ -304,7 +304,7 @@ class IssueSubmitController extends _$IssueSubmitController {
 
     final body =
         '[담당 PM] ${project.manager?.username ?? '미지정'} ${project.manager != null ? '(${project.manager!.email})' : ''}\n'
-        '[URL] ${uri}\n\n'
+        '[URL] $uri\n\n'
         '[업무 내용]\n'
         '${issue.content}';
 

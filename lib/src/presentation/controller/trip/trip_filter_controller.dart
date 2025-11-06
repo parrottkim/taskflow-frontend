@@ -4,19 +4,19 @@ part of '../controller.dart';
 class TripFilterController extends _$TripFilterController {
   @override
   FutureOr<TripFilterState> build({int? categoryId}) async {
-    return _init(categoryId: categoryId);
+    return _init();
   }
 
-  Future<TripFilterState> _init({int? categoryId}) async {
+  Future<TripFilterState> _init() async {
     final List<TripCategory> categories =
         await ref.read(tripRepositoryProvider).getAllCategories();
     final List<TripStep> steps = categoryId != null
-        ? await ref.read(tripRepositoryProvider).getAllSteps(id: categoryId)
+        ? await ref.read(tripRepositoryProvider).getAllSteps(id: categoryId!)
         : [];
     final List<TripRegulation> regulations = categoryId != null
         ? await ref
             .read(tripRepositoryProvider)
-            .getAllTripRegulations(id: categoryId)
+            .getAllTripRegulations(id: categoryId!)
         : [];
 
     return TripFilterState(

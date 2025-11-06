@@ -269,7 +269,7 @@ abstract class UpdateIssueAttachmentRequest
     with _$UpdateIssueAttachmentRequest {
   factory UpdateIssueAttachmentRequest({
     required int id,
-    required String name,
+    required String filename,
     required int size,
     required String url,
   }) = _UpdateIssueAttachmentRequest;

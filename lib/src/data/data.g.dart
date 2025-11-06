@@ -116,18 +116,18 @@ Map<String, dynamic> _$IssueCategoryChargeToJson(
 _IssueAttachment _$IssueAttachmentFromJson(Map<String, dynamic> json) =>
     _IssueAttachment(
       id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
+      filename: json['filename'] as String,
       size: (json['size'] as num).toInt(),
-      url: json['url'] as String,
+      path: json['path'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$IssueAttachmentToJson(_IssueAttachment instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
+      'filename': instance.filename,
       'size': instance.size,
-      'url': instance.url,
+      'path': instance.path,
       'createdAt': instance.createdAt.toIso8601String(),
     };
 
@@ -823,7 +823,7 @@ _UpdateIssueAttachmentRequest _$UpdateIssueAttachmentRequestFromJson(
         Map<String, dynamic> json) =>
     _UpdateIssueAttachmentRequest(
       id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
+      filename: json['filename'] as String,
       size: (json['size'] as num).toInt(),
       url: json['url'] as String,
     );
@@ -832,7 +832,7 @@ Map<String, dynamic> _$UpdateIssueAttachmentRequestToJson(
         _UpdateIssueAttachmentRequest instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
+      'filename': instance.filename,
       'size': instance.size,
       'url': instance.url,
     };
@@ -2756,7 +2756,7 @@ class _SftpService implements SftpService {
   }
 
   @override
-  Future<HttpResponse<List<int>>> downloadFile(String path) async {
+  Future<HttpResponse<List<int>>> downloadFile({required String path}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'path': path};
     final _headers = <String, dynamic>{};
