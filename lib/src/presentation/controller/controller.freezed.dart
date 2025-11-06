@@ -6348,7 +6348,7 @@ class __$LocalStateCopyWithImpl<$Res> implements _$LocalStateCopyWith<$Res> {
 
 /// @nodoc
 mixin _$ProjectDetailState {
-  Project get item;
+  Project get project;
 
   /// Create a copy of ProjectDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -6363,15 +6363,15 @@ mixin _$ProjectDetailState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ProjectDetailState &&
-            (identical(other.item, item) || other.item == item));
+            (identical(other.project, project) || other.project == project));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, item);
+  int get hashCode => Object.hash(runtimeType, project);
 
   @override
   String toString() {
-    return 'ProjectDetailState(item: $item)';
+    return 'ProjectDetailState(project: $project)';
   }
 }
 
@@ -6381,9 +6381,9 @@ abstract mixin class $ProjectDetailStateCopyWith<$Res> {
           ProjectDetailState value, $Res Function(ProjectDetailState) _then) =
       _$ProjectDetailStateCopyWithImpl;
   @useResult
-  $Res call({Project item});
+  $Res call({Project project});
 
-  $ProjectCopyWith<$Res> get item;
+  $ProjectCopyWith<$Res> get project;
 }
 
 /// @nodoc
@@ -6399,12 +6399,12 @@ class _$ProjectDetailStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item = null,
+    Object? project = null,
   }) {
     return _then(_self.copyWith(
-      item: null == item
-          ? _self.item
-          : item // ignore: cast_nullable_to_non_nullable
+      project: null == project
+          ? _self.project
+          : project // ignore: cast_nullable_to_non_nullable
               as Project,
     ));
   }
@@ -6413,9 +6413,9 @@ class _$ProjectDetailStateCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ProjectCopyWith<$Res> get item {
-    return $ProjectCopyWith<$Res>(_self.item, (value) {
-      return _then(_self.copyWith(item: value));
+  $ProjectCopyWith<$Res> get project {
+    return $ProjectCopyWith<$Res>(_self.project, (value) {
+      return _then(_self.copyWith(project: value));
     });
   }
 }
@@ -6513,13 +6513,13 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Project item)? $default, {
+    TResult Function(Project project)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ProjectDetailState() when $default != null:
-        return $default(_that.item);
+        return $default(_that.project);
       case _:
         return orElse();
     }
@@ -6540,12 +6540,12 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Project item) $default,
+    TResult Function(Project project) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ProjectDetailState():
-        return $default(_that.item);
+        return $default(_that.project);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -6565,12 +6565,12 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Project item)? $default,
+    TResult? Function(Project project)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ProjectDetailState() when $default != null:
-        return $default(_that.item);
+        return $default(_that.project);
       case _:
         return null;
     }
@@ -6580,10 +6580,10 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 /// @nodoc
 
 class _ProjectDetailState implements ProjectDetailState {
-  _ProjectDetailState({required this.item});
+  _ProjectDetailState({required this.project});
 
   @override
-  final Project item;
+  final Project project;
 
   /// Create a copy of ProjectDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -6598,15 +6598,15 @@ class _ProjectDetailState implements ProjectDetailState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ProjectDetailState &&
-            (identical(other.item, item) || other.item == item));
+            (identical(other.project, project) || other.project == project));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, item);
+  int get hashCode => Object.hash(runtimeType, project);
 
   @override
   String toString() {
-    return 'ProjectDetailState(item: $item)';
+    return 'ProjectDetailState(project: $project)';
   }
 }
 
@@ -6618,10 +6618,10 @@ abstract mixin class _$ProjectDetailStateCopyWith<$Res>
       __$ProjectDetailStateCopyWithImpl;
   @override
   @useResult
-  $Res call({Project item});
+  $Res call({Project project});
 
   @override
-  $ProjectCopyWith<$Res> get item;
+  $ProjectCopyWith<$Res> get project;
 }
 
 /// @nodoc
@@ -6637,12 +6637,12 @@ class __$ProjectDetailStateCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? item = null,
+    Object? project = null,
   }) {
     return _then(_ProjectDetailState(
-      item: null == item
-          ? _self.item
-          : item // ignore: cast_nullable_to_non_nullable
+      project: null == project
+          ? _self.project
+          : project // ignore: cast_nullable_to_non_nullable
               as Project,
     ));
   }
@@ -6651,9 +6651,9 @@ class __$ProjectDetailStateCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ProjectCopyWith<$Res> get item {
-    return $ProjectCopyWith<$Res>(_self.item, (value) {
-      return _then(_self.copyWith(item: value));
+  $ProjectCopyWith<$Res> get project {
+    return $ProjectCopyWith<$Res>(_self.project, (value) {
+      return _then(_self.copyWith(project: value));
     });
   }
 }

@@ -6,14 +6,14 @@ import 'package:taskflow/src/presentation/screen/trip_list/trip_list_widget.dart
 class SegmentWidget extends StatelessWidget {
   final int? issueId;
   final int? tripId;
-  final Project item;
+  final Project project;
   final TabController controller;
 
   const SegmentWidget({
     super.key,
     this.issueId,
     this.tripId,
-    required this.item,
+    required this.project,
     required this.controller,
   });
 
@@ -23,11 +23,11 @@ class SegmentWidget extends StatelessWidget {
       controller: controller,
       children: [
         IssueListWidget(
-          projectId: item.id,
+          projectId: project.id,
           issueId: issueId,
         ),
         TripListWidget(
-          projectId: item.id,
+          projectId: project.id,
           tripId: tripId,
         ),
         // TODO: 구현 필요

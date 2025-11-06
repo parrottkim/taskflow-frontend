@@ -524,7 +524,7 @@ final errorControllerProvider =
 
 typedef _$ErrorController = AutoDisposeNotifier<ErrorState>;
 String _$issueDetailControllerHash() =>
-    r'6898c9ce290ac2e2088eef33ffe497cb5562e525';
+    r'f62322fd1bdf4bb9fbeedbbf6b9bc3dc2b4e52a8';
 
 abstract class _$IssueDetailController
     extends BuildlessAutoDisposeAsyncNotifier<IssueDetailState> {
@@ -1062,7 +1062,7 @@ final localControllerProvider =
 
 typedef _$LocalController = AutoDisposeAsyncNotifier<LocalState>;
 String _$projectDetailControllerHash() =>
-    r'b6371e922b8786787508dcdc33a28b2ae9d9c7bb';
+    r'7efd1f906dd62bfe9fb973535f277b4f18a6ad06';
 
 abstract class _$ProjectDetailController
     extends BuildlessAutoDisposeAsyncNotifier<ProjectDetailState> {

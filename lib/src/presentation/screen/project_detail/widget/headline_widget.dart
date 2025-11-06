@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:taskflow/src/data/data.dart';
 
 class HeadlineWidget extends StatelessWidget {
-  final Project item;
+  final Project project;
 
-  const HeadlineWidget({super.key, required this.item});
+  const HeadlineWidget({super.key, required this.project});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class HeadlineWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          item.name,
+          project.name,
           style: textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w600,
           ),
         ),
         Text(
-          item.code,
+          project.code,
           style: textTheme.titleMedium?.copyWith(
             color: colorScheme.onSurface.withValues(alpha: 0.7),
           ),

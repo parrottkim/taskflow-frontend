@@ -10,7 +10,7 @@ abstract class Supplier with _$Supplier {
     String? phone,
     String? email,
     String? logo,
-    required List<SupplierKeyword> keywords,
+    // keywords는 create, update 시에만 필요
   }) = _Supplier;
 
   factory Supplier.fromJson(Map<String, dynamic> json) =>

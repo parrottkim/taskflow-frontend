@@ -19,14 +19,14 @@ class OverviewWidget extends ConsumerWidget {
   final int projectId;
   final int? issueId;
   final int? tripId;
-  final Project item;
+  final Project project;
 
   const OverviewWidget({
     super.key,
     required this.projectId,
     this.issueId,
     this.tripId,
-    required this.item,
+    required this.project,
   });
 
   @override
@@ -38,11 +38,11 @@ class OverviewWidget extends ConsumerWidget {
           projectId: projectId,
           issueId: issueId,
           tripId: tripId,
-          item: item,
+          project: project,
           view: value.view,
         ),
       _ => Skeletonizer(
-          child: _DesktopWidget(projectId: projectId, item: item),
+          child: _DesktopWidget(projectId: projectId, project: project),
         ),
     };
   }
@@ -53,14 +53,14 @@ class _DesktopWidget extends HookConsumerWidget {
   final int? issueId;
   final int? tripId;
   final String? view;
-  final Project item;
+  final Project project;
 
   const _DesktopWidget({
     required this.projectId,
     this.issueId,
     this.tripId,
     this.view,
-    required this.item,
+    required this.project,
   });
 
   @override
@@ -101,7 +101,7 @@ class _DesktopWidget extends HookConsumerWidget {
     }, [view]);
 
     useEffect(() {
-      if (item.isClosed) {
+      if (project.isClosed) {
         sizeController.forward().then((_) {
           opacityController.forward();
         });
@@ -111,7 +111,7 @@ class _DesktopWidget extends HookConsumerWidget {
         });
       }
       return null;
-    }, [item]);
+    }, [project]);
 
     return Column(
       children: [
@@ -178,9 +178,9 @@ class _DesktopWidget extends HookConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 32.0),
-                            HeadlineWidget(item: item),
+                            HeadlineWidget(project: project),
                             SizedBox(height: 32.0),
-                            InfoWidget(item: item),
+                            InfoWidget(project: project),
                             SizedBox(height: 16.0),
                           ],
                         ),
@@ -231,11 +231,11 @@ class _DesktopWidget extends HookConsumerWidget {
                   body: SegmentWidget(
                     issueId: issueId,
                     tripId: tripId,
-                    item: item,
+                    project: project,
                     controller: controller,
                   ),
                 ),
-                ToolbarWidget(item: item),
+                ToolbarWidget(project: project),
               ],
             ),
           ),
