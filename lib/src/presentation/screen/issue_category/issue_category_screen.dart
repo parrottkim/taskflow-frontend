@@ -35,7 +35,7 @@ class IssueCategoryScreen extends ConsumerWidget {
           (AsyncData(value: final detail), AsyncData(value: final filter)) =>
             _DesktopWidget(
                 projectId: projectId,
-                project: detail.item,
+                project: detail.project,
                 items: filter.categoryItems),
           ((AsyncError(:final error, :final stackTrace), _) ||
                 (_, AsyncError(:final error, :final stackTrace))) =>

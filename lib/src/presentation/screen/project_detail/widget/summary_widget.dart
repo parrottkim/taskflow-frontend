@@ -5,11 +5,11 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class SummaryWidget extends ConsumerWidget {
-  final Project item;
+  final Project project;
 
   const SummaryWidget({
     super.key,
-    required this.item,
+    required this.project,
   });
 
   @override
@@ -38,11 +38,11 @@ class SummaryWidget extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: 8.0),
-                UserInformation.compact(user: item.user)
+                UserInformation.compact(user: project.user)
               ],
             ),
           ),
-          if (item.isClosed)
+          if (project.isClosed)
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: ContainerWidget(
@@ -62,7 +62,7 @@ class SummaryWidget extends ConsumerWidget {
                     ),
                     SizedBox(height: 8.0),
                     Text(
-                      item.closureMessage!,
+                      project.closureMessage!,
                       style: textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurface.withValues(alpha: 0.7),
                       ),

@@ -20,7 +20,7 @@ class NewIssueButton extends ConsumerWidget {
     return FilledButton.icon(
       onPressed: detail is AsyncData &&
               detail.value != null &&
-              !detail.value!.item.isClosed
+              !detail.value!.project.isClosed
           ? () {
               context.goNamed(RouteNames.issueNewChoose,
                   pathParameters: {'project_id': projectId});

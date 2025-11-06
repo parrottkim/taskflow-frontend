@@ -45,23 +45,23 @@ class ProjectDetailScreen extends HookConsumerWidget {
               projectId: projectId,
               issueId: issueId,
               tripId: tripId,
-              item: value.item,
+              project: value.project,
             ),
             mobile: _MobileWidget(
               projectId: projectId,
               issueId: issueId,
               tripId: tripId,
-              item: value.item,
+              project: value.project,
             ),
           ),
         AsyncError(:final error, :final stackTrace) =>
           ErrorContainerWidget(error: error, stackTrace: stackTrace),
         _ => Skeletonizer(
             child: Responsive(
-              desktop:
-                  _DesktopWidget(projectId: projectId, item: Project.dummy()),
+              desktop: _DesktopWidget(
+                  projectId: projectId, project: Project.dummy()),
               mobile:
-                  _MobileWidget(projectId: projectId, item: Project.dummy()),
+                  _MobileWidget(projectId: projectId, project: Project.dummy()),
             ),
           ),
       },
@@ -73,13 +73,13 @@ class _DesktopWidget extends StatelessWidget {
   final int projectId;
   final int? issueId;
   final int? tripId;
-  final Project item;
+  final Project project;
 
   const _DesktopWidget({
     required this.projectId,
     this.issueId,
     this.tripId,
-    required this.item,
+    required this.project,
   });
 
   @override
@@ -94,11 +94,11 @@ class _DesktopWidget extends StatelessWidget {
               projectId: projectId,
               issueId: issueId,
               tripId: tripId,
-              item: item,
+              project: project,
             ),
           ),
           SizedBox(width: 16.0),
-          SummaryWidget(item: item),
+          SummaryWidget(project: project),
         ],
       ),
     );
@@ -109,13 +109,13 @@ class _MobileWidget extends StatelessWidget {
   final int projectId;
   final int? issueId;
   final int? tripId;
-  final Project item;
+  final Project project;
 
   const _MobileWidget({
     required this.projectId,
     this.issueId,
     this.tripId,
-    required this.item,
+    required this.project,
   });
 
   @override
@@ -138,7 +138,7 @@ class _MobileWidget extends StatelessWidget {
               projectId: projectId,
               issueId: issueId,
               tripId: tripId,
-              item: item,
+              project: project,
             ),
           ),
         ],
