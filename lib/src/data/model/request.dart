@@ -271,7 +271,7 @@ abstract class UpdateIssueAttachmentRequest
     required int id,
     required String filename,
     required int size,
-    required String url,
+    required String path,
   }) = _UpdateIssueAttachmentRequest;
 
   factory UpdateIssueAttachmentRequest.fromJson(Map<String, dynamic> json) =>

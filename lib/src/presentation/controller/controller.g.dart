@@ -508,7 +508,7 @@ final worldMapControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$WorldMapController = AutoDisposeAsyncNotifier<WorldMapState>;
 String _$downloadControllerHash() =>
-    r'80aec0f5d43dd5190e34da304701968617567243';
+    r'ff5f1051616ed9e219c896a35ccf5f0127d2b373';
 
 abstract class _$DownloadController
     extends BuildlessAutoDisposeAsyncNotifier<DownloadState> {
@@ -1200,7 +1200,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'86032b3ea4d7cadcdf2b5fb73affd6de0bb28da3';
+    r'ce5bbad80ef510c82d126b0ebf175aa11c865ac6';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)

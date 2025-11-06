@@ -15528,7 +15528,7 @@ mixin _$UpdateIssueAttachmentRequest {
   int get id;
   String get filename;
   int get size;
-  String get url;
+  String get path;
 
   /// Create a copy of UpdateIssueAttachmentRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -15551,16 +15551,16 @@ mixin _$UpdateIssueAttachmentRequest {
             (identical(other.filename, filename) ||
                 other.filename == filename) &&
             (identical(other.size, size) || other.size == size) &&
-            (identical(other.url, url) || other.url == url));
+            (identical(other.path, path) || other.path == path));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, filename, size, url);
+  int get hashCode => Object.hash(runtimeType, id, filename, size, path);
 
   @override
   String toString() {
-    return 'UpdateIssueAttachmentRequest(id: $id, filename: $filename, size: $size, url: $url)';
+    return 'UpdateIssueAttachmentRequest(id: $id, filename: $filename, size: $size, path: $path)';
   }
 }
 
@@ -15571,7 +15571,7 @@ abstract mixin class $UpdateIssueAttachmentRequestCopyWith<$Res> {
           $Res Function(UpdateIssueAttachmentRequest) _then) =
       _$UpdateIssueAttachmentRequestCopyWithImpl;
   @useResult
-  $Res call({int id, String filename, int size, String url});
+  $Res call({int id, String filename, int size, String path});
 }
 
 /// @nodoc
@@ -15590,7 +15590,7 @@ class _$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
     Object? id = null,
     Object? filename = null,
     Object? size = null,
-    Object? url = null,
+    Object? path = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -15605,9 +15605,9 @@ class _$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
           ? _self.size
           : size // ignore: cast_nullable_to_non_nullable
               as int,
-      url: null == url
-          ? _self.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: null == path
+          ? _self.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -15706,13 +15706,14 @@ extension UpdateIssueAttachmentRequestPatterns on UpdateIssueAttachmentRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int id, String filename, int size, String url)? $default, {
+    TResult Function(int id, String filename, int size, String path)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UpdateIssueAttachmentRequest() when $default != null:
-        return $default(_that.id, _that.filename, _that.size, _that.url);
+        return $default(_that.id, _that.filename, _that.size, _that.path);
       case _:
         return orElse();
     }
@@ -15733,12 +15734,12 @@ extension UpdateIssueAttachmentRequestPatterns on UpdateIssueAttachmentRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(int id, String filename, int size, String url) $default,
+    TResult Function(int id, String filename, int size, String path) $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateIssueAttachmentRequest():
-        return $default(_that.id, _that.filename, _that.size, _that.url);
+        return $default(_that.id, _that.filename, _that.size, _that.path);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -15758,12 +15759,12 @@ extension UpdateIssueAttachmentRequestPatterns on UpdateIssueAttachmentRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int id, String filename, int size, String url)? $default,
+    TResult? Function(int id, String filename, int size, String path)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateIssueAttachmentRequest() when $default != null:
-        return $default(_that.id, _that.filename, _that.size, _that.url);
+        return $default(_that.id, _that.filename, _that.size, _that.path);
       case _:
         return null;
     }
@@ -15777,7 +15778,7 @@ class _UpdateIssueAttachmentRequest implements UpdateIssueAttachmentRequest {
       {required this.id,
       required this.filename,
       required this.size,
-      required this.url});
+      required this.path});
   factory _UpdateIssueAttachmentRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateIssueAttachmentRequestFromJson(json);
 
@@ -15788,7 +15789,7 @@ class _UpdateIssueAttachmentRequest implements UpdateIssueAttachmentRequest {
   @override
   final int size;
   @override
-  final String url;
+  final String path;
 
   /// Create a copy of UpdateIssueAttachmentRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -15815,16 +15816,16 @@ class _UpdateIssueAttachmentRequest implements UpdateIssueAttachmentRequest {
             (identical(other.filename, filename) ||
                 other.filename == filename) &&
             (identical(other.size, size) || other.size == size) &&
-            (identical(other.url, url) || other.url == url));
+            (identical(other.path, path) || other.path == path));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, filename, size, url);
+  int get hashCode => Object.hash(runtimeType, id, filename, size, path);
 
   @override
   String toString() {
-    return 'UpdateIssueAttachmentRequest(id: $id, filename: $filename, size: $size, url: $url)';
+    return 'UpdateIssueAttachmentRequest(id: $id, filename: $filename, size: $size, path: $path)';
   }
 }
 
@@ -15837,7 +15838,7 @@ abstract mixin class _$UpdateIssueAttachmentRequestCopyWith<$Res>
       __$UpdateIssueAttachmentRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({int id, String filename, int size, String url});
+  $Res call({int id, String filename, int size, String path});
 }
 
 /// @nodoc
@@ -15856,7 +15857,7 @@ class __$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
     Object? id = null,
     Object? filename = null,
     Object? size = null,
-    Object? url = null,
+    Object? path = null,
   }) {
     return _then(_UpdateIssueAttachmentRequest(
       id: null == id
@@ -15871,9 +15872,9 @@ class __$UpdateIssueAttachmentRequestCopyWithImpl<$Res>
           ? _self.size
           : size // ignore: cast_nullable_to_non_nullable
               as int,
-      url: null == url
-          ? _self.url
-          : url // ignore: cast_nullable_to_non_nullable
+      path: null == path
+          ? _self.path
+          : path // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

@@ -165,7 +165,7 @@ class IssueSubmitController extends _$IssueSubmitController {
 
       final attachments = value.attachments!
           .map((e) => UpdateIssueAttachmentRequest(
-              id: e.id, filename: e.filename, size: e.size, url: e.path))
+              id: e.id, filename: e.filename, size: e.size, path: e.path))
           .toList();
 
       UpdateIssueRequest request = UpdateIssueRequest(

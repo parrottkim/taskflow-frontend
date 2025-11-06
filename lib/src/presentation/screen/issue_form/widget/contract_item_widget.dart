@@ -317,35 +317,37 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
               child: Column(
                 children: [
-                  Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: Icon(
-                          Symbols.contract_rounded,
-                          size: 36.0,
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 4.0,
-                        right: 4.0,
-                        child: Container(
-                          padding: EdgeInsets.all(3.0),
-                          decoration: ShapeDecoration(
-                            shape: CircleBorder(),
+                  Skeleton.unite(
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Icon(
+                            Symbols.contract_rounded,
+                            size: 36.0,
                             color: colorScheme.primary,
                           ),
-                          child: Icon(
-                            Symbols.upload_rounded,
-                            size: 14.0,
-                            weight: 700.0,
-                            color: colorScheme.onPrimary,
+                        ),
+                        Positioned(
+                          bottom: 4.0,
+                          right: 4.0,
+                          child: Container(
+                            padding: EdgeInsets.all(3.0),
+                            decoration: ShapeDecoration(
+                              shape: CircleBorder(),
+                              color: colorScheme.primary,
+                            ),
+                            child: Icon(
+                              Symbols.upload_rounded,
+                              size: 14.0,
+                              weight: 700.0,
+                              color: colorScheme.onPrimary,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(height: 12.0),
                   Text(

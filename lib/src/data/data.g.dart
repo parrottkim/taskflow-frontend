@@ -825,7 +825,7 @@ _UpdateIssueAttachmentRequest _$UpdateIssueAttachmentRequestFromJson(
       id: (json['id'] as num).toInt(),
       filename: json['filename'] as String,
       size: (json['size'] as num).toInt(),
-      url: json['url'] as String,
+      path: json['path'] as String,
     );
 
 Map<String, dynamic> _$UpdateIssueAttachmentRequestToJson(
@@ -834,7 +834,7 @@ Map<String, dynamic> _$UpdateIssueAttachmentRequestToJson(
       'id': instance.id,
       'filename': instance.filename,
       'size': instance.size,
-      'url': instance.url,
+      'path': instance.path,
     };
 
 _SupplierRequest _$SupplierRequestFromJson(Map<String, dynamic> json) =>

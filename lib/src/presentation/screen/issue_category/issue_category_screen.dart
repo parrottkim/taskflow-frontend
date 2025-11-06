@@ -151,30 +151,32 @@ class _DesktopWidget extends ConsumerWidget {
           ),
         ),
         SizedBox(height: 16.0),
-        ElevatedButton.icon(
-          onPressed: () => showDialog(
-            context: context,
-            builder: (_) => ClosureDialog(
-              project: project,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: colorScheme.errorContainer,
-            foregroundColor: colorScheme.error,
-            iconColor: colorScheme.error,
-          ),
-          icon: Icon(
-            Symbols.mountain_flag_rounded,
-          ),
-          label: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(Intl.message('issue_new_choose_8')),
-              SizedBox(width: 8.0),
-              Icon(
-                Symbols.chevron_right_rounded,
+        Skeleton.unite(
+          child: ElevatedButton.icon(
+            onPressed: () => showDialog(
+              context: context,
+              builder: (_) => ClosureDialog(
+                project: project,
               ),
-            ],
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colorScheme.errorContainer,
+              foregroundColor: colorScheme.error,
+              iconColor: colorScheme.error,
+            ),
+            icon: Icon(
+              Symbols.mountain_flag_rounded,
+            ),
+            label: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(Intl.message('issue_new_choose_8')),
+                SizedBox(width: 8.0),
+                Icon(
+                  Symbols.chevron_right_rounded,
+                ),
+              ],
+            ),
           ),
         ),
       ],
