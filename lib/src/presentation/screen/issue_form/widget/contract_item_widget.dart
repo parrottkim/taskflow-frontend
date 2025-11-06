@@ -364,58 +364,60 @@ class _DesktopWidget extends HookConsumerWidget {
                     ),
                   ),
                   SizedBox(height: 12.0),
-                  ElevatedButton(
-                    onPressed: () async {
-                      final xlsxType =
-                          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                  Skeleton.unite(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        final xlsxType =
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
-                      final group = XTypeGroup(mimeTypes: [xlsxType]);
+                        final group = XTypeGroup(mimeTypes: [xlsxType]);
 
-                      final XFile? file = await openFile(
-                          acceptedTypeGroups: <XTypeGroup>[group]);
+                        final XFile? file = await openFile(
+                            acceptedTypeGroups: <XTypeGroup>[group]);
 
-                      LoadingOverlay.show(context);
+                        LoadingOverlay.show(context);
 
-                      if (file == null) {
-                        LoadingOverlay.hide();
-                        return;
-                      }
+                        if (file == null) {
+                          LoadingOverlay.hide();
+                          return;
+                        }
 
-                      if (extension(file.name) != '.xlsx') {
-                        ref.read(toastProvider).showToast(
-                              child: Toast(
-                                type: ToastType.alert,
-                                message: Intl.message(
-                                  'issue_form_contract_invalid',
+                        if (extension(file.name) != '.xlsx') {
+                          ref.read(toastProvider).showToast(
+                                child: Toast(
+                                  type: ToastType.alert,
+                                  message: Intl.message(
+                                    'issue_form_contract_invalid',
+                                  ),
                                 ),
-                              ),
-                            );
-                        LoadingOverlay.hide();
-                        return;
-                      }
+                              );
+                          LoadingOverlay.hide();
+                          return;
+                        }
 
-                      // final bytes = await file.readAsBytes();
-                      // UNDONE: .xlsx mimeType 확인 불가
-                      // final mimeType =
-                      //     lookupMimeType(file.path, headerBytes: bytes);
+                        // final bytes = await file.readAsBytes();
+                        // UNDONE: .xlsx mimeType 확인 불가
+                        // final mimeType =
+                        //     lookupMimeType(file.path, headerBytes: bytes);
 
-                      // if (mimeType == null || mimeType != xlsxType) {
-                      //   ref.read(toastProvider).showToast(
-                      //         child: Toast(
-                      //           type: ToastType.alert,
-                      //           message: Intl.message(
-                      //             'issue_form_contract_invalid',
-                      //             args: [file.name],
-                      //           ),
-                      //         ),
-                      //       );
-                      //   return;
-                      // }
+                        // if (mimeType == null || mimeType != xlsxType) {
+                        //   ref.read(toastProvider).showToast(
+                        //         child: Toast(
+                        //           type: ToastType.alert,
+                        //           message: Intl.message(
+                        //             'issue_form_contract_invalid',
+                        //             args: [file.name],
+                        //           ),
+                        //         ),
+                        //       );
+                        //   return;
+                        // }
 
-                      await processFile(file);
-                    },
-                    child: Text(
-                      Intl.message('issue_form_contract_upload'),
+                        await processFile(file);
+                      },
+                      child: Text(
+                        Intl.message('issue_form_contract_upload'),
+                      ),
                     ),
                   ),
                 ],
