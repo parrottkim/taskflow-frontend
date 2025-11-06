@@ -17,11 +17,11 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 import 'package:universal_html/html.dart' hide Platform;
 
 class ToolbarWidget extends ConsumerWidget {
-  final Project item;
+  final Project project;
 
   const ToolbarWidget({
     super.key,
-    required this.item,
+    required this.project,
   });
 
   @override
@@ -41,9 +41,9 @@ class ToolbarWidget extends ConsumerWidget {
             curve: Curves.easeInQuad,
             opacity: Responsive.isDesktop(context) ? 1.0 : 0.0,
             child: Text(
-              item.createdAt == item.updatedAt
-                  ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
-                  : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
+              project.createdAt == project.updatedAt
+                  ? '${formatRelativeDate(project.createdAt)} ${Intl.message('common_created_at')}'
+                  : '${formatRelativeDate(project.updatedAt)} ${Intl.message('common_updated_at')}',
               style: textTheme.labelMedium?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: colorScheme.outline.withValues(alpha: 0.7),
@@ -80,19 +80,19 @@ class ToolbarWidget extends ConsumerWidget {
           CustomIconButton(
             onTap: () async {
               await ref
-                  .read(projectDetailControllerProvider(projectId: item.id)
+                  .read(projectDetailControllerProvider(projectId: project.id)
                       .notifier)
-                  .toggleBookmark(bookmarked: !item.isBookmarked);
+                  .toggleBookmark(bookmarked: !project.isBookmarked);
             },
             icon: Icon(
               Symbols.bookmark_rounded,
-              fill: item.isBookmarked ? 1.0 : 0.0,
+              fill: project.isBookmarked ? 1.0 : 0.0,
             ),
           ),
           MenuAnchor(
             alignmentOffset: Offset(-140.0, 0.0),
             builder: (context, controller, child) => CustomIconButton(
-              onTap: !item.isClosed
+              onTap: !project.isClosed
                   ? () {
                       if (controller.isOpen) {
                         controller.close();
@@ -108,13 +108,14 @@ class ToolbarWidget extends ConsumerWidget {
             menuChildren: [
               SizedBox(height: 8.0),
               if (auth is AuthAuthenticated && auth.user.isAdmin ||
-                  auth is AuthAuthenticated && auth.user.id == item.user.id)
+                  auth is AuthAuthenticated && auth.user.id == project.user.id)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: MenuItemButton(
                     onPressed: () {
-                      context.goNamed(RouteNames.projectEdit,
-                          pathParameters: {'project_id': item.id.toString()});
+                      context.goNamed(RouteNames.projectEdit, pathParameters: {
+                        'project_id': project.id.toString()
+                      });
                     },
                     style: MenuItemButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -136,7 +137,7 @@ class ToolbarWidget extends ConsumerWidget {
                   ),
                 ),
               if (auth is AuthAuthenticated && auth.user.isAdmin ||
-                  auth is AuthAuthenticated && auth.user.id == item.user.id)
+                  auth is AuthAuthenticated && auth.user.id == project.user.id)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: MenuItemButton(
@@ -154,7 +155,7 @@ class ToolbarWidget extends ConsumerWidget {
 
                         await ref
                             .read(projectDetailControllerProvider(
-                                    projectId: item.id)
+                                    projectId: project.id)
                                 .notifier)
                             .delete();
 
@@ -193,7 +194,7 @@ class ToolbarWidget extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Text(
-                    '${item.user.username} ${Intl.message('common_edit_by')}',
+                    '${project.user.username} ${Intl.message('common_edit_by')}',
                     style: textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: colorScheme.outline.withValues(alpha: 0.7),
@@ -203,9 +204,9 @@ class ToolbarWidget extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text(
-                  item.createdAt == item.updatedAt
-                      ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
-                      : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
+                  project.createdAt == project.updatedAt
+                      ? '${formatRelativeDate(project.createdAt)} ${Intl.message('common_created_at')}'
+                      : '${formatRelativeDate(project.updatedAt)} ${Intl.message('common_updated_at')}',
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.outline.withValues(alpha: 0.7),

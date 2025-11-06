@@ -108,7 +108,7 @@ class ToolbarWidget extends ConsumerWidget {
           builder: (context, controller, child) => CustomIconButton(
             onTap: detail is AsyncData &&
                     detail.value != null &&
-                    !detail.value!.item.isClosed
+                    !detail.value!.project.isClosed
                 ? () {
                     if (controller.isOpen) {
                       controller.close();

@@ -9,11 +9,11 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class InfoWidget extends StatelessWidget {
-  final Project item;
+  final Project project;
 
   const InfoWidget({
     super.key,
-    required this.item,
+    required this.project,
   });
 
   @override
@@ -62,7 +62,7 @@ class InfoWidget extends StatelessWidget {
                               color: Color(
                                 ClientType.values
                                     .singleWhere((client) =>
-                                        client.id == item.clients[0].id)
+                                        client.id == project.clients[0].id)
                                     .color,
                               ),
                             ),
@@ -72,7 +72,7 @@ class InfoWidget extends StatelessWidget {
                               child: SvgPicture.asset(
                                 ClientType.values
                                     .singleWhere((client) =>
-                                        client.id == item.clients[0].id)
+                                        client.id == project.clients[0].id)
                                     .asset,
                                 colorFilter: ColorFilter.mode(
                                     Colors.white, BlendMode.srcIn),
@@ -82,7 +82,7 @@ class InfoWidget extends StatelessWidget {
                         ),
                         SizedBox(width: 8.0),
                         Text(
-                          item.clients.last.name,
+                          project.clients.last.name,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                           ),
@@ -120,11 +120,11 @@ class InfoWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              item.manager != null
+              project.manager != null
                   ? Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: UserInformation.compact(
-                        user: item.manager!,
+                        user: project.manager!,
                       ),
                     )
                   : InkWell(
@@ -179,7 +179,7 @@ class InfoWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              if (item.isPreexecuted)
+              if (project.isPreexecuted)
                 Flexible(
                   child: Skeleton.leaf(
                     child: Container(
@@ -199,7 +199,7 @@ class InfoWidget extends StatelessWidget {
                     ),
                   ),
                 )
-              else if (item.isClosed)
+              else if (project.isClosed)
                 Flexible(
                   child: Skeleton.leaf(
                     child: Container(

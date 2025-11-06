@@ -21312,7 +21312,6 @@ mixin _$Supplier {
   String? get phone;
   String? get email;
   String? get logo;
-  List<SupplierKeyword> get keywords;
 
   /// Create a copy of Supplier
   /// with the given fields replaced by the non-null parameter values.
@@ -21335,18 +21334,17 @@ mixin _$Supplier {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.logo, logo) || other.logo == logo) &&
-            const DeepCollectionEquality().equals(other.keywords, keywords));
+            (identical(other.logo, logo) || other.logo == logo));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, number, address, phone,
-      email, logo, const DeepCollectionEquality().hash(keywords));
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, number, address, phone, email, logo);
 
   @override
   String toString() {
-    return 'Supplier(id: $id, name: $name, number: $number, address: $address, phone: $phone, email: $email, logo: $logo, keywords: $keywords)';
+    return 'Supplier(id: $id, name: $name, number: $number, address: $address, phone: $phone, email: $email, logo: $logo)';
   }
 }
 
@@ -21362,8 +21360,7 @@ abstract mixin class $SupplierCopyWith<$Res> {
       String? address,
       String? phone,
       String? email,
-      String? logo,
-      List<SupplierKeyword> keywords});
+      String? logo});
 }
 
 /// @nodoc
@@ -21385,7 +21382,6 @@ class _$SupplierCopyWithImpl<$Res> implements $SupplierCopyWith<$Res> {
     Object? phone = freezed,
     Object? email = freezed,
     Object? logo = freezed,
-    Object? keywords = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -21416,10 +21412,6 @@ class _$SupplierCopyWithImpl<$Res> implements $SupplierCopyWith<$Res> {
           ? _self.logo
           : logo // ignore: cast_nullable_to_non_nullable
               as String?,
-      keywords: null == keywords
-          ? _self.keywords
-          : keywords // ignore: cast_nullable_to_non_nullable
-              as List<SupplierKeyword>,
     ));
   }
 }
@@ -21517,15 +21509,8 @@ extension SupplierPatterns on Supplier {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            int id,
-            String name,
-            String number,
-            String? address,
-            String? phone,
-            String? email,
-            String? logo,
-            List<SupplierKeyword> keywords)?
+    TResult Function(int id, String name, String number, String? address,
+            String? phone, String? email, String? logo)?
         $default, {
     required TResult orElse(),
   }) {
@@ -21533,7 +21518,7 @@ extension SupplierPatterns on Supplier {
     switch (_that) {
       case _Supplier() when $default != null:
         return $default(_that.id, _that.name, _that.number, _that.address,
-            _that.phone, _that.email, _that.logo, _that.keywords);
+            _that.phone, _that.email, _that.logo);
       case _:
         return orElse();
     }
@@ -21554,22 +21539,15 @@ extension SupplierPatterns on Supplier {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(
-            int id,
-            String name,
-            String number,
-            String? address,
-            String? phone,
-            String? email,
-            String? logo,
-            List<SupplierKeyword> keywords)
+    TResult Function(int id, String name, String number, String? address,
+            String? phone, String? email, String? logo)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Supplier():
         return $default(_that.id, _that.name, _that.number, _that.address,
-            _that.phone, _that.email, _that.logo, _that.keywords);
+            _that.phone, _that.email, _that.logo);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -21589,22 +21567,15 @@ extension SupplierPatterns on Supplier {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            int id,
-            String name,
-            String number,
-            String? address,
-            String? phone,
-            String? email,
-            String? logo,
-            List<SupplierKeyword> keywords)?
+    TResult? Function(int id, String name, String number, String? address,
+            String? phone, String? email, String? logo)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _Supplier() when $default != null:
         return $default(_that.id, _that.name, _that.number, _that.address,
-            _that.phone, _that.email, _that.logo, _that.keywords);
+            _that.phone, _that.email, _that.logo);
       case _:
         return null;
     }
@@ -21621,9 +21592,7 @@ class _Supplier implements Supplier {
       this.address,
       this.phone,
       this.email,
-      this.logo,
-      required final List<SupplierKeyword> keywords})
-      : _keywords = keywords;
+      this.logo});
   factory _Supplier.fromJson(Map<String, dynamic> json) =>
       _$SupplierFromJson(json);
 
@@ -21641,13 +21610,6 @@ class _Supplier implements Supplier {
   final String? email;
   @override
   final String? logo;
-  final List<SupplierKeyword> _keywords;
-  @override
-  List<SupplierKeyword> get keywords {
-    if (_keywords is EqualUnmodifiableListView) return _keywords;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_keywords);
-  }
 
   /// Create a copy of Supplier
   /// with the given fields replaced by the non-null parameter values.
@@ -21675,18 +21637,17 @@ class _Supplier implements Supplier {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.logo, logo) || other.logo == logo) &&
-            const DeepCollectionEquality().equals(other._keywords, _keywords));
+            (identical(other.logo, logo) || other.logo == logo));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, number, address, phone,
-      email, logo, const DeepCollectionEquality().hash(_keywords));
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, number, address, phone, email, logo);
 
   @override
   String toString() {
-    return 'Supplier(id: $id, name: $name, number: $number, address: $address, phone: $phone, email: $email, logo: $logo, keywords: $keywords)';
+    return 'Supplier(id: $id, name: $name, number: $number, address: $address, phone: $phone, email: $email, logo: $logo)';
   }
 }
 
@@ -21704,8 +21665,7 @@ abstract mixin class _$SupplierCopyWith<$Res>
       String? address,
       String? phone,
       String? email,
-      String? logo,
-      List<SupplierKeyword> keywords});
+      String? logo});
 }
 
 /// @nodoc
@@ -21727,7 +21687,6 @@ class __$SupplierCopyWithImpl<$Res> implements _$SupplierCopyWith<$Res> {
     Object? phone = freezed,
     Object? email = freezed,
     Object? logo = freezed,
-    Object? keywords = null,
   }) {
     return _then(_Supplier(
       id: null == id
@@ -21758,10 +21717,6 @@ class __$SupplierCopyWithImpl<$Res> implements _$SupplierCopyWith<$Res> {
           ? _self.logo
           : logo // ignore: cast_nullable_to_non_nullable
               as String?,
-      keywords: null == keywords
-          ? _self._keywords
-          : keywords // ignore: cast_nullable_to_non_nullable
-              as List<SupplierKeyword>,
     ));
   }
 }

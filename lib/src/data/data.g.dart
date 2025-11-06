@@ -1138,9 +1138,6 @@ _Supplier _$SupplierFromJson(Map<String, dynamic> json) => _Supplier(
       phone: json['phone'] as String?,
       email: json['email'] as String?,
       logo: json['logo'] as String?,
-      keywords: (json['keywords'] as List<dynamic>)
-          .map((e) => SupplierKeyword.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$SupplierToJson(_Supplier instance) => <String, dynamic>{
@@ -1151,7 +1148,6 @@ Map<String, dynamic> _$SupplierToJson(_Supplier instance) => <String, dynamic>{
       'phone': instance.phone,
       'email': instance.email,
       'logo': instance.logo,
-      'keywords': instance.keywords,
     };
 
 _SupplierKeyword _$SupplierKeywordFromJson(Map<String, dynamic> json) =>

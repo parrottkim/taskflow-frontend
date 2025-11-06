@@ -8,23 +8,25 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   Future<ProjectDetailState> _init({required int projectId}) async {
+    if (projectId == 0) return ProjectDetailState(project: Project.dummy());
+
     final result =
         await ref.read(projectRepositoryProvider).getProject(id: projectId);
 
-    return ProjectDetailState(item: result);
+    return ProjectDetailState(project: result);
   }
 
   void updateProject(Project project) {
-    state = AsyncValue.data(ProjectDetailState(item: project));
+    state = AsyncValue.data(ProjectDetailState(project: project));
   }
 
   Future<void> toggleBookmark({required bool bookmarked}) async {
     final value = state.valueOrNull;
     if (value == null) return;
 
-    final updatedItem = value.item.copyWith(isBookmarked: bookmarked);
+    final updatedItem = value.project.copyWith(isBookmarked: bookmarked);
 
-    state = AsyncValue.data(value.copyWith(item: updatedItem));
+    state = AsyncValue.data(value.copyWith(project: updatedItem));
 
     ref
         .read(projectListControllerProvider.notifier)
