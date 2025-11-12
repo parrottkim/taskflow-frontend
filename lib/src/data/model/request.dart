@@ -297,6 +297,7 @@ abstract class ScheduleRequest with _$ScheduleRequest {
   factory ScheduleRequest({
     required String summary,
     String? description,
+    required String url,
     required int projectId,
     required int categoryId,
     required DateTime start,

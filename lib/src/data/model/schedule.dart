@@ -43,6 +43,7 @@ abstract class Schedule with _$Schedule {
   factory Schedule({
     required int id,
     required int projectId,
+    required String projectCode,
     required String projectName,
     required int projectClientId,
     required String projectClientName,
@@ -51,6 +52,7 @@ abstract class Schedule with _$Schedule {
     required User user,
     @Default('') String summary,
     String? description,
+    @Default('') String url,
     required DateTime start,
     required DateTime end,
   }) = _Schedule;
@@ -59,6 +61,7 @@ abstract class Schedule with _$Schedule {
         id: 0,
         eventId: '임시 ID',
         projectId: 0,
+        projectCode: '프로젝트 코드',
         projectName: '프로젝트 이름',
         projectClientId: 1,
         projectClientName: '공장명',

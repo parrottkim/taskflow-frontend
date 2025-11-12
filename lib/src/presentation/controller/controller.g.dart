@@ -1052,7 +1052,7 @@ class _IssueFormControllerProviderElement
 }
 
 String _$issueListControllerHash() =>
-    r'd2535505ffede766e95e1be56740589e2f3f0e0b';
+    r'5a185e53336f82f15bbba8dac3bc1a30ef3f66af';
 
 abstract class _$IssueListController
     extends BuildlessAutoDisposeAsyncNotifier<IssueListState> {
@@ -1604,7 +1604,7 @@ final projectSubmitControllerProvider = AutoDisposeNotifierProvider<
 
 typedef _$ProjectSubmitController = AutoDisposeNotifier<ProjectSubmitState>;
 String _$scheduleFilterControllerHash() =>
-    r'0035ce58bca8dbd1897d51aebd57fde84a243480';
+    r'db889c5e8389dc2ccc0375171237d46b9712cb14';
 
 /// See also [ScheduleFilterController].
 @ProviderFor(ScheduleFilterController)
@@ -1795,7 +1795,7 @@ class _ScheduleFormControllerProviderElement
 }
 
 String _$scheduleListControllerHash() =>
-    r'542a01fdde2b1f380118d180c07a0fe571588bf8';
+    r'8703678b825caa0abd421e021061ce29ae412600';
 
 abstract class _$ScheduleListController
     extends BuildlessAutoDisposeAsyncNotifier<ScheduleListState> {
@@ -1946,7 +1946,7 @@ class _ScheduleListControllerProviderElement
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'667980ae54181b143123f814ea25a5fb0d5a103a';
+    r'9bac1139901fcf1b7d72730f2c64d141dbd6343d';
 
 /// See also [ScheduleSubmitController].
 @ProviderFor(ScheduleSubmitController)
@@ -2447,6 +2447,23 @@ class _TripListControllerProviderElement
   int get projectId => (origin as TripListControllerProvider).projectId;
 }
 
+String _$tripPreviewControllerHash() =>
+    r'470b4f218093fdb2c7998bb0af2f7ca5c55838cd';
+
+/// See also [TripPreviewController].
+@ProviderFor(TripPreviewController)
+final tripPreviewControllerProvider = AutoDisposeNotifierProvider<
+    TripPreviewController, TripPreviewState>.internal(
+  TripPreviewController.new,
+  name: r'tripPreviewControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$tripPreviewControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$TripPreviewController = AutoDisposeNotifier<TripPreviewState>;
 String _$tripStepControllerHash() =>
     r'876d0392e32a7ac37aa8cd3c1bb905c8de85f69f';
 

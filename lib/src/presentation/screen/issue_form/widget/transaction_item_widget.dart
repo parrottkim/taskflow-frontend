@@ -358,6 +358,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                             .updateTransactionItem(
                                               index: index,
                                               category: value,
+                                              currency: currencies[index],
                                             );
                                       },
                                     ),
@@ -403,7 +404,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                                     issueId: issueId)
                                                 .notifier)
                                             .updateTransactionItem(
-                                                index: index, currency: value);
+                                              index: index,
+                                              currency: value,
+                                            );
                                       },
                                     ),
                                   ),
@@ -423,7 +426,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       keyboardType: TextInputType.number,
                                       maxLines: 1,
                                       inputFormatters: [
-                                        ThousandsSeparatorInputFormatter()
+                                        DecimalInputFormatter()
                                       ],
                                       textAlign: TextAlign.end,
                                       style: textTheme.bodyMedium,
@@ -456,7 +459,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                               issueId: issueId,
                                             ).notifier)
                                             .updateTransactionItem(
-                                                index: index, price: value);
+                                                index: index,
+                                                currency: currencies[index],
+                                                price: value);
                                       },
                                       onSubmitted: (value) =>
                                           FocusScope.of(context).requestFocus(

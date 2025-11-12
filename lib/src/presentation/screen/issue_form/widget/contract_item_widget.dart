@@ -680,7 +680,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                             focusNode: priceFocusNodes[index],
                                             keyboardType: TextInputType.number,
                                             inputFormatters: [
-                                              ThousandsSeparatorInputFormatter()
+                                              DecimalInputFormatter()
                                             ],
                                             textAlign: TextAlign.end,
                                             style: textTheme.bodyMedium,

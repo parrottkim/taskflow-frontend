@@ -108,7 +108,7 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
                         projectId: projectId,
                         tripId: tripId,
                         items: List.filled(
-                          5,
+                          30,
                           ScheduleGroup.dummy(),
                         ),
                       ),

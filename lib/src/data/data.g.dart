@@ -860,6 +860,7 @@ _CreateScheduleRequest _$CreateScheduleRequestFromJson(
     _CreateScheduleRequest(
       summary: json['summary'] as String,
       description: json['description'] as String?,
+      url: json['url'] as String,
       projectId: (json['projectId'] as num).toInt(),
       categoryId: (json['categoryId'] as num).toInt(),
       start: DateTime.parse(json['start'] as String),
@@ -871,6 +872,7 @@ Map<String, dynamic> _$CreateScheduleRequestToJson(
     <String, dynamic>{
       'summary': instance.summary,
       'description': instance.description,
+      'url': instance.url,
       'projectId': instance.projectId,
       'categoryId': instance.categoryId,
       'start': instance.start.toIso8601String(),
@@ -1102,6 +1104,7 @@ Map<String, dynamic> _$ScheduleGroupToJson(_ScheduleGroup instance) =>
 _Schedule _$ScheduleFromJson(Map<String, dynamic> json) => _Schedule(
       id: (json['id'] as num).toInt(),
       projectId: (json['projectId'] as num).toInt(),
+      projectCode: json['projectCode'] as String,
       projectName: json['projectName'] as String,
       projectClientId: (json['projectClientId'] as num).toInt(),
       projectClientName: json['projectClientName'] as String,
@@ -1111,6 +1114,7 @@ _Schedule _$ScheduleFromJson(Map<String, dynamic> json) => _Schedule(
       user: User.fromJson(json['user'] as Map<String, dynamic>),
       summary: json['summary'] as String? ?? '',
       description: json['description'] as String?,
+      url: json['url'] as String? ?? '',
       start: DateTime.parse(json['start'] as String),
       end: DateTime.parse(json['end'] as String),
     );
@@ -1118,6 +1122,7 @@ _Schedule _$ScheduleFromJson(Map<String, dynamic> json) => _Schedule(
 Map<String, dynamic> _$ScheduleToJson(_Schedule instance) => <String, dynamic>{
       'id': instance.id,
       'projectId': instance.projectId,
+      'projectCode': instance.projectCode,
       'projectName': instance.projectName,
       'projectClientId': instance.projectClientId,
       'projectClientName': instance.projectClientName,
@@ -1126,6 +1131,7 @@ Map<String, dynamic> _$ScheduleToJson(_Schedule instance) => <String, dynamic>{
       'user': instance.user,
       'summary': instance.summary,
       'description': instance.description,
+      'url': instance.url,
       'start': instance.start.toIso8601String(),
       'end': instance.end.toIso8601String(),
     };
@@ -3018,6 +3024,39 @@ class _TripService implements TripService {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<HttpResponse<List<int>>> exportTrip({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<List<int>>>(
+      Options(
+        method: 'GET',
+        headers: _headers,
+        extra: _extra,
+        responseType: ResponseType.bytes,
+      )
+          .compose(
+            _dio.options,
+            'trip/export/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<int> _value;
+    try {
+      _value = _result.data!.cast<int>();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
   }
 
   @override

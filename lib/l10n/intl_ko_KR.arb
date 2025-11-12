@@ -72,6 +72,7 @@
   "schedule_not_found": "근무 일정을 찾을 수 없습니다.",
   "trip_not_found": "출장 명령서를 찾을 수 없습니다.",
   "file_not_found": "파일을 찾을 수 없습니다.",
+  "exchange_not_found": "환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.",
 
   "no_permission": "이 페이지에 접근할 권한이 없습니다.",
 
@@ -408,8 +409,8 @@
   "trip_form_3": "숙박비",
   "trip_form_4": "일비",
   "trip_form_5": "기타",
-  "trip_form_column_1": "비용",
-  "trip_form_column_2": "내역",
+  "trip_form_column_1": "사용 금액",
+  "trip_form_column_2": "내역 (설명)",
   "trip_form_column_3": "단가",
   "trip_form_column_4": "일",
   "trip_form_column_5": "렌탈, 택시 실비 처리",
@@ -417,11 +418,9 @@
   "trip_form_column_7": "유류단가",
   "trip_form_column_8": "연비",
   "trip_form_column_9": "운행거리",
-  "trip_form_actual": "실비 금액",
   "trip_form_regulation": "규정 금액",
-  "trip_form_total": "합계 금액",
+  "trip_form_total": "총 사용 금액",
   "trip_form_settlement": "정산 금액",
-  "trip_form_surplus": "정산 차액",
   "trip_form_deducted_1": "렌탈, 택시 실비 처리",
   "trip_form_deducted_2": "일비 -10%",
   "trip_form_delete_dialog_1": "출장 명령서를 삭제하시겠습니까?",
@@ -431,6 +430,10 @@
   "trip_form_invalid_2": "{step} 금액을 빈 칸 없이 입력해 주세요",
   "trip_form_invalid_3": "{step} 일 수를 입력해 주세요",
   "trip_form_invalid_4": "모든 내용을 빠짐없이 입력해 주세요",
+  
+  "@_TRIP_LIST": {},
+  "trip_list_loading_1": "데이터 로딩 중입니다.",
+  "trip_list_loading_2": "PDF 변환 중입니다.",
   
   "@_WORK": {},
   "work_1": "근무 일정",

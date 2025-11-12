@@ -17,6 +17,10 @@ class TripDataSource implements TripRepository {
       _service.getAllTripRegulations(id: id);
 
   @override
+  Future<HttpResponse<List<int>>> exportTrip({required int id}) =>
+      _service.exportTrip(id: id);
+
+  @override
   Future<Trip> getTrip({required int id}) => _service.getTrip(id: id);
 
   @override

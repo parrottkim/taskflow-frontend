@@ -7,4 +7,7 @@ external JSPromise<JSArray<JSArray>> extractContract(JSAny? file);
 external JSPromise<JSArray<JSArray>> extractProcurement(JSAny? file);
 
 @JS()
-external JSPromise<JSString> generateExcelPreview(String json);
+external JSPromise<JSString> renderPdf(JSAny? blob, String elementId);
+
+@JS()
+external void printPdfCanvas(String elementId);

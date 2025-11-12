@@ -16277,6 +16277,7 @@ ScheduleRequest _$ScheduleRequestFromJson(Map<String, dynamic> json) {
 mixin _$ScheduleRequest {
   String get summary;
   String? get description;
+  String get url;
   int get projectId;
   int get categoryId;
   DateTime get start;
@@ -16301,6 +16302,7 @@ mixin _$ScheduleRequest {
             (identical(other.summary, summary) || other.summary == summary) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.url, url) || other.url == url) &&
             (identical(other.projectId, projectId) ||
                 other.projectId == projectId) &&
             (identical(other.categoryId, categoryId) ||
@@ -16311,12 +16313,12 @@ mixin _$ScheduleRequest {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, summary, description, projectId, categoryId, start, end);
+  int get hashCode => Object.hash(runtimeType, summary, description, url,
+      projectId, categoryId, start, end);
 
   @override
   String toString() {
-    return 'ScheduleRequest(summary: $summary, description: $description, projectId: $projectId, categoryId: $categoryId, start: $start, end: $end)';
+    return 'ScheduleRequest(summary: $summary, description: $description, url: $url, projectId: $projectId, categoryId: $categoryId, start: $start, end: $end)';
   }
 }
 
@@ -16329,6 +16331,7 @@ abstract mixin class $ScheduleRequestCopyWith<$Res> {
   $Res call(
       {String summary,
       String? description,
+      String url,
       int projectId,
       int categoryId,
       DateTime start,
@@ -16350,6 +16353,7 @@ class _$ScheduleRequestCopyWithImpl<$Res>
   $Res call({
     Object? summary = null,
     Object? description = freezed,
+    Object? url = null,
     Object? projectId = null,
     Object? categoryId = null,
     Object? start = null,
@@ -16364,6 +16368,10 @@ class _$ScheduleRequestCopyWithImpl<$Res>
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
       projectId: null == projectId
           ? _self.projectId
           : projectId // ignore: cast_nullable_to_non_nullable
@@ -16477,16 +16485,16 @@ extension ScheduleRequestPatterns on ScheduleRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String summary, String? description, int projectId,
-            int categoryId, DateTime start, DateTime end)?
+    TResult Function(String summary, String? description, String url,
+            int projectId, int categoryId, DateTime start, DateTime end)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _CreateScheduleRequest() when $default != null:
-        return $default(_that.summary, _that.description, _that.projectId,
-            _that.categoryId, _that.start, _that.end);
+        return $default(_that.summary, _that.description, _that.url,
+            _that.projectId, _that.categoryId, _that.start, _that.end);
       case _:
         return orElse();
     }
@@ -16507,15 +16515,15 @@ extension ScheduleRequestPatterns on ScheduleRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String summary, String? description, int projectId,
-            int categoryId, DateTime start, DateTime end)
+    TResult Function(String summary, String? description, String url,
+            int projectId, int categoryId, DateTime start, DateTime end)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CreateScheduleRequest():
-        return $default(_that.summary, _that.description, _that.projectId,
-            _that.categoryId, _that.start, _that.end);
+        return $default(_that.summary, _that.description, _that.url,
+            _that.projectId, _that.categoryId, _that.start, _that.end);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -16535,15 +16543,15 @@ extension ScheduleRequestPatterns on ScheduleRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String summary, String? description, int projectId,
-            int categoryId, DateTime start, DateTime end)?
+    TResult? Function(String summary, String? description, String url,
+            int projectId, int categoryId, DateTime start, DateTime end)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CreateScheduleRequest() when $default != null:
-        return $default(_that.summary, _that.description, _that.projectId,
-            _that.categoryId, _that.start, _that.end);
+        return $default(_that.summary, _that.description, _that.url,
+            _that.projectId, _that.categoryId, _that.start, _that.end);
       case _:
         return null;
     }
@@ -16556,6 +16564,7 @@ class _CreateScheduleRequest implements ScheduleRequest {
   _CreateScheduleRequest(
       {required this.summary,
       this.description,
+      required this.url,
       required this.projectId,
       required this.categoryId,
       required this.start,
@@ -16567,6 +16576,8 @@ class _CreateScheduleRequest implements ScheduleRequest {
   final String summary;
   @override
   final String? description;
+  @override
+  final String url;
   @override
   final int projectId;
   @override
@@ -16600,6 +16611,7 @@ class _CreateScheduleRequest implements ScheduleRequest {
             (identical(other.summary, summary) || other.summary == summary) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.url, url) || other.url == url) &&
             (identical(other.projectId, projectId) ||
                 other.projectId == projectId) &&
             (identical(other.categoryId, categoryId) ||
@@ -16610,12 +16622,12 @@ class _CreateScheduleRequest implements ScheduleRequest {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, summary, description, projectId, categoryId, start, end);
+  int get hashCode => Object.hash(runtimeType, summary, description, url,
+      projectId, categoryId, start, end);
 
   @override
   String toString() {
-    return 'ScheduleRequest(summary: $summary, description: $description, projectId: $projectId, categoryId: $categoryId, start: $start, end: $end)';
+    return 'ScheduleRequest(summary: $summary, description: $description, url: $url, projectId: $projectId, categoryId: $categoryId, start: $start, end: $end)';
   }
 }
 
@@ -16630,6 +16642,7 @@ abstract mixin class _$CreateScheduleRequestCopyWith<$Res>
   $Res call(
       {String summary,
       String? description,
+      String url,
       int projectId,
       int categoryId,
       DateTime start,
@@ -16651,6 +16664,7 @@ class __$CreateScheduleRequestCopyWithImpl<$Res>
   $Res call({
     Object? summary = null,
     Object? description = freezed,
+    Object? url = null,
     Object? projectId = null,
     Object? categoryId = null,
     Object? start = null,
@@ -16665,6 +16679,10 @@ class __$CreateScheduleRequestCopyWithImpl<$Res>
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
       projectId: null == projectId
           ? _self.projectId
           : projectId // ignore: cast_nullable_to_non_nullable
@@ -20657,6 +20675,7 @@ class __$ScheduleGroupCopyWithImpl<$Res>
 mixin _$Schedule {
   int get id;
   int get projectId;
+  String get projectCode;
   String get projectName;
   int get projectClientId;
   String get projectClientName;
@@ -20665,6 +20684,7 @@ mixin _$Schedule {
   User get user;
   String get summary;
   String? get description;
+  String get url;
   DateTime get start;
   DateTime get end;
 
@@ -20686,6 +20706,8 @@ mixin _$Schedule {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.projectId, projectId) ||
                 other.projectId == projectId) &&
+            (identical(other.projectCode, projectCode) ||
+                other.projectCode == projectCode) &&
             (identical(other.projectName, projectName) ||
                 other.projectName == projectName) &&
             (identical(other.projectClientId, projectClientId) ||
@@ -20699,6 +20721,7 @@ mixin _$Schedule {
             (identical(other.summary, summary) || other.summary == summary) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.url, url) || other.url == url) &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.end, end) || other.end == end));
   }
@@ -20709,6 +20732,7 @@ mixin _$Schedule {
       runtimeType,
       id,
       projectId,
+      projectCode,
       projectName,
       projectClientId,
       projectClientName,
@@ -20717,12 +20741,13 @@ mixin _$Schedule {
       user,
       summary,
       description,
+      url,
       start,
       end);
 
   @override
   String toString() {
-    return 'Schedule(id: $id, projectId: $projectId, projectName: $projectName, projectClientId: $projectClientId, projectClientName: $projectClientName, eventId: $eventId, category: $category, user: $user, summary: $summary, description: $description, start: $start, end: $end)';
+    return 'Schedule(id: $id, projectId: $projectId, projectCode: $projectCode, projectName: $projectName, projectClientId: $projectClientId, projectClientName: $projectClientName, eventId: $eventId, category: $category, user: $user, summary: $summary, description: $description, url: $url, start: $start, end: $end)';
   }
 }
 
@@ -20734,6 +20759,7 @@ abstract mixin class $ScheduleCopyWith<$Res> {
   $Res call(
       {int id,
       int projectId,
+      String projectCode,
       String projectName,
       int projectClientId,
       String projectClientName,
@@ -20742,6 +20768,7 @@ abstract mixin class $ScheduleCopyWith<$Res> {
       User user,
       String summary,
       String? description,
+      String url,
       DateTime start,
       DateTime end});
 
@@ -20763,6 +20790,7 @@ class _$ScheduleCopyWithImpl<$Res> implements $ScheduleCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? projectId = null,
+    Object? projectCode = null,
     Object? projectName = null,
     Object? projectClientId = null,
     Object? projectClientName = null,
@@ -20771,6 +20799,7 @@ class _$ScheduleCopyWithImpl<$Res> implements $ScheduleCopyWith<$Res> {
     Object? user = null,
     Object? summary = null,
     Object? description = freezed,
+    Object? url = null,
     Object? start = null,
     Object? end = null,
   }) {
@@ -20783,6 +20812,10 @@ class _$ScheduleCopyWithImpl<$Res> implements $ScheduleCopyWith<$Res> {
           ? _self.projectId
           : projectId // ignore: cast_nullable_to_non_nullable
               as int,
+      projectCode: null == projectCode
+          ? _self.projectCode
+          : projectCode // ignore: cast_nullable_to_non_nullable
+              as String,
       projectName: null == projectName
           ? _self.projectName
           : projectName // ignore: cast_nullable_to_non_nullable
@@ -20815,6 +20848,10 @@ class _$ScheduleCopyWithImpl<$Res> implements $ScheduleCopyWith<$Res> {
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
       start: null == start
           ? _self.start
           : start // ignore: cast_nullable_to_non_nullable
@@ -20943,6 +20980,7 @@ extension SchedulePatterns on Schedule {
     TResult Function(
             int id,
             int projectId,
+            String projectCode,
             String projectName,
             int projectClientId,
             String projectClientName,
@@ -20951,6 +20989,7 @@ extension SchedulePatterns on Schedule {
             User user,
             String summary,
             String? description,
+            String url,
             DateTime start,
             DateTime end)?
         $default, {
@@ -20962,6 +21001,7 @@ extension SchedulePatterns on Schedule {
         return $default(
             _that.id,
             _that.projectId,
+            _that.projectCode,
             _that.projectName,
             _that.projectClientId,
             _that.projectClientName,
@@ -20970,6 +21010,7 @@ extension SchedulePatterns on Schedule {
             _that.user,
             _that.summary,
             _that.description,
+            _that.url,
             _that.start,
             _that.end);
       case _:
@@ -20995,6 +21036,7 @@ extension SchedulePatterns on Schedule {
     TResult Function(
             int id,
             int projectId,
+            String projectCode,
             String projectName,
             int projectClientId,
             String projectClientName,
@@ -21003,6 +21045,7 @@ extension SchedulePatterns on Schedule {
             User user,
             String summary,
             String? description,
+            String url,
             DateTime start,
             DateTime end)
         $default,
@@ -21013,6 +21056,7 @@ extension SchedulePatterns on Schedule {
         return $default(
             _that.id,
             _that.projectId,
+            _that.projectCode,
             _that.projectName,
             _that.projectClientId,
             _that.projectClientName,
@@ -21021,6 +21065,7 @@ extension SchedulePatterns on Schedule {
             _that.user,
             _that.summary,
             _that.description,
+            _that.url,
             _that.start,
             _that.end);
       case _:
@@ -21045,6 +21090,7 @@ extension SchedulePatterns on Schedule {
     TResult? Function(
             int id,
             int projectId,
+            String projectCode,
             String projectName,
             int projectClientId,
             String projectClientName,
@@ -21053,6 +21099,7 @@ extension SchedulePatterns on Schedule {
             User user,
             String summary,
             String? description,
+            String url,
             DateTime start,
             DateTime end)?
         $default,
@@ -21063,6 +21110,7 @@ extension SchedulePatterns on Schedule {
         return $default(
             _that.id,
             _that.projectId,
+            _that.projectCode,
             _that.projectName,
             _that.projectClientId,
             _that.projectClientName,
@@ -21071,6 +21119,7 @@ extension SchedulePatterns on Schedule {
             _that.user,
             _that.summary,
             _that.description,
+            _that.url,
             _that.start,
             _that.end);
       case _:
@@ -21085,6 +21134,7 @@ class _Schedule implements Schedule {
   _Schedule(
       {required this.id,
       required this.projectId,
+      required this.projectCode,
       required this.projectName,
       required this.projectClientId,
       required this.projectClientName,
@@ -21093,6 +21143,7 @@ class _Schedule implements Schedule {
       required this.user,
       this.summary = '',
       this.description,
+      this.url = '',
       required this.start,
       required this.end});
   factory _Schedule.fromJson(Map<String, dynamic> json) =>
@@ -21102,6 +21153,8 @@ class _Schedule implements Schedule {
   final int id;
   @override
   final int projectId;
+  @override
+  final String projectCode;
   @override
   final String projectName;
   @override
@@ -21119,6 +21172,9 @@ class _Schedule implements Schedule {
   final String summary;
   @override
   final String? description;
+  @override
+  @JsonKey()
+  final String url;
   @override
   final DateTime start;
   @override
@@ -21147,6 +21203,8 @@ class _Schedule implements Schedule {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.projectId, projectId) ||
                 other.projectId == projectId) &&
+            (identical(other.projectCode, projectCode) ||
+                other.projectCode == projectCode) &&
             (identical(other.projectName, projectName) ||
                 other.projectName == projectName) &&
             (identical(other.projectClientId, projectClientId) ||
@@ -21160,6 +21218,7 @@ class _Schedule implements Schedule {
             (identical(other.summary, summary) || other.summary == summary) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.url, url) || other.url == url) &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.end, end) || other.end == end));
   }
@@ -21170,6 +21229,7 @@ class _Schedule implements Schedule {
       runtimeType,
       id,
       projectId,
+      projectCode,
       projectName,
       projectClientId,
       projectClientName,
@@ -21178,12 +21238,13 @@ class _Schedule implements Schedule {
       user,
       summary,
       description,
+      url,
       start,
       end);
 
   @override
   String toString() {
-    return 'Schedule(id: $id, projectId: $projectId, projectName: $projectName, projectClientId: $projectClientId, projectClientName: $projectClientName, eventId: $eventId, category: $category, user: $user, summary: $summary, description: $description, start: $start, end: $end)';
+    return 'Schedule(id: $id, projectId: $projectId, projectCode: $projectCode, projectName: $projectName, projectClientId: $projectClientId, projectClientName: $projectClientName, eventId: $eventId, category: $category, user: $user, summary: $summary, description: $description, url: $url, start: $start, end: $end)';
   }
 }
 
@@ -21197,6 +21258,7 @@ abstract mixin class _$ScheduleCopyWith<$Res>
   $Res call(
       {int id,
       int projectId,
+      String projectCode,
       String projectName,
       int projectClientId,
       String projectClientName,
@@ -21205,6 +21267,7 @@ abstract mixin class _$ScheduleCopyWith<$Res>
       User user,
       String summary,
       String? description,
+      String url,
       DateTime start,
       DateTime end});
 
@@ -21228,6 +21291,7 @@ class __$ScheduleCopyWithImpl<$Res> implements _$ScheduleCopyWith<$Res> {
   $Res call({
     Object? id = null,
     Object? projectId = null,
+    Object? projectCode = null,
     Object? projectName = null,
     Object? projectClientId = null,
     Object? projectClientName = null,
@@ -21236,6 +21300,7 @@ class __$ScheduleCopyWithImpl<$Res> implements _$ScheduleCopyWith<$Res> {
     Object? user = null,
     Object? summary = null,
     Object? description = freezed,
+    Object? url = null,
     Object? start = null,
     Object? end = null,
   }) {
@@ -21248,6 +21313,10 @@ class __$ScheduleCopyWithImpl<$Res> implements _$ScheduleCopyWith<$Res> {
           ? _self.projectId
           : projectId // ignore: cast_nullable_to_non_nullable
               as int,
+      projectCode: null == projectCode
+          ? _self.projectCode
+          : projectCode // ignore: cast_nullable_to_non_nullable
+              as String,
       projectName: null == projectName
           ? _self.projectName
           : projectName // ignore: cast_nullable_to_non_nullable
@@ -21280,6 +21349,10 @@ class __$ScheduleCopyWithImpl<$Res> implements _$ScheduleCopyWith<$Res> {
           ? _self.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      url: null == url
+          ? _self.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
       start: null == start
           ? _self.start
           : start // ignore: cast_nullable_to_non_nullable
