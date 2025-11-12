@@ -12683,6 +12683,354 @@ class __$TripListStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
+mixin _$TripPreviewState {
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TripPreviewState);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TripPreviewState()';
+  }
+}
+
+/// @nodoc
+class $TripPreviewStateCopyWith<$Res> {
+  $TripPreviewStateCopyWith(
+      TripPreviewState _, $Res Function(TripPreviewState) __);
+}
+
+/// Adds pattern-matching-related methods to [TripPreviewState].
+extension TripPreviewStatePatterns on TripPreviewState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(TripPreviewIdle value)? idle,
+    TResult Function(TripPreviewLoading value)? loading,
+    TResult Function(TripPreviewRendering value)? rendering,
+    TResult Function(TripPreviewSuccess value)? success,
+    TResult Function(TripPreviewFailed value)? failed,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TripPreviewIdle() when idle != null:
+        return idle(_that);
+      case TripPreviewLoading() when loading != null:
+        return loading(_that);
+      case TripPreviewRendering() when rendering != null:
+        return rendering(_that);
+      case TripPreviewSuccess() when success != null:
+        return success(_that);
+      case TripPreviewFailed() when failed != null:
+        return failed(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(TripPreviewIdle value) idle,
+    required TResult Function(TripPreviewLoading value) loading,
+    required TResult Function(TripPreviewRendering value) rendering,
+    required TResult Function(TripPreviewSuccess value) success,
+    required TResult Function(TripPreviewFailed value) failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TripPreviewIdle():
+        return idle(_that);
+      case TripPreviewLoading():
+        return loading(_that);
+      case TripPreviewRendering():
+        return rendering(_that);
+      case TripPreviewSuccess():
+        return success(_that);
+      case TripPreviewFailed():
+        return failed(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(TripPreviewIdle value)? idle,
+    TResult? Function(TripPreviewLoading value)? loading,
+    TResult? Function(TripPreviewRendering value)? rendering,
+    TResult? Function(TripPreviewSuccess value)? success,
+    TResult? Function(TripPreviewFailed value)? failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TripPreviewIdle() when idle != null:
+        return idle(_that);
+      case TripPreviewLoading() when loading != null:
+        return loading(_that);
+      case TripPreviewRendering() when rendering != null:
+        return rendering(_that);
+      case TripPreviewSuccess() when success != null:
+        return success(_that);
+      case TripPreviewFailed() when failed != null:
+        return failed(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? idle,
+    TResult Function()? loading,
+    TResult Function()? rendering,
+    TResult Function()? success,
+    TResult Function()? failed,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TripPreviewIdle() when idle != null:
+        return idle();
+      case TripPreviewLoading() when loading != null:
+        return loading();
+      case TripPreviewRendering() when rendering != null:
+        return rendering();
+      case TripPreviewSuccess() when success != null:
+        return success();
+      case TripPreviewFailed() when failed != null:
+        return failed();
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() idle,
+    required TResult Function() loading,
+    required TResult Function() rendering,
+    required TResult Function() success,
+    required TResult Function() failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TripPreviewIdle():
+        return idle();
+      case TripPreviewLoading():
+        return loading();
+      case TripPreviewRendering():
+        return rendering();
+      case TripPreviewSuccess():
+        return success();
+      case TripPreviewFailed():
+        return failed();
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? idle,
+    TResult? Function()? loading,
+    TResult? Function()? rendering,
+    TResult? Function()? success,
+    TResult? Function()? failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case TripPreviewIdle() when idle != null:
+        return idle();
+      case TripPreviewLoading() when loading != null:
+        return loading();
+      case TripPreviewRendering() when rendering != null:
+        return rendering();
+      case TripPreviewSuccess() when success != null:
+        return success();
+      case TripPreviewFailed() when failed != null:
+        return failed();
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class TripPreviewIdle implements TripPreviewState {
+  TripPreviewIdle();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TripPreviewIdle);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TripPreviewState.idle()';
+  }
+}
+
+/// @nodoc
+
+class TripPreviewLoading implements TripPreviewState {
+  TripPreviewLoading();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TripPreviewLoading);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TripPreviewState.loading()';
+  }
+}
+
+/// @nodoc
+
+class TripPreviewRendering implements TripPreviewState {
+  TripPreviewRendering();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TripPreviewRendering);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TripPreviewState.rendering()';
+  }
+}
+
+/// @nodoc
+
+class TripPreviewSuccess implements TripPreviewState {
+  TripPreviewSuccess();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TripPreviewSuccess);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TripPreviewState.success()';
+  }
+}
+
+/// @nodoc
+
+class TripPreviewFailed implements TripPreviewState {
+  TripPreviewFailed();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is TripPreviewFailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString() {
+    return 'TripPreviewState.failed()';
+  }
+}
+
+/// @nodoc
 mixin _$TripStepState {
   int get currentIndex;
 

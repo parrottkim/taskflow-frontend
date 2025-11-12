@@ -63,13 +63,12 @@ class _DesktopWidget extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final selected = useState<int?>(tripId);
-    final itemKeys = useRef<Map<int, GlobalKey>>({});
-
-    useEffect(() {
+    final itemKeys = useMemoized<Map<int, GlobalKey>>(() {
+      final Map<int, GlobalKey> keys = {};
       for (final issue in items) {
-        itemKeys.value.putIfAbsent(issue.id, () => GlobalKey());
+        keys[issue.id] = GlobalKey();
       }
-      return null;
+      return keys;
     }, [items]);
 
     final controller = PrimaryScrollController.of(context);
@@ -81,25 +80,23 @@ class _DesktopWidget extends HookConsumerWidget {
         Future.microtask(() async {
           await WidgetsBinding.instance.endOfFrame;
 
-          final ctx = itemKeys.value[selected.value]?.currentContext;
+          final ctx = itemKeys[selected.value]?.currentContext;
           if (ctx == null) return;
 
-          // 1. Target RenderBox
-          final box = ctx.findRenderObject() as RenderBox;
-          // 2. Scrollable container's RenderBox
-          final scrollBox = controller.position.context.storageContext
-              .findRenderObject() as RenderBox;
-          // 3. Position of item relative to scrollable
-          final position = box.localToGlobal(Offset.zero, ancestor: scrollBox);
-          // 4. Subtract SliverHeader or pinned AppBar height
-          const headerHeight = 120.0; // adjust to your SliverHeader height
-          final targetOffset = controller.offset + position.dy - headerHeight;
+          // ⭐️ ScrollController를 사용하는 로직으로 변경
+          if (controller.hasClients) {
+            final renderBox = ctx.findRenderObject() as RenderBox;
+            final viewport = context.findRenderObject() as RenderBox;
+            final targetOffset =
+                renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy -
+                    60.0;
 
-          controller.animateTo(
-            targetOffset.clamp(0.0, controller.position.maxScrollExtent),
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInQuad,
-          );
+            controller.animateTo(
+              targetOffset + controller.offset,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInQuad,
+            );
+          }
         });
       }
       return null;
@@ -152,7 +149,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 padding: EdgeInsets.only(
                     bottom: index < items.length - 1 ? 8.0 : 0.0),
                 child: Row(
-                  key: itemKeys.value[items[index].id],
+                  key: itemKeys[items[index].id],
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (Responsive.isDesktop(context))
@@ -229,34 +226,6 @@ class _DesktopWidget extends HookConsumerWidget {
                               TripItemWidget(
                                 item: items[index],
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.all(16.0),
-                              //   child: Column(
-                              //     mainAxisSize: MainAxisSize.min,
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       CategoryWidget(item: items[index].category),
-                              //       SizedBox(height: 16.0),
-                              //       switch (items[index].details) {
-                              //         IssueContractDetails(:final items) =>
-                              //           ContractItemWidget(items: items),
-                              //         IssueKickoffDetails(:final kickoffDate) =>
-                              //           KickoffItemWidget(
-                              //               kickoffDate: kickoffDate),
-                              //         IssueProcurementDetails(:final items) =>
-                              //           ProcurementItemWidget(items: items),
-                              //         IssueTransactionDetails(:final items) =>
-                              //           TransactionItemWidget(items: items),
-                              //         _ => SizedBox(),
-                              //       },
-                              //       MarkdownWidget(item: items[index].content),
-                              //       if (items[index].attachments.isNotEmpty)
-                              //         AttachmentWidget(
-                              //             attachments:
-                              //                 items[index].attachments),
-                              //     ],
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),

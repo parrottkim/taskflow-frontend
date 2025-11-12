@@ -1,31 +1,64 @@
 import 'package:flutter/services.dart';
 
-class ThousandsSeparatorInputFormatter extends TextInputFormatter {
-  static const separator = ','; // Change this to '.' for other locales
+class DecimalInputFormatter extends TextInputFormatter {
+  static const separator = ','; // 천의 자리 구분 기호
+  static const decimal = '.'; // 소수점 구분 기호
 
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    // 입력된 값에서 숫자 이외의 모든 문자를 제거
-    String newString = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+    // 1. 기존 값과 새 값에서 천의 자리 구분 기호(,)를 모두 제거
+    String newString = newValue.text.replaceAll(separator, '');
+
+    // 2. 비숫자 및 소수점(.) 이외의 모든 문자를 제거
+    // (첫 번째 소수점 이후의 추가 소수점도 제거)
+    newString = newString.replaceAll(RegExp(r'[^\d\.]'), '');
+
+    // 3. 소수점 처리: 첫 번째 소수점만 허용하고 나머지는 제거
+    final parts = newString.split(decimal);
+    if (parts.length > 2) {
+      newString = parts[0] + decimal + parts.sublist(1).join();
+    }
 
     // 만약 비숫자 문자를 제거한 후의 값이 비어있다면, 그대로 반환
     if (newString.isEmpty) {
       return newValue.copyWith(text: '');
     }
 
-    // 기존 로직을 적용하여 쉼표 추가
-    int selectionIndex = newValue.text.length - newValue.selection.extentOffset;
-    final chars = newString.split('');
-    String formattedString = '';
+    // --- 정수부와 소수부 분리 ---
+    String integerPart;
+    String decimalPart = '';
 
-    for (int i = chars.length - 1; i >= 0; i--) {
-      if ((chars.length - 1 - i) % 3 == 0 && i != chars.length - 1) {
-        formattedString = separator + formattedString;
+    if (newString.contains(decimal)) {
+      final split = newString.split(decimal);
+      integerPart = split[0];
+      if (split.length > 1) {
+        decimalPart = decimal + split[1];
       }
-      formattedString = chars[i] + formattedString;
+    } else {
+      integerPart = newString;
     }
 
+    // --- 정수부에 천의 자리 구분 기호 적용 ---
+    String formattedIntegerPart = '';
+    final chars = integerPart.split('');
+
+    // 커서 위치 보정을 위해 원래 텍스트 길이와 새 텍스트 길이 차이 계산
+    int selectionIndex = newValue.text.length - newValue.selection.extentOffset;
+
+    // 4. 정수부에 쉼표 추가
+    for (int i = chars.length - 1; i >= 0; i--) {
+      // 세 자리마다 쉼표 추가 (가장 앞이 아닌 경우)
+      if ((chars.length - 1 - i) % 3 == 0 && i != chars.length - 1) {
+        formattedIntegerPart = separator + formattedIntegerPart;
+      }
+      formattedIntegerPart = chars[i] + formattedIntegerPart;
+    }
+
+    // 5. 정수부와 소수부 합치기
+    String formattedString = formattedIntegerPart + decimalPart;
+
+    // 6. 새로운 커서 위치 계산 및 반환
     return TextEditingValue(
       text: formattedString,
       selection: TextSelection.collapsed(

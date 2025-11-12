@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <!--
+  <head>
+    <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
 
@@ -14,36 +14,67 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="$FLUTTER_BASE_HREF">
+    <base href="$FLUTTER_BASE_HREF" />
 
-  <meta name="theme-color" media="(prefers-color-colorScheme: light)" content="#FFFFFF">
-  <meta name="theme-color" media="(prefers-color-colorScheme: dark)" content="#000000">
+    <meta
+      name="theme-color"
+      media="(prefers-color-colorScheme: light)"
+      content="#FFFFFF"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-colorScheme: dark)"
+      content="#000000"
+    />
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Taskflow는 팀의 효율적인 프로젝트 관리를 위한 사내 웹 애플리케이션입니다. 프로젝트 생성, 할당, 진행 상황 추적, 협업 도구 통합 등을 제공하여 팀원들이 보다 효과적으로 작업을 수행할 수 있도록 지원합니다.">
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta
+      name="description"
+      content="팀의 효율적인 프로젝트 관리와 협업을 위한 사내 웹 애플리케이션입니다."
+    />
 
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Taskflow">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta property="og:title" content="Taskflow: 팀 프로젝트 관리 솔루션" />
+    <meta
+      property="og:description"
+      content="팀의 효율적인 프로젝트 관리와 협업을 위한 사내 웹 애플리케이션입니다."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://taskflow.dan-tech.com" />
+    <!-- <meta
+      property="og:image"
+      content="[여기에 미리보기 이미지 경로를 입력하세요.]"
+    /> -->
+    <meta
+      property="og:image:alt"
+      content="Taskflow 로고 및 프로젝트 관리 화면"
+    />
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- iOS meta tags & icons -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Taskflow" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-  <title>Taskflow</title>
-  <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.16.105/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.16.105/pdf.worker.min.js"></script>
-  <script src="assets/scripts/pdf_extract.js"></script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-  <script src="assets/scripts/xlsx_extract.js"></script>
-  
-  <script src="flutter_bootstrap.js" async></script>
-</body>
+    <title>Taskflow</title>
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    <script type="module">
+      import * as pdfjsLib from "https://unpkg.com/pdfjs-dist@5.4.394/build/pdf.mjs";
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://unpkg.com/pdfjs-dist@5.4.394/build/pdf.worker.mjs";
+      window.pdfjsLib = pdfjsLib; // 전역 등록
+    </script>
+    <script src="assets/scripts/pdf.js"></script>
+
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="assets/scripts/xlsx.js"></script>
+
+    <script src="flutter_bootstrap.js" async></script>
+  </body>
 </html>

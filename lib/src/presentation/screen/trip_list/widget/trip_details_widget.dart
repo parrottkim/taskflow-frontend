@@ -30,37 +30,27 @@ class TripDetailsWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final rate = rates.firstWhereOrNull((rate) {
+    final associatedRates = rates.where((rate) {
+      // 현재 steps 중 해당 rate의 stepId와 일치하는 항목이 있는지 확인
       return steps.any((step) => step.id == rate.stepId);
-    });
+    }).toList();
 
-    final settlement = (() {
-      if (rate == null) return null;
+    final settlement = rates.fold<double>(0.0, (sum, rate) {
+      final stepExists = steps.any((s) => s.id == rate.stepId);
+      if (!stepExists) return sum;
 
-      final rateString = rate.rate?.replaceAll(',', '') ?? '0';
-      final rateValue = double.tryParse(rateString) ?? 0.0;
-
-      final daysString = rate.days?.replaceAll(',', '') ?? '0';
-      final daysValue = double.tryParse(daysString) ?? 0.0;
-
-      // 1. 규정된 금액의 총합을 계산합니다.
-      final double regulatedTotal = rateValue * daysValue;
-
-      // 2. 적용할 할인율을 0.0 ~ 1.0 사이의 값으로 설정합니다.
-      //    (국내 출장 && 카테고리 ID가 3일 때 10% 할인)
-      final double discountRate = schedule.category is ScheduleOverseas &&
+      final rateValue =
+          double.tryParse(rate.rate?.replaceAll(',', '') ?? '0') ?? 0.0;
+      final daysValue =
+          double.tryParse(rate.days?.replaceAll(',', '') ?? '0') ?? 0.0;
+      final discountRate = schedule.category is ScheduleOverseas &&
               category.id == 4 &&
               isDeducted
-          ? 0.1 // 10% (10 / 100)
-          : 0.0; // 할인 없음
+          ? 0.1
+          : 0.0;
 
-      // 3. 총액에서 할인율을 적용한 최종 정산 금액을 계산합니다.
-      //    예: regulatedTotal * (1 - 0.1) = regulatedTotal * 0.9 (90%만 지급)
-      final double finalSettlement = regulatedTotal * (1 - discountRate);
-
-      // 4. 최종 정산 금액을 반환합니다.
-      return finalSettlement;
-    })();
+      return sum + (rateValue * daysValue * (1 - discountRate));
+    });
 
     final total = expenses.where((expense) {
       return steps.any((step) => step.id == expense.stepId);
@@ -96,7 +86,7 @@ class TripDetailsWidget extends StatelessWidget {
             DataColumn(
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
-                Intl.message('trip_form_actual'),
+                Intl.message('trip_form_regulation'),
                 style: TextStyle(
                   color: colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
@@ -105,7 +95,7 @@ class TripDetailsWidget extends StatelessWidget {
             DataColumn(
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
-                Intl.message('trip_form_regulation'),
+                Intl.message('trip_form_column_1'),
                 style: TextStyle(
                   color: colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
@@ -149,24 +139,6 @@ class TripDetailsWidget extends StatelessWidget {
                     ),
                   ),
                   DataCell(
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: expenses
-                          .where((element) => element.stepId == step.id)
-                          .toList()
-                          .length,
-                      itemBuilder: (context, itemIndex) => SizedBox(
-                        height: 34.0,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                              '${expenses.where((element) => element.stepId == step.id).toList()[itemIndex].price ?? 0} ₩'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  DataCell(
                     SizedBox(
                       height: height,
                       child: Padding(
@@ -181,6 +153,24 @@ class TripDetailsWidget extends StatelessWidget {
                                       null
                               ? '${regulations.firstWhereOrNull((e) => e.stepId == step.id)!.rate} ${schedule.category is ScheduleDomestic ? '₩' : '\$'} × ${rates.firstWhereOrNull((e) => e.stepId == step.id)!.days} 일'
                               : ''),
+                        ),
+                      ),
+                    ),
+                  ),
+                  DataCell(
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: expenses
+                          .where((element) => element.stepId == step.id)
+                          .toList()
+                          .length,
+                      itemBuilder: (context, itemIndex) => SizedBox(
+                        height: 34.0,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                              '${expenses.where((element) => element.stepId == step.id).toList()[itemIndex].price ?? 0} ₩'),
                         ),
                       ),
                     ),
@@ -233,7 +223,7 @@ class TripDetailsWidget extends StatelessWidget {
               ],
             ),
           ),
-        if (settlement != null)
+        if (associatedRates.isNotEmpty)
           Container(
             width: 120.0,
             padding:
@@ -242,7 +232,7 @@ class TripDetailsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  Intl.message('trip_form_settlement'),
+                  Intl.message('trip_form_regulation'),
                   style: TextStyle(
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
@@ -303,7 +293,7 @@ class TripDetailsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  Intl.message('trip_form_surplus'),
+                  Intl.message('trip_form_settlement'),
                   style: TextStyle(
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),

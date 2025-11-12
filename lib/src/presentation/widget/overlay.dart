@@ -49,6 +49,64 @@ class LoadingOverlay {
   }
 }
 
+class TextOverlay {
+  static OverlayEntry? _overlayEntry;
+  static bool _isVisible = false;
+
+  static void show(BuildContext context, String text) {
+    if (!_isVisible) {
+      _overlayEntry = OverlayEntry(
+        builder: (context) => Stack(
+          children: [
+            // Background overlay
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {}, // Handle tap events if needed
+                child: Container(
+                  color: Colors.black.withValues(alpha: 0.5),
+                ),
+              ),
+            ),
+            // Centered loading indicator
+            Positioned.fill(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    LoadingAnimationWidget.progressiveDots(
+                      color: Colors.white,
+                      size: 24.0,
+                    ),
+                    SizedBox(height: 24.0),
+                    Text(
+                      text,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+
+      Overlay.of(context, rootOverlay: true).insert(_overlayEntry!);
+      _isVisible = true;
+    }
+  }
+
+  static void hide() {
+    if (_isVisible && _overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+      _isVisible = false;
+    }
+  }
+}
+
 class TooltipOverlay extends HookWidget {
   final Widget message;
   final Widget child;

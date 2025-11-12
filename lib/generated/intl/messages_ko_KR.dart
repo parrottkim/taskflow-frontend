@@ -143,6 +143,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "error_unexpected": MessageLookupByLibrary.simpleMessage(
       "예상치 못한 오류가 발생했습니다.",
     ),
+    "exchange_not_found": MessageLookupByLibrary.simpleMessage(
+      "환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.",
+    ),
     "file_not_found": MessageLookupByLibrary.simpleMessage("파일을 찾을 수 없습니다."),
     "filter_applied": MessageLookupByLibrary.simpleMessage("적용중"),
     "filter_ascending": MessageLookupByLibrary.simpleMessage("오름차순"),
@@ -603,9 +606,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "trip_form_3": MessageLookupByLibrary.simpleMessage("숙박비"),
     "trip_form_4": MessageLookupByLibrary.simpleMessage("일비"),
     "trip_form_5": MessageLookupByLibrary.simpleMessage("기타"),
-    "trip_form_actual": MessageLookupByLibrary.simpleMessage("실비 금액"),
-    "trip_form_column_1": MessageLookupByLibrary.simpleMessage("비용"),
-    "trip_form_column_2": MessageLookupByLibrary.simpleMessage("내역"),
+    "trip_form_column_1": MessageLookupByLibrary.simpleMessage("사용 금액"),
+    "trip_form_column_2": MessageLookupByLibrary.simpleMessage("내역 (설명)"),
     "trip_form_column_3": MessageLookupByLibrary.simpleMessage("단가"),
     "trip_form_column_4": MessageLookupByLibrary.simpleMessage("일"),
     "trip_form_column_5": MessageLookupByLibrary.simpleMessage("렌탈, 택시 실비 처리"),
@@ -646,11 +648,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "trip_form_schedule_search": MessageLookupByLibrary.simpleMessage("일정 검색"),
     "trip_form_settlement": MessageLookupByLibrary.simpleMessage("정산 금액"),
     "trip_form_step": MessageLookupByLibrary.simpleMessage("단계"),
-    "trip_form_surplus": MessageLookupByLibrary.simpleMessage("정산 차액"),
-    "trip_form_total": MessageLookupByLibrary.simpleMessage("합계 금액"),
+    "trip_form_total": MessageLookupByLibrary.simpleMessage("총 사용 금액"),
     "trip_from_schedule_empty": MessageLookupByLibrary.simpleMessage(
       "일정이 없습니다",
     ),
+    "trip_list_loading_1": MessageLookupByLibrary.simpleMessage("데이터 로딩 중입니다."),
+    "trip_list_loading_2": MessageLookupByLibrary.simpleMessage("PDF 변환 중입니다."),
     "trip_new": MessageLookupByLibrary.simpleMessage("출장 명령서 등록"),
     "trip_not_found": MessageLookupByLibrary.simpleMessage(
       "출장 명령서를 찾을 수 없습니다.",

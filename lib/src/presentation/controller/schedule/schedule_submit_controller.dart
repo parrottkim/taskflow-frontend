@@ -19,15 +19,10 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     try {
       final clientUrl = ref.read(clientUrlProvider);
 
-      final summary =
-          '[${Intl.message('schedule_new_choose_${categoryId}_1')}][${value.projectClientName}][${auth.user.username}] ${value.summary} (${DateFormat('MM/dd').format(value.start!)} - ${DateFormat('MM/dd').format(value.end!)})';
-      final description = value.description == null
-          ? join(clientUrl, Routes.project, value.projectId!.toString())
-          : '${value.description}\n\n${join(clientUrl, Routes.project, value.projectId!.toString())}';
-
       final request = ScheduleRequest(
-        summary: summary,
-        description: description,
+        summary: value.summary!,
+        description: value.description,
+        url: join(clientUrl, Routes.project, value.projectId!.toString()),
         projectId: value.projectId!,
         categoryId: categoryId,
         start: value.start!,
@@ -60,15 +55,10 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     try {
       final clientUrl = ref.read(clientUrlProvider);
 
-      final summary =
-          '[${Intl.message('schedule_new_choose_${categoryId}_1')}][${value.projectClientName}][${auth.user.username}] ${value.summary} (${DateFormat('MM/dd').format(value.start!)} - ${DateFormat('MM/dd').format(value.end!)})';
-      final description = value.description == null
-          ? join(clientUrl, Routes.project, value.projectId!.toString())
-          : '${value.description}\n\n${join(clientUrl, Routes.project, value.projectId!.toString())}';
-
       final request = ScheduleRequest(
-        summary: summary,
-        description: description,
+        summary: value.summary!,
+        description: value.description,
+        url: join(clientUrl, Routes.project, value.projectId!.toString()),
         projectId: value.projectId!,
         categoryId: categoryId,
         start: value.start!,

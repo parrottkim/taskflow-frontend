@@ -183,8 +183,11 @@ class _DesktopWidget extends HookConsumerWidget {
           entry.key: expenses
                   .where((item) => item.stepId == entry.key)
                   .any((item) => item.price == null || item.price!.isEmpty) ||
-              expenses.where((item) => item.stepId == entry.key).isNotEmpty &&
-                  rates.isEmpty ||
+              (entry.key != 20 &&
+                  expenses
+                      .where((item) => item.stepId == entry.key)
+                      .isNotEmpty &&
+                  rates.isEmpty) ||
               expenses.where((item) => item.stepId == entry.key).isNotEmpty &&
                   rates.where((setting) => setting.stepId == entry.key).any(
                       (setting) =>

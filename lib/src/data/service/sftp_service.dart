@@ -11,7 +11,7 @@ abstract class SftpService {
   });
 
   @GET('files/download')
-  @DioResponseType(ResponseType.bytes) // 스트림 응답 타입을 명시적으로 지정
+  @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> downloadFile(
       {@Query('path') required String path});
 }
