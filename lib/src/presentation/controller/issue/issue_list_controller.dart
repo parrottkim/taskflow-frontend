@@ -68,6 +68,4 @@ class IssueListController extends _$IssueListController {
 
     state = AsyncValue.data(value.copyWith(items: updatedIssues));
   }
-
-  Future<void> downloadAttachment() async {}
 }

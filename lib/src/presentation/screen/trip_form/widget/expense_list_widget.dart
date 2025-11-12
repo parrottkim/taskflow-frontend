@@ -139,7 +139,7 @@ class _ExpenseItemWidget extends HookConsumerWidget {
           : '0';
       double days = double.tryParse(cleanedDays) ?? 0.0;
 
-      return (price * days) - total;
+      return price * days;
     }, [filteredItems, rate?.days]);
 
     final opacityController = useAnimationController(
@@ -151,7 +151,8 @@ class _ExpenseItemWidget extends HookConsumerWidget {
     );
 
     useEffect(() {
-      if (filteredItems != null && filteredItems.isNotEmpty) {
+      if ((filteredItems != null && filteredItems.isNotEmpty) ||
+          (regulation != null && filteredItems == null)) {
         sizeController.forward().then((_) {
           opacityController.forward();
         });
@@ -203,6 +204,212 @@ class _ExpenseItemWidget extends HookConsumerWidget {
               ),
               label: Text(
                 Intl.message('issue_form_contract_7'),
+              ),
+            ),
+          ),
+        if (regulation != null)
+          SizeTransition(
+            sizeFactor: CurvedAnimation(
+              parent: sizeController,
+              curve: Curves.easeInQuad,
+            ),
+            child: FadeTransition(
+              opacity: opacityController,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: 4.0, bottom: filteredItems != null ? 8.0 : 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DataTable(
+                      headingRowHeight: 36.0,
+                      showCheckboxColumn: false,
+                      horizontalMargin: 0.0,
+                      dataRowMinHeight: 34.0,
+                      dataRowMaxHeight: 34.0,
+                      showBottomBorder: true,
+                      border: TableBorder(
+                        verticalInside: BorderSide(
+                          color: colorScheme.outline.withValues(alpha: 0.2),
+                          width: 1.0,
+                        ),
+                        horizontalInside: BorderSide(
+                          color: colorScheme.outline.withValues(alpha: 0.2),
+                          width: 1.0,
+                        ),
+                        bottom: BorderSide(
+                          color: colorScheme.outline.withValues(alpha: 0.2),
+                          width: 1.0,
+                        ),
+                      ),
+                      columns: [
+                        DataColumn(
+                          columnWidth: FlexColumnWidth(0.6),
+                          label: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Symbols.numbers_rounded,
+                                  color: colorScheme.onSurface
+                                      .withValues(alpha: 0.7),
+                                  size: 16.0,
+                                ),
+                                SizedBox(width: 4.0),
+                                Text(
+                                  Intl.message('trip_form_column_3'),
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: colorScheme.onSurface
+                                        .withValues(alpha: 0.7),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        DataColumn(
+                          columnWidth: FlexColumnWidth(0.4),
+                          label: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Symbols.numbers_rounded,
+                                  color: colorScheme.onSurface
+                                      .withValues(alpha: 0.7),
+                                  size: 16.0,
+                                ),
+                                SizedBox(width: 4.0),
+                                Text(
+                                  Intl.message('trip_form_column_4'),
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: colorScheme.onSurface
+                                        .withValues(alpha: 0.7),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                      rows: [
+                        DataRow(
+                          cells: [
+                            DataCell(
+                              TextField(
+                                readOnly: true,
+                                controller: rateController,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [DecimalInputFormatter()],
+                                textAlign: TextAlign.end,
+                                style: textTheme.bodyMedium,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.transparent),
+                                  ),
+                                  suffixText: selectedSchedule.category
+                                          is ScheduleDomestic
+                                      ? '₩'
+                                      : '\$',
+                                ),
+                              ),
+                            ),
+                            DataCell(
+                              Material(
+                                elevation: daysFocusNode.hasFocus ? 1.0 : 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: daysFocusNode.hasFocus
+                                    ? colorScheme.surfaceBright
+                                    : colorScheme.surfaceContainerLow,
+                                child: TextField(
+                                  controller: daysController,
+                                  focusNode: daysFocusNode,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [DecimalInputFormatter()],
+                                  textAlign: TextAlign.end,
+                                  style: textTheme.bodyMedium,
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: BorderSide(
+                                          width: 2.0,
+                                          color: colorScheme.primary),
+                                    ),
+                                    suffixText:
+                                        Intl.message('trip_form_column_4'),
+                                  ),
+                                  onChanged: (value) {
+                                    stepInvalid.value[step.id] = false;
+
+                                    if (rate == null) {
+                                      ref
+                                          .read(tripFormControllerProvider(
+                                                  projectId: projectId,
+                                                  tripId: tripId)
+                                              .notifier)
+                                          .addRegulationRate(
+                                              item: TripRegulationRate(
+                                            stepId: step.id,
+                                            days: value,
+                                            rate: regulation.rate,
+                                          ));
+                                      return;
+                                    }
+
+                                    final itemIndex = rates!.indexOf(rate);
+
+                                    if (value.isEmpty || value == '0') {
+                                      ref
+                                          .read(tripFormControllerProvider(
+                                                  projectId: projectId,
+                                                  tripId: tripId)
+                                              .notifier)
+                                          .removeRegulationRate(
+                                              index: itemIndex);
+                                    }
+
+                                    ref
+                                        .read(tripFormControllerProvider(
+                                                projectId: projectId,
+                                                tripId: tripId)
+                                            .notifier)
+                                        .updateRegulationRate(
+                                          index: itemIndex,
+                                          days: value,
+                                          rate: regulation.rate,
+                                        );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -315,9 +522,7 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                     focusNode: fareFocusNodes[index],
                                     keyboardType: TextInputType.number,
                                     textAlign: TextAlign.end,
-                                    inputFormatters: [
-                                      ThousandsSeparatorInputFormatter()
-                                    ],
+                                    inputFormatters: [DecimalInputFormatter()],
                                     style: textTheme.bodyMedium,
                                     maxLines: 1,
                                     decoration: InputDecoration(
@@ -422,6 +627,18 @@ class _ExpenseItemWidget extends HookConsumerWidget {
 
                                             await opacityController.reverse();
                                             await sizeController.reverse();
+
+                                            if (regulation != null) {
+                                              ref
+                                                  .read(
+                                                      tripFormControllerProvider(
+                                                              projectId:
+                                                                  projectId,
+                                                              tripId: tripId)
+                                                          .notifier)
+                                                  .removeRegulationRate(
+                                                      index: index);
+                                            }
                                           }
 
                                           final itemIndex = expenses!
@@ -450,7 +667,9 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                         },
                       ),
                     ),
-                    DecoratedBox(
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -462,30 +681,18 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                       ),
                       child: Row(
                         children: [
-                          Expanded(
-                            flex: 6,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0, vertical: 8.0),
-                              child: Text(
-                                Intl.message('trip_form_total'),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                          Text(
+                            Intl.message('trip_form_total'),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           Expanded(
-                            flex: 4,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12.0, vertical: 8.0),
-                              child: Text(
-                                '${NumberFormat('#,###').format(total)} ₩',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            child: Text(
+                              '${NumberFormat('#,###').format(total)} ₩',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -498,241 +705,87 @@ class _ExpenseItemWidget extends HookConsumerWidget {
             ),
           ),
         if (regulation != null)
-          Padding(
-            padding: filteredItems != null && filteredItems.isNotEmpty
-                ? EdgeInsets.only(top: 8.0)
-                : EdgeInsets.zero,
-            child: Column(
-              children: [
-                DataTable(
-                  headingRowHeight: 36.0,
-                  showCheckboxColumn: false,
-                  horizontalMargin: 0.0,
-                  dataRowMinHeight: 34.0,
-                  dataRowMaxHeight: 34.0,
-                  showBottomBorder: true,
-                  border: TableBorder(
-                    verticalInside: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
-                      width: 1.0,
-                    ),
-                    horizontalInside: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
-                      width: 1.0,
-                    ),
+          SizeTransition(
+            sizeFactor: CurvedAnimation(
+              parent: sizeController,
+              curve: Curves.easeInQuad,
+            ),
+            child: FadeTransition(
+              opacity: opacityController,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                decoration: BoxDecoration(
+                  border: Border(
                     bottom: BorderSide(
                       color: colorScheme.outline.withValues(alpha: 0.2),
                       width: 1.0,
                     ),
                   ),
-                  columns: [
-                    DataColumn(
-                      columnWidth: FlexColumnWidth(0.6),
-                      label: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Symbols.numbers_rounded,
-                              color:
-                                  colorScheme.onSurface.withValues(alpha: 0.7),
-                              size: 16.0,
-                            ),
-                            SizedBox(width: 4.0),
-                            Text(
-                              Intl.message('trip_form_column_3'),
-                              style: textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: colorScheme.onSurface
-                                    .withValues(alpha: 0.7),
-                              ),
-                            ),
-                          ],
-                        ),
+                  color: colorScheme.surfaceContainer,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      Intl.message('trip_form_regulation'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    DataColumn(
-                      columnWidth: FlexColumnWidth(0.4),
-                      label: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Symbols.numbers_rounded,
-                              color:
-                                  colorScheme.onSurface.withValues(alpha: 0.7),
-                              size: 16.0,
-                            ),
-                            SizedBox(width: 4.0),
-                            Text(
-                              Intl.message('trip_form_column_4'),
-                              style: textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: colorScheme.onSurface
-                                    .withValues(alpha: 0.7),
-                              ),
-                            ),
-                          ],
+                    Expanded(
+                      child: Text(
+                        '${NumberFormat('#,###').format(settlement)} ${selectedSchedule.category is ScheduleDomestic ? '₩' : '\$'}',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
                   ],
-                  rows: [
-                    DataRow(
-                      cells: [
-                        DataCell(
-                          TextField(
-                            readOnly: true,
-                            controller: rateController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              ThousandsSeparatorInputFormatter()
-                            ],
-                            textAlign: TextAlign.end,
-                            style: textTheme.bodyMedium,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              suffixText:
-                                  selectedSchedule.category is ScheduleDomestic
-                                      ? '₩'
-                                      : '\$',
-                            ),
-                          ),
+                ),
+              ),
+            ),
+          ),
+        if (regulation != null && filteredItems != null)
+          SizeTransition(
+            sizeFactor: CurvedAnimation(
+              parent: sizeController,
+              curve: Curves.easeInQuad,
+            ),
+            child: FadeTransition(
+              opacity: opacityController,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: colorScheme.outline.withValues(alpha: 0.2),
+                      width: 1.0,
+                    ),
+                  ),
+                  color: colorScheme.surfaceContainer,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      Intl.message('trip_form_settlement'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        '${NumberFormat('#,###').format(settlement - total)} ${selectedSchedule.category is ScheduleDomestic ? '₩' : '\$'}',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
                         ),
-                        DataCell(
-                          Material(
-                            elevation: daysFocusNode.hasFocus ? 1.0 : 0.0,
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: daysFocusNode.hasFocus
-                                ? colorScheme.surfaceBright
-                                : colorScheme.surfaceContainerLow,
-                            child: TextField(
-                              controller: daysController,
-                              focusNode: daysFocusNode,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                ThousandsSeparatorInputFormatter()
-                              ],
-                              textAlign: TextAlign.end,
-                              style: textTheme.bodyMedium,
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.transparent),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(
-                                      width: 2.0, color: colorScheme.primary),
-                                ),
-                                suffixText: Intl.message('trip_form_column_4'),
-                              ),
-                              onChanged: (value) {
-                                stepInvalid.value[step.id] = false;
-
-                                if (rate == null) {
-                                  ref
-                                      .read(tripFormControllerProvider(
-                                              projectId: projectId,
-                                              tripId: tripId)
-                                          .notifier)
-                                      .addRegulationRate(
-                                          item: TripRegulationRate(
-                                        stepId: step.id,
-                                        days: value,
-                                        rate: regulation.rate,
-                                      ));
-                                  return;
-                                }
-
-                                final itemIndex = rates!.indexOf(rate);
-
-                                if (value.isEmpty) {
-                                  ref
-                                      .read(tripFormControllerProvider(
-                                              projectId: projectId,
-                                              tripId: tripId)
-                                          .notifier)
-                                      .removeRegulationRate(index: itemIndex);
-                                }
-
-                                ref
-                                    .read(tripFormControllerProvider(
-                                            projectId: projectId,
-                                            tripId: tripId)
-                                        .notifier)
-                                    .updateRegulationRate(
-                                      index: itemIndex,
-                                      days: value,
-                                      rate: regulation.rate,
-                                    );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: colorScheme.outline.withValues(alpha: 0.2),
-                        width: 1.0,
-                      ),
-                    ),
-                    color: colorScheme.surfaceContainer,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 6,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 8.0),
-                          child: Text(
-                            Intl.message('trip_form_settlement'),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 8.0),
-                          child: Text(
-                            '${NumberFormat('#,###').format(settlement)} ${selectedSchedule.category is ScheduleDomestic ? '₩' : '\$'}',
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         InvalidWidget(

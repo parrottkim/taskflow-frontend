@@ -519,6 +519,16 @@ class S {
     );
   }
 
+  /// `환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.`
+  String get exchange_not_found {
+    return Intl.message(
+      '환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.',
+      name: 'exchange_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `이 페이지에 접근할 권한이 없습니다.`
   String get no_permission {
     return Intl.message(
@@ -3179,14 +3189,24 @@ class S {
     return Intl.message('기타', name: 'trip_form_5', desc: '', args: []);
   }
 
-  /// `비용`
+  /// `사용 금액`
   String get trip_form_column_1 {
-    return Intl.message('비용', name: 'trip_form_column_1', desc: '', args: []);
+    return Intl.message(
+      '사용 금액',
+      name: 'trip_form_column_1',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `내역`
+  /// `내역 (설명)`
   String get trip_form_column_2 {
-    return Intl.message('내역', name: 'trip_form_column_2', desc: '', args: []);
+    return Intl.message(
+      '내역 (설명)',
+      name: 'trip_form_column_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `단가`
@@ -3234,11 +3254,6 @@ class S {
     return Intl.message('운행거리', name: 'trip_form_column_9', desc: '', args: []);
   }
 
-  /// `실비 금액`
-  String get trip_form_actual {
-    return Intl.message('실비 금액', name: 'trip_form_actual', desc: '', args: []);
-  }
-
   /// `규정 금액`
   String get trip_form_regulation {
     return Intl.message(
@@ -3249,9 +3264,9 @@ class S {
     );
   }
 
-  /// `합계 금액`
+  /// `총 사용 금액`
   String get trip_form_total {
-    return Intl.message('합계 금액', name: 'trip_form_total', desc: '', args: []);
+    return Intl.message('총 사용 금액', name: 'trip_form_total', desc: '', args: []);
   }
 
   /// `정산 금액`
@@ -3262,11 +3277,6 @@ class S {
       desc: '',
       args: [],
     );
-  }
-
-  /// `정산 차액`
-  String get trip_form_surplus {
-    return Intl.message('정산 차액', name: 'trip_form_surplus', desc: '', args: []);
   }
 
   /// `렌탈, 택시 실비 처리`
@@ -3354,6 +3364,26 @@ class S {
     return Intl.message(
       '모든 내용을 빠짐없이 입력해 주세요',
       name: 'trip_form_invalid_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `데이터 로딩 중입니다.`
+  String get trip_list_loading_1 {
+    return Intl.message(
+      '데이터 로딩 중입니다.',
+      name: 'trip_list_loading_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PDF 변환 중입니다.`
+  String get trip_list_loading_2 {
+    return Intl.message(
+      'PDF 변환 중입니다.',
+      name: 'trip_list_loading_2',
       desc: '',
       args: [],
     );

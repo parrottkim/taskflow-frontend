@@ -531,7 +531,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                         keyboardType: TextInputType.number,
                                         maxLines: 1,
                                         inputFormatters: [
-                                          ThousandsSeparatorInputFormatter()
+                                          DecimalInputFormatter()
                                         ],
                                         textAlign: TextAlign.end,
                                         style: textTheme.bodyMedium,
@@ -628,7 +628,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                         keyboardType: TextInputType.number,
                                         maxLines: 1,
                                         inputFormatters: [
-                                          ThousandsSeparatorInputFormatter()
+                                          DecimalInputFormatter()
                                         ],
                                         textAlign: TextAlign.end,
                                         style: textTheme.bodyMedium,
@@ -713,7 +713,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                       controller: totalAmountControllers[index],
                                       keyboardType: TextInputType.number,
                                       inputFormatters: [
-                                        ThousandsSeparatorInputFormatter()
+                                        DecimalInputFormatter()
                                       ],
                                       textAlign: TextAlign.end,
                                       style: textTheme.bodyMedium,

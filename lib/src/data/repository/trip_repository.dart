@@ -7,6 +7,8 @@ abstract class TripRepository {
 
   Future<List<TripRegulation>> getAllTripRegulations({required int id});
 
+  Future<HttpResponse<List<int>>> exportTrip({required int id});
+
   Future<Trip> getTrip({required int id});
 
   Future<Result<Trip>> getTrips({

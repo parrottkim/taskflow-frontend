@@ -79,23 +79,33 @@ class _DesktopWidget extends HookConsumerWidget {
       return keys;
     }, [items]);
 
+    final controller = PrimaryScrollController.of(context);
+
     useEffect(() {
       selected.value = issueId;
 
       if (selected.value != null && items.any((i) => i.id == selected.value)) {
         Future.microtask(() async {
+          // ⭐️ 렌더링 완료를 확실히 기다립니다.
           await WidgetsBinding.instance.endOfFrame;
 
-          // itemKeys는 이제 .value가 아닌 useMemoized의 결과 Map입니다.
           final ctx = itemKeys[selected.value]?.currentContext;
           if (ctx == null) return;
 
-          Scrollable.ensureVisible(
-            ctx,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInQuad,
-            alignment: 0.0,
-          );
+          // ⭐️ ScrollController를 사용하는 로직으로 변경
+          if (controller.hasClients) {
+            final renderBox = ctx.findRenderObject() as RenderBox;
+            final viewport = context.findRenderObject() as RenderBox;
+            final targetOffset =
+                renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy -
+                    60.0;
+
+            controller.animateTo(
+              targetOffset + controller.offset,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInQuad,
+            );
+          }
         });
       }
       return null;

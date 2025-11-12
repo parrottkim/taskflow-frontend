@@ -19,9 +19,30 @@ class ErrorController extends _$ErrorController {
       {required Exception exception, StackTrace? trace}) async {
     if (exception is DioException) {
       final toast = ref.watch(toastProvider);
-      final message = (exception.response?.data['message'] is List)
-          ? (exception.response?.data['message'] as List).join(', ')
-          : (exception.response?.data['message'] ?? 'bad_response').toString();
+
+      dynamic responseData = exception.response?.data;
+
+      if (exception.requestOptions.responseType == ResponseType.bytes &&
+          responseData is List<int>) {
+        try {
+          // 바이트 데이터를 UTF-8 문자열로 디코딩 후 JSON 파싱
+          final jsonString = utf8.decode(responseData);
+          responseData = jsonDecode(jsonString); // Map으로 변환하여 responseData에 할당
+
+          // 파싱된 데이터를 Dio response에 다시 할당하여 이후 로직에서 사용할 수 있게 함 (선택적)
+          exception.response!.data = responseData;
+        } catch (e) {
+          // 파싱 실패 시, message 추출을 위한 Map에 기본 오류 메시지를 넣습니다.
+          responseData = {'message': 'file_response_parsing_failed'};
+          exception.response!.data = responseData;
+        }
+      }
+
+      final message = (responseData is Map && responseData['message'] is List)
+          ? (responseData['message'] as List).join(', ')
+          : (responseData is Map
+              ? (responseData['message'] ?? 'bad_response').toString()
+              : 'bad_response');
 
       switch (exception.type) {
         case DioExceptionType.connectionError:
@@ -86,7 +107,12 @@ class ErrorController extends _$ErrorController {
               break;
             // not found
             case 404:
-              state = ErrorNotFound(message: message);
+              toast.showToast(
+                child: Toast(
+                  type: ToastType.error,
+                  message: Intl.message(message),
+                ),
+              );
               break;
             // conflict
             case 409:

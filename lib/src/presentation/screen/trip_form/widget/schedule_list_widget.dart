@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 
@@ -35,22 +37,49 @@ class ScheduleListWidget extends HookConsumerWidget {
     final headerKeys = useMemoized(
         () => List.generate(items.length, (_) => GlobalKey()), [items.length]);
 
+    final throttleTimer = useRef<Timer?>(null);
+
+    bool canLoad() {
+      if (throttleTimer.value?.isActive ?? false) return false;
+      throttleTimer.value = Timer(const Duration(milliseconds: 300), () {});
+      return true;
+    }
+
     useEffect(() {
-      if (items.isEmpty) return null;
+      Future.microtask(() async {
+        final today = DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
-      final today = DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day);
-      int initialIndex = items.indexWhere((g) => !g.date.isBefore(today));
-      if (initialIndex == -1) initialIndex = 0;
+        // 2. 날짜 정규화 비교를 통해 initialIndex를 찾습니다.
+        int initialIndex = items.indexWhere((g) {
+          final normalizedDate =
+              DateTime(g.date.year, g.date.month, g.date.day);
+          return !normalizedDate.isBefore(today);
+        });
 
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (initialIndex == -1) {
+          initialIndex = items.isNotEmpty ? items.length - 1 : 0;
+        }
+
+        if (items.isEmpty || initialIndex >= items.length) return;
+
         final key = headerKeys[initialIndex];
+
+        // ⭐️ 3. key.currentContext가 아닌 RenderBox를 통해 위치를 계산합니다.
         if (key.currentContext != null) {
-          await Scrollable.ensureVisible(
-            key.currentContext!,
-            duration: const Duration(
-                milliseconds: 300), // animate or Duration.zero for instant
-            alignment: -0.2,
+          final renderBox = key.currentContext!.findRenderObject() as RenderBox;
+
+          // ⭐️ 4. 현재 스크롤 뷰의 RenderBox를 찾습니다.
+          final viewport = context.findRenderObject() as RenderBox;
+
+          // ⭐️ 5. 목표 헤더의 절대 위치를 스크롤 뷰 내에서의 상대적인 위치(offset)로 변환합니다.
+          final offset =
+              renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy;
+
+          // 6. 계산된 offset으로 스크롤을 이동시킵니다.
+          controller.animateTo(
+            offset + controller.offset, // 현재 스크롤 위치 + 상대 위치
+            duration: const Duration(milliseconds: 300),
             curve: Curves.easeOut,
           );
         }
@@ -86,25 +115,25 @@ class ScheduleListWidget extends HookConsumerWidget {
       onNotification: (notification) {
         final metrics = notification.metrics;
 
-        // 상단 100 픽셀 근처에 도달했고 이전 페이지가 있을 때 로드
-        if (metrics.pixels <= metrics.minScrollExtent + 100) {
-          if (hasPrevious == true) {
-            ref
-                .read(scheduleListControllerProvider(projectId: projectId)
-                    .notifier)
-                .loadPrevious();
-          }
+        if (metrics.pixels <= metrics.minScrollExtent + 20 &&
+            hasPrevious &&
+            canLoad()) {
+          ref
+              .read(
+                  scheduleListControllerProvider(projectId: projectId).notifier)
+              .loadPrevious();
         }
 
-        // 하단 100 픽셀 근처에 도달했고 다음 페이지가 있을 때 로드
-        else if (metrics.pixels >= metrics.maxScrollExtent - 100) {
-          if (hasNext == true) {
-            ref
-                .read(scheduleListControllerProvider(projectId: projectId)
-                    .notifier)
-                .loadNext();
-          }
+        // 하단 로드
+        else if (metrics.pixels >= metrics.maxScrollExtent - 20 &&
+            hasNext &&
+            canLoad()) {
+          ref
+              .read(
+                  scheduleListControllerProvider(projectId: projectId).notifier)
+              .loadNext();
         }
+
         return false; // 이벤트를 소비하지 않고 상위 위젯으로 전달
       },
       child: CustomScrollView(
@@ -160,15 +189,32 @@ class ScheduleListWidget extends HookConsumerWidget {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 24.0, vertical: 8.0),
-                          child: Text(
-                            schedule.summary,
-                            style: textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: isPast
-                                  ? colorScheme.onSurface
-                                      .withValues(alpha: 0.4) // 지난 날짜는 흐리게
-                                  : colorScheme.onSurface,
-                            ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  schedule.summary,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: isPast
+                                        ? colorScheme.onSurface.withValues(
+                                            alpha: 0.4) // 지난 날짜는 흐리게
+                                        : colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 4.0),
+                                child: Text(
+                                  '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.start)}',
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurface
+                                        .withValues(alpha: 0.7),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );

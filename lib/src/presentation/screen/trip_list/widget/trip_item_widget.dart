@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'dart:js_interop';
-import 'dart:ui_web';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,8 +10,6 @@ import 'package:taskflow/src/presentation/screen/trip_list/widget/fuel_expense_w
 import 'package:taskflow/src/presentation/screen/trip_list/widget/trip_details_widget.dart';
 import 'package:taskflow/src/presentation/widget/overlay.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/shared/tool/js_interop.dart';
-import 'package:universal_html/html.dart';
 
 class TripItemWidget extends HookConsumerWidget {
   final Trip item;
@@ -51,7 +45,7 @@ class TripItemWidget extends HookConsumerWidget {
   }
 }
 
-class _DesktopWidget extends HookWidget {
+class _DesktopWidget extends HookConsumerWidget {
   final Trip item;
   final List<TripCategory> categories;
   final List<TripStep> steps;
@@ -65,9 +59,8 @@ class _DesktopWidget extends HookWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final expanded = useState(false);
-    final htmlElementId = useState<String?>(null);
 
     final sizeController = useAnimationController(
       duration: const Duration(milliseconds: 150),
@@ -82,22 +75,36 @@ class _DesktopWidget extends HookWidget {
       return null;
     }, [expanded.value]);
 
+    ref.listen(tripPreviewControllerProvider, (_, state) {
+      if (state is TripPreviewLoading) {
+        TextOverlay.show(context, Intl.message('trip_list_loading_1'));
+      } else if (state is TripPreviewRendering) {
+        TextOverlay.hide();
+        TextOverlay.show(context, Intl.message('trip_list_loading_2'));
+      } else {
+        TextOverlay.hide();
+      }
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TODO: 구현 필요
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        //   child: TextButton.icon(
-        //     onPressed: () async {},
-        //     icon: Icon(
-        //       Symbols.print_rounded,
-        //     ),
-        //     label: Text(
-        //       Intl.message('common_print'),
-        //     ),
-        //   ),
-        // ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TextButton.icon(
+            onPressed: () async {
+              await ref
+                  .read(tripPreviewControllerProvider.notifier)
+                  .preview(tripId: item.id);
+            },
+            icon: Icon(
+              Symbols.print_rounded,
+            ),
+            label: Text(
+              Intl.message('common_print'),
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: TextButton.icon(

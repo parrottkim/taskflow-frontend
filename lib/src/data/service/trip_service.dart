@@ -17,6 +17,10 @@ abstract class TripService {
     @Path() required int id,
   });
 
+  @GET('trip/export/{id}')
+  @DioResponseType(ResponseType.bytes)
+  Future<HttpResponse<List<int>>> exportTrip({@Path() required int id});
+
   @GET('trip/{id}')
   Future<Trip> getTrip({@Path() required int id});
 

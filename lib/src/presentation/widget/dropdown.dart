@@ -53,7 +53,6 @@ class ElevatedDropdownButton<T> extends HookWidget {
             child: CompositedTransformFollower(
               link: link,
               targetAnchor: Alignment.bottomLeft,
-              offset: const Offset(0, 4),
               showWhenUnlinked: false,
               child: Align(
                 alignment: AlignmentDirectional.topStart,
@@ -253,9 +252,11 @@ class MultiSelectElevatedDropdownButton<T> extends HookWidget {
                                 ),
                                 child: Row(
                                   children: [
-                                    CustomToggleButton(
-                                      value: isSelected,
-                                      onChanged: (_) {},
+                                    IgnorePointer(
+                                      child: CustomToggleButton(
+                                        value: isSelected,
+                                        onChanged: (_) {},
+                                      ),
                                     ),
                                     const SizedBox(width: 8.0),
                                     itemBuilder(item),
