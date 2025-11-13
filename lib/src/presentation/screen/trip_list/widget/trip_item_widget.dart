@@ -60,6 +60,8 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authControllerProvider);
+
     final expanded = useState(false);
 
     final sizeController = useAnimationController(
@@ -89,22 +91,23 @@ class _DesktopWidget extends HookConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: TextButton.icon(
-            onPressed: () async {
-              await ref
-                  .read(tripPreviewControllerProvider.notifier)
-                  .preview(tripId: item.id);
-            },
-            icon: Icon(
-              Symbols.print_rounded,
-            ),
-            label: Text(
-              Intl.message('common_print'),
+        if (auth is AuthAuthenticated && auth.user == item.user)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextButton.icon(
+              onPressed: () async {
+                await ref
+                    .read(tripPreviewControllerProvider.notifier)
+                    .preview(tripId: item.id);
+              },
+              icon: Icon(
+                Symbols.print_rounded,
+              ),
+              label: Text(
+                Intl.message('common_print'),
+              ),
             ),
           ),
-        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: TextButton.icon(
