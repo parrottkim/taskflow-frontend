@@ -8,7 +8,9 @@ class IssueDetailController extends _$IssueDetailController {
   }
 
   Future<IssueDetailState> _init() async {
-    if (issueId == 0) return IssueDetailState(issue: Issue.dummy());
+    if (issueId == 0) {
+      return IssueDetailState(issue: Issue.dummy());
+    }
 
     final result =
         await ref.read(issueRepositoryProvider).getIssue(id: issueId);

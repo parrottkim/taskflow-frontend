@@ -26,6 +26,9 @@ abstract class IssueService {
     @Query('project_id') required int projectId,
   });
 
+  @POST('issue/mail/{id}')
+  Future<void> sendMail({@Path() required int id});
+
   @POST('issue')
   Future<Issue> createIssue({
     @Body() required CreateIssueRequest request,

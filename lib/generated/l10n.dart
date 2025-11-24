@@ -284,6 +284,11 @@ class S {
     return Intl.message('미지정', name: 'unspecified', desc: '', args: []);
   }
 
+  /// `로그아웃`
+  String get logout {
+    return Intl.message('로그아웃', name: 'logout', desc: '', args: []);
+  }
+
   /// `선택됨`
   String get filter_suffix {
     return Intl.message('선택됨', name: 'filter_suffix', desc: '', args: []);
@@ -409,6 +414,11 @@ class S {
     );
   }
 
+  /// `잘못된 요청입니다.`
+  String get bad_request {
+    return Intl.message('잘못된 요청입니다.', name: 'bad_request', desc: '', args: []);
+  }
+
   /// `로그인 세션이 만료되었습니다. 다시 로그인해 주세요.`
   String get refresh_token_expired {
     return Intl.message(
@@ -444,6 +454,26 @@ class S {
     return Intl.message(
       '이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.',
       name: 'project_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 해당 근무 일정으로 작성된 실무 결과가 있습니다.`
+  String get report_exists {
+    return Intl.message(
+      '이미 해당 근무 일정으로 작성된 실무 결과가 있습니다.',
+      name: 'report_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.`
+  String get too_many_forgot_password_requests {
+    return Intl.message(
+      '비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.',
+      name: 'too_many_forgot_password_requests',
       desc: '',
       args: [],
     );
@@ -500,10 +530,10 @@ class S {
   }
 
   /// `출장 명령서를 찾을 수 없습니다.`
-  String get trip_not_found {
+  String get report_not_found {
     return Intl.message(
       '출장 명령서를 찾을 수 없습니다.',
-      name: 'trip_not_found',
+      name: 'report_not_found',
       desc: '',
       args: [],
     );
@@ -719,6 +749,16 @@ class S {
     return Intl.message('자동 로그인', name: 'login_persist', desc: '', args: []);
   }
 
+  /// `비밀번호를 잊으셨나요?`
+  String get login_forgot {
+    return Intl.message(
+      '비밀번호를 잊으셨나요?',
+      name: 'login_forgot',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `로그인`
   String get login_button {
     return Intl.message('로그인', name: 'login_button', desc: '', args: []);
@@ -919,6 +959,156 @@ class S {
     return Intl.message('신청하기', name: 'register_button', desc: '', args: []);
   }
 
+  /// `비밀번호 재설정하기`
+  String get forgot_password_headline {
+    return Intl.message(
+      '비밀번호 재설정하기',
+      name: 'forgot_password_headline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이메일 주소를 입력하면, 비밀번호를 재설정 메일을 보내드립니다.`
+  String get forgot_password_title {
+    return Intl.message(
+      '이메일 주소를 입력하면, 비밀번호를 재설정 메일을 보내드립니다.',
+      name: 'forgot_password_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이메일`
+  String get forgot_password_email {
+    return Intl.message(
+      '이메일',
+      name: 'forgot_password_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `요청하기`
+  String get forgot_password_button {
+    return Intl.message(
+      '요청하기',
+      name: 'forgot_password_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{seconds}초 후 재시도 가능`
+  String forgot_password_delay(Object seconds) {
+    return Intl.message(
+      '$seconds초 후 재시도 가능',
+      name: 'forgot_password_delay',
+      desc: '',
+      args: [seconds],
+    );
+  }
+
+  /// `비밀번호 재설정 이메일이 성공적으로 발송되었습니다.`
+  String get forgot_password_requested {
+    return Intl.message(
+      '비밀번호 재설정 이메일이 성공적으로 발송되었습니다.',
+      name: 'forgot_password_requested',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `새 비밀번호 설정하기`
+  String get reset_password_headline {
+    return Intl.message(
+      '새 비밀번호 설정하기',
+      name: 'reset_password_headline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `변경할 비밀번호를 입력해 주세요.`
+  String get reset_password_title {
+    return Intl.message(
+      '변경할 비밀번호를 입력해 주세요.',
+      name: 'reset_password_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비밀번호`
+  String get reset_password_password {
+    return Intl.message(
+      '비밀번호',
+      name: 'reset_password_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `요청하기`
+  String get reset_password_button {
+    return Intl.message(
+      '요청하기',
+      name: 'reset_password_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `링크 만료`
+  String get reset_password_retry_1 {
+    return Intl.message(
+      '링크 만료',
+      name: 'reset_password_retry_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이 링크는 사용할 수 있는 시간이 지났거나,\n이미 비밀번호를 바꾸는 데 사용되었기 때문에 작동하지 않습니다.`
+  String get reset_password_retry_2 {
+    return Intl.message(
+      '이 링크는 사용할 수 있는 시간이 지났거나,\n이미 비밀번호를 바꾸는 데 사용되었기 때문에 작동하지 않습니다.',
+      name: 'reset_password_retry_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비밀번호 재설정 요청을 다시 진행해 주세요.`
+  String get reset_password_retry_3 {
+    return Intl.message(
+      '비밀번호 재설정 요청을 다시 진행해 주세요.',
+      name: 'reset_password_retry_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `다시 요청하기`
+  String get reset_password_retry_4 {
+    return Intl.message(
+      '다시 요청하기',
+      name: 'reset_password_retry_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비밀번호가 정상적으로 변경되었습니다.`
+  String get reset_password_success {
+    return Intl.message(
+      '비밀번호가 정상적으로 변경되었습니다.',
+      name: 'reset_password_success',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `검색`
   String get navigation_search {
     return Intl.message('검색', name: 'navigation_search', desc: '', args: []);
@@ -1089,14 +1279,24 @@ class S {
     return Intl.message('근무 일정 수정', name: 'schedule_edit', desc: '', args: []);
   }
 
-  /// `출장 명령서 등록`
-  String get trip_new {
-    return Intl.message('출장 명령서 등록', name: 'trip_new', desc: '', args: []);
+  /// `실무 결과 보고`
+  String get report_new_choose {
+    return Intl.message(
+      '실무 결과 보고',
+      name: 'report_new_choose',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `출장 명령서 수정`
-  String get trip_edit {
-    return Intl.message('출장 명령서 수정', name: 'trip_edit', desc: '', args: []);
+  /// `실무 결과 보고`
+  String get report_new {
+    return Intl.message('실무 결과 보고', name: 'report_new', desc: '', args: []);
+  }
+
+  /// `실무 결과 수정`
+  String get report_edit {
+    return Intl.message('실무 결과 수정', name: 'report_edit', desc: '', args: []);
   }
 
   /// `업무`
@@ -1344,31 +1544,21 @@ class S {
     );
   }
 
-  /// `휴가 등록`
+  /// `근무 일정 등록`
   String get dashboard_functions_1 {
     return Intl.message(
-      '휴가 등록',
+      '근무 일정 등록',
       name: 'dashboard_functions_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `근무 일정 등록`
+  /// `새 프로젝트 등록`
   String get dashboard_functions_2 {
     return Intl.message(
-      '근무 일정 등록',
-      name: 'dashboard_functions_2',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `새 프로젝트 등록`
-  String get dashboard_functions_3 {
-    return Intl.message(
       '새 프로젝트 등록',
-      name: 'dashboard_functions_3',
+      name: 'dashboard_functions_2',
       desc: '',
       args: [],
     );
@@ -1819,10 +2009,10 @@ class S {
     );
   }
 
-  /// `출장`
+  /// `현장/원격`
   String get project_detail_segment_2 {
     return Intl.message(
-      '출장',
+      '현장/원격',
       name: 'project_detail_segment_2',
       desc: '',
       args: [],
@@ -1849,11 +2039,11 @@ class S {
     );
   }
 
-  /// `작성된 출장 명령서가 없습니다`
-  String get project_detail_no_trip {
+  /// `작성된 실무 결과가 없습니다`
+  String get project_detail_no_report {
     return Intl.message(
-      '작성된 출장 명령서가 없습니다',
-      name: 'project_detail_no_trip',
+      '작성된 실무 결과가 없습니다',
+      name: 'project_detail_no_report',
       desc: '',
       args: [],
     );
@@ -1894,6 +2084,66 @@ class S {
     return Intl.message(
       '종결 사유 안내',
       name: 'project_detail_summary_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무 내용 공유`
+  String get project_issue_mail {
+    return Intl.message(
+      '업무 내용 공유',
+      name: 'project_issue_mail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `실무 결과 공유`
+  String get project_report_mail {
+    return Intl.message(
+      '실무 결과 공유',
+      name: 'project_report_mail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `메일을 보낼 사용자를 선택해 주세요.`
+  String get project_mail_select_1 {
+    return Intl.message(
+      '메일을 보낼 사용자를 선택해 주세요.',
+      name: 'project_mail_select_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `전체 선택`
+  String get project_mail_select_2 {
+    return Intl.message(
+      '전체 선택',
+      name: 'project_mail_select_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `메일이 전송되었습니다`
+  String get project_mail_send {
+    return Intl.message(
+      '메일이 전송되었습니다',
+      name: 'project_mail_send',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `메일 전송이 실패했습니다`
+  String get project_mail_send_fail {
+    return Intl.message(
+      '메일 전송이 실패했습니다',
+      name: 'project_mail_send_fail',
       desc: '',
       args: [],
     );
@@ -2859,10 +3109,10 @@ class S {
     );
   }
 
-  /// `본문을 입력해 주세요`
+  /// `내용을 입력해 주세요`
   String get issue_form_invalid_1 {
     return Intl.message(
-      '본문을 입력해 주세요',
+      '내용을 입력해 주세요',
       name: 'issue_form_invalid_1',
       desc: '',
       args: [],
@@ -2954,6 +3204,36 @@ class S {
     return Intl.message(
       '새로운 화성 조립 센터 일정을 등록합니다',
       name: 'schedule_new_choose_3_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `💻 `
+  String get schedule_new_choose_4 {
+    return Intl.message(
+      '💻 ',
+      name: 'schedule_new_choose_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `원격 업무`
+  String get schedule_new_choose_4_1 {
+    return Intl.message(
+      '원격 업무',
+      name: 'schedule_new_choose_4_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `새로운 원격 업무 일정을 등록합니다`
+  String get schedule_new_choose_4_2 {
+    return Intl.message(
+      '새로운 원격 업무 일정을 등록합니다',
+      name: 'schedule_new_choose_4_2',
       desc: '',
       args: [],
     );
@@ -3094,344 +3374,464 @@ class S {
     );
   }
 
+  /// `업무가 삭제되었습니다.`
+  String get schedule_form_delete {
+    return Intl.message(
+      '업무가 삭제되었습니다.',
+      name: 'schedule_form_delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `국내 출장 명령서 등록`
+  String get report_form_title_1 {
+    return Intl.message(
+      '국내 출장 명령서 등록',
+      name: 'report_form_title_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `해외 출장 명령서 등록`
+  String get report_form_title_2 {
+    return Intl.message(
+      '해외 출장 명령서 등록',
+      name: 'report_form_title_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ``
+  String get report_form_title_3 {
+    return Intl.message('', name: 'report_form_title_3', desc: '', args: []);
+  }
+
+  /// `원격 업무 결과 보고`
+  String get report_form_title_4 {
+    return Intl.message(
+      '원격 업무 결과 보고',
+      name: 'report_form_title_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `교통비`
+  String get report_form_1 {
+    return Intl.message('교통비', name: 'report_form_1', desc: '', args: []);
+  }
+
+  /// `현지 교통비`
+  String get report_form_2 {
+    return Intl.message('현지 교통비', name: 'report_form_2', desc: '', args: []);
+  }
+
+  /// `숙박비`
+  String get report_form_3 {
+    return Intl.message('숙박비', name: 'report_form_3', desc: '', args: []);
+  }
+
+  /// `일비`
+  String get report_form_4 {
+    return Intl.message('일비', name: 'report_form_4', desc: '', args: []);
+  }
+
+  /// `기타`
+  String get report_form_5 {
+    return Intl.message('기타', name: 'report_form_5', desc: '', args: []);
+  }
+
   /// `프로젝트 정보`
-  String get trip_form_project {
+  String get report_form_project {
     return Intl.message(
       '프로젝트 정보',
-      name: 'trip_form_project',
+      name: 'report_form_project',
       desc: '',
       args: [],
     );
   }
 
   /// `일정`
-  String get trip_form_schedule {
-    return Intl.message('일정', name: 'trip_form_schedule', desc: '', args: []);
+  String get report_form_schedule {
+    return Intl.message('일정', name: 'report_form_schedule', desc: '', args: []);
   }
 
   /// `일정 검색`
-  String get trip_form_schedule_search {
+  String get report_form_schedule_search {
     return Intl.message(
       '일정 검색',
-      name: 'trip_form_schedule_search',
+      name: 'report_form_schedule_search',
       desc: '',
       args: [],
     );
   }
 
   /// `일정이 없습니다`
-  String get trip_from_schedule_empty {
+  String get report_from_schedule_empty {
     return Intl.message(
       '일정이 없습니다',
-      name: 'trip_from_schedule_empty',
+      name: 'report_from_schedule_empty',
       desc: '',
       args: [],
     );
   }
 
   /// `설명 없음`
-  String get trip_form_schedule_description_empty {
+  String get report_form_schedule_description_empty {
     return Intl.message(
       '설명 없음',
-      name: 'trip_form_schedule_description_empty',
+      name: 'report_form_schedule_description_empty',
       desc: '',
       args: [],
     );
   }
 
   /// `진행 중`
-  String get trip_form_schedule_in_progress {
+  String get report_form_schedule_in_progress {
     return Intl.message(
       '진행 중',
-      name: 'trip_form_schedule_in_progress',
+      name: 'report_form_schedule_in_progress',
       desc: '',
       args: [],
     );
   }
 
   /// `진행 예정`
-  String get trip_form_schedule_scheduled {
+  String get report_form_schedule_scheduled {
     return Intl.message(
       '진행 예정',
-      name: 'trip_form_schedule_scheduled',
+      name: 'report_form_schedule_scheduled',
       desc: '',
       args: [],
     );
   }
 
   /// `단계`
-  String get trip_form_step {
-    return Intl.message('단계', name: 'trip_form_step', desc: '', args: []);
+  String get report_form_step {
+    return Intl.message('단계', name: 'report_form_step', desc: '', args: []);
   }
 
   /// `교통비`
-  String get trip_form_1 {
-    return Intl.message('교통비', name: 'trip_form_1', desc: '', args: []);
+  String get report_form_transportation {
+    return Intl.message(
+      '교통비',
+      name: 'report_form_transportation',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `현지 교통비`
-  String get trip_form_2 {
-    return Intl.message('현지 교통비', name: 'trip_form_2', desc: '', args: []);
+  String get report_form_local_transportation {
+    return Intl.message(
+      '현지 교통비',
+      name: 'report_form_local_transportation',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `숙박비`
-  String get trip_form_3 {
-    return Intl.message('숙박비', name: 'trip_form_3', desc: '', args: []);
+  String get report_form_accommodation {
+    return Intl.message(
+      '숙박비',
+      name: 'report_form_accommodation',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일비`
-  String get trip_form_4 {
-    return Intl.message('일비', name: 'trip_form_4', desc: '', args: []);
+  String get report_form_daily_expense {
+    return Intl.message(
+      '일비',
+      name: 'report_form_daily_expense',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `기타`
-  String get trip_form_5 {
-    return Intl.message('기타', name: 'trip_form_5', desc: '', args: []);
+  String get report_form_other {
+    return Intl.message('기타', name: 'report_form_other', desc: '', args: []);
+  }
+
+  /// `설명 및 첨부파일`
+  String get report_form_description {
+    return Intl.message(
+      '설명 및 첨부파일',
+      name: 'report_form_description',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `사용 금액`
-  String get trip_form_column_1 {
+  String get report_form_column_1 {
     return Intl.message(
       '사용 금액',
-      name: 'trip_form_column_1',
+      name: 'report_form_column_1',
       desc: '',
       args: [],
     );
   }
 
   /// `내역 (설명)`
-  String get trip_form_column_2 {
+  String get report_form_column_2 {
     return Intl.message(
       '내역 (설명)',
-      name: 'trip_form_column_2',
+      name: 'report_form_column_2',
       desc: '',
       args: [],
     );
   }
 
   /// `단가`
-  String get trip_form_column_3 {
-    return Intl.message('단가', name: 'trip_form_column_3', desc: '', args: []);
+  String get report_form_column_3 {
+    return Intl.message('단가', name: 'report_form_column_3', desc: '', args: []);
   }
 
   /// `일`
-  String get trip_form_column_4 {
-    return Intl.message('일', name: 'trip_form_column_4', desc: '', args: []);
+  String get report_form_column_4 {
+    return Intl.message('일', name: 'report_form_column_4', desc: '', args: []);
   }
 
   /// `렌탈, 택시 실비 처리`
-  String get trip_form_column_5 {
+  String get report_form_column_5 {
     return Intl.message(
       '렌탈, 택시 실비 처리',
-      name: 'trip_form_column_5',
+      name: 'report_form_column_5',
       desc: '',
       args: [],
     );
   }
 
   /// `개인 차량 유류비`
-  String get trip_form_column_6 {
+  String get report_form_column_6 {
     return Intl.message(
       '개인 차량 유류비',
-      name: 'trip_form_column_6',
+      name: 'report_form_column_6',
       desc: '',
       args: [],
     );
   }
 
   /// `유류단가`
-  String get trip_form_column_7 {
-    return Intl.message('유류단가', name: 'trip_form_column_7', desc: '', args: []);
+  String get report_form_column_7 {
+    return Intl.message(
+      '유류단가',
+      name: 'report_form_column_7',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `연비`
-  String get trip_form_column_8 {
-    return Intl.message('연비', name: 'trip_form_column_8', desc: '', args: []);
+  String get report_form_column_8 {
+    return Intl.message('연비', name: 'report_form_column_8', desc: '', args: []);
   }
 
   /// `운행거리`
-  String get trip_form_column_9 {
-    return Intl.message('운행거리', name: 'trip_form_column_9', desc: '', args: []);
+  String get report_form_column_9 {
+    return Intl.message(
+      '운행거리',
+      name: 'report_form_column_9',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `규정 금액`
-  String get trip_form_regulation {
+  String get report_form_regulation {
     return Intl.message(
       '규정 금액',
-      name: 'trip_form_regulation',
+      name: 'report_form_regulation',
       desc: '',
       args: [],
     );
   }
 
   /// `총 사용 금액`
-  String get trip_form_total {
-    return Intl.message('총 사용 금액', name: 'trip_form_total', desc: '', args: []);
+  String get report_form_total {
+    return Intl.message(
+      '총 사용 금액',
+      name: 'report_form_total',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `정산 금액`
-  String get trip_form_settlement {
+  String get report_form_settlement {
     return Intl.message(
       '정산 금액',
-      name: 'trip_form_settlement',
+      name: 'report_form_settlement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `설명`
+  String get report_form_description_1 {
+    return Intl.message(
+      '설명',
+      name: 'report_form_description_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `보고서`
+  String get report_form_description_2 {
+    return Intl.message(
+      '보고서',
+      name: 'report_form_description_2',
       desc: '',
       args: [],
     );
   }
 
   /// `렌탈, 택시 실비 처리`
-  String get trip_form_deducted_1 {
+  String get report_form_deducted_1 {
     return Intl.message(
       '렌탈, 택시 실비 처리',
-      name: 'trip_form_deducted_1',
+      name: 'report_form_deducted_1',
       desc: '',
       args: [],
     );
   }
 
   /// `일비 -10%`
-  String get trip_form_deducted_2 {
+  String get report_form_deducted_2 {
     return Intl.message(
       '일비 -10%',
-      name: 'trip_form_deducted_2',
+      name: 'report_form_deducted_2',
       desc: '',
       args: [],
     );
   }
 
   /// `출장 명령서를 삭제하시겠습니까?`
-  String get trip_form_delete_dialog_1 {
+  String get report_form_delete_dialog_1 {
     return Intl.message(
       '출장 명령서를 삭제하시겠습니까?',
-      name: 'trip_form_delete_dialog_1',
+      name: 'report_form_delete_dialog_1',
       desc: '',
       args: [],
     );
   }
 
   /// `출장 명령서를 삭제하면 모든 내용이 삭제됩니다.\n계속하시겠습니까?`
-  String get trip_form_delete_dialog_2 {
+  String get report_form_delete_dialog_2 {
     return Intl.message(
       '출장 명령서를 삭제하면 모든 내용이 삭제됩니다.\n계속하시겠습니까?',
-      name: 'trip_form_delete_dialog_2',
+      name: 'report_form_delete_dialog_2',
       desc: '',
       args: [],
     );
   }
 
   /// `출장 명령서가 삭제되었습니다.`
-  String get trip_form_delete {
+  String get report_form_delete {
     return Intl.message(
       '출장 명령서가 삭제되었습니다.',
-      name: 'trip_form_delete',
+      name: 'report_form_delete',
       desc: '',
       args: [],
     );
   }
 
   /// `일정을 선택해 주세요`
-  String get trip_form_invalid_1 {
+  String get report_form_invalid_1 {
     return Intl.message(
       '일정을 선택해 주세요',
-      name: 'trip_form_invalid_1',
+      name: 'report_form_invalid_1',
       desc: '',
       args: [],
     );
   }
 
   /// `{step} 금액을 빈 칸 없이 입력해 주세요`
-  String trip_form_invalid_2(Object step) {
+  String report_form_invalid_2(Object step) {
     return Intl.message(
       '$step 금액을 빈 칸 없이 입력해 주세요',
-      name: 'trip_form_invalid_2',
+      name: 'report_form_invalid_2',
       desc: '',
       args: [step],
     );
   }
 
   /// `{step} 일 수를 입력해 주세요`
-  String trip_form_invalid_3(Object step) {
+  String report_form_invalid_3(Object step) {
     return Intl.message(
       '$step 일 수를 입력해 주세요',
-      name: 'trip_form_invalid_3',
+      name: 'report_form_invalid_3',
       desc: '',
       args: [step],
     );
   }
 
   /// `모든 내용을 빠짐없이 입력해 주세요`
-  String get trip_form_invalid_4 {
+  String get report_form_invalid_4 {
     return Intl.message(
       '모든 내용을 빠짐없이 입력해 주세요',
-      name: 'trip_form_invalid_4',
+      name: 'report_form_invalid_4',
       desc: '',
       args: [],
     );
   }
 
-  /// `데이터 로딩 중입니다.`
-  String get trip_list_loading_1 {
+  /// `설명을 입력해 주세요`
+  String get report_form_invalid_5 {
     return Intl.message(
-      '데이터 로딩 중입니다.',
-      name: 'trip_list_loading_1',
+      '설명을 입력해 주세요',
+      name: 'report_form_invalid_5',
       desc: '',
       args: [],
     );
   }
 
-  /// `PDF 변환 중입니다.`
-  String get trip_list_loading_2 {
+  /// `데이터 로딩 중입니다`
+  String get report_list_loading_1 {
     return Intl.message(
-      'PDF 변환 중입니다.',
-      name: 'trip_list_loading_2',
+      '데이터 로딩 중입니다',
+      name: 'report_list_loading_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PDF 변환 중입니다`
+  String get report_list_loading_2 {
+    return Intl.message(
+      'PDF 변환 중입니다',
+      name: 'report_list_loading_2',
       desc: '',
       args: [],
     );
   }
 
   /// `근무 일정`
-  String get work_1 {
-    return Intl.message('근무 일정', name: 'work_1', desc: '', args: []);
-  }
-
-  /// `국내외 출장 계획을 관리합니다.`
-  String get work_1_1 {
-    return Intl.message(
-      '국내외 출장 계획을 관리합니다.',
-      name: 'work_1_1',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `휴가`
-  String get work_2 {
-    return Intl.message('휴가', name: 'work_2', desc: '', args: []);
-  }
-
-  /// `잔여 휴가 일수를 조회하고, 휴가 신청 및 승인 내역을 관리합니다.`
-  String get work_2_1 {
-    return Intl.message(
-      '잔여 휴가 일수를 조회하고, 휴가 신청 및 승인 내역을 관리합니다.',
-      name: 'work_2_1',
-      desc: '',
-      args: [],
-    );
+  String get work_segment_1 {
+    return Intl.message('근무 일정', name: 'work_segment_1', desc: '', args: []);
   }
 
   /// `주간 업무 보고`
-  String get work_3 {
-    return Intl.message('주간 업무 보고', name: 'work_3', desc: '', args: []);
+  String get work_segment_2 {
+    return Intl.message('주간 업무 보고', name: 'work_segment_2', desc: '', args: []);
   }
 
-  /// `이번 주 주요 업무 실적과 현안, 다음 주 계획을 정리해 공유합니다.`
-  String get work_3_1 {
-    return Intl.message(
-      '이번 주 주요 업무 실적과 현안, 다음 주 계획을 정리해 공유합니다.',
-      name: 'work_3_1',
-      desc: '',
-      args: [],
-    );
+  /// `내 정보`
+  String get setting_segment_1 {
+    return Intl.message('내 정보', name: 'setting_segment_1', desc: '', args: []);
+  }
+
+  /// `데이터`
+  String get setting_segment_2 {
+    return Intl.message('데이터', name: 'setting_segment_2', desc: '', args: []);
   }
 }
 

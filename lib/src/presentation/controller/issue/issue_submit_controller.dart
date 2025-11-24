@@ -119,7 +119,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(projectListControllerProvider.notifier)
           .updateListItem(item: project);
       ref
-          .read(issueListControllerProvider(projectId: projectId).notifier)
+          .read(IssueListControllerProvider(projectId: projectId).notifier)
           .addListItem(item: issue);
 
       state = IssueSubmitState.success(issue);
@@ -163,16 +163,11 @@ class IssueSubmitController extends _$IssueSubmitController {
         }
       }
 
-      final attachments = value.attachments!
-          .map((e) => UpdateIssueAttachmentRequest(
-              id: e.id, filename: e.filename, size: e.size, path: e.path))
-          .toList();
-
       UpdateIssueRequest request = UpdateIssueRequest(
         projectId: projectId,
         categoryId: categoryId,
         content: value.content!,
-        attachments: attachments,
+        attachments: value.attachments ?? [],
       );
 
       if (value is IssueFormContract) {
@@ -250,7 +245,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
           .updateProject(project);
       ref
-          .read(issueListControllerProvider(projectId: projectId).notifier)
+          .read(IssueListControllerProvider(projectId: projectId).notifier)
           .updateListItem(issue);
 
       state = IssueSubmitState.success(issue);
@@ -266,7 +261,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     try {
       await ref.read(issueRepositoryProvider).deleteIssue(id: issueId);
       ref
-          .read(issueListControllerProvider(projectId: projectId).notifier)
+          .read(IssueListControllerProvider(projectId: projectId).notifier)
           .removeListItem(id: issueId);
 
       state = IssueSubmitState.deleted();
@@ -276,46 +271,16 @@ class IssueSubmitController extends _$IssueSubmitController {
   }
 
   Future<void> sendEmail({
-    required int projectId,
     required int issueId,
   }) async {
-    final issue = await ref.read(issueRepositoryProvider).getIssue(id: issueId);
-    final project =
-        await ref.read(projectRepositoryProvider).getProject(id: projectId);
-    final users = await ref.read(userRepositoryProvider).getAllUsers();
+    state = const IssueSubmitState.pending();
 
-    final uri = Uri(
-      scheme: Uri.base.scheme,
-      host: Uri.base.host,
-      port: Uri.base.hasPort ? Uri.base.port : null,
-      path: join(Routes.project, projectId.toString()),
-      queryParameters: {
-        'view': 'issue',
-        'issue': issueId.toString(),
-      },
-    );
+    try {
+      await ref.read(issueRepositoryProvider).sendMail(id: issueId);
 
-    final to = users
-        .map((e) => '${e.username} ${e.position?.name ?? '직급 없음'} <${e.email}>')
-        .join(',');
-
-    final subject =
-        '[${issue.category.name}][${project.clients.first.name}][${project.clients.last.name}] ${project.code}, ${project.name}';
-
-    final body =
-        '[담당 PM] ${project.manager?.username ?? '미지정'} ${project.manager != null ? '(${project.manager!.email})' : ''}\n'
-        '[URL] $uri\n\n'
-        '[업무 내용]\n'
-        '${issue.content}';
-
-    final queryParameters = {'subject': subject, 'body': body}
-        .entries
-        .map((e) =>
-            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-        .join('&');
-
-    final mailto = Uri(scheme: 'mailto', path: to, query: queryParameters);
-
-    await launchUrl(mailto);
+      state = IssueSubmitState.mailed();
+    } catch (e) {
+      state = IssueSubmitState.failure(e.toString());
+    }
   }
 }

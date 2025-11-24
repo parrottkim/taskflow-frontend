@@ -31,6 +31,11 @@ abstract class ProjectService {
     @Path() required int id,
   });
 
+  @GET('project/{id}/edit')
+  Future<Project> getProjectForEdit({
+    @Path() required int id,
+  });
+
   @GET('project')
   Future<Result<Project>> getProjects({
     @Query('page') int page = 1,

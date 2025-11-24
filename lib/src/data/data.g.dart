@@ -174,13 +174,15 @@ Map<String, dynamic> _$IssueKickoffDetailsToJson(
       'type': instance.$type,
     };
 
-ApprovalDetails _$ApprovalDetailsFromJson(Map<String, dynamic> json) =>
-    ApprovalDetails(
+IssueApprovalDetails _$IssueApprovalDetailsFromJson(
+        Map<String, dynamic> json) =>
+    IssueApprovalDetails(
       id: (json['id'] as num).toInt(),
       $type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$ApprovalDetailsToJson(ApprovalDetails instance) =>
+Map<String, dynamic> _$IssueApprovalDetailsToJson(
+        IssueApprovalDetails instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.$type,
@@ -460,6 +462,32 @@ Map<String, dynamic> _$RegisterRequestToJson(_RegisterRequest instance) =>
       'password': instance.password,
     };
 
+_ForgotPasswordRequest _$ForgotPasswordRequestFromJson(
+        Map<String, dynamic> json) =>
+    _ForgotPasswordRequest(
+      email: json['email'] as String,
+    );
+
+Map<String, dynamic> _$ForgotPasswordRequestToJson(
+        _ForgotPasswordRequest instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+    };
+
+_ResetPasswordRequest _$ResetPasswordRequestFromJson(
+        Map<String, dynamic> json) =>
+    _ResetPasswordRequest(
+      token: json['token'] as String,
+      newPassword: json['newPassword'] as String,
+    );
+
+Map<String, dynamic> _$ResetPasswordRequestToJson(
+        _ResetPasswordRequest instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+      'newPassword': instance.newPassword,
+    };
+
 _CreateProjectRequest _$CreateProjectRequestFromJson(
         Map<String, dynamic> json) =>
     _CreateProjectRequest(
@@ -661,8 +689,7 @@ _UpdateIssueRequest _$UpdateIssueRequestFromJson(Map<String, dynamic> json) =>
       categoryId: (json['categoryId'] as num).toInt(),
       content: json['content'] as String,
       attachments: (json['attachments'] as List<dynamic>)
-          .map((e) =>
-              UpdateIssueAttachmentRequest.fromJson(e as Map<String, dynamic>))
+          .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       contract: json['contract'] == null
           ? null
@@ -819,24 +846,6 @@ Map<String, dynamic> _$UpdateTransactionItemRequestToJson(
       'note': instance.note,
     };
 
-_UpdateIssueAttachmentRequest _$UpdateIssueAttachmentRequestFromJson(
-        Map<String, dynamic> json) =>
-    _UpdateIssueAttachmentRequest(
-      id: (json['id'] as num).toInt(),
-      filename: json['filename'] as String,
-      size: (json['size'] as num).toInt(),
-      path: json['path'] as String,
-    );
-
-Map<String, dynamic> _$UpdateIssueAttachmentRequestToJson(
-        _UpdateIssueAttachmentRequest instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'filename': instance.filename,
-      'size': instance.size,
-      'path': instance.path,
-    };
-
 _SupplierRequest _$SupplierRequestFromJson(Map<String, dynamic> json) =>
     _SupplierRequest(
       businessNumber: json['businessNumber'] as String,
@@ -879,9 +888,31 @@ Map<String, dynamic> _$CreateScheduleRequestToJson(
       'end': instance.end.toIso8601String(),
     };
 
-_CreateTripRequest _$CreateTripRequestFromJson(Map<String, dynamic> json) =>
-    _CreateTripRequest(
+_CreateReportRequest _$CreateReportRequestFromJson(Map<String, dynamic> json) =>
+    _CreateReportRequest(
       scheduleId: (json['scheduleId'] as num).toInt(),
+      content: json['content'] as String,
+      attachments: (json['attachments'] as List<dynamic>)
+          .map((e) => ReportAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trip: json['trip'] == null
+          ? null
+          : CreateTripReportRequest.fromJson(
+              json['trip'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$CreateReportRequestToJson(
+        _CreateReportRequest instance) =>
+    <String, dynamic>{
+      'scheduleId': instance.scheduleId,
+      'content': instance.content,
+      'attachments': instance.attachments,
+      'trip': instance.trip,
+    };
+
+_CreateTripReportRequest _$CreateTripReportRequestFromJson(
+        Map<String, dynamic> json) =>
+    _CreateTripReportRequest(
       expenses: (json['expenses'] as List<dynamic>)
           .map((e) =>
               CreateActualExpenseRequest.fromJson(e as Map<String, dynamic>))
@@ -892,17 +923,34 @@ _CreateTripRequest _$CreateTripRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       fuel: json['fuel'] == null
           ? null
-          : TripFuelExpense.fromJson(json['fuel'] as Map<String, dynamic>),
-      isDeducted: json['isDeducted'] as bool? ?? false,
+          : CreateFuelExpenseRequest.fromJson(
+              json['fuel'] as Map<String, dynamic>),
+      isDeducted: json['isDeducted'] as bool?,
     );
 
-Map<String, dynamic> _$CreateTripRequestToJson(_CreateTripRequest instance) =>
+Map<String, dynamic> _$CreateTripReportRequestToJson(
+        _CreateTripReportRequest instance) =>
     <String, dynamic>{
-      'scheduleId': instance.scheduleId,
       'expenses': instance.expenses,
       'rates': instance.rates,
       'fuel': instance.fuel,
       'isDeducted': instance.isDeducted,
+    };
+
+_CreateFuelExpenseRequest _$CreateFuelExpenseRequestFromJson(
+        Map<String, dynamic> json) =>
+    _CreateFuelExpenseRequest(
+      rate: json['rate'] as String,
+      mileage: json['mileage'] as String,
+      distance: json['distance'] as String,
+    );
+
+Map<String, dynamic> _$CreateFuelExpenseRequestToJson(
+        _CreateFuelExpenseRequest instance) =>
+    <String, dynamic>{
+      'rate': instance.rate,
+      'mileage': instance.mileage,
+      'distance': instance.distance,
     };
 
 _CreateActualExpenseRequest _$CreateActualExpenseRequestFromJson(
@@ -939,30 +987,71 @@ Map<String, dynamic> _$CreateRegulationRateRequestToJson(
       'details': instance.details,
     };
 
-_UpdateTripRequest _$UpdateTripRequestFromJson(Map<String, dynamic> json) =>
-    _UpdateTripRequest(
+_UpdateReportRequest _$UpdateReportRequestFromJson(Map<String, dynamic> json) =>
+    _UpdateReportRequest(
       scheduleId: (json['scheduleId'] as num).toInt(),
-      expenses: (json['expenses'] as List<dynamic>)
-          .map((e) =>
+      content: json['content'] as String?,
+      attachments: (json['attachments'] as List<dynamic>?)
+          ?.map((e) => ReportAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trip: json['trip'] == null
+          ? null
+          : UpdateTripReportRequest.fromJson(
+              json['trip'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateReportRequestToJson(
+        _UpdateReportRequest instance) =>
+    <String, dynamic>{
+      'scheduleId': instance.scheduleId,
+      'content': instance.content,
+      'attachments': instance.attachments,
+      'trip': instance.trip,
+    };
+
+_UpdateTripReportRequest _$UpdateTripReportRequestFromJson(
+        Map<String, dynamic> json) =>
+    _UpdateTripReportRequest(
+      expenses: (json['expenses'] as List<dynamic>?)
+          ?.map((e) =>
               UpdateActualExpenseRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rates: (json['rates'] as List<dynamic>)
-          .map((e) =>
+      rates: (json['rates'] as List<dynamic>?)
+          ?.map((e) =>
               UpdateRegulationRateRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
       fuel: json['fuel'] == null
           ? null
-          : TripFuelExpense.fromJson(json['fuel'] as Map<String, dynamic>),
-      isDeducted: json['isDeducted'] as bool? ?? false,
+          : UpdateFuelExpenseRequest.fromJson(
+              json['fuel'] as Map<String, dynamic>),
+      isDeducted: json['isDeducted'] as bool?,
     );
 
-Map<String, dynamic> _$UpdateTripRequestToJson(_UpdateTripRequest instance) =>
+Map<String, dynamic> _$UpdateTripReportRequestToJson(
+        _UpdateTripReportRequest instance) =>
     <String, dynamic>{
-      'scheduleId': instance.scheduleId,
       'expenses': instance.expenses,
       'rates': instance.rates,
       'fuel': instance.fuel,
       'isDeducted': instance.isDeducted,
+    };
+
+_UpdateFuelExpenseRequest _$UpdateFuelExpenseRequestFromJson(
+        Map<String, dynamic> json) =>
+    _UpdateFuelExpenseRequest(
+      id: (json['id'] as num?)?.toInt(),
+      rate: json['rate'] as String?,
+      mileage: json['mileage'] as String?,
+      distance: json['distance'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateFuelExpenseRequestToJson(
+        _UpdateFuelExpenseRequest instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'rate': instance.rate,
+      'mileage': instance.mileage,
+      'distance': instance.distance,
     };
 
 _UpdateActualExpenseRequest _$UpdateActualExpenseRequestFromJson(
@@ -1086,6 +1175,22 @@ Map<String, dynamic> _$ScheduleCenterToJson(ScheduleCenter instance) =>
       'type': instance.$type,
     };
 
+ScheduleRemote _$ScheduleRemoteFromJson(Map<String, dynamic> json) =>
+    ScheduleRemote(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      color: json['color'] as String,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$ScheduleRemoteToJson(ScheduleRemote instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'color': instance.color,
+      'type': instance.$type,
+    };
+
 _ScheduleGroup _$ScheduleGroupFromJson(Map<String, dynamic> json) =>
     _ScheduleGroup(
       date: DateTime.parse(json['date'] as String),
@@ -1178,10 +1283,55 @@ Map<String, dynamic> _$TokenToJson(_Token instance) => <String, dynamic>{
       'refreshToken': instance.refreshToken,
     };
 
-_Trip _$TripFromJson(Map<String, dynamic> json) => _Trip(
+_Report _$ReportFromJson(Map<String, dynamic> json) => _Report(
       id: (json['id'] as num).toInt(),
       schedule: Schedule.fromJson(json['schedule'] as Map<String, dynamic>),
       user: User.fromJson(json['user'] as Map<String, dynamic>),
+      trip: json['trip'] == null
+          ? null
+          : TripReport.fromJson(json['trip'] as Map<String, dynamic>),
+      content: json['content'] as String,
+      attachments: (json['attachments'] as List<dynamic>)
+          .map((e) => ReportAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      deletedAt: json['deletedAt'] == null
+          ? null
+          : DateTime.parse(json['deletedAt'] as String),
+    );
+
+Map<String, dynamic> _$ReportToJson(_Report instance) => <String, dynamic>{
+      'id': instance.id,
+      'schedule': instance.schedule,
+      'user': instance.user,
+      'trip': instance.trip,
+      'content': instance.content,
+      'attachments': instance.attachments,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'deletedAt': instance.deletedAt?.toIso8601String(),
+    };
+
+_ReportAttachment _$ReportAttachmentFromJson(Map<String, dynamic> json) =>
+    _ReportAttachment(
+      id: (json['id'] as num).toInt(),
+      filename: json['filename'] as String,
+      size: (json['size'] as num).toInt(),
+      path: json['path'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$ReportAttachmentToJson(_ReportAttachment instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'filename': instance.filename,
+      'size': instance.size,
+      'path': instance.path,
+      'createdAt': instance.createdAt.toIso8601String(),
+    };
+
+_TripReport _$TripReportFromJson(Map<String, dynamic> json) => _TripReport(
       expenses: (json['expenses'] as List<dynamic>)
           .map((e) => TripActualExpense.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1192,24 +1342,14 @@ _Trip _$TripFromJson(Map<String, dynamic> json) => _Trip(
           ? null
           : TripFuelExpense.fromJson(json['fuel'] as Map<String, dynamic>),
       isDeducted: json['isDeducted'] as bool? ?? false,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-      deletedAt: json['deletedAt'] == null
-          ? null
-          : DateTime.parse(json['deletedAt'] as String),
     );
 
-Map<String, dynamic> _$TripToJson(_Trip instance) => <String, dynamic>{
-      'id': instance.id,
-      'schedule': instance.schedule,
-      'user': instance.user,
+Map<String, dynamic> _$TripReportToJson(_TripReport instance) =>
+    <String, dynamic>{
       'expenses': instance.expenses,
       'rates': instance.rates,
       'fuel': instance.fuel,
       'isDeducted': instance.isDeducted,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'updatedAt': instance.updatedAt.toIso8601String(),
-      'deletedAt': instance.deletedAt?.toIso8601String(),
     };
 
 _TripCategory _$TripCategoryFromJson(Map<String, dynamic> json) =>
@@ -1416,11 +1556,11 @@ class _AuthService implements AuthService {
   }
 
   @override
-  Future<User> register({required RegisterRequest register}) async {
+  Future<User> register({required RegisterRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = register;
+    final _data = request;
     final _options = _setStreamType<User>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -1467,6 +1607,44 @@ class _AuthService implements AuthService {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<void> forgotPassword({required ForgotPasswordRequest request}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'auth/forgot-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> resetPassword({required ResetPasswordRequest request}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'auth/reset-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -1756,7 +1934,7 @@ class _ScheduleService implements ScheduleService {
 
   @override
   Future<Result<ScheduleGroup>> getSchedules({
-    required int projectId,
+    int? projectId,
     String? search,
     DateTime? start,
     DateTime? end,
@@ -2096,6 +2274,25 @@ class _IssueService implements IssueService {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<void> sendMail({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/mail/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
   }
 
   @override
@@ -2532,6 +2729,33 @@ class _ProjectService implements ProjectService {
   }
 
   @override
+  Future<Project> getProjectForEdit({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Project>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'project/${id}/edit',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Project _value;
+    try {
+      _value = Project.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<Result<Project>> getProjects({
     int page = 1,
     int limit = 40,
@@ -2726,10 +2950,11 @@ class _SftpService implements SftpService {
 
   @override
   Future<List<File>> uploadInlineImage({
+    required String path,
     required List<MultipartFile> files,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'path': path};
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.files.addAll(files.map((i) => MapEntry('files', i)));
@@ -2928,8 +3153,8 @@ class _SupplierService implements SupplierService {
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter
 
-class _TripService implements TripService {
-  _TripService(this._dio, {this.baseUrl, this.errorLogger});
+class _ReportService implements ReportService {
+  _ReportService(this._dio, {this.baseUrl, this.errorLogger});
 
   final Dio _dio;
 
@@ -2938,7 +3163,7 @@ class _TripService implements TripService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<TripCategory>> getAllCategories() async {
+  Future<List<TripCategory>> getAllTripCategories() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -2947,7 +3172,7 @@ class _TripService implements TripService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip/categories',
+            'report/trip/categories',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -2967,7 +3192,7 @@ class _TripService implements TripService {
   }
 
   @override
-  Future<List<TripStep>> getAllSteps({required int id}) async {
+  Future<List<TripStep>> getAllTripSteps({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -2976,7 +3201,7 @@ class _TripService implements TripService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip/steps/${id}',
+            'report/trip/steps/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -3005,7 +3230,7 @@ class _TripService implements TripService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip/regulations/${id}',
+            'report/trip/regulations/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -3041,7 +3266,7 @@ class _TripService implements TripService {
       )
           .compose(
             _dio.options,
-            'trip/export/${id}',
+            'report/trip/export/trip/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -3060,25 +3285,25 @@ class _TripService implements TripService {
   }
 
   @override
-  Future<Trip> getTrip({required int id}) async {
+  Future<Report> getReport({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Trip>(
+    final _options = _setStreamType<Report>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip/${id}',
+            'report/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Trip _value;
+    late Report _value;
     try {
-      _value = Trip.fromJson(_result.data!);
+      _value = Report.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -3087,7 +3312,7 @@ class _TripService implements TripService {
   }
 
   @override
-  Future<Result<Trip>> getTrips({
+  Future<Result<Report>> getReports({
     int page = 1,
     int limit = 10,
     required int projectId,
@@ -3100,22 +3325,22 @@ class _TripService implements TripService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Result<Trip>>(
+    final _options = _setStreamType<Result<Report>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip',
+            'report',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Result<Trip> _value;
+    late Result<Report> _value;
     try {
-      _value = Result<Trip>.fromJson(
+      _value = Result<Report>.fromJson(
         _result.data!,
-        (json) => Trip.fromJson(json as Map<String, dynamic>),
+        (json) => Report.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -3125,25 +3350,44 @@ class _TripService implements TripService {
   }
 
   @override
-  Future<Trip> createTrip({required CreateTripRequest request}) async {
+  Future<void> sendMail({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'report/mail/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<Report> createReport({required CreateReportRequest request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = request;
-    final _options = _setStreamType<Trip>(
+    final _options = _setStreamType<Report>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip',
+            'report',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Trip _value;
+    late Report _value;
     try {
-      _value = Trip.fromJson(_result.data!);
+      _value = Report.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -3152,28 +3396,28 @@ class _TripService implements TripService {
   }
 
   @override
-  Future<Trip> updateTrip({
+  Future<Report> updateReport({
     required int id,
-    required UpdateTripRequest request,
+    required UpdateReportRequest request,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = request;
-    final _options = _setStreamType<Trip>(
+    final _options = _setStreamType<Report>(
       Options(method: 'PATCH', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip/${id}',
+            'report/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late Trip _value;
+    late Report _value;
     try {
-      _value = Trip.fromJson(_result.data!);
+      _value = Report.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -3182,7 +3426,7 @@ class _TripService implements TripService {
   }
 
   @override
-  Future<void> deleteTrip({required int id}) async {
+  Future<void> deleteReport({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -3191,7 +3435,69 @@ class _TripService implements TripService {
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'trip/${id}',
+            'report/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<List<ReportAttachment>> uploadAttachments({
+    required int reportId,
+    required List<MultipartFile> files,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.addAll(files.map((i) => MapEntry('files', i)));
+    final _options = _setStreamType<List<ReportAttachment>>(
+      Options(
+        method: 'POST',
+        headers: _headers,
+        extra: _extra,
+        contentType: 'multipart/form-data',
+      )
+          .compose(
+            _dio.options,
+            'report/${reportId}/attachments',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<ReportAttachment> _value;
+    try {
+      _value = _result.data!
+          .map(
+            (dynamic i) => ReportAttachment.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<void> deleteAttachment({
+    required int reportId,
+    required int fileId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'report/${reportId}/attachments/${fileId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -3611,23 +3917,23 @@ final supplierRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SupplierRepositoryRef = AutoDisposeProviderRef<SupplierRepository>;
-String _$tripRepositoryHash() => r'0bcfd85c28a07d99bf8bf64cccf5a38724415149';
+String _$reportRepositoryHash() => r'3920fb52839d3449ae8dfaa643b2ba95155ccc52';
 
-/// See also [tripRepository].
-@ProviderFor(tripRepository)
-final tripRepositoryProvider = AutoDisposeProvider<TripRepository>.internal(
-  tripRepository,
-  name: r'tripRepositoryProvider',
+/// See also [reportRepository].
+@ProviderFor(reportRepository)
+final reportRepositoryProvider = AutoDisposeProvider<ReportRepository>.internal(
+  reportRepository,
+  name: r'reportRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$tripRepositoryHash,
+      : _$reportRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef TripRepositoryRef = AutoDisposeProviderRef<TripRepository>;
+typedef ReportRepositoryRef = AutoDisposeProviderRef<ReportRepository>;
 String _$userRepositoryHash() => r'76ac51c907be91a7f185aeb1aac239ed05d0f6c1';
 
 /// See also [userRepository].

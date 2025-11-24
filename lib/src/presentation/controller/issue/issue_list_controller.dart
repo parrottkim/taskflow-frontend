@@ -52,8 +52,8 @@ class IssueListController extends _$IssueListController {
     final value = state.valueOrNull;
     if (value == null) return;
 
-    final updatedIssues = value.items.map((issue) {
-      return issue.id == updatedItem.id ? updatedItem : issue;
+    final updatedIssues = value.items.map((Issue) {
+      return Issue.id == updatedItem.id ? updatedItem : Issue;
     }).toList();
 
     state = AsyncValue.data(value.copyWith(items: updatedIssues));

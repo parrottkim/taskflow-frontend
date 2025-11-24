@@ -1,7 +1,7 @@
 part of '../controller.dart';
 
 @freezed
-abstract class IssueFormState with _$IssueFormState {
+sealed class IssueFormState with _$IssueFormState {
   const factory IssueFormState({
     String? content,
     List<IssueAttachment>? attachments,

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/widget/preset.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
@@ -206,13 +204,40 @@ class _DesktopWidget extends HookWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      item.summary,
-                                      style: textTheme.bodyMedium?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: Functions(context)
-                                            .generateColorFromId(category.id),
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          item.user.username,
+                                          style: textTheme.bodyMedium?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Functions(context)
+                                                .generateColorFromId(
+                                                    category.id),
+                                          ),
+                                        ),
+                                        Text(
+                                          ' | ',
+                                          style: textTheme.bodyMedium?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Functions(context)
+                                                .generateColorFromId(
+                                                    category.id),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            item.summary,
+                                            maxLines: 1,
+                                            style:
+                                                textTheme.bodyMedium?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              color: Functions(context)
+                                                  .generateColorFromId(
+                                                      category.id),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: 4.0),
                                     Row(
@@ -227,7 +252,7 @@ class _DesktopWidget extends HookWidget {
                                           size: 16.0,
                                           color: Functions(context)
                                               .generateColorFromId(category.id)
-                                              .withValues(alpha: 0.6),
+                                              .withValues(alpha: 0.7),
                                         ),
                                         SizedBox(width: 4.0),
                                         Text(
@@ -243,7 +268,7 @@ class _DesktopWidget extends HookWidget {
                                             color: Functions(context)
                                                 .generateColorFromId(
                                                     category.id)
-                                                .withValues(alpha: 0.6),
+                                                .withValues(alpha: 0.7),
                                           ),
                                         ),
                                       ],
@@ -256,7 +281,7 @@ class _DesktopWidget extends HookWidget {
                                           size: 16.0,
                                           color: Functions(context)
                                               .generateColorFromId(category.id)
-                                              .withValues(alpha: 0.6),
+                                              .withValues(alpha: 0.7),
                                         ),
                                         SizedBox(width: 4.0),
                                         Text(
@@ -266,7 +291,7 @@ class _DesktopWidget extends HookWidget {
                                             color: Functions(context)
                                                 .generateColorFromId(
                                                     category.id)
-                                                .withValues(alpha: 0.6),
+                                                .withValues(alpha: 0.7),
                                           ),
                                         ),
                                       ],

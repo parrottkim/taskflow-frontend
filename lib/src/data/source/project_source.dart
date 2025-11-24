@@ -26,6 +26,10 @@ class ProjectDataSource implements ProjectRepository {
   Future<Project> getProject({required int id}) => _service.getProject(id: id);
 
   @override
+  Future<Project> getProjectForEdit({required int id}) =>
+      _service.getProjectForEdit(id: id);
+
+  @override
   Future<Result<Project>> getProjects({
     int page = 1,
     int limit = 40,

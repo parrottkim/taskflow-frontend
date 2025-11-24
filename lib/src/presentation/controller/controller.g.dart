@@ -59,7 +59,7 @@ Map<String, dynamic> _$SupplierSearchResultToJson(
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authControllerHash() => r'350f03c99fe36b8e813e3de8be485e26bbbf1b6b';
+String _$authControllerHash() => r'd714eda27ab31e6e47e70007e77a7c6d30f405a7';
 
 /// See also [AuthController].
 @ProviderFor(AuthController)
@@ -508,7 +508,7 @@ final worldMapControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$WorldMapController = AutoDisposeAsyncNotifier<WorldMapState>;
 String _$downloadControllerHash() =>
-    r'ff5f1051616ed9e219c896a35ccf5f0127d2b373';
+    r'fa6e9ee964715da59c0442cb56a214fbd574d573';
 
 abstract class _$DownloadController
     extends BuildlessAutoDisposeAsyncNotifier<DownloadState> {
@@ -678,7 +678,7 @@ class _DownloadControllerProviderElement
   String? get filename => (origin as DownloadControllerProvider).filename;
 }
 
-String _$errorControllerHash() => r'0fd87ff4f7beae181ea91dd0e6c76efc310afcae';
+String _$errorControllerHash() => r'2423e1c9bbcaaf49f7479c37d21685a448369e44';
 
 /// See also [ErrorController].
 @ProviderFor(ErrorController)
@@ -695,7 +695,7 @@ final errorControllerProvider =
 
 typedef _$ErrorController = AutoDisposeNotifier<ErrorState>;
 String _$issueDetailControllerHash() =>
-    r'd40f8c876ff10675633622c04b0c180aeb30d72a';
+    r'9651e64541b49c377913e39574ee864ee524aa0c';
 
 abstract class _$IssueDetailController
     extends BuildlessAutoDisposeAsyncNotifier<IssueDetailState> {
@@ -861,7 +861,7 @@ final issueFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$IssueFilterController = AutoDisposeAsyncNotifier<IssueFilterState>;
 String _$issueFormControllerHash() =>
-    r'a278ada2d6733bd744d6fcf0fc11bb4fce62071d';
+    r'3dc8144c5d9cb3254799e032061a571858a7829a';
 
 abstract class _$IssueFormController
     extends BuildlessAutoDisposeAsyncNotifier<IssueFormState> {
@@ -1052,7 +1052,7 @@ class _IssueFormControllerProviderElement
 }
 
 String _$issueListControllerHash() =>
-    r'5a185e53336f82f15bbba8dac3bc1a30ef3f66af';
+    r'b26cbd7b7b1f00acba48d04989fbf071e38e86dc';
 
 abstract class _$IssueListController
     extends BuildlessAutoDisposeAsyncNotifier<IssueListState> {
@@ -1200,7 +1200,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'ce5bbad80ef510c82d126b0ebf175aa11c865ac6';
+    r'e32f7b22b7317fbf6ece096b8974e2dd8d09a694';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)
@@ -1420,7 +1420,7 @@ final projectFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 typedef _$ProjectFilterController
     = AutoDisposeAsyncNotifier<ProjectFilterState>;
 String _$projectFormControllerHash() =>
-    r'a7a20b55a3815c3a09013cc9088e0dc31b69703f';
+    r'a2a2b9f0a9ab9d604fae88f6fda8141644973e85';
 
 abstract class _$ProjectFormController
     extends BuildlessAutoDisposeAsyncNotifier<ProjectFormState> {
@@ -1604,7 +1604,7 @@ final projectSubmitControllerProvider = AutoDisposeNotifierProvider<
 
 typedef _$ProjectSubmitController = AutoDisposeNotifier<ProjectSubmitState>;
 String _$scheduleFilterControllerHash() =>
-    r'db889c5e8389dc2ccc0375171237d46b9712cb14';
+    r'453f1993e7e9edf7c7b84ece16de3d0f83081b9e';
 
 /// See also [ScheduleFilterController].
 @ProviderFor(ScheduleFilterController)
@@ -1622,7 +1622,7 @@ final scheduleFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 typedef _$ScheduleFilterController
     = AutoDisposeAsyncNotifier<ScheduleFilterState>;
 String _$scheduleFormControllerHash() =>
-    r'78d657ae1d1306075acf0fe582fe2ec454c39dec';
+    r'7f7ed80bba3740436c20860b4da865889e3835ef';
 
 abstract class _$ScheduleFormController
     extends BuildlessAutoDisposeAsyncNotifier<ScheduleFormState> {
@@ -1795,14 +1795,14 @@ class _ScheduleFormControllerProviderElement
 }
 
 String _$scheduleListControllerHash() =>
-    r'8703678b825caa0abd421e021061ce29ae412600';
+    r'a920b6d0882d49b85ad9b028e8f90d5824606666';
 
 abstract class _$ScheduleListController
     extends BuildlessAutoDisposeAsyncNotifier<ScheduleListState> {
-  late final int projectId;
+  late final int? projectId;
 
   FutureOr<ScheduleListState> build({
-    required int projectId,
+    int? projectId,
   });
 }
 
@@ -1818,7 +1818,7 @@ class ScheduleListControllerFamily
 
   /// See also [ScheduleListController].
   ScheduleListControllerProvider call({
-    required int projectId,
+    int? projectId,
   }) {
     return ScheduleListControllerProvider(
       projectId: projectId,
@@ -1855,7 +1855,7 @@ class ScheduleListControllerProvider
         ScheduleListState> {
   /// See also [ScheduleListController].
   ScheduleListControllerProvider({
-    required int projectId,
+    int? projectId,
   }) : this._internal(
           () => ScheduleListController()..projectId = projectId,
           from: scheduleListControllerProvider,
@@ -1880,7 +1880,7 @@ class ScheduleListControllerProvider
     required this.projectId,
   }) : super.internal();
 
-  final int projectId;
+  final int? projectId;
 
   @override
   FutureOr<ScheduleListState> runNotifierBuild(
@@ -1933,7 +1933,7 @@ class ScheduleListControllerProvider
 mixin ScheduleListControllerRef
     on AutoDisposeAsyncNotifierProviderRef<ScheduleListState> {
   /// The parameter `projectId` of this provider.
-  int get projectId;
+  int? get projectId;
 }
 
 class _ScheduleListControllerProviderElement
@@ -1942,11 +1942,11 @@ class _ScheduleListControllerProviderElement
   _ScheduleListControllerProviderElement(super.provider);
 
   @override
-  int get projectId => (origin as ScheduleListControllerProvider).projectId;
+  int? get projectId => (origin as ScheduleListControllerProvider).projectId;
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'9bac1139901fcf1b7d72730f2c64d141dbd6343d';
+    r'161b33e9e5ad6b278049c87fdd07b322852cfb70';
 
 /// See also [ScheduleSubmitController].
 @ProviderFor(ScheduleSubmitController)
@@ -1962,6 +1962,24 @@ final scheduleSubmitControllerProvider = AutoDisposeNotifierProvider<
 );
 
 typedef _$ScheduleSubmitController = AutoDisposeNotifier<ScheduleSubmitState>;
+String _$settingFilterControllerHash() =>
+    r'13b34a2e3b1fd9199b57d5fd8056fc9e12333cc8';
+
+/// See also [SettingFilterController].
+@ProviderFor(SettingFilterController)
+final settingFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
+    SettingFilterController, SettingFilterState>.internal(
+  SettingFilterController.new,
+  name: r'settingFilterControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$settingFilterControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SettingFilterController
+    = AutoDisposeAsyncNotifier<SettingFilterState>;
 String _$supplierSearchControllerHash() =>
     r'312b3883addff0121c4c865d7de98dc5f89152df';
 
@@ -1979,8 +1997,363 @@ final supplierSearchControllerProvider = AutoDisposeNotifierProvider<
 );
 
 typedef _$SupplierSearchController = AutoDisposeNotifier<SupplierSearchState>;
+String _$reportFormControllerHash() =>
+    r'ff0382043fae6de8336f5b40f06eb24f1622aaf1';
+
+abstract class _$ReportFormController
+    extends BuildlessAutoDisposeAsyncNotifier<ReportFormState> {
+  late final int projectId;
+  late final int? reportId;
+
+  FutureOr<ReportFormState> build({
+    required int projectId,
+    int? reportId,
+  });
+}
+
+/// See also [ReportFormController].
+@ProviderFor(ReportFormController)
+const reportFormControllerProvider = ReportFormControllerFamily();
+
+/// See also [ReportFormController].
+class ReportFormControllerFamily extends Family<AsyncValue<ReportFormState>> {
+  /// See also [ReportFormController].
+  const ReportFormControllerFamily();
+
+  /// See also [ReportFormController].
+  ReportFormControllerProvider call({
+    required int projectId,
+    int? reportId,
+  }) {
+    return ReportFormControllerProvider(
+      projectId: projectId,
+      reportId: reportId,
+    );
+  }
+
+  @override
+  ReportFormControllerProvider getProviderOverride(
+    covariant ReportFormControllerProvider provider,
+  ) {
+    return call(
+      projectId: provider.projectId,
+      reportId: provider.reportId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'reportFormControllerProvider';
+}
+
+/// See also [ReportFormController].
+class ReportFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    ReportFormController, ReportFormState> {
+  /// See also [ReportFormController].
+  ReportFormControllerProvider({
+    required int projectId,
+    int? reportId,
+  }) : this._internal(
+          () => ReportFormController()
+            ..projectId = projectId
+            ..reportId = reportId,
+          from: reportFormControllerProvider,
+          name: r'reportFormControllerProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$reportFormControllerHash,
+          dependencies: ReportFormControllerFamily._dependencies,
+          allTransitiveDependencies:
+              ReportFormControllerFamily._allTransitiveDependencies,
+          projectId: projectId,
+          reportId: reportId,
+        );
+
+  ReportFormControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.projectId,
+    required this.reportId,
+  }) : super.internal();
+
+  final int projectId;
+  final int? reportId;
+
+  @override
+  FutureOr<ReportFormState> runNotifierBuild(
+    covariant ReportFormController notifier,
+  ) {
+    return notifier.build(
+      projectId: projectId,
+      reportId: reportId,
+    );
+  }
+
+  @override
+  Override overrideWith(ReportFormController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ReportFormControllerProvider._internal(
+        () => create()
+          ..projectId = projectId
+          ..reportId = reportId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        projectId: projectId,
+        reportId: reportId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ReportFormController, ReportFormState>
+      createElement() {
+    return _ReportFormControllerProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReportFormControllerProvider &&
+        other.projectId == projectId &&
+        other.reportId == reportId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, projectId.hashCode);
+    hash = _SystemHash.combine(hash, reportId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ReportFormControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<ReportFormState> {
+  /// The parameter `projectId` of this provider.
+  int get projectId;
+
+  /// The parameter `reportId` of this provider.
+  int? get reportId;
+}
+
+class _ReportFormControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ReportFormController,
+        ReportFormState> with ReportFormControllerRef {
+  _ReportFormControllerProviderElement(super.provider);
+
+  @override
+  int get projectId => (origin as ReportFormControllerProvider).projectId;
+  @override
+  int? get reportId => (origin as ReportFormControllerProvider).reportId;
+}
+
+String _$reportListControllerHash() =>
+    r'ee00618930e9b9cdb1de20e7e29f1753d1aa60d7';
+
+abstract class _$ReportListController
+    extends BuildlessAutoDisposeAsyncNotifier<ReportListState> {
+  late final int projectId;
+
+  FutureOr<ReportListState> build({
+    required int projectId,
+  });
+}
+
+/// See also [ReportListController].
+@ProviderFor(ReportListController)
+const reportListControllerProvider = ReportListControllerFamily();
+
+/// See also [ReportListController].
+class ReportListControllerFamily extends Family<AsyncValue<ReportListState>> {
+  /// See also [ReportListController].
+  const ReportListControllerFamily();
+
+  /// See also [ReportListController].
+  ReportListControllerProvider call({
+    required int projectId,
+  }) {
+    return ReportListControllerProvider(
+      projectId: projectId,
+    );
+  }
+
+  @override
+  ReportListControllerProvider getProviderOverride(
+    covariant ReportListControllerProvider provider,
+  ) {
+    return call(
+      projectId: provider.projectId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'reportListControllerProvider';
+}
+
+/// See also [ReportListController].
+class ReportListControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    ReportListController, ReportListState> {
+  /// See also [ReportListController].
+  ReportListControllerProvider({
+    required int projectId,
+  }) : this._internal(
+          () => ReportListController()..projectId = projectId,
+          from: reportListControllerProvider,
+          name: r'reportListControllerProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$reportListControllerHash,
+          dependencies: ReportListControllerFamily._dependencies,
+          allTransitiveDependencies:
+              ReportListControllerFamily._allTransitiveDependencies,
+          projectId: projectId,
+        );
+
+  ReportListControllerProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.projectId,
+  }) : super.internal();
+
+  final int projectId;
+
+  @override
+  FutureOr<ReportListState> runNotifierBuild(
+    covariant ReportListController notifier,
+  ) {
+    return notifier.build(
+      projectId: projectId,
+    );
+  }
+
+  @override
+  Override overrideWith(ReportListController Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ReportListControllerProvider._internal(
+        () => create()..projectId = projectId,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        projectId: projectId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ReportListController, ReportListState>
+      createElement() {
+    return _ReportListControllerProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReportListControllerProvider &&
+        other.projectId == projectId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, projectId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin ReportListControllerRef
+    on AutoDisposeAsyncNotifierProviderRef<ReportListState> {
+  /// The parameter `projectId` of this provider.
+  int get projectId;
+}
+
+class _ReportListControllerProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ReportListController,
+        ReportListState> with ReportListControllerRef {
+  _ReportListControllerProviderElement(super.provider);
+
+  @override
+  int get projectId => (origin as ReportListControllerProvider).projectId;
+}
+
+String _$reportSubmitControllerHash() =>
+    r'90c3a6d1d4b0d0beea4423081a74507a57c920d6';
+
+/// See also [ReportSubmitController].
+@ProviderFor(ReportSubmitController)
+final reportSubmitControllerProvider = AutoDisposeNotifierProvider<
+    ReportSubmitController, ReportSubmitState>.internal(
+  ReportSubmitController.new,
+  name: r'reportSubmitControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$reportSubmitControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ReportSubmitController = AutoDisposeNotifier<ReportSubmitState>;
+String _$reportValidationControllerHash() =>
+    r'f6b89c6610b455f0f88b0d50ceac6f3c486236f1';
+
+/// See also [ReportValidationController].
+@ProviderFor(ReportValidationController)
+final reportValidationControllerProvider = AutoDisposeNotifierProvider<
+    ReportValidationController, ReportValidationState>.internal(
+  ReportValidationController.new,
+  name: r'reportValidationControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$reportValidationControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$ReportValidationController
+    = AutoDisposeNotifier<ReportValidationState>;
 String _$tripFilterControllerHash() =>
-    r'33d8c8a8097ba01d1a001e5c70d64435792d99e8';
+    r'2d85739e96335e7c7da8bdddb341caa3e14c19d5';
 
 abstract class _$TripFilterController
     extends BuildlessAutoDisposeAsyncNotifier<TripFilterState> {
@@ -2128,327 +2501,8 @@ class _TripFilterControllerProviderElement
   int? get categoryId => (origin as TripFilterControllerProvider).categoryId;
 }
 
-String _$tripFormControllerHash() =>
-    r'093d616e18ad75b8d64fb089fd2cff3b98eb4c50';
-
-abstract class _$TripFormController
-    extends BuildlessAutoDisposeAsyncNotifier<TripFormState> {
-  late final int projectId;
-  late final int? tripId;
-
-  FutureOr<TripFormState> build({
-    required int projectId,
-    int? tripId,
-  });
-}
-
-/// See also [TripFormController].
-@ProviderFor(TripFormController)
-const tripFormControllerProvider = TripFormControllerFamily();
-
-/// See also [TripFormController].
-class TripFormControllerFamily extends Family<AsyncValue<TripFormState>> {
-  /// See also [TripFormController].
-  const TripFormControllerFamily();
-
-  /// See also [TripFormController].
-  TripFormControllerProvider call({
-    required int projectId,
-    int? tripId,
-  }) {
-    return TripFormControllerProvider(
-      projectId: projectId,
-      tripId: tripId,
-    );
-  }
-
-  @override
-  TripFormControllerProvider getProviderOverride(
-    covariant TripFormControllerProvider provider,
-  ) {
-    return call(
-      projectId: provider.projectId,
-      tripId: provider.tripId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'tripFormControllerProvider';
-}
-
-/// See also [TripFormController].
-class TripFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    TripFormController, TripFormState> {
-  /// See also [TripFormController].
-  TripFormControllerProvider({
-    required int projectId,
-    int? tripId,
-  }) : this._internal(
-          () => TripFormController()
-            ..projectId = projectId
-            ..tripId = tripId,
-          from: tripFormControllerProvider,
-          name: r'tripFormControllerProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$tripFormControllerHash,
-          dependencies: TripFormControllerFamily._dependencies,
-          allTransitiveDependencies:
-              TripFormControllerFamily._allTransitiveDependencies,
-          projectId: projectId,
-          tripId: tripId,
-        );
-
-  TripFormControllerProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.projectId,
-    required this.tripId,
-  }) : super.internal();
-
-  final int projectId;
-  final int? tripId;
-
-  @override
-  FutureOr<TripFormState> runNotifierBuild(
-    covariant TripFormController notifier,
-  ) {
-    return notifier.build(
-      projectId: projectId,
-      tripId: tripId,
-    );
-  }
-
-  @override
-  Override overrideWith(TripFormController Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: TripFormControllerProvider._internal(
-        () => create()
-          ..projectId = projectId
-          ..tripId = tripId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        projectId: projectId,
-        tripId: tripId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<TripFormController, TripFormState>
-      createElement() {
-    return _TripFormControllerProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is TripFormControllerProvider &&
-        other.projectId == projectId &&
-        other.tripId == tripId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, projectId.hashCode);
-    hash = _SystemHash.combine(hash, tripId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin TripFormControllerRef
-    on AutoDisposeAsyncNotifierProviderRef<TripFormState> {
-  /// The parameter `projectId` of this provider.
-  int get projectId;
-
-  /// The parameter `tripId` of this provider.
-  int? get tripId;
-}
-
-class _TripFormControllerProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<TripFormController,
-        TripFormState> with TripFormControllerRef {
-  _TripFormControllerProviderElement(super.provider);
-
-  @override
-  int get projectId => (origin as TripFormControllerProvider).projectId;
-  @override
-  int? get tripId => (origin as TripFormControllerProvider).tripId;
-}
-
-String _$tripListControllerHash() =>
-    r'e2fdb12f51baa49694a63b878a236ffa5b53385b';
-
-abstract class _$TripListController
-    extends BuildlessAutoDisposeAsyncNotifier<TripListState> {
-  late final int projectId;
-
-  FutureOr<TripListState> build({
-    required int projectId,
-  });
-}
-
-/// See also [TripListController].
-@ProviderFor(TripListController)
-const tripListControllerProvider = TripListControllerFamily();
-
-/// See also [TripListController].
-class TripListControllerFamily extends Family<AsyncValue<TripListState>> {
-  /// See also [TripListController].
-  const TripListControllerFamily();
-
-  /// See also [TripListController].
-  TripListControllerProvider call({
-    required int projectId,
-  }) {
-    return TripListControllerProvider(
-      projectId: projectId,
-    );
-  }
-
-  @override
-  TripListControllerProvider getProviderOverride(
-    covariant TripListControllerProvider provider,
-  ) {
-    return call(
-      projectId: provider.projectId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'tripListControllerProvider';
-}
-
-/// See also [TripListController].
-class TripListControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
-    TripListController, TripListState> {
-  /// See also [TripListController].
-  TripListControllerProvider({
-    required int projectId,
-  }) : this._internal(
-          () => TripListController()..projectId = projectId,
-          from: tripListControllerProvider,
-          name: r'tripListControllerProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$tripListControllerHash,
-          dependencies: TripListControllerFamily._dependencies,
-          allTransitiveDependencies:
-              TripListControllerFamily._allTransitiveDependencies,
-          projectId: projectId,
-        );
-
-  TripListControllerProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.projectId,
-  }) : super.internal();
-
-  final int projectId;
-
-  @override
-  FutureOr<TripListState> runNotifierBuild(
-    covariant TripListController notifier,
-  ) {
-    return notifier.build(
-      projectId: projectId,
-    );
-  }
-
-  @override
-  Override overrideWith(TripListController Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: TripListControllerProvider._internal(
-        () => create()..projectId = projectId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        projectId: projectId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<TripListController, TripListState>
-      createElement() {
-    return _TripListControllerProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is TripListControllerProvider && other.projectId == projectId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, projectId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin TripListControllerRef
-    on AutoDisposeAsyncNotifierProviderRef<TripListState> {
-  /// The parameter `projectId` of this provider.
-  int get projectId;
-}
-
-class _TripListControllerProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<TripListController,
-        TripListState> with TripListControllerRef {
-  _TripListControllerProviderElement(super.provider);
-
-  @override
-  int get projectId => (origin as TripListControllerProvider).projectId;
-}
-
 String _$tripPreviewControllerHash() =>
-    r'470b4f218093fdb2c7998bb0af2f7ca5c55838cd';
+    r'4a9b78b1ce1ca97542a97a2e104273406a7e989a';
 
 /// See also [TripPreviewController].
 @ProviderFor(TripPreviewController)
@@ -2481,23 +2535,6 @@ final tripStepControllerProvider =
 );
 
 typedef _$TripStepController = AutoDisposeNotifier<TripStepState>;
-String _$tripSubmitControllerHash() =>
-    r'10c3448f2feae128f7891476fed8ae411098d6f2';
-
-/// See also [TripSubmitController].
-@ProviderFor(TripSubmitController)
-final tripSubmitControllerProvider =
-    AutoDisposeNotifierProvider<TripSubmitController, TripSubmitState>.internal(
-  TripSubmitController.new,
-  name: r'tripSubmitControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$tripSubmitControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$TripSubmitController = AutoDisposeNotifier<TripSubmitState>;
 String _$userFilterControllerHash() =>
     r'14df2dbc4e5b45aa54361a8b4bc72b5b44f4337f';
 
@@ -2532,5 +2569,22 @@ final userListControllerProvider = AutoDisposeAsyncNotifierProvider<
 );
 
 typedef _$UserListController = AutoDisposeAsyncNotifier<UserListState>;
+String _$workFilterControllerHash() =>
+    r'487f9177bad6e45c7b9851d50c86fcd0e585f62f';
+
+/// See also [WorkFilterController].
+@ProviderFor(WorkFilterController)
+final workFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
+    WorkFilterController, WorkFilterState>.internal(
+  WorkFilterController.new,
+  name: r'workFilterControllerProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$workFilterControllerHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$WorkFilterController = AutoDisposeAsyncNotifier<WorkFilterState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
