@@ -21,6 +21,7 @@ class ScheduleFormController extends _$ScheduleFormController {
       projectName: result.projectName,
       projectClientId: result.projectClientId,
       projectClientName: result.projectClientName,
+      summary: result.summary,
       description: result.description,
       start: result.start,
       end: result.end,

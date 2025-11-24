@@ -18,7 +18,7 @@ String serviceUrl(Ref ref) {
 String clientUrl(Ref ref) {
   const environment = String.fromEnvironment('ENVIRONMENT');
 
-  if (environment == 'local') return 'http://localhost:3000/';
+  if (environment == 'local') return 'http://localhost:8000/';
 
   final hostname = 'taskflow.dan-tech.com';
   final url =

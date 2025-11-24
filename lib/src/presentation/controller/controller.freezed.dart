@@ -13,7 +13,12 @@ part of 'controller.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$AuthState {
+mixin _$AuthState implements DiagnosticableTreeMixin {
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState'));
+  }
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -24,7 +29,7 @@ mixin _$AuthState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState()';
   }
 }
@@ -125,8 +130,6 @@ extension AuthStatePatterns on AuthState {
         return conflict(_that);
       case AuthFailed():
         return failed(_that);
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -265,8 +268,6 @@ extension AuthStatePatterns on AuthState {
         return conflict();
       case AuthFailed():
         return failed();
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -319,8 +320,13 @@ extension AuthStatePatterns on AuthState {
 
 /// @nodoc
 
-class AuthInitial implements AuthState {
+class AuthInitial with DiagnosticableTreeMixin implements AuthState {
   const AuthInitial();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState.initial'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -332,14 +338,14 @@ class AuthInitial implements AuthState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.initial()';
   }
 }
 
 /// @nodoc
 
-class AuthUnauthenticated implements AuthState {
+class AuthUnauthenticated with DiagnosticableTreeMixin implements AuthState {
   const AuthUnauthenticated({this.email = ''});
 
   @JsonKey()
@@ -353,6 +359,13 @@ class AuthUnauthenticated implements AuthState {
       _$AuthUnauthenticatedCopyWithImpl<AuthUnauthenticated>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState.unauthenticated'))
+      ..add(DiagnosticsProperty('email', email));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -364,7 +377,7 @@ class AuthUnauthenticated implements AuthState {
   int get hashCode => Object.hash(runtimeType, email);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.unauthenticated(email: $email)';
   }
 }
@@ -404,7 +417,7 @@ class _$AuthUnauthenticatedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class AuthAuthenticated implements AuthState {
+class AuthAuthenticated with DiagnosticableTreeMixin implements AuthState {
   const AuthAuthenticated({required this.user});
 
   final User user;
@@ -415,6 +428,13 @@ class AuthAuthenticated implements AuthState {
   @pragma('vm:prefer-inline')
   $AuthAuthenticatedCopyWith<AuthAuthenticated> get copyWith =>
       _$AuthAuthenticatedCopyWithImpl<AuthAuthenticated>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState.authenticated'))
+      ..add(DiagnosticsProperty('user', user));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -428,7 +448,7 @@ class AuthAuthenticated implements AuthState {
   int get hashCode => Object.hash(runtimeType, user);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.authenticated(user: $user)';
   }
 }
@@ -480,8 +500,13 @@ class _$AuthAuthenticatedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class AuthRequest implements AuthState {
+class AuthRequest with DiagnosticableTreeMixin implements AuthState {
   const AuthRequest();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState.request'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -493,15 +518,20 @@ class AuthRequest implements AuthState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.request()';
   }
 }
 
 /// @nodoc
 
-class AuthPending implements AuthState {
+class AuthPending with DiagnosticableTreeMixin implements AuthState {
   const AuthPending();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState.pending'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -513,15 +543,20 @@ class AuthPending implements AuthState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.pending()';
   }
 }
 
 /// @nodoc
 
-class AuthForbidden implements AuthState {
+class AuthForbidden with DiagnosticableTreeMixin implements AuthState {
   const AuthForbidden();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState.forbidden'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -533,15 +568,20 @@ class AuthForbidden implements AuthState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.forbidden()';
   }
 }
 
 /// @nodoc
 
-class AuthConflict implements AuthState {
+class AuthConflict with DiagnosticableTreeMixin implements AuthState {
   const AuthConflict();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState.conflict'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -553,15 +593,20 @@ class AuthConflict implements AuthState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.conflict()';
   }
 }
 
 /// @nodoc
 
-class AuthFailed implements AuthState {
+class AuthFailed with DiagnosticableTreeMixin implements AuthState {
   const AuthFailed();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState.failed'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -573,13 +618,13 @@ class AuthFailed implements AuthState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthState.failed()';
   }
 }
 
 /// @nodoc
-mixin _$CalendarState {
+mixin _$CalendarState implements DiagnosticableTreeMixin {
   List<Schedule> get items;
 
   /// Create a copy of CalendarState
@@ -589,6 +634,13 @@ mixin _$CalendarState {
   $CalendarStateCopyWith<CalendarState> get copyWith =>
       _$CalendarStateCopyWithImpl<CalendarState>(
           this as CalendarState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'CalendarState'))
+      ..add(DiagnosticsProperty('items', items));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -603,7 +655,7 @@ mixin _$CalendarState {
       Object.hash(runtimeType, const DeepCollectionEquality().hash(items));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CalendarState(items: $items)';
   }
 }
@@ -800,7 +852,7 @@ extension CalendarStatePatterns on CalendarState {
 
 /// @nodoc
 
-class _CalendarState implements CalendarState {
+class _CalendarState with DiagnosticableTreeMixin implements CalendarState {
   _CalendarState({required final List<Schedule> items}) : _items = items;
 
   final List<Schedule> _items;
@@ -820,6 +872,13 @@ class _CalendarState implements CalendarState {
       __$CalendarStateCopyWithImpl<_CalendarState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'CalendarState'))
+      ..add(DiagnosticsProperty('items', items));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -832,7 +891,7 @@ class _CalendarState implements CalendarState {
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CalendarState(items: $items)';
   }
 }
@@ -873,7 +932,7 @@ class __$CalendarStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$DateSelectionState {
+mixin _$DateSelectionState implements DiagnosticableTreeMixin {
   DateTime get start;
   DateTime get end;
 
@@ -884,6 +943,14 @@ mixin _$DateSelectionState {
   $DateSelectionStateCopyWith<DateSelectionState> get copyWith =>
       _$DateSelectionStateCopyWithImpl<DateSelectionState>(
           this as DateSelectionState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'DateSelectionState'))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -898,7 +965,7 @@ mixin _$DateSelectionState {
   int get hashCode => Object.hash(runtimeType, start, end);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DateSelectionState(start: $start, end: $end)';
   }
 }
@@ -1100,7 +1167,9 @@ extension DateSelectionStatePatterns on DateSelectionState {
 
 /// @nodoc
 
-class _DateSelectionState implements DateSelectionState {
+class _DateSelectionState
+    with DiagnosticableTreeMixin
+    implements DateSelectionState {
   _DateSelectionState({required this.start, required this.end});
 
   @override
@@ -1117,6 +1186,14 @@ class _DateSelectionState implements DateSelectionState {
       __$DateSelectionStateCopyWithImpl<_DateSelectionState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'DateSelectionState'))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1129,7 +1206,7 @@ class _DateSelectionState implements DateSelectionState {
   int get hashCode => Object.hash(runtimeType, start, end);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DateSelectionState(start: $start, end: $end)';
   }
 }
@@ -1175,7 +1252,7 @@ class __$DateSelectionStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$LatestUpdateState {
+mixin _$LatestUpdateState implements DiagnosticableTreeMixin {
   String? get orderBy;
   String? get orderDirection;
   List<LatestIssue> get items;
@@ -1187,6 +1264,15 @@ mixin _$LatestUpdateState {
   $LatestUpdateStateCopyWith<LatestUpdateState> get copyWith =>
       _$LatestUpdateStateCopyWithImpl<LatestUpdateState>(
           this as LatestUpdateState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'LatestUpdateState'))
+      ..add(DiagnosticsProperty('orderBy', orderBy))
+      ..add(DiagnosticsProperty('orderDirection', orderDirection))
+      ..add(DiagnosticsProperty('items', items));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -1204,7 +1290,7 @@ mixin _$LatestUpdateState {
       const DeepCollectionEquality().hash(items));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LatestUpdateState(orderBy: $orderBy, orderDirection: $orderDirection, items: $items)';
   }
 }
@@ -1417,7 +1503,9 @@ extension LatestUpdateStatePatterns on LatestUpdateState {
 
 /// @nodoc
 
-class _LatestUpdateState implements LatestUpdateState {
+class _LatestUpdateState
+    with DiagnosticableTreeMixin
+    implements LatestUpdateState {
   _LatestUpdateState(
       {this.orderBy = 'updatedAt',
       this.orderDirection = 'DESC',
@@ -1448,6 +1536,15 @@ class _LatestUpdateState implements LatestUpdateState {
       __$LatestUpdateStateCopyWithImpl<_LatestUpdateState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'LatestUpdateState'))
+      ..add(DiagnosticsProperty('orderBy', orderBy))
+      ..add(DiagnosticsProperty('orderDirection', orderDirection))
+      ..add(DiagnosticsProperty('items', items));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1463,7 +1560,7 @@ class _LatestUpdateState implements LatestUpdateState {
       const DeepCollectionEquality().hash(_items));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LatestUpdateState(orderBy: $orderBy, orderDirection: $orderDirection, items: $items)';
   }
 }
@@ -1514,7 +1611,7 @@ class __$LatestUpdateStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ProjectStatsState {
+mixin _$ProjectStatsState implements DiagnosticableTreeMixin {
   List<ProjectStats> get items;
   int get page;
   int get total;
@@ -1527,6 +1624,16 @@ mixin _$ProjectStatsState {
   $ProjectStatsStateCopyWith<ProjectStatsState> get copyWith =>
       _$ProjectStatsStateCopyWithImpl<ProjectStatsState>(
           this as ProjectStatsState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectStatsState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -1545,7 +1652,7 @@ mixin _$ProjectStatsState {
       const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectStatsState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -1766,7 +1873,9 @@ extension ProjectStatsStatePatterns on ProjectStatsState {
 
 /// @nodoc
 
-class _ProjectStatsState implements ProjectStatsState {
+class _ProjectStatsState
+    with DiagnosticableTreeMixin
+    implements ProjectStatsState {
   _ProjectStatsState(
       {final List<ProjectStats> items = const [],
       this.page = 0,
@@ -1802,6 +1911,16 @@ class _ProjectStatsState implements ProjectStatsState {
       __$ProjectStatsStateCopyWithImpl<_ProjectStatsState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectStatsState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1818,7 +1937,7 @@ class _ProjectStatsState implements ProjectStatsState {
       const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectStatsState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -1874,7 +1993,7 @@ class __$ProjectStatsStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$SummaryState {
+mixin _$SummaryState implements DiagnosticableTreeMixin {
   ProjectSummary get summary;
 
   /// Create a copy of SummaryState
@@ -1884,6 +2003,13 @@ mixin _$SummaryState {
   $SummaryStateCopyWith<SummaryState> get copyWith =>
       _$SummaryStateCopyWithImpl<SummaryState>(
           this as SummaryState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SummaryState'))
+      ..add(DiagnosticsProperty('summary', summary));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -1897,7 +2023,7 @@ mixin _$SummaryState {
   int get hashCode => Object.hash(runtimeType, summary);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SummaryState(summary: $summary)';
   }
 }
@@ -2105,7 +2231,7 @@ extension SummaryStatePatterns on SummaryState {
 
 /// @nodoc
 
-class _SummaryState implements SummaryState {
+class _SummaryState with DiagnosticableTreeMixin implements SummaryState {
   _SummaryState({required this.summary});
 
   @override
@@ -2120,6 +2246,13 @@ class _SummaryState implements SummaryState {
       __$SummaryStateCopyWithImpl<_SummaryState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SummaryState'))
+      ..add(DiagnosticsProperty('summary', summary));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -2131,7 +2264,7 @@ class _SummaryState implements SummaryState {
   int get hashCode => Object.hash(runtimeType, summary);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SummaryState(summary: $summary)';
   }
 }
@@ -2185,7 +2318,7 @@ class __$SummaryStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$WorldMapState {
+mixin _$WorldMapState implements DiagnosticableTreeMixin {
   List<ClientCount> get items;
 
   /// Create a copy of WorldMapState
@@ -2195,6 +2328,13 @@ mixin _$WorldMapState {
   $WorldMapStateCopyWith<WorldMapState> get copyWith =>
       _$WorldMapStateCopyWithImpl<WorldMapState>(
           this as WorldMapState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WorldMapState'))
+      ..add(DiagnosticsProperty('items', items));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2209,7 +2349,7 @@ mixin _$WorldMapState {
       Object.hash(runtimeType, const DeepCollectionEquality().hash(items));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WorldMapState(items: $items)';
   }
 }
@@ -2406,7 +2546,7 @@ extension WorldMapStatePatterns on WorldMapState {
 
 /// @nodoc
 
-class _WorldMapState implements WorldMapState {
+class _WorldMapState with DiagnosticableTreeMixin implements WorldMapState {
   _WorldMapState({required final List<ClientCount> items}) : _items = items;
 
   final List<ClientCount> _items;
@@ -2426,6 +2566,13 @@ class _WorldMapState implements WorldMapState {
       __$WorldMapStateCopyWithImpl<_WorldMapState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WorldMapState'))
+      ..add(DiagnosticsProperty('items', items));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -2438,7 +2585,7 @@ class _WorldMapState implements WorldMapState {
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WorldMapState(items: $items)';
   }
 }
@@ -2479,7 +2626,12 @@ class __$WorldMapStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$DownloadState {
+mixin _$DownloadState implements DiagnosticableTreeMixin {
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'DownloadState'));
+  }
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -2490,7 +2642,7 @@ mixin _$DownloadState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DownloadState()';
   }
 }
@@ -2713,8 +2865,13 @@ extension DownloadStatePatterns on DownloadState {
 
 /// @nodoc
 
-class DownloadIdle implements DownloadState {
+class DownloadIdle with DiagnosticableTreeMixin implements DownloadState {
   DownloadIdle();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'DownloadState.idle'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2726,15 +2883,20 @@ class DownloadIdle implements DownloadState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DownloadState.idle()';
   }
 }
 
 /// @nodoc
 
-class DownloadPending implements DownloadState {
+class DownloadPending with DiagnosticableTreeMixin implements DownloadState {
   DownloadPending();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'DownloadState.pending'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2746,15 +2908,20 @@ class DownloadPending implements DownloadState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DownloadState.pending()';
   }
 }
 
 /// @nodoc
 
-class DownloadSuccess implements DownloadState {
+class DownloadSuccess with DiagnosticableTreeMixin implements DownloadState {
   DownloadSuccess();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'DownloadState.success'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2766,15 +2933,20 @@ class DownloadSuccess implements DownloadState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DownloadState.success()';
   }
 }
 
 /// @nodoc
 
-class DownloadFailed implements DownloadState {
+class DownloadFailed with DiagnosticableTreeMixin implements DownloadState {
   DownloadFailed();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'DownloadState.failed'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2786,13 +2958,18 @@ class DownloadFailed implements DownloadState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DownloadState.failed()';
   }
 }
 
 /// @nodoc
-mixin _$ErrorState {
+mixin _$ErrorState implements DiagnosticableTreeMixin {
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ErrorState'));
+  }
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -2803,7 +2980,7 @@ mixin _$ErrorState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState()';
   }
 }
@@ -2898,8 +3075,6 @@ extension ErrorStatePatterns on ErrorState {
         return conflict(_that);
       case ErrorNotDefined():
         return notDefined(_that);
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -3029,8 +3204,6 @@ extension ErrorStatePatterns on ErrorState {
         return conflict(_that.message);
       case ErrorNotDefined():
         return notDefined(_that.message);
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -3080,8 +3253,13 @@ extension ErrorStatePatterns on ErrorState {
 
 /// @nodoc
 
-class ErrorInitial implements ErrorState {
+class ErrorInitial with DiagnosticableTreeMixin implements ErrorState {
   const ErrorInitial();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ErrorState.initial'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3093,14 +3271,14 @@ class ErrorInitial implements ErrorState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState.initial()';
   }
 }
 
 /// @nodoc
 
-class ErrorBadRequest implements ErrorState {
+class ErrorBadRequest with DiagnosticableTreeMixin implements ErrorState {
   const ErrorBadRequest({required this.message});
 
   final String message;
@@ -3111,6 +3289,13 @@ class ErrorBadRequest implements ErrorState {
   @pragma('vm:prefer-inline')
   $ErrorBadRequestCopyWith<ErrorBadRequest> get copyWith =>
       _$ErrorBadRequestCopyWithImpl<ErrorBadRequest>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ErrorState.badRequest'))
+      ..add(DiagnosticsProperty('message', message));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3124,7 +3309,7 @@ class ErrorBadRequest implements ErrorState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState.badRequest(message: $message)';
   }
 }
@@ -3164,7 +3349,7 @@ class _$ErrorBadRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-class ErrorUnauthorized implements ErrorState {
+class ErrorUnauthorized with DiagnosticableTreeMixin implements ErrorState {
   const ErrorUnauthorized({required this.message});
 
   final String message;
@@ -3175,6 +3360,13 @@ class ErrorUnauthorized implements ErrorState {
   @pragma('vm:prefer-inline')
   $ErrorUnauthorizedCopyWith<ErrorUnauthorized> get copyWith =>
       _$ErrorUnauthorizedCopyWithImpl<ErrorUnauthorized>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ErrorState.unauthorized'))
+      ..add(DiagnosticsProperty('message', message));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3188,7 +3380,7 @@ class ErrorUnauthorized implements ErrorState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState.unauthorized(message: $message)';
   }
 }
@@ -3228,7 +3420,7 @@ class _$ErrorUnauthorizedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class ErrorForbidden implements ErrorState {
+class ErrorForbidden with DiagnosticableTreeMixin implements ErrorState {
   const ErrorForbidden({required this.message});
 
   final String message;
@@ -3239,6 +3431,13 @@ class ErrorForbidden implements ErrorState {
   @pragma('vm:prefer-inline')
   $ErrorForbiddenCopyWith<ErrorForbidden> get copyWith =>
       _$ErrorForbiddenCopyWithImpl<ErrorForbidden>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ErrorState.forbidden'))
+      ..add(DiagnosticsProperty('message', message));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3252,7 +3451,7 @@ class ErrorForbidden implements ErrorState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState.forbidden(message: $message)';
   }
 }
@@ -3292,7 +3491,7 @@ class _$ErrorForbiddenCopyWithImpl<$Res>
 
 /// @nodoc
 
-class ErrorNotFound implements ErrorState {
+class ErrorNotFound with DiagnosticableTreeMixin implements ErrorState {
   const ErrorNotFound({required this.message});
 
   final String message;
@@ -3303,6 +3502,13 @@ class ErrorNotFound implements ErrorState {
   @pragma('vm:prefer-inline')
   $ErrorNotFoundCopyWith<ErrorNotFound> get copyWith =>
       _$ErrorNotFoundCopyWithImpl<ErrorNotFound>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ErrorState.notFound'))
+      ..add(DiagnosticsProperty('message', message));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3316,7 +3522,7 @@ class ErrorNotFound implements ErrorState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState.notFound(message: $message)';
   }
 }
@@ -3356,7 +3562,7 @@ class _$ErrorNotFoundCopyWithImpl<$Res>
 
 /// @nodoc
 
-class ErrorConflict implements ErrorState {
+class ErrorConflict with DiagnosticableTreeMixin implements ErrorState {
   const ErrorConflict({required this.message});
 
   final String message;
@@ -3367,6 +3573,13 @@ class ErrorConflict implements ErrorState {
   @pragma('vm:prefer-inline')
   $ErrorConflictCopyWith<ErrorConflict> get copyWith =>
       _$ErrorConflictCopyWithImpl<ErrorConflict>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ErrorState.conflict'))
+      ..add(DiagnosticsProperty('message', message));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3380,7 +3593,7 @@ class ErrorConflict implements ErrorState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState.conflict(message: $message)';
   }
 }
@@ -3420,7 +3633,7 @@ class _$ErrorConflictCopyWithImpl<$Res>
 
 /// @nodoc
 
-class ErrorNotDefined implements ErrorState {
+class ErrorNotDefined with DiagnosticableTreeMixin implements ErrorState {
   const ErrorNotDefined({required this.message});
 
   final String message;
@@ -3431,6 +3644,13 @@ class ErrorNotDefined implements ErrorState {
   @pragma('vm:prefer-inline')
   $ErrorNotDefinedCopyWith<ErrorNotDefined> get copyWith =>
       _$ErrorNotDefinedCopyWithImpl<ErrorNotDefined>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ErrorState.notDefined'))
+      ..add(DiagnosticsProperty('message', message));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3444,7 +3664,7 @@ class ErrorNotDefined implements ErrorState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ErrorState.notDefined(message: $message)';
   }
 }
@@ -3483,7 +3703,7 @@ class _$ErrorNotDefinedCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$IssueDetailState {
+mixin _$IssueDetailState implements DiagnosticableTreeMixin {
   Issue get issue;
 
   /// Create a copy of IssueDetailState
@@ -3493,6 +3713,13 @@ mixin _$IssueDetailState {
   $IssueDetailStateCopyWith<IssueDetailState> get copyWith =>
       _$IssueDetailStateCopyWithImpl<IssueDetailState>(
           this as IssueDetailState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueDetailState'))
+      ..add(DiagnosticsProperty('issue', issue));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3506,7 +3733,7 @@ mixin _$IssueDetailState {
   int get hashCode => Object.hash(runtimeType, issue);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueDetailState(issue: $issue)';
   }
 }
@@ -3715,7 +3942,9 @@ extension IssueDetailStatePatterns on IssueDetailState {
 
 /// @nodoc
 
-class _IssueDetailState implements IssueDetailState {
+class _IssueDetailState
+    with DiagnosticableTreeMixin
+    implements IssueDetailState {
   _IssueDetailState({required this.issue});
 
   @override
@@ -3730,6 +3959,13 @@ class _IssueDetailState implements IssueDetailState {
       __$IssueDetailStateCopyWithImpl<_IssueDetailState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueDetailState'))
+      ..add(DiagnosticsProperty('issue', issue));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3741,7 +3977,7 @@ class _IssueDetailState implements IssueDetailState {
   int get hashCode => Object.hash(runtimeType, issue);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueDetailState(issue: $issue)';
   }
 }
@@ -3795,7 +4031,7 @@ class __$IssueDetailStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$IssueFilterState {
+mixin _$IssueFilterState implements DiagnosticableTreeMixin {
   List<TransactionItemCategory> get transactionCategories;
   List<Currency> get currencies;
 
@@ -3806,6 +4042,14 @@ mixin _$IssueFilterState {
   $IssueFilterStateCopyWith<IssueFilterState> get copyWith =>
       _$IssueFilterStateCopyWithImpl<IssueFilterState>(
           this as IssueFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFilterState'))
+      ..add(DiagnosticsProperty('transactionCategories', transactionCategories))
+      ..add(DiagnosticsProperty('currencies', currencies));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3825,7 +4069,7 @@ mixin _$IssueFilterState {
       const DeepCollectionEquality().hash(currencies));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFilterState(transactionCategories: $transactionCategories, currencies: $currencies)';
   }
 }
@@ -4035,7 +4279,9 @@ extension IssueFilterStatePatterns on IssueFilterState {
 
 /// @nodoc
 
-class _IssueFilterState implements IssueFilterState {
+class _IssueFilterState
+    with DiagnosticableTreeMixin
+    implements IssueFilterState {
   _IssueFilterState(
       {final List<TransactionItemCategory> transactionCategories = const [],
       final List<Currency> currencies = const []})
@@ -4070,6 +4316,14 @@ class _IssueFilterState implements IssueFilterState {
       __$IssueFilterStateCopyWithImpl<_IssueFilterState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFilterState'))
+      ..add(DiagnosticsProperty('transactionCategories', transactionCategories))
+      ..add(DiagnosticsProperty('currencies', currencies));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -4087,7 +4341,7 @@ class _IssueFilterState implements IssueFilterState {
       const DeepCollectionEquality().hash(_currencies));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFilterState(transactionCategories: $transactionCategories, currencies: $currencies)';
   }
 }
@@ -4135,7 +4389,7 @@ class __$IssueFilterStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$IssueFormState {
+mixin _$IssueFormState implements DiagnosticableTreeMixin {
   String? get content;
   List<IssueAttachment>? get attachments;
   List<XFile>? get files;
@@ -4147,6 +4401,15 @@ mixin _$IssueFormState {
   $IssueFormStateCopyWith<IssueFormState> get copyWith =>
       _$IssueFormStateCopyWithImpl<IssueFormState>(
           this as IssueFormState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -4167,7 +4430,7 @@ mixin _$IssueFormState {
       const DeepCollectionEquality().hash(files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState(content: $content, attachments: $attachments, files: $files)';
   }
 }
@@ -4309,8 +4572,6 @@ extension IssueFormStatePatterns on IssueFormState {
         return declaration(_that);
       case IssueFormPayment():
         return payment(_that);
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -4493,8 +4754,6 @@ extension IssueFormStatePatterns on IssueFormState {
         return declaration(_that.content, _that.attachments, _that.files);
       case IssueFormPayment():
         return payment(_that.content, _that.attachments, _that.files);
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -4567,7 +4826,7 @@ extension IssueFormStatePatterns on IssueFormState {
 
 /// @nodoc
 
-class _IssueFormState implements IssueFormState {
+class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
   const _IssueFormState(
       {this.content,
       final List<IssueAttachment>? attachments,
@@ -4606,6 +4865,15 @@ class _IssueFormState implements IssueFormState {
       __$IssueFormStateCopyWithImpl<_IssueFormState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -4624,7 +4892,7 @@ class _IssueFormState implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState(content: $content, attachments: $attachments, files: $files)';
   }
 }
@@ -4679,7 +4947,7 @@ class __$IssueFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueFormContract implements IssueFormState {
+class IssueFormContract with DiagnosticableTreeMixin implements IssueFormState {
   IssueFormContract(
       {this.content,
       final List<ContractItem>? items,
@@ -4729,6 +4997,16 @@ class IssueFormContract implements IssueFormState {
       _$IssueFormContractCopyWithImpl<IssueFormContract>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState.contract'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -4749,7 +5027,7 @@ class IssueFormContract implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState.contract(content: $content, items: $items, attachments: $attachments, files: $files)';
   }
 }
@@ -4810,7 +5088,7 @@ class _$IssueFormContractCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueFormKickoff implements IssueFormState {
+class IssueFormKickoff with DiagnosticableTreeMixin implements IssueFormState {
   IssueFormKickoff(
       {this.content,
       this.kickoffId,
@@ -4853,6 +5131,17 @@ class IssueFormKickoff implements IssueFormState {
       _$IssueFormKickoffCopyWithImpl<IssueFormKickoff>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState.kickoff'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('kickoffId', kickoffId))
+      ..add(DiagnosticsProperty('kickoffDate', kickoffDate))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -4877,7 +5166,7 @@ class IssueFormKickoff implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState.kickoff(content: $content, kickoffId: $kickoffId, kickoffDate: $kickoffDate, attachments: $attachments, files: $files)';
   }
 }
@@ -4944,7 +5233,7 @@ class _$IssueFormKickoffCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueFormApproval implements IssueFormState {
+class IssueFormApproval with DiagnosticableTreeMixin implements IssueFormState {
   IssueFormApproval(
       {this.content,
       final List<IssueAttachment>? attachments,
@@ -4983,6 +5272,15 @@ class IssueFormApproval implements IssueFormState {
       _$IssueFormApprovalCopyWithImpl<IssueFormApproval>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState.approval'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -5001,7 +5299,7 @@ class IssueFormApproval implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState.approval(content: $content, attachments: $attachments, files: $files)';
   }
 }
@@ -5056,7 +5354,9 @@ class _$IssueFormApprovalCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueFormProcurement implements IssueFormState {
+class IssueFormProcurement
+    with DiagnosticableTreeMixin
+    implements IssueFormState {
   IssueFormProcurement(
       {this.content,
       final List<ProcurementItem>? items,
@@ -5107,6 +5407,16 @@ class IssueFormProcurement implements IssueFormState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState.procurement'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -5127,7 +5437,7 @@ class IssueFormProcurement implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState.procurement(content: $content, items: $items, attachments: $attachments, files: $files)';
   }
 }
@@ -5188,7 +5498,9 @@ class _$IssueFormProcurementCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueFormTransaction implements IssueFormState {
+class IssueFormTransaction
+    with DiagnosticableTreeMixin
+    implements IssueFormState {
   IssueFormTransaction(
       {this.content,
       final List<TransactionItem>? items,
@@ -5239,6 +5551,16 @@ class IssueFormTransaction implements IssueFormState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState.transaction'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -5259,7 +5581,7 @@ class IssueFormTransaction implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState.transaction(content: $content, items: $items, attachments: $attachments, files: $files)';
   }
 }
@@ -5320,7 +5642,9 @@ class _$IssueFormTransactionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueFormDeclaration implements IssueFormState {
+class IssueFormDeclaration
+    with DiagnosticableTreeMixin
+    implements IssueFormState {
   IssueFormDeclaration(
       {this.content,
       final List<IssueAttachment>? attachments,
@@ -5360,6 +5684,15 @@ class IssueFormDeclaration implements IssueFormState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState.declaration'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -5378,7 +5711,7 @@ class IssueFormDeclaration implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState.declaration(content: $content, attachments: $attachments, files: $files)';
   }
 }
@@ -5433,7 +5766,7 @@ class _$IssueFormDeclarationCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueFormPayment implements IssueFormState {
+class IssueFormPayment with DiagnosticableTreeMixin implements IssueFormState {
   IssueFormPayment(
       {this.content,
       final List<IssueAttachment>? attachments,
@@ -5472,6 +5805,15 @@ class IssueFormPayment implements IssueFormState {
       _$IssueFormPaymentCopyWithImpl<IssueFormPayment>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueFormState.payment'))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -5490,7 +5832,7 @@ class IssueFormPayment implements IssueFormState {
       const DeepCollectionEquality().hash(_files));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueFormState.payment(content: $content, attachments: $attachments, files: $files)';
   }
 }
@@ -5544,7 +5886,7 @@ class _$IssueFormPaymentCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$IssueListState {
+mixin _$IssueListState implements DiagnosticableTreeMixin {
   List<Issue> get items;
   int get page;
   int get total;
@@ -5557,6 +5899,16 @@ mixin _$IssueListState {
   $IssueListStateCopyWith<IssueListState> get copyWith =>
       _$IssueListStateCopyWithImpl<IssueListState>(
           this as IssueListState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -5575,7 +5927,7 @@ mixin _$IssueListState {
       const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -5793,7 +6145,7 @@ extension IssueListStatePatterns on IssueListState {
 
 /// @nodoc
 
-class _IssueListState implements IssueListState {
+class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
   _IssueListState(
       {final List<Issue> items = const [],
       this.page = 0,
@@ -5829,6 +6181,16 @@ class _IssueListState implements IssueListState {
       __$IssueListStateCopyWithImpl<_IssueListState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -5845,7 +6207,7 @@ class _IssueListState implements IssueListState {
       const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -5901,7 +6263,12 @@ class __$IssueListStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$IssueSubmitState {
+mixin _$IssueSubmitState implements DiagnosticableTreeMixin {
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'IssueSubmitState'));
+  }
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -5912,7 +6279,7 @@ mixin _$IssueSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueSubmitState()';
   }
 }
@@ -5943,6 +6310,7 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
     TResult Function(IssueSubmitPending value)? pending,
     TResult Function(IssueSubmitSuccess value)? success,
     TResult Function(IssueSubmitDeleted value)? deleted,
+    TResult Function(IssueSubmitMailed value)? mailed,
     TResult Function(IssueSubmitFailure value)? failure,
     required TResult orElse(),
   }) {
@@ -5956,6 +6324,8 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
         return success(_that);
       case IssueSubmitDeleted() when deleted != null:
         return deleted(_that);
+      case IssueSubmitMailed() when mailed != null:
+        return mailed(_that);
       case IssueSubmitFailure() when failure != null:
         return failure(_that);
       case _:
@@ -5982,6 +6352,7 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
     required TResult Function(IssueSubmitPending value) pending,
     required TResult Function(IssueSubmitSuccess value) success,
     required TResult Function(IssueSubmitDeleted value) deleted,
+    required TResult Function(IssueSubmitMailed value) mailed,
     required TResult Function(IssueSubmitFailure value) failure,
   }) {
     final _that = this;
@@ -5994,6 +6365,8 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
         return success(_that);
       case IssueSubmitDeleted():
         return deleted(_that);
+      case IssueSubmitMailed():
+        return mailed(_that);
       case IssueSubmitFailure():
         return failure(_that);
     }
@@ -6017,6 +6390,7 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
     TResult? Function(IssueSubmitPending value)? pending,
     TResult? Function(IssueSubmitSuccess value)? success,
     TResult? Function(IssueSubmitDeleted value)? deleted,
+    TResult? Function(IssueSubmitMailed value)? mailed,
     TResult? Function(IssueSubmitFailure value)? failure,
   }) {
     final _that = this;
@@ -6029,6 +6403,8 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
         return success(_that);
       case IssueSubmitDeleted() when deleted != null:
         return deleted(_that);
+      case IssueSubmitMailed() when mailed != null:
+        return mailed(_that);
       case IssueSubmitFailure() when failure != null:
         return failure(_that);
       case _:
@@ -6054,6 +6430,7 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
     TResult Function()? pending,
     TResult Function(Issue issue)? success,
     TResult Function()? deleted,
+    TResult Function()? mailed,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -6067,6 +6444,8 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
         return success(_that.issue);
       case IssueSubmitDeleted() when deleted != null:
         return deleted();
+      case IssueSubmitMailed() when mailed != null:
+        return mailed();
       case IssueSubmitFailure() when failure != null:
         return failure(_that.message);
       case _:
@@ -6093,6 +6472,7 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
     required TResult Function() pending,
     required TResult Function(Issue issue) success,
     required TResult Function() deleted,
+    required TResult Function() mailed,
     required TResult Function(String message) failure,
   }) {
     final _that = this;
@@ -6105,6 +6485,8 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
         return success(_that.issue);
       case IssueSubmitDeleted():
         return deleted();
+      case IssueSubmitMailed():
+        return mailed();
       case IssueSubmitFailure():
         return failure(_that.message);
     }
@@ -6128,6 +6510,7 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
     TResult? Function()? pending,
     TResult? Function(Issue issue)? success,
     TResult? Function()? deleted,
+    TResult? Function()? mailed,
     TResult? Function(String message)? failure,
   }) {
     final _that = this;
@@ -6140,6 +6523,8 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
         return success(_that.issue);
       case IssueSubmitDeleted() when deleted != null:
         return deleted();
+      case IssueSubmitMailed() when mailed != null:
+        return mailed();
       case IssueSubmitFailure() when failure != null:
         return failure(_that.message);
       case _:
@@ -6150,8 +6535,13 @@ extension IssueSubmitStatePatterns on IssueSubmitState {
 
 /// @nodoc
 
-class IssueSubmitIdle implements IssueSubmitState {
+class IssueSubmitIdle with DiagnosticableTreeMixin implements IssueSubmitState {
   const IssueSubmitIdle();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'IssueSubmitState.idle'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6163,15 +6553,22 @@ class IssueSubmitIdle implements IssueSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueSubmitState.idle()';
   }
 }
 
 /// @nodoc
 
-class IssueSubmitPending implements IssueSubmitState {
+class IssueSubmitPending
+    with DiagnosticableTreeMixin
+    implements IssueSubmitState {
   const IssueSubmitPending();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'IssueSubmitState.pending'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6183,14 +6580,16 @@ class IssueSubmitPending implements IssueSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueSubmitState.pending()';
   }
 }
 
 /// @nodoc
 
-class IssueSubmitSuccess implements IssueSubmitState {
+class IssueSubmitSuccess
+    with DiagnosticableTreeMixin
+    implements IssueSubmitState {
   const IssueSubmitSuccess(this.issue);
 
   final Issue issue;
@@ -6201,6 +6600,13 @@ class IssueSubmitSuccess implements IssueSubmitState {
   @pragma('vm:prefer-inline')
   $IssueSubmitSuccessCopyWith<IssueSubmitSuccess> get copyWith =>
       _$IssueSubmitSuccessCopyWithImpl<IssueSubmitSuccess>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueSubmitState.success'))
+      ..add(DiagnosticsProperty('issue', issue));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6214,7 +6620,7 @@ class IssueSubmitSuccess implements IssueSubmitState {
   int get hashCode => Object.hash(runtimeType, issue);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueSubmitState.success(issue: $issue)';
   }
 }
@@ -6266,8 +6672,15 @@ class _$IssueSubmitSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class IssueSubmitDeleted implements IssueSubmitState {
+class IssueSubmitDeleted
+    with DiagnosticableTreeMixin
+    implements IssueSubmitState {
   const IssueSubmitDeleted();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'IssueSubmitState.deleted'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6279,14 +6692,43 @@ class IssueSubmitDeleted implements IssueSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueSubmitState.deleted()';
   }
 }
 
 /// @nodoc
 
-class IssueSubmitFailure implements IssueSubmitState {
+class IssueSubmitMailed
+    with DiagnosticableTreeMixin
+    implements IssueSubmitState {
+  const IssueSubmitMailed();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'IssueSubmitState.mailed'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is IssueSubmitMailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'IssueSubmitState.mailed()';
+  }
+}
+
+/// @nodoc
+
+class IssueSubmitFailure
+    with DiagnosticableTreeMixin
+    implements IssueSubmitState {
   const IssueSubmitFailure(this.message);
 
   final String message;
@@ -6297,6 +6739,13 @@ class IssueSubmitFailure implements IssueSubmitState {
   @pragma('vm:prefer-inline')
   $IssueSubmitFailureCopyWith<IssueSubmitFailure> get copyWith =>
       _$IssueSubmitFailureCopyWithImpl<IssueSubmitFailure>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'IssueSubmitState.failure'))
+      ..add(DiagnosticsProperty('message', message));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6310,7 +6759,7 @@ class IssueSubmitFailure implements IssueSubmitState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'IssueSubmitState.failure(message: $message)';
   }
 }
@@ -6349,7 +6798,7 @@ class _$IssueSubmitFailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$LocalState {
+mixin _$LocalState implements DiagnosticableTreeMixin {
   bool get persistLogin;
   List<Keyword> get keywords;
 
@@ -6359,6 +6808,14 @@ mixin _$LocalState {
   @pragma('vm:prefer-inline')
   $LocalStateCopyWith<LocalState> get copyWith =>
       _$LocalStateCopyWithImpl<LocalState>(this as LocalState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'LocalState'))
+      ..add(DiagnosticsProperty('persistLogin', persistLogin))
+      ..add(DiagnosticsProperty('keywords', keywords));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6375,7 +6832,7 @@ mixin _$LocalState {
       runtimeType, persistLogin, const DeepCollectionEquality().hash(keywords));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LocalState(persistLogin: $persistLogin, keywords: $keywords)';
   }
 }
@@ -6576,7 +7033,7 @@ extension LocalStatePatterns on LocalState {
 
 /// @nodoc
 
-class _LocalState implements LocalState {
+class _LocalState with DiagnosticableTreeMixin implements LocalState {
   _LocalState(
       {required this.persistLogin, final List<Keyword> keywords = const []})
       : _keywords = keywords;
@@ -6601,6 +7058,14 @@ class _LocalState implements LocalState {
       __$LocalStateCopyWithImpl<_LocalState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'LocalState'))
+      ..add(DiagnosticsProperty('persistLogin', persistLogin))
+      ..add(DiagnosticsProperty('keywords', keywords));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -6615,7 +7080,7 @@ class _LocalState implements LocalState {
       const DeepCollectionEquality().hash(_keywords));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LocalState(persistLogin: $persistLogin, keywords: $keywords)';
   }
 }
@@ -6660,7 +7125,7 @@ class __$LocalStateCopyWithImpl<$Res> implements _$LocalStateCopyWith<$Res> {
 }
 
 /// @nodoc
-mixin _$ProjectDetailState {
+mixin _$ProjectDetailState implements DiagnosticableTreeMixin {
   Project get project;
 
   /// Create a copy of ProjectDetailState
@@ -6670,6 +7135,13 @@ mixin _$ProjectDetailState {
   $ProjectDetailStateCopyWith<ProjectDetailState> get copyWith =>
       _$ProjectDetailStateCopyWithImpl<ProjectDetailState>(
           this as ProjectDetailState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectDetailState'))
+      ..add(DiagnosticsProperty('project', project));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6683,7 +7155,7 @@ mixin _$ProjectDetailState {
   int get hashCode => Object.hash(runtimeType, project);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectDetailState(project: $project)';
   }
 }
@@ -6892,7 +7364,9 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 
 /// @nodoc
 
-class _ProjectDetailState implements ProjectDetailState {
+class _ProjectDetailState
+    with DiagnosticableTreeMixin
+    implements ProjectDetailState {
   _ProjectDetailState({required this.project});
 
   @override
@@ -6907,6 +7381,13 @@ class _ProjectDetailState implements ProjectDetailState {
       __$ProjectDetailStateCopyWithImpl<_ProjectDetailState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectDetailState'))
+      ..add(DiagnosticsProperty('project', project));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -6918,7 +7399,7 @@ class _ProjectDetailState implements ProjectDetailState {
   int get hashCode => Object.hash(runtimeType, project);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectDetailState(project: $project)';
   }
 }
@@ -6972,7 +7453,7 @@ class __$ProjectDetailStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ProjectDetailFilterState {
+mixin _$ProjectDetailFilterState implements DiagnosticableTreeMixin {
   String? get view;
 
   /// Create a copy of ProjectDetailFilterState
@@ -6982,6 +7463,13 @@ mixin _$ProjectDetailFilterState {
   $ProjectDetailFilterStateCopyWith<ProjectDetailFilterState> get copyWith =>
       _$ProjectDetailFilterStateCopyWithImpl<ProjectDetailFilterState>(
           this as ProjectDetailFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectDetailFilterState'))
+      ..add(DiagnosticsProperty('view', view));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -6995,7 +7483,7 @@ mixin _$ProjectDetailFilterState {
   int get hashCode => Object.hash(runtimeType, view);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectDetailFilterState(view: $view)';
   }
 }
@@ -7192,7 +7680,9 @@ extension ProjectDetailFilterStatePatterns on ProjectDetailFilterState {
 
 /// @nodoc
 
-class _ProjectDetailFilterState implements ProjectDetailFilterState {
+class _ProjectDetailFilterState
+    with DiagnosticableTreeMixin
+    implements ProjectDetailFilterState {
   _ProjectDetailFilterState({this.view});
 
   @override
@@ -7208,6 +7698,13 @@ class _ProjectDetailFilterState implements ProjectDetailFilterState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectDetailFilterState'))
+      ..add(DiagnosticsProperty('view', view));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -7219,7 +7716,7 @@ class _ProjectDetailFilterState implements ProjectDetailFilterState {
   int get hashCode => Object.hash(runtimeType, view);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectDetailFilterState(view: $view)';
   }
 }
@@ -7260,7 +7757,7 @@ class __$ProjectDetailFilterStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ProjectFilterState {
+mixin _$ProjectFilterState implements DiagnosticableTreeMixin {
   String? get view;
   ProjectSort? get sort;
   Order? get order;
@@ -7279,6 +7776,22 @@ mixin _$ProjectFilterState {
   $ProjectFilterStateCopyWith<ProjectFilterState> get copyWith =>
       _$ProjectFilterStateCopyWithImpl<ProjectFilterState>(
           this as ProjectFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectFilterState'))
+      ..add(DiagnosticsProperty('view', view))
+      ..add(DiagnosticsProperty('sort', sort))
+      ..add(DiagnosticsProperty('order', order))
+      ..add(DiagnosticsProperty('search', search))
+      ..add(DiagnosticsProperty('bookmark', bookmark))
+      ..add(DiagnosticsProperty('clients', clients))
+      ..add(DiagnosticsProperty('categories', categories))
+      ..add(DiagnosticsProperty('categoryItems', categoryItems))
+      ..add(DiagnosticsProperty('clientItems', clientItems))
+      ..add(DiagnosticsProperty('maxClientDepth', maxClientDepth));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -7317,7 +7830,7 @@ mixin _$ProjectFilterState {
       maxClientDepth);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectFilterState(view: $view, sort: $sort, order: $order, search: $search, bookmark: $bookmark, clients: $clients, categories: $categories, categoryItems: $categoryItems, clientItems: $clientItems, maxClientDepth: $maxClientDepth)';
   }
 }
@@ -7632,7 +8145,9 @@ extension ProjectFilterStatePatterns on ProjectFilterState {
 
 /// @nodoc
 
-class _ProjectFilterState implements ProjectFilterState {
+class _ProjectFilterState
+    with DiagnosticableTreeMixin
+    implements ProjectFilterState {
   const _ProjectFilterState(
       {this.view,
       this.sort,
@@ -7710,6 +8225,22 @@ class _ProjectFilterState implements ProjectFilterState {
       __$ProjectFilterStateCopyWithImpl<_ProjectFilterState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectFilterState'))
+      ..add(DiagnosticsProperty('view', view))
+      ..add(DiagnosticsProperty('sort', sort))
+      ..add(DiagnosticsProperty('order', order))
+      ..add(DiagnosticsProperty('search', search))
+      ..add(DiagnosticsProperty('bookmark', bookmark))
+      ..add(DiagnosticsProperty('clients', clients))
+      ..add(DiagnosticsProperty('categories', categories))
+      ..add(DiagnosticsProperty('categoryItems', categoryItems))
+      ..add(DiagnosticsProperty('clientItems', clientItems))
+      ..add(DiagnosticsProperty('maxClientDepth', maxClientDepth));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -7746,7 +8277,7 @@ class _ProjectFilterState implements ProjectFilterState {
       maxClientDepth);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectFilterState(view: $view, sort: $sort, order: $order, search: $search, bookmark: $bookmark, clients: $clients, categories: $categories, categoryItems: $categoryItems, clientItems: $clientItems, maxClientDepth: $maxClientDepth)';
   }
 }
@@ -7842,7 +8373,7 @@ class __$ProjectFilterStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ProjectFormState {
+mixin _$ProjectFormState implements DiagnosticableTreeMixin {
   List<Client>? get clients;
   String? get code;
   String? get name;
@@ -7859,6 +8390,20 @@ mixin _$ProjectFormState {
   $ProjectFormStateCopyWith<ProjectFormState> get copyWith =>
       _$ProjectFormStateCopyWithImpl<ProjectFormState>(
           this as ProjectFormState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectFormState'))
+      ..add(DiagnosticsProperty('clients', clients))
+      ..add(DiagnosticsProperty('code', code))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('manager', manager))
+      ..add(DiagnosticsProperty('isPreexecuted', isPreexecuted))
+      ..add(DiagnosticsProperty('isContracted', isContracted))
+      ..add(DiagnosticsProperty('isAllClientSelected', isAllClientSelected))
+      ..add(DiagnosticsProperty('isDirty', isDirty));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -7891,7 +8436,7 @@ mixin _$ProjectFormState {
       isDirty);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectFormState(clients: $clients, code: $code, name: $name, manager: $manager, isPreexecuted: $isPreexecuted, isContracted: $isContracted, isAllClientSelected: $isAllClientSelected, isDirty: $isDirty)';
   }
 }
@@ -8198,7 +8743,9 @@ extension ProjectFormStatePatterns on ProjectFormState {
 
 /// @nodoc
 
-class _ProjectFormState implements ProjectFormState {
+class _ProjectFormState
+    with DiagnosticableTreeMixin
+    implements ProjectFormState {
   _ProjectFormState(
       {final List<Client>? clients,
       this.code,
@@ -8248,6 +8795,20 @@ class _ProjectFormState implements ProjectFormState {
       __$ProjectFormStateCopyWithImpl<_ProjectFormState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectFormState'))
+      ..add(DiagnosticsProperty('clients', clients))
+      ..add(DiagnosticsProperty('code', code))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('manager', manager))
+      ..add(DiagnosticsProperty('isPreexecuted', isPreexecuted))
+      ..add(DiagnosticsProperty('isContracted', isContracted))
+      ..add(DiagnosticsProperty('isAllClientSelected', isAllClientSelected))
+      ..add(DiagnosticsProperty('isDirty', isDirty));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -8278,7 +8839,7 @@ class _ProjectFormState implements ProjectFormState {
       isDirty);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectFormState(clients: $clients, code: $code, name: $name, manager: $manager, isPreexecuted: $isPreexecuted, isContracted: $isContracted, isAllClientSelected: $isAllClientSelected, isDirty: $isDirty)';
   }
 }
@@ -8379,7 +8940,7 @@ class __$ProjectFormStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ProjectListState {
+mixin _$ProjectListState implements DiagnosticableTreeMixin {
   List<Project> get items;
   int get page;
   int get total;
@@ -8392,6 +8953,16 @@ mixin _$ProjectListState {
   $ProjectListStateCopyWith<ProjectListState> get copyWith =>
       _$ProjectListStateCopyWithImpl<ProjectListState>(
           this as ProjectListState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -8410,7 +8981,7 @@ mixin _$ProjectListState {
       const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -8630,7 +9201,9 @@ extension ProjectListStatePatterns on ProjectListState {
 
 /// @nodoc
 
-class _ProjectListState implements ProjectListState {
+class _ProjectListState
+    with DiagnosticableTreeMixin
+    implements ProjectListState {
   _ProjectListState(
       {final List<Project> items = const [],
       this.page = 0,
@@ -8666,6 +9239,16 @@ class _ProjectListState implements ProjectListState {
       __$ProjectListStateCopyWithImpl<_ProjectListState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -8682,7 +9265,7 @@ class _ProjectListState implements ProjectListState {
       const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -8738,7 +9321,12 @@ class __$ProjectListStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ProjectSubmitState {
+mixin _$ProjectSubmitState implements DiagnosticableTreeMixin {
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ProjectSubmitState'));
+  }
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -8749,7 +9337,7 @@ mixin _$ProjectSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectSubmitState()';
   }
 }
@@ -8987,8 +9575,15 @@ extension ProjectSubmitStatePatterns on ProjectSubmitState {
 
 /// @nodoc
 
-class ProjectSubmitIdle implements ProjectSubmitState {
+class ProjectSubmitIdle
+    with DiagnosticableTreeMixin
+    implements ProjectSubmitState {
   const ProjectSubmitIdle();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ProjectSubmitState.idle'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -9000,15 +9595,22 @@ class ProjectSubmitIdle implements ProjectSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectSubmitState.idle()';
   }
 }
 
 /// @nodoc
 
-class ProjectSubmitPending implements ProjectSubmitState {
+class ProjectSubmitPending
+    with DiagnosticableTreeMixin
+    implements ProjectSubmitState {
   const ProjectSubmitPending();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ProjectSubmitState.pending'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -9020,14 +9622,16 @@ class ProjectSubmitPending implements ProjectSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectSubmitState.pending()';
   }
 }
 
 /// @nodoc
 
-class ProjectSubmitSuccess implements ProjectSubmitState {
+class ProjectSubmitSuccess
+    with DiagnosticableTreeMixin
+    implements ProjectSubmitState {
   const ProjectSubmitSuccess(this.project);
 
   final Project project;
@@ -9041,6 +9645,13 @@ class ProjectSubmitSuccess implements ProjectSubmitState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectSubmitState.success'))
+      ..add(DiagnosticsProperty('project', project));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -9052,7 +9663,7 @@ class ProjectSubmitSuccess implements ProjectSubmitState {
   int get hashCode => Object.hash(runtimeType, project);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectSubmitState.success(project: $project)';
   }
 }
@@ -9104,8 +9715,15 @@ class _$ProjectSubmitSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class ProjectSubmitDeleted implements ProjectSubmitState {
+class ProjectSubmitDeleted
+    with DiagnosticableTreeMixin
+    implements ProjectSubmitState {
   const ProjectSubmitDeleted();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ProjectSubmitState.deleted'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -9117,14 +9735,16 @@ class ProjectSubmitDeleted implements ProjectSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectSubmitState.deleted()';
   }
 }
 
 /// @nodoc
 
-class ProjectSubmitFailure implements ProjectSubmitState {
+class ProjectSubmitFailure
+    with DiagnosticableTreeMixin
+    implements ProjectSubmitState {
   const ProjectSubmitFailure(this.message);
 
   final String message;
@@ -9138,6 +9758,13 @@ class ProjectSubmitFailure implements ProjectSubmitState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ProjectSubmitState.failure'))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -9149,7 +9776,7 @@ class ProjectSubmitFailure implements ProjectSubmitState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ProjectSubmitState.failure(message: $message)';
   }
 }
@@ -9188,7 +9815,7 @@ class _$ProjectSubmitFailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ScheduleFilterState {
+mixin _$ScheduleFilterState implements DiagnosticableTreeMixin {
   String? get search;
   DateTime get start;
   DateTime get end;
@@ -9201,6 +9828,16 @@ mixin _$ScheduleFilterState {
   $ScheduleFilterStateCopyWith<ScheduleFilterState> get copyWith =>
       _$ScheduleFilterStateCopyWithImpl<ScheduleFilterState>(
           this as ScheduleFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleFilterState'))
+      ..add(DiagnosticsProperty('search', search))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end))
+      ..add(DiagnosticsProperty('categoryItems', categoryItems));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -9219,7 +9856,7 @@ mixin _$ScheduleFilterState {
       const DeepCollectionEquality().hash(categoryItems));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleFilterState(search: $search, start: $start, end: $end, categoryItems: $categoryItems)';
   }
 }
@@ -9444,7 +10081,9 @@ extension ScheduleFilterStatePatterns on ScheduleFilterState {
 
 /// @nodoc
 
-class _ScheduleFilterState implements ScheduleFilterState {
+class _ScheduleFilterState
+    with DiagnosticableTreeMixin
+    implements ScheduleFilterState {
   _ScheduleFilterState(
       {this.search,
       required this.start,
@@ -9477,6 +10116,16 @@ class _ScheduleFilterState implements ScheduleFilterState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleFilterState'))
+      ..add(DiagnosticsProperty('search', search))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end))
+      ..add(DiagnosticsProperty('categoryItems', categoryItems));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -9493,7 +10142,7 @@ class _ScheduleFilterState implements ScheduleFilterState {
       const DeepCollectionEquality().hash(_categoryItems));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleFilterState(search: $search, start: $start, end: $end, categoryItems: $categoryItems)';
   }
 }
@@ -9553,7 +10202,7 @@ class __$ScheduleFilterStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ScheduleFormState {
+mixin _$ScheduleFormState implements DiagnosticableTreeMixin {
   int? get projectId;
   String? get projectName;
   int? get projectClientId;
@@ -9570,6 +10219,20 @@ mixin _$ScheduleFormState {
   $ScheduleFormStateCopyWith<ScheduleFormState> get copyWith =>
       _$ScheduleFormStateCopyWithImpl<ScheduleFormState>(
           this as ScheduleFormState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleFormState'))
+      ..add(DiagnosticsProperty('projectId', projectId))
+      ..add(DiagnosticsProperty('projectName', projectName))
+      ..add(DiagnosticsProperty('projectClientId', projectClientId))
+      ..add(DiagnosticsProperty('projectClientName', projectClientName))
+      ..add(DiagnosticsProperty('summary', summary))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -9596,7 +10259,7 @@ mixin _$ScheduleFormState {
       projectClientId, projectClientName, summary, description, start, end);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleFormState(projectId: $projectId, projectName: $projectName, projectClientId: $projectClientId, projectClientName: $projectClientName, summary: $summary, description: $description, start: $start, end: $end)';
   }
 }
@@ -9887,7 +10550,9 @@ extension ScheduleFormStatePatterns on ScheduleFormState {
 
 /// @nodoc
 
-class _ScheduleFormState implements ScheduleFormState {
+class _ScheduleFormState
+    with DiagnosticableTreeMixin
+    implements ScheduleFormState {
   _ScheduleFormState(
       {this.projectId,
       this.projectName,
@@ -9924,6 +10589,20 @@ class _ScheduleFormState implements ScheduleFormState {
       __$ScheduleFormStateCopyWithImpl<_ScheduleFormState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleFormState'))
+      ..add(DiagnosticsProperty('projectId', projectId))
+      ..add(DiagnosticsProperty('projectName', projectName))
+      ..add(DiagnosticsProperty('projectClientId', projectClientId))
+      ..add(DiagnosticsProperty('projectClientName', projectClientName))
+      ..add(DiagnosticsProperty('summary', summary))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -9948,7 +10627,7 @@ class _ScheduleFormState implements ScheduleFormState {
       projectClientId, projectClientName, summary, description, start, end);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleFormState(projectId: $projectId, projectName: $projectName, projectClientId: $projectClientId, projectClientName: $projectClientName, summary: $summary, description: $description, start: $start, end: $end)';
   }
 }
@@ -10032,7 +10711,7 @@ class __$ScheduleFormStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ScheduleListState {
+mixin _$ScheduleListState implements DiagnosticableTreeMixin {
   List<ScheduleGroup> get items;
   bool get hasNext;
   bool get hasPrevious;
@@ -10046,6 +10725,17 @@ mixin _$ScheduleListState {
   $ScheduleListStateCopyWith<ScheduleListState> get copyWith =>
       _$ScheduleListStateCopyWithImpl<ScheduleListState>(
           this as ScheduleListState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('hasNext', hasNext))
+      ..add(DiagnosticsProperty('hasPrevious', hasPrevious))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -10070,7 +10760,7 @@ mixin _$ScheduleListState {
       end);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleListState(items: $items, hasNext: $hasNext, hasPrevious: $hasPrevious, start: $start, end: $end)';
   }
 }
@@ -10301,7 +10991,9 @@ extension ScheduleListStatePatterns on ScheduleListState {
 
 /// @nodoc
 
-class _ScheduleListState implements ScheduleListState {
+class _ScheduleListState
+    with DiagnosticableTreeMixin
+    implements ScheduleListState {
   _ScheduleListState(
       {final List<ScheduleGroup> items = const [],
       this.hasNext = false,
@@ -10339,6 +11031,17 @@ class _ScheduleListState implements ScheduleListState {
       __$ScheduleListStateCopyWithImpl<_ScheduleListState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('hasNext', hasNext))
+      ..add(DiagnosticsProperty('hasPrevious', hasPrevious))
+      ..add(DiagnosticsProperty('start', start))
+      ..add(DiagnosticsProperty('end', end));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -10361,7 +11064,7 @@ class _ScheduleListState implements ScheduleListState {
       end);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleListState(items: $items, hasNext: $hasNext, hasPrevious: $hasPrevious, start: $start, end: $end)';
   }
 }
@@ -10427,7 +11130,12 @@ class __$ScheduleListStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$ScheduleSubmitState {
+mixin _$ScheduleSubmitState implements DiagnosticableTreeMixin {
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ScheduleSubmitState'));
+  }
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -10438,7 +11146,7 @@ mixin _$ScheduleSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleSubmitState()';
   }
 }
@@ -10522,8 +11230,6 @@ extension ScheduleSubmitStatePatterns on ScheduleSubmitState {
         return deleted(_that);
       case ScheduleSubmitFailure():
         return failure(_that);
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -10635,8 +11341,6 @@ extension ScheduleSubmitStatePatterns on ScheduleSubmitState {
         return deleted();
       case ScheduleSubmitFailure():
         return failure(_that.message);
-      case _:
-        throw StateError('Unexpected subclass');
     }
   }
 
@@ -10680,8 +11384,15 @@ extension ScheduleSubmitStatePatterns on ScheduleSubmitState {
 
 /// @nodoc
 
-class ScheduleSubmitIdle implements ScheduleSubmitState {
+class ScheduleSubmitIdle
+    with DiagnosticableTreeMixin
+    implements ScheduleSubmitState {
   ScheduleSubmitIdle();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ScheduleSubmitState.idle'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -10693,15 +11404,22 @@ class ScheduleSubmitIdle implements ScheduleSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleSubmitState.idle()';
   }
 }
 
 /// @nodoc
 
-class ScheduleSubmitPending implements ScheduleSubmitState {
+class ScheduleSubmitPending
+    with DiagnosticableTreeMixin
+    implements ScheduleSubmitState {
   ScheduleSubmitPending();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ScheduleSubmitState.pending'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -10713,14 +11431,16 @@ class ScheduleSubmitPending implements ScheduleSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleSubmitState.pending()';
   }
 }
 
 /// @nodoc
 
-class ScheduleSubmitSuccess implements ScheduleSubmitState {
+class ScheduleSubmitSuccess
+    with DiagnosticableTreeMixin
+    implements ScheduleSubmitState {
   ScheduleSubmitSuccess(this.schedule);
 
   final Schedule schedule;
@@ -10732,6 +11452,13 @@ class ScheduleSubmitSuccess implements ScheduleSubmitState {
   $ScheduleSubmitSuccessCopyWith<ScheduleSubmitSuccess> get copyWith =>
       _$ScheduleSubmitSuccessCopyWithImpl<ScheduleSubmitSuccess>(
           this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleSubmitState.success'))
+      ..add(DiagnosticsProperty('schedule', schedule));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -10746,7 +11473,7 @@ class ScheduleSubmitSuccess implements ScheduleSubmitState {
   int get hashCode => Object.hash(runtimeType, schedule);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleSubmitState.success(schedule: $schedule)';
   }
 }
@@ -10798,8 +11525,15 @@ class _$ScheduleSubmitSuccessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class ScheduleSubmitDeleted implements ScheduleSubmitState {
+class ScheduleSubmitDeleted
+    with DiagnosticableTreeMixin
+    implements ScheduleSubmitState {
   ScheduleSubmitDeleted();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ScheduleSubmitState.deleted'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -10811,14 +11545,16 @@ class ScheduleSubmitDeleted implements ScheduleSubmitState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleSubmitState.deleted()';
   }
 }
 
 /// @nodoc
 
-class ScheduleSubmitFailure implements ScheduleSubmitState {
+class ScheduleSubmitFailure
+    with DiagnosticableTreeMixin
+    implements ScheduleSubmitState {
   ScheduleSubmitFailure(this.message);
 
   final String message;
@@ -10832,6 +11568,13 @@ class ScheduleSubmitFailure implements ScheduleSubmitState {
           this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduleSubmitState.failure'))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -10843,7 +11586,7 @@ class ScheduleSubmitFailure implements ScheduleSubmitState {
   int get hashCode => Object.hash(runtimeType, message);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduleSubmitState.failure(message: $message)';
   }
 }
@@ -10881,6 +11624,309 @@ class _$ScheduleSubmitFailureCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
+mixin _$SettingFilterState implements DiagnosticableTreeMixin {
+  String? get view;
+
+  /// Create a copy of SettingFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SettingFilterStateCopyWith<SettingFilterState> get copyWith =>
+      _$SettingFilterStateCopyWithImpl<SettingFilterState>(
+          this as SettingFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SettingFilterState'))
+      ..add(DiagnosticsProperty('view', view));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SettingFilterState &&
+            (identical(other.view, view) || other.view == view));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, view);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SettingFilterState(view: $view)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SettingFilterStateCopyWith<$Res> {
+  factory $SettingFilterStateCopyWith(
+          SettingFilterState value, $Res Function(SettingFilterState) _then) =
+      _$SettingFilterStateCopyWithImpl;
+  @useResult
+  $Res call({String? view});
+}
+
+/// @nodoc
+class _$SettingFilterStateCopyWithImpl<$Res>
+    implements $SettingFilterStateCopyWith<$Res> {
+  _$SettingFilterStateCopyWithImpl(this._self, this._then);
+
+  final SettingFilterState _self;
+  final $Res Function(SettingFilterState) _then;
+
+  /// Create a copy of SettingFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? view = freezed,
+  }) {
+    return _then(_self.copyWith(
+      view: freezed == view
+          ? _self.view
+          : view // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [SettingFilterState].
+extension SettingFilterStatePatterns on SettingFilterState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_SettingFilterState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SettingFilterState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_SettingFilterState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SettingFilterState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_SettingFilterState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SettingFilterState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(String? view)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _SettingFilterState() when $default != null:
+        return $default(_that.view);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(String? view) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SettingFilterState():
+        return $default(_that.view);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(String? view)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _SettingFilterState() when $default != null:
+        return $default(_that.view);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _SettingFilterState
+    with DiagnosticableTreeMixin
+    implements SettingFilterState {
+  _SettingFilterState({this.view});
+
+  @override
+  final String? view;
+
+  /// Create a copy of SettingFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SettingFilterStateCopyWith<_SettingFilterState> get copyWith =>
+      __$SettingFilterStateCopyWithImpl<_SettingFilterState>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SettingFilterState'))
+      ..add(DiagnosticsProperty('view', view));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SettingFilterState &&
+            (identical(other.view, view) || other.view == view));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, view);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SettingFilterState(view: $view)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SettingFilterStateCopyWith<$Res>
+    implements $SettingFilterStateCopyWith<$Res> {
+  factory _$SettingFilterStateCopyWith(
+          _SettingFilterState value, $Res Function(_SettingFilterState) _then) =
+      __$SettingFilterStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? view});
+}
+
+/// @nodoc
+class __$SettingFilterStateCopyWithImpl<$Res>
+    implements _$SettingFilterStateCopyWith<$Res> {
+  __$SettingFilterStateCopyWithImpl(this._self, this._then);
+
+  final _SettingFilterState _self;
+  final $Res Function(_SettingFilterState) _then;
+
+  /// Create a copy of SettingFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? view = freezed,
+  }) {
+    return _then(_SettingFilterState(
+      view: freezed == view
+          ? _self.view
+          : view // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
 SupplierSearchState _$SupplierSearchStateFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'idle':
@@ -10897,9 +11943,14 @@ SupplierSearchState _$SupplierSearchStateFromJson(Map<String, dynamic> json) {
 }
 
 /// @nodoc
-mixin _$SupplierSearchState {
+mixin _$SupplierSearchState implements DiagnosticableTreeMixin {
   /// Serializes this SupplierSearchState to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'SupplierSearchState'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -10912,7 +11963,7 @@ mixin _$SupplierSearchState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SupplierSearchState()';
   }
 }
@@ -11123,7 +12174,9 @@ extension SupplierSearchStatePatterns on SupplierSearchState {
 
 /// @nodoc
 @JsonSerializable()
-class SupplierSearchIdle implements SupplierSearchState {
+class SupplierSearchIdle
+    with DiagnosticableTreeMixin
+    implements SupplierSearchState {
   SupplierSearchIdle({final String? $type}) : $type = $type ?? 'idle';
   factory SupplierSearchIdle.fromJson(Map<String, dynamic> json) =>
       _$SupplierSearchIdleFromJson(json);
@@ -11139,6 +12192,11 @@ class SupplierSearchIdle implements SupplierSearchState {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'SupplierSearchState.idle'));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is SupplierSearchIdle);
@@ -11149,14 +12207,16 @@ class SupplierSearchIdle implements SupplierSearchState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SupplierSearchState.idle()';
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class SupplierSearchWaiting implements SupplierSearchState {
+class SupplierSearchWaiting
+    with DiagnosticableTreeMixin
+    implements SupplierSearchState {
   SupplierSearchWaiting({this.search = '', final String? $type})
       : $type = $type ?? 'waiting';
   factory SupplierSearchWaiting.fromJson(Map<String, dynamic> json) =>
@@ -11184,6 +12244,13 @@ class SupplierSearchWaiting implements SupplierSearchState {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SupplierSearchState.waiting'))
+      ..add(DiagnosticsProperty('search', search));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -11196,7 +12263,7 @@ class SupplierSearchWaiting implements SupplierSearchState {
   int get hashCode => Object.hash(runtimeType, search);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SupplierSearchState.waiting(search: $search)';
   }
 }
@@ -11236,7 +12303,9 @@ class _$SupplierSearchWaitingCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class SupplierSearchResult implements SupplierSearchState {
+class SupplierSearchResult
+    with DiagnosticableTreeMixin
+    implements SupplierSearchState {
   SupplierSearchResult(
       {this.search = '',
       final List<Supplier> items = const [],
@@ -11285,6 +12354,17 @@ class SupplierSearchResult implements SupplierSearchState {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SupplierSearchState.result'))
+      ..add(DiagnosticsProperty('search', search))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -11303,7 +12383,7 @@ class SupplierSearchResult implements SupplierSearchState {
       const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SupplierSearchState.result(search: $search, items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -11367,7 +12447,1946 @@ class _$SupplierSearchResultCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$TripFilterState {
+mixin _$ReportFormState implements DiagnosticableTreeMixin {
+  List<TripActualExpense> get expenses;
+  List<TripRegulationRate> get rates;
+  TripFuelExpense? get fuel;
+  bool? get isDeducted;
+  String? get content;
+  List<ReportAttachment>? get attachments;
+  List<XFile>? get files;
+  Schedule? get schedule;
+  List<String> get steps;
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ReportFormStateCopyWith<ReportFormState> get copyWith =>
+      _$ReportFormStateCopyWithImpl<ReportFormState>(
+          this as ReportFormState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportFormState'))
+      ..add(DiagnosticsProperty('expenses', expenses))
+      ..add(DiagnosticsProperty('rates', rates))
+      ..add(DiagnosticsProperty('fuel', fuel))
+      ..add(DiagnosticsProperty('isDeducted', isDeducted))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files))
+      ..add(DiagnosticsProperty('schedule', schedule))
+      ..add(DiagnosticsProperty('steps', steps));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ReportFormState &&
+            const DeepCollectionEquality().equals(other.expenses, expenses) &&
+            const DeepCollectionEquality().equals(other.rates, rates) &&
+            (identical(other.fuel, fuel) || other.fuel == fuel) &&
+            (identical(other.isDeducted, isDeducted) ||
+                other.isDeducted == isDeducted) &&
+            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality()
+                .equals(other.attachments, attachments) &&
+            const DeepCollectionEquality().equals(other.files, files) &&
+            (identical(other.schedule, schedule) ||
+                other.schedule == schedule) &&
+            const DeepCollectionEquality().equals(other.steps, steps));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(expenses),
+      const DeepCollectionEquality().hash(rates),
+      fuel,
+      isDeducted,
+      content,
+      const DeepCollectionEquality().hash(attachments),
+      const DeepCollectionEquality().hash(files),
+      schedule,
+      const DeepCollectionEquality().hash(steps));
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportFormState(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, content: $content, attachments: $attachments, files: $files, schedule: $schedule, steps: $steps)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ReportFormStateCopyWith<$Res> {
+  factory $ReportFormStateCopyWith(
+          ReportFormState value, $Res Function(ReportFormState) _then) =
+      _$ReportFormStateCopyWithImpl;
+  @useResult
+  $Res call(
+      {List<TripActualExpense> expenses,
+      List<TripRegulationRate> rates,
+      TripFuelExpense? fuel,
+      bool? isDeducted,
+      String? content,
+      List<ReportAttachment>? attachments,
+      List<XFile>? files,
+      Schedule? schedule,
+      List<String> steps});
+
+  $TripFuelExpenseCopyWith<$Res>? get fuel;
+  $ScheduleCopyWith<$Res>? get schedule;
+}
+
+/// @nodoc
+class _$ReportFormStateCopyWithImpl<$Res>
+    implements $ReportFormStateCopyWith<$Res> {
+  _$ReportFormStateCopyWithImpl(this._self, this._then);
+
+  final ReportFormState _self;
+  final $Res Function(ReportFormState) _then;
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? expenses = null,
+    Object? rates = null,
+    Object? fuel = freezed,
+    Object? isDeducted = freezed,
+    Object? content = freezed,
+    Object? attachments = freezed,
+    Object? files = freezed,
+    Object? schedule = freezed,
+    Object? steps = null,
+  }) {
+    return _then(_self.copyWith(
+      expenses: null == expenses
+          ? _self.expenses
+          : expenses // ignore: cast_nullable_to_non_nullable
+              as List<TripActualExpense>,
+      rates: null == rates
+          ? _self.rates
+          : rates // ignore: cast_nullable_to_non_nullable
+              as List<TripRegulationRate>,
+      fuel: freezed == fuel
+          ? _self.fuel
+          : fuel // ignore: cast_nullable_to_non_nullable
+              as TripFuelExpense?,
+      isDeducted: freezed == isDeducted
+          ? _self.isDeducted
+          : isDeducted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      content: freezed == content
+          ? _self.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      attachments: freezed == attachments
+          ? _self.attachments
+          : attachments // ignore: cast_nullable_to_non_nullable
+              as List<ReportAttachment>?,
+      files: freezed == files
+          ? _self.files
+          : files // ignore: cast_nullable_to_non_nullable
+              as List<XFile>?,
+      schedule: freezed == schedule
+          ? _self.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as Schedule?,
+      steps: null == steps
+          ? _self.steps
+          : steps // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TripFuelExpenseCopyWith<$Res>? get fuel {
+    if (_self.fuel == null) {
+      return null;
+    }
+
+    return $TripFuelExpenseCopyWith<$Res>(_self.fuel!, (value) {
+      return _then(_self.copyWith(fuel: value));
+    });
+  }
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ScheduleCopyWith<$Res>? get schedule {
+    if (_self.schedule == null) {
+      return null;
+    }
+
+    return $ScheduleCopyWith<$Res>(_self.schedule!, (value) {
+      return _then(_self.copyWith(schedule: value));
+    });
+  }
+}
+
+/// Adds pattern-matching-related methods to [ReportFormState].
+extension ReportFormStatePatterns on ReportFormState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ReportFormState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ReportFormState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ReportFormState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportFormState():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ReportFormState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportFormState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            List<TripActualExpense> expenses,
+            List<TripRegulationRate> rates,
+            TripFuelExpense? fuel,
+            bool? isDeducted,
+            String? content,
+            List<ReportAttachment>? attachments,
+            List<XFile>? files,
+            Schedule? schedule,
+            List<String> steps)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ReportFormState() when $default != null:
+        return $default(
+            _that.expenses,
+            _that.rates,
+            _that.fuel,
+            _that.isDeducted,
+            _that.content,
+            _that.attachments,
+            _that.files,
+            _that.schedule,
+            _that.steps);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            List<TripActualExpense> expenses,
+            List<TripRegulationRate> rates,
+            TripFuelExpense? fuel,
+            bool? isDeducted,
+            String? content,
+            List<ReportAttachment>? attachments,
+            List<XFile>? files,
+            Schedule? schedule,
+            List<String> steps)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportFormState():
+        return $default(
+            _that.expenses,
+            _that.rates,
+            _that.fuel,
+            _that.isDeducted,
+            _that.content,
+            _that.attachments,
+            _that.files,
+            _that.schedule,
+            _that.steps);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            List<TripActualExpense> expenses,
+            List<TripRegulationRate> rates,
+            TripFuelExpense? fuel,
+            bool? isDeducted,
+            String? content,
+            List<ReportAttachment>? attachments,
+            List<XFile>? files,
+            Schedule? schedule,
+            List<String> steps)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportFormState() when $default != null:
+        return $default(
+            _that.expenses,
+            _that.rates,
+            _that.fuel,
+            _that.isDeducted,
+            _that.content,
+            _that.attachments,
+            _that.files,
+            _that.schedule,
+            _that.steps);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
+  _ReportFormState(
+      {final List<TripActualExpense> expenses = const [],
+      final List<TripRegulationRate> rates = const [],
+      this.fuel,
+      this.isDeducted,
+      this.content,
+      final List<ReportAttachment>? attachments,
+      final List<XFile>? files,
+      this.schedule,
+      final List<String> steps = const []})
+      : _expenses = expenses,
+        _rates = rates,
+        _attachments = attachments,
+        _files = files,
+        _steps = steps;
+
+  final List<TripActualExpense> _expenses;
+  @override
+  @JsonKey()
+  List<TripActualExpense> get expenses {
+    if (_expenses is EqualUnmodifiableListView) return _expenses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_expenses);
+  }
+
+  final List<TripRegulationRate> _rates;
+  @override
+  @JsonKey()
+  List<TripRegulationRate> get rates {
+    if (_rates is EqualUnmodifiableListView) return _rates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rates);
+  }
+
+  @override
+  final TripFuelExpense? fuel;
+  @override
+  final bool? isDeducted;
+  @override
+  final String? content;
+  final List<ReportAttachment>? _attachments;
+  @override
+  List<ReportAttachment>? get attachments {
+    final value = _attachments;
+    if (value == null) return null;
+    if (_attachments is EqualUnmodifiableListView) return _attachments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<XFile>? _files;
+  @override
+  List<XFile>? get files {
+    final value = _files;
+    if (value == null) return null;
+    if (_files is EqualUnmodifiableListView) return _files;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final Schedule? schedule;
+  final List<String> _steps;
+  @override
+  @JsonKey()
+  List<String> get steps {
+    if (_steps is EqualUnmodifiableListView) return _steps;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_steps);
+  }
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ReportFormStateCopyWith<_ReportFormState> get copyWith =>
+      __$ReportFormStateCopyWithImpl<_ReportFormState>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportFormState'))
+      ..add(DiagnosticsProperty('expenses', expenses))
+      ..add(DiagnosticsProperty('rates', rates))
+      ..add(DiagnosticsProperty('fuel', fuel))
+      ..add(DiagnosticsProperty('isDeducted', isDeducted))
+      ..add(DiagnosticsProperty('content', content))
+      ..add(DiagnosticsProperty('attachments', attachments))
+      ..add(DiagnosticsProperty('files', files))
+      ..add(DiagnosticsProperty('schedule', schedule))
+      ..add(DiagnosticsProperty('steps', steps));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ReportFormState &&
+            const DeepCollectionEquality().equals(other._expenses, _expenses) &&
+            const DeepCollectionEquality().equals(other._rates, _rates) &&
+            (identical(other.fuel, fuel) || other.fuel == fuel) &&
+            (identical(other.isDeducted, isDeducted) ||
+                other.isDeducted == isDeducted) &&
+            (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality()
+                .equals(other._attachments, _attachments) &&
+            const DeepCollectionEquality().equals(other._files, _files) &&
+            (identical(other.schedule, schedule) ||
+                other.schedule == schedule) &&
+            const DeepCollectionEquality().equals(other._steps, _steps));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_expenses),
+      const DeepCollectionEquality().hash(_rates),
+      fuel,
+      isDeducted,
+      content,
+      const DeepCollectionEquality().hash(_attachments),
+      const DeepCollectionEquality().hash(_files),
+      schedule,
+      const DeepCollectionEquality().hash(_steps));
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportFormState(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, content: $content, attachments: $attachments, files: $files, schedule: $schedule, steps: $steps)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ReportFormStateCopyWith<$Res>
+    implements $ReportFormStateCopyWith<$Res> {
+  factory _$ReportFormStateCopyWith(
+          _ReportFormState value, $Res Function(_ReportFormState) _then) =
+      __$ReportFormStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<TripActualExpense> expenses,
+      List<TripRegulationRate> rates,
+      TripFuelExpense? fuel,
+      bool? isDeducted,
+      String? content,
+      List<ReportAttachment>? attachments,
+      List<XFile>? files,
+      Schedule? schedule,
+      List<String> steps});
+
+  @override
+  $TripFuelExpenseCopyWith<$Res>? get fuel;
+  @override
+  $ScheduleCopyWith<$Res>? get schedule;
+}
+
+/// @nodoc
+class __$ReportFormStateCopyWithImpl<$Res>
+    implements _$ReportFormStateCopyWith<$Res> {
+  __$ReportFormStateCopyWithImpl(this._self, this._then);
+
+  final _ReportFormState _self;
+  final $Res Function(_ReportFormState) _then;
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? expenses = null,
+    Object? rates = null,
+    Object? fuel = freezed,
+    Object? isDeducted = freezed,
+    Object? content = freezed,
+    Object? attachments = freezed,
+    Object? files = freezed,
+    Object? schedule = freezed,
+    Object? steps = null,
+  }) {
+    return _then(_ReportFormState(
+      expenses: null == expenses
+          ? _self._expenses
+          : expenses // ignore: cast_nullable_to_non_nullable
+              as List<TripActualExpense>,
+      rates: null == rates
+          ? _self._rates
+          : rates // ignore: cast_nullable_to_non_nullable
+              as List<TripRegulationRate>,
+      fuel: freezed == fuel
+          ? _self.fuel
+          : fuel // ignore: cast_nullable_to_non_nullable
+              as TripFuelExpense?,
+      isDeducted: freezed == isDeducted
+          ? _self.isDeducted
+          : isDeducted // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      content: freezed == content
+          ? _self.content
+          : content // ignore: cast_nullable_to_non_nullable
+              as String?,
+      attachments: freezed == attachments
+          ? _self._attachments
+          : attachments // ignore: cast_nullable_to_non_nullable
+              as List<ReportAttachment>?,
+      files: freezed == files
+          ? _self._files
+          : files // ignore: cast_nullable_to_non_nullable
+              as List<XFile>?,
+      schedule: freezed == schedule
+          ? _self.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as Schedule?,
+      steps: null == steps
+          ? _self._steps
+          : steps // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TripFuelExpenseCopyWith<$Res>? get fuel {
+    if (_self.fuel == null) {
+      return null;
+    }
+
+    return $TripFuelExpenseCopyWith<$Res>(_self.fuel!, (value) {
+      return _then(_self.copyWith(fuel: value));
+    });
+  }
+
+  /// Create a copy of ReportFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ScheduleCopyWith<$Res>? get schedule {
+    if (_self.schedule == null) {
+      return null;
+    }
+
+    return $ScheduleCopyWith<$Res>(_self.schedule!, (value) {
+      return _then(_self.copyWith(schedule: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$ReportListState implements DiagnosticableTreeMixin {
+  List<Report> get items;
+  int get page;
+  int get total;
+  bool get hasReachEnd;
+
+  /// Create a copy of ReportListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ReportListStateCopyWith<ReportListState> get copyWith =>
+      _$ReportListStateCopyWithImpl<ReportListState>(
+          this as ReportListState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ReportListState &&
+            const DeepCollectionEquality().equals(other.items, items) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.hasReachEnd, hasReachEnd) ||
+                other.hasReachEnd == hasReachEnd));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ReportListStateCopyWith<$Res> {
+  factory $ReportListStateCopyWith(
+          ReportListState value, $Res Function(ReportListState) _then) =
+      _$ReportListStateCopyWithImpl;
+  @useResult
+  $Res call({List<Report> items, int page, int total, bool hasReachEnd});
+}
+
+/// @nodoc
+class _$ReportListStateCopyWithImpl<$Res>
+    implements $ReportListStateCopyWith<$Res> {
+  _$ReportListStateCopyWithImpl(this._self, this._then);
+
+  final ReportListState _self;
+  final $Res Function(ReportListState) _then;
+
+  /// Create a copy of ReportListState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? page = null,
+    Object? total = null,
+    Object? hasReachEnd = null,
+  }) {
+    return _then(_self.copyWith(
+      items: null == items
+          ? _self.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Report>,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasReachEnd: null == hasReachEnd
+          ? _self.hasReachEnd
+          : hasReachEnd // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ReportListState].
+extension ReportListStatePatterns on ReportListState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ReportListState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ReportListState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ReportListState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportListState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ReportListState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportListState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(List<Report> items, int page, int total, bool hasReachEnd)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ReportListState() when $default != null:
+        return $default(
+            _that.items, _that.page, _that.total, _that.hasReachEnd);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(List<Report> items, int page, int total, bool hasReachEnd)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportListState():
+        return $default(
+            _that.items, _that.page, _that.total, _that.hasReachEnd);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            List<Report> items, int page, int total, bool hasReachEnd)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportListState() when $default != null:
+        return $default(
+            _that.items, _that.page, _that.total, _that.hasReachEnd);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _ReportListState with DiagnosticableTreeMixin implements ReportListState {
+  _ReportListState(
+      {final List<Report> items = const [],
+      this.page = 0,
+      this.total = 0,
+      this.hasReachEnd = false})
+      : _items = items;
+
+  final List<Report> _items;
+  @override
+  @JsonKey()
+  List<Report> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  @JsonKey()
+  final int page;
+  @override
+  @JsonKey()
+  final int total;
+  @override
+  @JsonKey()
+  final bool hasReachEnd;
+
+  /// Create a copy of ReportListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ReportListStateCopyWith<_ReportListState> get copyWith =>
+      __$ReportListStateCopyWithImpl<_ReportListState>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ReportListState &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.hasReachEnd, hasReachEnd) ||
+                other.hasReachEnd == hasReachEnd));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ReportListStateCopyWith<$Res>
+    implements $ReportListStateCopyWith<$Res> {
+  factory _$ReportListStateCopyWith(
+          _ReportListState value, $Res Function(_ReportListState) _then) =
+      __$ReportListStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({List<Report> items, int page, int total, bool hasReachEnd});
+}
+
+/// @nodoc
+class __$ReportListStateCopyWithImpl<$Res>
+    implements _$ReportListStateCopyWith<$Res> {
+  __$ReportListStateCopyWithImpl(this._self, this._then);
+
+  final _ReportListState _self;
+  final $Res Function(_ReportListState) _then;
+
+  /// Create a copy of ReportListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? items = null,
+    Object? page = null,
+    Object? total = null,
+    Object? hasReachEnd = null,
+  }) {
+    return _then(_ReportListState(
+      items: null == items
+          ? _self._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Report>,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      hasReachEnd: null == hasReachEnd
+          ? _self.hasReachEnd
+          : hasReachEnd // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$ReportSubmitState implements DiagnosticableTreeMixin {
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ReportSubmitState'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ReportSubmitState);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportSubmitState()';
+  }
+}
+
+/// @nodoc
+class $ReportSubmitStateCopyWith<$Res> {
+  $ReportSubmitStateCopyWith(
+      ReportSubmitState _, $Res Function(ReportSubmitState) __);
+}
+
+/// Adds pattern-matching-related methods to [ReportSubmitState].
+extension ReportSubmitStatePatterns on ReportSubmitState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(ReportSubmitIdle value)? idle,
+    TResult Function(ReportSubmitPending value)? pending,
+    TResult Function(ReportSubmitSuccess value)? success,
+    TResult Function(ReportSubmitDeleted value)? deleted,
+    TResult Function(ReportSubmitMailed value)? mailed,
+    TResult Function(ReportSubmitFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ReportSubmitIdle() when idle != null:
+        return idle(_that);
+      case ReportSubmitPending() when pending != null:
+        return pending(_that);
+      case ReportSubmitSuccess() when success != null:
+        return success(_that);
+      case ReportSubmitDeleted() when deleted != null:
+        return deleted(_that);
+      case ReportSubmitMailed() when mailed != null:
+        return mailed(_that);
+      case ReportSubmitFailure() when failure != null:
+        return failure(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(ReportSubmitIdle value) idle,
+    required TResult Function(ReportSubmitPending value) pending,
+    required TResult Function(ReportSubmitSuccess value) success,
+    required TResult Function(ReportSubmitDeleted value) deleted,
+    required TResult Function(ReportSubmitMailed value) mailed,
+    required TResult Function(ReportSubmitFailure value) failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ReportSubmitIdle():
+        return idle(_that);
+      case ReportSubmitPending():
+        return pending(_that);
+      case ReportSubmitSuccess():
+        return success(_that);
+      case ReportSubmitDeleted():
+        return deleted(_that);
+      case ReportSubmitMailed():
+        return mailed(_that);
+      case ReportSubmitFailure():
+        return failure(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(ReportSubmitIdle value)? idle,
+    TResult? Function(ReportSubmitPending value)? pending,
+    TResult? Function(ReportSubmitSuccess value)? success,
+    TResult? Function(ReportSubmitDeleted value)? deleted,
+    TResult? Function(ReportSubmitMailed value)? mailed,
+    TResult? Function(ReportSubmitFailure value)? failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ReportSubmitIdle() when idle != null:
+        return idle(_that);
+      case ReportSubmitPending() when pending != null:
+        return pending(_that);
+      case ReportSubmitSuccess() when success != null:
+        return success(_that);
+      case ReportSubmitDeleted() when deleted != null:
+        return deleted(_that);
+      case ReportSubmitMailed() when mailed != null:
+        return mailed(_that);
+      case ReportSubmitFailure() when failure != null:
+        return failure(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? idle,
+    TResult Function()? pending,
+    TResult Function(Report report)? success,
+    TResult Function()? deleted,
+    TResult Function()? mailed,
+    TResult Function(String message)? failure,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ReportSubmitIdle() when idle != null:
+        return idle();
+      case ReportSubmitPending() when pending != null:
+        return pending();
+      case ReportSubmitSuccess() when success != null:
+        return success(_that.report);
+      case ReportSubmitDeleted() when deleted != null:
+        return deleted();
+      case ReportSubmitMailed() when mailed != null:
+        return mailed();
+      case ReportSubmitFailure() when failure != null:
+        return failure(_that.message);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() idle,
+    required TResult Function() pending,
+    required TResult Function(Report report) success,
+    required TResult Function() deleted,
+    required TResult Function() mailed,
+    required TResult Function(String message) failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ReportSubmitIdle():
+        return idle();
+      case ReportSubmitPending():
+        return pending();
+      case ReportSubmitSuccess():
+        return success(_that.report);
+      case ReportSubmitDeleted():
+        return deleted();
+      case ReportSubmitMailed():
+        return mailed();
+      case ReportSubmitFailure():
+        return failure(_that.message);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? idle,
+    TResult? Function()? pending,
+    TResult? Function(Report report)? success,
+    TResult? Function()? deleted,
+    TResult? Function()? mailed,
+    TResult? Function(String message)? failure,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case ReportSubmitIdle() when idle != null:
+        return idle();
+      case ReportSubmitPending() when pending != null:
+        return pending();
+      case ReportSubmitSuccess() when success != null:
+        return success(_that.report);
+      case ReportSubmitDeleted() when deleted != null:
+        return deleted();
+      case ReportSubmitMailed() when mailed != null:
+        return mailed();
+      case ReportSubmitFailure() when failure != null:
+        return failure(_that.message);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class ReportSubmitIdle
+    with DiagnosticableTreeMixin
+    implements ReportSubmitState {
+  const ReportSubmitIdle();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ReportSubmitState.idle'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ReportSubmitIdle);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportSubmitState.idle()';
+  }
+}
+
+/// @nodoc
+
+class ReportSubmitPending
+    with DiagnosticableTreeMixin
+    implements ReportSubmitState {
+  const ReportSubmitPending();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ReportSubmitState.pending'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ReportSubmitPending);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportSubmitState.pending()';
+  }
+}
+
+/// @nodoc
+
+class ReportSubmitSuccess
+    with DiagnosticableTreeMixin
+    implements ReportSubmitState {
+  const ReportSubmitSuccess(this.report);
+
+  final Report report;
+
+  /// Create a copy of ReportSubmitState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ReportSubmitSuccessCopyWith<ReportSubmitSuccess> get copyWith =>
+      _$ReportSubmitSuccessCopyWithImpl<ReportSubmitSuccess>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportSubmitState.success'))
+      ..add(DiagnosticsProperty('report', report));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ReportSubmitSuccess &&
+            (identical(other.report, report) || other.report == report));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, report);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportSubmitState.success(report: $report)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ReportSubmitSuccessCopyWith<$Res>
+    implements $ReportSubmitStateCopyWith<$Res> {
+  factory $ReportSubmitSuccessCopyWith(
+          ReportSubmitSuccess value, $Res Function(ReportSubmitSuccess) _then) =
+      _$ReportSubmitSuccessCopyWithImpl;
+  @useResult
+  $Res call({Report report});
+
+  $ReportCopyWith<$Res> get report;
+}
+
+/// @nodoc
+class _$ReportSubmitSuccessCopyWithImpl<$Res>
+    implements $ReportSubmitSuccessCopyWith<$Res> {
+  _$ReportSubmitSuccessCopyWithImpl(this._self, this._then);
+
+  final ReportSubmitSuccess _self;
+  final $Res Function(ReportSubmitSuccess) _then;
+
+  /// Create a copy of ReportSubmitState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? report = null,
+  }) {
+    return _then(ReportSubmitSuccess(
+      null == report
+          ? _self.report
+          : report // ignore: cast_nullable_to_non_nullable
+              as Report,
+    ));
+  }
+
+  /// Create a copy of ReportSubmitState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ReportCopyWith<$Res> get report {
+    return $ReportCopyWith<$Res>(_self.report, (value) {
+      return _then(_self.copyWith(report: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class ReportSubmitDeleted
+    with DiagnosticableTreeMixin
+    implements ReportSubmitState {
+  const ReportSubmitDeleted();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ReportSubmitState.deleted'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ReportSubmitDeleted);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportSubmitState.deleted()';
+  }
+}
+
+/// @nodoc
+
+class ReportSubmitMailed
+    with DiagnosticableTreeMixin
+    implements ReportSubmitState {
+  const ReportSubmitMailed();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'ReportSubmitState.mailed'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is ReportSubmitMailed);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportSubmitState.mailed()';
+  }
+}
+
+/// @nodoc
+
+class ReportSubmitFailure
+    with DiagnosticableTreeMixin
+    implements ReportSubmitState {
+  const ReportSubmitFailure(this.message);
+
+  final String message;
+
+  /// Create a copy of ReportSubmitState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ReportSubmitFailureCopyWith<ReportSubmitFailure> get copyWith =>
+      _$ReportSubmitFailureCopyWithImpl<ReportSubmitFailure>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportSubmitState.failure'))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ReportSubmitFailure &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportSubmitState.failure(message: $message)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ReportSubmitFailureCopyWith<$Res>
+    implements $ReportSubmitStateCopyWith<$Res> {
+  factory $ReportSubmitFailureCopyWith(
+          ReportSubmitFailure value, $Res Function(ReportSubmitFailure) _then) =
+      _$ReportSubmitFailureCopyWithImpl;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class _$ReportSubmitFailureCopyWithImpl<$Res>
+    implements $ReportSubmitFailureCopyWith<$Res> {
+  _$ReportSubmitFailureCopyWithImpl(this._self, this._then);
+
+  final ReportSubmitFailure _self;
+  final $Res Function(ReportSubmitFailure) _then;
+
+  /// Create a copy of ReportSubmitState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(ReportSubmitFailure(
+      null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$ReportValidationState implements DiagnosticableTreeMixin {
+  Map<int, bool> get stepValidations;
+  bool get fuelInvalid;
+  bool get contentInvalid;
+
+  /// Create a copy of ReportValidationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ReportValidationStateCopyWith<ReportValidationState> get copyWith =>
+      _$ReportValidationStateCopyWithImpl<ReportValidationState>(
+          this as ReportValidationState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportValidationState'))
+      ..add(DiagnosticsProperty('stepValidations', stepValidations))
+      ..add(DiagnosticsProperty('fuelInvalid', fuelInvalid))
+      ..add(DiagnosticsProperty('contentInvalid', contentInvalid));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ReportValidationState &&
+            const DeepCollectionEquality()
+                .equals(other.stepValidations, stepValidations) &&
+            (identical(other.fuelInvalid, fuelInvalid) ||
+                other.fuelInvalid == fuelInvalid) &&
+            (identical(other.contentInvalid, contentInvalid) ||
+                other.contentInvalid == contentInvalid));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(stepValidations),
+      fuelInvalid,
+      contentInvalid);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportValidationState(stepValidations: $stepValidations, fuelInvalid: $fuelInvalid, contentInvalid: $contentInvalid)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ReportValidationStateCopyWith<$Res> {
+  factory $ReportValidationStateCopyWith(ReportValidationState value,
+          $Res Function(ReportValidationState) _then) =
+      _$ReportValidationStateCopyWithImpl;
+  @useResult
+  $Res call(
+      {Map<int, bool> stepValidations, bool fuelInvalid, bool contentInvalid});
+}
+
+/// @nodoc
+class _$ReportValidationStateCopyWithImpl<$Res>
+    implements $ReportValidationStateCopyWith<$Res> {
+  _$ReportValidationStateCopyWithImpl(this._self, this._then);
+
+  final ReportValidationState _self;
+  final $Res Function(ReportValidationState) _then;
+
+  /// Create a copy of ReportValidationState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? stepValidations = null,
+    Object? fuelInvalid = null,
+    Object? contentInvalid = null,
+  }) {
+    return _then(_self.copyWith(
+      stepValidations: null == stepValidations
+          ? _self.stepValidations
+          : stepValidations // ignore: cast_nullable_to_non_nullable
+              as Map<int, bool>,
+      fuelInvalid: null == fuelInvalid
+          ? _self.fuelInvalid
+          : fuelInvalid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      contentInvalid: null == contentInvalid
+          ? _self.contentInvalid
+          : contentInvalid // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [ReportValidationState].
+extension ReportValidationStatePatterns on ReportValidationState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ReportValidationState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ReportValidationState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ReportValidationState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportValidationState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ReportValidationState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportValidationState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(Map<int, bool> stepValidations, bool fuelInvalid,
+            bool contentInvalid)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ReportValidationState() when $default != null:
+        return $default(
+            _that.stepValidations, _that.fuelInvalid, _that.contentInvalid);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(Map<int, bool> stepValidations, bool fuelInvalid,
+            bool contentInvalid)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportValidationState():
+        return $default(
+            _that.stepValidations, _that.fuelInvalid, _that.contentInvalid);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(Map<int, bool> stepValidations, bool fuelInvalid,
+            bool contentInvalid)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ReportValidationState() when $default != null:
+        return $default(
+            _that.stepValidations, _that.fuelInvalid, _that.contentInvalid);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _ReportValidationState
+    with DiagnosticableTreeMixin
+    implements ReportValidationState {
+  _ReportValidationState(
+      {final Map<int, bool> stepValidations = const {},
+      this.fuelInvalid = false,
+      this.contentInvalid = false})
+      : _stepValidations = stepValidations;
+
+  final Map<int, bool> _stepValidations;
+  @override
+  @JsonKey()
+  Map<int, bool> get stepValidations {
+    if (_stepValidations is EqualUnmodifiableMapView) return _stepValidations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_stepValidations);
+  }
+
+  @override
+  @JsonKey()
+  final bool fuelInvalid;
+  @override
+  @JsonKey()
+  final bool contentInvalid;
+
+  /// Create a copy of ReportValidationState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ReportValidationStateCopyWith<_ReportValidationState> get copyWith =>
+      __$ReportValidationStateCopyWithImpl<_ReportValidationState>(
+          this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ReportValidationState'))
+      ..add(DiagnosticsProperty('stepValidations', stepValidations))
+      ..add(DiagnosticsProperty('fuelInvalid', fuelInvalid))
+      ..add(DiagnosticsProperty('contentInvalid', contentInvalid));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ReportValidationState &&
+            const DeepCollectionEquality()
+                .equals(other._stepValidations, _stepValidations) &&
+            (identical(other.fuelInvalid, fuelInvalid) ||
+                other.fuelInvalid == fuelInvalid) &&
+            (identical(other.contentInvalid, contentInvalid) ||
+                other.contentInvalid == contentInvalid));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_stepValidations),
+      fuelInvalid,
+      contentInvalid);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ReportValidationState(stepValidations: $stepValidations, fuelInvalid: $fuelInvalid, contentInvalid: $contentInvalid)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$ReportValidationStateCopyWith<$Res>
+    implements $ReportValidationStateCopyWith<$Res> {
+  factory _$ReportValidationStateCopyWith(_ReportValidationState value,
+          $Res Function(_ReportValidationState) _then) =
+      __$ReportValidationStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {Map<int, bool> stepValidations, bool fuelInvalid, bool contentInvalid});
+}
+
+/// @nodoc
+class __$ReportValidationStateCopyWithImpl<$Res>
+    implements _$ReportValidationStateCopyWith<$Res> {
+  __$ReportValidationStateCopyWithImpl(this._self, this._then);
+
+  final _ReportValidationState _self;
+  final $Res Function(_ReportValidationState) _then;
+
+  /// Create a copy of ReportValidationState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? stepValidations = null,
+    Object? fuelInvalid = null,
+    Object? contentInvalid = null,
+  }) {
+    return _then(_ReportValidationState(
+      stepValidations: null == stepValidations
+          ? _self._stepValidations
+          : stepValidations // ignore: cast_nullable_to_non_nullable
+              as Map<int, bool>,
+      fuelInvalid: null == fuelInvalid
+          ? _self.fuelInvalid
+          : fuelInvalid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      contentInvalid: null == contentInvalid
+          ? _self.contentInvalid
+          : contentInvalid // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$TripFilterState implements DiagnosticableTreeMixin {
   List<TripCategory> get categories;
   List<TripStep> get steps;
   List<TripRegulation> get regulations;
@@ -11379,6 +14398,15 @@ mixin _$TripFilterState {
   $TripFilterStateCopyWith<TripFilterState> get copyWith =>
       _$TripFilterStateCopyWithImpl<TripFilterState>(
           this as TripFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TripFilterState'))
+      ..add(DiagnosticsProperty('categories', categories))
+      ..add(DiagnosticsProperty('steps', steps))
+      ..add(DiagnosticsProperty('regulations', regulations));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -11400,7 +14428,7 @@ mixin _$TripFilterState {
       const DeepCollectionEquality().hash(regulations));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripFilterState(categories: $categories, steps: $steps, regulations: $regulations)';
   }
 }
@@ -11616,7 +14644,7 @@ extension TripFilterStatePatterns on TripFilterState {
 
 /// @nodoc
 
-class _TripFilterState implements TripFilterState {
+class _TripFilterState with DiagnosticableTreeMixin implements TripFilterState {
   _TripFilterState(
       {final List<TripCategory> categories = const [],
       final List<TripStep> steps = const [],
@@ -11661,6 +14689,15 @@ class _TripFilterState implements TripFilterState {
       __$TripFilterStateCopyWithImpl<_TripFilterState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TripFilterState'))
+      ..add(DiagnosticsProperty('categories', categories))
+      ..add(DiagnosticsProperty('steps', steps))
+      ..add(DiagnosticsProperty('regulations', regulations));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -11680,7 +14717,7 @@ class _TripFilterState implements TripFilterState {
       const DeepCollectionEquality().hash(_regulations));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripFilterState(categories: $categories, steps: $steps, regulations: $regulations)';
   }
 }
@@ -11734,956 +14771,12 @@ class __$TripFilterStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$TripFormState {
-  Schedule? get schedule;
-  List<TripActualExpense> get expenses;
-  List<TripRegulationRate> get rates;
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TripFormStateCopyWith<TripFormState> get copyWith =>
-      _$TripFormStateCopyWithImpl<TripFormState>(
-          this as TripFormState, _$identity);
-
+mixin _$TripPreviewState implements DiagnosticableTreeMixin {
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TripFormState &&
-            (identical(other.schedule, schedule) ||
-                other.schedule == schedule) &&
-            const DeepCollectionEquality().equals(other.expenses, expenses) &&
-            const DeepCollectionEquality().equals(other.rates, rates));
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'TripPreviewState'));
   }
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      schedule,
-      const DeepCollectionEquality().hash(expenses),
-      const DeepCollectionEquality().hash(rates));
-
-  @override
-  String toString() {
-    return 'TripFormState(schedule: $schedule, expenses: $expenses, rates: $rates)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $TripFormStateCopyWith<$Res> {
-  factory $TripFormStateCopyWith(
-          TripFormState value, $Res Function(TripFormState) _then) =
-      _$TripFormStateCopyWithImpl;
-  @useResult
-  $Res call(
-      {Schedule? schedule,
-      List<TripActualExpense> expenses,
-      List<TripRegulationRate> rates});
-
-  $ScheduleCopyWith<$Res>? get schedule;
-}
-
-/// @nodoc
-class _$TripFormStateCopyWithImpl<$Res>
-    implements $TripFormStateCopyWith<$Res> {
-  _$TripFormStateCopyWithImpl(this._self, this._then);
-
-  final TripFormState _self;
-  final $Res Function(TripFormState) _then;
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? schedule = freezed,
-    Object? expenses = null,
-    Object? rates = null,
-  }) {
-    return _then(_self.copyWith(
-      schedule: freezed == schedule
-          ? _self.schedule
-          : schedule // ignore: cast_nullable_to_non_nullable
-              as Schedule?,
-      expenses: null == expenses
-          ? _self.expenses
-          : expenses // ignore: cast_nullable_to_non_nullable
-              as List<TripActualExpense>,
-      rates: null == rates
-          ? _self.rates
-          : rates // ignore: cast_nullable_to_non_nullable
-              as List<TripRegulationRate>,
-    ));
-  }
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ScheduleCopyWith<$Res>? get schedule {
-    if (_self.schedule == null) {
-      return null;
-    }
-
-    return $ScheduleCopyWith<$Res>(_self.schedule!, (value) {
-      return _then(_self.copyWith(schedule: value));
-    });
-  }
-}
-
-/// Adds pattern-matching-related methods to [TripFormState].
-extension TripFormStatePatterns on TripFormState {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TripFormDomestic value)? domestic,
-    TResult Function(TripFormOverseas value)? overseas,
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripFormDomestic() when domestic != null:
-        return domestic(_that);
-      case TripFormOverseas() when overseas != null:
-        return overseas(_that);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TripFormDomestic value) domestic,
-    required TResult Function(TripFormOverseas value) overseas,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripFormDomestic():
-        return domestic(_that);
-      case TripFormOverseas():
-        return overseas(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TripFormDomestic value)? domestic,
-    TResult? Function(TripFormOverseas value)? overseas,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripFormDomestic() when domestic != null:
-        return domestic(_that);
-      case TripFormOverseas() when overseas != null:
-        return overseas(_that);
-      case _:
-        return null;
-    }
-  }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Schedule? schedule, List<TripActualExpense> expenses,
-            List<TripRegulationRate> rates, TripFuelExpense? fuel)?
-        domestic,
-    TResult Function(Schedule? schedule, List<TripActualExpense> expenses,
-            List<TripRegulationRate> rates, bool isDeducted)?
-        overseas,
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripFormDomestic() when domestic != null:
-        return domestic(
-            _that.schedule, _that.expenses, _that.rates, _that.fuel);
-      case TripFormOverseas() when overseas != null:
-        return overseas(
-            _that.schedule, _that.expenses, _that.rates, _that.isDeducted);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(
-            Schedule? schedule,
-            List<TripActualExpense> expenses,
-            List<TripRegulationRate> rates,
-            TripFuelExpense? fuel)
-        domestic,
-    required TResult Function(
-            Schedule? schedule,
-            List<TripActualExpense> expenses,
-            List<TripRegulationRate> rates,
-            bool isDeducted)
-        overseas,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripFormDomestic():
-        return domestic(
-            _that.schedule, _that.expenses, _that.rates, _that.fuel);
-      case TripFormOverseas():
-        return overseas(
-            _that.schedule, _that.expenses, _that.rates, _that.isDeducted);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Schedule? schedule, List<TripActualExpense> expenses,
-            List<TripRegulationRate> rates, TripFuelExpense? fuel)?
-        domestic,
-    TResult? Function(Schedule? schedule, List<TripActualExpense> expenses,
-            List<TripRegulationRate> rates, bool isDeducted)?
-        overseas,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripFormDomestic() when domestic != null:
-        return domestic(
-            _that.schedule, _that.expenses, _that.rates, _that.fuel);
-      case TripFormOverseas() when overseas != null:
-        return overseas(
-            _that.schedule, _that.expenses, _that.rates, _that.isDeducted);
-      case _:
-        return null;
-    }
-  }
-}
-
-/// @nodoc
-
-class TripFormDomestic implements TripFormState {
-  TripFormDomestic(
-      {this.schedule,
-      final List<TripActualExpense> expenses = const [],
-      final List<TripRegulationRate> rates = const [],
-      this.fuel})
-      : _expenses = expenses,
-        _rates = rates;
-
-  @override
-  final Schedule? schedule;
-  final List<TripActualExpense> _expenses;
-  @override
-  @JsonKey()
-  List<TripActualExpense> get expenses {
-    if (_expenses is EqualUnmodifiableListView) return _expenses;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_expenses);
-  }
-
-  final List<TripRegulationRate> _rates;
-  @override
-  @JsonKey()
-  List<TripRegulationRate> get rates {
-    if (_rates is EqualUnmodifiableListView) return _rates;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_rates);
-  }
-
-  final TripFuelExpense? fuel;
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TripFormDomesticCopyWith<TripFormDomestic> get copyWith =>
-      _$TripFormDomesticCopyWithImpl<TripFormDomestic>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TripFormDomestic &&
-            (identical(other.schedule, schedule) ||
-                other.schedule == schedule) &&
-            const DeepCollectionEquality().equals(other._expenses, _expenses) &&
-            const DeepCollectionEquality().equals(other._rates, _rates) &&
-            (identical(other.fuel, fuel) || other.fuel == fuel));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      schedule,
-      const DeepCollectionEquality().hash(_expenses),
-      const DeepCollectionEquality().hash(_rates),
-      fuel);
-
-  @override
-  String toString() {
-    return 'TripFormState.domestic(schedule: $schedule, expenses: $expenses, rates: $rates, fuel: $fuel)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $TripFormDomesticCopyWith<$Res>
-    implements $TripFormStateCopyWith<$Res> {
-  factory $TripFormDomesticCopyWith(
-          TripFormDomestic value, $Res Function(TripFormDomestic) _then) =
-      _$TripFormDomesticCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {Schedule? schedule,
-      List<TripActualExpense> expenses,
-      List<TripRegulationRate> rates,
-      TripFuelExpense? fuel});
-
-  @override
-  $ScheduleCopyWith<$Res>? get schedule;
-  $TripFuelExpenseCopyWith<$Res>? get fuel;
-}
-
-/// @nodoc
-class _$TripFormDomesticCopyWithImpl<$Res>
-    implements $TripFormDomesticCopyWith<$Res> {
-  _$TripFormDomesticCopyWithImpl(this._self, this._then);
-
-  final TripFormDomestic _self;
-  final $Res Function(TripFormDomestic) _then;
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? schedule = freezed,
-    Object? expenses = null,
-    Object? rates = null,
-    Object? fuel = freezed,
-  }) {
-    return _then(TripFormDomestic(
-      schedule: freezed == schedule
-          ? _self.schedule
-          : schedule // ignore: cast_nullable_to_non_nullable
-              as Schedule?,
-      expenses: null == expenses
-          ? _self._expenses
-          : expenses // ignore: cast_nullable_to_non_nullable
-              as List<TripActualExpense>,
-      rates: null == rates
-          ? _self._rates
-          : rates // ignore: cast_nullable_to_non_nullable
-              as List<TripRegulationRate>,
-      fuel: freezed == fuel
-          ? _self.fuel
-          : fuel // ignore: cast_nullable_to_non_nullable
-              as TripFuelExpense?,
-    ));
-  }
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ScheduleCopyWith<$Res>? get schedule {
-    if (_self.schedule == null) {
-      return null;
-    }
-
-    return $ScheduleCopyWith<$Res>(_self.schedule!, (value) {
-      return _then(_self.copyWith(schedule: value));
-    });
-  }
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TripFuelExpenseCopyWith<$Res>? get fuel {
-    if (_self.fuel == null) {
-      return null;
-    }
-
-    return $TripFuelExpenseCopyWith<$Res>(_self.fuel!, (value) {
-      return _then(_self.copyWith(fuel: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class TripFormOverseas implements TripFormState {
-  TripFormOverseas(
-      {this.schedule,
-      final List<TripActualExpense> expenses = const [],
-      final List<TripRegulationRate> rates = const [],
-      this.isDeducted = false})
-      : _expenses = expenses,
-        _rates = rates;
-
-  @override
-  final Schedule? schedule;
-  final List<TripActualExpense> _expenses;
-  @override
-  @JsonKey()
-  List<TripActualExpense> get expenses {
-    if (_expenses is EqualUnmodifiableListView) return _expenses;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_expenses);
-  }
-
-  final List<TripRegulationRate> _rates;
-  @override
-  @JsonKey()
-  List<TripRegulationRate> get rates {
-    if (_rates is EqualUnmodifiableListView) return _rates;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_rates);
-  }
-
-  @JsonKey()
-  final bool isDeducted;
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TripFormOverseasCopyWith<TripFormOverseas> get copyWith =>
-      _$TripFormOverseasCopyWithImpl<TripFormOverseas>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TripFormOverseas &&
-            (identical(other.schedule, schedule) ||
-                other.schedule == schedule) &&
-            const DeepCollectionEquality().equals(other._expenses, _expenses) &&
-            const DeepCollectionEquality().equals(other._rates, _rates) &&
-            (identical(other.isDeducted, isDeducted) ||
-                other.isDeducted == isDeducted));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      schedule,
-      const DeepCollectionEquality().hash(_expenses),
-      const DeepCollectionEquality().hash(_rates),
-      isDeducted);
-
-  @override
-  String toString() {
-    return 'TripFormState.overseas(schedule: $schedule, expenses: $expenses, rates: $rates, isDeducted: $isDeducted)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $TripFormOverseasCopyWith<$Res>
-    implements $TripFormStateCopyWith<$Res> {
-  factory $TripFormOverseasCopyWith(
-          TripFormOverseas value, $Res Function(TripFormOverseas) _then) =
-      _$TripFormOverseasCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {Schedule? schedule,
-      List<TripActualExpense> expenses,
-      List<TripRegulationRate> rates,
-      bool isDeducted});
-
-  @override
-  $ScheduleCopyWith<$Res>? get schedule;
-}
-
-/// @nodoc
-class _$TripFormOverseasCopyWithImpl<$Res>
-    implements $TripFormOverseasCopyWith<$Res> {
-  _$TripFormOverseasCopyWithImpl(this._self, this._then);
-
-  final TripFormOverseas _self;
-  final $Res Function(TripFormOverseas) _then;
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? schedule = freezed,
-    Object? expenses = null,
-    Object? rates = null,
-    Object? isDeducted = null,
-  }) {
-    return _then(TripFormOverseas(
-      schedule: freezed == schedule
-          ? _self.schedule
-          : schedule // ignore: cast_nullable_to_non_nullable
-              as Schedule?,
-      expenses: null == expenses
-          ? _self._expenses
-          : expenses // ignore: cast_nullable_to_non_nullable
-              as List<TripActualExpense>,
-      rates: null == rates
-          ? _self._rates
-          : rates // ignore: cast_nullable_to_non_nullable
-              as List<TripRegulationRate>,
-      isDeducted: null == isDeducted
-          ? _self.isDeducted
-          : isDeducted // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-
-  /// Create a copy of TripFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ScheduleCopyWith<$Res>? get schedule {
-    if (_self.schedule == null) {
-      return null;
-    }
-
-    return $ScheduleCopyWith<$Res>(_self.schedule!, (value) {
-      return _then(_self.copyWith(schedule: value));
-    });
-  }
-}
-
-/// @nodoc
-mixin _$TripListState {
-  List<Trip> get items;
-  int get page;
-  int get total;
-  bool get hasReachEnd;
-
-  /// Create a copy of TripListState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TripListStateCopyWith<TripListState> get copyWith =>
-      _$TripListStateCopyWithImpl<TripListState>(
-          this as TripListState, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TripListState &&
-            const DeepCollectionEquality().equals(other.items, items) &&
-            (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.hasReachEnd, hasReachEnd) ||
-                other.hasReachEnd == hasReachEnd));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
-
-  @override
-  String toString() {
-    return 'TripListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $TripListStateCopyWith<$Res> {
-  factory $TripListStateCopyWith(
-          TripListState value, $Res Function(TripListState) _then) =
-      _$TripListStateCopyWithImpl;
-  @useResult
-  $Res call({List<Trip> items, int page, int total, bool hasReachEnd});
-}
-
-/// @nodoc
-class _$TripListStateCopyWithImpl<$Res>
-    implements $TripListStateCopyWith<$Res> {
-  _$TripListStateCopyWithImpl(this._self, this._then);
-
-  final TripListState _self;
-  final $Res Function(TripListState) _then;
-
-  /// Create a copy of TripListState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? items = null,
-    Object? page = null,
-    Object? total = null,
-    Object? hasReachEnd = null,
-  }) {
-    return _then(_self.copyWith(
-      items: null == items
-          ? _self.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Trip>,
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      total: null == total
-          ? _self.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-      hasReachEnd: null == hasReachEnd
-          ? _self.hasReachEnd
-          : hasReachEnd // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// Adds pattern-matching-related methods to [TripListState].
-extension TripListStatePatterns on TripListState {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_TripListState value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _TripListState() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_TripListState value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TripListState():
-        return $default(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_TripListState value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TripListState() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<Trip> items, int page, int total, bool hasReachEnd)?
-        $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _TripListState() when $default != null:
-        return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<Trip> items, int page, int total, bool hasReachEnd)
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TripListState():
-        return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<Trip> items, int page, int total, bool hasReachEnd)?
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TripListState() when $default != null:
-        return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
-      case _:
-        return null;
-    }
-  }
-}
-
-/// @nodoc
-
-class _TripListState implements TripListState {
-  _TripListState(
-      {final List<Trip> items = const [],
-      this.page = 0,
-      this.total = 0,
-      this.hasReachEnd = false})
-      : _items = items;
-
-  final List<Trip> _items;
-  @override
-  @JsonKey()
-  List<Trip> get items {
-    if (_items is EqualUnmodifiableListView) return _items;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_items);
-  }
-
-  @override
-  @JsonKey()
-  final int page;
-  @override
-  @JsonKey()
-  final int total;
-  @override
-  @JsonKey()
-  final bool hasReachEnd;
-
-  /// Create a copy of TripListState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$TripListStateCopyWith<_TripListState> get copyWith =>
-      __$TripListStateCopyWithImpl<_TripListState>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _TripListState &&
-            const DeepCollectionEquality().equals(other._items, _items) &&
-            (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.hasReachEnd, hasReachEnd) ||
-                other.hasReachEnd == hasReachEnd));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
-
-  @override
-  String toString() {
-    return 'TripListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
-  }
-}
-
-/// @nodoc
-abstract mixin class _$TripListStateCopyWith<$Res>
-    implements $TripListStateCopyWith<$Res> {
-  factory _$TripListStateCopyWith(
-          _TripListState value, $Res Function(_TripListState) _then) =
-      __$TripListStateCopyWithImpl;
-  @override
-  @useResult
-  $Res call({List<Trip> items, int page, int total, bool hasReachEnd});
-}
-
-/// @nodoc
-class __$TripListStateCopyWithImpl<$Res>
-    implements _$TripListStateCopyWith<$Res> {
-  __$TripListStateCopyWithImpl(this._self, this._then);
-
-  final _TripListState _self;
-  final $Res Function(_TripListState) _then;
-
-  /// Create a copy of TripListState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? items = null,
-    Object? page = null,
-    Object? total = null,
-    Object? hasReachEnd = null,
-  }) {
-    return _then(_TripListState(
-      items: null == items
-          ? _self._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Trip>,
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
-              as int,
-      total: null == total
-          ? _self.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-      hasReachEnd: null == hasReachEnd
-          ? _self.hasReachEnd
-          : hasReachEnd // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// @nodoc
-mixin _$TripPreviewState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -12694,7 +14787,7 @@ mixin _$TripPreviewState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripPreviewState()';
   }
 }
@@ -12932,8 +15025,13 @@ extension TripPreviewStatePatterns on TripPreviewState {
 
 /// @nodoc
 
-class TripPreviewIdle implements TripPreviewState {
+class TripPreviewIdle with DiagnosticableTreeMixin implements TripPreviewState {
   TripPreviewIdle();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'TripPreviewState.idle'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -12945,15 +15043,22 @@ class TripPreviewIdle implements TripPreviewState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripPreviewState.idle()';
   }
 }
 
 /// @nodoc
 
-class TripPreviewLoading implements TripPreviewState {
+class TripPreviewLoading
+    with DiagnosticableTreeMixin
+    implements TripPreviewState {
   TripPreviewLoading();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'TripPreviewState.loading'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -12965,15 +15070,22 @@ class TripPreviewLoading implements TripPreviewState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripPreviewState.loading()';
   }
 }
 
 /// @nodoc
 
-class TripPreviewRendering implements TripPreviewState {
+class TripPreviewRendering
+    with DiagnosticableTreeMixin
+    implements TripPreviewState {
   TripPreviewRendering();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'TripPreviewState.rendering'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -12985,15 +15097,22 @@ class TripPreviewRendering implements TripPreviewState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripPreviewState.rendering()';
   }
 }
 
 /// @nodoc
 
-class TripPreviewSuccess implements TripPreviewState {
+class TripPreviewSuccess
+    with DiagnosticableTreeMixin
+    implements TripPreviewState {
   TripPreviewSuccess();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'TripPreviewState.success'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -13005,15 +15124,22 @@ class TripPreviewSuccess implements TripPreviewState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripPreviewState.success()';
   }
 }
 
 /// @nodoc
 
-class TripPreviewFailed implements TripPreviewState {
+class TripPreviewFailed
+    with DiagnosticableTreeMixin
+    implements TripPreviewState {
   TripPreviewFailed();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'TripPreviewState.failed'));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -13025,13 +15151,13 @@ class TripPreviewFailed implements TripPreviewState {
   int get hashCode => runtimeType.hashCode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripPreviewState.failed()';
   }
 }
 
 /// @nodoc
-mixin _$TripStepState {
+mixin _$TripStepState implements DiagnosticableTreeMixin {
   int get currentIndex;
 
   /// Create a copy of TripStepState
@@ -13041,6 +15167,13 @@ mixin _$TripStepState {
   $TripStepStateCopyWith<TripStepState> get copyWith =>
       _$TripStepStateCopyWithImpl<TripStepState>(
           this as TripStepState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TripStepState'))
+      ..add(DiagnosticsProperty('currentIndex', currentIndex));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -13055,7 +15188,7 @@ mixin _$TripStepState {
   int get hashCode => Object.hash(runtimeType, currentIndex);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripStepState(currentIndex: $currentIndex)';
   }
 }
@@ -13252,7 +15385,7 @@ extension TripStepStatePatterns on TripStepState {
 
 /// @nodoc
 
-class _TripStepState implements TripStepState {
+class _TripStepState with DiagnosticableTreeMixin implements TripStepState {
   _TripStepState({this.currentIndex = 0});
 
   @override
@@ -13268,6 +15401,13 @@ class _TripStepState implements TripStepState {
       __$TripStepStateCopyWithImpl<_TripStepState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TripStepState'))
+      ..add(DiagnosticsProperty('currentIndex', currentIndex));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -13280,7 +15420,7 @@ class _TripStepState implements TripStepState {
   int get hashCode => Object.hash(runtimeType, currentIndex);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TripStepState(currentIndex: $currentIndex)';
   }
 }
@@ -13321,455 +15461,7 @@ class __$TripStepStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$TripSubmitState {
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is TripSubmitState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'TripSubmitState()';
-  }
-}
-
-/// @nodoc
-class $TripSubmitStateCopyWith<$Res> {
-  $TripSubmitStateCopyWith(
-      TripSubmitState _, $Res Function(TripSubmitState) __);
-}
-
-/// Adds pattern-matching-related methods to [TripSubmitState].
-extension TripSubmitStatePatterns on TripSubmitState {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TripSubmitIdle value)? idle,
-    TResult Function(TripSubmitPending value)? pending,
-    TResult Function(TripSubmitSuccess value)? success,
-    TResult Function(TripSubmitDeleted value)? deleted,
-    TResult Function(TripSubmitFailure value)? failure,
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripSubmitIdle() when idle != null:
-        return idle(_that);
-      case TripSubmitPending() when pending != null:
-        return pending(_that);
-      case TripSubmitSuccess() when success != null:
-        return success(_that);
-      case TripSubmitDeleted() when deleted != null:
-        return deleted(_that);
-      case TripSubmitFailure() when failure != null:
-        return failure(_that);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TripSubmitIdle value) idle,
-    required TResult Function(TripSubmitPending value) pending,
-    required TResult Function(TripSubmitSuccess value) success,
-    required TResult Function(TripSubmitDeleted value) deleted,
-    required TResult Function(TripSubmitFailure value) failure,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripSubmitIdle():
-        return idle(_that);
-      case TripSubmitPending():
-        return pending(_that);
-      case TripSubmitSuccess():
-        return success(_that);
-      case TripSubmitDeleted():
-        return deleted(_that);
-      case TripSubmitFailure():
-        return failure(_that);
-    }
-  }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TripSubmitIdle value)? idle,
-    TResult? Function(TripSubmitPending value)? pending,
-    TResult? Function(TripSubmitSuccess value)? success,
-    TResult? Function(TripSubmitDeleted value)? deleted,
-    TResult? Function(TripSubmitFailure value)? failure,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripSubmitIdle() when idle != null:
-        return idle(_that);
-      case TripSubmitPending() when pending != null:
-        return pending(_that);
-      case TripSubmitSuccess() when success != null:
-        return success(_that);
-      case TripSubmitDeleted() when deleted != null:
-        return deleted(_that);
-      case TripSubmitFailure() when failure != null:
-        return failure(_that);
-      case _:
-        return null;
-    }
-  }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? idle,
-    TResult Function()? pending,
-    TResult Function(Trip trip)? success,
-    TResult Function()? deleted,
-    TResult Function(String message)? failure,
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripSubmitIdle() when idle != null:
-        return idle();
-      case TripSubmitPending() when pending != null:
-        return pending();
-      case TripSubmitSuccess() when success != null:
-        return success(_that.trip);
-      case TripSubmitDeleted() when deleted != null:
-        return deleted();
-      case TripSubmitFailure() when failure != null:
-        return failure(_that.message);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() idle,
-    required TResult Function() pending,
-    required TResult Function(Trip trip) success,
-    required TResult Function() deleted,
-    required TResult Function(String message) failure,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripSubmitIdle():
-        return idle();
-      case TripSubmitPending():
-        return pending();
-      case TripSubmitSuccess():
-        return success(_that.trip);
-      case TripSubmitDeleted():
-        return deleted();
-      case TripSubmitFailure():
-        return failure(_that.message);
-    }
-  }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? idle,
-    TResult? Function()? pending,
-    TResult? Function(Trip trip)? success,
-    TResult? Function()? deleted,
-    TResult? Function(String message)? failure,
-  }) {
-    final _that = this;
-    switch (_that) {
-      case TripSubmitIdle() when idle != null:
-        return idle();
-      case TripSubmitPending() when pending != null:
-        return pending();
-      case TripSubmitSuccess() when success != null:
-        return success(_that.trip);
-      case TripSubmitDeleted() when deleted != null:
-        return deleted();
-      case TripSubmitFailure() when failure != null:
-        return failure(_that.message);
-      case _:
-        return null;
-    }
-  }
-}
-
-/// @nodoc
-
-class TripSubmitIdle implements TripSubmitState {
-  const TripSubmitIdle();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is TripSubmitIdle);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'TripSubmitState.idle()';
-  }
-}
-
-/// @nodoc
-
-class TripSubmitPending implements TripSubmitState {
-  const TripSubmitPending();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is TripSubmitPending);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'TripSubmitState.pending()';
-  }
-}
-
-/// @nodoc
-
-class TripSubmitSuccess implements TripSubmitState {
-  const TripSubmitSuccess(this.trip);
-
-  final Trip trip;
-
-  /// Create a copy of TripSubmitState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TripSubmitSuccessCopyWith<TripSubmitSuccess> get copyWith =>
-      _$TripSubmitSuccessCopyWithImpl<TripSubmitSuccess>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TripSubmitSuccess &&
-            (identical(other.trip, trip) || other.trip == trip));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, trip);
-
-  @override
-  String toString() {
-    return 'TripSubmitState.success(trip: $trip)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $TripSubmitSuccessCopyWith<$Res>
-    implements $TripSubmitStateCopyWith<$Res> {
-  factory $TripSubmitSuccessCopyWith(
-          TripSubmitSuccess value, $Res Function(TripSubmitSuccess) _then) =
-      _$TripSubmitSuccessCopyWithImpl;
-  @useResult
-  $Res call({Trip trip});
-
-  $TripCopyWith<$Res> get trip;
-}
-
-/// @nodoc
-class _$TripSubmitSuccessCopyWithImpl<$Res>
-    implements $TripSubmitSuccessCopyWith<$Res> {
-  _$TripSubmitSuccessCopyWithImpl(this._self, this._then);
-
-  final TripSubmitSuccess _self;
-  final $Res Function(TripSubmitSuccess) _then;
-
-  /// Create a copy of TripSubmitState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? trip = null,
-  }) {
-    return _then(TripSubmitSuccess(
-      null == trip
-          ? _self.trip
-          : trip // ignore: cast_nullable_to_non_nullable
-              as Trip,
-    ));
-  }
-
-  /// Create a copy of TripSubmitState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TripCopyWith<$Res> get trip {
-    return $TripCopyWith<$Res>(_self.trip, (value) {
-      return _then(_self.copyWith(trip: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class TripSubmitDeleted implements TripSubmitState {
-  const TripSubmitDeleted();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is TripSubmitDeleted);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  String toString() {
-    return 'TripSubmitState.deleted()';
-  }
-}
-
-/// @nodoc
-
-class TripSubmitFailure implements TripSubmitState {
-  const TripSubmitFailure(this.message);
-
-  final String message;
-
-  /// Create a copy of TripSubmitState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TripSubmitFailureCopyWith<TripSubmitFailure> get copyWith =>
-      _$TripSubmitFailureCopyWithImpl<TripSubmitFailure>(this, _$identity);
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TripSubmitFailure &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  @override
-  String toString() {
-    return 'TripSubmitState.failure(message: $message)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $TripSubmitFailureCopyWith<$Res>
-    implements $TripSubmitStateCopyWith<$Res> {
-  factory $TripSubmitFailureCopyWith(
-          TripSubmitFailure value, $Res Function(TripSubmitFailure) _then) =
-      _$TripSubmitFailureCopyWithImpl;
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class _$TripSubmitFailureCopyWithImpl<$Res>
-    implements $TripSubmitFailureCopyWith<$Res> {
-  _$TripSubmitFailureCopyWithImpl(this._self, this._then);
-
-  final TripSubmitFailure _self;
-  final $Res Function(TripSubmitFailure) _then;
-
-  /// Create a copy of TripSubmitState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(TripSubmitFailure(
-      null == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-mixin _$UserFilterState {
+mixin _$UserFilterState implements DiagnosticableTreeMixin {
   String? get search;
   UserDepartment? get department;
   UserPosition? get position;
@@ -13783,6 +15475,17 @@ mixin _$UserFilterState {
   $UserFilterStateCopyWith<UserFilterState> get copyWith =>
       _$UserFilterStateCopyWithImpl<UserFilterState>(
           this as UserFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserFilterState'))
+      ..add(DiagnosticsProperty('search', search))
+      ..add(DiagnosticsProperty('department', department))
+      ..add(DiagnosticsProperty('position', position))
+      ..add(DiagnosticsProperty('departmentItems', departmentItems))
+      ..add(DiagnosticsProperty('positionItems', positionItems));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -13810,7 +15513,7 @@ mixin _$UserFilterState {
       const DeepCollectionEquality().hash(positionItems));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserFilterState(search: $search, department: $department, position: $position, departmentItems: $departmentItems, positionItems: $positionItems)';
   }
 }
@@ -14084,7 +15787,7 @@ extension UserFilterStatePatterns on UserFilterState {
 
 /// @nodoc
 
-class _UserFilterState implements UserFilterState {
+class _UserFilterState with DiagnosticableTreeMixin implements UserFilterState {
   _UserFilterState(
       {this.search,
       this.department,
@@ -14127,6 +15830,17 @@ class _UserFilterState implements UserFilterState {
       __$UserFilterStateCopyWithImpl<_UserFilterState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserFilterState'))
+      ..add(DiagnosticsProperty('search', search))
+      ..add(DiagnosticsProperty('department', department))
+      ..add(DiagnosticsProperty('position', position))
+      ..add(DiagnosticsProperty('departmentItems', departmentItems))
+      ..add(DiagnosticsProperty('positionItems', positionItems));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -14152,7 +15866,7 @@ class _UserFilterState implements UserFilterState {
       const DeepCollectionEquality().hash(_positionItems));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserFilterState(search: $search, department: $department, position: $position, departmentItems: $departmentItems, positionItems: $positionItems)';
   }
 }
@@ -14251,7 +15965,7 @@ class __$UserFilterStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$UserListState {
+mixin _$UserListState implements DiagnosticableTreeMixin {
   List<User> get items;
   int get page;
   int get total;
@@ -14264,6 +15978,16 @@ mixin _$UserListState {
   $UserListStateCopyWith<UserListState> get copyWith =>
       _$UserListStateCopyWithImpl<UserListState>(
           this as UserListState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -14282,7 +16006,7 @@ mixin _$UserListState {
       const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -14500,7 +16224,7 @@ extension UserListStatePatterns on UserListState {
 
 /// @nodoc
 
-class _UserListState implements UserListState {
+class _UserListState with DiagnosticableTreeMixin implements UserListState {
   _UserListState(
       {final List<User> items = const [],
       this.page = 0,
@@ -14536,6 +16260,16 @@ class _UserListState implements UserListState {
       __$UserListStateCopyWithImpl<_UserListState>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserListState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('page', page))
+      ..add(DiagnosticsProperty('total', total))
+      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -14552,7 +16286,7 @@ class _UserListState implements UserListState {
       const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
   }
 }
@@ -14603,6 +16337,307 @@ class __$UserListStateCopyWithImpl<$Res>
           ? _self.hasReachEnd
           : hasReachEnd // ignore: cast_nullable_to_non_nullable
               as bool,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$WorkFilterState implements DiagnosticableTreeMixin {
+  String? get view;
+
+  /// Create a copy of WorkFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $WorkFilterStateCopyWith<WorkFilterState> get copyWith =>
+      _$WorkFilterStateCopyWithImpl<WorkFilterState>(
+          this as WorkFilterState, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WorkFilterState'))
+      ..add(DiagnosticsProperty('view', view));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is WorkFilterState &&
+            (identical(other.view, view) || other.view == view));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, view);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'WorkFilterState(view: $view)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $WorkFilterStateCopyWith<$Res> {
+  factory $WorkFilterStateCopyWith(
+          WorkFilterState value, $Res Function(WorkFilterState) _then) =
+      _$WorkFilterStateCopyWithImpl;
+  @useResult
+  $Res call({String? view});
+}
+
+/// @nodoc
+class _$WorkFilterStateCopyWithImpl<$Res>
+    implements $WorkFilterStateCopyWith<$Res> {
+  _$WorkFilterStateCopyWithImpl(this._self, this._then);
+
+  final WorkFilterState _self;
+  final $Res Function(WorkFilterState) _then;
+
+  /// Create a copy of WorkFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? view = freezed,
+  }) {
+    return _then(_self.copyWith(
+      view: freezed == view
+          ? _self.view
+          : view // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [WorkFilterState].
+extension WorkFilterStatePatterns on WorkFilterState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_WorkFilterState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _WorkFilterState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_WorkFilterState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _WorkFilterState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_WorkFilterState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _WorkFilterState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(String? view)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _WorkFilterState() when $default != null:
+        return $default(_that.view);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(String? view) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _WorkFilterState():
+        return $default(_that.view);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(String? view)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _WorkFilterState() when $default != null:
+        return $default(_that.view);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _WorkFilterState with DiagnosticableTreeMixin implements WorkFilterState {
+  _WorkFilterState({this.view});
+
+  @override
+  final String? view;
+
+  /// Create a copy of WorkFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$WorkFilterStateCopyWith<_WorkFilterState> get copyWith =>
+      __$WorkFilterStateCopyWithImpl<_WorkFilterState>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WorkFilterState'))
+      ..add(DiagnosticsProperty('view', view));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _WorkFilterState &&
+            (identical(other.view, view) || other.view == view));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, view);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'WorkFilterState(view: $view)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$WorkFilterStateCopyWith<$Res>
+    implements $WorkFilterStateCopyWith<$Res> {
+  factory _$WorkFilterStateCopyWith(
+          _WorkFilterState value, $Res Function(_WorkFilterState) _then) =
+      __$WorkFilterStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? view});
+}
+
+/// @nodoc
+class __$WorkFilterStateCopyWithImpl<$Res>
+    implements _$WorkFilterStateCopyWith<$Res> {
+  __$WorkFilterStateCopyWithImpl(this._self, this._then);
+
+  final _WorkFilterState _self;
+  final $Res Function(_WorkFilterState) _then;
+
+  /// Create a copy of WorkFilterState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? view = freezed,
+  }) {
+    return _then(_WorkFilterState(
+      view: freezed == view
+          ? _self.view
+          : view // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

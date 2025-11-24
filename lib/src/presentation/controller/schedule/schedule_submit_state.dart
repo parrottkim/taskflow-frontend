@@ -1,7 +1,7 @@
 part of '../controller.dart';
 
 @freezed
-class ScheduleSubmitState with _$ScheduleSubmitState {
+sealed class ScheduleSubmitState with _$ScheduleSubmitState {
   factory ScheduleSubmitState.idle() = ScheduleSubmitIdle;
   factory ScheduleSubmitState.pending() = ScheduleSubmitPending;
   factory ScheduleSubmitState.success(Schedule schedule) =

@@ -8,6 +8,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/widget/dialog.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
+import 'package:gpt_markdown/gpt_markdown.dart';
 
 class Logo extends StatelessWidget {
   final double size;
@@ -133,7 +134,7 @@ class ErrorContainerWidget extends StatelessWidget {
               child: Text(Intl.message('connection_timeout')),
             )
           else if (error is DioException &&
-              (error as DioException).response?.data is String)
+              (error as DioException).response?.data is Map)
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(Intl.message(
@@ -370,6 +371,27 @@ class InvalidWidget extends HookWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MarkdownWidget extends StatelessWidget {
+  final String item;
+
+  const MarkdownWidget({
+    super.key,
+    required this.item,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+
+    return GptMarkdownTheme(
+      gptThemeData: GptMarkdownThemeData(brightness: brightness),
+      child: GptMarkdown(
+        item,
       ),
     );
   }

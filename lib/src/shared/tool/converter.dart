@@ -77,7 +77,7 @@ class IssueDetailsConverter
       case 'kickoff':
         return IssueKickoffDetails.fromJson(data);
       case 'approval':
-        return ApprovalDetails.fromJson(data);
+        return IssueApprovalDetails.fromJson(data);
       case 'procurement':
         return IssueProcurementDetails.fromJson(data);
       case 'transaction':
@@ -87,7 +87,7 @@ class IssueDetailsConverter
       case 'payment':
         return IssuePaymentDetails.fromJson(data);
       default:
-        throw ArgumentError('Unknown IssueDetails type: $type');
+        throw ArgumentError('Unknown issueDetails type: $type');
     }
   }
 

@@ -56,12 +56,12 @@ class AuthController extends _$AuthController {
     }
   }
 
-  Future<void> register({required RegisterRequest register}) async {
+  Future<void> register({required RegisterRequest request}) async {
     state = const AuthPending();
     try {
       await ref
           .read(authRepositoryProvider)
-          .register(register: register)
+          .register(request: request)
           .then((value) async {
         state = const AuthRequest();
       });
@@ -74,5 +74,13 @@ class AuthController extends _$AuthController {
     await ref.read(localRepositoryProvider).removeAccessToken();
     await ref.read(localRepositoryProvider).removeRefreshToken();
     state = const AuthUnauthenticated();
+  }
+
+  Future<void> forgotPassword({required ForgotPasswordRequest request}) async {
+    await ref.read(authRepositoryProvider).forgotPassword(request: request);
+  }
+
+  Future<void> resetPassword({required ResetPasswordRequest request}) async {
+    await ref.read(authRepositoryProvider).resetPassword(request: request);
   }
 }

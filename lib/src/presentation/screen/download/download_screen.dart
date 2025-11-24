@@ -13,8 +13,7 @@ class DownloadScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final download =
-        ref.watch(downloadControllerProvider(path: path, filename: filename));
+    ref.watch(downloadControllerProvider(path: path, filename: filename));
 
     return Scaffold(
       body: Center(

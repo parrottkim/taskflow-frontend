@@ -109,10 +109,11 @@ class IssueFormController extends _$IssueFormController {
       try {
         final uploadResults = await ref
             .read(sftpRepositoryProvider)
-            .uploadInlineImage(files: files);
+            .uploadInlineImage(path: 'issue', files: files);
 
         // 3. 업로드 결과를 순서대로 순회하며 문서의 노드를 업데이트합니다.
         final originalNodes = map.keys.toList();
+
         for (int i = 0; i < uploadResults.length; i++) {
           final originalNode = originalNodes[i];
           final uploadedUrl = uploadResults[i].url; // 서버에서 반환한 최종 URL

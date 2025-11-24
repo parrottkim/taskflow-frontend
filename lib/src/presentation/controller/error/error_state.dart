@@ -1,7 +1,7 @@
 part of '../controller.dart';
 
 @freezed
-class ErrorState with _$ErrorState {
+sealed class ErrorState with _$ErrorState {
   const factory ErrorState.initial() = ErrorInitial;
   const factory ErrorState.badRequest({required String message}) =
       ErrorBadRequest;
@@ -13,9 +13,4 @@ class ErrorState with _$ErrorState {
   const factory ErrorState.conflict({required String message}) = ErrorConflict;
   const factory ErrorState.notDefined({required String message}) =
       ErrorNotDefined;
-  // const factory ErrorState.notify({
-  //   int? code,
-  //   required String message,
-  //   Exception? exception,
-  // }) = ErrorNotify;
 }

@@ -14,8 +14,8 @@ class ScheduleFilterController extends _$ScheduleFilterController {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    final defaultStart = today.subtract(const Duration(days: 3));
-    final defaultEnd = today.add(const Duration(days: 3));
+    final defaultStart = today.subtract(const Duration(days: 28));
+    final defaultEnd = today.add(const Duration(days: 28));
 
     return ScheduleFilterState(
         categoryItems: categories, start: defaultStart, end: defaultEnd);

@@ -18,7 +18,7 @@ class LoadingOverlay {
               child: GestureDetector(
                 onTap: () {}, // Handle tap events if needed
                 child: Container(
-                  color: Colors.black.withValues(alpha: 0.5),
+                  color: Colors.black87.withValues(alpha: 0.2),
                 ),
               ),
             ),
@@ -63,7 +63,7 @@ class TextOverlay {
               child: GestureDetector(
                 onTap: () {}, // Handle tap events if needed
                 child: Container(
-                  color: Colors.black.withValues(alpha: 0.5),
+                  color: Colors.black87.withValues(alpha: 0.2),
                 ),
               ),
             ),

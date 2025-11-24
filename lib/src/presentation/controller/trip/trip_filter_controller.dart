@@ -9,13 +9,15 @@ class TripFilterController extends _$TripFilterController {
 
   Future<TripFilterState> _init() async {
     final List<TripCategory> categories =
-        await ref.read(tripRepositoryProvider).getAllCategories();
+        await ref.read(reportRepositoryProvider).getAllTripCategories();
     final List<TripStep> steps = categoryId != null
-        ? await ref.read(tripRepositoryProvider).getAllSteps(id: categoryId!)
+        ? await ref
+            .read(reportRepositoryProvider)
+            .getAllTripSteps(id: categoryId!)
         : [];
     final List<TripRegulation> regulations = categoryId != null
         ? await ref
-            .read(tripRepositoryProvider)
+            .read(reportRepositoryProvider)
             .getAllTripRegulations(id: categoryId!)
         : [];
 

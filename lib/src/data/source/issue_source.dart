@@ -28,6 +28,9 @@ class IssueDataSource implements IssueRepository {
       _service.getIssues(page: page, limit: limit, projectId: projectId);
 
   @override
+  Future<void> sendMail({required int id}) => _service.sendMail(id: id);
+
+  @override
   Future<Issue> createIssue({
     required CreateIssueRequest request,
   }) =>

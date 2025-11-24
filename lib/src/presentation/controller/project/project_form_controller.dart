@@ -12,8 +12,9 @@ class ProjectFormController extends _$ProjectFormController {
       return ProjectFormState();
     }
 
-    final result =
-        await ref.read(projectRepositoryProvider).getProject(id: projectId!);
+    final result = await ref
+        .read(projectRepositoryProvider)
+        .getProjectForEdit(id: projectId!);
 
     return ProjectFormState(
       clients: result.clients,

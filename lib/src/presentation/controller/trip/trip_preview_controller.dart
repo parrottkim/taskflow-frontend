@@ -10,7 +10,7 @@ class TripPreviewController extends _$TripPreviewController {
 
     try {
       final result =
-          await ref.read(tripRepositoryProvider).exportTrip(id: tripId);
+          await ref.read(reportRepositoryProvider).exportTrip(id: tripId);
 
       if (result.data.isEmpty) {
         state = TripPreviewState.failed();

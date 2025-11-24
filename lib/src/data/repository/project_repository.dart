@@ -15,6 +15,8 @@ abstract class ProjectRepository {
 
   Future<Project> getProject({required int id});
 
+  Future<Project> getProjectForEdit({required int id});
+
   Future<Result<Project>> getProjects({
     int page = 1,
     int limit = 40,

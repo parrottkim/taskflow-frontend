@@ -110,7 +110,7 @@ sealed class IssueDetails with _$IssueDetails {
     required int id,
     required DateTime kickoffDate,
   }) = IssueKickoffDetails;
-  factory IssueDetails.approval({required int id}) = ApprovalDetails;
+  factory IssueDetails.approval({required int id}) = IssueApprovalDetails;
   factory IssueDetails.procurement({
     required int id,
     required List<ProcurementItem> items,

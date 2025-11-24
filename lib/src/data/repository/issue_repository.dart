@@ -18,6 +18,8 @@ abstract class IssueRepository {
     required int projectId,
   });
 
+  Future<void> sendMail({required int id});
+
   Future<Issue> createIssue({
     required CreateIssueRequest request,
   });

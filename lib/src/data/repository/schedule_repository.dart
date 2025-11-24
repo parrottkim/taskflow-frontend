@@ -6,7 +6,7 @@ abstract class ScheduleRepository {
   Future<Schedule> getSchedule({required int id});
 
   Future<Result<ScheduleGroup>> getSchedules({
-    required int projectId,
+    int? projectId,
     String? search,
     DateTime? start,
     DateTime? end,
