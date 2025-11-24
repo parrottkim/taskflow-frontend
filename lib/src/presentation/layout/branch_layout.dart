@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/new_project_button.dart';
-import 'package:taskflow/src/presentation/screen/project_detail/widget/new_trip_button.dart';
-import 'package:taskflow/src/presentation/screen/project_detail/widget/new_issue_button.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_report_button.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_issue_button.dart';
 import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/dialog.dart';
 import 'package:taskflow/src/router/router.dart';
@@ -104,7 +104,7 @@ class BranchLayout extends ConsumerWidget {
                     if (GoRouter.of(context).name == RouteNames.projectDetail)
                       Row(
                         children: [
-                          NewTripButton(),
+                          NewReportButton(),
                           SizedBox(width: 8.0),
                           NewIssueButton(),
                         ],

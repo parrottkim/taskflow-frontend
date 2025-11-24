@@ -1,0 +1,273 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:super_editor/super_editor.dart';
+import 'package:super_editor_markdown/super_editor_markdown.dart';
+import 'package:taskflow/src/data/data.dart';
+import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/layout/branch_layout.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/progress_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/report_item_widget.dart';
+import 'package:taskflow/src/presentation/widget/overlay.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
+
+class ReportFormScreen extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final String? step;
+
+  const ReportFormScreen({
+    super.key,
+    required this.projectId,
+    this.reportId,
+    this.step,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final form = ref.watch(
+        reportFormControllerProvider(projectId: projectId, reportId: reportId));
+
+    return switch (form) {
+      AsyncData(:final value) => _DesktopWidget(
+          projectId: projectId,
+          reportId: reportId,
+          step: step,
+          value: value,
+        ),
+      AsyncError(:final error, :final stackTrace) =>
+        ErrorContainerWidget(error: error, stackTrace: stackTrace),
+      _ => Skeletonizer(
+          child: _DesktopWidget(
+            projectId: projectId,
+            value: ReportFormState(steps: [
+              'transportation',
+              'local_transportation',
+              'accommodation',
+              'daily_expense',
+              'other',
+              'content',
+            ], schedule: Schedule.dummy()),
+          ),
+        ),
+    };
+  }
+}
+
+class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final String? step;
+  final ReportFormState value;
+
+  const _DesktopWidget({
+    required this.projectId,
+    this.reportId,
+    this.step,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentStep = step ?? value.steps.first;
+    final currentIndex = value.steps.indexOf(currentStep);
+    final isLastStep = currentIndex == value.steps.length - 1;
+
+    ref.listen(reportSubmitControllerProvider, (_, state) {
+      if (state is ReportSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is ReportSubmitSuccess) {
+          context.goNamed(
+            RouteNames.projectDetail,
+            pathParameters: {
+              'project_id': projectId.toString(),
+            },
+            queryParameters: {
+              'view': 'report',
+              'report': state.report.id.toString(),
+            },
+          );
+        }
+
+        if (state is ReportSubmitDeleted) {
+          context.goNamed(
+            RouteNames.projectDetail,
+            pathParameters: {
+              'project_id': projectId.toString(),
+            },
+          );
+        }
+      }
+    });
+
+    final document = useRef(value.content == null
+            ? MutableDocument(
+                nodes: [
+                  ParagraphNode(
+                    id: Editor.createNodeId(),
+                    text: AttributedText(''),
+                  ),
+                ],
+              )
+            : deserializeMarkdownToDocument(value.content!))
+        .value;
+
+    return BranchLayout(
+      title: Text(
+          Intl.message('report_form_title_${value.schedule!.category.id}')),
+      onTap: () {
+        if (isLastStep) {
+          ref
+              .read(reportFormControllerProvider(projectId: projectId).notifier)
+              .serializeAndSetContent(document: document);
+
+          if (ref.watch(reportValidationControllerProvider).contentInvalid) {
+            return;
+          }
+        }
+        if (currentIndex > 0) {
+          final isAllValid =
+              ref.read(reportValidationControllerProvider.notifier).isValid();
+
+          if (!isAllValid) {
+            return;
+          }
+
+          final previousStep = value.steps[currentIndex - 1];
+
+          context.goNamed(
+              reportId == null ? RouteNames.reportNew : RouteNames.reportEdit,
+              pathParameters: GoRouter.of(context).state.pathParameters,
+              queryParameters: {
+                'step': previousStep,
+              });
+        } else {
+          context.pop();
+        }
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (value.schedule!.category is! ScheduleRemote)
+                  ProgressWidget(
+                    currentIndex: currentIndex,
+                    steps: value.steps,
+                  ),
+                Expanded(
+                  child: ReportItemWidget(
+                    step: currentStep,
+                    projectId: projectId,
+                    reportId: reportId,
+                    value: value,
+                    document: document,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(
+                left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
+            constraints: BoxConstraints(maxWidth: 430.0),
+            child: FilledButton(
+              onPressed: () async {
+                // Update validation status from current form data
+                ref
+                    .read(reportValidationControllerProvider.notifier)
+                    .updateAllValidationStatus(
+                        projectId: projectId, reportId: reportId);
+
+                // If validation fails, navigate to the first invalid step (if available)
+                final isAllValid = ref
+                    .read(reportValidationControllerProvider.notifier)
+                    .isValid();
+
+                if (!isAllValid) {
+                  return;
+                }
+
+                // All valid — proceed to next step or submit
+                if (isLastStep) {
+                  ref
+                      .read(reportFormControllerProvider(projectId: projectId)
+                          .notifier)
+                      .serializeAndSetContent(document: document);
+
+                  if (ref
+                      .watch(reportValidationControllerProvider)
+                      .contentInvalid) {
+                    return;
+                  }
+
+                  if (reportId == null) {
+                    ref
+                        .read(reportSubmitControllerProvider.notifier)
+                        .createReport(
+                            scheduleId: value.schedule!.id,
+                            projectId: projectId);
+                    return;
+                  } else {
+                    ref
+                        .read(reportSubmitControllerProvider.notifier)
+                        .updateReport(
+                            scheduleId: value.schedule!.id,
+                            projectId: projectId,
+                            reportId: reportId!);
+                    return;
+                  }
+                } else {
+                  // 다음 단계로 이동
+                  final nextStep = value.steps[currentIndex + 1];
+
+                  context.goNamed(
+                      reportId == null
+                          ? RouteNames.reportNew
+                          : RouteNames.reportEdit,
+                      pathParameters: GoRouter.of(context).state.pathParameters,
+                      queryParameters: {
+                        'step': nextStep,
+                      });
+                }
+
+                // Additional per-step checks (legacy/extra guards)
+                final form = await ref.watch(reportFormControllerProvider(
+                        projectId: projectId, reportId: reportId)
+                    .future);
+
+                if (step == 'transportation') {
+                  if (form.expenses.any(
+                      (item) => item.price == null || item.price!.isEmpty)) {
+                    return;
+                  }
+                }
+                if (step == 'local_transportation') {
+                  if (form.expenses.any(
+                      (item) => item.price == null || item.price!.isEmpty)) {
+                    return;
+                  }
+                }
+              },
+              child: Text(isLastStep
+                  ? reportId == null
+                      ? Intl.message('common_post')
+                      : Intl.message('common_edit')
+                  : Intl.message('common_next')),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

@@ -25,7 +25,7 @@ part 'model/response.dart';
 part 'model/schedule.dart';
 part 'model/supplier.dart';
 part 'model/token.dart';
-part 'model/trip.dart';
+part 'model/report.dart';
 part 'model/user.dart';
 part 'model/widget.dart';
 
@@ -68,9 +68,9 @@ part 'repository/supplier_repository.dart';
 part 'service/supplier_service.dart';
 part 'source/supplier_source.dart';
 
-part 'repository/trip_repository.dart';
-part 'service/trip_service.dart';
-part 'source/trip_source.dart';
+part 'repository/report_repository.dart';
+part 'service/report_service.dart';
+part 'source/report_source.dart';
 
 part 'repository/user_repository.dart';
 part 'service/user_service.dart';

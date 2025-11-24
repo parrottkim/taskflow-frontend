@@ -84,6 +84,12 @@ class ErrorController extends _$ErrorController {
           switch (exception.response?.statusCode) {
             // bad request
             case 400:
+              toast.showToast(
+                child: Toast(
+                  type: ToastType.error,
+                  message: Intl.message('bad_request'),
+                ),
+              );
               state = ErrorBadRequest(message: message);
             // unauthorized
             case 401:
@@ -95,11 +101,6 @@ class ErrorController extends _$ErrorController {
                   ),
                 );
               }
-              // state = ErrorNotify(
-              //   code: exception.response?.statusCode,
-              //   message: Intl.message(message),
-              //   exception: exception,
-              // );
               state = ErrorUnauthorized(message: message);
             // forbidden
             case 403:
@@ -113,6 +114,7 @@ class ErrorController extends _$ErrorController {
                   message: Intl.message(message),
                 ),
               );
+              state = ErrorNotFound(message: message);
               break;
             // conflict
             case 409:
@@ -125,10 +127,22 @@ class ErrorController extends _$ErrorController {
               state = ErrorConflict(message: message);
               break;
             default:
+              toast.showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('error_unexpected'),
+                ),
+              );
               state = ErrorNotDefined(message: message);
               break;
           }
         default:
+          toast.showToast(
+            child: Toast(
+              type: ToastType.standard,
+              message: Intl.message('error_unexpected'),
+            ),
+          );
           state = ErrorNotDefined(message: message);
       }
     }

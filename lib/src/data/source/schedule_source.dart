@@ -15,7 +15,7 @@ class ScheduleDataSource implements ScheduleRepository {
 
   @override
   Future<Result<ScheduleGroup>> getSchedules({
-    required int projectId,
+    int? projectId,
     String? search,
     DateTime? start,
     DateTime? end,

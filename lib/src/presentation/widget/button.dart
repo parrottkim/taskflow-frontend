@@ -174,38 +174,42 @@ class CustomToggleButton extends HookWidget {
 
     return GestureDetector(
       onTap: handleToggle,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 20.0,
-            height: 20.0,
-            child: Checkbox(
-              tristate: tristate,
-              value:
-                  tristate ? selectedValue.value : selectedValue.value ?? false,
-              onChanged: (value) {
-                handleToggle();
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4.0),
+      child: Opacity(
+        opacity: onChanged != null ? 1.0 : 0.6,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 20.0,
+              height: 20.0,
+              child: Checkbox(
+                tristate: tristate,
+                value: tristate
+                    ? selectedValue.value
+                    : selectedValue.value ?? false,
+                onChanged: (value) {
+                  handleToggle();
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                side: BorderSide(
+                  color: colorScheme.outline.withValues(alpha: 0.6),
+                  width: 1,
+                ),
+                splashRadius: 0.0,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity:
+                    const VisualDensity(horizontal: -4.0, vertical: -4.0),
               ),
-              side: BorderSide(
-                color: colorScheme.outline.withValues(alpha: 0.6),
-                width: 1,
+            ),
+            if (child != null)
+              Padding(
+                padding: EdgeInsets.only(left: padding),
+                child: child!,
               ),
-              splashRadius: 0.0,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity:
-                  const VisualDensity(horizontal: -4.0, vertical: -4.0),
-            ),
-          ),
-          if (child != null)
-            Padding(
-              padding: EdgeInsets.only(left: padding),
-              child: child!,
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

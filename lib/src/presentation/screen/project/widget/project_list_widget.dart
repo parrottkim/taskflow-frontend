@@ -42,6 +42,7 @@ class ProjectListWidget extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ContainerWidget(
+        elevation: 0.0,
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
         child: switch (state) {
@@ -393,12 +394,14 @@ class _DesktopWidget extends HookConsumerWidget {
                                 Padding(
                                   padding: EdgeInsets.only(left: 4.0),
                                   child: ElevatedIconButton(
-                                    onTap: () => context.goNamed(
-                                        RouteNames.projectEdit,
-                                        pathParameters: {
-                                          'project_id':
-                                              items[index].id.toString()
-                                        }),
+                                    onTap: !items[index].isClosed
+                                        ? () => context.goNamed(
+                                                RouteNames.projectEdit,
+                                                pathParameters: {
+                                                  'project_id':
+                                                      items[index].id.toString()
+                                                })
+                                        : null,
                                     padding: EdgeInsets.all(4.0),
                                     borderRadius: BorderRadius.circular(4.0),
                                     icon: Symbols.edit_square_rounded,

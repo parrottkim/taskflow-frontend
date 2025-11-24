@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/calendar.dart';
@@ -18,7 +17,6 @@ class LoginForbiddenDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     return Dialog(
@@ -710,6 +708,124 @@ class DeleteDialog extends StatelessWidget {
                       ),
                       child: Text(
                         Intl.message('common_delete'),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SendEmailDialog extends ConsumerWidget {
+  final String title;
+  final Function()? onPressed;
+
+  const SendEmailDialog({
+    super.key,
+    required this.title,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Dialog(
+      child: ContainerWidget(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        constraints: const BoxConstraints(maxWidth: 430.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                title,
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Divider(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                Intl.message('project_mail_select_1'),
+              ),
+            ),
+            SizedBox(height: 16.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CustomToggleButton(
+                value: true,
+                child: Text(
+                  Intl.message('project_mail_select_2'),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Divider(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => context.pop(),
+                      child: Text(
+                        Intl.message('common_close'),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 4.0),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: onPressed != null
+                          ? () async {
+                              try {
+                                await onPressed!();
+                                ref.read(toastProvider).showToast(
+                                      child: Toast(
+                                        message:
+                                            Intl.message('project_mail_send'),
+                                      ),
+                                    );
+                                context.pop();
+                              } catch (e) {
+                                ref.read(toastProvider).showToast(
+                                      child: Toast(
+                                        type: ToastType.alert,
+                                        message: Intl.message(
+                                            'project_mail_send_fail'),
+                                      ),
+                                    );
+                              }
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: colorScheme.onPrimary,
+                        backgroundColor: colorScheme.primary,
+                      ),
+                      child: Text(
+                        Intl.message('common_ok'),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                         ),

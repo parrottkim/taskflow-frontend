@@ -22,7 +22,7 @@ final serviceUrlProvider = AutoDisposeProvider<String>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef ServiceUrlRef = AutoDisposeProviderRef<String>;
-String _$clientUrlHash() => r'1ea0dd925d37db7d9d2b0d58a3a9970c6d2b3d4c';
+String _$clientUrlHash() => r'46e2a4023f87e37ec7d80bf30d2203819fc4983e';
 
 /// See also [clientUrl].
 @ProviderFor(clientUrl)

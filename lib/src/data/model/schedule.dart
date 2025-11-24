@@ -17,6 +17,11 @@ sealed class ScheduleCategory with _$ScheduleCategory {
     required String name,
     required String color,
   }) = ScheduleCenter;
+  factory ScheduleCategory.remote({
+    required int id,
+    required String name,
+    required String color,
+  }) = ScheduleRemote;
 
   factory ScheduleCategory.dummy() =>
       ScheduleCategory.domestic(id: 1, name: '임시 이름', color: '0');

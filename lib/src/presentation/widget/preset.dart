@@ -183,20 +183,15 @@ class WidgetPreset {
 
   List<MenuOption> get quickMenu => [
         MenuOption(
-          icon: Symbols.beach_access_rounded,
-          label: Intl.message('dashboard_functions_1'),
-          onPressed: null,
-        ),
-        MenuOption(
           icon: Symbols.today_rounded,
-          label: Intl.message('dashboard_functions_2'),
+          label: Intl.message('dashboard_functions_1'),
           onPressed: () {
             context.goNamed(RouteNames.scheduleNewChoose);
           },
         ),
         MenuOption(
           icon: Symbols.description_rounded,
-          label: Intl.message('dashboard_functions_3'),
+          label: Intl.message('dashboard_functions_2'),
           onPressed: () {
             context.goNamed(RouteNames.projectNew);
           },
@@ -329,9 +324,8 @@ enum ProjectSort {
 
 enum ProjectDetailSegment {
   issue('project_detail_segment_1'),
-  trip('project_detail_segment_2');
-  // TODO: 구현 필요
-  // timeline('project_detail_segment_3');
+  report('project_detail_segment_2'),
+  timeline('project_detail_segment_3');
 
   final String labelKey;
 
@@ -343,5 +337,38 @@ enum ProjectDetailSegment {
       ProjectDetailSegment.values.firstWhere(
         (e) => e.name == key,
         orElse: () => ProjectDetailSegment.issue,
+      );
+}
+
+enum WorkSegment {
+  schedule('work_segment_1'),
+  weekly('work_segment_2');
+
+  final String labelKey;
+
+  const WorkSegment(this.labelKey);
+
+  String get label => Intl.message(labelKey);
+
+  factory WorkSegment.fromKey(String key) => WorkSegment.values.firstWhere(
+        (e) => e.name == key,
+        orElse: () => WorkSegment.schedule,
+      );
+}
+
+enum SettingSegment {
+  user('setting_segment_1'),
+  data('setting_segment_2');
+
+  final String labelKey;
+
+  const SettingSegment(this.labelKey);
+
+  String get label => Intl.message(labelKey);
+
+  factory SettingSegment.fromKey(String key) =>
+      SettingSegment.values.firstWhere(
+        (e) => e.name == key,
+        orElse: () => SettingSegment.user,
       );
 }

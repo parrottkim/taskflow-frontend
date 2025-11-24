@@ -10,11 +10,19 @@ class AuthDataSource implements AuthRepository {
       _service.login(login: login);
 
   @override
-  Future<User> register({required RegisterRequest register}) =>
-      _service.register(register: register);
+  Future<User> register({required RegisterRequest request}) =>
+      _service.register(request: request);
 
   @override
   Future<Token> refresh() => _service.refresh();
+
+  @override
+  Future<void> forgotPassword({required ForgotPasswordRequest request}) =>
+      _service.forgotPassword(request: request);
+
+  @override
+  Future<void> resetPassword({required ResetPasswordRequest request}) =>
+      _service.resetPassword(request: request);
 }
 
 @riverpod

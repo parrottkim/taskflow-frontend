@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:js_interop';
 import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
@@ -19,12 +19,10 @@ import 'package:taskflow/src/presentation/widget/preset.dart';
 import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/provider.dart';
-import 'package:taskflow/src/shared/tool/js_interop.dart';
 import 'package:taskflow/src/shared/tool/jwt_decoder.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
 import 'package:universal_html/html.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'controller.g.dart';
 part 'controller.freezed.dart';
@@ -87,23 +85,32 @@ part 'schedule/schedule_list_state.dart';
 part 'schedule/schedule_submit_controller.dart';
 part 'schedule/schedule_submit_state.dart';
 
+part 'setting/setting_filter_controller.dart';
+part 'setting/setting_filter_state.dart';
+
 part 'supplier/supplier_search_controller.dart';
 part 'supplier/supplier_search_state.dart';
 
+part 'report/report_form_controller.dart';
+part 'report/report_form_state.dart';
+part 'report/report_list_controller.dart';
+part 'report/report_list_state.dart';
+part 'report/report_submit_controller.dart';
+part 'report/report_submit_state.dart';
+part 'report/report_validation_controller.dart';
+part 'report/report_validation_state.dart';
+
 part 'trip/trip_filter_controller.dart';
 part 'trip/trip_filter_state.dart';
-part 'trip/trip_form_controller.dart';
-part 'trip/trip_form_state.dart';
-part 'trip/trip_list_controller.dart';
-part 'trip/trip_list_state.dart';
 part 'trip/trip_preview_controller.dart';
 part 'trip/trip_preview_state.dart';
 part 'trip/trip_step_controller.dart';
 part 'trip/trip_step_state.dart';
-part 'trip/trip_submit_controller.dart';
-part 'trip/trip_submit_state.dart';
 
 part 'user/user_filter_controller.dart';
 part 'user/user_filter_state.dart';
 part 'user/user_list_controller.dart';
 part 'user/user_list_state.dart';
+
+part 'work/work_filter_controller.dart';
+part 'work/work_filter_state.dart';
