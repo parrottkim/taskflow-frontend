@@ -212,33 +212,88 @@ class IssueListController extends _$IssueListController {
     final value = state.valueOrNull;
     if (value == null) return;
 
-    // state 업데이트
     state = AsyncValue.data(
       switch (issue.category) {
         IssueContract() => value.copyWith(
-            contract: issue as ContractIssue,
-            contractItems: issue.contractItems,
-            transactionItems: issue.transactionItems,
+            contract: ContractIssue(
+              id: issue.id,
+              category: issue.category,
+              user: issue.user,
+              content: issue.content,
+              attachments: [...issue.attachments],
+              currency: issue.currency!,
+              createdAt: issue.createdAt,
+              updatedAt: issue.updatedAt,
+            ),
+            contractItems: [...issue.contractItems],
+            transactionItems: [...issue.transactionItems],
           ),
         IssueTransaction() => value.copyWith(
-            transaction: issue as TransactionIssue,
-            contractItems: issue.contractItems,
-            transactionItems: issue.transactionItems,
+            transaction: TransactionIssue(
+              id: issue.id,
+              category: issue.category,
+              user: issue.user,
+              content: issue.content,
+              attachments: [...issue.attachments],
+              currency: issue.currency!,
+              createdAt: issue.createdAt,
+              updatedAt: issue.updatedAt,
+            ),
+            contractItems: [...issue.contractItems],
+            transactionItems: [...issue.transactionItems],
           ),
         IssueKickoff() => value.copyWith(
-            kickoff: issue as KickoffIssue,
+            kickoff: KickoffIssue(
+              id: issue.id,
+              category: issue.category,
+              user: issue.user,
+              content: issue.content,
+              kickoffDate: issue.kickoffDate!,
+              attachments: [...issue.attachments],
+              createdAt: issue.createdAt,
+              updatedAt: issue.updatedAt,
+            ),
           ),
         IssuePayment() => value.copyWith(
-            payment: issue as PaymentIssue,
+            payment: PaymentIssue(
+              id: issue.id,
+              category: issue.category,
+              user: issue.user,
+              content: issue.content,
+              attachments: [...issue.attachments],
+              createdAt: issue.createdAt,
+              updatedAt: issue.updatedAt,
+            ),
           ),
         IssueDeclaration() => value.copyWith(
             declarations: value.declarations
-                .map((e) => e.id == issue.id ? issue as DeclarationIssue : e)
+                .map((e) => e.id == issue.id
+                    ? DeclarationIssue(
+                        id: issue.id,
+                        category: issue.category,
+                        user: issue.user,
+                        content: issue.content,
+                        attachments: [...issue.attachments],
+                        createdAt: issue.createdAt,
+                        updatedAt: issue.updatedAt,
+                      )
+                    : e)
                 .toList(),
           ),
         IssueProcurement() => value.copyWith(
             procurements: value.procurements
-                .map((e) => e.id == issue.id ? issue as ProcurementIssue : e)
+                .map((e) => e.id == issue.id
+                    ? ProcurementIssue(
+                        id: issue.id,
+                        category: issue.category,
+                        user: issue.user,
+                        content: issue.content,
+                        procurementItems: [...issue.procurementItems],
+                        attachments: [...issue.attachments],
+                        createdAt: issue.createdAt,
+                        updatedAt: issue.updatedAt,
+                      )
+                    : e)
                 .toList(),
           ),
         _ => value,
