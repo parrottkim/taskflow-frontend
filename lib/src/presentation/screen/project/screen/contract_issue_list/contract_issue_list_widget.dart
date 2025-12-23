@@ -290,7 +290,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                     if (payment!.attachments.isNotEmpty)
                                       AttachmentListWidget<IssueAttachment>(
                                         attachments: payment!.attachments,
-                                        downloadType: 'issue',
                                       ),
                                   ],
                                 ),
@@ -398,7 +397,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                     if (transaction!.attachments.isNotEmpty)
                                       AttachmentListWidget<IssueAttachment>(
                                         attachments: transaction!.attachments,
-                                        downloadType: 'issue',
                                       ),
                                   ],
                                 ),
@@ -504,7 +502,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                     if (kickoff!.attachments.isNotEmpty)
                                       AttachmentListWidget<IssueAttachment>(
                                         attachments: kickoff!.attachments,
-                                        downloadType: 'issue',
                                       ),
                                   ],
                                 ),
@@ -609,7 +606,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                   if (contract!.attachments.isNotEmpty)
                                     AttachmentListWidget<IssueAttachment>(
                                       attachments: contract!.attachments,
-                                      downloadType: 'issue',
                                     ),
                                 ],
                               ),

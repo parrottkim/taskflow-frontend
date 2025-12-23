@@ -3372,12 +3372,9 @@ class _SftpService implements SftpService {
   }
 
   @override
-  Future<HttpResponse<List<int>>> downloadFile({
-    required String type,
-    required int id,
-  }) async {
+  Future<HttpResponse<List<int>>> downloadFile({required String path}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'type': type, r'id': id};
+    final queryParameters = <String, dynamic>{r'path': path};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<List<int>>>(
