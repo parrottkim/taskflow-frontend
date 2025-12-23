@@ -13,8 +13,8 @@ import 'package:super_clipboard/super_clipboard.dart';
 import 'package:super_editor/super_editor.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/attachment_widget.dart';
-import 'package:taskflow/src/presentation/widget/super_editor.dart';
+import 'package:taskflow/src/presentation/widget/attachment.dart';
+import 'package:taskflow/src/presentation/widget/super_editor_overlay.dart';
 import 'package:taskflow/src/presentation/widget/super_editor_view.dart';
 import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
@@ -309,11 +309,35 @@ class DescriptionWidget extends HookConsumerWidget {
                               text: Intl.message('report_form_invalid_5'),
                             ),
                             SizedBox(height: 24.0),
-                            AttachmentWidget(
-                              projectId: projectId,
-                              reportId: reportId,
-                              attachments: attachments,
-                              files: files,
+                            AttachmentUploadWidget<ReportAttachment>(
+                              title: Intl.message('report_form_attachment'),
+                              downloadType: 'report',
+                              attachments: attachments ?? [],
+                              files: files ?? [],
+                              onAddFile: (file) {
+                                ref
+                                    .read(reportFormControllerProvider(
+                                      projectId: projectId,
+                                      reportId: reportId,
+                                    ).notifier)
+                                    .addFile(file);
+                              },
+                              onRemoveFile: (index) {
+                                ref
+                                    .read(reportFormControllerProvider(
+                                      projectId: projectId,
+                                      reportId: reportId,
+                                    ).notifier)
+                                    .removeFile(index);
+                              },
+                              onRemoveAttachment: (attachmentId) {
+                                ref
+                                    .read(reportFormControllerProvider(
+                                      projectId: projectId,
+                                      reportId: reportId,
+                                    ).notifier)
+                                    .removeAttachment(attachmentId);
+                              },
                             ),
                           ],
                         ),

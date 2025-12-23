@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:flutter_svg/svg.dart';
@@ -106,7 +105,7 @@ class ScheduleListWidget extends HookConsumerWidget {
             ),
             const SizedBox(height: 8.0),
             Text(
-              Intl.message('report_from_schedule_empty'),
+              Intl.message('report_form_schedule_empty'),
             ),
           ],
         ),

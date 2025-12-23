@@ -32,9 +32,11 @@ class ProjectFilterController extends _$ProjectFilterController {
   }) async {
     final value = await future;
 
+    final isValid = ProjectSegment.values.map((e) => e.name).contains(view);
+
     state = AsyncData(
       value.copyWith(
-        view: view,
+        view: isValid ? view : null,
         sort: ProjectSort.values.firstWhereOrNull((e) => e.key == sort),
         order: Order.values.firstWhereOrNull((e) => e.key == order),
         search: search,

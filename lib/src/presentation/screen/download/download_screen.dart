@@ -6,14 +6,14 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class DownloadScreen extends ConsumerWidget {
-  final String? path;
-  final String? filename;
+  final String? type;
+  final int? id;
 
-  const DownloadScreen({super.key, this.path, this.filename});
+  const DownloadScreen({super.key, this.type, this.id});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(downloadControllerProvider(path: path, filename: filename));
+    ref.watch(downloadControllerProvider(type: type, id: id));
 
     return Scaffold(
       body: Center(
@@ -43,8 +43,7 @@ class DownloadScreen extends ConsumerWidget {
             SizedBox(height: 8.0),
             ElevatedButton.icon(
               onPressed: () {
-                ref.invalidate(
-                    downloadControllerProvider(path: path, filename: filename));
+                ref.invalidate(downloadControllerProvider(type: type, id: id));
               },
               icon: Icon(Symbols.save_rounded),
               label: Text(

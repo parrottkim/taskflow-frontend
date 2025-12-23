@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:super_editor/super_editor.dart';
 import 'package:super_editor_markdown/super_editor_markdown.dart';
@@ -10,10 +11,13 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/progress_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/report_item_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/report_form_section.dart';
+import 'package:taskflow/src/presentation/widget/dialog.dart';
 import 'package:taskflow/src/presentation/widget/overlay.dart';
+import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
+import 'package:taskflow/src/shared/provider.dart';
 
 class ReportFormScreen extends HookConsumerWidget {
   final int projectId;
@@ -44,14 +48,17 @@ class ReportFormScreen extends HookConsumerWidget {
       _ => Skeletonizer(
           child: _DesktopWidget(
             projectId: projectId,
-            value: ReportFormState(steps: [
-              'transportation',
-              'local_transportation',
-              'accommodation',
-              'daily_expense',
-              'other',
-              'content',
-            ], schedule: Schedule.dummy()),
+            value: ReportFormState(
+              steps: [
+                'transportation',
+                'local_transportation',
+                'accommodation',
+                'daily_expense',
+                'other',
+                'content',
+              ],
+              schedule: Schedule.dummy(),
+            ),
           ),
         ),
     };
@@ -73,6 +80,8 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     final currentStep = step ?? value.steps.first;
     final currentIndex = value.steps.indexOf(currentStep);
     final isLastStep = currentIndex == value.steps.length - 1;
@@ -97,6 +106,12 @@ class _DesktopWidget extends HookConsumerWidget {
         }
 
         if (state is ReportSubmitDeleted) {
+          ref.read(toastProvider).showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('report_form_delete'),
+                ),
+              );
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {
@@ -120,10 +135,13 @@ class _DesktopWidget extends HookConsumerWidget {
         .value;
 
     return BranchLayout(
-      title: Text(
-          Intl.message('report_form_title_${value.schedule!.category.id}')),
+      title: Text(Intl.message(value.schedule == null ||
+              value.schedule is! ScheduleDomestic ||
+              value.schedule is! ScheduleOverseas
+          ? 'report_form_title'
+          : 'report_form_title_${value.schedule!.category.id}')),
       onTap: () {
-        if (isLastStep) {
+        if (value.steps.length > 1 && isLastStep) {
           ref
               .read(reportFormControllerProvider(projectId: projectId).notifier)
               .serializeAndSetContent(document: document);
@@ -159,13 +177,15 @@ class _DesktopWidget extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (value.schedule!.category is! ScheduleRemote)
+                if (value.schedule != null &&
+                    (value.schedule!.category is ScheduleDomestic ||
+                        value.schedule!.category is ScheduleOverseas))
                   ProgressWidget(
                     currentIndex: currentIndex,
                     steps: value.steps,
                   ),
                 Expanded(
-                  child: ReportItemWidget(
+                  child: ReportFormSection(
                     step: currentStep,
                     projectId: projectId,
                     reportId: reportId,
@@ -176,94 +196,135 @@ class _DesktopWidget extends HookConsumerWidget {
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
+          Padding(
             padding: EdgeInsets.only(
                 left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
-            constraints: BoxConstraints(maxWidth: 430.0),
-            child: FilledButton(
-              onPressed: () async {
-                // Update validation status from current form data
-                ref
-                    .read(reportValidationControllerProvider.notifier)
-                    .updateAllValidationStatus(
-                        projectId: projectId, reportId: reportId);
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 400.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () async {
+                        // Update validation status from current form data
+                        ref
+                            .read(reportValidationControllerProvider.notifier)
+                            .updateAllValidationStatus(
+                                projectId: projectId, reportId: reportId);
 
-                // If validation fails, navigate to the first invalid step (if available)
-                final isAllValid = ref
-                    .read(reportValidationControllerProvider.notifier)
-                    .isValid();
+                        // If validation fails, navigate to the first invalid step (if available)
+                        final isAllValid = ref
+                            .read(reportValidationControllerProvider.notifier)
+                            .isValid();
 
-                if (!isAllValid) {
-                  return;
-                }
+                        if (!isAllValid) {
+                          return;
+                        }
 
-                // All valid — proceed to next step or submit
-                if (isLastStep) {
-                  ref
-                      .read(reportFormControllerProvider(projectId: projectId)
-                          .notifier)
-                      .serializeAndSetContent(document: document);
+                        // All valid — proceed to next step or submit
+                        if (isLastStep) {
+                          ref
+                              .read(reportFormControllerProvider(
+                                      projectId: projectId)
+                                  .notifier)
+                              .serializeAndSetContent(document: document);
 
-                  if (ref
-                      .watch(reportValidationControllerProvider)
-                      .contentInvalid) {
-                    return;
-                  }
+                          if (ref
+                              .watch(reportValidationControllerProvider)
+                              .contentInvalid) {
+                            return;
+                          }
 
-                  if (reportId == null) {
-                    ref
-                        .read(reportSubmitControllerProvider.notifier)
-                        .createReport(
-                            scheduleId: value.schedule!.id,
-                            projectId: projectId);
-                    return;
-                  } else {
-                    ref
-                        .read(reportSubmitControllerProvider.notifier)
-                        .updateReport(
-                            scheduleId: value.schedule!.id,
-                            projectId: projectId,
-                            reportId: reportId!);
-                    return;
-                  }
-                } else {
-                  // 다음 단계로 이동
-                  final nextStep = value.steps[currentIndex + 1];
+                          if (reportId == null) {
+                            ref
+                                .read(reportSubmitControllerProvider.notifier)
+                                .createReport(projectId: projectId);
+                            return;
+                          } else {
+                            ref
+                                .read(reportSubmitControllerProvider.notifier)
+                                .updateReport(
+                                    projectId: projectId, reportId: reportId!);
+                            return;
+                          }
+                        } else {
+                          // 다음 단계로 이동
+                          final nextStep = value.steps[currentIndex + 1];
 
-                  context.goNamed(
-                      reportId == null
-                          ? RouteNames.reportNew
-                          : RouteNames.reportEdit,
-                      pathParameters: GoRouter.of(context).state.pathParameters,
-                      queryParameters: {
-                        'step': nextStep,
-                      });
-                }
+                          context.goNamed(
+                              reportId == null
+                                  ? RouteNames.reportNew
+                                  : RouteNames.reportEdit,
+                              pathParameters:
+                                  GoRouter.of(context).state.pathParameters,
+                              queryParameters: {
+                                'step': nextStep,
+                              });
+                        }
 
-                // Additional per-step checks (legacy/extra guards)
-                final form = await ref.watch(reportFormControllerProvider(
-                        projectId: projectId, reportId: reportId)
-                    .future);
+                        // Additional per-step checks (legacy/extra guards)
+                        final form = await ref.watch(
+                            reportFormControllerProvider(
+                                    projectId: projectId, reportId: reportId)
+                                .future);
 
-                if (step == 'transportation') {
-                  if (form.expenses.any(
-                      (item) => item.price == null || item.price!.isEmpty)) {
-                    return;
-                  }
-                }
-                if (step == 'local_transportation') {
-                  if (form.expenses.any(
-                      (item) => item.price == null || item.price!.isEmpty)) {
-                    return;
-                  }
-                }
-              },
-              child: Text(isLastStep
-                  ? reportId == null
-                      ? Intl.message('common_post')
-                      : Intl.message('common_edit')
-                  : Intl.message('common_next')),
+                        if (step == 'transportation') {
+                          if (form.expenses.any((item) =>
+                              item.price == null || item.price!.isEmpty)) {
+                            return;
+                          }
+                        }
+                        if (step == 'local_transportation') {
+                          if (form.expenses.any((item) =>
+                              item.price == null || item.price!.isEmpty)) {
+                            return;
+                          }
+                        }
+                      },
+                      child: Text(isLastStep
+                          ? reportId == null
+                              ? Intl.message('common_post')
+                              : Intl.message('common_edit')
+                          : Intl.message('common_next')),
+                    ),
+                  ),
+                  if (reportId != null)
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: FilledButton(
+                        onPressed: () async {
+                          final result = await showDialog(
+                            context: context,
+                            builder: (_) => DeleteDialog(
+                              title:
+                                  Intl.message('report_form_delete_dialog_1'),
+                              content:
+                                  Intl.message('report_form_delete_dialog_2'),
+                            ),
+                          );
+
+                          if (result) {
+                            await ref
+                                .read(reportSubmitControllerProvider.notifier)
+                                .deleteReport(
+                                    projectId: projectId, reportId: reportId!);
+                          }
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: colorScheme.error,
+                          iconColor: colorScheme.onError,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Icon(
+                            Symbols.delete_rounded,
+                            size: 19.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           )
         ],

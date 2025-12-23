@@ -113,22 +113,26 @@ class _DesktopWidget extends ConsumerWidget {
           if (projectClientId == null)
             Text(Intl.message('schedule_form_project_search'))
           else
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: projectClientName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
+            Expanded(
+              child: Text.rich(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: projectClientName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  WidgetSpan(
-                    child: SizedBox(width: 4.0),
-                  ),
-                  TextSpan(
-                    text: projectName,
-                  ),
-                ],
+                    WidgetSpan(
+                      child: SizedBox(width: 4.0),
+                    ),
+                    TextSpan(
+                      text: projectName,
+                    ),
+                  ],
+                ),
               ),
             ),
           SizedBox(width: 8.0),

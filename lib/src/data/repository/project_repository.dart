@@ -1,21 +1,11 @@
 part of '../data.dart';
 
 abstract class ProjectRepository {
-  Future<Result<ProjectStats>> getProjectStats({
-    int page = 1,
-    int limit = 20,
-    required DateTime start,
-    required DateTime end,
-  });
-
-  Future<ProjectSummary> getProjectSummary({
-    required DateTime start,
-    required DateTime end,
-  });
-
-  Future<Project> getProject({required int id});
+  Future<ProjectItemCount> getProjectItemCount({required int id});
 
   Future<Project> getProjectForEdit({required int id});
+
+  Future<Project> getProject({required int id});
 
   Future<Result<Project>> getProjects({
     int page = 1,

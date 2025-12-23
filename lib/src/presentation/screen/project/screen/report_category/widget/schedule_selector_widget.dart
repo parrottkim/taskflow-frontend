@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_category/widget/schedule_selector_dialog.dart';
+import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ScheduleSelectorWidget extends HookConsumerWidget {
@@ -84,6 +87,17 @@ class ScheduleSelectorWidget extends HookConsumerWidget {
               ],
             ),
           ),
+        ),
+        SizedBox(height: 24.0),
+        CustomTextButton(
+          onPressed: () {
+            final path = GoRouter.of(context).location();
+
+            context.pushNamed(RouteNames.scheduleNewChoose, queryParameters: {
+              'redirect_to': path,
+            });
+          },
+          text: Intl.message('report_form_schedule_add'),
         ),
         if (schedule != null)
           Padding(

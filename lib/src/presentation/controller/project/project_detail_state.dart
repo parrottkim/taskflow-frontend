@@ -4,5 +4,9 @@ part of '../controller.dart';
 abstract class ProjectDetailState with _$ProjectDetailState {
   factory ProjectDetailState({
     required Project project,
+    @Default(0) contracts,
+    @Default(0) declarations,
+    @Default(0) procurements,
+    @Default(0) reports,
   }) = _ProjectDetailState;
 }

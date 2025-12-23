@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 import 'package:super_editor/super_editor.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/widget/super_editor.dart';
+import 'package:taskflow/src/presentation/widget/super_editor_overlay.dart';
 import 'package:taskflow/src/presentation/widget/super_editor_view.dart';
 import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';

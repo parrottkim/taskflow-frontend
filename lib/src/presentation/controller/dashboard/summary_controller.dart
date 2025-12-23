@@ -15,7 +15,7 @@ class SummaryController extends _$SummaryController {
     required DateTime end,
   }) async {
     final result = await ref
-        .read(projectRepositoryProvider)
+        .read(dashboardRepositoryProvider)
         .getProjectSummary(start: start, end: end);
 
     return SummaryState(summary: result);

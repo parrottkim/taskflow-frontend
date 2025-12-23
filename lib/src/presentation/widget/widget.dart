@@ -102,6 +102,21 @@ class ErrorContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
+    // build 메서드 내부에서 변수로 처리
+    final String errorMessage = switch (error) {
+      DioException e when e.type == DioExceptionType.connectionError =>
+        Intl.message('connection_error'),
+      DioException e when e.type == DioExceptionType.connectionTimeout =>
+        Intl.message('connection_timeout'),
+      DioException e when e.response?.data is Map => switch (
+            e.response?.data['message']) {
+          String msg => msg,
+          List msgList => msgList.join('\n'),
+          _ => Intl.message('error_unexpected'),
+        },
+      _ => Intl.message('error_unexpected'),
+    };
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -118,44 +133,19 @@ class ErrorContainerWidget extends StatelessWidget {
           const SizedBox(height: 8.0),
           Text(
             Intl.message('error_title'),
-            style: TextStyle(fontWeight: FontWeight.w600),
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
-          if (error is DioException &&
-              (error as DioException).type == DioExceptionType.connectionError)
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Text(Intl.message('connection_error')),
-            )
-          else if (error is DioException &&
-              (error as DioException).type ==
-                  DioExceptionType.connectionTimeout)
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Text(Intl.message('connection_timeout')),
-            )
-          else if (error is DioException &&
-              (error as DioException).response?.data is Map)
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Text(Intl.message(
-                  (error as DioException).response?.data['message'])),
-            )
-          else
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Text(
-                Intl.message('error_unexpected'),
-              ),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(errorMessage), // 변환된 메시지 사용
+          ),
           const SizedBox(height: 16.0),
           ElevatedButton(
             onPressed: () => showDialog(
               context: context,
               builder: (_) => ErrorDialog(error: error, stackTrace: stackTrace),
             ),
-            child: Text(
-              Intl.message('error_detail'),
-            ),
+            child: Text(Intl.message('error_detail')),
           ),
         ],
       ),

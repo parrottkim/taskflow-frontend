@@ -24,9 +24,6 @@ class ScheduleDataSource implements ScheduleRepository {
           projectId: projectId, search: search, start: start, end: end);
 
   @override
-  Future<List<Schedule>> getTodaysSchedule() => _service.getTodaysSchedule();
-
-  @override
   Future<Schedule> createSchedule({required ScheduleRequest request}) =>
       _service.createSchedule(request: request);
 

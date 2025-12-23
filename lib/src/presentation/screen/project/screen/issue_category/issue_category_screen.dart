@@ -7,42 +7,41 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_category/widget/category_list_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/widget/closure_dialog.dart';
 import 'package:taskflow/src/presentation/widget/overlay.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class IssueCategoryScreen extends ConsumerWidget {
-  final int? projectId;
+  final int projectId;
 
   const IssueCategoryScreen({
     super.key,
-    this.projectId,
+    required this.projectId,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final detail =
-        ref.watch(projectDetailControllerProvider(projectId: projectId!));
-    final filter = ref.watch(projectFilterControllerProvider);
-    final dummy = List.filled(7, IssueCategory.dummy());
+    final form = ref.watch(
+        issueFormControllerProvider(projectId: projectId, issueId: null));
 
     return BranchLayout(
       child: Container(
         padding: EdgeInsets.all(24.0),
         constraints: BoxConstraints(maxWidth: 430.0),
-        child: switch ((detail, filter)) {
-          (AsyncData(value: final detail), AsyncData(value: final filter)) =>
-            _DesktopWidget(
-                projectId: projectId,
-                project: detail.project,
-                items: filter.categoryItems),
-          ((AsyncError(:final error, :final stackTrace), _) ||
-                (_, AsyncError(:final error, :final stackTrace))) =>
+        child: switch (form) {
+          AsyncData() => _DesktopWidget(
+              projectId: projectId,
+              project: Project.dummy(),
+            ),
+          AsyncError(:final error, :final stackTrace) =>
             ErrorContainerWidget(error: error, stackTrace: stackTrace),
           _ => Skeletonizer(
               child: _DesktopWidget(
-                  projectId: projectId, project: Project.dummy(), items: dummy),
+                projectId: projectId,
+                project: Project.dummy(),
+              ),
             ),
         },
       ),
@@ -51,14 +50,12 @@ class IssueCategoryScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends ConsumerWidget {
-  final int? projectId;
+  final int projectId;
   final Project project;
-  final List<IssueCategory> items;
 
   const _DesktopWidget({
     required this.projectId,
     required this.project,
-    required this.items,
   });
 
   @override
@@ -87,93 +84,58 @@ class _DesktopWidget extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ContainerWidget(
-          padding: EdgeInsets.zero,
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemCount: items.length,
-            itemBuilder: (context, index) => InkWell(
-              onTap: () {
-                context.goNamed(
-                  RouteNames.issueNew,
-                  pathParameters: {
-                    'category_id': items[index].id.toString(),
-                    'project_id': projectId.toString(),
-                  },
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text.rich(
-                          style: textTheme.titleMedium,
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: Intl.message(
-                                    'issue_new_choose_${index + 1}'),
-                              ),
-                              TextSpan(
-                                text: Intl.message(
-                                    'issue_new_choose_${index + 1}_1'),
-                                style: TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Symbols.arrow_right_alt_rounded,
-                          size: 20.0,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      Intl.message('issue_new_choose_${index + 1}_2'),
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            separatorBuilder: (_, __) => Divider(),
-          ),
+        CategoryListWidget(
+          projectId: projectId,
         ),
         SizedBox(height: 16.0),
-        Skeleton.unite(
-          child: ElevatedButton.icon(
-            onPressed: () => showDialog(
+        ContainerWidget(
+          padding: EdgeInsets.zero,
+          color: colorScheme.errorContainer,
+          child: InkWell(
+            onTap: () => showDialog(
               context: context,
               builder: (_) => ClosureDialog(
                 project: project,
               ),
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.errorContainer,
-              foregroundColor: colorScheme.error,
-              iconColor: colorScheme.error,
-            ),
-            icon: Icon(
-              Symbols.mountain_flag_rounded,
-            ),
-            label: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(Intl.message('issue_new_choose_8')),
-                SizedBox(width: 8.0),
-                Icon(
-                  Symbols.chevron_right_rounded,
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Symbols.mountain_flag_rounded,
+                        size: 20.0,
+                        color: colorScheme.error,
+                      ),
+                      SizedBox(width: 4.0),
+                      Text(
+                        Intl.message('issue_new_choose_7'),
+                        style: textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: colorScheme.error,
+                        ),
+                      ),
+                      Spacer(),
+                      Icon(
+                        Symbols.arrow_right_alt_rounded,
+                        size: 20.0,
+                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 4.0),
+                  Text(
+                    Intl.message('issue_new_choose_7_1'),
+                    style: textTheme.bodySmall?.copyWith(
+                      color: colorScheme.error.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

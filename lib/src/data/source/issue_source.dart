@@ -20,12 +20,36 @@ class IssueDataSource implements IssueRepository {
       _service.getLatestIssues(page: page, limit: limit);
 
   @override
-  Future<Issue> getIssue({required int id}) => _service.getIssue(id: id);
+  Future<HttpResponse<ContractIssue?>> getContractIssue({required int id}) =>
+      _service.getContractIssue(id: id);
 
   @override
-  Future<Result<Issue>> getIssues(
+  Future<HttpResponse<KickoffIssue?>> getKickoffIssue({required int id}) =>
+      _service.getKickoffIssue(id: id);
+
+  @override
+  Future<HttpResponse<TransactionIssue?>> getTransactionIssue(
+          {required int id}) =>
+      _service.getTransactionIssue(id: id);
+
+  @override
+  Future<HttpResponse<PaymentIssue?>> getPaymentIssue({required int id}) =>
+      _service.getPaymentIssue(id: id);
+
+  @override
+  Future<Result<DeclarationIssue>> getDeclarationIssues(
           {int page = 1, int limit = 10, required int projectId}) =>
-      _service.getIssues(page: page, limit: limit, projectId: projectId);
+      _service.getDeclarationIssues(
+          page: page, limit: limit, projectId: projectId);
+
+  @override
+  Future<Result<ProcurementIssue>> getProcurementIssues(
+          {int page = 1, int limit = 10, required int projectId}) =>
+      _service.getProcurementIssues(
+          page: page, limit: limit, projectId: projectId);
+
+  @override
+  Future<Issue> getIssue({required int id}) => _service.getIssue(id: id);
 
   @override
   Future<void> sendMail({required int id}) => _service.sendMail(id: id);
@@ -47,7 +71,7 @@ class IssueDataSource implements IssueRepository {
       );
 
   @override
-  Future<void> deleteIssue({required int id}) => _service.deleteIssue(id: id);
+  Future<Issue> deleteIssue({required int id}) => _service.deleteIssue(id: id);
 
   @override
   Future<Issue> restoreIssue({required int id}) =>

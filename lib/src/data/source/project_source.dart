@@ -6,28 +6,14 @@ class ProjectDataSource implements ProjectRepository {
   ProjectDataSource({required ProjectService service}) : _service = service;
 
   @override
-  Future<Result<ProjectStats>> getProjectStats({
-    int page = 1,
-    int limit = 20,
-    required DateTime start,
-    required DateTime end,
-  }) =>
-      _service.getProjectStats(
-          page: page, limit: limit, start: start, end: end);
-
-  @override
-  Future<ProjectSummary> getProjectSummary({
-    required DateTime start,
-    required DateTime end,
-  }) =>
-      _service.getProjectSummary(start: start, end: end);
-
-  @override
-  Future<Project> getProject({required int id}) => _service.getProject(id: id);
+  Future<ProjectItemCount> getProjectItemCount({required int id}) =>
+      _service.getProjectItemCount(id: id);
 
   @override
   Future<Project> getProjectForEdit({required int id}) =>
       _service.getProjectForEdit(id: id);
+  @override
+  Future<Project> getProject({required int id}) => _service.getProject(id: id);
 
   @override
   Future<Result<Project>> getProjects({

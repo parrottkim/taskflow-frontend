@@ -14,4 +14,5 @@ sealed class AuthState with _$AuthState {
   const factory AuthState.forbidden() = AuthForbidden; // 로그인 관리자 미인증
   const factory AuthState.conflict() = AuthConflict; // 회원가입 이메일 중복
   const factory AuthState.failed() = AuthFailed; // 로그인 실패
+  const factory AuthState.networkError() = AuthNetworkError;
 }

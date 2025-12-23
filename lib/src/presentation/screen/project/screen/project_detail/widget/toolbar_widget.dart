@@ -61,7 +61,7 @@ class ToolbarWidget extends ConsumerWidget {
                 ref.read(toastProvider).showToast(
                       child: Toast(
                         type: ToastType.standard,
-                        message: Intl.message('common_copied'),
+                        message: Intl.message('common_link_copied'),
                       ),
                     );
               } else {

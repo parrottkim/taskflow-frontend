@@ -4,9 +4,8 @@ part of '../controller.dart';
 class ReportFormController extends _$ReportFormController {
   @override
   FutureOr<ReportFormState> build(
-      {required int projectId, int? reportId}) async {
-    return await _init();
-  }
+          {required int projectId, int? reportId}) async =>
+      await _init();
 
   Future<ReportFormState> _init() async {
     if (reportId == null) {
@@ -16,16 +15,7 @@ class ReportFormController extends _$ReportFormController {
     final result =
         await ref.read(reportRepositoryProvider).getReport(id: reportId!);
 
-    final steps = (result.schedule.category is ScheduleRemote)
-        ? ['description']
-        : [
-            'transportation',
-            'local_transportation',
-            'accommodation',
-            'daily_expense',
-            'other',
-            'description',
-          ];
+    final steps = getSteps(category: result.schedule?.category);
 
     return ReportFormState(
       expenses: result.trip?.expenses ?? [],
@@ -39,26 +29,26 @@ class ReportFormController extends _$ReportFormController {
     );
   }
 
-  void setSchedule({Schedule? schedule}) {
-    final value = state.valueOrNull;
-
-    if (value == null) return;
-
-    if (schedule == null) {
-      state = AsyncData(value.copyWith(schedule: null));
-      return;
-    }
-
-    final steps = (schedule.category is ScheduleRemote)
-        ? ['description']
-        : [
+  List<String> getSteps({ScheduleCategory? category}) {
+    return category != null &&
+            (category is ScheduleDomestic || category is ScheduleOverseas)
+        ? [
             'transportation',
             'local_transportation',
             'accommodation',
             'daily_expense',
             'other',
             'description',
-          ];
+          ]
+        : ['description'];
+  }
+
+  void setSchedule({Schedule? schedule}) {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
+    final steps = getSteps(category: schedule?.category);
 
     state = AsyncData(ReportFormState(
       schedule: schedule,

@@ -52,7 +52,16 @@ class AuthenticationInterceptor extends Interceptor {
 
     // responseData가 Map<String, dynamic> 형태라면 message를 가져옵니다.
     if (responseData is Map<String, dynamic>) {
-      message = responseData['message'] as String?;
+      final rawMessage = responseData['message'];
+
+      if (rawMessage is String) {
+        message = rawMessage;
+      } else if (rawMessage is List) {
+        // NestJS validation error 대응
+        message = rawMessage.join('\n');
+      } else {
+        message = null;
+      }
     }
 
     // statusCode가 null이면 다른 오류 처리 (예: DioExceptionType.connectionTimeout 등)로 흐르게 합니다.

@@ -8,14 +8,14 @@ import 'package:taskflow/src/presentation/screen/project/screen/report_form/widg
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/other_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/transportation_widget.dart';
 
-class ReportItemWidget extends StatelessWidget {
+class ReportFormSection extends StatelessWidget {
   final int projectId;
   final int? reportId;
   final String? step;
   final ReportFormState value;
   final MutableDocument document;
 
-  const ReportItemWidget({
+  const ReportFormSection({
     super.key,
     required this.projectId,
     this.reportId,
