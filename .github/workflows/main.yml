@@ -82,7 +82,7 @@ jobs:
           SENTRY_RELEASE: ${{ github.sha }}
         run: |
           sentry-cli releases new $SENTRY_RELEASE
-          sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps build/web --url-prefix '~/'
+          sentry-cli sourcemaps upload --release=$SENTRY_RELEASE build/web --url-prefix '~/'
           sentry-cli releases finalize $SENTRY_RELEASE
 
       - name: Build and push Docker image
