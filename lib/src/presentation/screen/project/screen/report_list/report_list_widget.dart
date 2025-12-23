@@ -6,13 +6,16 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/attachment_widget.dart';
+
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/schedule_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/toolbar_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/report_item_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/report_display_item.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/user_information_widget.dart';
+import 'package:taskflow/src/presentation/widget/attachment.dart';
 import 'package:taskflow/src/presentation/widget/overlay.dart';
+import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/shared/provider.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
@@ -113,6 +116,15 @@ class _DesktopWidget extends HookConsumerWidget {
         LoadingOverlay.show(context);
       } else {
         LoadingOverlay.hide();
+
+        if (state is ReportSubmitDeleted) {
+          ref.read(toastProvider).showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('report_form_delete'),
+                ),
+              );
+        }
       }
     });
 
@@ -235,24 +247,29 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              SizedBox(height: 16.0),
-                              ScheduleWidget(schedule: items[index].schedule),
-                              SizedBox(height: 16.0),
-                              ReportItemWidget(
-                                item: items[index],
-                              ),
+                              if (items[index].schedule != null)
+                                ScheduleWidget(
+                                    schedule: items[index].schedule!),
+                              if (items[index].schedule != null)
+                                ReportDisplayItem(
+                                  item: items[index],
+                                ),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 16.0, right: 16.0, bottom: 16.0),
+                                padding: const EdgeInsets.all(16.0),
                                 child:
                                     MarkdownWidget(item: items[index].content),
                               ),
                               if (items[index].attachments.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 16.0, right: 16.0, bottom: 16.0),
-                                  child: AttachmentWidget(
-                                      attachments: items[index].attachments),
+                                      left: 16.0,
+                                      right: 16.0,
+                                      top: 8.0,
+                                      bottom: 16.0),
+                                  child: AttachmentListWidget<ReportAttachment>(
+                                    attachments: items[index].attachments,
+                                    downloadType: 'report',
+                                  ),
                                 ),
                             ],
                           ),

@@ -79,11 +79,12 @@ abstract class CreateIssueRequest with _$CreateIssueRequest {
   factory CreateIssueRequest({
     required int projectId,
     required int categoryId,
-    required String content,
-    CreateContractDetailsRequest? contract,
-    CreateKickoffDetailsRequest? kickoff,
-    CreateProcurementDetailsRequest? procurement,
-    CreateTransactionDetailsRequest? transaction,
+    String? content,
+    int? currencyId,
+    DateTime? kickoffDate,
+    List<CreateContractItemRequest>? contractItems,
+    List<CreateProcurementItemRequest>? procurementItems,
+    List<CreateTransactionItemRequest>? transactionItems,
   }) = _CreateIssueRequest;
 
   factory CreateIssueRequest.fromJson(Map<String, dynamic> json) =>
@@ -91,53 +92,26 @@ abstract class CreateIssueRequest with _$CreateIssueRequest {
 }
 
 @freezed
-abstract class CreateContractDetailsRequest
-    with _$CreateContractDetailsRequest {
-  factory CreateContractDetailsRequest({
-    required List<CreateContractItemRequest> items,
-  }) = _CreateContractDetailsRequest;
+abstract class UpdateIssueRequest with _$UpdateIssueRequest {
+  factory UpdateIssueRequest({
+    int? projectId,
+    int? categoryId,
+    String? content,
+    int? currencyId,
+    DateTime? kickoffDate,
+    List<UpdateContractItemRequest>? contractItems,
+    List<UpdateProcurementItemRequest>? procurementItems,
+    List<UpdateTransactionItemRequest>? transactionItems,
+  }) = _UpdateIssueRequest;
 
-  factory CreateContractDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateContractDetailsRequestFromJson(json);
-}
-
-@freezed
-abstract class CreateKickoffDetailsRequest with _$CreateKickoffDetailsRequest {
-  factory CreateKickoffDetailsRequest({
-    required DateTime kickoffDate,
-  }) = _CreateKickoffDetailsRequest;
-
-  factory CreateKickoffDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateKickoffDetailsRequestFromJson(json);
-}
-
-@freezed
-abstract class CreateProcurementDetailsRequest
-    with _$CreateProcurementDetailsRequest {
-  factory CreateProcurementDetailsRequest({
-    required List<CreateProcurementItemRequest> items,
-  }) = _CreateProcurementDetailsRequest;
-
-  factory CreateProcurementDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateProcurementDetailsRequestFromJson(json);
-}
-
-@freezed
-abstract class CreateTransactionDetailsRequest
-    with _$CreateTransactionDetailsRequest {
-  factory CreateTransactionDetailsRequest({
-    required List<CreateTransactionItemRequest> items,
-  }) = _CreateTransactionDetailsRequest;
-
-  factory CreateTransactionDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateTransactionDetailsRequestFromJson(json);
+  factory UpdateIssueRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateIssueRequestFromJson(json);
 }
 
 @freezed
 abstract class CreateContractItemRequest with _$CreateContractItemRequest {
   factory CreateContractItemRequest({
     required String item,
-    required int currencyId,
     required String price,
   }) = _CreateContractItemRequest;
 
@@ -168,9 +142,11 @@ abstract class CreateTransactionItemRequest
     with _$CreateTransactionItemRequest {
   factory CreateTransactionItemRequest({
     required int categoryId,
-    required int currencyId,
     required String price,
-    required String note,
+    required String ratio,
+    bool? isPaid,
+    DateTime? paidAt,
+    String? note,
   }) = _CreateTransactionItemRequest;
 
   factory CreateTransactionItemRequest.fromJson(Map<String, dynamic> json) =>
@@ -178,72 +154,10 @@ abstract class CreateTransactionItemRequest
 }
 
 @freezed
-abstract class UpdateIssueRequest with _$UpdateIssueRequest {
-  factory UpdateIssueRequest({
-    required int projectId,
-    required int categoryId,
-    required String content,
-    required List<IssueAttachment> attachments,
-    UpdateContractDetailsRequest? contract,
-    UpdateKickoffDetailsRequest? kickoff,
-    UpdateProcurementDetailsRequest? procurement,
-    UpdateTransactionDetailsRequest? transaction,
-  }) = _UpdateIssueRequest;
-
-  factory UpdateIssueRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateIssueRequestFromJson(json);
-}
-
-@freezed
-abstract class UpdateContractDetailsRequest
-    with _$UpdateContractDetailsRequest {
-  factory UpdateContractDetailsRequest({
-    required List<UpdateContractItemRequest> items,
-  }) = _UpdateContractDetailsRequest;
-
-  factory UpdateContractDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateContractDetailsRequestFromJson(json);
-}
-
-@freezed
-abstract class UpdateKickoffDetailsRequest with _$UpdateKickoffDetailsRequest {
-  factory UpdateKickoffDetailsRequest({
-    required int id,
-    required DateTime kickoffDate,
-  }) = _UpdateKickoffDetailsRequest;
-
-  factory UpdateKickoffDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateKickoffDetailsRequestFromJson(json);
-}
-
-@freezed
-abstract class UpdateProcurementDetailsRequest
-    with _$UpdateProcurementDetailsRequest {
-  factory UpdateProcurementDetailsRequest({
-    required List<UpdateProcurementItemRequest> items,
-  }) = _UpdateProcurementDetailsRequest;
-
-  factory UpdateProcurementDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProcurementDetailsRequestFromJson(json);
-}
-
-@freezed
-abstract class UpdateTransactionDetailsRequest
-    with _$UpdateTransactionDetailsRequest {
-  factory UpdateTransactionDetailsRequest({
-    required List<UpdateTransactionItemRequest> items,
-  }) = _UpdateTransactionDetailsRequest;
-
-  factory UpdateTransactionDetailsRequest.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTransactionDetailsRequestFromJson(json);
-}
-
-@freezed
 abstract class UpdateContractItemRequest with _$UpdateContractItemRequest {
   factory UpdateContractItemRequest({
     int? id,
     required String item,
-    required int currencyId,
     required String price,
   }) = _UpdateContractItemRequest;
 
@@ -276,9 +190,11 @@ abstract class UpdateTransactionItemRequest
   factory UpdateTransactionItemRequest({
     int? id,
     required int categoryId,
-    required int currencyId,
     required String price,
-    required String note,
+    required String ratio,
+    bool? isPaid,
+    DateTime? paidAt,
+    String? note,
   }) = _UpdateTransactionItemRequest;
 
   factory UpdateTransactionItemRequest.fromJson(Map<String, dynamic> json) =>
@@ -319,7 +235,8 @@ abstract class ScheduleRequest with _$ScheduleRequest {
 @freezed
 abstract class CreateReportRequest with _$CreateReportRequest {
   factory CreateReportRequest({
-    required int scheduleId,
+    int? scheduleId,
+    required int projectId,
     required String content,
     required List<ReportAttachment> attachments,
     CreateTripReportRequest? trip, // ⭐️ 선택적 Trip 상세 정보
@@ -382,7 +299,6 @@ abstract class CreateRegulationRateRequest with _$CreateRegulationRateRequest {
 @freezed
 abstract class UpdateReportRequest with _$UpdateReportRequest {
   factory UpdateReportRequest({
-    required int scheduleId, // 보통 업데이트 시에도 필요
     String? content,
     List<ReportAttachment>? attachments,
     UpdateTripReportRequest? trip, // ⭐️ 선택적 Trip 상세 정보

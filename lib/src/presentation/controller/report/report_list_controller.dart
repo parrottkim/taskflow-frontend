@@ -46,7 +46,12 @@ class ReportListController extends _$ReportListController {
     if (value == null) return;
 
     final updatedReports = [item, ...value.items];
+
     state = AsyncValue.data(value.copyWith(items: updatedReports));
+
+    ref
+        .read(projectDetailControllerProvider(projectId: projectId).notifier)
+        .increaseReportsCount();
   }
 
   Future<void> updateListItem(Report updatedItem) async {
@@ -68,5 +73,9 @@ class ReportListController extends _$ReportListController {
         value.items.where((project) => project.id != id).toList();
 
     state = AsyncValue.data(value.copyWith(items: updatedReports));
+
+    ref
+        .read(projectDetailControllerProvider(projectId: projectId).notifier)
+        .decreaseReportsCount();
   }
 }

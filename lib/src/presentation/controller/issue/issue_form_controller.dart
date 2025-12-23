@@ -4,76 +4,38 @@ part of '../controller.dart';
 class IssueFormController extends _$IssueFormController {
   @override
   FutureOr<IssueFormState> build(
-          {required int categoryId,
-          required int projectId,
-          int? issueId}) async =>
+          {required int projectId, int? issueId}) async =>
       await _init();
 
   Future<IssueFormState> _init() async {
     if (issueId == null) {
-      if (categoryId == 1) {
-        return IssueFormState.contract();
-      } else if (categoryId == 2) {
-        return IssueFormState.kickoff();
-      } else if (categoryId == 3) {
-        return IssueFormState.approval();
-      } else if (categoryId == 4) {
-        return IssueFormState.procurement();
-      } else if (categoryId == 5) {
-        return IssueFormState.transaction();
-      } else if (categoryId == 6) {
-        return IssueFormState.declaration();
-      } else if (categoryId == 7) {
-        return IssueFormState.payment();
-      }
+      final categories =
+          await ref.read(issueRepositoryProvider).getAllCategories();
+
+      return IssueFormState(categories: categories);
     }
 
     final result =
         await ref.read(issueRepositoryProvider).getIssue(id: issueId!);
 
-    if (result.category.id == 1) {
-      return IssueFormState.contract(
-        content: result.content,
-        items: (result.details as IssueContractDetails).items,
-        attachments: result.attachments,
-      );
-    } else if (result.category.id == 2) {
-      return IssueFormState.kickoff(
-        content: result.content,
-        kickoffId: (result.details as IssueKickoffDetails).id,
-        kickoffDate: (result.details as IssueKickoffDetails).kickoffDate,
-        attachments: result.attachments,
-      );
-    } else if (result.category.id == 3) {
-      return IssueFormState.approval(
-        content: result.content,
-        attachments: result.attachments,
-      );
-    } else if (result.category.id == 4) {
-      return IssueFormState.procurement(
-        content: result.content,
-        items: (result.details as IssueProcurementDetails).items,
-        attachments: result.attachments,
-      );
-    } else if (result.category.id == 5) {
-      return IssueFormState.transaction(
-        content: result.content,
-        items: (result.details as IssueTransactionDetails).items,
-        attachments: result.attachments,
-      );
-    } else if (result.category.id == 6) {
-      return IssueFormState.declaration(
-        content: result.content,
-        attachments: result.attachments,
-      );
-    } else if (result.category.id == 7) {
-      return IssueFormState.payment(
-        content: result.content,
-        attachments: result.attachments,
-      );
-    }
+    return IssueFormState(
+      category: result.category,
+      content: result.content,
+      attachments: result.attachments,
+      currency: result.currency,
+      kickoffDate: result.kickoffDate,
+      contractItems: result.contractItems,
+      transactionItems: result.transactionItems,
+      procurementItems: result.procurementItems,
+    );
+  }
 
-    return IssueFormState();
+  void setCategory({required IssueCategory category}) {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
+    state = AsyncData(value.copyWith(category: category));
   }
 
   Future<void> serializeAndSetContent(
@@ -144,34 +106,56 @@ class IssueFormController extends _$IssueFormController {
     if (value == null) return;
   }
 
+  void setContractCurrency({required Currency currency}) {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
+    state = AsyncData(value.copyWith(currency: currency));
+  }
+
   void addContractItem({ContractItem? item}) {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormContract) return;
 
-    state = AsyncData(
-        value.copyWith(items: [...?value.items, item ?? ContractItem.empty()]));
+    state = AsyncData(value.copyWith(
+        contractItems: [...value.contractItems, item ?? ContractItem.empty()]));
   }
 
-  void updateContractItem(
-      {required int index, String? item, Currency? currency, String? price}) {
+  void updateContractItem({required int index, String? item, String? price}) {
     final value = state.valueOrNull;
-
     if (value == null) return;
-    if (value is! IssueFormContract) return;
 
-    final newItems = [...?value.items];
+    final newItems = [...value.contractItems];
 
     // 인덱스가 유효한지 확인
     if (index >= 0 && index < newItems.length) {
       final oldItem = newItems[index];
       newItems[index] = oldItem.copyWith(
         item: item ?? oldItem.item,
-        currency: currency ?? oldItem.currency,
         price: price ?? oldItem.price,
       );
-      state = AsyncData(value.copyWith(items: newItems));
+
+      // total 재계산
+      final total = newItems.fold<double>(0.0, (sum, item) {
+        return sum + (double.tryParse(item.price.replaceAll(',', '')) ?? 0.0);
+      });
+
+      // transactionItems 가격 업데이트
+      final updatedTransactions = value.transactionItems.map((t) {
+        final ratio = double.tryParse(t.ratio.replaceAll(',', '')) ?? 0.0;
+        final calculatedPrice =
+            NumberFormat('#,###.##').format(total * (ratio / 100));
+        return t.copyWith(price: calculatedPrice);
+      }).toList();
+
+      state = AsyncData(
+        value.copyWith(
+          contractItems: newItems,
+          transactionItems: updatedTransactions,
+        ),
+      );
     }
   }
 
@@ -179,9 +163,8 @@ class IssueFormController extends _$IssueFormController {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormContract) return;
 
-    final newItems = [...?value.items];
+    final newItems = [...value.contractItems];
 
     // 2. 인덱스가 유효한지 확인하고, 유효하다면 항목을 제거합니다.
     if (index >= 0 && index < newItems.length) {
@@ -192,23 +175,21 @@ class IssueFormController extends _$IssueFormController {
     }
 
     // 3. 제거된 항목이 포함되지 않은 새 리스트로 상태를 업데이트합니다.
-    state = AsyncData(value.copyWith(items: newItems));
+    state = AsyncData(value.copyWith(contractItems: newItems));
   }
 
   void removeAllContractItem() {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormContract) return;
 
-    state = AsyncData(value.copyWith(items: null));
+    state = AsyncData(value.copyWith(contractItems: []));
   }
 
   void setKickoffDate({required DateTime date}) {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormKickoff) return;
 
     state = AsyncData(value.copyWith(kickoffDate: date));
   }
@@ -217,10 +198,11 @@ class IssueFormController extends _$IssueFormController {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormProcurement) return;
 
-    state = AsyncData(value
-        .copyWith(items: [...?value.items, item ?? ProcurementItem.empty()]));
+    state = AsyncData(value.copyWith(procurementItems: [
+      ...value.procurementItems,
+      item ?? ProcurementItem.empty()
+    ]));
   }
 
   void updateProcurementItem({
@@ -237,9 +219,8 @@ class IssueFormController extends _$IssueFormController {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormProcurement) return;
 
-    final newItems = [...?value.items];
+    final newItems = [...value.procurementItems];
 
     // 인덱스가 유효한지 확인
     if (index >= 0 && index < newItems.length) {
@@ -279,7 +260,7 @@ class IssueFormController extends _$IssueFormController {
         purchaseUrl: finalPurchaseUrl,
         supplier: finalSupplier,
       );
-      state = AsyncData(value.copyWith(items: newItems));
+      state = AsyncData(value.copyWith(procurementItems: newItems));
     }
   }
 
@@ -287,9 +268,8 @@ class IssueFormController extends _$IssueFormController {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormProcurement) return;
 
-    final newItems = [...?value.items];
+    final newItems = [...value.procurementItems];
 
     // 2. 인덱스가 유효한지 확인하고, 유효하다면 항목을 제거합니다.
     if (index >= 0 && index < newItems.length) {
@@ -300,61 +280,79 @@ class IssueFormController extends _$IssueFormController {
     }
 
     // 3. 제거된 항목이 포함되지 않은 새 리스트로 상태를 업데이트합니다.
-    state = AsyncData(value.copyWith(items: newItems));
+    state = AsyncData(value.copyWith(procurementItems: newItems));
   }
 
   void removeAllProcurementItem() {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormProcurement) return;
 
-    state = AsyncData(value.copyWith(items: null));
+    state = AsyncData(value.copyWith(procurementItems: []));
   }
 
   void addTransactionItem({TransactionItem? item}) {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormTransaction) return;
 
-    state = AsyncData(value
-        .copyWith(items: [...?value.items, item ?? TransactionItem.empty()]));
+    state = AsyncData(value.copyWith(transactionItems: [
+      ...value.transactionItems,
+      item ?? TransactionItem.empty()
+    ]));
   }
 
-  void updateTransactionItem(
-      {required int index,
-      TransactionItemCategory? category,
-      Currency? currency,
-      String? price,
-      String? note}) {
+  void updateTransactionItem({
+    required int index,
+    TransactionItemCategory? category,
+    String? price,
+    String? ratio,
+    String? note,
+  }) {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormTransaction) return;
 
-    final newItems = [...?value.items];
+    final newItems = [...value.transactionItems];
 
     // 인덱스가 유효한지 확인
     if (index >= 0 && index < newItems.length) {
       final oldItem = newItems[index];
       newItems[index] = oldItem.copyWith(
         category: category ?? oldItem.category,
-        currency: currency ?? oldItem.currency,
         price: price ?? oldItem.price,
+        ratio: ratio ?? oldItem.ratio,
         note: note ?? oldItem.note,
       );
-      state = AsyncData(value.copyWith(items: newItems));
+      state = AsyncData(value.copyWith(transactionItems: newItems));
     }
+  }
+
+  void toggleTransactionItemPaid({
+    required int index,
+    required bool isPaid,
+  }) {
+    final value = state.valueOrNull;
+    if (value == null) return;
+
+    final items = [...value.transactionItems];
+    if (index < 0 || index >= items.length) return;
+
+    final old = items[index];
+    items[index] = old.copyWith(
+      isPaid: isPaid,
+      paidAt: isPaid ? DateTime.now() : null,
+    );
+
+    state = AsyncData(value.copyWith(transactionItems: items));
   }
 
   void removeTransactionItem({required int index}) {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormTransaction) return;
 
-    final newItems = [...?value.items];
+    final newItems = [...value.transactionItems];
 
     // 2. 인덱스가 유효한지 확인하고, 유효하다면 항목을 제거합니다.
     if (index >= 0 && index < newItems.length) {
@@ -365,16 +363,15 @@ class IssueFormController extends _$IssueFormController {
     }
 
     // 3. 제거된 항목이 포함되지 않은 새 리스트로 상태를 업데이트합니다.
-    state = AsyncData(value.copyWith(items: newItems));
+    state = AsyncData(value.copyWith(transactionItems: newItems));
   }
 
   void removeAllTransactionItem() {
     final value = state.valueOrNull;
 
     if (value == null) return;
-    if (value is! IssueFormTransaction) return;
 
-    state = AsyncData(value.copyWith(items: null));
+    state = AsyncData(value.copyWith(transactionItems: []));
   }
 
   void removeAttachment(IssueAttachment attachment) {

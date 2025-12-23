@@ -5,8 +5,7 @@ class ReportSubmitController extends _$ReportSubmitController {
   @override
   ReportSubmitState build() => ReportSubmitState.idle();
 
-  Future<void> createReport(
-      {required int scheduleId, required int projectId}) async {
+  Future<void> createReport({required int projectId}) async {
     final value = ref
         .read(reportFormControllerProvider(projectId: projectId))
         .valueOrNull;
@@ -40,13 +39,15 @@ class ReportSubmitController extends _$ReportSubmitController {
 
       // 1. 공통 필드를 포함하는 최상위 요청 생성 (Base ReportFormState에서 접근 가능)
       CreateReportRequest request = CreateReportRequest(
-        scheduleId: value.schedule!.id,
+        scheduleId: value.schedule?.id,
+        projectId: projectId,
         content: value.content ?? '',
         attachments: value.attachments ?? [],
       );
 
       // 3. 타입별로 분기하여 tripRequest 생성 (타입 프로모션 적용)
-      if (value.schedule!.category is ScheduleDomestic) {
+      if (value.schedule != null &&
+          value.schedule!.category is ScheduleDomestic) {
         CreateFuelExpenseRequest? fuelRequest;
 
         if (value.fuel != null) {
@@ -75,7 +76,8 @@ class ReportSubmitController extends _$ReportSubmitController {
         );
 
         request = request.copyWith(trip: item);
-      } else if (value.schedule!.category is ScheduleOverseas) {
+      } else if (value.schedule != null &&
+          value.schedule!.category is ScheduleDomestic) {
         final item = CreateTripReportRequest(
           expenses: value.expenses
               .map((e) => CreateActualExpenseRequest(
@@ -93,7 +95,7 @@ class ReportSubmitController extends _$ReportSubmitController {
         );
 
         request = request.copyWith(trip: item);
-      } else if (value.schedule!.category is ScheduleRemote) {}
+      }
 
       report = await ref
           .read(reportRepositoryProvider)
@@ -108,6 +110,10 @@ class ReportSubmitController extends _$ReportSubmitController {
             .copyWith(attachments: [...report.attachments, ...newAttachments]);
       }
 
+      ref
+          .read(reportListControllerProvider(projectId: projectId).notifier)
+          .addListItem(item: report);
+
       state = ReportSubmitState.success(report);
     } catch (e) {
       state = ReportSubmitState.failure(e.toString());
@@ -115,9 +121,7 @@ class ReportSubmitController extends _$ReportSubmitController {
   }
 
   Future<void> updateReport(
-      {required int scheduleId,
-      required int projectId,
-      required int reportId}) async {
+      {required int projectId, required int reportId}) async {
     final value = ref
         .read(reportFormControllerProvider(
             projectId: projectId, reportId: reportId))
@@ -151,13 +155,13 @@ class ReportSubmitController extends _$ReportSubmitController {
       }
 
       UpdateReportRequest request = UpdateReportRequest(
-        scheduleId: value.schedule!.id,
         content: value.content,
         attachments: value.attachments,
       );
 
       // 3. 타입별로 분기하여 tripRequest 생성 (타입 프로모션 적용)
-      if (value.schedule!.category is ScheduleDomestic) {
+      if (value.schedule != null &&
+          value.schedule!.category is ScheduleDomestic) {
         UpdateFuelExpenseRequest? fuelRequest;
 
         // value.fuel에 안전하게 접근
@@ -192,7 +196,8 @@ class ReportSubmitController extends _$ReportSubmitController {
         );
 
         request = request.copyWith(trip: item);
-      } else if (value.schedule!.category is ScheduleOverseas) {
+      } else if (value.schedule != null &&
+          value.schedule!.category is ScheduleDomestic) {
         final item = UpdateTripReportRequest(
           expenses: value.expenses
               .map((e) => UpdateActualExpenseRequest(
@@ -214,7 +219,7 @@ class ReportSubmitController extends _$ReportSubmitController {
         );
 
         request = request.copyWith(trip: item);
-      } else if (value.schedule!.category is ScheduleRemote) {}
+      }
 
       report = await ref
           .read(reportRepositoryProvider)

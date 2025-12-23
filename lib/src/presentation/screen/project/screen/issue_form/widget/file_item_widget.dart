@@ -92,9 +92,7 @@ class FileItemWidget extends HookConsumerWidget {
             onTap: () {
               ref
                   .read(issueFormControllerProvider(
-                          categoryId: categoryId,
-                          projectId: projectId,
-                          issueId: issueId)
+                          projectId: projectId, issueId: issueId)
                       .notifier)
                   .removeFile(file);
             },

@@ -16,15 +16,38 @@ abstract class IssueService {
     @Query('limit') int limit = 20,
   });
 
-  @GET('issue/{id}')
-  Future<Issue> getIssue({@Path() required int id});
+  @GET('issue/contract/{id}')
+  Future<HttpResponse<ContractIssue?>> getContractIssue(
+      {@Path() required int id});
 
-  @GET('issue')
-  Future<Result<Issue>> getIssues({
+  @GET('issue/kickoff/{id}')
+  Future<HttpResponse<KickoffIssue?>> getKickoffIssue(
+      {@Path() required int id});
+
+  @GET('issue/transaction/{id}')
+  Future<HttpResponse<TransactionIssue?>> getTransactionIssue(
+      {@Path() required int id});
+
+  @GET('issue/payment/{id}')
+  Future<HttpResponse<PaymentIssue?>> getPaymentIssue(
+      {@Path() required int id});
+
+  @GET('issue/declaration')
+  Future<Result<DeclarationIssue>> getDeclarationIssues({
     @Query('page') int page = 1,
     @Query('limit') int limit = 10,
     @Query('project_id') required int projectId,
   });
+
+  @GET('issue/procurement')
+  Future<Result<ProcurementIssue>> getProcurementIssues({
+    @Query('page') int page = 1,
+    @Query('limit') int limit = 10,
+    @Query('project_id') required int projectId,
+  });
+
+  @GET('issue/{id}')
+  Future<Issue> getIssue({@Path() required int id});
 
   @POST('issue/mail/{id}')
   Future<void> sendMail({@Path() required int id});
@@ -41,7 +64,7 @@ abstract class IssueService {
   });
 
   @DELETE('issue/{id}')
-  Future<void> deleteIssue({@Path() required int id});
+  Future<Issue> deleteIssue({@Path() required int id});
 
   @PATCH('issue/{id}/restore')
   Future<Issue> restoreIssue({@Path() required int id});

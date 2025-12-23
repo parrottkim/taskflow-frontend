@@ -4,5 +4,8 @@ abstract class SftpRepository {
   Future<List<File>> uploadInlineImage(
       {required String path, required List<MultipartFile> files});
 
-  Future<HttpResponse<List<int>>> downloadFile({required String path});
+  Future<HttpResponse<List<int>>> downloadFile({
+    required String type,
+    required int id,
+  });
 }

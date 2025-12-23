@@ -11,10 +11,10 @@ import 'package:taskflow/src/presentation/screen/project/screen/report_list/widg
 import 'package:taskflow/src/presentation/widget/overlay.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
-class ReportItemWidget extends HookConsumerWidget {
+class ReportDisplayItem extends HookConsumerWidget {
   final Report item;
 
-  const ReportItemWidget({
+  const ReportDisplayItem({
     super.key,
     required this.item,
   });
@@ -22,26 +22,29 @@ class ReportItemWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(
-        tripFilterControllerProvider(categoryId: item.schedule.category.id));
+        tripFilterControllerProvider(categoryId: item.schedule?.category.id));
 
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-          item: item,
-          categories: value.categories,
-          steps: value.steps,
-          regulations: value.regulations,
-        ),
-      AsyncError(:final error, :final stackTrace) =>
-        ErrorContainerWidget(error: error, stackTrace: stackTrace),
-      _ => Skeletonizer(
-          child: _DesktopWidget(
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: switch (filter) {
+        AsyncData(:final value) => _DesktopWidget(
             item: item,
-            categories: [],
-            steps: [],
-            regulations: [],
+            categories: value.categories,
+            steps: value.steps,
+            regulations: value.regulations,
           ),
-        ),
-    };
+        AsyncError(:final error, :final stackTrace) =>
+          ErrorContainerWidget(error: error, stackTrace: stackTrace),
+        _ => Skeletonizer(
+            child: _DesktopWidget(
+              item: item,
+              categories: [],
+              steps: [],
+              regulations: [],
+            ),
+          ),
+      },
+    );
   }
 }
 
@@ -88,6 +91,8 @@ class _DesktopWidget extends HookConsumerWidget {
       }
     });
 
+    // final total = item.trip?.expenses.fold((expense) => )
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -131,11 +136,10 @@ class _DesktopWidget extends HookConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16.0),
               SizeTransition(
                 sizeFactor: sizeController,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
+                  padding: const EdgeInsets.only(top: 16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -144,7 +148,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: categories.length,
                         itemBuilder: (context, index) => TripDetailsWidget(
-                          schedule: item.schedule,
+                          schedule: item.schedule!,
                           category: categories[index],
                           steps: steps
                               .where((e) => e.categoryId == index + 1)
@@ -155,7 +159,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           isDeducted: item.trip!.isDeducted,
                         ),
                       ),
-                      if (item.schedule.category is ScheduleDomestic &&
+                      if (item.schedule!.category is ScheduleDomestic &&
                           item.trip!.fuel != null)
                         FuelExpenseWidget(fuel: item.trip!.fuel!),
                     ],

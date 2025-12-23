@@ -323,9 +323,11 @@ enum ProjectSort {
 }
 
 enum ProjectDetailSegment {
-  issue('project_detail_segment_1'),
-  report('project_detail_segment_2'),
-  timeline('project_detail_segment_3');
+  contract('project_detail_segment_1'),
+  declaration('project_detail_segment_2'),
+  procurement('project_detail_segment_3'),
+  report('project_detail_segment_4'),
+  timeline('project_detail_segment_5');
 
   final String labelKey;
 
@@ -336,7 +338,7 @@ enum ProjectDetailSegment {
   factory ProjectDetailSegment.fromKey(String key) =>
       ProjectDetailSegment.values.firstWhere(
         (e) => e.name == key,
-        orElse: () => ProjectDetailSegment.issue,
+        orElse: () => ProjectDetailSegment.contract,
       );
 }
 

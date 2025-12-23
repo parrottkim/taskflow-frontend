@@ -65,7 +65,6 @@ class SupplierListWidget extends HookConsumerWidget {
           onTap: () {
             ref
                 .read(issueFormControllerProvider(
-                  categoryId: categoryId,
                   projectId: projectId,
                   issueId: issueId,
                 ).notifier)

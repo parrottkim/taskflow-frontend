@@ -5,10 +5,10 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProcurementItemWidget extends StatelessWidget {
+class ProcurementDisplayItem extends StatelessWidget {
   final List<ProcurementItem> items;
 
-  const ProcurementItemWidget({super.key, required this.items});
+  const ProcurementDisplayItem({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {

@@ -46,10 +46,19 @@ class AuthController extends _$AuthController {
           .getUser(id: decodedToken['sub']);
       state = AuthAuthenticated(user: user);
     } on DioException catch (e) {
-      if (e.response?.statusCode == 403) {
-        state = const AuthForbidden();
-      } else if (e.response?.statusCode == 409) {
-        state = const AuthConflict();
+      if (e.type == DioExceptionType.badResponse) {
+        if (e.response?.statusCode == 403) {
+          state = const AuthForbidden();
+        } else if (e.response?.statusCode == 409) {
+          state = const AuthConflict();
+        } else {
+          state = const AuthFailed();
+        }
+      } else if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        state = const AuthNetworkError();
       } else {
         state = const AuthFailed();
       }

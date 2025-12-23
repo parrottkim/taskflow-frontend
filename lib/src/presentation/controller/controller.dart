@@ -49,8 +49,6 @@ part 'download/download_state.dart';
 part 'error/error_controller.dart';
 part 'error/error_state.dart';
 
-part 'issue/issue_detail_controller.dart';
-part 'issue/issue_detail_state.dart';
 part 'issue/issue_filter_controller.dart';
 part 'issue/issue_filter_state.dart';
 part 'issue/issue_form_controller.dart';

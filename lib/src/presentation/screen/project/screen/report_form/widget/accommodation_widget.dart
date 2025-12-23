@@ -13,7 +13,6 @@ class AccommodationWidget extends ConsumerWidget {
   final Schedule schedule;
   final List<TripActualExpense> expenses;
   final List<TripRegulationRate> rates;
-  // final ValueNotifier<Map<int, bool>> isAccommodationInvalid;
 
   const AccommodationWidget({
     super.key,
@@ -22,7 +21,6 @@ class AccommodationWidget extends ConsumerWidget {
     required this.schedule,
     required this.expenses,
     required this.rates,
-    // required this.isAccommodationInvalid,
   });
 
   @override
@@ -37,7 +35,7 @@ class AccommodationWidget extends ConsumerWidget {
         alignment: Alignment.topLeft,
         child: Container(
           padding: EdgeInsets.all(24.0),
-          constraints: BoxConstraints(maxWidth: 430.0),
+          constraints: BoxConstraints(maxWidth: 400.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +56,6 @@ class AccommodationWidget extends ConsumerWidget {
                     regulations: value.regulations,
                     expenses: expenses,
                     rates: rates,
-                    // stepInvalid: isAccommodationInvalid,
                   ),
                 AsyncError(:final error, :final stackTrace) =>
                   ErrorContainerWidget(error: error, stackTrace: stackTrace),
@@ -72,7 +69,6 @@ class AccommodationWidget extends ConsumerWidget {
                       regulations: [],
                       expenses: [],
                       rates: [],
-                      // stepInvalid: isAccommodationInvalid,
                     ),
                   ),
               },

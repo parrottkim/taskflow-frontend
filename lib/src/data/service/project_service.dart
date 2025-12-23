@@ -4,37 +4,14 @@ part of '../data.dart';
 abstract class ProjectService {
   factory ProjectService(Dio dio, {String baseUrl}) = _ProjectService;
 
-  @GET('project/stats')
-  Future<Result<ProjectStats>> getProjectStats({
-    @Query('page') int page = 1,
-    @Query('limit') int limit = 20,
-    @Query('start')
-    @DateTimeConverter(format: 'yyyy-MM-dd')
-    required DateTime start,
-    @Query('end')
-    @DateTimeConverter(format: 'yyyy-MM-dd')
-    required DateTime end,
-  });
-
-  @GET('project/summary')
-  Future<ProjectSummary> getProjectSummary({
-    @Query('start')
-    @DateTimeConverter(format: 'yyyy-MM-dd')
-    required DateTime start,
-    @Query('end')
-    @DateTimeConverter(format: 'yyyy-MM-dd')
-    required DateTime end,
-  });
-
-  @GET('project/{id}')
-  Future<Project> getProject({
-    @Path() required int id,
-  });
+  @GET('project/{id}/count')
+  Future<ProjectItemCount> getProjectItemCount({@Path() required int id});
 
   @GET('project/{id}/edit')
-  Future<Project> getProjectForEdit({
-    @Path() required int id,
-  });
+  Future<Project> getProjectForEdit({@Path() required int id});
+
+  @GET('project/{id}')
+  Future<Project> getProject({@Path() required int id});
 
   @GET('project')
   Future<Result<Project>> getProjects({

@@ -28,61 +28,76 @@ abstract class LatestIssue with _$LatestIssue {
       );
 }
 
+@Freezed(unionKey: 'type')
+abstract class IssueCategory with _$IssueCategory {
+  factory IssueCategory.kickoff({
+    required int id,
+    required String name,
+  }) = IssueKickoff;
+  factory IssueCategory.contract({
+    required int id,
+    required String name,
+  }) = IssueContract;
+  factory IssueCategory.transaction({
+    required int id,
+    required String name,
+  }) = IssueTransaction;
+  factory IssueCategory.payment({
+    required int id,
+    required String name,
+  }) = IssuePayment;
+  factory IssueCategory.declaration({
+    required int id,
+    required String name,
+  }) = IssueDeclaration;
+  factory IssueCategory.procurement({
+    required int id,
+    required String name,
+  }) = IssueProcurement;
+
+  factory IssueCategory.fromJson(Map<String, dynamic> json) =>
+      _$IssueCategoryFromJson(json);
+
+  factory IssueCategory.dummy() => IssueCategory.contract(id: 1, name: '카테고리');
+}
+
+abstract class IssueInterface {
+  int get id;
+  String get content;
+  User get user;
+  List<IssueAttachment> get attachments;
+  DateTime get createdAt;
+  DateTime get updatedAt;
+}
+
 @freezed
-abstract class Issue with _$Issue {
+sealed class Issue with _$Issue {
   factory Issue({
     required int id,
-    required String content,
     required IssueCategory category,
-    required IssueDetails details,
-    required List<IssueAttachment> attachments,
     required User user,
+    required String content,
+    @Default([]) List<IssueAttachment> attachments,
+    @Default([]) List<ContractItem> contractItems,
+    @Default([]) List<TransactionItem> transactionItems,
+    @Default([]) List<ProcurementItem> procurementItems,
+    DateTime? kickoffDate,
+    Currency? currency,
     required DateTime createdAt,
     required DateTime updatedAt,
-    required DateTime? deletedAt,
+    DateTime? deletedAt,
   }) = _Issue;
 
   factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
 
   factory Issue.dummy() => Issue(
         id: 0,
-        content: List.filled(5000, 'x').join(),
+        content: '',
         category: IssueCategory.dummy(),
-        details: IssueDetails.empty(),
-        attachments: [],
         user: User.dummy(),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
-        deletedAt: null,
       );
-}
-
-@freezed
-abstract class IssueCategory with _$IssueCategory {
-  factory IssueCategory({
-    required int id,
-    required String name,
-    required IssueCategoryCharge charge,
-  }) = _IssueCategory;
-
-  factory IssueCategory.fromJson(Map<String, dynamic> json) =>
-      _$IssueCategoryFromJson(json);
-
-  factory IssueCategory.dummy() =>
-      IssueCategory(id: 0, name: '카테고리', charge: IssueCategoryCharge.dummy());
-}
-
-@freezed
-abstract class IssueCategoryCharge with _$IssueCategoryCharge {
-  factory IssueCategoryCharge({
-    required int id,
-    required String name,
-  }) = _IssueCategoryCharge;
-
-  factory IssueCategoryCharge.fromJson(Map<String, dynamic> json) =>
-      _$IssueCategoryChargeFromJson(json);
-
-  factory IssueCategoryCharge.dummy() => IssueCategoryCharge(id: 0, name: '책임');
 }
 
 @freezed
@@ -99,39 +114,11 @@ abstract class IssueAttachment with _$IssueAttachment {
       _$IssueAttachmentFromJson(json);
 }
 
-@Freezed(unionKey: 'type')
-sealed class IssueDetails with _$IssueDetails {
-  factory IssueDetails.empty() = IssueEmptyDetails;
-  factory IssueDetails.contract({
-    required int id,
-    required List<ContractItem> items,
-  }) = IssueContractDetails;
-  factory IssueDetails.kickoff({
-    required int id,
-    required DateTime kickoffDate,
-  }) = IssueKickoffDetails;
-  factory IssueDetails.approval({required int id}) = IssueApprovalDetails;
-  factory IssueDetails.procurement({
-    required int id,
-    required List<ProcurementItem> items,
-  }) = IssueProcurementDetails;
-  factory IssueDetails.transaction({
-    required int id,
-    required List<TransactionItem> items,
-  }) = IssueTransactionDetails;
-  factory IssueDetails.declaration({required int id}) = IssueDeclarationDetails;
-  factory IssueDetails.payment({required int id}) = IssuePaymentDetails;
-
-  factory IssueDetails.fromJson(Map<String, dynamic> json) =>
-      _$IssueDetailsFromJson(json);
-}
-
 @freezed
 abstract class ContractItem with _$ContractItem {
   factory ContractItem({
     int? id,
     required String item,
-    Currency? currency,
     required String price,
   }) = _ContractItem;
 
@@ -186,14 +173,126 @@ abstract class TransactionItem with _$TransactionItem {
   factory TransactionItem({
     int? id,
     TransactionItemCategory? category,
-    Currency? currency,
     required String price,
-    required String note,
+    required String ratio,
+    @Default(false) bool isPaid,
+    DateTime? paidAt,
+    String? note,
   }) = _TransactionItem;
 
   factory TransactionItem.fromJson(Map<String, dynamic> json) =>
       _$TransactionItemFromJson(json);
 
   factory TransactionItem.empty() =>
-      TransactionItem(category: null, price: '', note: '');
+      TransactionItem(category: null, price: '', ratio: '', note: '');
+}
+
+@freezed
+abstract class ContractIssue with _$ContractIssue {
+  factory ContractIssue({
+    required int id,
+    required IssueCategory category,
+    required User user,
+    required String content,
+    required Currency currency,
+    @Default([]) List<ContractItem> contractItems,
+    @Default([]) List<TransactionItem> transactionItems,
+    @Default([]) List<IssueAttachment> attachments,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _ContractIssue;
+
+  factory ContractIssue.fromJson(Map<String, dynamic> json) =>
+      _$ContractIssueFromJson(json);
+}
+
+@freezed
+abstract class KickoffIssue with _$KickoffIssue {
+  factory KickoffIssue({
+    required int id,
+    required IssueCategory category,
+    required User user,
+    required String content,
+    required DateTime kickoffDate,
+    @Default([]) List<IssueAttachment> attachments,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _KickoffIssue;
+
+  factory KickoffIssue.fromJson(Map<String, dynamic> json) =>
+      _$KickoffIssueFromJson(json);
+}
+
+@freezed
+abstract class ProcurementIssue with _$ProcurementIssue {
+  factory ProcurementIssue({
+    required int id,
+    required IssueCategory category,
+    required User user,
+    required String content,
+    @Default([]) List<ProcurementItem> procurementItems,
+    @Default([]) List<IssueAttachment> attachments,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _ProcurementIssue;
+
+  factory ProcurementIssue.fromJson(Map<String, dynamic> json) =>
+      _$ProcurementIssueFromJson(json);
+}
+
+@freezed
+abstract class TransactionIssue with _$TransactionIssue {
+  factory TransactionIssue({
+    required int id,
+    required IssueCategory category,
+    required User user,
+    required String content,
+    required Currency currency,
+    @Default([]) List<ContractItem> contractItems,
+    @Default([]) List<TransactionItem> transactionItems,
+    @Default([]) List<IssueAttachment> attachments,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _TransactionIssue;
+
+  factory TransactionIssue.fromJson(Map<String, dynamic> json) =>
+      _$TransactionIssueFromJson(json);
+}
+
+@freezed
+abstract class PaymentIssue with _$PaymentIssue {
+  factory PaymentIssue({
+    required int id,
+    required IssueCategory category,
+    required User user,
+    required String content,
+    @Default([]) List<IssueAttachment> attachments,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _PaymentIssue;
+
+  factory PaymentIssue.fromJson(Map<String, dynamic> json) =>
+      _$PaymentIssueFromJson(json);
+}
+
+@freezed
+abstract class DeclarationIssue with _$DeclarationIssue {
+  factory DeclarationIssue({
+    required int id,
+    required IssueCategory category,
+    required User user,
+    required String content,
+    @Default([]) List<IssueAttachment> attachments,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _DeclarationIssue;
+
+  factory DeclarationIssue.fromJson(Map<String, dynamic> json) =>
+      _$DeclarationIssueFromJson(json);
 }

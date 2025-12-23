@@ -17,11 +17,13 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/provider.dart';
 
 class ScheduleFormScreen extends ConsumerWidget {
+  final String? path;
   final int categoryId;
   final int? scheduleId;
 
   const ScheduleFormScreen({
     super.key,
+    this.path,
     required this.categoryId,
     this.scheduleId,
   });
@@ -34,6 +36,7 @@ class ScheduleFormScreen extends ConsumerWidget {
     return BranchLayout(
       child: switch (form) {
         AsyncData(:final value) => _DesktopWidget(
+            path: path,
             categoryId: categoryId,
             scheduleId: scheduleId,
             value: value,
@@ -53,11 +56,13 @@ class ScheduleFormScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final String? path;
   final int categoryId;
   final int? scheduleId;
   final ScheduleFormState value;
 
   const _DesktopWidget({
+    this.path,
     required this.categoryId,
     this.scheduleId,
     required this.value,
@@ -78,6 +83,7 @@ class _DesktopWidget extends HookConsumerWidget {
     final isProjectSelected = useState(false);
     final isDateSelected = useState(false);
     final isSummaryNotEmpty = useState(false);
+    final isDescriptionNotEmpty = useState(false);
 
     ref.listen(scheduleSubmitControllerProvider, (_, state) {
       if (state is ScheduleSubmitPending) {
@@ -88,16 +94,21 @@ class _DesktopWidget extends HookConsumerWidget {
         if (state is ScheduleSubmitSuccess) {
           ref.read(toastProvider).showToast(
                 child: Toast(
+                  type: ToastType.verified,
                   message: Intl.message('schedule_form_success'),
                 ),
               );
-          context.pop();
-          context.goNamed(
-            RouteNames.work,
-            queryParameters: {
-              'view': 'schedule',
-            },
-          );
+          if (path == null) {
+            context.pop();
+            context.goNamed(
+              RouteNames.work,
+              queryParameters: {
+                'view': 'schedule',
+              },
+            );
+          } else {
+            context.go(path!);
+          }
         }
 
         if (state is ScheduleSubmitDeleted) {
@@ -202,15 +213,6 @@ class _DesktopWidget extends HookConsumerWidget {
                   visible: isSummaryNotEmpty.value,
                   text: Intl.message('schedule_form_invalid_3'),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24.0),
-                  child: Divider(),
-                ),
-                Text(
-                  Intl.message('schedule_form_optional'),
-                  style: textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
                 SizedBox(height: 24.0),
                 Text(
                   Intl.message('schedule_form_description'),
@@ -235,6 +237,10 @@ class _DesktopWidget extends HookConsumerWidget {
                     decoration: InputDecoration(filled: true),
                   ),
                 ),
+                InvalidWidget(
+                  visible: isDescriptionNotEmpty.value,
+                  text: Intl.message('schedule_form_invalid_3'),
+                ),
               ],
             ),
           ),
@@ -253,8 +259,13 @@ class _DesktopWidget extends HookConsumerWidget {
                         value.start == null || value.end == null;
                     isSummaryNotEmpty.value =
                         value.summary == null || value.summary!.isEmpty;
+                    isDescriptionNotEmpty.value =
+                        value.description == null || value.description!.isEmpty;
 
-                    if (isProjectSelected.value || isDateSelected.value) {
+                    if (isProjectSelected.value ||
+                        isDateSelected.value ||
+                        isSummaryNotEmpty.value ||
+                        isDescriptionNotEmpty.value) {
                       LoadingOverlay.hide();
                       return;
                     }

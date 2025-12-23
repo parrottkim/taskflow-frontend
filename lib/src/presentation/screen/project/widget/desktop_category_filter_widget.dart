@@ -77,7 +77,7 @@ class _DesktopWidget extends HookConsumerWidget {
             height: 8.0,
             decoration: ShapeDecoration(
               shape: CircleBorder(),
-              color: Functions(context).generateColorFromId(item.charge.id),
+              color: Functions(context).generateColorFromId(item.id),
             ),
           ),
           SizedBox(width: 4.0),

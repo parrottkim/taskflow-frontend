@@ -41,6 +41,10 @@ part 'repository/currency_repository.dart';
 part 'service/currency_service.dart';
 part 'source/currency_source.dart';
 
+part 'repository/dashboard_repository.dart';
+part 'service/dashboard_service.dart';
+part 'source/dashboard_source.dart';
+
 part 'repository/schedule_repository.dart';
 part 'service/schedule_service.dart';
 part 'source/schedule_source.dart';

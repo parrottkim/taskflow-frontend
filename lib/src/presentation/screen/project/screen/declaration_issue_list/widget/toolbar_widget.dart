@@ -17,12 +17,12 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ToolbarWidget extends ConsumerWidget {
   final int projectId;
-  final Issue item;
+  final DeclarationIssue issue;
 
   const ToolbarWidget({
     super.key,
     required this.projectId,
-    required this.item,
+    required this.issue,
   });
 
   @override
@@ -41,9 +41,9 @@ class ToolbarWidget extends ConsumerWidget {
           curve: Curves.easeInQuad,
           opacity: Responsive.isDesktop(context) ? 1.0 : 0.0,
           child: Text(
-            item.createdAt == item.updatedAt
-                ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
-                : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
+            issue.createdAt == issue.updatedAt
+                ? '${formatRelativeDate(issue.createdAt)} ${Intl.message('common_created_at')}'
+                : '${formatRelativeDate(issue.updatedAt)} ${Intl.message('common_updated_at')}',
             style: textTheme.labelMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: colorScheme.outline.withValues(alpha: 0.7),
@@ -65,8 +65,8 @@ class ToolbarWidget extends ConsumerWidget {
               port: Uri.base.hasPort ? Uri.base.port : null,
               path: path,
               queryParameters: {
-                'view': 'issue',
-                'issue': item.id.toString(),
+                'view': 'declaration',
+                'issue': issue.id.toString(),
               },
             );
 
@@ -76,7 +76,7 @@ class ToolbarWidget extends ConsumerWidget {
               ref.read(toastProvider).showToast(
                     child: Toast(
                       type: ToastType.standard,
-                      message: Intl.message('common_copied'),
+                      message: Intl.message('common_link_copied'),
                     ),
                   );
             } else {
@@ -100,7 +100,7 @@ class ToolbarWidget extends ConsumerWidget {
                 title: Intl.message('project_issue_mail'),
                 onPressed: () => ref
                     .read(issueSubmitControllerProvider.notifier)
-                    .sendEmail(issueId: item.id),
+                    .sendEmail(issueId: issue.id),
               ),
             );
           },
@@ -133,14 +133,14 @@ class ToolbarWidget extends ConsumerWidget {
               child: MenuItemButton(
                 onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated &&
-                            auth.user.id == item.user.id
+                            auth.user.id == issue.user.id
                     ? () {
                         context.goNamed(
                           RouteNames.issueEdit,
                           pathParameters: {
-                            'category_id': item.category.id.toString(),
+                            'category_id': issue.category.id.toString(),
                             'project_id': projectId.toString(),
-                            'issue_id': item.id.toString(),
+                            'issue_id': issue.id.toString(),
                           },
                         );
                       }
@@ -169,7 +169,7 @@ class ToolbarWidget extends ConsumerWidget {
               child: MenuItemButton(
                 onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated &&
-                            auth.user.id == item.user.id
+                            auth.user.id == issue.user.id
                     ? () async {
                         final result = await showDialog(
                           context: context,
@@ -183,14 +183,7 @@ class ToolbarWidget extends ConsumerWidget {
                           await ref
                               .read(issueSubmitControllerProvider.notifier)
                               .deleteIssue(
-                                  projectId: projectId, issueId: item.id);
-
-                          ref.read(toastProvider).showToast(
-                                child: Toast(
-                                  type: ToastType.standard,
-                                  message: Intl.message('issue_form_delete'),
-                                ),
-                              );
+                                  projectId: projectId, issueId: issue.id);
                         }
                       }
                     : null,
@@ -221,7 +214,7 @@ class ToolbarWidget extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text(
-                  '${item.user.username} ${Intl.message('common_edit_by')}',
+                  '${issue.user.username} ${Intl.message('common_edit_by')}',
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.outline.withValues(alpha: 0.7),
@@ -231,9 +224,9 @@ class ToolbarWidget extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
-                item.createdAt == item.updatedAt
-                    ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
-                    : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
+                issue.createdAt == issue.updatedAt
+                    ? '${formatRelativeDate(issue.createdAt)} ${Intl.message('common_created_at')}'
+                    : '${formatRelativeDate(issue.updatedAt)} ${Intl.message('common_updated_at')}',
                 style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: colorScheme.outline.withValues(alpha: 0.7),

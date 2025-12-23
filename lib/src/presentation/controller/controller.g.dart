@@ -59,7 +59,7 @@ Map<String, dynamic> _$SupplierSearchResultToJson(
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authControllerHash() => r'd714eda27ab31e6e47e70007e77a7c6d30f405a7';
+String _$authControllerHash() => r'dd14ea33b7e63ac8d1a44af4903b577635c107d9';
 
 /// See also [AuthController].
 @ProviderFor(AuthController)
@@ -76,7 +76,7 @@ final authControllerProvider =
 
 typedef _$AuthController = AutoDisposeNotifier<AuthState>;
 String _$calendarControllerHash() =>
-    r'fc4124caa85f6b5b5269d4cbf92b55a5b8d55e1e';
+    r'a9c4619bfaf92f143a41a62eb1ee201cbca4b0eb';
 
 /// See also [CalendarController].
 @ProviderFor(CalendarController)
@@ -127,7 +127,7 @@ final latestUpdateControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$LatestUpdateController = AutoDisposeAsyncNotifier<LatestUpdateState>;
 String _$projectStatsControllerHash() =>
-    r'5cf0bfd5e70a65e5442bd80827df04f287d1a7fe';
+    r'7715e5a2f4a05c044ea9a12dc05bf8095c487a66';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -320,7 +320,7 @@ class _ProjectStatsControllerProviderElement
   DateTime get end => (origin as ProjectStatsControllerProvider).end;
 }
 
-String _$summaryControllerHash() => r'd5d1b5735c1b51b6ad5b58821f8d1cea7d9ee218';
+String _$summaryControllerHash() => r'f6d803617aff920046553d02827bbb9286d9afc0';
 
 abstract class _$SummaryController
     extends BuildlessAutoDisposeAsyncNotifier<SummaryState> {
@@ -508,16 +508,16 @@ final worldMapControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$WorldMapController = AutoDisposeAsyncNotifier<WorldMapState>;
 String _$downloadControllerHash() =>
-    r'fa6e9ee964715da59c0442cb56a214fbd574d573';
+    r'148d55eecdf9c14ade35d363d94367ea0686fd65';
 
 abstract class _$DownloadController
     extends BuildlessAutoDisposeAsyncNotifier<DownloadState> {
-  late final String? path;
-  late final String? filename;
+  late final String? type;
+  late final int? id;
 
   FutureOr<DownloadState> build({
-    String? path,
-    String? filename,
+    String? type,
+    int? id,
   });
 }
 
@@ -532,12 +532,12 @@ class DownloadControllerFamily extends Family<AsyncValue<DownloadState>> {
 
   /// See also [DownloadController].
   DownloadControllerProvider call({
-    String? path,
-    String? filename,
+    String? type,
+    int? id,
   }) {
     return DownloadControllerProvider(
-      path: path,
-      filename: filename,
+      type: type,
+      id: id,
     );
   }
 
@@ -546,8 +546,8 @@ class DownloadControllerFamily extends Family<AsyncValue<DownloadState>> {
     covariant DownloadControllerProvider provider,
   ) {
     return call(
-      path: provider.path,
-      filename: provider.filename,
+      type: provider.type,
+      id: provider.id,
     );
   }
 
@@ -571,12 +571,12 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     DownloadController, DownloadState> {
   /// See also [DownloadController].
   DownloadControllerProvider({
-    String? path,
-    String? filename,
+    String? type,
+    int? id,
   }) : this._internal(
           () => DownloadController()
-            ..path = path
-            ..filename = filename,
+            ..type = type
+            ..id = id,
           from: downloadControllerProvider,
           name: r'downloadControllerProvider',
           debugGetCreateSourceHash:
@@ -586,8 +586,8 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: DownloadControllerFamily._dependencies,
           allTransitiveDependencies:
               DownloadControllerFamily._allTransitiveDependencies,
-          path: path,
-          filename: filename,
+          type: type,
+          id: id,
         );
 
   DownloadControllerProvider._internal(
@@ -597,20 +597,20 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.path,
-    required this.filename,
+    required this.type,
+    required this.id,
   }) : super.internal();
 
-  final String? path;
-  final String? filename;
+  final String? type;
+  final int? id;
 
   @override
   FutureOr<DownloadState> runNotifierBuild(
     covariant DownloadController notifier,
   ) {
     return notifier.build(
-      path: path,
-      filename: filename,
+      type: type,
+      id: id,
     );
   }
 
@@ -620,15 +620,15 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
       origin: this,
       override: DownloadControllerProvider._internal(
         () => create()
-          ..path = path
-          ..filename = filename,
+          ..type = type
+          ..id = id,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        path: path,
-        filename: filename,
+        type: type,
+        id: id,
       ),
     );
   }
@@ -642,15 +642,15 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   @override
   bool operator ==(Object other) {
     return other is DownloadControllerProvider &&
-        other.path == path &&
-        other.filename == filename;
+        other.type == type &&
+        other.id == id;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, path.hashCode);
-    hash = _SystemHash.combine(hash, filename.hashCode);
+    hash = _SystemHash.combine(hash, type.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -660,11 +660,11 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 // ignore: unused_element
 mixin DownloadControllerRef
     on AutoDisposeAsyncNotifierProviderRef<DownloadState> {
-  /// The parameter `path` of this provider.
-  String? get path;
+  /// The parameter `type` of this provider.
+  String? get type;
 
-  /// The parameter `filename` of this provider.
-  String? get filename;
+  /// The parameter `id` of this provider.
+  int? get id;
 }
 
 class _DownloadControllerProviderElement
@@ -673,12 +673,12 @@ class _DownloadControllerProviderElement
   _DownloadControllerProviderElement(super.provider);
 
   @override
-  String? get path => (origin as DownloadControllerProvider).path;
+  String? get type => (origin as DownloadControllerProvider).type;
   @override
-  String? get filename => (origin as DownloadControllerProvider).filename;
+  int? get id => (origin as DownloadControllerProvider).id;
 }
 
-String _$errorControllerHash() => r'2423e1c9bbcaaf49f7479c37d21685a448369e44';
+String _$errorControllerHash() => r'9197bb805cb6936dde4c24d83222c888069ef0e3';
 
 /// See also [ErrorController].
 @ProviderFor(ErrorController)
@@ -694,155 +694,6 @@ final errorControllerProvider =
 );
 
 typedef _$ErrorController = AutoDisposeNotifier<ErrorState>;
-String _$issueDetailControllerHash() =>
-    r'9651e64541b49c377913e39574ee864ee524aa0c';
-
-abstract class _$IssueDetailController
-    extends BuildlessAutoDisposeAsyncNotifier<IssueDetailState> {
-  late final int issueId;
-
-  FutureOr<IssueDetailState> build({
-    required int issueId,
-  });
-}
-
-/// See also [IssueDetailController].
-@ProviderFor(IssueDetailController)
-const issueDetailControllerProvider = IssueDetailControllerFamily();
-
-/// See also [IssueDetailController].
-class IssueDetailControllerFamily extends Family<AsyncValue<IssueDetailState>> {
-  /// See also [IssueDetailController].
-  const IssueDetailControllerFamily();
-
-  /// See also [IssueDetailController].
-  IssueDetailControllerProvider call({
-    required int issueId,
-  }) {
-    return IssueDetailControllerProvider(
-      issueId: issueId,
-    );
-  }
-
-  @override
-  IssueDetailControllerProvider getProviderOverride(
-    covariant IssueDetailControllerProvider provider,
-  ) {
-    return call(
-      issueId: provider.issueId,
-    );
-  }
-
-  static const Iterable<ProviderOrFamily>? _dependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
-
-  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
-
-  @override
-  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
-      _allTransitiveDependencies;
-
-  @override
-  String? get name => r'issueDetailControllerProvider';
-}
-
-/// See also [IssueDetailController].
-class IssueDetailControllerProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<IssueDetailController,
-        IssueDetailState> {
-  /// See also [IssueDetailController].
-  IssueDetailControllerProvider({
-    required int issueId,
-  }) : this._internal(
-          () => IssueDetailController()..issueId = issueId,
-          from: issueDetailControllerProvider,
-          name: r'issueDetailControllerProvider',
-          debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product')
-                  ? null
-                  : _$issueDetailControllerHash,
-          dependencies: IssueDetailControllerFamily._dependencies,
-          allTransitiveDependencies:
-              IssueDetailControllerFamily._allTransitiveDependencies,
-          issueId: issueId,
-        );
-
-  IssueDetailControllerProvider._internal(
-    super._createNotifier, {
-    required super.name,
-    required super.dependencies,
-    required super.allTransitiveDependencies,
-    required super.debugGetCreateSourceHash,
-    required super.from,
-    required this.issueId,
-  }) : super.internal();
-
-  final int issueId;
-
-  @override
-  FutureOr<IssueDetailState> runNotifierBuild(
-    covariant IssueDetailController notifier,
-  ) {
-    return notifier.build(
-      issueId: issueId,
-    );
-  }
-
-  @override
-  Override overrideWith(IssueDetailController Function() create) {
-    return ProviderOverride(
-      origin: this,
-      override: IssueDetailControllerProvider._internal(
-        () => create()..issueId = issueId,
-        from: from,
-        name: null,
-        dependencies: null,
-        allTransitiveDependencies: null,
-        debugGetCreateSourceHash: null,
-        issueId: issueId,
-      ),
-    );
-  }
-
-  @override
-  AutoDisposeAsyncNotifierProviderElement<IssueDetailController,
-      IssueDetailState> createElement() {
-    return _IssueDetailControllerProviderElement(this);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return other is IssueDetailControllerProvider && other.issueId == issueId;
-  }
-
-  @override
-  int get hashCode {
-    var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, issueId.hashCode);
-
-    return _SystemHash.finish(hash);
-  }
-}
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-mixin IssueDetailControllerRef
-    on AutoDisposeAsyncNotifierProviderRef<IssueDetailState> {
-  /// The parameter `issueId` of this provider.
-  int get issueId;
-}
-
-class _IssueDetailControllerProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<IssueDetailController,
-        IssueDetailState> with IssueDetailControllerRef {
-  _IssueDetailControllerProviderElement(super.provider);
-
-  @override
-  int get issueId => (origin as IssueDetailControllerProvider).issueId;
-}
-
 String _$issueFilterControllerHash() =>
     r'0ed6798af0752b7eeac933a5e507513b6c5a16c7';
 
@@ -861,16 +712,14 @@ final issueFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$IssueFilterController = AutoDisposeAsyncNotifier<IssueFilterState>;
 String _$issueFormControllerHash() =>
-    r'3dc8144c5d9cb3254799e032061a571858a7829a';
+    r'23d72a2daff41201eaffbc0fc7a9127e4b73b998';
 
 abstract class _$IssueFormController
     extends BuildlessAutoDisposeAsyncNotifier<IssueFormState> {
-  late final int categoryId;
   late final int projectId;
   late final int? issueId;
 
   FutureOr<IssueFormState> build({
-    required int categoryId,
     required int projectId,
     int? issueId,
   });
@@ -887,12 +736,10 @@ class IssueFormControllerFamily extends Family<AsyncValue<IssueFormState>> {
 
   /// See also [IssueFormController].
   IssueFormControllerProvider call({
-    required int categoryId,
     required int projectId,
     int? issueId,
   }) {
     return IssueFormControllerProvider(
-      categoryId: categoryId,
       projectId: projectId,
       issueId: issueId,
     );
@@ -903,7 +750,6 @@ class IssueFormControllerFamily extends Family<AsyncValue<IssueFormState>> {
     covariant IssueFormControllerProvider provider,
   ) {
     return call(
-      categoryId: provider.categoryId,
       projectId: provider.projectId,
       issueId: provider.issueId,
     );
@@ -929,12 +775,10 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     IssueFormController, IssueFormState> {
   /// See also [IssueFormController].
   IssueFormControllerProvider({
-    required int categoryId,
     required int projectId,
     int? issueId,
   }) : this._internal(
           () => IssueFormController()
-            ..categoryId = categoryId
             ..projectId = projectId
             ..issueId = issueId,
           from: issueFormControllerProvider,
@@ -946,7 +790,6 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: IssueFormControllerFamily._dependencies,
           allTransitiveDependencies:
               IssueFormControllerFamily._allTransitiveDependencies,
-          categoryId: categoryId,
           projectId: projectId,
           issueId: issueId,
         );
@@ -958,12 +801,10 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.categoryId,
     required this.projectId,
     required this.issueId,
   }) : super.internal();
 
-  final int categoryId;
   final int projectId;
   final int? issueId;
 
@@ -972,7 +813,6 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     covariant IssueFormController notifier,
   ) {
     return notifier.build(
-      categoryId: categoryId,
       projectId: projectId,
       issueId: issueId,
     );
@@ -984,7 +824,6 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
       origin: this,
       override: IssueFormControllerProvider._internal(
         () => create()
-          ..categoryId = categoryId
           ..projectId = projectId
           ..issueId = issueId,
         from: from,
@@ -992,7 +831,6 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        categoryId: categoryId,
         projectId: projectId,
         issueId: issueId,
       ),
@@ -1008,7 +846,6 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   @override
   bool operator ==(Object other) {
     return other is IssueFormControllerProvider &&
-        other.categoryId == categoryId &&
         other.projectId == projectId &&
         other.issueId == issueId;
   }
@@ -1016,7 +853,6 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, categoryId.hashCode);
     hash = _SystemHash.combine(hash, projectId.hashCode);
     hash = _SystemHash.combine(hash, issueId.hashCode);
 
@@ -1028,9 +864,6 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 // ignore: unused_element
 mixin IssueFormControllerRef
     on AutoDisposeAsyncNotifierProviderRef<IssueFormState> {
-  /// The parameter `categoryId` of this provider.
-  int get categoryId;
-
   /// The parameter `projectId` of this provider.
   int get projectId;
 
@@ -1044,15 +877,13 @@ class _IssueFormControllerProviderElement
   _IssueFormControllerProviderElement(super.provider);
 
   @override
-  int get categoryId => (origin as IssueFormControllerProvider).categoryId;
-  @override
   int get projectId => (origin as IssueFormControllerProvider).projectId;
   @override
   int? get issueId => (origin as IssueFormControllerProvider).issueId;
 }
 
 String _$issueListControllerHash() =>
-    r'b26cbd7b7b1f00acba48d04989fbf071e38e86dc';
+    r'e17d00bb0a641dd9d200e239738ae27554037bb1';
 
 abstract class _$IssueListController
     extends BuildlessAutoDisposeAsyncNotifier<IssueListState> {
@@ -1200,7 +1031,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'e32f7b22b7317fbf6ece096b8974e2dd8d09a694';
+    r'9752484a3599fe11413cbb712d3d378a353c5dd5';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)
@@ -1233,7 +1064,7 @@ final localControllerProvider =
 
 typedef _$LocalController = AutoDisposeAsyncNotifier<LocalState>;
 String _$projectDetailControllerHash() =>
-    r'12d9a90039e9e8e0521572bfe4175631ee8bc25a';
+    r'612bc19f8d8cf8ede89433275fa83d25651de6f1';
 
 abstract class _$ProjectDetailController
     extends BuildlessAutoDisposeAsyncNotifier<ProjectDetailState> {
@@ -1402,7 +1233,7 @@ final projectDetailFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 typedef _$ProjectDetailFilterController
     = AutoDisposeAsyncNotifier<ProjectDetailFilterState>;
 String _$projectFilterControllerHash() =>
-    r'e45c32f8cf79a1a9b73647cd9fdaa4c160b6096c';
+    r'0c4aa876541541acc4c112be0c7b1f996e1c3a53';
 
 /// See also [ProjectFilterController].
 @ProviderFor(ProjectFilterController)
@@ -1587,7 +1418,7 @@ final projectListControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$ProjectListController = AutoDisposeAsyncNotifier<ProjectListState>;
 String _$projectSubmitControllerHash() =>
-    r'628c1b37bd03d33857c3377d364c53766ceb931f';
+    r'f477d2d9388f6fe4d1523dd7eaa50cf93515890e';
 
 /// See also [ProjectSubmitController].
 @ProviderFor(ProjectSubmitController)
@@ -1795,7 +1626,7 @@ class _ScheduleFormControllerProviderElement
 }
 
 String _$scheduleListControllerHash() =>
-    r'a920b6d0882d49b85ad9b028e8f90d5824606666';
+    r'707dcf4886567c0d9e0da511a0f1f7fb6e6e5c19';
 
 abstract class _$ScheduleListController
     extends BuildlessAutoDisposeAsyncNotifier<ScheduleListState> {
@@ -1946,7 +1777,7 @@ class _ScheduleListControllerProviderElement
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'161b33e9e5ad6b278049c87fdd07b322852cfb70';
+    r'8afd2815d5ee8bb0ddf87cddd87d6cda39f69976';
 
 /// See also [ScheduleSubmitController].
 @ProviderFor(ScheduleSubmitController)
@@ -1998,7 +1829,7 @@ final supplierSearchControllerProvider = AutoDisposeNotifierProvider<
 
 typedef _$SupplierSearchController = AutoDisposeNotifier<SupplierSearchState>;
 String _$reportFormControllerHash() =>
-    r'ff0382043fae6de8336f5b40f06eb24f1622aaf1';
+    r'9dd0527bfba8694f3614eb8e7c9b3052514283ac';
 
 abstract class _$ReportFormController
     extends BuildlessAutoDisposeAsyncNotifier<ReportFormState> {
@@ -2169,7 +2000,7 @@ class _ReportFormControllerProviderElement
 }
 
 String _$reportListControllerHash() =>
-    r'ee00618930e9b9cdb1de20e7e29f1753d1aa60d7';
+    r'795ec4dc8d35ef47f7e804d607814812bb6d72fd';
 
 abstract class _$ReportListController
     extends BuildlessAutoDisposeAsyncNotifier<ReportListState> {
@@ -2318,7 +2149,7 @@ class _ReportListControllerProviderElement
 }
 
 String _$reportSubmitControllerHash() =>
-    r'90c3a6d1d4b0d0beea4423081a74507a57c920d6';
+    r'2d3f5b8d58b52126fb3805ce9d6d8c6ec33fd3c3';
 
 /// See also [ReportSubmitController].
 @ProviderFor(ReportSubmitController)

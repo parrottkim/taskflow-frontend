@@ -19,7 +19,11 @@ class ScheduleWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.only(
+        left: 16.0,
+        right: 16.0,
+        top: 16.0,
+      ),
       child: ContainerWidget(
         padding: EdgeInsets.all(12.0),
         constraints: BoxConstraints(maxWidth: 430.0),

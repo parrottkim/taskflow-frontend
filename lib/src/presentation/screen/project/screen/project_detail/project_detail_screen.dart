@@ -46,12 +46,20 @@ class ProjectDetailScreen extends HookConsumerWidget {
               issueId: issueId,
               reportId: reportId,
               project: value.project,
+              contracts: value.contracts,
+              declarations: value.declarations,
+              procurements: value.procurements,
+              reports: value.reports,
             ),
             mobile: _MobileWidget(
               projectId: projectId,
               issueId: issueId,
               reportId: reportId,
               project: value.project,
+              contracts: value.contracts,
+              declarations: value.declarations,
+              procurements: value.procurements,
+              reports: value.reports,
             ),
           ),
         AsyncError(:final error, :final stackTrace) =>
@@ -74,12 +82,20 @@ class _DesktopWidget extends StatelessWidget {
   final int? issueId;
   final int? reportId;
   final Project project;
+  final int contracts;
+  final int declarations;
+  final int procurements;
+  final int reports;
 
   const _DesktopWidget({
     required this.projectId,
     this.issueId,
     this.reportId,
     required this.project,
+    this.contracts = 0,
+    this.declarations = 0,
+    this.procurements = 0,
+    this.reports = 0,
   });
 
   @override
@@ -95,6 +111,10 @@ class _DesktopWidget extends StatelessWidget {
               issueId: issueId,
               reportId: reportId,
               project: project,
+              contracts: contracts,
+              declarations: declarations,
+              procurements: procurements,
+              reports: reports,
             ),
           ),
           SizedBox(width: 16.0),
@@ -110,12 +130,20 @@ class _MobileWidget extends StatelessWidget {
   final int? issueId;
   final int? reportId;
   final Project project;
+  final int contracts;
+  final int declarations;
+  final int procurements;
+  final int reports;
 
   const _MobileWidget({
     required this.projectId,
     this.issueId,
     this.reportId,
     required this.project,
+    this.contracts = 0,
+    this.declarations = 0,
+    this.procurements = 0,
+    this.reports = 0,
   });
 
   @override
@@ -139,6 +167,10 @@ class _MobileWidget extends StatelessWidget {
               issueId: issueId,
               reportId: reportId,
               project: project,
+              contracts: contracts,
+              declarations: declarations,
+              procurements: procurements,
+              reports: reports,
             ),
           ),
         ],

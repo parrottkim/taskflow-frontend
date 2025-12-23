@@ -15,12 +15,17 @@ import 'package:taskflow/src/presentation/widget/delegate.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/presentation/widget/preset.dart';
 import 'package:taskflow/src/router/router.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class OverviewWidget extends ConsumerWidget {
   final int projectId;
   final int? issueId;
   final int? reportId;
   final Project project;
+  final int contracts;
+  final int declarations;
+  final int procurements;
+  final int reports;
 
   const OverviewWidget({
     super.key,
@@ -28,6 +33,10 @@ class OverviewWidget extends ConsumerWidget {
     this.issueId,
     this.reportId,
     required this.project,
+    this.contracts = 0,
+    this.declarations = 0,
+    this.procurements = 0,
+    this.reports = 0,
   });
 
   @override
@@ -40,10 +49,17 @@ class OverviewWidget extends ConsumerWidget {
           issueId: issueId,
           reportId: reportId,
           project: project,
+          contracts: contracts,
+          declarations: declarations,
+          procurements: procurements,
+          reports: reports,
           view: value.view,
         ),
       _ => Skeletonizer(
-          child: _DesktopWidget(projectId: projectId, project: project),
+          child: _DesktopWidget(
+            projectId: projectId,
+            project: project,
+          ),
         ),
     };
   }
@@ -53,20 +69,29 @@ class _DesktopWidget extends HookConsumerWidget {
   final int projectId;
   final int? issueId;
   final int? reportId;
-  final String? view;
   final Project project;
+  final int contracts;
+  final int declarations;
+  final int procurements;
+  final int reports;
+  final String? view;
 
   const _DesktopWidget({
     required this.projectId,
     this.issueId,
     this.reportId,
-    this.view,
     required this.project,
+    this.contracts = 0,
+    this.declarations = 0,
+    this.procurements = 0,
+    this.reports = 0,
+    this.view,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     final selectedItem =
         useState<ProjectDetailSegment>(ProjectDetailSegment.values.firstWhere(
@@ -86,6 +111,8 @@ class _DesktopWidget extends HookConsumerWidget {
     final sizeController = useAnimationController(
       duration: const Duration(milliseconds: 150),
     );
+
+    final currentIndex = useState<int>(controller.index);
 
     useEffect(() {
       final newItem = ProjectDetailSegment.values.firstWhere(
@@ -114,53 +141,70 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, [project]);
 
+    useEffect(() {
+      void listener() {
+        final index = (controller.animation?.value ?? controller.index).round();
+
+        if (currentIndex.value != index) {
+          currentIndex.value = index;
+        }
+      }
+
+      controller.animation?.addListener(listener);
+
+      return () {
+        controller.animation?.removeListener(listener);
+      };
+    }, [controller]);
+
     return Column(
       children: [
-        SizeTransition(
-          sizeFactor: CurvedAnimation(
-            parent: sizeController,
-            curve: Curves.easeInQuad,
-          ),
-          child: FadeTransition(
-            opacity: opacityController,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: ContainerWidget(
-                elevation: 0.0,
-                borderRadius: BorderRadius.circular(8.0),
-                color: colorScheme.outline.withValues(alpha: 0.2),
-                borderColor: colorScheme.outline,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Symbols.mountain_flag_rounded,
-                      size: 20.0,
-                    ),
-                    SizedBox(width: 8.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            Intl.message('project_detail_closed_1'),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(height: 4.0),
-                          Text(
-                            Intl.message('project_detail_closed_2'),
-                          ),
-                        ],
+        if (!Responsive.isDesktop(context))
+          SizeTransition(
+            sizeFactor: CurvedAnimation(
+              parent: sizeController,
+              curve: Curves.easeInQuad,
+            ),
+            child: FadeTransition(
+              opacity: opacityController,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ContainerWidget(
+                  elevation: 0.0,
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: colorScheme.outline.withValues(alpha: 0.2),
+                  borderColor: colorScheme.outline,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Symbols.mountain_flag_rounded,
+                        size: 20.0,
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 8.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              Intl.message('project_detail_closed_1'),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 4.0),
+                            Text(
+                              Intl.message('project_detail_closed_2'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
         Expanded(
           child: ContainerWidget(
             elevation: 0.0,
@@ -221,9 +265,62 @@ class _DesktopWidget extends HookConsumerWidget {
                           labelPadding: EdgeInsets.symmetric(horizontal: 24.0),
                           tabs: List.generate(
                             ProjectDetailSegment.values.length,
-                            (index) => Tab(
-                              text: ProjectDetailSegment.values[index].label,
-                            ),
+                            (index) {
+                              final isActive = (controller.animation?.value ??
+                                          controller.index)
+                                      .round() ==
+                                  index;
+
+                              final segment =
+                                  ProjectDetailSegment.values[index];
+                              final count = switch (segment) {
+                                ProjectDetailSegment.contract => contracts,
+                                ProjectDetailSegment.declaration =>
+                                  declarations,
+                                ProjectDetailSegment.procurement =>
+                                  procurements,
+                                ProjectDetailSegment.report => reports,
+                                _ => null,
+                              };
+
+                              final countText = (count != null)
+                                  ? (count >= 10 ? '10+' : count.toString())
+                                  : null;
+
+                              return Tab(
+                                child: Row(
+                                  children: [
+                                    Text(ProjectDetailSegment
+                                        .values[index].label),
+                                    if (countText != null)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 6.0),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 4.0, vertical: 2.0),
+                                          decoration: ShapeDecoration(
+                                            shape: StadiumBorder(),
+                                            color: isActive
+                                                ? colorScheme.primary
+                                                : colorScheme.outline
+                                                    .withValues(alpha: 0.7),
+                                          ),
+                                          child: Text(
+                                            countText,
+                                            style:
+                                                textTheme.labelMedium?.copyWith(
+                                              fontSize: 8.0,
+                                              fontWeight: FontWeight.w600,
+                                              color: colorScheme.onPrimary,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),

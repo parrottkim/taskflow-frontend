@@ -4,7 +4,7 @@ part of '../data.dart';
 abstract class Report with _$Report {
   factory Report({
     required int id,
-    required Schedule schedule,
+    Schedule? schedule,
     required User user,
     TripReport? trip,
     required String content,
@@ -18,7 +18,6 @@ abstract class Report with _$Report {
 
   factory Report.dummy() => Report(
         id: 0,
-        schedule: Schedule.dummy(),
         user: User.dummy(),
         content: '',
         attachments: [],

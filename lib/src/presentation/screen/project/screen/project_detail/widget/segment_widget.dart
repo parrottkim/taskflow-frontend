@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/issue_list/issue_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/contract_issue_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/declaration_issue_list/declaration_issue_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/procurement_issue_list_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/report_list_widget.dart';
 
 class SegmentWidget extends StatelessWidget {
@@ -22,7 +24,15 @@ class SegmentWidget extends StatelessWidget {
     return TabBarView(
       controller: controller,
       children: [
-        IssueListWidget(
+        ContractIssueListWidget(
+          projectId: project.id,
+          issueId: issueId,
+        ),
+        DeclarationIssueListWidget(
+          projectId: project.id,
+          issueId: issueId,
+        ),
+        ProcurementIssueListWidget(
           projectId: project.id,
           issueId: issueId,
         ),

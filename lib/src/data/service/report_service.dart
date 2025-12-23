@@ -17,7 +17,7 @@ abstract class ReportService {
     @Path() required int id,
   });
 
-  @GET('report/trip/export/trip/{id}')
+  @GET('report/trip/export/{id}')
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> exportTrip({@Path() required int id});
 

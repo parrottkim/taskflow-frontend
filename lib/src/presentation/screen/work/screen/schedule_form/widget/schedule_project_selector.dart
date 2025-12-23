@@ -8,12 +8,12 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/preset.dart';
 
-class ProjectListWidget extends HookConsumerWidget {
+class ScheduleProjectSelector extends HookConsumerWidget {
   final int categoryId;
   final int? scheduleId;
   final List<Project> items;
 
-  const ProjectListWidget({
+  const ScheduleProjectSelector({
     super.key,
     required this.categoryId,
     this.scheduleId,
@@ -121,8 +121,12 @@ class ProjectListWidget extends HookConsumerWidget {
                             ),
                           ),
                           SizedBox(width: 4.0),
-                          Text(
-                            items[index].name,
+                          Expanded(
+                            child: Text(
+                              items[index].name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),

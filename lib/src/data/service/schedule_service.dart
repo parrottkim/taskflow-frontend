@@ -20,9 +20,6 @@ abstract class ScheduleService {
     @Query('end') @DateTimeConverter(format: 'yyyy-MM-dd') DateTime? end,
   });
 
-  @GET('schedule/today')
-  Future<List<Schedule>> getTodaysSchedule();
-
   @POST('schedule')
   Future<Schedule> createSchedule({
     @Body() required ScheduleRequest request,

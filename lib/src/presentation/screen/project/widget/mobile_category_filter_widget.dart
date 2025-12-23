@@ -120,8 +120,8 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
                             height: 10.0,
                             decoration: ShapeDecoration(
                               shape: CircleBorder(),
-                              color: Functions(context).generateColorFromId(
-                                  categoryItems[index].charge.id),
+                              color: Functions(context)
+                                  .generateColorFromId(categoryItems[index].id),
                             ),
                           ),
                           SizedBox(width: 8.0),

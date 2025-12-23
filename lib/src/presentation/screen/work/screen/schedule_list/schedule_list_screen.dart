@@ -13,6 +13,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/dialog.dart';
+import 'package:taskflow/src/presentation/widget/overlay.dart';
 import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
@@ -124,285 +125,315 @@ class _DesktopWidget extends HookConsumerWidget {
       });
 
       return null;
-    }, []);
+    }, [items]);
 
-    if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              Intl.message('report_from_schedule_empty'),
-            ),
-          ],
-        ),
-      );
-    }
+    ref.listen(scheduleSubmitControllerProvider, (_, state) {
+      if (state is ScheduleSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is ScheduleSubmitDeleted) {
+          ref.read(toastProvider).showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('schedule_form_delete'),
+                ),
+              );
+        }
+      }
+    });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // ScheduleDateRangeFilterWidget(),
         // Divider(),
-        Expanded(
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (notification) {
-              final metrics = notification.metrics;
+        if (items.isEmpty)
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/empty.svg',
+                    width: 40.0,
+                    height: 40.0,
+                    colorFilter: ColorFilter.mode(
+                      colorScheme.onSurface.withValues(alpha: 0.7),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    Intl.message('report_form_schedule_empty'),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          Expanded(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                final metrics = notification.metrics;
 
-              if (metrics.pixels <= metrics.minScrollExtent + 20 &&
-                  hasPrevious &&
-                  canLoad()) {
-                ref
-                    .read(scheduleListControllerProvider().notifier)
-                    .loadPrevious();
-              }
+                if (metrics.pixels <= metrics.minScrollExtent + 20 &&
+                    hasPrevious &&
+                    canLoad()) {
+                  ref
+                      .read(scheduleListControllerProvider().notifier)
+                      .loadPrevious();
+                }
 
-              // 하단 로드
-              else if (metrics.pixels >= metrics.maxScrollExtent - 20 &&
-                  hasNext &&
-                  canLoad()) {
-                ref.read(scheduleListControllerProvider().notifier).loadNext();
-              }
+                // 하단 로드
+                else if (metrics.pixels >= metrics.maxScrollExtent - 20 &&
+                    hasNext &&
+                    canLoad()) {
+                  ref
+                      .read(scheduleListControllerProvider().notifier)
+                      .loadNext();
+                }
 
-              return false; // 이벤트를 소비하지 않고 상위 위젯으로 전달
-            },
-            child: CustomScrollView(
-              controller: controller,
-              slivers: [
-                ...items.asMap().entries.map(
-                  (entry) {
-                    final i = entry.key;
-                    final group = entry.value;
+                return false; // 이벤트를 소비하지 않고 상위 위젯으로 전달
+              },
+              child: CustomScrollView(
+                controller: controller,
+                slivers: [
+                  ...items.asMap().entries.map(
+                    (entry) {
+                      final i = entry.key;
+                      final group = entry.value;
 
-                    final isPast = group.date.isBefore(DateTime(
-                        DateTime.now().year,
-                        DateTime.now().month,
-                        DateTime.now().day));
+                      final isPast = group.date.isBefore(DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day));
 
-                    return SliverStickyHeader(
-                      header: Container(
-                        key: headerKeys[i],
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 24.0, vertical: 8.0),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: colorScheme.outline.withValues(alpha: 0.2),
+                      return SliverStickyHeader(
+                        header: Container(
+                          key: headerKeys[i],
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color:
+                                    colorScheme.outline.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            color: colorScheme.surfaceContainerLow,
+                          ),
+                          child: Text(
+                            '${DateFormat.MMMMd(Intl.getCurrentLocale()).format(group.date)} ${DateFormat.EEEE(Intl.getCurrentLocale()).format(group.date)}',
+                            style: textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: isPast
+                                  ? colorScheme.onSurface.withValues(alpha: 0.4)
+                                  : colorScheme.primary,
                             ),
                           ),
-                          color: colorScheme.surfaceContainerLow,
                         ),
-                        child: Text(
-                          '${DateFormat.MMMMd(Intl.getCurrentLocale()).format(group.date)} ${DateFormat.EEEE(Intl.getCurrentLocale()).format(group.date)}',
-                          style: textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: isPast
-                                ? colorScheme.onSurface.withValues(alpha: 0.4)
-                                : colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                      sliver: SliverPadding(
-                        padding: EdgeInsets.only(bottom: 16.0),
-                        sliver: SliverList.builder(
-                          itemCount: group.items.length,
-                          itemBuilder: (context, index) {
-                            final schedule = group.items[index];
+                        sliver: SliverPadding(
+                          padding: EdgeInsets.only(bottom: 16.0),
+                          sliver: SliverList.builder(
+                            itemCount: group.items.length,
+                            itemBuilder: (context, index) {
+                              final schedule = group.items[index];
 
-                            return Stack(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 24.0,
-                                      right: 12.0,
-                                      top: 8.0,
-                                      bottom: 8.0),
-                                  child: Row(
-                                    children: [
-                                      Skeleton.unite(
-                                        child: Opacity(
-                                          opacity: isPast ? 0.4 : 1.0,
-                                          child: Container(
-                                            margin: EdgeInsets.only(right: 8.0),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 2.0),
-                                            decoration: ShapeDecoration(
-                                              shape: StadiumBorder(
-                                                side: BorderSide(
+                              return Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 24.0,
+                                        right: 12.0,
+                                        top: 8.0,
+                                        bottom: 8.0),
+                                    child: Row(
+                                      children: [
+                                        Skeleton.unite(
+                                          child: Opacity(
+                                            opacity: isPast ? 0.4 : 1.0,
+                                            child: Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 8.0),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 8.0,
+                                                  vertical: 2.0),
+                                              decoration: ShapeDecoration(
+                                                shape: StadiumBorder(
+                                                  side: BorderSide(
+                                                    color: Functions(context)
+                                                        .generateColorFromId(
+                                                            schedule
+                                                                .category.id),
+                                                  ),
+                                                ),
+                                                color: Functions(context)
+                                                    .generateColorFromId(
+                                                        schedule.category.id)
+                                                    .withValues(alpha: 0.2),
+                                              ),
+                                              child: Text(
+                                                schedule.category.name,
+                                                style: textTheme.labelMedium
+                                                    ?.copyWith(
+                                                  fontWeight: FontWeight.w700,
                                                   color: Functions(context)
                                                       .generateColorFromId(
                                                           schedule.category.id),
                                                 ),
                                               ),
-                                              color: Functions(context)
-                                                  .generateColorFromId(
-                                                      schedule.category.id)
-                                                  .withValues(alpha: 0.2),
-                                            ),
-                                            child: Text(
-                                              schedule.category.name,
-                                              style: textTheme.labelMedium
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                color: Functions(context)
-                                                    .generateColorFromId(
-                                                        schedule.category.id),
-                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          schedule.summary,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: textTheme.titleSmall?.copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            color: isPast
-                                                ? colorScheme.onSurface
-                                                    .withValues(
-                                                        alpha:
-                                                            0.4) // 지난 날짜는 흐리게
-                                                : colorScheme.onSurface,
+                                        Expanded(
+                                          child: Text(
+                                            schedule.summary,
+                                            overflow: TextOverflow.ellipsis,
+                                            style:
+                                                textTheme.titleSmall?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                              color: isPast
+                                                  ? colorScheme.onSurface
+                                                      .withValues(
+                                                          alpha:
+                                                              0.4) // 지난 날짜는 흐리게
+                                                  : colorScheme.onSurface,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 4.0),
-                                        child: Text(
-                                          '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.start)}',
-                                          style: textTheme.bodySmall?.copyWith(
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 4.0),
+                                          child: Text(
+                                            '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.start)}',
+                                            style:
+                                                textTheme.bodySmall?.copyWith(
+                                              color: colorScheme.onSurface
+                                                  .withValues(alpha: 0.7),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Positioned.fill(
-                                  child: AnimatedOpacity(
-                                    duration: Duration(milliseconds: 300),
-                                    opacity: selectedSchedule.value != null &&
-                                            selectedSchedule.value == schedule
-                                        ? 1.0
-                                        : 0.0,
-                                    child: ColoredBox(
-                                      color:
-                                          Colors.black87.withValues(alpha: 0.2),
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (selectedSchedule.value != null &&
-                                              selectedSchedule.value ==
-                                                  schedule) {
-                                            selectedSchedule.value = null;
-                                          } else {
-                                            selectedSchedule.value = schedule;
-                                          }
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0),
-                                          child: Row(
-                                            children: [
-                                              Spacer(),
-                                              ElevatedIconButton(
-                                                onTap: () {
-                                                  context.goNamed(
-                                                      RouteNames.scheduleEdit,
-                                                      pathParameters: {
-                                                        'schedule_id': schedule
-                                                            .id
-                                                            .toString(),
-                                                      },
-                                                      queryParameters: {
-                                                        'category': schedule
-                                                            .category.id
-                                                            .toString(),
-                                                      });
-                                                },
-                                                padding: EdgeInsets.all(4.0),
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                                icon:
-                                                    Symbols.edit_square_rounded,
-                                                size: 16.0,
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 4.0),
-                                                child: ElevatedIconButton(
-                                                  onTap: () async {
-                                                    final result =
-                                                        await showDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          DeleteDialog(
-                                                        title: Intl.message(
-                                                            'schedule_form_delete_dialog_1'),
-                                                        content: Intl.message(
-                                                            'schedule_form_delete_dialog_2'),
-                                                      ),
-                                                    );
-
-                                                    if (result) {
-                                                      await ref
-                                                          .read(
-                                                              scheduleSubmitControllerProvider
-                                                                  .notifier)
-                                                          .deleteSchedule(
-                                                              scheduleId:
-                                                                  schedule.id);
-
-                                                      ref
-                                                          .read(toastProvider)
-                                                          .showToast(
-                                                            child: Toast(
-                                                              type: ToastType
-                                                                  .standard,
-                                                              message: Intl.message(
-                                                                  'schedule_form_delete'),
-                                                            ),
-                                                          );
-                                                    }
-                                                  },
-                                                  padding: EdgeInsets.all(4.0),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          4.0),
-                                                  icon: Symbols.delete_rounded,
-                                                  size: 16.0,
+                                  Positioned.fill(
+                                    child: AnimatedOpacity(
+                                      duration: Duration(milliseconds: 300),
+                                      opacity: selectedSchedule.value != null &&
+                                              selectedSchedule.value == schedule
+                                          ? 1.0
+                                          : 0.0,
+                                      child: ColoredBox(
+                                        color: Colors.black87
+                                            .withValues(alpha: 0.2),
+                                        child: InkWell(
+                                          onTap: () {
+                                            if (selectedSchedule.value ==
+                                                null) {
+                                              selectedSchedule.value = schedule;
+                                            } else {
+                                              selectedSchedule.value = null;
+                                            }
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Row(
+                                              children: [
+                                                Spacer(),
+                                                IgnorePointer(
+                                                  ignoring:
+                                                      selectedSchedule.value ==
+                                                          null,
+                                                  child: ElevatedIconButton(
+                                                    onTap: () {
+                                                      context.goNamed(
+                                                          RouteNames
+                                                              .scheduleEdit,
+                                                          pathParameters: {
+                                                            'schedule_id':
+                                                                schedule.id
+                                                                    .toString(),
+                                                          },
+                                                          queryParameters: {
+                                                            'category': schedule
+                                                                .category.id
+                                                                .toString(),
+                                                          });
+                                                    },
+                                                    padding:
+                                                        EdgeInsets.all(4.0),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.0),
+                                                    icon: Symbols
+                                                        .edit_square_rounded,
+                                                    size: 16.0,
+                                                  ),
                                                 ),
-                                              )
-                                            ],
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 4.0),
+                                                  child: IgnorePointer(
+                                                    ignoring: selectedSchedule
+                                                            .value ==
+                                                        null,
+                                                    child: ElevatedIconButton(
+                                                      onTap: () async {
+                                                        final result =
+                                                            await showDialog(
+                                                          context: context,
+                                                          builder: (_) =>
+                                                              DeleteDialog(
+                                                            title: Intl.message(
+                                                                'schedule_form_delete_dialog_1'),
+                                                            content: Intl.message(
+                                                                'schedule_form_delete_dialog_2'),
+                                                          ),
+                                                        );
+
+                                                        if (result) {
+                                                          await ref
+                                                              .read(
+                                                                  scheduleSubmitControllerProvider
+                                                                      .notifier)
+                                                              .deleteSchedule(
+                                                                  scheduleId:
+                                                                      schedule
+                                                                          .id);
+                                                        }
+                                                      },
+                                                      padding:
+                                                          EdgeInsets.all(4.0),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.0),
+                                                      icon: Symbols
+                                                          .delete_rounded,
+                                                      size: 16.0,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            );
-                          },
+                                ],
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
         Divider(),
         Container(
           width: double.infinity,
