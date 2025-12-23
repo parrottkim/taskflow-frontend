@@ -508,16 +508,16 @@ final worldMapControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$WorldMapController = AutoDisposeAsyncNotifier<WorldMapState>;
 String _$downloadControllerHash() =>
-    r'148d55eecdf9c14ade35d363d94367ea0686fd65';
+    r'21ecd8ae667838a0a140bacf3fd7b803f333d138';
 
 abstract class _$DownloadController
     extends BuildlessAutoDisposeAsyncNotifier<DownloadState> {
-  late final String? type;
-  late final int? id;
+  late final String? path;
+  late final String? filename;
 
   FutureOr<DownloadState> build({
-    String? type,
-    int? id,
+    String? path,
+    String? filename,
   });
 }
 
@@ -532,12 +532,12 @@ class DownloadControllerFamily extends Family<AsyncValue<DownloadState>> {
 
   /// See also [DownloadController].
   DownloadControllerProvider call({
-    String? type,
-    int? id,
+    String? path,
+    String? filename,
   }) {
     return DownloadControllerProvider(
-      type: type,
-      id: id,
+      path: path,
+      filename: filename,
     );
   }
 
@@ -546,8 +546,8 @@ class DownloadControllerFamily extends Family<AsyncValue<DownloadState>> {
     covariant DownloadControllerProvider provider,
   ) {
     return call(
-      type: provider.type,
-      id: provider.id,
+      path: provider.path,
+      filename: provider.filename,
     );
   }
 
@@ -571,12 +571,12 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     DownloadController, DownloadState> {
   /// See also [DownloadController].
   DownloadControllerProvider({
-    String? type,
-    int? id,
+    String? path,
+    String? filename,
   }) : this._internal(
           () => DownloadController()
-            ..type = type
-            ..id = id,
+            ..path = path
+            ..filename = filename,
           from: downloadControllerProvider,
           name: r'downloadControllerProvider',
           debugGetCreateSourceHash:
@@ -586,8 +586,8 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: DownloadControllerFamily._dependencies,
           allTransitiveDependencies:
               DownloadControllerFamily._allTransitiveDependencies,
-          type: type,
-          id: id,
+          path: path,
+          filename: filename,
         );
 
   DownloadControllerProvider._internal(
@@ -597,20 +597,20 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.type,
-    required this.id,
+    required this.path,
+    required this.filename,
   }) : super.internal();
 
-  final String? type;
-  final int? id;
+  final String? path;
+  final String? filename;
 
   @override
   FutureOr<DownloadState> runNotifierBuild(
     covariant DownloadController notifier,
   ) {
     return notifier.build(
-      type: type,
-      id: id,
+      path: path,
+      filename: filename,
     );
   }
 
@@ -620,15 +620,15 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
       origin: this,
       override: DownloadControllerProvider._internal(
         () => create()
-          ..type = type
-          ..id = id,
+          ..path = path
+          ..filename = filename,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        type: type,
-        id: id,
+        path: path,
+        filename: filename,
       ),
     );
   }
@@ -642,15 +642,15 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   @override
   bool operator ==(Object other) {
     return other is DownloadControllerProvider &&
-        other.type == type &&
-        other.id == id;
+        other.path == path &&
+        other.filename == filename;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, type.hashCode);
-    hash = _SystemHash.combine(hash, id.hashCode);
+    hash = _SystemHash.combine(hash, path.hashCode);
+    hash = _SystemHash.combine(hash, filename.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -660,11 +660,11 @@ class DownloadControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
 // ignore: unused_element
 mixin DownloadControllerRef
     on AutoDisposeAsyncNotifierProviderRef<DownloadState> {
-  /// The parameter `type` of this provider.
-  String? get type;
+  /// The parameter `path` of this provider.
+  String? get path;
 
-  /// The parameter `id` of this provider.
-  int? get id;
+  /// The parameter `filename` of this provider.
+  String? get filename;
 }
 
 class _DownloadControllerProviderElement
@@ -673,9 +673,9 @@ class _DownloadControllerProviderElement
   _DownloadControllerProviderElement(super.provider);
 
   @override
-  String? get type => (origin as DownloadControllerProvider).type;
+  String? get path => (origin as DownloadControllerProvider).path;
   @override
-  int? get id => (origin as DownloadControllerProvider).id;
+  String? get filename => (origin as DownloadControllerProvider).filename;
 }
 
 String _$errorControllerHash() => r'9197bb805cb6936dde4c24d83222c888069ef0e3';
@@ -883,7 +883,7 @@ class _IssueFormControllerProviderElement
 }
 
 String _$issueListControllerHash() =>
-    r'2bb7422465876b358cc0c528ac625184ebf4c48d';
+    r'428b86ac2360ef9596ae4c4e939ff23f542e4c15';
 
 abstract class _$IssueListController
     extends BuildlessAutoDisposeAsyncNotifier<IssueListState> {
@@ -1031,7 +1031,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'dbb1156c3ff4cd0c850f38f61d78983553b0309d';
+    r'67cb1e8f6d516ddeca31f7eddde7ae9d5e29487b';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)

@@ -3,30 +3,17 @@ part of '../controller.dart';
 @riverpod
 class DownloadController extends _$DownloadController {
   @override
-  FutureOr<DownloadState> build({String? type, int? id}) async {
+  FutureOr<DownloadState> build({String? path, String? filename}) async {
     return await _init();
   }
 
   Future<DownloadState> _init() async {
-    if (type == null || id == null) return DownloadState.failed();
+    if (path == null || filename == null) return DownloadState.failed();
 
-    final result = await ref
-        .read(sftpRepositoryProvider)
-        .downloadFile(type: type!, id: id!);
+    final result =
+        await ref.read(sftpRepositoryProvider).downloadFile(path: path!);
 
     if (result.data.isEmpty) return DownloadState.failed();
-
-    String? filename;
-    final contentDisposition = result.response.headers['Content-Disposition']
-        ?.first; // 실제 HTTP 클라이언트 라이브러리의 속성에 맞게 수정 필요
-
-    if (contentDisposition != null) {
-      final regex = RegExp(r'filename="([^"]+)"');
-      final match = regex.firstMatch(contentDisposition);
-      if (match != null && match.groupCount >= 1) {
-        filename = Uri.decodeComponent(match.group(1)!);
-      }
-    }
 
     final userAgent = window.navigator.userAgent.toLowerCase();
     final isIOS = userAgent.contains("iphone") || userAgent.contains("ipad");

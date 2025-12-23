@@ -260,7 +260,6 @@ class _DesktopWidget extends HookConsumerWidget {
                               if (items[index].attachments.isNotEmpty)
                                 AttachmentListWidget(
                                   attachments: items[index].attachments,
-                                  downloadType: 'issue',
                                 ),
                             ],
                           ),

@@ -13,8 +13,6 @@ abstract class SftpService {
 
   @GET('files/download')
   @DioResponseType(ResponseType.bytes)
-  Future<HttpResponse<List<int>>> downloadFile({
-    @Query('type') required String type,
-    @Query('id') required int id,
-  });
+  Future<HttpResponse<List<int>>> downloadFile(
+      {@Query('path') required String path});
 }
