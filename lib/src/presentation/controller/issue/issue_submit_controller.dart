@@ -47,6 +47,7 @@ class IssueSubmitController extends _$IssueSubmitController {
                   categoryId: e.category!.id,
                   price: e.price,
                   ratio: e.ratio,
+                  isPaid: false,
                 ))
             .toList();
 
@@ -116,6 +117,8 @@ class IssueSubmitController extends _$IssueSubmitController {
                   price: e.price,
                   ratio: e.ratio,
                   note: e.note,
+                  isPaid: e.isPaid,
+                  paidAt: e.paidAt,
                 ))
             .toList();
 
@@ -219,6 +222,9 @@ class IssueSubmitController extends _$IssueSubmitController {
                   categoryId: e.category!.id,
                   price: e.price,
                   ratio: e.ratio,
+                  note: e.note,
+                  isPaid: e.isPaid,
+                  paidAt: e.paidAt,
                 ))
             .toList();
 
@@ -290,6 +296,8 @@ class IssueSubmitController extends _$IssueSubmitController {
                   price: e.price,
                   ratio: e.ratio,
                   note: e.note,
+                  isPaid: e.isPaid,
+                  paidAt: e.paidAt,
                 ))
             .toList();
 

@@ -20,6 +20,14 @@ class IssueDataSource implements IssueRepository {
       _service.getLatestIssues(page: page, limit: limit);
 
   @override
+  Future<List<ContractItem>> getContractItems({required int id}) =>
+      _service.getContractItems(id: id);
+
+  @override
+  Future<List<TransactionItem>> getTransactionItems({required int id}) =>
+      _service.getTransactionItems(id: id);
+
+  @override
   Future<HttpResponse<ContractIssue?>> getContractIssue({required int id}) =>
       _service.getContractIssue(id: id);
 

@@ -298,14 +298,6 @@ _ContractIssue _$ContractIssueFromJson(Map<String, dynamic> json) =>
       user: User.fromJson(json['user'] as Map<String, dynamic>),
       content: json['content'] as String,
       currency: Currency.fromJson(json['currency'] as Map<String, dynamic>),
-      contractItems: (json['contractItems'] as List<dynamic>?)
-              ?.map((e) => ContractItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      transactionItems: (json['transactionItems'] as List<dynamic>?)
-              ?.map((e) => TransactionItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
       attachments: (json['attachments'] as List<dynamic>?)
               ?.map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -324,8 +316,6 @@ Map<String, dynamic> _$ContractIssueToJson(_ContractIssue instance) =>
       'user': instance.user,
       'content': instance.content,
       'currency': instance.currency,
-      'contractItems': instance.contractItems,
-      'transactionItems': instance.transactionItems,
       'attachments': instance.attachments,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
@@ -407,14 +397,6 @@ _TransactionIssue _$TransactionIssueFromJson(Map<String, dynamic> json) =>
       user: User.fromJson(json['user'] as Map<String, dynamic>),
       content: json['content'] as String,
       currency: Currency.fromJson(json['currency'] as Map<String, dynamic>),
-      contractItems: (json['contractItems'] as List<dynamic>?)
-              ?.map((e) => ContractItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      transactionItems: (json['transactionItems'] as List<dynamic>?)
-              ?.map((e) => TransactionItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
       attachments: (json['attachments'] as List<dynamic>?)
               ?.map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -433,8 +415,6 @@ Map<String, dynamic> _$TransactionIssueToJson(_TransactionIssue instance) =>
       'user': instance.user,
       'content': instance.content,
       'currency': instance.currency,
-      'contractItems': instance.contractItems,
-      'transactionItems': instance.transactionItems,
       'attachments': instance.attachments,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
@@ -2428,6 +2408,66 @@ class _IssueService implements IssueService {
         _result.data!,
         (json) => LatestIssue.fromJson(json as Map<String, dynamic>),
       );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<ContractItem>> getContractItems({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<ContractItem>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/contract/item/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<ContractItem> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => ContractItem.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<TransactionItem>> getTransactionItems({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<TransactionItem>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/transaction/item/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<TransactionItem> _value;
+    try {
+      _value = _result.data!
+          .map(
+            (dynamic i) => TransactionItem.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
