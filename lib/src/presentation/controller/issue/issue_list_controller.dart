@@ -217,13 +217,13 @@ class IssueListController extends _$IssueListController {
       switch (issue.category) {
         IssueContract() => value.copyWith(
             contract: issue as ContractIssue,
-            contractItems: value.contractItems,
-            transactionItems: value.transactionItems,
+            contractItems: issue.contractItems,
+            transactionItems: issue.transactionItems,
           ),
         IssueTransaction() => value.copyWith(
             transaction: issue as TransactionIssue,
-            contractItems: value.contractItems,
-            transactionItems: value.transactionItems,
+            contractItems: issue.contractItems,
+            transactionItems: issue.transactionItems,
           ),
         IssueKickoff() => value.copyWith(
             kickoff: issue as KickoffIssue,
