@@ -293,7 +293,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   title: Intl.message('issue_form_attachment'),
                                   attachments: value.attachments,
                                   files: value.files,
-                                  downloadType: 'issue',
+                                  path: 'issue',
                                   onAddFile: (file) {
                                     ref
                                         .read(issueFormControllerProvider(

@@ -311,7 +311,7 @@ class EditorWidget extends HookConsumerWidget {
                             SizedBox(height: 24.0),
                             AttachmentUploadWidget<ReportAttachment>(
                               title: Intl.message('report_form_attachment'),
-                              downloadType: 'report',
+                              path: 'report',
                               attachments: attachments ?? [],
                               files: files ?? [],
                               onAddFile: (file) {
