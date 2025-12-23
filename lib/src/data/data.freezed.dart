@@ -4909,8 +4909,6 @@ mixin _$ContractIssue {
   User get user;
   String get content;
   Currency get currency;
-  List<ContractItem> get contractItems;
-  List<TransactionItem> get transactionItems;
   List<IssueAttachment> get attachments;
   DateTime get createdAt;
   DateTime get updatedAt;
@@ -4940,10 +4938,6 @@ mixin _$ContractIssue {
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
             const DeepCollectionEquality()
-                .equals(other.contractItems, contractItems) &&
-            const DeepCollectionEquality()
-                .equals(other.transactionItems, transactionItems) &&
-            const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -4962,8 +4956,6 @@ mixin _$ContractIssue {
       user,
       content,
       currency,
-      const DeepCollectionEquality().hash(contractItems),
-      const DeepCollectionEquality().hash(transactionItems),
       const DeepCollectionEquality().hash(attachments),
       createdAt,
       updatedAt,
@@ -4971,7 +4963,7 @@ mixin _$ContractIssue {
 
   @override
   String toString() {
-    return 'ContractIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'ContractIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -4987,8 +4979,6 @@ abstract mixin class $ContractIssueCopyWith<$Res> {
       User user,
       String content,
       Currency currency,
-      List<ContractItem> contractItems,
-      List<TransactionItem> transactionItems,
       List<IssueAttachment> attachments,
       DateTime createdAt,
       DateTime updatedAt,
@@ -5017,8 +5007,6 @@ class _$ContractIssueCopyWithImpl<$Res>
     Object? user = null,
     Object? content = null,
     Object? currency = null,
-    Object? contractItems = null,
-    Object? transactionItems = null,
     Object? attachments = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -5045,14 +5033,6 @@ class _$ContractIssueCopyWithImpl<$Res>
           ? _self.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as Currency,
-      contractItems: null == contractItems
-          ? _self.contractItems
-          : contractItems // ignore: cast_nullable_to_non_nullable
-              as List<ContractItem>,
-      transactionItems: null == transactionItems
-          ? _self.transactionItems
-          : transactionItems // ignore: cast_nullable_to_non_nullable
-              as List<TransactionItem>,
       attachments: null == attachments
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
@@ -5202,8 +5182,6 @@ extension ContractIssuePatterns on ContractIssue {
             User user,
             String content,
             Currency currency,
-            List<ContractItem> contractItems,
-            List<TransactionItem> transactionItems,
             List<IssueAttachment> attachments,
             DateTime createdAt,
             DateTime updatedAt,
@@ -5220,8 +5198,6 @@ extension ContractIssuePatterns on ContractIssue {
             _that.user,
             _that.content,
             _that.currency,
-            _that.contractItems,
-            _that.transactionItems,
             _that.attachments,
             _that.createdAt,
             _that.updatedAt,
@@ -5252,8 +5228,6 @@ extension ContractIssuePatterns on ContractIssue {
             User user,
             String content,
             Currency currency,
-            List<ContractItem> contractItems,
-            List<TransactionItem> transactionItems,
             List<IssueAttachment> attachments,
             DateTime createdAt,
             DateTime updatedAt,
@@ -5269,8 +5243,6 @@ extension ContractIssuePatterns on ContractIssue {
             _that.user,
             _that.content,
             _that.currency,
-            _that.contractItems,
-            _that.transactionItems,
             _that.attachments,
             _that.createdAt,
             _that.updatedAt,
@@ -5300,8 +5272,6 @@ extension ContractIssuePatterns on ContractIssue {
             User user,
             String content,
             Currency currency,
-            List<ContractItem> contractItems,
-            List<TransactionItem> transactionItems,
             List<IssueAttachment> attachments,
             DateTime createdAt,
             DateTime updatedAt,
@@ -5317,8 +5287,6 @@ extension ContractIssuePatterns on ContractIssue {
             _that.user,
             _that.content,
             _that.currency,
-            _that.contractItems,
-            _that.transactionItems,
             _that.attachments,
             _that.createdAt,
             _that.updatedAt,
@@ -5338,15 +5306,11 @@ class _ContractIssue implements ContractIssue {
       required this.user,
       required this.content,
       required this.currency,
-      final List<ContractItem> contractItems = const [],
-      final List<TransactionItem> transactionItems = const [],
       final List<IssueAttachment> attachments = const [],
       required this.createdAt,
       required this.updatedAt,
       this.deletedAt})
-      : _contractItems = contractItems,
-        _transactionItems = transactionItems,
-        _attachments = attachments;
+      : _attachments = attachments;
   factory _ContractIssue.fromJson(Map<String, dynamic> json) =>
       _$ContractIssueFromJson(json);
 
@@ -5360,25 +5324,6 @@ class _ContractIssue implements ContractIssue {
   final String content;
   @override
   final Currency currency;
-  final List<ContractItem> _contractItems;
-  @override
-  @JsonKey()
-  List<ContractItem> get contractItems {
-    if (_contractItems is EqualUnmodifiableListView) return _contractItems;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_contractItems);
-  }
-
-  final List<TransactionItem> _transactionItems;
-  @override
-  @JsonKey()
-  List<TransactionItem> get transactionItems {
-    if (_transactionItems is EqualUnmodifiableListView)
-      return _transactionItems;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_transactionItems);
-  }
-
   final List<IssueAttachment> _attachments;
   @override
   @JsonKey()
@@ -5423,10 +5368,6 @@ class _ContractIssue implements ContractIssue {
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
             const DeepCollectionEquality()
-                .equals(other._contractItems, _contractItems) &&
-            const DeepCollectionEquality()
-                .equals(other._transactionItems, _transactionItems) &&
-            const DeepCollectionEquality()
                 .equals(other._attachments, _attachments) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -5445,8 +5386,6 @@ class _ContractIssue implements ContractIssue {
       user,
       content,
       currency,
-      const DeepCollectionEquality().hash(_contractItems),
-      const DeepCollectionEquality().hash(_transactionItems),
       const DeepCollectionEquality().hash(_attachments),
       createdAt,
       updatedAt,
@@ -5454,7 +5393,7 @@ class _ContractIssue implements ContractIssue {
 
   @override
   String toString() {
-    return 'ContractIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'ContractIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -5472,8 +5411,6 @@ abstract mixin class _$ContractIssueCopyWith<$Res>
       User user,
       String content,
       Currency currency,
-      List<ContractItem> contractItems,
-      List<TransactionItem> transactionItems,
       List<IssueAttachment> attachments,
       DateTime createdAt,
       DateTime updatedAt,
@@ -5505,8 +5442,6 @@ class __$ContractIssueCopyWithImpl<$Res>
     Object? user = null,
     Object? content = null,
     Object? currency = null,
-    Object? contractItems = null,
-    Object? transactionItems = null,
     Object? attachments = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -5533,14 +5468,6 @@ class __$ContractIssueCopyWithImpl<$Res>
           ? _self.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as Currency,
-      contractItems: null == contractItems
-          ? _self._contractItems
-          : contractItems // ignore: cast_nullable_to_non_nullable
-              as List<ContractItem>,
-      transactionItems: null == transactionItems
-          ? _self._transactionItems
-          : transactionItems // ignore: cast_nullable_to_non_nullable
-              as List<TransactionItem>,
       attachments: null == attachments
           ? _self._attachments
           : attachments // ignore: cast_nullable_to_non_nullable
@@ -6792,8 +6719,6 @@ mixin _$TransactionIssue {
   User get user;
   String get content;
   Currency get currency;
-  List<ContractItem> get contractItems;
-  List<TransactionItem> get transactionItems;
   List<IssueAttachment> get attachments;
   DateTime get createdAt;
   DateTime get updatedAt;
@@ -6823,10 +6748,6 @@ mixin _$TransactionIssue {
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
             const DeepCollectionEquality()
-                .equals(other.contractItems, contractItems) &&
-            const DeepCollectionEquality()
-                .equals(other.transactionItems, transactionItems) &&
-            const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -6845,8 +6766,6 @@ mixin _$TransactionIssue {
       user,
       content,
       currency,
-      const DeepCollectionEquality().hash(contractItems),
-      const DeepCollectionEquality().hash(transactionItems),
       const DeepCollectionEquality().hash(attachments),
       createdAt,
       updatedAt,
@@ -6854,7 +6773,7 @@ mixin _$TransactionIssue {
 
   @override
   String toString() {
-    return 'TransactionIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'TransactionIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -6870,8 +6789,6 @@ abstract mixin class $TransactionIssueCopyWith<$Res> {
       User user,
       String content,
       Currency currency,
-      List<ContractItem> contractItems,
-      List<TransactionItem> transactionItems,
       List<IssueAttachment> attachments,
       DateTime createdAt,
       DateTime updatedAt,
@@ -6900,8 +6817,6 @@ class _$TransactionIssueCopyWithImpl<$Res>
     Object? user = null,
     Object? content = null,
     Object? currency = null,
-    Object? contractItems = null,
-    Object? transactionItems = null,
     Object? attachments = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -6928,14 +6843,6 @@ class _$TransactionIssueCopyWithImpl<$Res>
           ? _self.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as Currency,
-      contractItems: null == contractItems
-          ? _self.contractItems
-          : contractItems // ignore: cast_nullable_to_non_nullable
-              as List<ContractItem>,
-      transactionItems: null == transactionItems
-          ? _self.transactionItems
-          : transactionItems // ignore: cast_nullable_to_non_nullable
-              as List<TransactionItem>,
       attachments: null == attachments
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
@@ -7085,8 +6992,6 @@ extension TransactionIssuePatterns on TransactionIssue {
             User user,
             String content,
             Currency currency,
-            List<ContractItem> contractItems,
-            List<TransactionItem> transactionItems,
             List<IssueAttachment> attachments,
             DateTime createdAt,
             DateTime updatedAt,
@@ -7103,8 +7008,6 @@ extension TransactionIssuePatterns on TransactionIssue {
             _that.user,
             _that.content,
             _that.currency,
-            _that.contractItems,
-            _that.transactionItems,
             _that.attachments,
             _that.createdAt,
             _that.updatedAt,
@@ -7135,8 +7038,6 @@ extension TransactionIssuePatterns on TransactionIssue {
             User user,
             String content,
             Currency currency,
-            List<ContractItem> contractItems,
-            List<TransactionItem> transactionItems,
             List<IssueAttachment> attachments,
             DateTime createdAt,
             DateTime updatedAt,
@@ -7152,8 +7053,6 @@ extension TransactionIssuePatterns on TransactionIssue {
             _that.user,
             _that.content,
             _that.currency,
-            _that.contractItems,
-            _that.transactionItems,
             _that.attachments,
             _that.createdAt,
             _that.updatedAt,
@@ -7183,8 +7082,6 @@ extension TransactionIssuePatterns on TransactionIssue {
             User user,
             String content,
             Currency currency,
-            List<ContractItem> contractItems,
-            List<TransactionItem> transactionItems,
             List<IssueAttachment> attachments,
             DateTime createdAt,
             DateTime updatedAt,
@@ -7200,8 +7097,6 @@ extension TransactionIssuePatterns on TransactionIssue {
             _that.user,
             _that.content,
             _that.currency,
-            _that.contractItems,
-            _that.transactionItems,
             _that.attachments,
             _that.createdAt,
             _that.updatedAt,
@@ -7221,15 +7116,11 @@ class _TransactionIssue implements TransactionIssue {
       required this.user,
       required this.content,
       required this.currency,
-      final List<ContractItem> contractItems = const [],
-      final List<TransactionItem> transactionItems = const [],
       final List<IssueAttachment> attachments = const [],
       required this.createdAt,
       required this.updatedAt,
       this.deletedAt})
-      : _contractItems = contractItems,
-        _transactionItems = transactionItems,
-        _attachments = attachments;
+      : _attachments = attachments;
   factory _TransactionIssue.fromJson(Map<String, dynamic> json) =>
       _$TransactionIssueFromJson(json);
 
@@ -7243,25 +7134,6 @@ class _TransactionIssue implements TransactionIssue {
   final String content;
   @override
   final Currency currency;
-  final List<ContractItem> _contractItems;
-  @override
-  @JsonKey()
-  List<ContractItem> get contractItems {
-    if (_contractItems is EqualUnmodifiableListView) return _contractItems;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_contractItems);
-  }
-
-  final List<TransactionItem> _transactionItems;
-  @override
-  @JsonKey()
-  List<TransactionItem> get transactionItems {
-    if (_transactionItems is EqualUnmodifiableListView)
-      return _transactionItems;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_transactionItems);
-  }
-
   final List<IssueAttachment> _attachments;
   @override
   @JsonKey()
@@ -7306,10 +7178,6 @@ class _TransactionIssue implements TransactionIssue {
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
             const DeepCollectionEquality()
-                .equals(other._contractItems, _contractItems) &&
-            const DeepCollectionEquality()
-                .equals(other._transactionItems, _transactionItems) &&
-            const DeepCollectionEquality()
                 .equals(other._attachments, _attachments) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -7328,8 +7196,6 @@ class _TransactionIssue implements TransactionIssue {
       user,
       content,
       currency,
-      const DeepCollectionEquality().hash(_contractItems),
-      const DeepCollectionEquality().hash(_transactionItems),
       const DeepCollectionEquality().hash(_attachments),
       createdAt,
       updatedAt,
@@ -7337,7 +7203,7 @@ class _TransactionIssue implements TransactionIssue {
 
   @override
   String toString() {
-    return 'TransactionIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+    return 'TransactionIssue(id: $id, category: $category, user: $user, content: $content, currency: $currency, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 }
 
@@ -7355,8 +7221,6 @@ abstract mixin class _$TransactionIssueCopyWith<$Res>
       User user,
       String content,
       Currency currency,
-      List<ContractItem> contractItems,
-      List<TransactionItem> transactionItems,
       List<IssueAttachment> attachments,
       DateTime createdAt,
       DateTime updatedAt,
@@ -7388,8 +7252,6 @@ class __$TransactionIssueCopyWithImpl<$Res>
     Object? user = null,
     Object? content = null,
     Object? currency = null,
-    Object? contractItems = null,
-    Object? transactionItems = null,
     Object? attachments = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -7416,14 +7278,6 @@ class __$TransactionIssueCopyWithImpl<$Res>
           ? _self.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as Currency,
-      contractItems: null == contractItems
-          ? _self._contractItems
-          : contractItems // ignore: cast_nullable_to_non_nullable
-              as List<ContractItem>,
-      transactionItems: null == transactionItems
-          ? _self._transactionItems
-          : transactionItems // ignore: cast_nullable_to_non_nullable
-              as List<TransactionItem>,
       attachments: null == attachments
           ? _self._attachments
           : attachments // ignore: cast_nullable_to_non_nullable

@@ -41,6 +41,8 @@ class ContractIssueListWidget extends ConsumerWidget {
           kickoff: value.kickoff,
           transaction: value.transaction,
           payment: value.payment,
+          contractItems: value.contractItems,
+          transactionItems: value.transactionItems,
         ),
       AsyncError(:final error, :final stackTrace) =>
         ErrorContainerWidget(error: error, stackTrace: stackTrace),
@@ -56,6 +58,8 @@ class ContractIssueListWidget extends ConsumerWidget {
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
             ),
+            contractItems: [],
+            transactionItems: [],
           ),
         )
     };
@@ -69,6 +73,8 @@ class _DesktopWidget extends HookConsumerWidget {
   final KickoffIssue? kickoff;
   final TransactionIssue? transaction;
   final PaymentIssue? payment;
+  final List<ContractItem> contractItems;
+  final List<TransactionItem> transactionItems;
 
   const _DesktopWidget({
     required this.projectId,
@@ -77,6 +83,8 @@ class _DesktopWidget extends HookConsumerWidget {
     this.kickoff,
     this.transaction,
     this.payment,
+    required this.contractItems,
+    required this.transactionItems,
   });
 
   @override
@@ -384,7 +392,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     SizedBox(height: 16.0),
                                     TransactionDisplayItem(
                                       currency: transaction!.currency,
-                                      items: transaction!.transactionItems,
+                                      items: transactionItems,
                                     ),
                                     MarkdownWidget(item: transaction!.content),
                                     if (transaction!.attachments.isNotEmpty)
@@ -594,9 +602,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                   SizedBox(height: 16.0),
                                   ContractDisplayItem(
                                     currency: contract!.currency,
-                                    contractItems: contract!.contractItems,
-                                    transactionItems:
-                                        contract!.transactionItems,
+                                    contractItems: contractItems,
+                                    transactionItems: transactionItems,
                                   ),
                                   MarkdownWidget(item: contract!.content),
                                   if (contract!.attachments.isNotEmpty)

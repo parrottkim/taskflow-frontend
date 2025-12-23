@@ -24,6 +24,12 @@ class IssueListController extends _$IssueListController {
         .read(issueRepositoryProvider)
         .getProcurementIssues(page: 1, projectId: projectId);
 
+    final contractItems =
+        await ref.read(issueRepositoryProvider).getContractItems(id: projectId);
+    final transactionItems = await ref
+        .read(issueRepositoryProvider)
+        .getTransactionItems(id: projectId);
+
     return IssueListState(
       contract: contract.data,
       kickoff: kickoff.data,
@@ -37,6 +43,8 @@ class IssueListController extends _$IssueListController {
       procurementsPage: procurements.page,
       procurementsTotal: procurements.total,
       procurementsHasReachEnd: procurements.items.length >= procurements.total,
+      contractItems: contractItems,
+      transactionItems: transactionItems,
     );
   }
 
@@ -123,13 +131,13 @@ class IssueListController extends _$IssueListController {
               category: item.category,
               user: item.user,
               content: item.content,
-              contractItems: item.contractItems,
-              transactionItems: item.transactionItems,
               attachments: item.attachments,
               currency: item.currency!,
               createdAt: item.createdAt,
               updatedAt: item.updatedAt,
             ),
+            contractItems: value.contractItems,
+            transactionItems: value.transactionItems,
           ),
         IssueKickoff() => value.copyWith(
             kickoff: KickoffIssue(
@@ -149,13 +157,13 @@ class IssueListController extends _$IssueListController {
               category: item.category,
               user: item.user,
               content: item.content,
-              contractItems: item.contractItems,
-              transactionItems: item.transactionItems,
               attachments: item.attachments,
               currency: item.currency!,
               createdAt: item.createdAt,
               updatedAt: item.updatedAt,
             ),
+            contractItems: value.contractItems,
+            transactionItems: value.transactionItems,
           ),
         IssuePayment() => value.copyWith(
             payment: PaymentIssue(
@@ -200,47 +208,42 @@ class IssueListController extends _$IssueListController {
     }
   }
 
-  void updateListItem(Issue issue) {
+  void updateListItem(Issue issue) async {
     final value = state.valueOrNull;
     if (value == null) return;
 
-    if (value.contract != null && value.contract!.id == issue.id) {
-      final oldContract = value.contract!;
-      final updatedContract = oldContract.copyWith(
-        contractItems: issue.contractItems,
-        transactionItems: issue.transactionItems,
-      );
-      state = AsyncValue.data(value.copyWith(contract: updatedContract));
-    } else if (value.kickoff != null && value.kickoff!.id == issue.id) {
-      final oldKickoff = value.kickoff!;
-      final updatedKickoff = oldKickoff.copyWith(
-        kickoffDate: issue.kickoffDate!,
-      );
-      state = AsyncValue.data(value.copyWith(kickoff: updatedKickoff));
-    } else if (value.transaction != null && value.transaction!.id == issue.id) {
-      final oldTransaction = value.transaction!;
-      final updatedTransaction = oldTransaction.copyWith(
-        transactionItems: issue.transactionItems,
-        contractItems: issue.contractItems,
-      );
-      state = AsyncValue.data(value.copyWith(transaction: updatedTransaction));
-    } else if (value.payment != null && value.payment!.id == issue.id) {
-      state = AsyncValue.data(value.copyWith(payment: issue as PaymentIssue));
-    } else {
-      // 리스트 업데이트
-      final updatedDeclarations = value.declarations
-          .map((e) => e.id == issue.id ? issue as DeclarationIssue : e)
-          .toList();
-
-      final updatedProcurements = value.procurements
-          .map((e) => e.id == issue.id ? issue as ProcurementIssue : e)
-          .toList();
-
-      state = AsyncValue.data(value.copyWith(
-        declarations: updatedDeclarations,
-        procurements: updatedProcurements,
-      ));
-    }
+    // state 업데이트
+    state = AsyncValue.data(
+      switch (issue.category) {
+        IssueContract() => value.copyWith(
+            contract: issue as ContractIssue,
+            contractItems: value.contractItems,
+            transactionItems: value.transactionItems,
+          ),
+        IssueTransaction() => value.copyWith(
+            transaction: issue as TransactionIssue,
+            contractItems: value.contractItems,
+            transactionItems: value.transactionItems,
+          ),
+        IssueKickoff() => value.copyWith(
+            kickoff: issue as KickoffIssue,
+          ),
+        IssuePayment() => value.copyWith(
+            payment: issue as PaymentIssue,
+          ),
+        IssueDeclaration() => value.copyWith(
+            declarations: value.declarations
+                .map((e) => e.id == issue.id ? issue as DeclarationIssue : e)
+                .toList(),
+          ),
+        IssueProcurement() => value.copyWith(
+            procurements: value.procurements
+                .map((e) => e.id == issue.id ? issue as ProcurementIssue : e)
+                .toList(),
+          ),
+        _ => value,
+      },
+    );
   }
 
   void removeListItem({required Issue item}) {

@@ -16,6 +16,12 @@ abstract class IssueService {
     @Query('limit') int limit = 20,
   });
 
+  @GET('issue/contract/item/{id}')
+  Future<List<ContractItem>> getContractItems({@Path() required int id});
+
+  @GET('issue/transaction/item/{id}')
+  Future<List<TransactionItem>> getTransactionItems({@Path() required int id});
+
   @GET('issue/contract/{id}')
   Future<HttpResponse<ContractIssue?>> getContractIssue(
       {@Path() required int id});
