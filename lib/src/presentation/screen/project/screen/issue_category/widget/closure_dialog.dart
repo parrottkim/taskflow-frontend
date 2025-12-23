@@ -35,7 +35,7 @@ class ClosureDialog extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                Intl.message('issue_new_choose_8'),
+                Intl.message('issue_new_choose_7'),
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w800,
                 ),
@@ -65,7 +65,7 @@ class ClosureDialog extends HookConsumerWidget {
                         SizedBox(width: 8.0),
                         Expanded(
                           child: Text(
-                            Intl.message('issue_new_choose_8_1'),
+                            Intl.message('issue_new_choose_7_2'),
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: colorScheme.error,
@@ -77,19 +77,19 @@ class ClosureDialog extends HookConsumerWidget {
                   ),
                   SizedBox(height: 16.0),
                   Text(
-                    Intl.message('issue_new_choose_8_2'),
+                    Intl.message('issue_new_choose_7_3'),
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    Intl.message('issue_new_choose_8_3'),
+                    Intl.message('issue_new_choose_7_4'),
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    Intl.message('issue_new_choose_8_4'),
+                    Intl.message('issue_new_choose_7_5'),
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    Intl.message('issue_new_choose_8_5'),
+                    Intl.message('issue_new_choose_7_6'),
                   ),
                 ],
               ),
@@ -114,7 +114,7 @@ class ClosureDialog extends HookConsumerWidget {
                         ),
                         TextSpan(text: ' '),
                         TextSpan(
-                          text: Intl.message('issue_new_choose_8_6'),
+                          text: Intl.message('issue_new_choose_7_7'),
                         ),
                       ],
                     ),
@@ -143,7 +143,7 @@ class ClosureDialog extends HookConsumerWidget {
                         foregroundColor: colorScheme.error,
                       ),
                       child: Text(
-                        Intl.message('issue_new_choose_8_7'),
+                        Intl.message('issue_new_choose_7_8'),
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                         ),

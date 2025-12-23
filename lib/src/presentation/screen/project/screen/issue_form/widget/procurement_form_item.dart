@@ -10,7 +10,7 @@ import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
-class ProcurementItemWidget extends HookConsumerWidget {
+class ProcurementFormItem extends HookConsumerWidget {
   final int categoryId;
   final int projectId;
   final int? issueId;
@@ -18,7 +18,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
   final ValueNotifier<bool> hasProcurementItems;
   final ValueNotifier<bool> isProcurementItemEmpty;
 
-  const ProcurementItemWidget({
+  const ProcurementFormItem({
     super.key,
     required this.categoryId,
     required this.projectId,
@@ -90,23 +90,23 @@ class ProcurementItemWidget extends HookConsumerWidget {
       [items?.length],
     );
 
-    final itemFocusNodes = useMemoized(
+    final itemFocuses = useMemoized(
       () => items?.map((_) => FocusNode()).toList() ?? [],
       [items?.length],
     );
-    final specFocusNodes = useMemoized(
+    final specFocuses = useMemoized(
       () => items?.map((_) => FocusNode()).toList() ?? [],
       [items?.length],
     );
-    final quantityFocusNodes = useMemoized(
+    final quantityFocuses = useMemoized(
       () => items?.map((_) => FocusNode()).toList() ?? [],
       [items?.length],
     );
-    final unitPriceFocusNodes = useMemoized(
+    final unitPriceFocuses = useMemoized(
       () => items?.map((_) => FocusNode()).toList() ?? [],
       [items?.length],
     );
-    final purchaseUrlFocusNodes = useMemoized(
+    final purchaseUrlFocuses = useMemoized(
       () => items?.map((_) => FocusNode()).toList() ?? [],
       [items?.length],
     );
@@ -170,9 +170,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
 
                     ref
                         .read(issueFormControllerProvider(
-                                categoryId: categoryId,
-                                projectId: projectId,
-                                issueId: issueId)
+                                projectId: projectId, issueId: issueId)
                             .notifier)
                         .addProcurementItem();
                   },
@@ -410,26 +408,26 @@ class ProcurementItemWidget extends HookConsumerWidget {
                           rows: List.generate(
                             items!.length,
                             (index) {
-                              useListenable(itemFocusNodes[index]);
-                              useListenable(specFocusNodes[index]);
-                              useListenable(quantityFocusNodes[index]);
-                              useListenable(unitPriceFocusNodes[index]);
-                              useListenable(purchaseUrlFocusNodes[index]);
+                              useListenable(itemFocuses[index]);
+                              useListenable(specFocuses[index]);
+                              useListenable(quantityFocuses[index]);
+                              useListenable(unitPriceFocuses[index]);
+                              useListenable(purchaseUrlFocuses[index]);
 
                               return DataRow(
                                 cells: [
                                   DataCell(
                                     Material(
-                                      elevation: itemFocusNodes[index].hasFocus
+                                      elevation: itemFocuses[index].hasFocus
                                           ? 1.0
                                           : 0.0,
                                       borderRadius: BorderRadius.circular(8.0),
-                                      color: itemFocusNodes[index].hasFocus
+                                      color: itemFocuses[index].hasFocus
                                           ? colorScheme.surfaceBright
                                           : colorScheme.surfaceContainerLow,
                                       child: TextField(
                                         controller: itemControllers[index],
-                                        focusNode: itemFocusNodes[index],
+                                        focusNode: itemFocuses[index],
                                         style: textTheme.bodyMedium,
                                         maxLines: 1,
                                         decoration: InputDecoration(
@@ -453,7 +451,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                           isProcurementItemEmpty.value = false;
                                           ref
                                               .read(issueFormControllerProvider(
-                                                categoryId: categoryId,
                                                 projectId: projectId,
                                                 issueId: issueId,
                                               ).notifier)
@@ -462,22 +459,22 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                         },
                                         onSubmitted: (value) =>
                                             FocusScope.of(context).requestFocus(
-                                                specFocusNodes[index]),
+                                                specFocuses[index]),
                                       ),
                                     ),
                                   ),
                                   DataCell(
                                     Material(
-                                      elevation: specFocusNodes[index].hasFocus
+                                      elevation: specFocuses[index].hasFocus
                                           ? 1.0
                                           : 0.0,
                                       borderRadius: BorderRadius.circular(8.0),
-                                      color: specFocusNodes[index].hasFocus
+                                      color: specFocuses[index].hasFocus
                                           ? colorScheme.surfaceBright
                                           : colorScheme.surfaceContainerLow,
                                       child: TextField(
                                         controller: specControllers[index],
-                                        focusNode: specFocusNodes[index],
+                                        focusNode: specFocuses[index],
                                         style: textTheme.bodyMedium,
                                         maxLines: 1,
                                         decoration: InputDecoration(
@@ -502,7 +499,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
 
                                           ref
                                               .read(issueFormControllerProvider(
-                                                categoryId: categoryId,
                                                 projectId: projectId,
                                                 issueId: issueId,
                                               ).notifier)
@@ -511,23 +507,22 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                         },
                                         onSubmitted: (value) =>
                                             FocusScope.of(context).requestFocus(
-                                                quantityFocusNodes[index]),
+                                                quantityFocuses[index]),
                                       ),
                                     ),
                                   ),
                                   DataCell(
                                     Material(
-                                      elevation:
-                                          quantityFocusNodes[index].hasFocus
-                                              ? 1.0
-                                              : 0.0,
+                                      elevation: quantityFocuses[index].hasFocus
+                                          ? 1.0
+                                          : 0.0,
                                       borderRadius: BorderRadius.circular(8.0),
-                                      color: quantityFocusNodes[index].hasFocus
+                                      color: quantityFocuses[index].hasFocus
                                           ? colorScheme.surfaceBright
                                           : colorScheme.surfaceContainerLow,
                                       child: TextField(
                                         controller: quantityControllers[index],
-                                        focusNode: quantityFocusNodes[index],
+                                        focusNode: quantityFocuses[index],
                                         keyboardType: TextInputType.number,
                                         maxLines: 1,
                                         inputFormatters: [
@@ -587,7 +582,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                             ref
                                                 .read(
                                                     issueFormControllerProvider(
-                                                  categoryId: categoryId,
                                                   projectId: projectId,
                                                   issueId: issueId,
                                                 ).notifier)
@@ -598,7 +592,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
 
                                           ref
                                               .read(issueFormControllerProvider(
-                                                categoryId: categoryId,
                                                 projectId: projectId,
                                                 issueId: issueId,
                                               ).notifier)
@@ -608,23 +601,23 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                         },
                                         onSubmitted: (value) =>
                                             FocusScope.of(context).requestFocus(
-                                                unitPriceFocusNodes[index]),
+                                                unitPriceFocuses[index]),
                                       ),
                                     ),
                                   ),
                                   DataCell(
                                     Material(
                                       elevation:
-                                          unitPriceFocusNodes[index].hasFocus
+                                          unitPriceFocuses[index].hasFocus
                                               ? 1.0
                                               : 0.0,
                                       borderRadius: BorderRadius.circular(8.0),
-                                      color: unitPriceFocusNodes[index].hasFocus
+                                      color: unitPriceFocuses[index].hasFocus
                                           ? colorScheme.surfaceBright
                                           : colorScheme.surfaceContainerLow,
                                       child: TextField(
                                         controller: unitPriceControllers[index],
-                                        focusNode: unitPriceFocusNodes[index],
+                                        focusNode: unitPriceFocuses[index],
                                         keyboardType: TextInputType.number,
                                         maxLines: 1,
                                         inputFormatters: [
@@ -685,7 +678,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                             ref
                                                 .read(
                                                     issueFormControllerProvider(
-                                                  categoryId: categoryId,
                                                   projectId: projectId,
                                                   issueId: issueId,
                                                 ).notifier)
@@ -696,7 +688,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
 
                                           ref
                                               .read(issueFormControllerProvider(
-                                                categoryId: categoryId,
                                                 projectId: projectId,
                                                 issueId: issueId,
                                               ).notifier)
@@ -737,7 +728,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
 
                                         ref
                                             .read(issueFormControllerProvider(
-                                              categoryId: categoryId,
                                               projectId: projectId,
                                               issueId: issueId,
                                             ).notifier)
@@ -760,7 +750,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                               ref
                                                   .read(
                                                       issueFormControllerProvider(
-                                                    categoryId: categoryId,
                                                     projectId: projectId,
                                                     issueId: issueId,
                                                   ).notifier)
@@ -777,7 +766,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                                     .addPostFrameCallback((_) {
                                                   FocusScope.of(context)
                                                       .requestFocus(
-                                                          purchaseUrlFocusNodes[
+                                                          purchaseUrlFocuses[
                                                               index]);
                                                 });
                                               }
@@ -790,7 +779,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                           child: Material(
                                             elevation: items![index]
                                                         .isOnlinePurchase &&
-                                                    purchaseUrlFocusNodes[index]
+                                                    purchaseUrlFocuses[index]
                                                         .hasFocus
                                                 ? 1.0
                                                 : 0.0,
@@ -798,7 +787,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                                 BorderRadius.circular(8.0),
                                             color: items![index]
                                                         .isOnlinePurchase &&
-                                                    purchaseUrlFocusNodes[index]
+                                                    purchaseUrlFocuses[index]
                                                         .hasFocus
                                                 ? colorScheme.surfaceBright
                                                 : colorScheme
@@ -809,7 +798,7 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                               controller:
                                                   purchaseUrlControllers[index],
                                               focusNode:
-                                                  purchaseUrlFocusNodes[index],
+                                                  purchaseUrlFocuses[index],
                                               maxLines: 1,
                                               inputFormatters: [
                                                 UrlPrefixFormatter()
@@ -851,7 +840,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                                 ref
                                                     .read(
                                                         issueFormControllerProvider(
-                                                      categoryId: categoryId,
                                                       projectId: projectId,
                                                       issueId: issueId,
                                                     ).notifier)
@@ -1021,8 +1009,6 @@ class ProcurementItemWidget extends HookConsumerWidget {
                                               ref
                                                   .read(
                                                       issueFormControllerProvider(
-                                                              categoryId:
-                                                                  categoryId,
                                                               projectId:
                                                                   projectId,
                                                               issueId: issueId)

@@ -10,13 +10,28 @@ abstract class IssueRepository {
     int limit = 20,
   });
 
-  Future<Issue> getIssue({required int id});
+  Future<HttpResponse<ContractIssue?>> getContractIssue({required int id});
 
-  Future<Result<Issue>> getIssues({
+  Future<HttpResponse<KickoffIssue?>> getKickoffIssue({required int id});
+
+  Future<HttpResponse<TransactionIssue?>> getTransactionIssue(
+      {required int id});
+
+  Future<HttpResponse<PaymentIssue?>> getPaymentIssue({required int id});
+
+  Future<Result<DeclarationIssue>> getDeclarationIssues({
     int page = 1,
     int limit = 10,
     required int projectId,
   });
+
+  Future<Result<ProcurementIssue>> getProcurementIssues({
+    int page = 1,
+    int limit = 10,
+    required int projectId,
+  });
+
+  Future<Issue> getIssue({required int id});
 
   Future<void> sendMail({required int id});
 
@@ -29,7 +44,7 @@ abstract class IssueRepository {
     required UpdateIssueRequest request,
   });
 
-  Future<void> deleteIssue({required int id});
+  Future<Issue> deleteIssue({required int id});
 
   Future<void> restoreIssue({required int id});
 

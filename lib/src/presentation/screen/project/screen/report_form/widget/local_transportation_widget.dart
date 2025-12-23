@@ -12,7 +12,6 @@ class LocalTransportationWidget extends ConsumerWidget {
   final int? reportId;
   final Schedule schedule;
   final List<TripActualExpense> expenses;
-  // final ValueNotifier<Map<int, bool>> isLocalTransportationInvalid;
 
   const LocalTransportationWidget({
     super.key,
@@ -20,7 +19,6 @@ class LocalTransportationWidget extends ConsumerWidget {
     this.reportId,
     required this.schedule,
     required this.expenses,
-    // required this.isLocalTransportationInvalid,
   });
 
   @override
@@ -35,7 +33,7 @@ class LocalTransportationWidget extends ConsumerWidget {
         alignment: Alignment.topLeft,
         child: Container(
           padding: EdgeInsets.all(24.0),
-          constraints: BoxConstraints(maxWidth: 430.0),
+          constraints: BoxConstraints(maxWidth: 400.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +52,6 @@ class LocalTransportationWidget extends ConsumerWidget {
                     schedule: schedule,
                     steps: value.steps.where((e) => e.categoryId == 2).toList(),
                     expenses: expenses,
-                    // stepInvalid: isLocalTransportationInvalid,
                   ),
                 AsyncError(:final error, :final stackTrace) =>
                   ErrorContainerWidget(error: error, stackTrace: stackTrace),
@@ -66,7 +63,6 @@ class LocalTransportationWidget extends ConsumerWidget {
                       schedule: schedule,
                       steps: List.filled(3, TripStep.dummy()),
                       expenses: [],
-                      // stepInvalid: isLocalTransportationInvalid,
                     ),
                   ),
               },

@@ -36,7 +36,7 @@ class OtherWidget extends ConsumerWidget {
         alignment: Alignment.topLeft,
         child: Container(
           padding: EdgeInsets.all(24.0),
-          constraints: BoxConstraints(maxWidth: 430.0),
+          constraints: BoxConstraints(maxWidth: 400.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +55,6 @@ class OtherWidget extends ConsumerWidget {
                     schedule: schedule,
                     steps: value.steps.where((e) => e.categoryId == 5).toList(),
                     expenses: expenses,
-                    // stepInvalid: isOtherInvalid,
                   ),
                 AsyncError(:final error, :final stackTrace) =>
                   ErrorContainerWidget(error: error, stackTrace: stackTrace),
@@ -67,7 +66,6 @@ class OtherWidget extends ConsumerWidget {
                       schedule: schedule,
                       steps: List.filled(3, TripStep.dummy()),
                       expenses: [],
-                      // stepInvalid: isOtherInvalid,
                     ),
                   ),
               },
@@ -76,7 +74,6 @@ class OtherWidget extends ConsumerWidget {
                   projectId: projectId,
                   reportId: reportId,
                   fuel: fuel,
-                  // isFuelInvalid: isFuelInvalid,
                 ),
             ],
           ),

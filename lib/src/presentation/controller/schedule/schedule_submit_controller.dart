@@ -33,9 +33,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
           .read(scheduleRepositoryProvider)
           .createSchedule(request: request);
 
-      ref
-          .read(scheduleListControllerProvider().notifier)
-          .addSchedule(schedule: schedule);
+      ref.invalidate(scheduleListControllerProvider());
 
       state = ScheduleSubmitState.success(schedule);
     } catch (e) {
@@ -73,9 +71,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
           .read(scheduleRepositoryProvider)
           .updateSchedule(id: scheduleId, request: request);
 
-      ref
-          .read(scheduleListControllerProvider().notifier)
-          .updateSchedule(updatedSchedule: schedule);
+      ref.invalidate(scheduleListControllerProvider());
 
       state = ScheduleSubmitState.success(schedule);
     } catch (e) {
@@ -89,9 +85,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     try {
       await ref.read(scheduleRepositoryProvider).deleteSchedule(id: scheduleId);
 
-      ref
-          .read(scheduleListControllerProvider().notifier)
-          .removeSchedule(id: scheduleId);
+      ref.invalidate(scheduleListControllerProvider());
 
       state = ScheduleSubmitState.deleted();
     } catch (e) {

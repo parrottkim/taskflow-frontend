@@ -67,7 +67,7 @@ class ScheduleWidget extends ConsumerWidget {
                     ),
                   _ => Skeletonizer(
                       child: _DesktopWidget(
-                          items: List.filled(5, Schedule.dummy()))),
+                          items: List.filled(5, TodaySchedule.dummy()))),
                 },
               ],
             ),
@@ -79,7 +79,7 @@ class ScheduleWidget extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookWidget {
-  final List<Schedule> items;
+  final List<TodaySchedule> items;
 
   const _DesktopWidget({required this.items});
 
@@ -88,7 +88,7 @@ class _DesktopWidget extends HookWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final Map<ScheduleCategory, List<Schedule>> groupedItems = {};
+    final Map<ScheduleCategory, List<TodaySchedule>> groupedItems = {};
     for (var item in items) {
       if (!groupedItems.containsKey(item.category)) {
         groupedItems[item.category] = [];
@@ -204,37 +204,34 @@ class _DesktopWidget extends HookWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Text(
+                                      item.summary,
+                                      maxLines: 1,
+                                      style: textTheme.bodyMedium?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: Functions(context)
+                                            .generateColorFromId(category.id),
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.0),
                                     Row(
                                       children: [
+                                        Icon(
+                                          Symbols.person_rounded,
+                                          size: 16.0,
+                                          weight: 700.0,
+                                          color: Functions(context)
+                                              .generateColorFromId(category.id)
+                                              .withValues(alpha: 0.7),
+                                        ),
+                                        SizedBox(width: 4.0),
                                         Text(
                                           item.user.username,
-                                          style: textTheme.bodyMedium?.copyWith(
-                                            fontWeight: FontWeight.w600,
+                                          style: textTheme.bodySmall?.copyWith(
+                                            fontWeight: FontWeight.w700,
                                             color: Functions(context)
                                                 .generateColorFromId(
                                                     category.id),
-                                          ),
-                                        ),
-                                        Text(
-                                          ' | ',
-                                          style: textTheme.bodyMedium?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            color: Functions(context)
-                                                .generateColorFromId(
-                                                    category.id),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            item.summary,
-                                            maxLines: 1,
-                                            style:
-                                                textTheme.bodyMedium?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              color: Functions(context)
-                                                  .generateColorFromId(
-                                                      category.id),
-                                            ),
                                           ),
                                         ),
                                       ],

@@ -8,18 +8,22 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:super_editor/super_editor.dart';
 import 'package:super_editor_markdown/super_editor_markdown.dart';
+import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/attachment_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/editor_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/kickoff_item_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/procurement_item_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/contract_item_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/transaction_item_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/kickoff_form_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/procurement_form_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/contract_form_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/transaction_form_item.dart';
+import 'package:taskflow/src/presentation/widget/attachment.dart';
+import 'package:taskflow/src/presentation/widget/dialog.dart';
 import 'package:taskflow/src/presentation/widget/overlay.dart';
-import 'package:taskflow/src/presentation/widget/super_editor.dart';
+import 'package:taskflow/src/presentation/widget/super_editor_overlay.dart';
+import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
+import 'package:taskflow/src/shared/provider.dart';
 
 class IssueFormScreen extends ConsumerWidget {
   final int categoryId;
@@ -35,8 +39,8 @@ class IssueFormScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final form = ref.watch(issueFormControllerProvider(
-        categoryId: categoryId, projectId: projectId, issueId: issueId));
+    final form = ref.watch(
+        issueFormControllerProvider(projectId: projectId, issueId: issueId));
 
     return BranchLayout(
       child: switch (form) {
@@ -52,7 +56,12 @@ class IssueFormScreen extends ConsumerWidget {
             child: _DesktopWidget(
               categoryId: categoryId,
               projectId: projectId,
-              value: IssueFormState(),
+              value: IssueFormState(
+                category: IssueCategory.dummy(),
+                contractItems: [],
+                procurementItems: [],
+                transactionItems: [],
+              ),
             ),
           ),
       },
@@ -112,13 +121,14 @@ class _DesktopWidget extends HookConsumerWidget {
     final hasContractItems = useState(false);
     final isContractItemEmpty = useState(false);
 
+    final hasTransactionItems = useState(false);
+    final isTransactionItemEmpty = useState(false);
+    final isRatioInvalid = useState(false);
+
     final isKickoffDateEmpty = useState(false);
 
     final hasProcurementItems = useState(false);
     final isProcurementItemEmpty = useState(false);
-
-    final hasTransactionItems = useState(false);
-    final isTransactionItemEmpty = useState(false);
 
     ref.listen(issueSubmitControllerProvider, (_, state) {
       if (state is IssueSubmitPending) {
@@ -133,13 +143,23 @@ class _DesktopWidget extends HookConsumerWidget {
               'project_id': projectId.toString(),
             },
             queryParameters: {
-              'view': 'issue',
+              'view': switch (value.category) {
+                IssueProcurement() => 'procurement',
+                IssueDeclaration() => 'declaration',
+                _ => 'contract',
+              },
               'issue': state.issue.id.toString(),
             },
           );
         }
 
         if (state is IssueSubmitDeleted) {
+          ref.read(toastProvider).showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('issue_form_delete'),
+                ),
+              );
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {
@@ -226,71 +246,94 @@ class _DesktopWidget extends HookConsumerWidget {
                                   text: Intl.message('issue_form_invalid_1'),
                                 ),
                                 SizedBox(height: 24.0),
-                                switch (value) {
-                                  IssueFormContract(:final items) =>
-                                    ContractItemWidget(
+                                switch (value.category) {
+                                  IssueContract() => ContractFormItem(
                                       categoryId: categoryId,
                                       projectId: projectId,
                                       issueId: issueId,
-                                      items: items,
+                                      currency: value.currency,
+                                      contractItems: value.contractItems,
+                                      transactionItems: value.transactionItems,
                                       hasContractItems: hasContractItems,
                                       isContractItemEmpty: isContractItemEmpty,
+                                      hasTransactionItems: hasTransactionItems,
+                                      isTransactionItemEmpty:
+                                          isTransactionItemEmpty,
+                                      isRatioInvalid: isRatioInvalid,
                                     ),
-                                  IssueFormKickoff(:final kickoffDate) =>
-                                    KickoffItemWidget(
+                                  IssueKickoff() => KickoffFormItem(
                                       categoryId: categoryId,
                                       projectId: projectId,
                                       issueId: issueId,
-                                      kickoffDate: kickoffDate,
+                                      kickoffDate: value.kickoffDate,
                                       isKickoffDateEmpty: isKickoffDateEmpty,
                                     ),
-                                  IssueFormProcurement(:final items) =>
-                                    ProcurementItemWidget(
+                                  IssueProcurement() => ProcurementFormItem(
                                       categoryId: categoryId,
                                       projectId: projectId,
                                       issueId: issueId,
-                                      items: items,
+                                      items: value.procurementItems,
                                       hasProcurementItems: hasProcurementItems,
                                       isProcurementItemEmpty:
                                           isProcurementItemEmpty,
                                     ),
-                                  IssueFormTransaction(:final items) =>
-                                    TransactionItemWidget(
+                                  IssueTransaction() => TransactionFormItem(
                                       categoryId: categoryId,
                                       projectId: projectId,
                                       issueId: issueId,
-                                      items: items,
+                                      currency: value.currency,
+                                      items: value.transactionItems,
                                       hasTransactionItems: hasTransactionItems,
                                       isTransactionItemEmpty:
                                           isTransactionItemEmpty,
                                     ),
                                   _ => SizedBox(),
                                 },
-                                AttachmentWidget(
-                                  categoryId: categoryId,
-                                  projectId: projectId,
-                                  issueId: issueId,
+                                AttachmentUploadWidget(
+                                  title: Intl.message('issue_form_attachment'),
                                   attachments: value.attachments,
                                   files: value.files,
+                                  downloadType: 'issue',
+                                  onAddFile: (file) {
+                                    ref
+                                        .read(issueFormControllerProvider(
+                                                projectId: projectId,
+                                                issueId: issueId)
+                                            .notifier)
+                                        .addFile(file);
+                                  },
+                                  onRemoveFile: (file) {
+                                    ref
+                                        .read(issueFormControllerProvider(
+                                                projectId: projectId,
+                                                issueId: issueId)
+                                            .notifier)
+                                        .removeFile(file);
+                                  },
+                                  onRemoveAttachment: (attachment) {
+                                    ref
+                                        .read(issueFormControllerProvider(
+                                                projectId: projectId,
+                                                issueId: issueId)
+                                            .notifier)
+                                        .removeAttachment(attachment);
+                                  },
                                 ),
                               ],
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        constraints: BoxConstraints(maxWidth: 600.0),
-                        child: ToolbarOverlayWidget(
-                          editor: editor,
-                          document: document,
-                          composer: composer,
-                          toolbarKey: toolbarKey,
-                          overlayKey: overlayKey,
-                          toolbarLink: toolbarLink,
-                          overlayLink: overlayLink,
-                          linkOverlayController: linkOverlayController,
-                          imageOverlayController: imageOverlayController,
-                        ),
+                      ToolbarOverlayWidget(
+                        editor: editor,
+                        document: document,
+                        composer: composer,
+                        toolbarKey: toolbarKey,
+                        overlayKey: overlayKey,
+                        toolbarLink: toolbarLink,
+                        overlayLink: overlayLink,
+                        linkOverlayController: linkOverlayController,
+                        imageOverlayController: imageOverlayController,
                       ),
                     ],
                   ),
@@ -303,7 +346,7 @@ class _DesktopWidget extends HookConsumerWidget {
           padding:
               EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 600.0),
+            constraints: BoxConstraints(maxWidth: 400.0),
             child: Row(
               children: [
                 Expanded(
@@ -316,34 +359,48 @@ class _DesktopWidget extends HookConsumerWidget {
                                 node.text.toPlainText().trim().isEmpty,
                           );
 
-                      if (value is IssueFormContract) {
-                        final items = (value as IssueFormContract).items;
+                      if (value.category is IssueContract) {
+                        final contractItems = value.contractItems;
+                        final transactionItems = value.transactionItems;
 
-                        hasContractItems.value = items == null || items.isEmpty;
+                        hasContractItems.value = contractItems.isEmpty;
 
-                        isContractItemEmpty.value = items != null &&
-                            items.isNotEmpty &&
-                            items.any((item) =>
-                                item.item.isEmpty ||
-                                item.currency == null ||
-                                item.price.isEmpty);
+                        isContractItemEmpty.value = contractItems.isNotEmpty &&
+                            contractItems.any((item) =>
+                                item.item.isEmpty || item.price.isEmpty);
+
+                        hasTransactionItems.value = transactionItems.isEmpty;
+
+                        isTransactionItemEmpty.value = transactionItems
+                                .isNotEmpty &&
+                            transactionItems.any((item) =>
+                                item.category == null || item.price.isEmpty);
+
+                        final totalRatio = transactionItems.isNotEmpty
+                            ? transactionItems.fold(0.0, (sum, item) {
+                                final ratio =
+                                    double.tryParse(item.ratio) ?? 0.0;
+                                return sum + ratio;
+                              })
+                            : 0.0;
+
+                        isRatioInvalid.value = transactionItems.isNotEmpty &&
+                            !isTransactionItemEmpty.value &&
+                            (totalRatio != 100);
                       }
 
-                      if (value is IssueFormKickoff) {
-                        final kickoffDate =
-                            (value as IssueFormKickoff).kickoffDate;
+                      if (value.category is IssueKickoff) {
+                        final kickoffDate = value.kickoffDate;
 
                         isKickoffDateEmpty.value = kickoffDate == null;
                       }
 
-                      if (value is IssueFormProcurement) {
-                        final items = (value as IssueFormProcurement).items;
+                      if (value.category is IssueProcurement) {
+                        final items = value.procurementItems;
 
-                        hasProcurementItems.value =
-                            items == null || items.isEmpty;
+                        hasProcurementItems.value = items.isEmpty;
 
-                        isProcurementItemEmpty.value = items != null &&
-                            items.isNotEmpty &&
+                        isProcurementItemEmpty.value = items.isNotEmpty &&
                             items.any((item) =>
                                 item.item.isEmpty ||
                                 item.spec.isEmpty ||
@@ -360,14 +417,12 @@ class _DesktopWidget extends HookConsumerWidget {
                                     item.supplier == null));
                       }
 
-                      if (value is IssueFormTransaction) {
-                        final items = (value as IssueFormTransaction).items;
+                      if (value.category is IssueTransaction) {
+                        final items = value.transactionItems;
 
-                        hasTransactionItems.value =
-                            items == null || items.isEmpty;
+                        hasTransactionItems.value = items.isEmpty;
 
-                        isTransactionItemEmpty.value = items != null &&
-                            items.isNotEmpty &&
+                        isTransactionItemEmpty.value = items.isNotEmpty &&
                             items.any((item) =>
                                 item.category == null || item.price.isEmpty);
                       }
@@ -375,34 +430,30 @@ class _DesktopWidget extends HookConsumerWidget {
                       if (isContentInvalid.value ||
                           hasContractItems.value ||
                           isContractItemEmpty.value ||
+                          hasTransactionItems.value ||
+                          isTransactionItemEmpty.value ||
+                          isRatioInvalid.value ||
                           isKickoffDateEmpty.value ||
                           hasProcurementItems.value ||
-                          isProcurementItemEmpty.value ||
-                          hasTransactionItems.value ||
-                          isTransactionItemEmpty.value) {
+                          isProcurementItemEmpty.value) {
                         return;
                       }
 
                       await ref
                           .read(issueFormControllerProvider(
-                                  categoryId: categoryId,
-                                  projectId: projectId,
-                                  issueId: issueId)
+                                  projectId: projectId, issueId: issueId)
                               .notifier)
                           .serializeAndSetContent(document: document);
 
                       if (issueId == null) {
                         await ref
                             .read(issueSubmitControllerProvider.notifier)
-                            .createIssue(
-                                categoryId: categoryId, projectId: projectId);
+                            .createIssue(projectId: projectId);
                       } else {
                         await ref
                             .read(issueSubmitControllerProvider.notifier)
                             .updateIssue(
-                                categoryId: categoryId,
-                                projectId: projectId,
-                                issueId: issueId!);
+                                projectId: projectId, issueId: issueId!);
                       }
                     },
                     child: Text(
@@ -416,8 +467,21 @@ class _DesktopWidget extends HookConsumerWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child: FilledButton(
-                      onPressed: () {
-                        // TODO: 삭제 로직
+                      onPressed: () async {
+                        final result = await showDialog(
+                          context: context,
+                          builder: (_) => DeleteDialog(
+                            title: Intl.message('issue_form_delete_dialog_1'),
+                            content: Intl.message('issue_form_delete_dialog_2'),
+                          ),
+                        );
+
+                        if (result) {
+                          await ref
+                              .read(issueSubmitControllerProvider.notifier)
+                              .deleteIssue(
+                                  projectId: projectId, issueId: issueId!);
+                        }
                       },
                       style: FilledButton.styleFrom(
                         backgroundColor: colorScheme.error,

@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
+import 'package:taskflow/src/presentation/widget/button.dart';
 
-class TransactionItemWidget extends StatelessWidget {
+class TransactionDisplayItem extends StatelessWidget {
+  final Currency currency;
   final List<TransactionItem> items;
 
-  const TransactionItemWidget({super.key, required this.items});
+  const TransactionDisplayItem({
+    super.key,
+    required this.currency,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +71,7 @@ class TransactionItemWidget extends StatelessWidget {
                 ),
               ),
               DataColumn(
-                columnWidth: FlexColumnWidth(0.4),
+                columnWidth: FixedColumnWidth(120.0),
                 label: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Row(
@@ -94,13 +100,59 @@ class TransactionItemWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        Symbols.text_fields_rounded,
+                        Symbols.numbers_rounded,
                         color: colorScheme.onSurface.withValues(alpha: 0.7),
                         size: 16.0,
                       ),
                       SizedBox(width: 4.0),
                       Text(
                         Intl.message('issue_form_transaction_5'),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              DataColumn(
+                columnWidth: FixedColumnWidth(120.0),
+                label: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Symbols.check_box_rounded,
+                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        size: 16.0,
+                      ),
+                      SizedBox(width: 4.0),
+                      Text(
+                        Intl.message('issue_form_transaction_6'),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              DataColumn(
+                columnWidth: FlexColumnWidth(0.8),
+                label: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Symbols.text_fields_rounded,
+                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        size: 16.0,
+                      ),
+                      SizedBox(width: 4.0),
+                      Text(
+                        Intl.message('issue_form_transaction_7'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -129,7 +181,7 @@ class TransactionItemWidget extends StatelessWidget {
                           horizontal: 12.0, vertical: 8.0),
                       width: double.infinity,
                       child: Text(
-                        '${items[index].price} ${items[index].currency!.code}',
+                        '${items[index].ratio} %',
                         textAlign: TextAlign.end,
                       ),
                     ),
@@ -140,7 +192,30 @@ class TransactionItemWidget extends StatelessWidget {
                           horizontal: 12.0, vertical: 8.0),
                       width: double.infinity,
                       child: Text(
-                        items[index].note,
+                        '${items[index].price} ${currency.code}',
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ),
+                  DataCell(
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
+                      width: double.infinity,
+                      child: IgnorePointer(
+                        child: CustomToggleButton(
+                          value: items[index].isPaid,
+                        ),
+                      ),
+                    ),
+                  ),
+                  DataCell(
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 8.0),
+                      width: double.infinity,
+                      child: Text(
+                        items[index].note ?? '',
                       ),
                     ),
                   ),

@@ -6,14 +6,14 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
-class KickoffItemWidget extends ConsumerWidget {
+class KickoffFormItem extends ConsumerWidget {
   final int categoryId;
   final int projectId;
   final int? issueId;
   final DateTime? kickoffDate;
   final ValueNotifier<bool> isKickoffDateEmpty;
 
-  const KickoffItemWidget({
+  const KickoffFormItem({
     super.key,
     required this.categoryId,
     required this.projectId,
@@ -54,9 +54,7 @@ class KickoffItemWidget extends ConsumerWidget {
               if (result != null) {
                 ref
                     .read(issueFormControllerProvider(
-                            categoryId: categoryId,
-                            projectId: projectId,
-                            issueId: issueId)
+                            projectId: projectId, issueId: issueId)
                         .notifier)
                     .setKickoffDate(date: result);
               }

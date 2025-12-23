@@ -7,7 +7,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/project_client_filter_widget.dart';
-import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/project_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/schedule_project_selector.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ProjectSelectorDialog extends HookConsumerWidget {
@@ -95,7 +95,7 @@ class ProjectSelectorDialog extends HookConsumerWidget {
                   ),
                 ),
                 child: switch (project) {
-                  AsyncData(:final value) => ProjectListWidget(
+                  AsyncData(:final value) => ScheduleProjectSelector(
                       categoryId: categoryId,
                       scheduleId: scheduleId,
                       items: value.items,
@@ -103,7 +103,7 @@ class ProjectSelectorDialog extends HookConsumerWidget {
                   AsyncError(:final error, :final stackTrace) =>
                     ErrorContainerWidget(error: error, stackTrace: stackTrace),
                   _ => Skeletonizer(
-                      child: ProjectListWidget(
+                      child: ScheduleProjectSelector(
                         categoryId: categoryId,
                         scheduleId: scheduleId,
                         items: List.filled(

@@ -36,7 +36,7 @@ class DailyExpenseWidget extends ConsumerWidget {
         alignment: Alignment.topLeft,
         child: Container(
           padding: EdgeInsets.all(24.0),
-          constraints: BoxConstraints(maxWidth: 430.0),
+          constraints: BoxConstraints(maxWidth: 400.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +71,6 @@ class DailyExpenseWidget extends ConsumerWidget {
                     steps: value.steps.where((e) => e.categoryId == 4).toList(),
                     regulations: value.regulations,
                     rates: rates,
-                    // stepInvalid: isDailyExpenseInvalid,
                   ),
                 AsyncError(:final error, :final stackTrace) =>
                   ErrorContainerWidget(error: error, stackTrace: stackTrace),
@@ -84,7 +83,6 @@ class DailyExpenseWidget extends ConsumerWidget {
                       steps: List.filled(3, TripStep.dummy()),
                       regulations: [],
                       rates: [],
-                      // stepInvalid: isDailyExpenseInvalid,
                     ),
                   ),
               },

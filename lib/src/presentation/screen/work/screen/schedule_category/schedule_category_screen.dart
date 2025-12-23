@@ -11,7 +11,12 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class ScheduleCategoryScreen extends ConsumerWidget {
-  const ScheduleCategoryScreen({super.key});
+  final String? path;
+
+  const ScheduleCategoryScreen({
+    super.key,
+    this.path,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,6 +28,7 @@ class ScheduleCategoryScreen extends ConsumerWidget {
         constraints: BoxConstraints(maxWidth: 430.0),
         child: switch (filter) {
           AsyncData(:final value) => _DesktopWidget(
+              path: path,
               items: value.categoryItems,
             ),
           AsyncError(:final error, :final stackTrace) =>
@@ -30,7 +36,7 @@ class ScheduleCategoryScreen extends ConsumerWidget {
           _ => Skeletonizer(
               child: _DesktopWidget(
                 items: List.filled(
-                  3,
+                  5,
                   ScheduleCategory.dummy(),
                 ),
               ),
@@ -42,9 +48,11 @@ class ScheduleCategoryScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends StatelessWidget {
+  final String? path;
   final List<ScheduleCategory> items;
 
   const _DesktopWidget({
+    this.path,
     required this.items,
   });
 
@@ -63,6 +71,7 @@ class _DesktopWidget extends StatelessWidget {
             context.goNamed(
               RouteNames.scheduleNew,
               queryParameters: {
+                if (path != null) 'redirect_to': path,
                 'category': items[index].id.toString(),
               },
             );

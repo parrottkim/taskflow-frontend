@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
-import 'package:taskflow/src/data/data.dart';
 
 class BufferConverter
     implements JsonConverter<Uint8List, Map<String, dynamic>> {
@@ -60,37 +59,4 @@ class DateTimeConverter implements JsonConverter<DateTime, String> {
 
   @override
   String toJson(DateTime object) => DateFormat(format).format(object);
-}
-
-class IssueDetailsConverter
-    implements JsonConverter<IssueDetails, Map<String, dynamic>> {
-  const IssueDetailsConverter();
-
-  @override
-  IssueDetails fromJson(Map<String, dynamic> json) {
-    final type = json['type'] as String;
-    final data = json['data'] as Map<String, dynamic>;
-
-    switch (type) {
-      case 'contract':
-        return IssueContractDetails.fromJson(data);
-      case 'kickoff':
-        return IssueKickoffDetails.fromJson(data);
-      case 'approval':
-        return IssueApprovalDetails.fromJson(data);
-      case 'procurement':
-        return IssueProcurementDetails.fromJson(data);
-      case 'transaction':
-        return IssueTransactionDetails.fromJson(data);
-      case 'declaration':
-        return IssueDeclarationDetails.fromJson(data);
-      case 'payment':
-        return IssuePaymentDetails.fromJson(data);
-      default:
-        throw ArgumentError('Unknown issueDetails type: $type');
-    }
-  }
-
-  @override
-  Map<String, dynamic> toJson(IssueDetails details) => details.toJson();
 }

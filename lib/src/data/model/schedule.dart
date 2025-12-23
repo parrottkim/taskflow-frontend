@@ -22,6 +22,11 @@ sealed class ScheduleCategory with _$ScheduleCategory {
     required String name,
     required String color,
   }) = ScheduleRemote;
+  factory ScheduleCategory.conference({
+    required int id,
+    required String name,
+    required String color,
+  }) = ScheduleConference;
 
   factory ScheduleCategory.dummy() =>
       ScheduleCategory.domestic(id: 1, name: '임시 이름', color: '0');
@@ -78,4 +83,28 @@ abstract class Schedule with _$Schedule {
 
   factory Schedule.fromJson(Map<String, dynamic> json) =>
       _$ScheduleFromJson(json);
+}
+
+@freezed
+abstract class TodaySchedule with _$TodaySchedule {
+  factory TodaySchedule({
+    required String summary,
+    required ScheduleCategory category,
+    required DateTime start,
+    required DateTime end,
+    required String projectClientName,
+    required User user,
+  }) = _TodaySchedule;
+
+  factory TodaySchedule.fromJson(Map<String, dynamic> json) =>
+      _$TodayScheduleFromJson(json);
+
+  factory TodaySchedule.dummy() => TodaySchedule(
+        summary: '제목',
+        category: ScheduleCategory.dummy(),
+        start: DateTime.now(),
+        end: DateTime.now(),
+        projectClientName: '고객사',
+        user: User.dummy(),
+      );
 }

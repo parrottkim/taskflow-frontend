@@ -13,7 +13,7 @@ class ProjectStatsController extends _$ProjectStatsController {
   Future<ProjectStatsState> init(
       {required DateTime start, required DateTime end}) async {
     final result = await ref
-        .watch(projectRepositoryProvider)
+        .watch(dashboardRepositoryProvider)
         .getProjectStats(start: start, end: end);
 
     return ProjectStatsState(

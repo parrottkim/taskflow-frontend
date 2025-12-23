@@ -12,8 +12,6 @@ abstract class ScheduleRepository {
     DateTime? end,
   });
 
-  Future<List<Schedule>> getTodaysSchedule();
-
   Future<Schedule> createSchedule({required ScheduleRequest request});
 
   Future<Schedule> updateSchedule(

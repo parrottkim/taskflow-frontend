@@ -41,6 +41,7 @@ class RouterInterceptor implements RouterInterceptorInterface {
         case AuthFailed():
         case AuthForbidden():
         case AuthConflict():
+        case AuthNetworkError():
           // 로그인되지 않았거나 실패/거부/충돌 상태
           if (redirect != null) {
             if (redirect.startsWith(Routes.login)) {
@@ -83,6 +84,7 @@ class RouterInterceptor implements RouterInterceptorInterface {
         case AuthFailed():
         case AuthForbidden():
         case AuthConflict():
+        case AuthNetworkError():
           // 현재 접근하려는 경로가 인증 관련 경로일 경우 (login, register, forgotPassword 등)
           if (matchedLocation.startsWith(Routes.login)) {
             return null;
@@ -98,7 +100,7 @@ class RouterInterceptor implements RouterInterceptorInterface {
           // 로그인된 상태에서 인증 관련 페이지로 접근 시
           if (matchedLocation.startsWith(Routes.login)) {
             // redirect_to 파라미터가 있고, 인증 관련 경로가 아니면 해당 경로로 이동
-            if (redirect != null && !matchedLocation.startsWith(Routes.login)) {
+            if (redirect != null && !redirect.startsWith(Routes.login)) {
               return redirect;
             }
             // 없으면 대시보드 페이지로 이동
@@ -107,7 +109,9 @@ class RouterInterceptor implements RouterInterceptorInterface {
 
           // 그 외, 일반적인 로그인된 상태에서의 리다이렉트 처리
           // 리다이렉트 경로가 있고, 그 경로가 인증 관련 경로가 아니면 리다이렉트
-          if (redirect != null && !matchedLocation.startsWith(Routes.login)) {
+          if (redirect != null &&
+              !matchedLocation.startsWith(Routes.login) &&
+              !matchedLocation.startsWith(Routes.work)) {
             return redirect;
           }
           break; // 현재 경로는 접근 허용 (로그인된 상태에서 인증 관련 페이지가 아님)

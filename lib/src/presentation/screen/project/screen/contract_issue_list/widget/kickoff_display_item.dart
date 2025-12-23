@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class KickoffItemWidget extends StatelessWidget {
+class KickoffDisplayItem extends StatelessWidget {
   final DateTime kickoffDate;
 
-  const KickoffItemWidget({
+  const KickoffDisplayItem({
     super.key,
     required this.kickoffDate,
   });

@@ -129,7 +129,7 @@ class ErrorController extends _$ErrorController {
             default:
               toast.showToast(
                 child: Toast(
-                  type: ToastType.standard,
+                  type: ToastType.error,
                   message: Intl.message('error_unexpected'),
                 ),
               );
@@ -139,7 +139,7 @@ class ErrorController extends _$ErrorController {
         default:
           toast.showToast(
             child: Toast(
-              type: ToastType.standard,
+              type: ToastType.error,
               message: Intl.message('error_unexpected'),
             ),
           );

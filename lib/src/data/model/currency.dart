@@ -8,8 +8,8 @@ abstract class Currency with _$Currency {
     required String symbol,
   }) = _Currency;
 
-  factory Currency.empty() => Currency(id: 0, code: '', symbol: '');
-
   factory Currency.fromJson(Map<String, dynamic> json) =>
       _$CurrencyFromJson(json);
+
+  factory Currency.empty() => Currency(id: 0, code: '', symbol: '');
 }

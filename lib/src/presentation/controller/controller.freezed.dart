@@ -63,6 +63,7 @@ extension AuthStatePatterns on AuthState {
     TResult Function(AuthForbidden value)? forbidden,
     TResult Function(AuthConflict value)? conflict,
     TResult Function(AuthFailed value)? failed,
+    TResult Function(AuthNetworkError value)? networkError,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -83,6 +84,8 @@ extension AuthStatePatterns on AuthState {
         return conflict(_that);
       case AuthFailed() when failed != null:
         return failed(_that);
+      case AuthNetworkError() when networkError != null:
+        return networkError(_that);
       case _:
         return orElse();
     }
@@ -111,6 +114,7 @@ extension AuthStatePatterns on AuthState {
     required TResult Function(AuthForbidden value) forbidden,
     required TResult Function(AuthConflict value) conflict,
     required TResult Function(AuthFailed value) failed,
+    required TResult Function(AuthNetworkError value) networkError,
   }) {
     final _that = this;
     switch (_that) {
@@ -130,6 +134,8 @@ extension AuthStatePatterns on AuthState {
         return conflict(_that);
       case AuthFailed():
         return failed(_that);
+      case AuthNetworkError():
+        return networkError(_that);
     }
   }
 
@@ -155,6 +161,7 @@ extension AuthStatePatterns on AuthState {
     TResult? Function(AuthForbidden value)? forbidden,
     TResult? Function(AuthConflict value)? conflict,
     TResult? Function(AuthFailed value)? failed,
+    TResult? Function(AuthNetworkError value)? networkError,
   }) {
     final _that = this;
     switch (_that) {
@@ -174,6 +181,8 @@ extension AuthStatePatterns on AuthState {
         return conflict(_that);
       case AuthFailed() when failed != null:
         return failed(_that);
+      case AuthNetworkError() when networkError != null:
+        return networkError(_that);
       case _:
         return null;
     }
@@ -201,6 +210,7 @@ extension AuthStatePatterns on AuthState {
     TResult Function()? forbidden,
     TResult Function()? conflict,
     TResult Function()? failed,
+    TResult Function()? networkError,
     required TResult orElse(),
   }) {
     final _that = this;
@@ -221,6 +231,8 @@ extension AuthStatePatterns on AuthState {
         return conflict();
       case AuthFailed() when failed != null:
         return failed();
+      case AuthNetworkError() when networkError != null:
+        return networkError();
       case _:
         return orElse();
     }
@@ -249,6 +261,7 @@ extension AuthStatePatterns on AuthState {
     required TResult Function() forbidden,
     required TResult Function() conflict,
     required TResult Function() failed,
+    required TResult Function() networkError,
   }) {
     final _that = this;
     switch (_that) {
@@ -268,6 +281,8 @@ extension AuthStatePatterns on AuthState {
         return conflict();
       case AuthFailed():
         return failed();
+      case AuthNetworkError():
+        return networkError();
     }
   }
 
@@ -293,6 +308,7 @@ extension AuthStatePatterns on AuthState {
     TResult? Function()? forbidden,
     TResult? Function()? conflict,
     TResult? Function()? failed,
+    TResult? Function()? networkError,
   }) {
     final _that = this;
     switch (_that) {
@@ -312,6 +328,8 @@ extension AuthStatePatterns on AuthState {
         return conflict();
       case AuthFailed() when failed != null:
         return failed();
+      case AuthNetworkError() when networkError != null:
+        return networkError();
       case _:
         return null;
     }
@@ -624,8 +642,33 @@ class AuthFailed with DiagnosticableTreeMixin implements AuthState {
 }
 
 /// @nodoc
+
+class AuthNetworkError with DiagnosticableTreeMixin implements AuthState {
+  const AuthNetworkError();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties..add(DiagnosticsProperty('type', 'AuthState.networkError'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is AuthNetworkError);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AuthState.networkError()';
+  }
+}
+
+/// @nodoc
 mixin _$CalendarState implements DiagnosticableTreeMixin {
-  List<Schedule> get items;
+  List<TodaySchedule> get items;
 
   /// Create a copy of CalendarState
   /// with the given fields replaced by the non-null parameter values.
@@ -666,7 +709,7 @@ abstract mixin class $CalendarStateCopyWith<$Res> {
           CalendarState value, $Res Function(CalendarState) _then) =
       _$CalendarStateCopyWithImpl;
   @useResult
-  $Res call({List<Schedule> items});
+  $Res call({List<TodaySchedule> items});
 }
 
 /// @nodoc
@@ -688,7 +731,7 @@ class _$CalendarStateCopyWithImpl<$Res>
       items: null == items
           ? _self.items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<Schedule>,
+              as List<TodaySchedule>,
     ));
   }
 }
@@ -786,7 +829,7 @@ extension CalendarStatePatterns on CalendarState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<Schedule> items)? $default, {
+    TResult Function(List<TodaySchedule> items)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -813,7 +856,7 @@ extension CalendarStatePatterns on CalendarState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<Schedule> items) $default,
+    TResult Function(List<TodaySchedule> items) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -838,7 +881,7 @@ extension CalendarStatePatterns on CalendarState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<Schedule> items)? $default,
+    TResult? Function(List<TodaySchedule> items)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -853,11 +896,11 @@ extension CalendarStatePatterns on CalendarState {
 /// @nodoc
 
 class _CalendarState with DiagnosticableTreeMixin implements CalendarState {
-  _CalendarState({required final List<Schedule> items}) : _items = items;
+  _CalendarState({required final List<TodaySchedule> items}) : _items = items;
 
-  final List<Schedule> _items;
+  final List<TodaySchedule> _items;
   @override
-  List<Schedule> get items {
+  List<TodaySchedule> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_items);
@@ -904,7 +947,7 @@ abstract mixin class _$CalendarStateCopyWith<$Res>
       __$CalendarStateCopyWithImpl;
   @override
   @useResult
-  $Res call({List<Schedule> items});
+  $Res call({List<TodaySchedule> items});
 }
 
 /// @nodoc
@@ -926,7 +969,7 @@ class __$CalendarStateCopyWithImpl<$Res>
       items: null == items
           ? _self._items
           : items // ignore: cast_nullable_to_non_nullable
-              as List<Schedule>,
+              as List<TodaySchedule>,
     ));
   }
 }
@@ -3703,334 +3746,6 @@ class _$ErrorNotDefinedCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$IssueDetailState implements DiagnosticableTreeMixin {
-  Issue get issue;
-
-  /// Create a copy of IssueDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $IssueDetailStateCopyWith<IssueDetailState> get copyWith =>
-      _$IssueDetailStateCopyWithImpl<IssueDetailState>(
-          this as IssueDetailState, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueDetailState'))
-      ..add(DiagnosticsProperty('issue', issue));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueDetailState &&
-            (identical(other.issue, issue) || other.issue == issue));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, issue);
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueDetailState(issue: $issue)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueDetailStateCopyWith<$Res> {
-  factory $IssueDetailStateCopyWith(
-          IssueDetailState value, $Res Function(IssueDetailState) _then) =
-      _$IssueDetailStateCopyWithImpl;
-  @useResult
-  $Res call({Issue issue});
-
-  $IssueCopyWith<$Res> get issue;
-}
-
-/// @nodoc
-class _$IssueDetailStateCopyWithImpl<$Res>
-    implements $IssueDetailStateCopyWith<$Res> {
-  _$IssueDetailStateCopyWithImpl(this._self, this._then);
-
-  final IssueDetailState _self;
-  final $Res Function(IssueDetailState) _then;
-
-  /// Create a copy of IssueDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? issue = null,
-  }) {
-    return _then(_self.copyWith(
-      issue: null == issue
-          ? _self.issue
-          : issue // ignore: cast_nullable_to_non_nullable
-              as Issue,
-    ));
-  }
-
-  /// Create a copy of IssueDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $IssueCopyWith<$Res> get issue {
-    return $IssueCopyWith<$Res>(_self.issue, (value) {
-      return _then(_self.copyWith(issue: value));
-    });
-  }
-}
-
-/// Adds pattern-matching-related methods to [IssueDetailState].
-extension IssueDetailStatePatterns on IssueDetailState {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_IssueDetailState value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _IssueDetailState() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_IssueDetailState value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _IssueDetailState():
-        return $default(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_IssueDetailState value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _IssueDetailState() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Issue issue)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _IssueDetailState() when $default != null:
-        return $default(_that.issue);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(Issue issue) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _IssueDetailState():
-        return $default(_that.issue);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Issue issue)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _IssueDetailState() when $default != null:
-        return $default(_that.issue);
-      case _:
-        return null;
-    }
-  }
-}
-
-/// @nodoc
-
-class _IssueDetailState
-    with DiagnosticableTreeMixin
-    implements IssueDetailState {
-  _IssueDetailState({required this.issue});
-
-  @override
-  final Issue issue;
-
-  /// Create a copy of IssueDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$IssueDetailStateCopyWith<_IssueDetailState> get copyWith =>
-      __$IssueDetailStateCopyWithImpl<_IssueDetailState>(this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueDetailState'))
-      ..add(DiagnosticsProperty('issue', issue));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _IssueDetailState &&
-            (identical(other.issue, issue) || other.issue == issue));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, issue);
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueDetailState(issue: $issue)';
-  }
-}
-
-/// @nodoc
-abstract mixin class _$IssueDetailStateCopyWith<$Res>
-    implements $IssueDetailStateCopyWith<$Res> {
-  factory _$IssueDetailStateCopyWith(
-          _IssueDetailState value, $Res Function(_IssueDetailState) _then) =
-      __$IssueDetailStateCopyWithImpl;
-  @override
-  @useResult
-  $Res call({Issue issue});
-
-  @override
-  $IssueCopyWith<$Res> get issue;
-}
-
-/// @nodoc
-class __$IssueDetailStateCopyWithImpl<$Res>
-    implements _$IssueDetailStateCopyWith<$Res> {
-  __$IssueDetailStateCopyWithImpl(this._self, this._then);
-
-  final _IssueDetailState _self;
-  final $Res Function(_IssueDetailState) _then;
-
-  /// Create a copy of IssueDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? issue = null,
-  }) {
-    return _then(_IssueDetailState(
-      issue: null == issue
-          ? _self.issue
-          : issue // ignore: cast_nullable_to_non_nullable
-              as Issue,
-    ));
-  }
-
-  /// Create a copy of IssueDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $IssueCopyWith<$Res> get issue {
-    return $IssueCopyWith<$Res>(_self.issue, (value) {
-      return _then(_self.copyWith(issue: value));
-    });
-  }
-}
-
-/// @nodoc
 mixin _$IssueFilterState implements DiagnosticableTreeMixin {
   List<TransactionItemCategory> get transactionCategories;
   List<Currency> get currencies;
@@ -4390,9 +4105,16 @@ class __$IssueFilterStateCopyWithImpl<$Res>
 
 /// @nodoc
 mixin _$IssueFormState implements DiagnosticableTreeMixin {
+  List<IssueCategory> get categories;
+  IssueCategory? get category;
   String? get content;
   List<IssueAttachment>? get attachments;
   List<XFile>? get files;
+  Currency? get currency;
+  DateTime? get kickoffDate;
+  List<ContractItem> get contractItems;
+  List<ProcurementItem> get procurementItems;
+  List<TransactionItem> get transactionItems;
 
   /// Create a copy of IssueFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -4406,9 +4128,16 @@ mixin _$IssueFormState implements DiagnosticableTreeMixin {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'IssueFormState'))
+      ..add(DiagnosticsProperty('categories', categories))
+      ..add(DiagnosticsProperty('category', category))
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
+      ..add(DiagnosticsProperty('files', files))
+      ..add(DiagnosticsProperty('currency', currency))
+      ..add(DiagnosticsProperty('kickoffDate', kickoffDate))
+      ..add(DiagnosticsProperty('contractItems', contractItems))
+      ..add(DiagnosticsProperty('procurementItems', procurementItems))
+      ..add(DiagnosticsProperty('transactionItems', transactionItems));
   }
 
   @override
@@ -4416,22 +4145,43 @@ mixin _$IssueFormState implements DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is IssueFormState &&
+            const DeepCollectionEquality()
+                .equals(other.categories, categories) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
-            const DeepCollectionEquality().equals(other.files, files));
+            const DeepCollectionEquality().equals(other.files, files) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
+            (identical(other.kickoffDate, kickoffDate) ||
+                other.kickoffDate == kickoffDate) &&
+            const DeepCollectionEquality()
+                .equals(other.contractItems, contractItems) &&
+            const DeepCollectionEquality()
+                .equals(other.procurementItems, procurementItems) &&
+            const DeepCollectionEquality()
+                .equals(other.transactionItems, transactionItems));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(categories),
+      category,
       content,
       const DeepCollectionEquality().hash(attachments),
-      const DeepCollectionEquality().hash(files));
+      const DeepCollectionEquality().hash(files),
+      currency,
+      kickoffDate,
+      const DeepCollectionEquality().hash(contractItems),
+      const DeepCollectionEquality().hash(procurementItems),
+      const DeepCollectionEquality().hash(transactionItems));
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState(content: $content, attachments: $attachments, files: $files)';
+    return 'IssueFormState(categories: $categories, category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
   }
 }
 
@@ -4442,9 +4192,19 @@ abstract mixin class $IssueFormStateCopyWith<$Res> {
       _$IssueFormStateCopyWithImpl;
   @useResult
   $Res call(
-      {String? content,
+      {List<IssueCategory> categories,
+      IssueCategory? category,
+      String? content,
       List<IssueAttachment>? attachments,
-      List<XFile>? files});
+      List<XFile>? files,
+      Currency? currency,
+      DateTime? kickoffDate,
+      List<ContractItem> contractItems,
+      List<ProcurementItem> procurementItems,
+      List<TransactionItem> transactionItems});
+
+  $IssueCategoryCopyWith<$Res>? get category;
+  $CurrencyCopyWith<$Res>? get currency;
 }
 
 /// @nodoc
@@ -4460,11 +4220,26 @@ class _$IssueFormStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? categories = null,
+    Object? category = freezed,
     Object? content = freezed,
     Object? attachments = freezed,
     Object? files = freezed,
+    Object? currency = freezed,
+    Object? kickoffDate = freezed,
+    Object? contractItems = null,
+    Object? procurementItems = null,
+    Object? transactionItems = null,
   }) {
     return _then(_self.copyWith(
+      categories: null == categories
+          ? _self.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<IssueCategory>,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as IssueCategory?,
       content: freezed == content
           ? _self.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -4477,7 +4252,55 @@ class _$IssueFormStateCopyWithImpl<$Res>
           ? _self.files
           : files // ignore: cast_nullable_to_non_nullable
               as List<XFile>?,
+      currency: freezed == currency
+          ? _self.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as Currency?,
+      kickoffDate: freezed == kickoffDate
+          ? _self.kickoffDate
+          : kickoffDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      contractItems: null == contractItems
+          ? _self.contractItems
+          : contractItems // ignore: cast_nullable_to_non_nullable
+              as List<ContractItem>,
+      procurementItems: null == procurementItems
+          ? _self.procurementItems
+          : procurementItems // ignore: cast_nullable_to_non_nullable
+              as List<ProcurementItem>,
+      transactionItems: null == transactionItems
+          ? _self.transactionItems
+          : transactionItems // ignore: cast_nullable_to_non_nullable
+              as List<TransactionItem>,
     ));
+  }
+
+  /// Create a copy of IssueFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $IssueCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+      return null;
+    }
+
+    return $IssueCategoryCopyWith<$Res>(_self.category!, (value) {
+      return _then(_self.copyWith(category: value));
+    });
+  }
+
+  /// Create a copy of IssueFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CurrencyCopyWith<$Res>? get currency {
+    if (_self.currency == null) {
+      return null;
+    }
+
+    return $CurrencyCopyWith<$Res>(_self.currency!, (value) {
+      return _then(_self.copyWith(currency: value));
+    });
   }
 }
 
@@ -4498,33 +4321,12 @@ extension IssueFormStatePatterns on IssueFormState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
     TResult Function(_IssueFormState value)? $default, {
-    TResult Function(IssueFormContract value)? contract,
-    TResult Function(IssueFormKickoff value)? kickoff,
-    TResult Function(IssueFormApproval value)? approval,
-    TResult Function(IssueFormProcurement value)? procurement,
-    TResult Function(IssueFormTransaction value)? transaction,
-    TResult Function(IssueFormDeclaration value)? declaration,
-    TResult Function(IssueFormPayment value)? payment,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _IssueFormState() when $default != null:
         return $default(_that);
-      case IssueFormContract() when contract != null:
-        return contract(_that);
-      case IssueFormKickoff() when kickoff != null:
-        return kickoff(_that);
-      case IssueFormApproval() when approval != null:
-        return approval(_that);
-      case IssueFormProcurement() when procurement != null:
-        return procurement(_that);
-      case IssueFormTransaction() when transaction != null:
-        return transaction(_that);
-      case IssueFormDeclaration() when declaration != null:
-        return declaration(_that);
-      case IssueFormPayment() when payment != null:
-        return payment(_that);
       case _:
         return orElse();
     }
@@ -4545,33 +4347,14 @@ extension IssueFormStatePatterns on IssueFormState {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_IssueFormState value) $default, {
-    required TResult Function(IssueFormContract value) contract,
-    required TResult Function(IssueFormKickoff value) kickoff,
-    required TResult Function(IssueFormApproval value) approval,
-    required TResult Function(IssueFormProcurement value) procurement,
-    required TResult Function(IssueFormTransaction value) transaction,
-    required TResult Function(IssueFormDeclaration value) declaration,
-    required TResult Function(IssueFormPayment value) payment,
-  }) {
+    TResult Function(_IssueFormState value) $default,
+  ) {
     final _that = this;
     switch (_that) {
       case _IssueFormState():
         return $default(_that);
-      case IssueFormContract():
-        return contract(_that);
-      case IssueFormKickoff():
-        return kickoff(_that);
-      case IssueFormApproval():
-        return approval(_that);
-      case IssueFormProcurement():
-        return procurement(_that);
-      case IssueFormTransaction():
-        return transaction(_that);
-      case IssueFormDeclaration():
-        return declaration(_that);
-      case IssueFormPayment():
-        return payment(_that);
+      case _:
+        throw StateError('Unexpected subclass');
     }
   }
 
@@ -4589,33 +4372,12 @@ extension IssueFormStatePatterns on IssueFormState {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_IssueFormState value)? $default, {
-    TResult? Function(IssueFormContract value)? contract,
-    TResult? Function(IssueFormKickoff value)? kickoff,
-    TResult? Function(IssueFormApproval value)? approval,
-    TResult? Function(IssueFormProcurement value)? procurement,
-    TResult? Function(IssueFormTransaction value)? transaction,
-    TResult? Function(IssueFormDeclaration value)? declaration,
-    TResult? Function(IssueFormPayment value)? payment,
-  }) {
+    TResult? Function(_IssueFormState value)? $default,
+  ) {
     final _that = this;
     switch (_that) {
       case _IssueFormState() when $default != null:
         return $default(_that);
-      case IssueFormContract() when contract != null:
-        return contract(_that);
-      case IssueFormKickoff() when kickoff != null:
-        return kickoff(_that);
-      case IssueFormApproval() when approval != null:
-        return approval(_that);
-      case IssueFormProcurement() when procurement != null:
-        return procurement(_that);
-      case IssueFormTransaction() when transaction != null:
-        return transaction(_that);
-      case IssueFormDeclaration() when declaration != null:
-        return declaration(_that);
-      case IssueFormPayment() when payment != null:
-        return payment(_that);
       case _:
         return null;
     }
@@ -4635,54 +4397,34 @@ extension IssueFormStatePatterns on IssueFormState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
+    TResult Function(
+            List<IssueCategory> categories,
+            IssueCategory? category,
+            String? content,
+            List<IssueAttachment>? attachments,
+            List<XFile>? files,
+            Currency? currency,
+            DateTime? kickoffDate,
+            List<ContractItem> contractItems,
+            List<ProcurementItem> procurementItems,
+            List<TransactionItem> transactionItems)?
         $default, {
-    TResult Function(String? content, List<ContractItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        contract,
-    TResult Function(String? content, int? kickoffId, DateTime? kickoffDate,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        kickoff,
-    TResult Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
-        approval,
-    TResult Function(String? content, List<ProcurementItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        procurement,
-    TResult Function(String? content, List<TransactionItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        transaction,
-    TResult Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
-        declaration,
-    TResult Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
-        payment,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _IssueFormState() when $default != null:
-        return $default(_that.content, _that.attachments, _that.files);
-      case IssueFormContract() when contract != null:
-        return contract(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormKickoff() when kickoff != null:
-        return kickoff(_that.content, _that.kickoffId, _that.kickoffDate,
-            _that.attachments, _that.files);
-      case IssueFormApproval() when approval != null:
-        return approval(_that.content, _that.attachments, _that.files);
-      case IssueFormProcurement() when procurement != null:
-        return procurement(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormTransaction() when transaction != null:
-        return transaction(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormDeclaration() when declaration != null:
-        return declaration(_that.content, _that.attachments, _that.files);
-      case IssueFormPayment() when payment != null:
-        return payment(_that.content, _that.attachments, _that.files);
+        return $default(
+            _that.categories,
+            _that.category,
+            _that.content,
+            _that.attachments,
+            _that.files,
+            _that.currency,
+            _that.kickoffDate,
+            _that.contractItems,
+            _that.procurementItems,
+            _that.transactionItems);
       case _:
         return orElse();
     }
@@ -4703,57 +4445,35 @@ extension IssueFormStatePatterns on IssueFormState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)
-        $default, {
-    required TResult Function(String? content, List<ContractItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)
-        contract,
-    required TResult Function(
+    TResult Function(
+            List<IssueCategory> categories,
+            IssueCategory? category,
             String? content,
-            int? kickoffId,
-            DateTime? kickoffDate,
             List<IssueAttachment>? attachments,
-            List<XFile>? files)
-        kickoff,
-    required TResult Function(String? content,
-            List<IssueAttachment>? attachments, List<XFile>? files)
-        approval,
-    required TResult Function(String? content, List<ProcurementItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)
-        procurement,
-    required TResult Function(String? content, List<TransactionItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)
-        transaction,
-    required TResult Function(String? content,
-            List<IssueAttachment>? attachments, List<XFile>? files)
-        declaration,
-    required TResult Function(String? content,
-            List<IssueAttachment>? attachments, List<XFile>? files)
-        payment,
-  }) {
+            List<XFile>? files,
+            Currency? currency,
+            DateTime? kickoffDate,
+            List<ContractItem> contractItems,
+            List<ProcurementItem> procurementItems,
+            List<TransactionItem> transactionItems)
+        $default,
+  ) {
     final _that = this;
     switch (_that) {
       case _IssueFormState():
-        return $default(_that.content, _that.attachments, _that.files);
-      case IssueFormContract():
-        return contract(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormKickoff():
-        return kickoff(_that.content, _that.kickoffId, _that.kickoffDate,
-            _that.attachments, _that.files);
-      case IssueFormApproval():
-        return approval(_that.content, _that.attachments, _that.files);
-      case IssueFormProcurement():
-        return procurement(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormTransaction():
-        return transaction(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormDeclaration():
-        return declaration(_that.content, _that.attachments, _that.files);
-      case IssueFormPayment():
-        return payment(_that.content, _that.attachments, _that.files);
+        return $default(
+            _that.categories,
+            _that.category,
+            _that.content,
+            _that.attachments,
+            _that.files,
+            _that.currency,
+            _that.kickoffDate,
+            _that.contractItems,
+            _that.procurementItems,
+            _that.transactionItems);
+      case _:
+        throw StateError('Unexpected subclass');
     }
   }
 
@@ -4771,53 +4491,33 @@ extension IssueFormStatePatterns on IssueFormState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
-        $default, {
-    TResult? Function(String? content, List<ContractItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        contract,
-    TResult? Function(String? content, int? kickoffId, DateTime? kickoffDate,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        kickoff,
-    TResult? Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
-        approval,
-    TResult? Function(String? content, List<ProcurementItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        procurement,
-    TResult? Function(String? content, List<TransactionItem>? items,
-            List<IssueAttachment>? attachments, List<XFile>? files)?
-        transaction,
-    TResult? Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
-        declaration,
-    TResult? Function(String? content, List<IssueAttachment>? attachments,
-            List<XFile>? files)?
-        payment,
-  }) {
+    TResult? Function(
+            List<IssueCategory> categories,
+            IssueCategory? category,
+            String? content,
+            List<IssueAttachment>? attachments,
+            List<XFile>? files,
+            Currency? currency,
+            DateTime? kickoffDate,
+            List<ContractItem> contractItems,
+            List<ProcurementItem> procurementItems,
+            List<TransactionItem> transactionItems)?
+        $default,
+  ) {
     final _that = this;
     switch (_that) {
       case _IssueFormState() when $default != null:
-        return $default(_that.content, _that.attachments, _that.files);
-      case IssueFormContract() when contract != null:
-        return contract(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormKickoff() when kickoff != null:
-        return kickoff(_that.content, _that.kickoffId, _that.kickoffDate,
-            _that.attachments, _that.files);
-      case IssueFormApproval() when approval != null:
-        return approval(_that.content, _that.attachments, _that.files);
-      case IssueFormProcurement() when procurement != null:
-        return procurement(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormTransaction() when transaction != null:
-        return transaction(
-            _that.content, _that.items, _that.attachments, _that.files);
-      case IssueFormDeclaration() when declaration != null:
-        return declaration(_that.content, _that.attachments, _that.files);
-      case IssueFormPayment() when payment != null:
-        return payment(_that.content, _that.attachments, _that.files);
+        return $default(
+            _that.categories,
+            _that.category,
+            _that.content,
+            _that.attachments,
+            _that.files,
+            _that.currency,
+            _that.kickoffDate,
+            _that.contractItems,
+            _that.procurementItems,
+            _that.transactionItems);
       case _:
         return null;
     }
@@ -4828,12 +4528,34 @@ extension IssueFormStatePatterns on IssueFormState {
 
 class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
   const _IssueFormState(
-      {this.content,
+      {final List<IssueCategory> categories = const [],
+      this.category,
+      this.content,
       final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _attachments = attachments,
-        _files = files;
+      final List<XFile>? files,
+      this.currency,
+      this.kickoffDate,
+      final List<ContractItem> contractItems = const [],
+      final List<ProcurementItem> procurementItems = const [],
+      final List<TransactionItem> transactionItems = const []})
+      : _categories = categories,
+        _attachments = attachments,
+        _files = files,
+        _contractItems = contractItems,
+        _procurementItems = procurementItems,
+        _transactionItems = transactionItems;
 
+  final List<IssueCategory> _categories;
+  @override
+  @JsonKey()
+  List<IssueCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  final IssueCategory? category;
   @override
   final String? content;
   final List<IssueAttachment>? _attachments;
@@ -4856,6 +4578,39 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
     return EqualUnmodifiableListView(value);
   }
 
+  @override
+  final Currency? currency;
+  @override
+  final DateTime? kickoffDate;
+  final List<ContractItem> _contractItems;
+  @override
+  @JsonKey()
+  List<ContractItem> get contractItems {
+    if (_contractItems is EqualUnmodifiableListView) return _contractItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_contractItems);
+  }
+
+  final List<ProcurementItem> _procurementItems;
+  @override
+  @JsonKey()
+  List<ProcurementItem> get procurementItems {
+    if (_procurementItems is EqualUnmodifiableListView)
+      return _procurementItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_procurementItems);
+  }
+
+  final List<TransactionItem> _transactionItems;
+  @override
+  @JsonKey()
+  List<TransactionItem> get transactionItems {
+    if (_transactionItems is EqualUnmodifiableListView)
+      return _transactionItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_transactionItems);
+  }
+
   /// Create a copy of IssueFormState
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -4868,9 +4623,16 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'IssueFormState'))
+      ..add(DiagnosticsProperty('categories', categories))
+      ..add(DiagnosticsProperty('category', category))
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
+      ..add(DiagnosticsProperty('files', files))
+      ..add(DiagnosticsProperty('currency', currency))
+      ..add(DiagnosticsProperty('kickoffDate', kickoffDate))
+      ..add(DiagnosticsProperty('contractItems', contractItems))
+      ..add(DiagnosticsProperty('procurementItems', procurementItems))
+      ..add(DiagnosticsProperty('transactionItems', transactionItems));
   }
 
   @override
@@ -4878,22 +4640,43 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _IssueFormState &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
                 .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
+            const DeepCollectionEquality().equals(other._files, _files) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
+            (identical(other.kickoffDate, kickoffDate) ||
+                other.kickoffDate == kickoffDate) &&
+            const DeepCollectionEquality()
+                .equals(other._contractItems, _contractItems) &&
+            const DeepCollectionEquality()
+                .equals(other._procurementItems, _procurementItems) &&
+            const DeepCollectionEquality()
+                .equals(other._transactionItems, _transactionItems));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(_categories),
+      category,
       content,
       const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
+      const DeepCollectionEquality().hash(_files),
+      currency,
+      kickoffDate,
+      const DeepCollectionEquality().hash(_contractItems),
+      const DeepCollectionEquality().hash(_procurementItems),
+      const DeepCollectionEquality().hash(_transactionItems));
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState(content: $content, attachments: $attachments, files: $files)';
+    return 'IssueFormState(categories: $categories, category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
   }
 }
 
@@ -4906,9 +4689,21 @@ abstract mixin class _$IssueFormStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? content,
+      {List<IssueCategory> categories,
+      IssueCategory? category,
+      String? content,
       List<IssueAttachment>? attachments,
-      List<XFile>? files});
+      List<XFile>? files,
+      Currency? currency,
+      DateTime? kickoffDate,
+      List<ContractItem> contractItems,
+      List<ProcurementItem> procurementItems,
+      List<TransactionItem> transactionItems});
+
+  @override
+  $IssueCategoryCopyWith<$Res>? get category;
+  @override
+  $CurrencyCopyWith<$Res>? get currency;
 }
 
 /// @nodoc
@@ -4924,11 +4719,26 @@ class __$IssueFormStateCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? categories = null,
+    Object? category = freezed,
     Object? content = freezed,
     Object? attachments = freezed,
     Object? files = freezed,
+    Object? currency = freezed,
+    Object? kickoffDate = freezed,
+    Object? contractItems = null,
+    Object? procurementItems = null,
+    Object? transactionItems = null,
   }) {
     return _then(_IssueFormState(
+      categories: null == categories
+          ? _self._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<IssueCategory>,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as IssueCategory?,
       content: freezed == content
           ? _self.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -4941,956 +4751,72 @@ class __$IssueFormStateCopyWithImpl<$Res>
           ? _self._files
           : files // ignore: cast_nullable_to_non_nullable
               as List<XFile>?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class IssueFormContract with DiagnosticableTreeMixin implements IssueFormState {
-  IssueFormContract(
-      {this.content,
-      final List<ContractItem>? items,
-      final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _items = items,
-        _attachments = attachments,
-        _files = files;
-
-  @override
-  final String? content;
-  final List<ContractItem>? _items;
-  List<ContractItem>? get items {
-    final value = _items;
-    if (value == null) return null;
-    if (_items is EqualUnmodifiableListView) return _items;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<IssueAttachment>? _attachments;
-  @override
-  List<IssueAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
-    if (_attachments is EqualUnmodifiableListView) return _attachments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<XFile>? _files;
-  @override
-  List<XFile>? get files {
-    final value = _files;
-    if (value == null) return null;
-    if (_files is EqualUnmodifiableListView) return _files;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $IssueFormContractCopyWith<IssueFormContract> get copyWith =>
-      _$IssueFormContractCopyWithImpl<IssueFormContract>(this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueFormState.contract'))
-      ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('items', items))
-      ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueFormContract &&
-            (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other._items, _items) &&
-            const DeepCollectionEquality()
-                .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      content,
-      const DeepCollectionEquality().hash(_items),
-      const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState.contract(content: $content, items: $items, attachments: $attachments, files: $files)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueFormContractCopyWith<$Res>
-    implements $IssueFormStateCopyWith<$Res> {
-  factory $IssueFormContractCopyWith(
-          IssueFormContract value, $Res Function(IssueFormContract) _then) =
-      _$IssueFormContractCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? content,
-      List<ContractItem>? items,
-      List<IssueAttachment>? attachments,
-      List<XFile>? files});
-}
-
-/// @nodoc
-class _$IssueFormContractCopyWithImpl<$Res>
-    implements $IssueFormContractCopyWith<$Res> {
-  _$IssueFormContractCopyWithImpl(this._self, this._then);
-
-  final IssueFormContract _self;
-  final $Res Function(IssueFormContract) _then;
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? content = freezed,
-    Object? items = freezed,
-    Object? attachments = freezed,
-    Object? files = freezed,
-  }) {
-    return _then(IssueFormContract(
-      content: freezed == content
-          ? _self.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      items: freezed == items
-          ? _self._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<ContractItem>?,
-      attachments: freezed == attachments
-          ? _self._attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<IssueAttachment>?,
-      files: freezed == files
-          ? _self._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<XFile>?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class IssueFormKickoff with DiagnosticableTreeMixin implements IssueFormState {
-  IssueFormKickoff(
-      {this.content,
-      this.kickoffId,
-      this.kickoffDate,
-      final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _attachments = attachments,
-        _files = files;
-
-  @override
-  final String? content;
-  final int? kickoffId;
-  final DateTime? kickoffDate;
-  final List<IssueAttachment>? _attachments;
-  @override
-  List<IssueAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
-    if (_attachments is EqualUnmodifiableListView) return _attachments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<XFile>? _files;
-  @override
-  List<XFile>? get files {
-    final value = _files;
-    if (value == null) return null;
-    if (_files is EqualUnmodifiableListView) return _files;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $IssueFormKickoffCopyWith<IssueFormKickoff> get copyWith =>
-      _$IssueFormKickoffCopyWithImpl<IssueFormKickoff>(this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueFormState.kickoff'))
-      ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('kickoffId', kickoffId))
-      ..add(DiagnosticsProperty('kickoffDate', kickoffDate))
-      ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueFormKickoff &&
-            (identical(other.content, content) || other.content == content) &&
-            (identical(other.kickoffId, kickoffId) ||
-                other.kickoffId == kickoffId) &&
-            (identical(other.kickoffDate, kickoffDate) ||
-                other.kickoffDate == kickoffDate) &&
-            const DeepCollectionEquality()
-                .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      content,
-      kickoffId,
-      kickoffDate,
-      const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState.kickoff(content: $content, kickoffId: $kickoffId, kickoffDate: $kickoffDate, attachments: $attachments, files: $files)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueFormKickoffCopyWith<$Res>
-    implements $IssueFormStateCopyWith<$Res> {
-  factory $IssueFormKickoffCopyWith(
-          IssueFormKickoff value, $Res Function(IssueFormKickoff) _then) =
-      _$IssueFormKickoffCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? content,
-      int? kickoffId,
-      DateTime? kickoffDate,
-      List<IssueAttachment>? attachments,
-      List<XFile>? files});
-}
-
-/// @nodoc
-class _$IssueFormKickoffCopyWithImpl<$Res>
-    implements $IssueFormKickoffCopyWith<$Res> {
-  _$IssueFormKickoffCopyWithImpl(this._self, this._then);
-
-  final IssueFormKickoff _self;
-  final $Res Function(IssueFormKickoff) _then;
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? content = freezed,
-    Object? kickoffId = freezed,
-    Object? kickoffDate = freezed,
-    Object? attachments = freezed,
-    Object? files = freezed,
-  }) {
-    return _then(IssueFormKickoff(
-      content: freezed == content
-          ? _self.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      kickoffId: freezed == kickoffId
-          ? _self.kickoffId
-          : kickoffId // ignore: cast_nullable_to_non_nullable
-              as int?,
+      currency: freezed == currency
+          ? _self.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as Currency?,
       kickoffDate: freezed == kickoffDate
           ? _self.kickoffDate
           : kickoffDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      attachments: freezed == attachments
-          ? _self._attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<IssueAttachment>?,
-      files: freezed == files
-          ? _self._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<XFile>?,
+      contractItems: null == contractItems
+          ? _self._contractItems
+          : contractItems // ignore: cast_nullable_to_non_nullable
+              as List<ContractItem>,
+      procurementItems: null == procurementItems
+          ? _self._procurementItems
+          : procurementItems // ignore: cast_nullable_to_non_nullable
+              as List<ProcurementItem>,
+      transactionItems: null == transactionItems
+          ? _self._transactionItems
+          : transactionItems // ignore: cast_nullable_to_non_nullable
+              as List<TransactionItem>,
     ));
   }
-}
-
-/// @nodoc
-
-class IssueFormApproval with DiagnosticableTreeMixin implements IssueFormState {
-  IssueFormApproval(
-      {this.content,
-      final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _attachments = attachments,
-        _files = files;
-
-  @override
-  final String? content;
-  final List<IssueAttachment>? _attachments;
-  @override
-  List<IssueAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
-    if (_attachments is EqualUnmodifiableListView) return _attachments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<XFile>? _files;
-  @override
-  List<XFile>? get files {
-    final value = _files;
-    if (value == null) return null;
-    if (_files is EqualUnmodifiableListView) return _files;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $IssueFormApprovalCopyWith<IssueFormApproval> get copyWith =>
-      _$IssueFormApprovalCopyWithImpl<IssueFormApproval>(this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueFormState.approval'))
-      ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueFormApproval &&
-            (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality()
-                .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      content,
-      const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState.approval(content: $content, attachments: $attachments, files: $files)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueFormApprovalCopyWith<$Res>
-    implements $IssueFormStateCopyWith<$Res> {
-  factory $IssueFormApprovalCopyWith(
-          IssueFormApproval value, $Res Function(IssueFormApproval) _then) =
-      _$IssueFormApprovalCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? content,
-      List<IssueAttachment>? attachments,
-      List<XFile>? files});
-}
-
-/// @nodoc
-class _$IssueFormApprovalCopyWithImpl<$Res>
-    implements $IssueFormApprovalCopyWith<$Res> {
-  _$IssueFormApprovalCopyWithImpl(this._self, this._then);
-
-  final IssueFormApproval _self;
-  final $Res Function(IssueFormApproval) _then;
 
   /// Create a copy of IssueFormState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $Res call({
-    Object? content = freezed,
-    Object? attachments = freezed,
-    Object? files = freezed,
-  }) {
-    return _then(IssueFormApproval(
-      content: freezed == content
-          ? _self.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      attachments: freezed == attachments
-          ? _self._attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<IssueAttachment>?,
-      files: freezed == files
-          ? _self._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<XFile>?,
-    ));
-  }
-}
+  $IssueCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+      return null;
+    }
 
-/// @nodoc
-
-class IssueFormProcurement
-    with DiagnosticableTreeMixin
-    implements IssueFormState {
-  IssueFormProcurement(
-      {this.content,
-      final List<ProcurementItem>? items,
-      final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _items = items,
-        _attachments = attachments,
-        _files = files;
-
-  @override
-  final String? content;
-  final List<ProcurementItem>? _items;
-  List<ProcurementItem>? get items {
-    final value = _items;
-    if (value == null) return null;
-    if (_items is EqualUnmodifiableListView) return _items;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<IssueAttachment>? _attachments;
-  @override
-  List<IssueAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
-    if (_attachments is EqualUnmodifiableListView) return _attachments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<XFile>? _files;
-  @override
-  List<XFile>? get files {
-    final value = _files;
-    if (value == null) return null;
-    if (_files is EqualUnmodifiableListView) return _files;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return $IssueCategoryCopyWith<$Res>(_self.category!, (value) {
+      return _then(_self.copyWith(category: value));
+    });
   }
 
   /// Create a copy of IssueFormState
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $IssueFormProcurementCopyWith<IssueFormProcurement> get copyWith =>
-      _$IssueFormProcurementCopyWithImpl<IssueFormProcurement>(
-          this, _$identity);
+  $CurrencyCopyWith<$Res>? get currency {
+    if (_self.currency == null) {
+      return null;
+    }
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueFormState.procurement'))
-      ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('items', items))
-      ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueFormProcurement &&
-            (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other._items, _items) &&
-            const DeepCollectionEquality()
-                .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      content,
-      const DeepCollectionEquality().hash(_items),
-      const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState.procurement(content: $content, items: $items, attachments: $attachments, files: $files)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueFormProcurementCopyWith<$Res>
-    implements $IssueFormStateCopyWith<$Res> {
-  factory $IssueFormProcurementCopyWith(IssueFormProcurement value,
-          $Res Function(IssueFormProcurement) _then) =
-      _$IssueFormProcurementCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? content,
-      List<ProcurementItem>? items,
-      List<IssueAttachment>? attachments,
-      List<XFile>? files});
-}
-
-/// @nodoc
-class _$IssueFormProcurementCopyWithImpl<$Res>
-    implements $IssueFormProcurementCopyWith<$Res> {
-  _$IssueFormProcurementCopyWithImpl(this._self, this._then);
-
-  final IssueFormProcurement _self;
-  final $Res Function(IssueFormProcurement) _then;
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? content = freezed,
-    Object? items = freezed,
-    Object? attachments = freezed,
-    Object? files = freezed,
-  }) {
-    return _then(IssueFormProcurement(
-      content: freezed == content
-          ? _self.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      items: freezed == items
-          ? _self._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<ProcurementItem>?,
-      attachments: freezed == attachments
-          ? _self._attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<IssueAttachment>?,
-      files: freezed == files
-          ? _self._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<XFile>?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class IssueFormTransaction
-    with DiagnosticableTreeMixin
-    implements IssueFormState {
-  IssueFormTransaction(
-      {this.content,
-      final List<TransactionItem>? items,
-      final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _items = items,
-        _attachments = attachments,
-        _files = files;
-
-  @override
-  final String? content;
-  final List<TransactionItem>? _items;
-  List<TransactionItem>? get items {
-    final value = _items;
-    if (value == null) return null;
-    if (_items is EqualUnmodifiableListView) return _items;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<IssueAttachment>? _attachments;
-  @override
-  List<IssueAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
-    if (_attachments is EqualUnmodifiableListView) return _attachments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<XFile>? _files;
-  @override
-  List<XFile>? get files {
-    final value = _files;
-    if (value == null) return null;
-    if (_files is EqualUnmodifiableListView) return _files;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $IssueFormTransactionCopyWith<IssueFormTransaction> get copyWith =>
-      _$IssueFormTransactionCopyWithImpl<IssueFormTransaction>(
-          this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueFormState.transaction'))
-      ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('items', items))
-      ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueFormTransaction &&
-            (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality().equals(other._items, _items) &&
-            const DeepCollectionEquality()
-                .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      content,
-      const DeepCollectionEquality().hash(_items),
-      const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState.transaction(content: $content, items: $items, attachments: $attachments, files: $files)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueFormTransactionCopyWith<$Res>
-    implements $IssueFormStateCopyWith<$Res> {
-  factory $IssueFormTransactionCopyWith(IssueFormTransaction value,
-          $Res Function(IssueFormTransaction) _then) =
-      _$IssueFormTransactionCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? content,
-      List<TransactionItem>? items,
-      List<IssueAttachment>? attachments,
-      List<XFile>? files});
-}
-
-/// @nodoc
-class _$IssueFormTransactionCopyWithImpl<$Res>
-    implements $IssueFormTransactionCopyWith<$Res> {
-  _$IssueFormTransactionCopyWithImpl(this._self, this._then);
-
-  final IssueFormTransaction _self;
-  final $Res Function(IssueFormTransaction) _then;
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? content = freezed,
-    Object? items = freezed,
-    Object? attachments = freezed,
-    Object? files = freezed,
-  }) {
-    return _then(IssueFormTransaction(
-      content: freezed == content
-          ? _self.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      items: freezed == items
-          ? _self._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<TransactionItem>?,
-      attachments: freezed == attachments
-          ? _self._attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<IssueAttachment>?,
-      files: freezed == files
-          ? _self._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<XFile>?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class IssueFormDeclaration
-    with DiagnosticableTreeMixin
-    implements IssueFormState {
-  IssueFormDeclaration(
-      {this.content,
-      final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _attachments = attachments,
-        _files = files;
-
-  @override
-  final String? content;
-  final List<IssueAttachment>? _attachments;
-  @override
-  List<IssueAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
-    if (_attachments is EqualUnmodifiableListView) return _attachments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<XFile>? _files;
-  @override
-  List<XFile>? get files {
-    final value = _files;
-    if (value == null) return null;
-    if (_files is EqualUnmodifiableListView) return _files;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $IssueFormDeclarationCopyWith<IssueFormDeclaration> get copyWith =>
-      _$IssueFormDeclarationCopyWithImpl<IssueFormDeclaration>(
-          this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueFormState.declaration'))
-      ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueFormDeclaration &&
-            (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality()
-                .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      content,
-      const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState.declaration(content: $content, attachments: $attachments, files: $files)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueFormDeclarationCopyWith<$Res>
-    implements $IssueFormStateCopyWith<$Res> {
-  factory $IssueFormDeclarationCopyWith(IssueFormDeclaration value,
-          $Res Function(IssueFormDeclaration) _then) =
-      _$IssueFormDeclarationCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? content,
-      List<IssueAttachment>? attachments,
-      List<XFile>? files});
-}
-
-/// @nodoc
-class _$IssueFormDeclarationCopyWithImpl<$Res>
-    implements $IssueFormDeclarationCopyWith<$Res> {
-  _$IssueFormDeclarationCopyWithImpl(this._self, this._then);
-
-  final IssueFormDeclaration _self;
-  final $Res Function(IssueFormDeclaration) _then;
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? content = freezed,
-    Object? attachments = freezed,
-    Object? files = freezed,
-  }) {
-    return _then(IssueFormDeclaration(
-      content: freezed == content
-          ? _self.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      attachments: freezed == attachments
-          ? _self._attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<IssueAttachment>?,
-      files: freezed == files
-          ? _self._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<XFile>?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class IssueFormPayment with DiagnosticableTreeMixin implements IssueFormState {
-  IssueFormPayment(
-      {this.content,
-      final List<IssueAttachment>? attachments,
-      final List<XFile>? files})
-      : _attachments = attachments,
-        _files = files;
-
-  @override
-  final String? content;
-  final List<IssueAttachment>? _attachments;
-  @override
-  List<IssueAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
-    if (_attachments is EqualUnmodifiableListView) return _attachments;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<XFile>? _files;
-  @override
-  List<XFile>? get files {
-    final value = _files;
-    if (value == null) return null;
-    if (_files is EqualUnmodifiableListView) return _files;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $IssueFormPaymentCopyWith<IssueFormPayment> get copyWith =>
-      _$IssueFormPaymentCopyWithImpl<IssueFormPayment>(this, _$identity);
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'IssueFormState.payment'))
-      ..add(DiagnosticsProperty('content', content))
-      ..add(DiagnosticsProperty('attachments', attachments))
-      ..add(DiagnosticsProperty('files', files));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is IssueFormPayment &&
-            (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality()
-                .equals(other._attachments, _attachments) &&
-            const DeepCollectionEquality().equals(other._files, _files));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      content,
-      const DeepCollectionEquality().hash(_attachments),
-      const DeepCollectionEquality().hash(_files));
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState.payment(content: $content, attachments: $attachments, files: $files)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $IssueFormPaymentCopyWith<$Res>
-    implements $IssueFormStateCopyWith<$Res> {
-  factory $IssueFormPaymentCopyWith(
-          IssueFormPayment value, $Res Function(IssueFormPayment) _then) =
-      _$IssueFormPaymentCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {String? content,
-      List<IssueAttachment>? attachments,
-      List<XFile>? files});
-}
-
-/// @nodoc
-class _$IssueFormPaymentCopyWithImpl<$Res>
-    implements $IssueFormPaymentCopyWith<$Res> {
-  _$IssueFormPaymentCopyWithImpl(this._self, this._then);
-
-  final IssueFormPayment _self;
-  final $Res Function(IssueFormPayment) _then;
-
-  /// Create a copy of IssueFormState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? content = freezed,
-    Object? attachments = freezed,
-    Object? files = freezed,
-  }) {
-    return _then(IssueFormPayment(
-      content: freezed == content
-          ? _self.content
-          : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      attachments: freezed == attachments
-          ? _self._attachments
-          : attachments // ignore: cast_nullable_to_non_nullable
-              as List<IssueAttachment>?,
-      files: freezed == files
-          ? _self._files
-          : files // ignore: cast_nullable_to_non_nullable
-              as List<XFile>?,
-    ));
+    return $CurrencyCopyWith<$Res>(_self.currency!, (value) {
+      return _then(_self.copyWith(currency: value));
+    });
   }
 }
 
 /// @nodoc
 mixin _$IssueListState implements DiagnosticableTreeMixin {
-  List<Issue> get items;
-  int get page;
-  int get total;
-  bool get hasReachEnd;
+  ContractIssue? get contract;
+  KickoffIssue? get kickoff;
+  TransactionIssue? get transaction;
+  PaymentIssue? get payment;
+  List<DeclarationIssue> get declarations;
+  int get declarationsPage;
+  int get declarationsTotal;
+  bool get declarationsHasReachEnd;
+  List<ProcurementIssue> get procurements;
+  int get procurementsPage;
+  int get procurementsTotal;
+  bool get procurementsHasReachEnd;
 
   /// Create a copy of IssueListState
   /// with the given fields replaced by the non-null parameter values.
@@ -5904,10 +4830,20 @@ mixin _$IssueListState implements DiagnosticableTreeMixin {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'IssueListState'))
-      ..add(DiagnosticsProperty('items', items))
-      ..add(DiagnosticsProperty('page', page))
-      ..add(DiagnosticsProperty('total', total))
-      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+      ..add(DiagnosticsProperty('contract', contract))
+      ..add(DiagnosticsProperty('kickoff', kickoff))
+      ..add(DiagnosticsProperty('transaction', transaction))
+      ..add(DiagnosticsProperty('payment', payment))
+      ..add(DiagnosticsProperty('declarations', declarations))
+      ..add(DiagnosticsProperty('declarationsPage', declarationsPage))
+      ..add(DiagnosticsProperty('declarationsTotal', declarationsTotal))
+      ..add(DiagnosticsProperty(
+          'declarationsHasReachEnd', declarationsHasReachEnd))
+      ..add(DiagnosticsProperty('procurements', procurements))
+      ..add(DiagnosticsProperty('procurementsPage', procurementsPage))
+      ..add(DiagnosticsProperty('procurementsTotal', procurementsTotal))
+      ..add(DiagnosticsProperty(
+          'procurementsHasReachEnd', procurementsHasReachEnd));
   }
 
   @override
@@ -5915,20 +4851,51 @@ mixin _$IssueListState implements DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is IssueListState &&
-            const DeepCollectionEquality().equals(other.items, items) &&
-            (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.hasReachEnd, hasReachEnd) ||
-                other.hasReachEnd == hasReachEnd));
+            (identical(other.contract, contract) ||
+                other.contract == contract) &&
+            (identical(other.kickoff, kickoff) || other.kickoff == kickoff) &&
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction) &&
+            (identical(other.payment, payment) || other.payment == payment) &&
+            const DeepCollectionEquality()
+                .equals(other.declarations, declarations) &&
+            (identical(other.declarationsPage, declarationsPage) ||
+                other.declarationsPage == declarationsPage) &&
+            (identical(other.declarationsTotal, declarationsTotal) ||
+                other.declarationsTotal == declarationsTotal) &&
+            (identical(
+                    other.declarationsHasReachEnd, declarationsHasReachEnd) ||
+                other.declarationsHasReachEnd == declarationsHasReachEnd) &&
+            const DeepCollectionEquality()
+                .equals(other.procurements, procurements) &&
+            (identical(other.procurementsPage, procurementsPage) ||
+                other.procurementsPage == procurementsPage) &&
+            (identical(other.procurementsTotal, procurementsTotal) ||
+                other.procurementsTotal == procurementsTotal) &&
+            (identical(
+                    other.procurementsHasReachEnd, procurementsHasReachEnd) ||
+                other.procurementsHasReachEnd == procurementsHasReachEnd));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(items), page, total, hasReachEnd);
+  int get hashCode => Object.hash(
+      runtimeType,
+      contract,
+      kickoff,
+      transaction,
+      payment,
+      const DeepCollectionEquality().hash(declarations),
+      declarationsPage,
+      declarationsTotal,
+      declarationsHasReachEnd,
+      const DeepCollectionEquality().hash(procurements),
+      procurementsPage,
+      procurementsTotal,
+      procurementsHasReachEnd);
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+    return 'IssueListState(contract: $contract, kickoff: $kickoff, transaction: $transaction, payment: $payment, declarations: $declarations, declarationsPage: $declarationsPage, declarationsTotal: $declarationsTotal, declarationsHasReachEnd: $declarationsHasReachEnd, procurements: $procurements, procurementsPage: $procurementsPage, procurementsTotal: $procurementsTotal, procurementsHasReachEnd: $procurementsHasReachEnd)';
   }
 }
 
@@ -5938,7 +4905,24 @@ abstract mixin class $IssueListStateCopyWith<$Res> {
           IssueListState value, $Res Function(IssueListState) _then) =
       _$IssueListStateCopyWithImpl;
   @useResult
-  $Res call({List<Issue> items, int page, int total, bool hasReachEnd});
+  $Res call(
+      {ContractIssue? contract,
+      KickoffIssue? kickoff,
+      TransactionIssue? transaction,
+      PaymentIssue? payment,
+      List<DeclarationIssue> declarations,
+      int declarationsPage,
+      int declarationsTotal,
+      bool declarationsHasReachEnd,
+      List<ProcurementIssue> procurements,
+      int procurementsPage,
+      int procurementsTotal,
+      bool procurementsHasReachEnd});
+
+  $ContractIssueCopyWith<$Res>? get contract;
+  $KickoffIssueCopyWith<$Res>? get kickoff;
+  $TransactionIssueCopyWith<$Res>? get transaction;
+  $PaymentIssueCopyWith<$Res>? get payment;
 }
 
 /// @nodoc
@@ -5954,29 +4938,125 @@ class _$IssueListStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? items = null,
-    Object? page = null,
-    Object? total = null,
-    Object? hasReachEnd = null,
+    Object? contract = freezed,
+    Object? kickoff = freezed,
+    Object? transaction = freezed,
+    Object? payment = freezed,
+    Object? declarations = null,
+    Object? declarationsPage = null,
+    Object? declarationsTotal = null,
+    Object? declarationsHasReachEnd = null,
+    Object? procurements = null,
+    Object? procurementsPage = null,
+    Object? procurementsTotal = null,
+    Object? procurementsHasReachEnd = null,
   }) {
     return _then(_self.copyWith(
-      items: null == items
-          ? _self.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Issue>,
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
+      contract: freezed == contract
+          ? _self.contract
+          : contract // ignore: cast_nullable_to_non_nullable
+              as ContractIssue?,
+      kickoff: freezed == kickoff
+          ? _self.kickoff
+          : kickoff // ignore: cast_nullable_to_non_nullable
+              as KickoffIssue?,
+      transaction: freezed == transaction
+          ? _self.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as TransactionIssue?,
+      payment: freezed == payment
+          ? _self.payment
+          : payment // ignore: cast_nullable_to_non_nullable
+              as PaymentIssue?,
+      declarations: null == declarations
+          ? _self.declarations
+          : declarations // ignore: cast_nullable_to_non_nullable
+              as List<DeclarationIssue>,
+      declarationsPage: null == declarationsPage
+          ? _self.declarationsPage
+          : declarationsPage // ignore: cast_nullable_to_non_nullable
               as int,
-      total: null == total
-          ? _self.total
-          : total // ignore: cast_nullable_to_non_nullable
+      declarationsTotal: null == declarationsTotal
+          ? _self.declarationsTotal
+          : declarationsTotal // ignore: cast_nullable_to_non_nullable
               as int,
-      hasReachEnd: null == hasReachEnd
-          ? _self.hasReachEnd
-          : hasReachEnd // ignore: cast_nullable_to_non_nullable
+      declarationsHasReachEnd: null == declarationsHasReachEnd
+          ? _self.declarationsHasReachEnd
+          : declarationsHasReachEnd // ignore: cast_nullable_to_non_nullable
+              as bool,
+      procurements: null == procurements
+          ? _self.procurements
+          : procurements // ignore: cast_nullable_to_non_nullable
+              as List<ProcurementIssue>,
+      procurementsPage: null == procurementsPage
+          ? _self.procurementsPage
+          : procurementsPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      procurementsTotal: null == procurementsTotal
+          ? _self.procurementsTotal
+          : procurementsTotal // ignore: cast_nullable_to_non_nullable
+              as int,
+      procurementsHasReachEnd: null == procurementsHasReachEnd
+          ? _self.procurementsHasReachEnd
+          : procurementsHasReachEnd // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ContractIssueCopyWith<$Res>? get contract {
+    if (_self.contract == null) {
+      return null;
+    }
+
+    return $ContractIssueCopyWith<$Res>(_self.contract!, (value) {
+      return _then(_self.copyWith(contract: value));
+    });
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $KickoffIssueCopyWith<$Res>? get kickoff {
+    if (_self.kickoff == null) {
+      return null;
+    }
+
+    return $KickoffIssueCopyWith<$Res>(_self.kickoff!, (value) {
+      return _then(_self.copyWith(kickoff: value));
+    });
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionIssueCopyWith<$Res>? get transaction {
+    if (_self.transaction == null) {
+      return null;
+    }
+
+    return $TransactionIssueCopyWith<$Res>(_self.transaction!, (value) {
+      return _then(_self.copyWith(transaction: value));
+    });
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PaymentIssueCopyWith<$Res>? get payment {
+    if (_self.payment == null) {
+      return null;
+    }
+
+    return $PaymentIssueCopyWith<$Res>(_self.payment!, (value) {
+      return _then(_self.copyWith(payment: value));
+    });
   }
 }
 
@@ -6073,7 +5153,19 @@ extension IssueListStatePatterns on IssueListState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<Issue> items, int page, int total, bool hasReachEnd)?
+    TResult Function(
+            ContractIssue? contract,
+            KickoffIssue? kickoff,
+            TransactionIssue? transaction,
+            PaymentIssue? payment,
+            List<DeclarationIssue> declarations,
+            int declarationsPage,
+            int declarationsTotal,
+            bool declarationsHasReachEnd,
+            List<ProcurementIssue> procurements,
+            int procurementsPage,
+            int procurementsTotal,
+            bool procurementsHasReachEnd)?
         $default, {
     required TResult orElse(),
   }) {
@@ -6081,7 +5173,18 @@ extension IssueListStatePatterns on IssueListState {
     switch (_that) {
       case _IssueListState() when $default != null:
         return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
+            _that.contract,
+            _that.kickoff,
+            _that.transaction,
+            _that.payment,
+            _that.declarations,
+            _that.declarationsPage,
+            _that.declarationsTotal,
+            _that.declarationsHasReachEnd,
+            _that.procurements,
+            _that.procurementsPage,
+            _that.procurementsTotal,
+            _that.procurementsHasReachEnd);
       case _:
         return orElse();
     }
@@ -6102,14 +5205,37 @@ extension IssueListStatePatterns on IssueListState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<Issue> items, int page, int total, bool hasReachEnd)
+    TResult Function(
+            ContractIssue? contract,
+            KickoffIssue? kickoff,
+            TransactionIssue? transaction,
+            PaymentIssue? payment,
+            List<DeclarationIssue> declarations,
+            int declarationsPage,
+            int declarationsTotal,
+            bool declarationsHasReachEnd,
+            List<ProcurementIssue> procurements,
+            int procurementsPage,
+            int procurementsTotal,
+            bool procurementsHasReachEnd)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IssueListState():
         return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
+            _that.contract,
+            _that.kickoff,
+            _that.transaction,
+            _that.payment,
+            _that.declarations,
+            _that.declarationsPage,
+            _that.declarationsTotal,
+            _that.declarationsHasReachEnd,
+            _that.procurements,
+            _that.procurementsPage,
+            _that.procurementsTotal,
+            _that.procurementsHasReachEnd);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -6129,14 +5255,37 @@ extension IssueListStatePatterns on IssueListState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<Issue> items, int page, int total, bool hasReachEnd)?
+    TResult? Function(
+            ContractIssue? contract,
+            KickoffIssue? kickoff,
+            TransactionIssue? transaction,
+            PaymentIssue? payment,
+            List<DeclarationIssue> declarations,
+            int declarationsPage,
+            int declarationsTotal,
+            bool declarationsHasReachEnd,
+            List<ProcurementIssue> procurements,
+            int procurementsPage,
+            int procurementsTotal,
+            bool procurementsHasReachEnd)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _IssueListState() when $default != null:
         return $default(
-            _that.items, _that.page, _that.total, _that.hasReachEnd);
+            _that.contract,
+            _that.kickoff,
+            _that.transaction,
+            _that.payment,
+            _that.declarations,
+            _that.declarationsPage,
+            _that.declarationsTotal,
+            _that.declarationsHasReachEnd,
+            _that.procurements,
+            _that.procurementsPage,
+            _that.procurementsTotal,
+            _that.procurementsHasReachEnd);
       case _:
         return null;
     }
@@ -6147,30 +5296,65 @@ extension IssueListStatePatterns on IssueListState {
 
 class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
   _IssueListState(
-      {final List<Issue> items = const [],
-      this.page = 0,
-      this.total = 0,
-      this.hasReachEnd = false})
-      : _items = items;
+      {this.contract,
+      this.kickoff,
+      this.transaction,
+      this.payment,
+      final List<DeclarationIssue> declarations = const [],
+      this.declarationsPage = 1,
+      this.declarationsTotal = 0,
+      this.declarationsHasReachEnd = false,
+      final List<ProcurementIssue> procurements = const [],
+      this.procurementsPage = 1,
+      this.procurementsTotal = 0,
+      this.procurementsHasReachEnd = false})
+      : _declarations = declarations,
+        _procurements = procurements;
 
-  final List<Issue> _items;
+  @override
+  final ContractIssue? contract;
+  @override
+  final KickoffIssue? kickoff;
+  @override
+  final TransactionIssue? transaction;
+  @override
+  final PaymentIssue? payment;
+  final List<DeclarationIssue> _declarations;
   @override
   @JsonKey()
-  List<Issue> get items {
-    if (_items is EqualUnmodifiableListView) return _items;
+  List<DeclarationIssue> get declarations {
+    if (_declarations is EqualUnmodifiableListView) return _declarations;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_items);
+    return EqualUnmodifiableListView(_declarations);
   }
 
   @override
   @JsonKey()
-  final int page;
+  final int declarationsPage;
   @override
   @JsonKey()
-  final int total;
+  final int declarationsTotal;
   @override
   @JsonKey()
-  final bool hasReachEnd;
+  final bool declarationsHasReachEnd;
+  final List<ProcurementIssue> _procurements;
+  @override
+  @JsonKey()
+  List<ProcurementIssue> get procurements {
+    if (_procurements is EqualUnmodifiableListView) return _procurements;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_procurements);
+  }
+
+  @override
+  @JsonKey()
+  final int procurementsPage;
+  @override
+  @JsonKey()
+  final int procurementsTotal;
+  @override
+  @JsonKey()
+  final bool procurementsHasReachEnd;
 
   /// Create a copy of IssueListState
   /// with the given fields replaced by the non-null parameter values.
@@ -6184,10 +5368,20 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'IssueListState'))
-      ..add(DiagnosticsProperty('items', items))
-      ..add(DiagnosticsProperty('page', page))
-      ..add(DiagnosticsProperty('total', total))
-      ..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+      ..add(DiagnosticsProperty('contract', contract))
+      ..add(DiagnosticsProperty('kickoff', kickoff))
+      ..add(DiagnosticsProperty('transaction', transaction))
+      ..add(DiagnosticsProperty('payment', payment))
+      ..add(DiagnosticsProperty('declarations', declarations))
+      ..add(DiagnosticsProperty('declarationsPage', declarationsPage))
+      ..add(DiagnosticsProperty('declarationsTotal', declarationsTotal))
+      ..add(DiagnosticsProperty(
+          'declarationsHasReachEnd', declarationsHasReachEnd))
+      ..add(DiagnosticsProperty('procurements', procurements))
+      ..add(DiagnosticsProperty('procurementsPage', procurementsPage))
+      ..add(DiagnosticsProperty('procurementsTotal', procurementsTotal))
+      ..add(DiagnosticsProperty(
+          'procurementsHasReachEnd', procurementsHasReachEnd));
   }
 
   @override
@@ -6195,20 +5389,51 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _IssueListState &&
-            const DeepCollectionEquality().equals(other._items, _items) &&
-            (identical(other.page, page) || other.page == page) &&
-            (identical(other.total, total) || other.total == total) &&
-            (identical(other.hasReachEnd, hasReachEnd) ||
-                other.hasReachEnd == hasReachEnd));
+            (identical(other.contract, contract) ||
+                other.contract == contract) &&
+            (identical(other.kickoff, kickoff) || other.kickoff == kickoff) &&
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction) &&
+            (identical(other.payment, payment) || other.payment == payment) &&
+            const DeepCollectionEquality()
+                .equals(other._declarations, _declarations) &&
+            (identical(other.declarationsPage, declarationsPage) ||
+                other.declarationsPage == declarationsPage) &&
+            (identical(other.declarationsTotal, declarationsTotal) ||
+                other.declarationsTotal == declarationsTotal) &&
+            (identical(
+                    other.declarationsHasReachEnd, declarationsHasReachEnd) ||
+                other.declarationsHasReachEnd == declarationsHasReachEnd) &&
+            const DeepCollectionEquality()
+                .equals(other._procurements, _procurements) &&
+            (identical(other.procurementsPage, procurementsPage) ||
+                other.procurementsPage == procurementsPage) &&
+            (identical(other.procurementsTotal, procurementsTotal) ||
+                other.procurementsTotal == procurementsTotal) &&
+            (identical(
+                    other.procurementsHasReachEnd, procurementsHasReachEnd) ||
+                other.procurementsHasReachEnd == procurementsHasReachEnd));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_items), page, total, hasReachEnd);
+  int get hashCode => Object.hash(
+      runtimeType,
+      contract,
+      kickoff,
+      transaction,
+      payment,
+      const DeepCollectionEquality().hash(_declarations),
+      declarationsPage,
+      declarationsTotal,
+      declarationsHasReachEnd,
+      const DeepCollectionEquality().hash(_procurements),
+      procurementsPage,
+      procurementsTotal,
+      procurementsHasReachEnd);
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+    return 'IssueListState(contract: $contract, kickoff: $kickoff, transaction: $transaction, payment: $payment, declarations: $declarations, declarationsPage: $declarationsPage, declarationsTotal: $declarationsTotal, declarationsHasReachEnd: $declarationsHasReachEnd, procurements: $procurements, procurementsPage: $procurementsPage, procurementsTotal: $procurementsTotal, procurementsHasReachEnd: $procurementsHasReachEnd)';
   }
 }
 
@@ -6220,7 +5445,28 @@ abstract mixin class _$IssueListStateCopyWith<$Res>
       __$IssueListStateCopyWithImpl;
   @override
   @useResult
-  $Res call({List<Issue> items, int page, int total, bool hasReachEnd});
+  $Res call(
+      {ContractIssue? contract,
+      KickoffIssue? kickoff,
+      TransactionIssue? transaction,
+      PaymentIssue? payment,
+      List<DeclarationIssue> declarations,
+      int declarationsPage,
+      int declarationsTotal,
+      bool declarationsHasReachEnd,
+      List<ProcurementIssue> procurements,
+      int procurementsPage,
+      int procurementsTotal,
+      bool procurementsHasReachEnd});
+
+  @override
+  $ContractIssueCopyWith<$Res>? get contract;
+  @override
+  $KickoffIssueCopyWith<$Res>? get kickoff;
+  @override
+  $TransactionIssueCopyWith<$Res>? get transaction;
+  @override
+  $PaymentIssueCopyWith<$Res>? get payment;
 }
 
 /// @nodoc
@@ -6236,29 +5482,125 @@ class __$IssueListStateCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? items = null,
-    Object? page = null,
-    Object? total = null,
-    Object? hasReachEnd = null,
+    Object? contract = freezed,
+    Object? kickoff = freezed,
+    Object? transaction = freezed,
+    Object? payment = freezed,
+    Object? declarations = null,
+    Object? declarationsPage = null,
+    Object? declarationsTotal = null,
+    Object? declarationsHasReachEnd = null,
+    Object? procurements = null,
+    Object? procurementsPage = null,
+    Object? procurementsTotal = null,
+    Object? procurementsHasReachEnd = null,
   }) {
     return _then(_IssueListState(
-      items: null == items
-          ? _self._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<Issue>,
-      page: null == page
-          ? _self.page
-          : page // ignore: cast_nullable_to_non_nullable
+      contract: freezed == contract
+          ? _self.contract
+          : contract // ignore: cast_nullable_to_non_nullable
+              as ContractIssue?,
+      kickoff: freezed == kickoff
+          ? _self.kickoff
+          : kickoff // ignore: cast_nullable_to_non_nullable
+              as KickoffIssue?,
+      transaction: freezed == transaction
+          ? _self.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as TransactionIssue?,
+      payment: freezed == payment
+          ? _self.payment
+          : payment // ignore: cast_nullable_to_non_nullable
+              as PaymentIssue?,
+      declarations: null == declarations
+          ? _self._declarations
+          : declarations // ignore: cast_nullable_to_non_nullable
+              as List<DeclarationIssue>,
+      declarationsPage: null == declarationsPage
+          ? _self.declarationsPage
+          : declarationsPage // ignore: cast_nullable_to_non_nullable
               as int,
-      total: null == total
-          ? _self.total
-          : total // ignore: cast_nullable_to_non_nullable
+      declarationsTotal: null == declarationsTotal
+          ? _self.declarationsTotal
+          : declarationsTotal // ignore: cast_nullable_to_non_nullable
               as int,
-      hasReachEnd: null == hasReachEnd
-          ? _self.hasReachEnd
-          : hasReachEnd // ignore: cast_nullable_to_non_nullable
+      declarationsHasReachEnd: null == declarationsHasReachEnd
+          ? _self.declarationsHasReachEnd
+          : declarationsHasReachEnd // ignore: cast_nullable_to_non_nullable
+              as bool,
+      procurements: null == procurements
+          ? _self._procurements
+          : procurements // ignore: cast_nullable_to_non_nullable
+              as List<ProcurementIssue>,
+      procurementsPage: null == procurementsPage
+          ? _self.procurementsPage
+          : procurementsPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      procurementsTotal: null == procurementsTotal
+          ? _self.procurementsTotal
+          : procurementsTotal // ignore: cast_nullable_to_non_nullable
+              as int,
+      procurementsHasReachEnd: null == procurementsHasReachEnd
+          ? _self.procurementsHasReachEnd
+          : procurementsHasReachEnd // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ContractIssueCopyWith<$Res>? get contract {
+    if (_self.contract == null) {
+      return null;
+    }
+
+    return $ContractIssueCopyWith<$Res>(_self.contract!, (value) {
+      return _then(_self.copyWith(contract: value));
+    });
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $KickoffIssueCopyWith<$Res>? get kickoff {
+    if (_self.kickoff == null) {
+      return null;
+    }
+
+    return $KickoffIssueCopyWith<$Res>(_self.kickoff!, (value) {
+      return _then(_self.copyWith(kickoff: value));
+    });
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionIssueCopyWith<$Res>? get transaction {
+    if (_self.transaction == null) {
+      return null;
+    }
+
+    return $TransactionIssueCopyWith<$Res>(_self.transaction!, (value) {
+      return _then(_self.copyWith(transaction: value));
+    });
+  }
+
+  /// Create a copy of IssueListState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PaymentIssueCopyWith<$Res>? get payment {
+    if (_self.payment == null) {
+      return null;
+    }
+
+    return $PaymentIssueCopyWith<$Res>(_self.payment!, (value) {
+      return _then(_self.copyWith(payment: value));
+    });
   }
 }
 
@@ -7127,6 +6469,10 @@ class __$LocalStateCopyWithImpl<$Res> implements _$LocalStateCopyWith<$Res> {
 /// @nodoc
 mixin _$ProjectDetailState implements DiagnosticableTreeMixin {
   Project get project;
+  dynamic get contracts;
+  dynamic get declarations;
+  dynamic get procurements;
+  dynamic get reports;
 
   /// Create a copy of ProjectDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -7140,7 +6486,11 @@ mixin _$ProjectDetailState implements DiagnosticableTreeMixin {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'ProjectDetailState'))
-      ..add(DiagnosticsProperty('project', project));
+      ..add(DiagnosticsProperty('project', project))
+      ..add(DiagnosticsProperty('contracts', contracts))
+      ..add(DiagnosticsProperty('declarations', declarations))
+      ..add(DiagnosticsProperty('procurements', procurements))
+      ..add(DiagnosticsProperty('reports', reports));
   }
 
   @override
@@ -7148,15 +6498,27 @@ mixin _$ProjectDetailState implements DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ProjectDetailState &&
-            (identical(other.project, project) || other.project == project));
+            (identical(other.project, project) || other.project == project) &&
+            const DeepCollectionEquality().equals(other.contracts, contracts) &&
+            const DeepCollectionEquality()
+                .equals(other.declarations, declarations) &&
+            const DeepCollectionEquality()
+                .equals(other.procurements, procurements) &&
+            const DeepCollectionEquality().equals(other.reports, reports));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, project);
+  int get hashCode => Object.hash(
+      runtimeType,
+      project,
+      const DeepCollectionEquality().hash(contracts),
+      const DeepCollectionEquality().hash(declarations),
+      const DeepCollectionEquality().hash(procurements),
+      const DeepCollectionEquality().hash(reports));
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ProjectDetailState(project: $project)';
+    return 'ProjectDetailState(project: $project, contracts: $contracts, declarations: $declarations, procurements: $procurements, reports: $reports)';
   }
 }
 
@@ -7166,7 +6528,12 @@ abstract mixin class $ProjectDetailStateCopyWith<$Res> {
           ProjectDetailState value, $Res Function(ProjectDetailState) _then) =
       _$ProjectDetailStateCopyWithImpl;
   @useResult
-  $Res call({Project project});
+  $Res call(
+      {Project project,
+      dynamic contracts,
+      dynamic declarations,
+      dynamic procurements,
+      dynamic reports});
 
   $ProjectCopyWith<$Res> get project;
 }
@@ -7185,12 +6552,32 @@ class _$ProjectDetailStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? project = null,
+    Object? contracts = freezed,
+    Object? declarations = freezed,
+    Object? procurements = freezed,
+    Object? reports = freezed,
   }) {
     return _then(_self.copyWith(
       project: null == project
           ? _self.project
           : project // ignore: cast_nullable_to_non_nullable
               as Project,
+      contracts: freezed == contracts
+          ? _self.contracts
+          : contracts // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      declarations: freezed == declarations
+          ? _self.declarations
+          : declarations // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      procurements: freezed == procurements
+          ? _self.procurements
+          : procurements // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      reports: freezed == reports
+          ? _self.reports
+          : reports // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 
@@ -7298,13 +6685,16 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(Project project)? $default, {
+    TResult Function(Project project, dynamic contracts, dynamic declarations,
+            dynamic procurements, dynamic reports)?
+        $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ProjectDetailState() when $default != null:
-        return $default(_that.project);
+        return $default(_that.project, _that.contracts, _that.declarations,
+            _that.procurements, _that.reports);
       case _:
         return orElse();
     }
@@ -7325,12 +6715,15 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(Project project) $default,
+    TResult Function(Project project, dynamic contracts, dynamic declarations,
+            dynamic procurements, dynamic reports)
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ProjectDetailState():
-        return $default(_that.project);
+        return $default(_that.project, _that.contracts, _that.declarations,
+            _that.procurements, _that.reports);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -7350,12 +6743,15 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(Project project)? $default,
+    TResult? Function(Project project, dynamic contracts, dynamic declarations,
+            dynamic procurements, dynamic reports)?
+        $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ProjectDetailState() when $default != null:
-        return $default(_that.project);
+        return $default(_that.project, _that.contracts, _that.declarations,
+            _that.procurements, _that.reports);
       case _:
         return null;
     }
@@ -7367,10 +6763,27 @@ extension ProjectDetailStatePatterns on ProjectDetailState {
 class _ProjectDetailState
     with DiagnosticableTreeMixin
     implements ProjectDetailState {
-  _ProjectDetailState({required this.project});
+  _ProjectDetailState(
+      {required this.project,
+      this.contracts = 0,
+      this.declarations = 0,
+      this.procurements = 0,
+      this.reports = 0});
 
   @override
   final Project project;
+  @override
+  @JsonKey()
+  final dynamic contracts;
+  @override
+  @JsonKey()
+  final dynamic declarations;
+  @override
+  @JsonKey()
+  final dynamic procurements;
+  @override
+  @JsonKey()
+  final dynamic reports;
 
   /// Create a copy of ProjectDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -7384,7 +6797,11 @@ class _ProjectDetailState
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'ProjectDetailState'))
-      ..add(DiagnosticsProperty('project', project));
+      ..add(DiagnosticsProperty('project', project))
+      ..add(DiagnosticsProperty('contracts', contracts))
+      ..add(DiagnosticsProperty('declarations', declarations))
+      ..add(DiagnosticsProperty('procurements', procurements))
+      ..add(DiagnosticsProperty('reports', reports));
   }
 
   @override
@@ -7392,15 +6809,27 @@ class _ProjectDetailState
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ProjectDetailState &&
-            (identical(other.project, project) || other.project == project));
+            (identical(other.project, project) || other.project == project) &&
+            const DeepCollectionEquality().equals(other.contracts, contracts) &&
+            const DeepCollectionEquality()
+                .equals(other.declarations, declarations) &&
+            const DeepCollectionEquality()
+                .equals(other.procurements, procurements) &&
+            const DeepCollectionEquality().equals(other.reports, reports));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, project);
+  int get hashCode => Object.hash(
+      runtimeType,
+      project,
+      const DeepCollectionEquality().hash(contracts),
+      const DeepCollectionEquality().hash(declarations),
+      const DeepCollectionEquality().hash(procurements),
+      const DeepCollectionEquality().hash(reports));
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ProjectDetailState(project: $project)';
+    return 'ProjectDetailState(project: $project, contracts: $contracts, declarations: $declarations, procurements: $procurements, reports: $reports)';
   }
 }
 
@@ -7412,7 +6841,12 @@ abstract mixin class _$ProjectDetailStateCopyWith<$Res>
       __$ProjectDetailStateCopyWithImpl;
   @override
   @useResult
-  $Res call({Project project});
+  $Res call(
+      {Project project,
+      dynamic contracts,
+      dynamic declarations,
+      dynamic procurements,
+      dynamic reports});
 
   @override
   $ProjectCopyWith<$Res> get project;
@@ -7432,12 +6866,32 @@ class __$ProjectDetailStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? project = null,
+    Object? contracts = freezed,
+    Object? declarations = freezed,
+    Object? procurements = freezed,
+    Object? reports = freezed,
   }) {
     return _then(_ProjectDetailState(
       project: null == project
           ? _self.project
           : project // ignore: cast_nullable_to_non_nullable
               as Project,
+      contracts: freezed == contracts
+          ? _self.contracts
+          : contracts // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      declarations: freezed == declarations
+          ? _self.declarations
+          : declarations // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      procurements: freezed == procurements
+          ? _self.procurements
+          : procurements // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      reports: freezed == reports
+          ? _self.reports
+          : reports // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 
@@ -12448,6 +11902,7 @@ class _$SupplierSearchResultCopyWithImpl<$Res>
 
 /// @nodoc
 mixin _$ReportFormState implements DiagnosticableTreeMixin {
+  List<String> get steps;
   List<TripActualExpense> get expenses;
   List<TripRegulationRate> get rates;
   TripFuelExpense? get fuel;
@@ -12456,7 +11911,6 @@ mixin _$ReportFormState implements DiagnosticableTreeMixin {
   List<ReportAttachment>? get attachments;
   List<XFile>? get files;
   Schedule? get schedule;
-  List<String> get steps;
 
   /// Create a copy of ReportFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -12470,6 +11924,7 @@ mixin _$ReportFormState implements DiagnosticableTreeMixin {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'ReportFormState'))
+      ..add(DiagnosticsProperty('steps', steps))
       ..add(DiagnosticsProperty('expenses', expenses))
       ..add(DiagnosticsProperty('rates', rates))
       ..add(DiagnosticsProperty('fuel', fuel))
@@ -12477,8 +11932,7 @@ mixin _$ReportFormState implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('attachments', attachments))
       ..add(DiagnosticsProperty('files', files))
-      ..add(DiagnosticsProperty('schedule', schedule))
-      ..add(DiagnosticsProperty('steps', steps));
+      ..add(DiagnosticsProperty('schedule', schedule));
   }
 
   @override
@@ -12486,6 +11940,7 @@ mixin _$ReportFormState implements DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ReportFormState &&
+            const DeepCollectionEquality().equals(other.steps, steps) &&
             const DeepCollectionEquality().equals(other.expenses, expenses) &&
             const DeepCollectionEquality().equals(other.rates, rates) &&
             (identical(other.fuel, fuel) || other.fuel == fuel) &&
@@ -12496,13 +11951,13 @@ mixin _$ReportFormState implements DiagnosticableTreeMixin {
                 .equals(other.attachments, attachments) &&
             const DeepCollectionEquality().equals(other.files, files) &&
             (identical(other.schedule, schedule) ||
-                other.schedule == schedule) &&
-            const DeepCollectionEquality().equals(other.steps, steps));
+                other.schedule == schedule));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(steps),
       const DeepCollectionEquality().hash(expenses),
       const DeepCollectionEquality().hash(rates),
       fuel,
@@ -12510,12 +11965,11 @@ mixin _$ReportFormState implements DiagnosticableTreeMixin {
       content,
       const DeepCollectionEquality().hash(attachments),
       const DeepCollectionEquality().hash(files),
-      schedule,
-      const DeepCollectionEquality().hash(steps));
+      schedule);
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ReportFormState(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, content: $content, attachments: $attachments, files: $files, schedule: $schedule, steps: $steps)';
+    return 'ReportFormState(steps: $steps, expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, content: $content, attachments: $attachments, files: $files, schedule: $schedule)';
   }
 }
 
@@ -12526,15 +11980,15 @@ abstract mixin class $ReportFormStateCopyWith<$Res> {
       _$ReportFormStateCopyWithImpl;
   @useResult
   $Res call(
-      {List<TripActualExpense> expenses,
+      {List<String> steps,
+      List<TripActualExpense> expenses,
       List<TripRegulationRate> rates,
       TripFuelExpense? fuel,
       bool? isDeducted,
       String? content,
       List<ReportAttachment>? attachments,
       List<XFile>? files,
-      Schedule? schedule,
-      List<String> steps});
+      Schedule? schedule});
 
   $TripFuelExpenseCopyWith<$Res>? get fuel;
   $ScheduleCopyWith<$Res>? get schedule;
@@ -12553,6 +12007,7 @@ class _$ReportFormStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? steps = null,
     Object? expenses = null,
     Object? rates = null,
     Object? fuel = freezed,
@@ -12561,9 +12016,12 @@ class _$ReportFormStateCopyWithImpl<$Res>
     Object? attachments = freezed,
     Object? files = freezed,
     Object? schedule = freezed,
-    Object? steps = null,
   }) {
     return _then(_self.copyWith(
+      steps: null == steps
+          ? _self.steps
+          : steps // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       expenses: null == expenses
           ? _self.expenses
           : expenses // ignore: cast_nullable_to_non_nullable
@@ -12596,10 +12054,6 @@ class _$ReportFormStateCopyWithImpl<$Res>
           ? _self.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
               as Schedule?,
-      steps: null == steps
-          ? _self.steps
-          : steps // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 
@@ -12724,6 +12178,7 @@ extension ReportFormStatePatterns on ReportFormState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
+            List<String> steps,
             List<TripActualExpense> expenses,
             List<TripRegulationRate> rates,
             TripFuelExpense? fuel,
@@ -12731,8 +12186,7 @@ extension ReportFormStatePatterns on ReportFormState {
             String? content,
             List<ReportAttachment>? attachments,
             List<XFile>? files,
-            Schedule? schedule,
-            List<String> steps)?
+            Schedule? schedule)?
         $default, {
     required TResult orElse(),
   }) {
@@ -12740,6 +12194,7 @@ extension ReportFormStatePatterns on ReportFormState {
     switch (_that) {
       case _ReportFormState() when $default != null:
         return $default(
+            _that.steps,
             _that.expenses,
             _that.rates,
             _that.fuel,
@@ -12747,8 +12202,7 @@ extension ReportFormStatePatterns on ReportFormState {
             _that.content,
             _that.attachments,
             _that.files,
-            _that.schedule,
-            _that.steps);
+            _that.schedule);
       case _:
         return orElse();
     }
@@ -12770,6 +12224,7 @@ extension ReportFormStatePatterns on ReportFormState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
+            List<String> steps,
             List<TripActualExpense> expenses,
             List<TripRegulationRate> rates,
             TripFuelExpense? fuel,
@@ -12777,14 +12232,14 @@ extension ReportFormStatePatterns on ReportFormState {
             String? content,
             List<ReportAttachment>? attachments,
             List<XFile>? files,
-            Schedule? schedule,
-            List<String> steps)
+            Schedule? schedule)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ReportFormState():
         return $default(
+            _that.steps,
             _that.expenses,
             _that.rates,
             _that.fuel,
@@ -12792,8 +12247,7 @@ extension ReportFormStatePatterns on ReportFormState {
             _that.content,
             _that.attachments,
             _that.files,
-            _that.schedule,
-            _that.steps);
+            _that.schedule);
     }
   }
 
@@ -12812,6 +12266,7 @@ extension ReportFormStatePatterns on ReportFormState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
+            List<String> steps,
             List<TripActualExpense> expenses,
             List<TripRegulationRate> rates,
             TripFuelExpense? fuel,
@@ -12819,14 +12274,14 @@ extension ReportFormStatePatterns on ReportFormState {
             String? content,
             List<ReportAttachment>? attachments,
             List<XFile>? files,
-            Schedule? schedule,
-            List<String> steps)?
+            Schedule? schedule)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ReportFormState() when $default != null:
         return $default(
+            _that.steps,
             _that.expenses,
             _that.rates,
             _that.fuel,
@@ -12834,8 +12289,7 @@ extension ReportFormStatePatterns on ReportFormState {
             _that.content,
             _that.attachments,
             _that.files,
-            _that.schedule,
-            _that.steps);
+            _that.schedule);
       case _:
         return null;
     }
@@ -12846,20 +12300,29 @@ extension ReportFormStatePatterns on ReportFormState {
 
 class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
   _ReportFormState(
-      {final List<TripActualExpense> expenses = const [],
+      {final List<String> steps = const [],
+      final List<TripActualExpense> expenses = const [],
       final List<TripRegulationRate> rates = const [],
       this.fuel,
       this.isDeducted,
       this.content,
       final List<ReportAttachment>? attachments,
       final List<XFile>? files,
-      this.schedule,
-      final List<String> steps = const []})
-      : _expenses = expenses,
+      this.schedule})
+      : _steps = steps,
+        _expenses = expenses,
         _rates = rates,
         _attachments = attachments,
-        _files = files,
-        _steps = steps;
+        _files = files;
+
+  final List<String> _steps;
+  @override
+  @JsonKey()
+  List<String> get steps {
+    if (_steps is EqualUnmodifiableListView) return _steps;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_steps);
+  }
 
   final List<TripActualExpense> _expenses;
   @override
@@ -12907,14 +12370,6 @@ class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
 
   @override
   final Schedule? schedule;
-  final List<String> _steps;
-  @override
-  @JsonKey()
-  List<String> get steps {
-    if (_steps is EqualUnmodifiableListView) return _steps;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_steps);
-  }
 
   /// Create a copy of ReportFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -12928,6 +12383,7 @@ class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'ReportFormState'))
+      ..add(DiagnosticsProperty('steps', steps))
       ..add(DiagnosticsProperty('expenses', expenses))
       ..add(DiagnosticsProperty('rates', rates))
       ..add(DiagnosticsProperty('fuel', fuel))
@@ -12935,8 +12391,7 @@ class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('attachments', attachments))
       ..add(DiagnosticsProperty('files', files))
-      ..add(DiagnosticsProperty('schedule', schedule))
-      ..add(DiagnosticsProperty('steps', steps));
+      ..add(DiagnosticsProperty('schedule', schedule));
   }
 
   @override
@@ -12944,6 +12399,7 @@ class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _ReportFormState &&
+            const DeepCollectionEquality().equals(other._steps, _steps) &&
             const DeepCollectionEquality().equals(other._expenses, _expenses) &&
             const DeepCollectionEquality().equals(other._rates, _rates) &&
             (identical(other.fuel, fuel) || other.fuel == fuel) &&
@@ -12954,13 +12410,13 @@ class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
                 .equals(other._attachments, _attachments) &&
             const DeepCollectionEquality().equals(other._files, _files) &&
             (identical(other.schedule, schedule) ||
-                other.schedule == schedule) &&
-            const DeepCollectionEquality().equals(other._steps, _steps));
+                other.schedule == schedule));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(_steps),
       const DeepCollectionEquality().hash(_expenses),
       const DeepCollectionEquality().hash(_rates),
       fuel,
@@ -12968,12 +12424,11 @@ class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
       content,
       const DeepCollectionEquality().hash(_attachments),
       const DeepCollectionEquality().hash(_files),
-      schedule,
-      const DeepCollectionEquality().hash(_steps));
+      schedule);
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ReportFormState(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, content: $content, attachments: $attachments, files: $files, schedule: $schedule, steps: $steps)';
+    return 'ReportFormState(steps: $steps, expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, content: $content, attachments: $attachments, files: $files, schedule: $schedule)';
   }
 }
 
@@ -12986,15 +12441,15 @@ abstract mixin class _$ReportFormStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<TripActualExpense> expenses,
+      {List<String> steps,
+      List<TripActualExpense> expenses,
       List<TripRegulationRate> rates,
       TripFuelExpense? fuel,
       bool? isDeducted,
       String? content,
       List<ReportAttachment>? attachments,
       List<XFile>? files,
-      Schedule? schedule,
-      List<String> steps});
+      Schedule? schedule});
 
   @override
   $TripFuelExpenseCopyWith<$Res>? get fuel;
@@ -13015,6 +12470,7 @@ class __$ReportFormStateCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? steps = null,
     Object? expenses = null,
     Object? rates = null,
     Object? fuel = freezed,
@@ -13023,9 +12479,12 @@ class __$ReportFormStateCopyWithImpl<$Res>
     Object? attachments = freezed,
     Object? files = freezed,
     Object? schedule = freezed,
-    Object? steps = null,
   }) {
     return _then(_ReportFormState(
+      steps: null == steps
+          ? _self._steps
+          : steps // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       expenses: null == expenses
           ? _self._expenses
           : expenses // ignore: cast_nullable_to_non_nullable
@@ -13058,10 +12517,6 @@ class __$ReportFormStateCopyWithImpl<$Res>
           ? _self.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
               as Schedule?,
-      steps: null == steps
-          ? _self._steps
-          : steps // ignore: cast_nullable_to_non_nullable
-              as List<String>,
     ));
   }
 

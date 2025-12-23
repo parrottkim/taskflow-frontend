@@ -21,6 +21,8 @@ Future<void> main() async {
   configureUrl();
   WidgetsFlutterBinding.ensureInitialized();
 
+  GoRouter.optionURLReflectsImperativeAPIs = true;
+
   const secure = FlutterSecureStorage();
   final prefs = SharedPreferencesAsync();
   final ftoast = FToast();

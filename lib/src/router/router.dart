@@ -466,14 +466,6 @@ class AppRouter {
                                               projectId: int.parse(projectId))
                                           .future);
 
-                                  if (form.schedule == null) {
-                                    // ⭐️ Query Parameter를 추가하여 리다이렉트합니다. ⭐️
-                                    return state.namedLocation(
-                                      RouteNames.reportNewChoose,
-                                      pathParameters: state.pathParameters,
-                                    );
-                                  }
-
                                   final step =
                                       state.uri.queryParameters['step'];
 
@@ -627,16 +619,23 @@ class AppRouter {
                       GoRoute(
                         name: RouteNames.scheduleNewChoose,
                         path: Routes.scheduleNewChoose,
-                        pageBuilder: (context, state) => NoTransitionPage(
-                          key: state.pageKey,
-                          name: state.name,
-                          child: ScheduleCategoryScreen(),
-                        ),
+                        pageBuilder: (context, state) {
+                          String? path =
+                              state.uri.queryParameters['redirect_to'];
+
+                          return NoTransitionPage(
+                            key: state.pageKey,
+                            name: state.name,
+                            child: ScheduleCategoryScreen(path: path),
+                          );
+                        },
                         routes: [
                           GoRoute(
                             name: RouteNames.scheduleNew,
                             path: Routes.scheduleNew,
                             pageBuilder: (context, state) {
+                              String? path =
+                                  state.uri.queryParameters['redirect_to'];
                               String? categoryId =
                                   state.uri.queryParameters['category'];
 
@@ -644,6 +643,7 @@ class AppRouter {
                                 key: state.pageKey,
                                 name: state.name,
                                 child: ScheduleFormScreen(
+                                  path: path,
                                   categoryId: int.parse(categoryId!),
                                 ),
                               );
@@ -766,13 +766,13 @@ class AppRouter {
         name: RouteNames.download,
         path: Routes.download,
         pageBuilder: (context, state) {
-          final path = state.uri.queryParameters['path'];
-          final filename = state.uri.queryParameters['filename'];
+          final type = state.uri.queryParameters['type']!;
+          final id = state.uri.queryParameters['id']!;
 
           return NoTransitionPage(
             key: state.pageKey,
             name: state.name,
-            child: DownloadScreen(path: path, filename: filename),
+            child: DownloadScreen(type: type, id: int.parse(id)),
           );
         },
       ),

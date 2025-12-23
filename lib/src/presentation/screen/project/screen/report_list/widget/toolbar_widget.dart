@@ -74,7 +74,7 @@ class ToolbarWidget extends ConsumerWidget {
               ref.read(toastProvider).showToast(
                     child: Toast(
                       type: ToastType.standard,
-                      message: Intl.message('common_copied'),
+                      message: Intl.message('common_link_copied'),
                     ),
                   );
             } else {
@@ -128,7 +128,7 @@ class ToolbarWidget extends ConsumerWidget {
                 onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated && auth.user == item.user
                     ? () {
-                        context.goNamed(
+                        context.pushNamed(
                           RouteNames.reportEdit,
                           pathParameters: {
                             'project_id': projectId.toString(),
@@ -176,13 +176,6 @@ class ToolbarWidget extends ConsumerWidget {
                               .read(reportSubmitControllerProvider.notifier)
                               .deleteReport(
                                   projectId: projectId, reportId: item.id);
-
-                          ref.read(toastProvider).showToast(
-                                child: Toast(
-                                  type: ToastType.standard,
-                                  message: Intl.message('report_form_delete'),
-                                ),
-                              );
                         }
                       }
                     : null,
