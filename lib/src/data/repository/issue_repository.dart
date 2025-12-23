@@ -10,6 +10,10 @@ abstract class IssueRepository {
     int limit = 20,
   });
 
+  Future<List<ContractItem>> getContractItems({required int id});
+
+  Future<List<TransactionItem>> getTransactionItems({required int id});
+
   Future<HttpResponse<ContractIssue?>> getContractIssue({required int id});
 
   Future<HttpResponse<KickoffIssue?>> getKickoffIssue({required int id});

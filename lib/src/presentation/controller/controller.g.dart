@@ -883,7 +883,7 @@ class _IssueFormControllerProviderElement
 }
 
 String _$issueListControllerHash() =>
-    r'e17d00bb0a641dd9d200e239738ae27554037bb1';
+    r'2bb7422465876b358cc0c528ac625184ebf4c48d';
 
 abstract class _$IssueListController
     extends BuildlessAutoDisposeAsyncNotifier<IssueListState> {
@@ -1031,7 +1031,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'9752484a3599fe11413cbb712d3d378a353c5dd5';
+    r'dbb1156c3ff4cd0c850f38f61d78983553b0309d';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)

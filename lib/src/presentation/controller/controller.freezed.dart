@@ -4817,6 +4817,8 @@ mixin _$IssueListState implements DiagnosticableTreeMixin {
   int get procurementsPage;
   int get procurementsTotal;
   bool get procurementsHasReachEnd;
+  List<ContractItem> get contractItems;
+  List<TransactionItem> get transactionItems;
 
   /// Create a copy of IssueListState
   /// with the given fields replaced by the non-null parameter values.
@@ -4843,7 +4845,9 @@ mixin _$IssueListState implements DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('procurementsPage', procurementsPage))
       ..add(DiagnosticsProperty('procurementsTotal', procurementsTotal))
       ..add(DiagnosticsProperty(
-          'procurementsHasReachEnd', procurementsHasReachEnd));
+          'procurementsHasReachEnd', procurementsHasReachEnd))
+      ..add(DiagnosticsProperty('contractItems', contractItems))
+      ..add(DiagnosticsProperty('transactionItems', transactionItems));
   }
 
   @override
@@ -4874,7 +4878,11 @@ mixin _$IssueListState implements DiagnosticableTreeMixin {
                 other.procurementsTotal == procurementsTotal) &&
             (identical(
                     other.procurementsHasReachEnd, procurementsHasReachEnd) ||
-                other.procurementsHasReachEnd == procurementsHasReachEnd));
+                other.procurementsHasReachEnd == procurementsHasReachEnd) &&
+            const DeepCollectionEquality()
+                .equals(other.contractItems, contractItems) &&
+            const DeepCollectionEquality()
+                .equals(other.transactionItems, transactionItems));
   }
 
   @override
@@ -4891,11 +4899,13 @@ mixin _$IssueListState implements DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(procurements),
       procurementsPage,
       procurementsTotal,
-      procurementsHasReachEnd);
+      procurementsHasReachEnd,
+      const DeepCollectionEquality().hash(contractItems),
+      const DeepCollectionEquality().hash(transactionItems));
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueListState(contract: $contract, kickoff: $kickoff, transaction: $transaction, payment: $payment, declarations: $declarations, declarationsPage: $declarationsPage, declarationsTotal: $declarationsTotal, declarationsHasReachEnd: $declarationsHasReachEnd, procurements: $procurements, procurementsPage: $procurementsPage, procurementsTotal: $procurementsTotal, procurementsHasReachEnd: $procurementsHasReachEnd)';
+    return 'IssueListState(contract: $contract, kickoff: $kickoff, transaction: $transaction, payment: $payment, declarations: $declarations, declarationsPage: $declarationsPage, declarationsTotal: $declarationsTotal, declarationsHasReachEnd: $declarationsHasReachEnd, procurements: $procurements, procurementsPage: $procurementsPage, procurementsTotal: $procurementsTotal, procurementsHasReachEnd: $procurementsHasReachEnd, contractItems: $contractItems, transactionItems: $transactionItems)';
   }
 }
 
@@ -4917,7 +4927,9 @@ abstract mixin class $IssueListStateCopyWith<$Res> {
       List<ProcurementIssue> procurements,
       int procurementsPage,
       int procurementsTotal,
-      bool procurementsHasReachEnd});
+      bool procurementsHasReachEnd,
+      List<ContractItem> contractItems,
+      List<TransactionItem> transactionItems});
 
   $ContractIssueCopyWith<$Res>? get contract;
   $KickoffIssueCopyWith<$Res>? get kickoff;
@@ -4950,6 +4962,8 @@ class _$IssueListStateCopyWithImpl<$Res>
     Object? procurementsPage = null,
     Object? procurementsTotal = null,
     Object? procurementsHasReachEnd = null,
+    Object? contractItems = null,
+    Object? transactionItems = null,
   }) {
     return _then(_self.copyWith(
       contract: freezed == contract
@@ -5000,6 +5014,14 @@ class _$IssueListStateCopyWithImpl<$Res>
           ? _self.procurementsHasReachEnd
           : procurementsHasReachEnd // ignore: cast_nullable_to_non_nullable
               as bool,
+      contractItems: null == contractItems
+          ? _self.contractItems
+          : contractItems // ignore: cast_nullable_to_non_nullable
+              as List<ContractItem>,
+      transactionItems: null == transactionItems
+          ? _self.transactionItems
+          : transactionItems // ignore: cast_nullable_to_non_nullable
+              as List<TransactionItem>,
     ));
   }
 
@@ -5165,7 +5187,9 @@ extension IssueListStatePatterns on IssueListState {
             List<ProcurementIssue> procurements,
             int procurementsPage,
             int procurementsTotal,
-            bool procurementsHasReachEnd)?
+            bool procurementsHasReachEnd,
+            List<ContractItem> contractItems,
+            List<TransactionItem> transactionItems)?
         $default, {
     required TResult orElse(),
   }) {
@@ -5184,7 +5208,9 @@ extension IssueListStatePatterns on IssueListState {
             _that.procurements,
             _that.procurementsPage,
             _that.procurementsTotal,
-            _that.procurementsHasReachEnd);
+            _that.procurementsHasReachEnd,
+            _that.contractItems,
+            _that.transactionItems);
       case _:
         return orElse();
     }
@@ -5217,7 +5243,9 @@ extension IssueListStatePatterns on IssueListState {
             List<ProcurementIssue> procurements,
             int procurementsPage,
             int procurementsTotal,
-            bool procurementsHasReachEnd)
+            bool procurementsHasReachEnd,
+            List<ContractItem> contractItems,
+            List<TransactionItem> transactionItems)
         $default,
   ) {
     final _that = this;
@@ -5235,7 +5263,9 @@ extension IssueListStatePatterns on IssueListState {
             _that.procurements,
             _that.procurementsPage,
             _that.procurementsTotal,
-            _that.procurementsHasReachEnd);
+            _that.procurementsHasReachEnd,
+            _that.contractItems,
+            _that.transactionItems);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -5267,7 +5297,9 @@ extension IssueListStatePatterns on IssueListState {
             List<ProcurementIssue> procurements,
             int procurementsPage,
             int procurementsTotal,
-            bool procurementsHasReachEnd)?
+            bool procurementsHasReachEnd,
+            List<ContractItem> contractItems,
+            List<TransactionItem> transactionItems)?
         $default,
   ) {
     final _that = this;
@@ -5285,7 +5317,9 @@ extension IssueListStatePatterns on IssueListState {
             _that.procurements,
             _that.procurementsPage,
             _that.procurementsTotal,
-            _that.procurementsHasReachEnd);
+            _that.procurementsHasReachEnd,
+            _that.contractItems,
+            _that.transactionItems);
       case _:
         return null;
     }
@@ -5307,9 +5341,13 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
       final List<ProcurementIssue> procurements = const [],
       this.procurementsPage = 1,
       this.procurementsTotal = 0,
-      this.procurementsHasReachEnd = false})
+      this.procurementsHasReachEnd = false,
+      final List<ContractItem> contractItems = const [],
+      final List<TransactionItem> transactionItems = const []})
       : _declarations = declarations,
-        _procurements = procurements;
+        _procurements = procurements,
+        _contractItems = contractItems,
+        _transactionItems = transactionItems;
 
   @override
   final ContractIssue? contract;
@@ -5355,6 +5393,24 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
   @override
   @JsonKey()
   final bool procurementsHasReachEnd;
+  final List<ContractItem> _contractItems;
+  @override
+  @JsonKey()
+  List<ContractItem> get contractItems {
+    if (_contractItems is EqualUnmodifiableListView) return _contractItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_contractItems);
+  }
+
+  final List<TransactionItem> _transactionItems;
+  @override
+  @JsonKey()
+  List<TransactionItem> get transactionItems {
+    if (_transactionItems is EqualUnmodifiableListView)
+      return _transactionItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_transactionItems);
+  }
 
   /// Create a copy of IssueListState
   /// with the given fields replaced by the non-null parameter values.
@@ -5381,7 +5437,9 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
       ..add(DiagnosticsProperty('procurementsPage', procurementsPage))
       ..add(DiagnosticsProperty('procurementsTotal', procurementsTotal))
       ..add(DiagnosticsProperty(
-          'procurementsHasReachEnd', procurementsHasReachEnd));
+          'procurementsHasReachEnd', procurementsHasReachEnd))
+      ..add(DiagnosticsProperty('contractItems', contractItems))
+      ..add(DiagnosticsProperty('transactionItems', transactionItems));
   }
 
   @override
@@ -5412,7 +5470,11 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
                 other.procurementsTotal == procurementsTotal) &&
             (identical(
                     other.procurementsHasReachEnd, procurementsHasReachEnd) ||
-                other.procurementsHasReachEnd == procurementsHasReachEnd));
+                other.procurementsHasReachEnd == procurementsHasReachEnd) &&
+            const DeepCollectionEquality()
+                .equals(other._contractItems, _contractItems) &&
+            const DeepCollectionEquality()
+                .equals(other._transactionItems, _transactionItems));
   }
 
   @override
@@ -5429,11 +5491,13 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
       const DeepCollectionEquality().hash(_procurements),
       procurementsPage,
       procurementsTotal,
-      procurementsHasReachEnd);
+      procurementsHasReachEnd,
+      const DeepCollectionEquality().hash(_contractItems),
+      const DeepCollectionEquality().hash(_transactionItems));
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueListState(contract: $contract, kickoff: $kickoff, transaction: $transaction, payment: $payment, declarations: $declarations, declarationsPage: $declarationsPage, declarationsTotal: $declarationsTotal, declarationsHasReachEnd: $declarationsHasReachEnd, procurements: $procurements, procurementsPage: $procurementsPage, procurementsTotal: $procurementsTotal, procurementsHasReachEnd: $procurementsHasReachEnd)';
+    return 'IssueListState(contract: $contract, kickoff: $kickoff, transaction: $transaction, payment: $payment, declarations: $declarations, declarationsPage: $declarationsPage, declarationsTotal: $declarationsTotal, declarationsHasReachEnd: $declarationsHasReachEnd, procurements: $procurements, procurementsPage: $procurementsPage, procurementsTotal: $procurementsTotal, procurementsHasReachEnd: $procurementsHasReachEnd, contractItems: $contractItems, transactionItems: $transactionItems)';
   }
 }
 
@@ -5457,7 +5521,9 @@ abstract mixin class _$IssueListStateCopyWith<$Res>
       List<ProcurementIssue> procurements,
       int procurementsPage,
       int procurementsTotal,
-      bool procurementsHasReachEnd});
+      bool procurementsHasReachEnd,
+      List<ContractItem> contractItems,
+      List<TransactionItem> transactionItems});
 
   @override
   $ContractIssueCopyWith<$Res>? get contract;
@@ -5494,6 +5560,8 @@ class __$IssueListStateCopyWithImpl<$Res>
     Object? procurementsPage = null,
     Object? procurementsTotal = null,
     Object? procurementsHasReachEnd = null,
+    Object? contractItems = null,
+    Object? transactionItems = null,
   }) {
     return _then(_IssueListState(
       contract: freezed == contract
@@ -5544,6 +5612,14 @@ class __$IssueListStateCopyWithImpl<$Res>
           ? _self.procurementsHasReachEnd
           : procurementsHasReachEnd // ignore: cast_nullable_to_non_nullable
               as bool,
+      contractItems: null == contractItems
+          ? _self._contractItems
+          : contractItems // ignore: cast_nullable_to_non_nullable
+              as List<ContractItem>,
+      transactionItems: null == transactionItems
+          ? _self._transactionItems
+          : transactionItems // ignore: cast_nullable_to_non_nullable
+              as List<TransactionItem>,
     ));
   }
 
