@@ -89,6 +89,8 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print(transactionItems);
+
     final auth = ref.watch(authControllerProvider);
 
     final colorScheme = Theme.of(context).colorScheme;

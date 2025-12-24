@@ -3,7 +3,6 @@ part of '../controller.dart';
 @freezed
 abstract class IssueFormState with _$IssueFormState {
   const factory IssueFormState({
-    @Default([]) List<IssueCategory> categories,
     IssueCategory? category,
     String? content,
     List<IssueAttachment>? attachments,

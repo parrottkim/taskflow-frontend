@@ -4,7 +4,9 @@ part of '../controller.dart';
 class IssueFormController extends _$IssueFormController {
   @override
   FutureOr<IssueFormState> build(
-          {required int projectId, int? issueId}) async =>
+          {required int projectId,
+          required int categoryId,
+          int? issueId}) async =>
       await _init();
 
   Future<IssueFormState> _init() async {
@@ -12,7 +14,24 @@ class IssueFormController extends _$IssueFormController {
       final categories =
           await ref.read(issueRepositoryProvider).getAllCategories();
 
-      return IssueFormState(categories: categories);
+      final contract = await ref
+          .read(issueRepositoryProvider)
+          .getContractIssue(id: projectId);
+
+      final contractItems = await ref
+          .read(issueRepositoryProvider)
+          .getContractItems(id: projectId);
+      final transactionItems = await ref
+          .read(issueRepositoryProvider)
+          .getTransactionItems(id: projectId);
+
+      return IssueFormState(
+        category: categories
+            .firstWhereOrNull((category) => category.id == categoryId),
+        currency: contract.data?.currency,
+        contractItems: contractItems,
+        transactionItems: transactionItems,
+      );
     }
 
     final result =

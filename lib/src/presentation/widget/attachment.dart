@@ -237,7 +237,6 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
     // Extract common properties from different attachment types
     final filename = _getFilename(attachment);
     final size = _getSize(attachment);
-    final id = _getId(attachment);
     final effectivePath = _getPath(attachment);
 
     return ContainerWidget(
@@ -366,11 +365,12 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
     return (attachment as dynamic).size ?? 0;
   }
 
-  int _getId(dynamic attachment) {
+  String? _getPath(dynamic attachment) {
     if (attachment is Map) {
-      return attachment['id'] ?? 0;
+      return attachment['path'] as String?;
     }
-    return (attachment as dynamic).id ?? 0;
+
+    return (attachment as dynamic).path as String?;
   }
 
   String? _getPath(dynamic attachment) {

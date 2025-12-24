@@ -66,6 +66,7 @@ class SupplierListWidget extends HookConsumerWidget {
             ref
                 .read(issueFormControllerProvider(
                   projectId: projectId,
+                  categoryId: categoryId,
                   issueId: issueId,
                 ).notifier)
                 .updateProcurementItem(
