@@ -508,7 +508,7 @@ final worldMapControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$WorldMapController = AutoDisposeAsyncNotifier<WorldMapState>;
 String _$downloadControllerHash() =>
-    r'21ecd8ae667838a0a140bacf3fd7b803f333d138';
+    r'fa6e9ee964715da59c0442cb56a214fbd574d573';
 
 abstract class _$DownloadController
     extends BuildlessAutoDisposeAsyncNotifier<DownloadState> {
