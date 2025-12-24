@@ -5,6 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_geojson/flutter_map_geojson.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
@@ -13,6 +14,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/preset.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 
 class WorldMapWidget extends HookConsumerWidget {
   const WorldMapWidget({super.key});
@@ -128,7 +130,12 @@ class WorldMapWidget extends HookConsumerWidget {
                                   return Material(
                                     color: Colors.transparent,
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        context.goNamed(RouteNames.project,
+                                            queryParameters: {
+                                              'search': item.name,
+                                            });
+                                      },
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             bottom:
