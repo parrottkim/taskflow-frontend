@@ -372,14 +372,6 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
 
     return (attachment as dynamic).path as String?;
   }
-
-  String? _getPath(dynamic attachment) {
-    if (attachment is Map) {
-      return attachment['path'] as String?;
-    }
-
-    return (attachment as dynamic).path as String?;
-  }
 }
 
 /// Individual file item widget (for files not yet uploaded)
