@@ -83,7 +83,9 @@ class AttachmentItemWidget extends HookConsumerWidget {
             onTap: () {
               ref
                   .read(issueFormControllerProvider(
-                          projectId: projectId, issueId: issueId)
+                          projectId: projectId,
+                          categoryId: categoryId,
+                          issueId: issueId)
                       .notifier)
                   .removeAttachment(attachment);
             },

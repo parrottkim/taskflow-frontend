@@ -489,6 +489,46 @@ class S {
     );
   }
 
+  /// `이미 생성된 계약 및 수주 업무가 있습니다.`
+  String get contract_issue_exists {
+    return Intl.message(
+      '이미 생성된 계약 및 수주 업무가 있습니다.',
+      name: 'contract_issue_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 킥어프 업무가 있습니다.`
+  String get kickoff_issue_exists {
+    return Intl.message(
+      '이미 생성된 킥어프 업무가 있습니다.',
+      name: 'kickoff_issue_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 거래 명세/인보이스 업무가 있습니다.`
+  String get transaction_issue_exists {
+    return Intl.message(
+      '이미 생성된 거래 명세/인보이스 업무가 있습니다.',
+      name: 'transaction_issue_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 지급 청구 업무가 있습니다.`
+  String get payment_issue_exists {
+    return Intl.message(
+      '이미 생성된 지급 청구 업무가 있습니다.',
+      name: 'payment_issue_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.`
   String get too_many_forgot_password_requests {
     return Intl.message(
@@ -3069,6 +3109,26 @@ class S {
     return Intl.message(
       '비고',
       name: 'issue_form_transaction_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `청구 목록은 계약 및 수주 업무에서 생성 가능합니다`
+  String get issue_form_transaction_item_empty_1 {
+    return Intl.message(
+      '청구 목록은 계약 및 수주 업무에서 생성 가능합니다',
+      name: 'issue_form_transaction_item_empty_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `계약 및 수주 업무로 이동 >`
+  String get issue_form_transaction_item_empty_2 {
+    return Intl.message(
+      '계약 및 수주 업무로 이동 >',
+      name: 'issue_form_transaction_item_empty_2',
       desc: '',
       args: [],
     );

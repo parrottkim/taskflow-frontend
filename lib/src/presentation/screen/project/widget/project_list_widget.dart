@@ -615,14 +615,12 @@ class _MobileWidget extends HookConsumerWidget {
                       ],
                     ),
                     SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        Text(
-                          items[index].name,
-                          style: textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ],
+                    Text(
+                      items[index].name,
+                      maxLines: Responsive.isMobile(context) ? 2 : 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w500),
                     ),
                     Text(
                       items[index].code,

@@ -7,9 +7,12 @@ class IssueSubmitController extends _$IssueSubmitController {
 
   Future<void> createIssue({
     required int projectId,
+    required int categoryId,
   }) async {
-    final value =
-        ref.read(issueFormControllerProvider(projectId: projectId)).valueOrNull;
+    final value = ref
+        .read(issueFormControllerProvider(
+            projectId: projectId, categoryId: categoryId))
+        .valueOrNull;
 
     if (value == null) return;
 
@@ -178,10 +181,12 @@ class IssueSubmitController extends _$IssueSubmitController {
   }
 
   Future<void> updateIssue(
-      {required int projectId, required int issueId}) async {
+      {required int projectId,
+      required int categoryId,
+      required int issueId}) async {
     final value = ref
-        .read(
-            issueFormControllerProvider(projectId: projectId, issueId: issueId))
+        .read(issueFormControllerProvider(
+            projectId: projectId, categoryId: categoryId, issueId: issueId))
         .valueOrNull;
 
     if (value == null) return;

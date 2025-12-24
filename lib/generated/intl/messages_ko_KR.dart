@@ -97,6 +97,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "connection_timeout": MessageLookupByLibrary.simpleMessage(
       "연결 시간이 초과되었습니다. 나중에 다시 시도하세요.",
     ),
+    "contract_issue_exists": MessageLookupByLibrary.simpleMessage(
+      "이미 생성된 계약 및 수주 업무가 있습니다.",
+    ),
     "created_at": MessageLookupByLibrary.simpleMessage("작성"),
     "dashboard": MessageLookupByLibrary.simpleMessage("대시보드"),
     "dashboard_functions_1": MessageLookupByLibrary.simpleMessage("근무 일정 등록"),
@@ -296,6 +299,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_transaction_5": MessageLookupByLibrary.simpleMessage("금액"),
     "issue_form_transaction_6": MessageLookupByLibrary.simpleMessage("지급 여부"),
     "issue_form_transaction_7": MessageLookupByLibrary.simpleMessage("비고"),
+    "issue_form_transaction_item_empty_1": MessageLookupByLibrary.simpleMessage(
+      "청구 목록은 계약 및 수주 업무에서 생성 가능합니다",
+    ),
+    "issue_form_transaction_item_empty_2": MessageLookupByLibrary.simpleMessage(
+      "계약 및 수주 업무로 이동 >",
+    ),
     "issue_form_transaction_item_invalid_1":
         MessageLookupByLibrary.simpleMessage("청구 내역을 최소 하나 이상 입력해 주세요"),
     "issue_form_transaction_item_invalid_2":
@@ -363,6 +372,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "issue_not_found": MessageLookupByLibrary.simpleMessage("업무를 찾을 수 없습니다."),
     "kia": MessageLookupByLibrary.simpleMessage("기아"),
+    "kickoff_issue_exists": MessageLookupByLibrary.simpleMessage(
+      "이미 생성된 킥어프 업무가 있습니다.",
+    ),
     "lab_and_other": MessageLookupByLibrary.simpleMessage("연구소 및 기타"),
     "login_button": MessageLookupByLibrary.simpleMessage("로그인"),
     "login_create_account_1": MessageLookupByLibrary.simpleMessage(
@@ -409,6 +421,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "navigation_title_3": MessageLookupByLibrary.simpleMessage("OTHER"),
     "no_permission": MessageLookupByLibrary.simpleMessage(
       "이 페이지에 접근할 권한이 없습니다.",
+    ),
+    "payment_issue_exists": MessageLookupByLibrary.simpleMessage(
+      "이미 생성된 지급 청구 업무가 있습니다.",
     ),
     "pop_scope_content": MessageLookupByLibrary.simpleMessage(
       "작성 중인 내용이 저장되지 않고 모두 사라집니다.\n계속하시겠습니까?",
@@ -777,6 +792,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "setting_segment_2": MessageLookupByLibrary.simpleMessage("데이터"),
     "too_many_forgot_password_requests": MessageLookupByLibrary.simpleMessage(
       "비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.",
+    ),
+    "transaction_issue_exists": MessageLookupByLibrary.simpleMessage(
+      "이미 생성된 거래 명세/인보이스 업무가 있습니다.",
     ),
     "unspecified": MessageLookupByLibrary.simpleMessage("미지정"),
     "updated_at": MessageLookupByLibrary.simpleMessage("수정"),

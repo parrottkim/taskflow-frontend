@@ -268,7 +268,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                       bottom: 16.0),
                                   child: AttachmentListWidget<ReportAttachment>(
                                     attachments: items[index].attachments,
-                                    downloadType: 'report',
                                   ),
                                 ),
                             ],

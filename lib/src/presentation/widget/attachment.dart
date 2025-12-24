@@ -25,7 +25,7 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
   final Function(XFile) onAddFile;
   final Function(XFile) onRemoveFile;
   final Function(T) onRemoveAttachment;
-  final String downloadType; // 'issue' or 'report'
+  final String path; // 'issue' or 'report'
 
   const AttachmentUploadWidget({
     super.key,
@@ -35,7 +35,7 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
     required this.onAddFile,
     required this.onRemoveFile,
     required this.onRemoveAttachment,
-    required this.downloadType,
+    required this.path,
   });
 
   @override
@@ -163,7 +163,6 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
                 itemBuilder: (context, index) => AttachmentItemWidget<T>(
                   attachment: attachments![index],
                   onRemove: () => onRemoveAttachment(attachments![index]),
-                  downloadType: downloadType,
                 ),
               ),
             ),
@@ -191,13 +190,11 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
 /// Used in Issue and Report list/detail views
 class AttachmentListWidget<T> extends ConsumerWidget {
   final List<T> attachments;
-  final String downloadType; // 'issue' or 'report'
   final bool showPadding;
 
   const AttachmentListWidget({
     super.key,
     required this.attachments,
-    required this.downloadType,
     this.showPadding = true,
   });
 
@@ -212,7 +209,6 @@ class AttachmentListWidget<T> extends ConsumerWidget {
         separatorBuilder: (context, index) => SizedBox(height: 8.0),
         itemBuilder: (context, index) => AttachmentItemWidget<T>(
           attachment: attachments[index],
-          downloadType: downloadType,
           isReadOnly: true,
         ),
       ),
@@ -224,14 +220,12 @@ class AttachmentListWidget<T> extends ConsumerWidget {
 class AttachmentItemWidget<T> extends HookConsumerWidget {
   final T attachment;
   final VoidCallback? onRemove;
-  final String downloadType;
   final bool isReadOnly;
 
   const AttachmentItemWidget({
     super.key,
     required this.attachment,
     this.onRemove,
-    required this.downloadType,
     this.isReadOnly = false,
   });
 
@@ -243,7 +237,7 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
     // Extract common properties from different attachment types
     final filename = _getFilename(attachment);
     final size = _getSize(attachment);
-    final id = _getId(attachment);
+    final effectivePath = _getPath(attachment);
 
     return ContainerWidget(
       elevation: 0.0,
@@ -302,7 +296,7 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
             ),
           ),
           SizedBox(width: 8.0),
-          if (isReadOnly) ...[
+          if (isReadOnly && effectivePath != null) ...[
             CustomIconButton(
               onTap: () async {
                 final uri = Uri(
@@ -311,8 +305,8 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
                   port: Uri.base.hasPort ? Uri.base.port : null,
                   path: Routes.download,
                   queryParameters: {
-                    'type': downloadType,
-                    'id': id.toString(),
+                    'path': effectivePath,
+                    'filename': filename,
                   },
                 );
 
@@ -336,8 +330,8 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
                   port: Uri.base.hasPort ? Uri.base.port : null,
                   path: Routes.download,
                   queryParameters: {
-                    'type': downloadType,
-                    'id': id.toString(),
+                    'path': effectivePath,
+                    'filename': filename,
                   },
                 );
 
@@ -371,11 +365,12 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
     return (attachment as dynamic).size ?? 0;
   }
 
-  int _getId(dynamic attachment) {
+  String? _getPath(dynamic attachment) {
     if (attachment is Map) {
-      return attachment['id'] ?? 0;
+      return attachment['path'] as String?;
     }
-    return (attachment as dynamic).id ?? 0;
+
+    return (attachment as dynamic).path as String?;
   }
 }
 

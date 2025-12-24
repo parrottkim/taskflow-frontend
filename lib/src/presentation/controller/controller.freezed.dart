@@ -4105,7 +4105,6 @@ class __$IssueFilterStateCopyWithImpl<$Res>
 
 /// @nodoc
 mixin _$IssueFormState implements DiagnosticableTreeMixin {
-  List<IssueCategory> get categories;
   IssueCategory? get category;
   String? get content;
   List<IssueAttachment>? get attachments;
@@ -4128,7 +4127,6 @@ mixin _$IssueFormState implements DiagnosticableTreeMixin {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'IssueFormState'))
-      ..add(DiagnosticsProperty('categories', categories))
       ..add(DiagnosticsProperty('category', category))
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('attachments', attachments))
@@ -4145,8 +4143,6 @@ mixin _$IssueFormState implements DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is IssueFormState &&
-            const DeepCollectionEquality()
-                .equals(other.categories, categories) &&
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.content, content) || other.content == content) &&
@@ -4168,7 +4164,6 @@ mixin _$IssueFormState implements DiagnosticableTreeMixin {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(categories),
       category,
       content,
       const DeepCollectionEquality().hash(attachments),
@@ -4181,7 +4176,7 @@ mixin _$IssueFormState implements DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState(categories: $categories, category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
+    return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
   }
 }
 
@@ -4192,8 +4187,7 @@ abstract mixin class $IssueFormStateCopyWith<$Res> {
       _$IssueFormStateCopyWithImpl;
   @useResult
   $Res call(
-      {List<IssueCategory> categories,
-      IssueCategory? category,
+      {IssueCategory? category,
       String? content,
       List<IssueAttachment>? attachments,
       List<XFile>? files,
@@ -4220,7 +4214,6 @@ class _$IssueFormStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categories = null,
     Object? category = freezed,
     Object? content = freezed,
     Object? attachments = freezed,
@@ -4232,10 +4225,6 @@ class _$IssueFormStateCopyWithImpl<$Res>
     Object? transactionItems = null,
   }) {
     return _then(_self.copyWith(
-      categories: null == categories
-          ? _self.categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<IssueCategory>,
       category: freezed == category
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -4398,7 +4387,6 @@ extension IssueFormStatePatterns on IssueFormState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            List<IssueCategory> categories,
             IssueCategory? category,
             String? content,
             List<IssueAttachment>? attachments,
@@ -4415,7 +4403,6 @@ extension IssueFormStatePatterns on IssueFormState {
     switch (_that) {
       case _IssueFormState() when $default != null:
         return $default(
-            _that.categories,
             _that.category,
             _that.content,
             _that.attachments,
@@ -4446,7 +4433,6 @@ extension IssueFormStatePatterns on IssueFormState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            List<IssueCategory> categories,
             IssueCategory? category,
             String? content,
             List<IssueAttachment>? attachments,
@@ -4462,7 +4448,6 @@ extension IssueFormStatePatterns on IssueFormState {
     switch (_that) {
       case _IssueFormState():
         return $default(
-            _that.categories,
             _that.category,
             _that.content,
             _that.attachments,
@@ -4492,7 +4477,6 @@ extension IssueFormStatePatterns on IssueFormState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            List<IssueCategory> categories,
             IssueCategory? category,
             String? content,
             List<IssueAttachment>? attachments,
@@ -4508,7 +4492,6 @@ extension IssueFormStatePatterns on IssueFormState {
     switch (_that) {
       case _IssueFormState() when $default != null:
         return $default(
-            _that.categories,
             _that.category,
             _that.content,
             _that.attachments,
@@ -4528,8 +4511,7 @@ extension IssueFormStatePatterns on IssueFormState {
 
 class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
   const _IssueFormState(
-      {final List<IssueCategory> categories = const [],
-      this.category,
+      {this.category,
       this.content,
       final List<IssueAttachment>? attachments,
       final List<XFile>? files,
@@ -4538,21 +4520,11 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
       final List<ContractItem> contractItems = const [],
       final List<ProcurementItem> procurementItems = const [],
       final List<TransactionItem> transactionItems = const []})
-      : _categories = categories,
-        _attachments = attachments,
+      : _attachments = attachments,
         _files = files,
         _contractItems = contractItems,
         _procurementItems = procurementItems,
         _transactionItems = transactionItems;
-
-  final List<IssueCategory> _categories;
-  @override
-  @JsonKey()
-  List<IssueCategory> get categories {
-    if (_categories is EqualUnmodifiableListView) return _categories;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_categories);
-  }
 
   @override
   final IssueCategory? category;
@@ -4623,7 +4595,6 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     properties
       ..add(DiagnosticsProperty('type', 'IssueFormState'))
-      ..add(DiagnosticsProperty('categories', categories))
       ..add(DiagnosticsProperty('category', category))
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('attachments', attachments))
@@ -4640,8 +4611,6 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _IssueFormState &&
-            const DeepCollectionEquality()
-                .equals(other._categories, _categories) &&
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.content, content) || other.content == content) &&
@@ -4663,7 +4632,6 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_categories),
       category,
       content,
       const DeepCollectionEquality().hash(_attachments),
@@ -4676,7 +4644,7 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IssueFormState(categories: $categories, category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
+    return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
   }
 }
 
@@ -4689,8 +4657,7 @@ abstract mixin class _$IssueFormStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<IssueCategory> categories,
-      IssueCategory? category,
+      {IssueCategory? category,
       String? content,
       List<IssueAttachment>? attachments,
       List<XFile>? files,
@@ -4719,7 +4686,6 @@ class __$IssueFormStateCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? categories = null,
     Object? category = freezed,
     Object? content = freezed,
     Object? attachments = freezed,
@@ -4731,10 +4697,6 @@ class __$IssueFormStateCopyWithImpl<$Res>
     Object? transactionItems = null,
   }) {
     return _then(_IssueFormState(
-      categories: null == categories
-          ? _self._categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<IssueCategory>,
       category: freezed == category
           ? _self.category
           : category // ignore: cast_nullable_to_non_nullable

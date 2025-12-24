@@ -39,8 +39,8 @@ class IssueFormScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final form = ref.watch(
-        issueFormControllerProvider(projectId: projectId, issueId: issueId));
+    final form = ref.watch(issueFormControllerProvider(
+        projectId: projectId, categoryId: categoryId, issueId: issueId));
 
     return BranchLayout(
       child: switch (form) {
@@ -293,11 +293,12 @@ class _DesktopWidget extends HookConsumerWidget {
                                   title: Intl.message('issue_form_attachment'),
                                   attachments: value.attachments,
                                   files: value.files,
-                                  downloadType: 'issue',
+                                  path: 'issue',
                                   onAddFile: (file) {
                                     ref
                                         .read(issueFormControllerProvider(
                                                 projectId: projectId,
+                                                categoryId: categoryId,
                                                 issueId: issueId)
                                             .notifier)
                                         .addFile(file);
@@ -306,6 +307,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     ref
                                         .read(issueFormControllerProvider(
                                                 projectId: projectId,
+                                                categoryId: categoryId,
                                                 issueId: issueId)
                                             .notifier)
                                         .removeFile(file);
@@ -314,6 +316,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     ref
                                         .read(issueFormControllerProvider(
                                                 projectId: projectId,
+                                                categoryId: categoryId,
                                                 issueId: issueId)
                                             .notifier)
                                         .removeAttachment(attachment);
@@ -441,19 +444,26 @@ class _DesktopWidget extends HookConsumerWidget {
 
                       await ref
                           .read(issueFormControllerProvider(
-                                  projectId: projectId, issueId: issueId)
+                                  projectId: projectId,
+                                  categoryId: categoryId,
+                                  issueId: issueId)
                               .notifier)
                           .serializeAndSetContent(document: document);
 
                       if (issueId == null) {
                         await ref
                             .read(issueSubmitControllerProvider.notifier)
-                            .createIssue(projectId: projectId);
+                            .createIssue(
+                              projectId: projectId,
+                              categoryId: categoryId,
+                            );
                       } else {
                         await ref
                             .read(issueSubmitControllerProvider.notifier)
                             .updateIssue(
-                                projectId: projectId, issueId: issueId!);
+                                projectId: projectId,
+                                categoryId: categoryId,
+                                issueId: issueId!);
                       }
                     },
                     child: Text(

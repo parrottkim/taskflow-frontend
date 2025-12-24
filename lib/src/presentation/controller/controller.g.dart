@@ -712,15 +712,17 @@ final issueFilterControllerProvider = AutoDisposeAsyncNotifierProvider<
 
 typedef _$IssueFilterController = AutoDisposeAsyncNotifier<IssueFilterState>;
 String _$issueFormControllerHash() =>
-    r'23d72a2daff41201eaffbc0fc7a9127e4b73b998';
+    r'289ba6e65a971041e62fe5c7e0f5e226b61e453d';
 
 abstract class _$IssueFormController
     extends BuildlessAutoDisposeAsyncNotifier<IssueFormState> {
   late final int projectId;
+  late final int categoryId;
   late final int? issueId;
 
   FutureOr<IssueFormState> build({
     required int projectId,
+    required int categoryId,
     int? issueId,
   });
 }
@@ -737,10 +739,12 @@ class IssueFormControllerFamily extends Family<AsyncValue<IssueFormState>> {
   /// See also [IssueFormController].
   IssueFormControllerProvider call({
     required int projectId,
+    required int categoryId,
     int? issueId,
   }) {
     return IssueFormControllerProvider(
       projectId: projectId,
+      categoryId: categoryId,
       issueId: issueId,
     );
   }
@@ -751,6 +755,7 @@ class IssueFormControllerFamily extends Family<AsyncValue<IssueFormState>> {
   ) {
     return call(
       projectId: provider.projectId,
+      categoryId: provider.categoryId,
       issueId: provider.issueId,
     );
   }
@@ -776,10 +781,12 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   /// See also [IssueFormController].
   IssueFormControllerProvider({
     required int projectId,
+    required int categoryId,
     int? issueId,
   }) : this._internal(
           () => IssueFormController()
             ..projectId = projectId
+            ..categoryId = categoryId
             ..issueId = issueId,
           from: issueFormControllerProvider,
           name: r'issueFormControllerProvider',
@@ -791,6 +798,7 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
           allTransitiveDependencies:
               IssueFormControllerFamily._allTransitiveDependencies,
           projectId: projectId,
+          categoryId: categoryId,
           issueId: issueId,
         );
 
@@ -802,10 +810,12 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.projectId,
+    required this.categoryId,
     required this.issueId,
   }) : super.internal();
 
   final int projectId;
+  final int categoryId;
   final int? issueId;
 
   @override
@@ -814,6 +824,7 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   ) {
     return notifier.build(
       projectId: projectId,
+      categoryId: categoryId,
       issueId: issueId,
     );
   }
@@ -825,6 +836,7 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
       override: IssueFormControllerProvider._internal(
         () => create()
           ..projectId = projectId
+          ..categoryId = categoryId
           ..issueId = issueId,
         from: from,
         name: null,
@@ -832,6 +844,7 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         projectId: projectId,
+        categoryId: categoryId,
         issueId: issueId,
       ),
     );
@@ -847,6 +860,7 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   bool operator ==(Object other) {
     return other is IssueFormControllerProvider &&
         other.projectId == projectId &&
+        other.categoryId == categoryId &&
         other.issueId == issueId;
   }
 
@@ -854,6 +868,7 @@ class IssueFormControllerProvider extends AutoDisposeAsyncNotifierProviderImpl<
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, projectId.hashCode);
+    hash = _SystemHash.combine(hash, categoryId.hashCode);
     hash = _SystemHash.combine(hash, issueId.hashCode);
 
     return _SystemHash.finish(hash);
@@ -867,6 +882,9 @@ mixin IssueFormControllerRef
   /// The parameter `projectId` of this provider.
   int get projectId;
 
+  /// The parameter `categoryId` of this provider.
+  int get categoryId;
+
   /// The parameter `issueId` of this provider.
   int? get issueId;
 }
@@ -879,11 +897,13 @@ class _IssueFormControllerProviderElement
   @override
   int get projectId => (origin as IssueFormControllerProvider).projectId;
   @override
+  int get categoryId => (origin as IssueFormControllerProvider).categoryId;
+  @override
   int? get issueId => (origin as IssueFormControllerProvider).issueId;
 }
 
 String _$issueListControllerHash() =>
-    r'2bb7422465876b358cc0c528ac625184ebf4c48d';
+    r'cf237de4b3457fa64582717d421314e97c988f82';
 
 abstract class _$IssueListController
     extends BuildlessAutoDisposeAsyncNotifier<IssueListState> {
@@ -1031,7 +1051,7 @@ class _IssueListControllerProviderElement
 }
 
 String _$issueSubmitControllerHash() =>
-    r'dbb1156c3ff4cd0c850f38f61d78983553b0309d';
+    r'b773ff690360e986eece16ba5ae1fa3fc5b7f0a4';
 
 /// See also [IssueSubmitController].
 @ProviderFor(IssueSubmitController)

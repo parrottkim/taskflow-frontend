@@ -45,6 +45,7 @@ class ContractFormItem extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
+          categoryId: categoryId,
           projectId: projectId,
           issueId: issueId,
           currency: currency,
@@ -62,6 +63,7 @@ class ContractFormItem extends ConsumerWidget {
         ErrorContainerWidget(error: error, stackTrace: stackTrace),
       _ => Skeletonizer(
           child: _DesktopWidget(
+            categoryId: categoryId,
             projectId: projectId,
             currency: Currency.empty(),
             currencies: [],
@@ -80,6 +82,7 @@ class ContractFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int categoryId;
   final int projectId;
   final int? issueId;
   final Currency? currency;
@@ -94,6 +97,7 @@ class _DesktopWidget extends HookConsumerWidget {
   final List<TransactionItemCategory> categories;
 
   const _DesktopWidget({
+    required this.categoryId,
     required this.projectId,
     this.issueId,
     this.currency,
@@ -460,13 +464,17 @@ class _DesktopWidget extends HookConsumerWidget {
 
               ref
                   .read(issueFormControllerProvider(
-                          projectId: projectId, issueId: issueId)
+                          projectId: projectId,
+                          categoryId: categoryId,
+                          issueId: issueId)
                       .notifier)
                   .setContractCurrency(currency: selectedCurrency.value);
 
               ref
                   .read(issueFormControllerProvider(
-                          projectId: projectId, issueId: issueId)
+                          projectId: projectId,
+                          categoryId: categoryId,
+                          issueId: issueId)
                       .notifier)
                   .addContractItem();
             },
@@ -516,7 +524,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         onChanged: (value) {
                           ref
                               .read(issueFormControllerProvider(
-                                      projectId: projectId, issueId: issueId)
+                                      projectId: projectId,
+                                      categoryId: categoryId,
+                                      issueId: issueId)
                                   .notifier)
                               .setContractCurrency(currency: value!);
                         },
@@ -644,6 +654,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                         ref
                                             .read(issueFormControllerProvider(
                                               projectId: projectId,
+                                              categoryId: categoryId,
                                               issueId: issueId,
                                             ).notifier)
                                             .updateContractItem(
@@ -708,6 +719,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                                   .read(
                                                       issueFormControllerProvider(
                                                     projectId: projectId,
+                                                    categoryId: categoryId,
                                                     issueId: issueId,
                                                   ).notifier)
                                                   .updateContractItem(
@@ -736,6 +748,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                                     issueFormControllerProvider(
                                                             projectId:
                                                                 projectId,
+                                                            categoryId:
+                                                                categoryId,
                                                             issueId: issueId)
                                                         .notifier)
                                                 .removeContractItem(
@@ -817,7 +831,9 @@ class _DesktopWidget extends HookConsumerWidget {
 
               ref
                   .read(issueFormControllerProvider(
-                          projectId: projectId, issueId: issueId)
+                          projectId: projectId,
+                          categoryId: categoryId,
+                          issueId: issueId)
                       .notifier)
                   .addTransactionItem();
             },
@@ -972,6 +988,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                         ref
                                             .read(issueFormControllerProvider(
                                                     projectId: projectId,
+                                                    categoryId: categoryId,
                                                     issueId: issueId)
                                                 .notifier)
                                             .updateTransactionItem(
@@ -1046,6 +1063,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                         ref
                                             .read(issueFormControllerProvider(
                                               projectId: projectId,
+                                              categoryId: categoryId,
                                               issueId: issueId,
                                             ).notifier)
                                             .updateTransactionItem(
@@ -1110,6 +1128,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                                     issueFormControllerProvider(
                                                             projectId:
                                                                 projectId,
+                                                            categoryId:
+                                                                categoryId,
                                                             issueId: issueId)
                                                         .notifier)
                                                 .removeTransactionItem(

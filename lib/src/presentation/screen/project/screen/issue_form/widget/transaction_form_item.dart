@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -8,6 +9,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 
 class TransactionFormItem extends ConsumerWidget {
   final int categoryId;
@@ -35,6 +37,7 @@ class TransactionFormItem extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
+          categoryId: categoryId,
           projectId: projectId,
           issueId: issueId,
           currency: currency,
@@ -47,6 +50,7 @@ class TransactionFormItem extends ConsumerWidget {
         ErrorContainerWidget(error: error, stackTrace: stackTrace),
       _ => Skeletonizer(
           child: _DesktopWidget(
+            categoryId: categoryId,
             projectId: projectId,
             categories: [],
             currencies: [],
@@ -59,6 +63,7 @@ class TransactionFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int categoryId;
   final int projectId;
   final int? issueId;
   final Currency? currency;
@@ -69,6 +74,7 @@ class _DesktopWidget extends HookConsumerWidget {
   final ValueNotifier<bool> isTransactionItemEmpty;
 
   const _DesktopWidget({
+    required this.categoryId,
     required this.projectId,
     this.issueId,
     this.currency,
@@ -349,6 +355,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                         ref
                                             .read(issueFormControllerProvider(
                                               projectId: projectId,
+                                              categoryId: categoryId,
                                               issueId: issueId,
                                             ).notifier)
                                             .toggleTransactionItemPaid(
@@ -394,6 +401,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                         ref
                                             .read(issueFormControllerProvider(
                                               projectId: projectId,
+                                              categoryId: categoryId,
                                               issueId: issueId,
                                             ).notifier)
                                             .updateTransactionItem(
@@ -409,6 +417,62 @@ class _DesktopWidget extends HookConsumerWidget {
                       ),
                     ],
                   ),
+                ),
+              ),
+            )
+          else
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: ContainerWidget(
+                elevation: 0.0,
+                width: double.infinity,
+                borderRadius: BorderRadius.circular(8.0),
+                color: colorScheme.outline.withValues(alpha: 0.2),
+                borderColor: colorScheme.outline,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      Intl.message('issue_form_transaction_item_empty_1'),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 4.0),
+                    CustomTextButton(
+                      onPressed: () async {
+                        final categories = await ref
+                            .read(projectFilterControllerProvider.future);
+                        final list = await ref.read(
+                            issueListControllerProvider(projectId: projectId)
+                                .future);
+
+                        final categoryId = categories.categoryItems
+                            .firstWhere((category) => category is IssueContract)
+                            .id;
+
+                        if (list.contract == null) {
+                          context.goNamed(
+                            RouteNames.issueNew,
+                            pathParameters: {
+                              'category_id': categoryId.toString(),
+                              'project_id': projectId.toString(),
+                            },
+                          );
+                        } else {
+                          context.goNamed(
+                            RouteNames.issueEdit,
+                            pathParameters: {
+                              'category_id': categoryId.toString(),
+                              'project_id': projectId.toString(),
+                              'issue_id': list.contract!.id.toString(),
+                            },
+                          );
+                        }
+                      },
+                      text: Intl.message('issue_form_transaction_item_empty_2'),
+                    ),
+                  ],
                 ),
               ),
             ),
