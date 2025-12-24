@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ProjectStatsWidget extends ConsumerWidget {
@@ -111,6 +113,11 @@ class _DesktopWidget extends StatelessWidget {
               rows: List.generate(
                 items.length,
                 (index) => DataRow(
+                  onSelectChanged: (_) {
+                    context.goNamed(RouteNames.project, queryParameters: {
+                      'search': items[index].user.username,
+                    });
+                  },
                   cells: [
                     DataCell(UserInformation(user: items[index].user)),
                     DataCell(
