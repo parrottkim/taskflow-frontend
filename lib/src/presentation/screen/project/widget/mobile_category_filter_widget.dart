@@ -106,7 +106,7 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 12.0),
+                      horizontal: 16.0, vertical: 12.0),
                   child: IgnorePointer(
                     child: CustomToggleButton(
                       padding: 12.0,

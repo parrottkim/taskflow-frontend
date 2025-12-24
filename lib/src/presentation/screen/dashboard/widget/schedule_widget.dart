@@ -5,10 +5,12 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
+import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleWidget extends ConsumerWidget {
   const ScheduleWidget({super.key});
@@ -34,23 +36,43 @@ class ScheduleWidget extends ConsumerWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      Text(
-                        Intl.message('dashboard_schedule'),
-                        style: textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: ElevatedIconButton(
+                          onTap: () async {
+                            await launchUrl(
+                              Uri.parse(
+                                  'https://calendar.google.com/calendar/u/0/embed?src=dantech9999@gmail.com&ctz=Asia/Seoul'),
+                            );
+                          },
+                          icon: Symbols.open_in_new_rounded,
+                          padding: EdgeInsets.all(4.0),
+                          borderRadius: BorderRadius.circular(4.0),
+                          size: 16.0,
                         ),
                       ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        DateFormat.yMMMd(Intl.getCurrentLocale())
-                            .format(DateTime.now()),
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Intl.message('dashboard_schedule'),
+                            style: textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Text(
+                            DateFormat.yMMMd(Intl.getCurrentLocale())
+                                .format(DateTime.now()),
+                            style: TextStyle(
+                              color:
+                                  colorScheme.onSurface.withValues(alpha: 0.6),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
