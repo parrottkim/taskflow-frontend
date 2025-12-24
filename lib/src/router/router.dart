@@ -810,13 +810,13 @@ class AppRouter {
         name: RouteNames.download,
         path: Routes.download,
         pageBuilder: (context, state) {
-          final type = state.uri.queryParameters['type']!;
-          final id = state.uri.queryParameters['id']!;
+          final path = state.uri.queryParameters['path'];
+          final filename = state.uri.queryParameters['filename'];
 
           return NoTransitionPage(
             key: state.pageKey,
             name: state.name,
-            child: DownloadScreen(type: type, id: int.parse(id)),
+            child: DownloadScreen(path: path, filename: filename),
           );
         },
       ),
