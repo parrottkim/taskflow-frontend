@@ -170,7 +170,9 @@ class ProcurementFormItem extends HookConsumerWidget {
 
                     ref
                         .read(issueFormControllerProvider(
-                                projectId: projectId, issueId: issueId)
+                                projectId: projectId,
+                                categoryId: categoryId,
+                                issueId: issueId)
                             .notifier)
                         .addProcurementItem();
                   },
@@ -452,6 +454,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ref
                                               .read(issueFormControllerProvider(
                                                 projectId: projectId,
+                                                categoryId: categoryId,
                                                 issueId: issueId,
                                               ).notifier)
                                               .updateProcurementItem(
@@ -500,6 +503,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ref
                                               .read(issueFormControllerProvider(
                                                 projectId: projectId,
+                                                categoryId: categoryId,
                                                 issueId: issueId,
                                               ).notifier)
                                               .updateProcurementItem(
@@ -583,6 +587,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                 .read(
                                                     issueFormControllerProvider(
                                                   projectId: projectId,
+                                                  categoryId: categoryId,
                                                   issueId: issueId,
                                                 ).notifier)
                                                 .updateProcurementItem(
@@ -593,6 +598,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ref
                                               .read(issueFormControllerProvider(
                                                 projectId: projectId,
+                                                categoryId: categoryId,
                                                 issueId: issueId,
                                               ).notifier)
                                               .updateProcurementItem(
@@ -679,6 +685,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                 .read(
                                                     issueFormControllerProvider(
                                                   projectId: projectId,
+                                                  categoryId: categoryId,
                                                   issueId: issueId,
                                                 ).notifier)
                                                 .updateProcurementItem(
@@ -689,6 +696,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ref
                                               .read(issueFormControllerProvider(
                                                 projectId: projectId,
+                                                categoryId: categoryId,
                                                 issueId: issueId,
                                               ).notifier)
                                               .updateProcurementItem(
@@ -729,6 +737,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                         ref
                                             .read(issueFormControllerProvider(
                                               projectId: projectId,
+                                              categoryId: categoryId,
                                               issueId: issueId,
                                             ).notifier)
                                             .updateProcurementItem(
@@ -751,6 +760,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                   .read(
                                                       issueFormControllerProvider(
                                                     projectId: projectId,
+                                                    categoryId: categoryId,
                                                     issueId: issueId,
                                                   ).notifier)
                                                   .updateProcurementItem(
@@ -841,6 +851,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                     .read(
                                                         issueFormControllerProvider(
                                                       projectId: projectId,
+                                                      categoryId: categoryId,
                                                       issueId: issueId,
                                                     ).notifier)
                                                     .updateProcurementItem(
@@ -1011,6 +1022,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                       issueFormControllerProvider(
                                                               projectId:
                                                                   projectId,
+                                                              categoryId:
+                                                                  categoryId,
                                                               issueId: issueId)
                                                           .notifier)
                                                   .removeProcurementItem(

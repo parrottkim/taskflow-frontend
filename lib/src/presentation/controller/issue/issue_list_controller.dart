@@ -136,8 +136,8 @@ class IssueListController extends _$IssueListController {
               createdAt: item.createdAt,
               updatedAt: item.updatedAt,
             ),
-            contractItems: value.contractItems,
-            transactionItems: value.transactionItems,
+            contractItems: item.contractItems,
+            transactionItems: item.transactionItems,
           ),
         IssueKickoff() => value.copyWith(
             kickoff: KickoffIssue(
@@ -162,8 +162,8 @@ class IssueListController extends _$IssueListController {
               createdAt: item.createdAt,
               updatedAt: item.updatedAt,
             ),
-            contractItems: value.contractItems,
-            transactionItems: value.transactionItems,
+            contractItems: item.contractItems,
+            transactionItems: item.transactionItems,
           ),
         IssuePayment() => value.copyWith(
             payment: PaymentIssue(
@@ -220,13 +220,13 @@ class IssueListController extends _$IssueListController {
               category: issue.category,
               user: issue.user,
               content: issue.content,
-              attachments: [...issue.attachments],
+              attachments: issue.attachments,
               currency: issue.currency!,
               createdAt: issue.createdAt,
               updatedAt: issue.updatedAt,
             ),
-            contractItems: [...issue.contractItems],
-            transactionItems: [...issue.transactionItems],
+            contractItems: issue.contractItems,
+            transactionItems: issue.transactionItems,
           ),
         IssueTransaction() => value.copyWith(
             transaction: TransactionIssue(
@@ -234,13 +234,13 @@ class IssueListController extends _$IssueListController {
               category: issue.category,
               user: issue.user,
               content: issue.content,
-              attachments: [...issue.attachments],
+              attachments: issue.attachments,
               currency: issue.currency!,
               createdAt: issue.createdAt,
               updatedAt: issue.updatedAt,
             ),
-            contractItems: [...issue.contractItems],
-            transactionItems: [...issue.transactionItems],
+            contractItems: issue.contractItems,
+            transactionItems: issue.transactionItems,
           ),
         IssueKickoff() => value.copyWith(
             kickoff: KickoffIssue(
@@ -249,7 +249,7 @@ class IssueListController extends _$IssueListController {
               user: issue.user,
               content: issue.content,
               kickoffDate: issue.kickoffDate!,
-              attachments: [...issue.attachments],
+              attachments: issue.attachments,
               createdAt: issue.createdAt,
               updatedAt: issue.updatedAt,
             ),
@@ -260,7 +260,7 @@ class IssueListController extends _$IssueListController {
               category: issue.category,
               user: issue.user,
               content: issue.content,
-              attachments: [...issue.attachments],
+              attachments: issue.attachments,
               createdAt: issue.createdAt,
               updatedAt: issue.updatedAt,
             ),
@@ -273,7 +273,7 @@ class IssueListController extends _$IssueListController {
                         category: issue.category,
                         user: issue.user,
                         content: issue.content,
-                        attachments: [...issue.attachments],
+                        attachments: issue.attachments,
                         createdAt: issue.createdAt,
                         updatedAt: issue.updatedAt,
                       )
@@ -288,8 +288,8 @@ class IssueListController extends _$IssueListController {
                         category: issue.category,
                         user: issue.user,
                         content: issue.content,
-                        procurementItems: [...issue.procurementItems],
-                        attachments: [...issue.attachments],
+                        procurementItems: issue.procurementItems,
+                        attachments: issue.attachments,
                         createdAt: issue.createdAt,
                         updatedAt: issue.updatedAt,
                       )

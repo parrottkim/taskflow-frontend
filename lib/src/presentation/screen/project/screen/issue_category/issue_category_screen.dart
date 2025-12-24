@@ -23,24 +23,23 @@ class IssueCategoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final form = ref.watch(
-        issueFormControllerProvider(projectId: projectId, issueId: null));
+    final filter = ref.watch(projectFilterControllerProvider);
 
     return BranchLayout(
       child: Container(
         padding: EdgeInsets.all(24.0),
         constraints: BoxConstraints(maxWidth: 430.0),
-        child: switch (form) {
-          AsyncData() => _DesktopWidget(
+        child: switch (filter) {
+          AsyncData(:final value) => _DesktopWidget(
               projectId: projectId,
-              project: Project.dummy(),
+              categoryItems: value.categoryItems,
             ),
           AsyncError(:final error, :final stackTrace) =>
             ErrorContainerWidget(error: error, stackTrace: stackTrace),
           _ => Skeletonizer(
               child: _DesktopWidget(
                 projectId: projectId,
-                project: Project.dummy(),
+                categoryItems: List.filled(6, IssueCategory.dummy()),
               ),
             ),
         },
@@ -51,11 +50,11 @@ class IssueCategoryScreen extends ConsumerWidget {
 
 class _DesktopWidget extends ConsumerWidget {
   final int projectId;
-  final Project project;
+  final List<IssueCategory> categoryItems;
 
   const _DesktopWidget({
     required this.projectId,
-    required this.project,
+    required this.categoryItems,
   });
 
   @override
@@ -86,18 +85,24 @@ class _DesktopWidget extends ConsumerWidget {
       children: [
         CategoryListWidget(
           projectId: projectId,
+          categoryItems: categoryItems,
         ),
         SizedBox(height: 16.0),
         ContainerWidget(
           padding: EdgeInsets.zero,
           color: colorScheme.errorContainer,
           child: InkWell(
-            onTap: () => showDialog(
-              context: context,
-              builder: (_) => ClosureDialog(
-                project: project,
-              ),
-            ),
+            onTap: () async {
+              final project = await ref.read(
+                  projectDetailControllerProvider(projectId: projectId).future);
+
+              showDialog(
+                context: context,
+                builder: (_) => ClosureDialog(
+                  project: project.project,
+                ),
+              );
+            },
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

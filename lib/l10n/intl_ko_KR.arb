@@ -70,6 +70,10 @@
   "project_exists": "이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.",
   "schedule_exists": "이미 생성된 근무 일정이 있습니다.",
   "report_exists": "이미 해당 근무 일정으로 작성된 실무 결과가 있습니다.",
+  "contract_issue_exists": "이미 생성된 계약 및 수주 업무가 있습니다.",
+  "kickoff_issue_exists": "이미 생성된 킥어프 업무가 있습니다.",
+  "transaction_issue_exists": "이미 생성된 거래 명세/인보이스 업무가 있습니다.",
+  "payment_issue_exists": "이미 생성된 지급 청구 업무가 있습니다.",
 
   "too_many_forgot_password_requests": "비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.",
   
@@ -394,6 +398,8 @@
   "issue_form_transaction_5": "금액",
   "issue_form_transaction_6": "지급 여부",
   "issue_form_transaction_7": "비고",
+  "issue_form_transaction_item_empty_1": "청구 목록은 계약 및 수주 업무에서 생성 가능합니다",
+  "issue_form_transaction_item_empty_2": "계약 및 수주 업무로 이동 >",
   "issue_form_transaction_item_invalid_1": "청구 내역을 최소 하나 이상 입력해 주세요",
   "issue_form_transaction_item_invalid_2": "청구 내역을 빈 칸 없이 입력해 주세요",
   "issue_form_transaction_item_invalid_3": "모든 청구 내역 비율을 합산하여 100%가 되도록 입력해 주세요",

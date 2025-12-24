@@ -7,6 +7,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class HeadlineWidget extends HookConsumerWidget {
   final Project project;
@@ -43,12 +44,15 @@ class HeadlineWidget extends HookConsumerWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                project.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  project.name,
+                  maxLines: Responsive.isMobile(context) ? 2 : 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: Responsive.isMobile(context) ? 20.0 : 28.0,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               if (isNameHovered.value)
