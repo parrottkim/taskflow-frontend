@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+part of 'widget.dart';
 
 class CustomIconButton extends StatelessWidget {
   final VoidCallback? onTap;

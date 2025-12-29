@@ -11,7 +11,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'provider.g.dart';
+part 'core.g.dart';
 
 part 'provider/url_provider.dart';
 part 'provider/flutter_secure_storage_provider.dart';

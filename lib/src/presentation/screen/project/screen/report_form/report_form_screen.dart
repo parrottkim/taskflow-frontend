@@ -12,23 +12,18 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/progress_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/report_form_section.dart';
-import 'package:taskflow/src/presentation/widget/dialog.dart';
-import 'package:taskflow/src/presentation/widget/overlay.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 
 class ReportFormScreen extends HookConsumerWidget {
   final int projectId;
   final int? reportId;
-  final String? step;
 
   const ReportFormScreen({
     super.key,
     required this.projectId,
     this.reportId,
-    this.step,
   });
 
   @override
@@ -40,7 +35,6 @@ class ReportFormScreen extends HookConsumerWidget {
       AsyncData(:final value) => _DesktopWidget(
           projectId: projectId,
           reportId: reportId,
-          step: step,
           value: value,
         ),
       AsyncError(:final error, :final stackTrace) =>
@@ -68,13 +62,11 @@ class ReportFormScreen extends HookConsumerWidget {
 class _DesktopWidget extends HookConsumerWidget {
   final int projectId;
   final int? reportId;
-  final String? step;
   final ReportFormState value;
 
   const _DesktopWidget({
     required this.projectId,
     this.reportId,
-    this.step,
     required this.value,
   });
 
@@ -82,9 +74,9 @@ class _DesktopWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final currentStep = step ?? value.steps.first;
-    final currentIndex = value.steps.indexOf(currentStep);
-    final isLastStep = currentIndex == value.steps.length - 1;
+    final currentIndex = useState(0);
+    final currentStep = value.steps[currentIndex.value];
+    final isLastStep = currentIndex.value == value.steps.length - 1;
 
     ref.listen(reportSubmitControllerProvider, (_, state) {
       if (state is ReportSubmitPending) {
@@ -150,7 +142,7 @@ class _DesktopWidget extends HookConsumerWidget {
             return;
           }
         }
-        if (currentIndex > 0) {
+        if (currentIndex.value > 0) {
           final isAllValid =
               ref.read(reportValidationControllerProvider.notifier).isValid();
 
@@ -158,14 +150,7 @@ class _DesktopWidget extends HookConsumerWidget {
             return;
           }
 
-          final previousStep = value.steps[currentIndex - 1];
-
-          context.goNamed(
-              reportId == null ? RouteNames.reportNew : RouteNames.reportEdit,
-              pathParameters: GoRouter.of(context).state.pathParameters,
-              queryParameters: {
-                'step': previousStep,
-              });
+          currentIndex.value = currentIndex.value - 1;
         } else {
           context.pop();
         }
@@ -181,7 +166,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     (value.schedule!.category is ScheduleDomestic ||
                         value.schedule!.category is ScheduleOverseas))
                   ProgressWidget(
-                    currentIndex: currentIndex,
+                    currentIndex: currentIndex.value,
                     steps: value.steps,
                   ),
                 Expanded(
@@ -249,37 +234,27 @@ class _DesktopWidget extends HookConsumerWidget {
                           }
                         } else {
                           // 다음 단계로 이동
-                          final nextStep = value.steps[currentIndex + 1];
-
-                          context.goNamed(
-                              reportId == null
-                                  ? RouteNames.reportNew
-                                  : RouteNames.reportEdit,
-                              pathParameters:
-                                  GoRouter.of(context).state.pathParameters,
-                              queryParameters: {
-                                'step': nextStep,
-                              });
+                          currentIndex.value = currentIndex.value + 1;
                         }
 
                         // Additional per-step checks (legacy/extra guards)
-                        final form = await ref.watch(
-                            reportFormControllerProvider(
-                                    projectId: projectId, reportId: reportId)
-                                .future);
+                        // final form = await ref.watch(
+                        //     reportFormControllerProvider(
+                        //             projectId: projectId, reportId: reportId)
+                        //         .future);
 
-                        if (step == 'transportation') {
-                          if (form.expenses.any((item) =>
-                              item.price == null || item.price!.isEmpty)) {
-                            return;
-                          }
-                        }
-                        if (step == 'local_transportation') {
-                          if (form.expenses.any((item) =>
-                              item.price == null || item.price!.isEmpty)) {
-                            return;
-                          }
-                        }
+                        // if (step == 'transportation') {
+                        //   if (form.expenses.any((item) =>
+                        //       item.price == null || item.price!.isEmpty)) {
+                        //     return;
+                        //   }
+                        // }
+                        // if (step == 'local_transportation') {
+                        //   if (form.expenses.any((item) =>
+                        //       item.price == null || item.price!.isEmpty)) {
+                        //     return;
+                        //   }
+                        // }
                       },
                       child: Text(isLastStep
                           ? reportId == null

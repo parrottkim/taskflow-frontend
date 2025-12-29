@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
@@ -188,8 +187,6 @@ class _ExpenseItemWidget extends HookConsumerWidget {
             padding: const EdgeInsets.only(top: 4.0),
             child: TextButton.icon(
               onPressed: () {
-                // stepInvalid.value[step.id] = false;
-
                 ref
                     .read(reportFormControllerProvider(
                             projectId: projectId, reportId: reportId)

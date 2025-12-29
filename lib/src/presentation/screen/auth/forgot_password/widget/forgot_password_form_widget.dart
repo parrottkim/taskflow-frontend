@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/validation.dart';
 
 class PasswordFormWidget extends HookConsumerWidget {

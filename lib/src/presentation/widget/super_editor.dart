@@ -1,23 +1,114 @@
-import 'dart:convert';
-import 'dart:math';
+part of 'widget.dart';
 
-import 'package:desktop_drop/desktop_drop.dart';
-import 'package:file_selector/file_selector.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_web_file_selector/flutter_web_file_selector.dart';
-import 'package:follow_the_leader/follow_the_leader.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:mime/mime.dart';
-import 'package:super_editor/super_editor.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
-import 'package:taskflow/src/presentation/widget/overlay.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
-import 'package:taskflow/src/shared/provider.dart';
-import 'package:taskflow/src/shared/tool/functions.dart';
-import 'package:universal_html/html.dart';
+class SuperEditorView extends HookWidget {
+  final Editor editor;
+  final Document document;
+  final DocumentComposer composer;
+  final List<ComponentBuilder>? componentBuilders;
+  final Future<void> Function(SuperEditorContext editContext)? onPaste;
+  final void Function(SuperEditorContext editContext)? onEvent;
+
+  const SuperEditorView({
+    super.key,
+    required this.editor,
+    required this.document,
+    required this.composer,
+    this.componentBuilders,
+    this.onPaste,
+    this.onEvent,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return SuperEditor(
+      editor: editor,
+      inputSource: TextInputSource.ime,
+      selectionStyle: SelectionStyles(
+        selectionColor: colorScheme.tertiaryContainer.withValues(alpha: 0.5),
+      ),
+      imePolicies: SuperEditorImePolicies(
+        openImeOnNonPrimaryFocusGain: false,
+        closeImeOnNonPrimaryFocusLost: false,
+      ),
+      documentOverlayBuilders: [
+        DefaultCaretOverlayBuilder(
+          caretStyle: const CaretStyle(),
+        ),
+      ],
+      stylesheet: defaultStylesheet.copyWith(
+        inlineWidgetBuilders: [inlineWidgetBuilder],
+        addRulesBefore: [
+          StyleRule(
+            BlockSelector.all,
+            (doc, node) => {
+              Styles.textStyle: TextStyle(
+                fontFamily: 'Pretendard',
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              Styles.padding: const CascadingPadding.only(top: 12.0),
+            },
+          ),
+        ],
+        addRulesAfter: [
+          StyleRule(
+            BlockSelector.all,
+            (doc, node) => {
+              Styles.textStyle: TextStyle(
+                fontFamily: 'Pretendard',
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              Styles.padding: const CascadingPadding.only(top: 12.0),
+            },
+          ),
+        ],
+      ),
+      keyboardActions: [
+        (
+            {required SuperEditorContext editContext,
+            required KeyEvent keyEvent}) {
+          if (keyEvent is KeyDownEvent) {
+            final isMac = defaultTargetPlatform == TargetPlatform.macOS;
+            final isCmd = HardwareKeyboard.instance.isMetaPressed;
+            final isCtrl = HardwareKeyboard.instance.isControlPressed;
+
+            if ((isMac && isCmd || !isMac && isCtrl) &&
+                keyEvent.logicalKey == LogicalKeyboardKey.keyV) {
+              if (onPaste != null) {
+                onPaste!(editContext);
+                return ExecutionInstruction.haltExecution;
+              }
+            }
+          }
+
+          if (keyEvent is KeyUpEvent) {
+            if (onEvent != null) onEvent!(editContext);
+          }
+
+          return ExecutionInstruction.continueExecution;
+        },
+        ...defaultImeKeyboardActions,
+      ],
+      componentBuilders: componentBuilders ?? defaultComponentBuilders,
+    );
+  }
+
+  Widget? inlineWidgetBuilder(
+      BuildContext context, TextStyle textStyle, Object placeholder) {
+    if (placeholder is! Placeholder) {
+      return null;
+    }
+
+    return Skeletonizer(
+      child: Container(
+        width: double.infinity,
+        height: 300.0,
+        color: Colors.red,
+      ),
+    );
+  }
+}
 
 class ToolbarOverlayWidget extends HookWidget {
   final Editor editor;

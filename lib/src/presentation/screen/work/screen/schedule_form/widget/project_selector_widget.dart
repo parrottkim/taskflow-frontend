@@ -7,7 +7,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/project_selector_dialog.dart';
-import 'package:taskflow/src/presentation/widget/preset.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ProjectSelectorWidget extends ConsumerWidget {
   final int categoryId;
@@ -113,7 +113,7 @@ class _DesktopWidget extends ConsumerWidget {
           if (projectClientId == null)
             Text(Intl.message('schedule_form_project_search'))
           else
-            Expanded(
+            Flexible(
               child: Text.rich(
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/theme/theme.dart';
 import 'package:taskflow/src/shared/tool/behavior.dart';
 

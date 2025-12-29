@@ -10,8 +10,7 @@ import 'package:taskflow/src/presentation/screen/dashboard/widget/latest_update_
 import 'package:taskflow/src/presentation/screen/dashboard/widget/summary_widget.dart';
 import 'package:taskflow/src/presentation/screen/dashboard/widget/project_stats_widget.dart';
 import 'package:taskflow/src/presentation/screen/dashboard/widget/world_map_widget.dart';
-import 'package:taskflow/src/presentation/widget/bento_grid.dart';
-import 'package:taskflow/src/presentation/widget/dialog.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class DashboardScreen extends ConsumerWidget {

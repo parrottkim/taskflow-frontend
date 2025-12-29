@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'widget.dart';
 
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;

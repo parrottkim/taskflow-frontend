@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
+part of 'widget.dart';
 
 class LoadingOverlay {
   static OverlayEntry? _overlayEntry;

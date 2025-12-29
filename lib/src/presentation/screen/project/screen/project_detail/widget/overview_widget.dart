@@ -11,9 +11,7 @@ import 'package:taskflow/src/presentation/screen/project/screen/project_detail/w
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/toolbar_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/headline_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/info_widget.dart';
-import 'package:taskflow/src/presentation/widget/delegate.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/presentation/widget/preset.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 

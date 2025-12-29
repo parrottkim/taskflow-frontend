@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TermsAndAgreementWidget extends StatelessWidget {
