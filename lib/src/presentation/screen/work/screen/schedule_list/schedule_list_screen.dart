@@ -11,13 +11,9 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
-import 'package:taskflow/src/presentation/widget/dialog.dart';
-import 'package:taskflow/src/presentation/widget/overlay.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ScheduleListScreen extends ConsumerWidget {

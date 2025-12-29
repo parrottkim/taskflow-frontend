@@ -24,7 +24,7 @@ import 'package:taskflow/src/presentation/screen/project/project_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/register/register_screen.dart';
 import 'package:taskflow/src/presentation/screen/setting/setting_screen.dart';
 import 'package:taskflow/src/presentation/screen/splash/splash_screen.dart';
-import 'package:taskflow/src/presentation/widget/dialog.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/transition.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -501,41 +501,13 @@ class AppRouter {
                               GoRoute(
                                 name: RouteNames.reportNew,
                                 path: Routes.reportNew,
-                                redirect: (context, state) async {
-                                  final projectId =
-                                      state.pathParameters['project_id']!;
-
-                                  final form = await ref.read(
-                                      reportFormControllerProvider(
-                                              projectId: int.parse(projectId))
-                                          .future);
-
-                                  final step =
-                                      state.uri.queryParameters['step'];
-
-                                  if (step == null) {
-                                    return state.namedLocation(
-                                      RouteNames
-                                          .reportNew, // 혹은 RouteNames.reportEdit
-                                      pathParameters: state.pathParameters,
-                                      queryParameters: {
-                                        'step': form.steps.first
-                                      },
-                                    );
-                                  }
-
-                                  return null;
-                                },
                                 pageBuilder: (context, state) {
                                   final projectId =
                                       state.pathParameters['project_id']!;
-                                  final step =
-                                      state.uri.queryParameters['step']!;
 
                                   return NoTransitionPage(
                                     child: ReportFormScreen(
                                       projectId: int.parse(projectId),
-                                      step: step,
                                     ),
                                   );
                                 },
@@ -567,43 +539,17 @@ class AppRouter {
                           GoRoute(
                             name: RouteNames.reportEdit,
                             path: ':report_id/${Routes.reportEdit}',
-                            redirect: (context, state) async {
-                              final projectId =
-                                  state.pathParameters['project_id']!;
-                              final reportId =
-                                  state.pathParameters['report_id']!;
-
-                              final form = await ref.read(
-                                  reportFormControllerProvider(
-                                          projectId: int.parse(projectId),
-                                          reportId: int.parse(reportId))
-                                      .future);
-
-                              final step = state.uri.queryParameters['step'];
-
-                              if (step == null) {
-                                return state.namedLocation(
-                                  RouteNames.reportEdit,
-                                  pathParameters: state.pathParameters,
-                                  queryParameters: {'step': form.steps.first},
-                                );
-                              }
-
-                              return null;
-                            },
                             pageBuilder: (context, state) {
                               final projectId =
                                   state.pathParameters['project_id']!;
                               final reportId =
                                   state.pathParameters['report_id']!;
-                              final step = state.uri.queryParameters['step']!;
 
                               // ReportFormScreen이 step을 내부에서 처리합니다.
                               return NoTransitionPage(
                                 child: ReportFormScreen(
                                   projectId: int.parse(projectId),
                                   reportId: int.parse(reportId),
-                                  step: step,
                                 ),
                               );
                             },

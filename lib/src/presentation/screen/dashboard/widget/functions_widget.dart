@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:taskflow/src/presentation/widget/preset.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class FunctionsWidget extends StatelessWidget {
   const FunctionsWidget({super.key});

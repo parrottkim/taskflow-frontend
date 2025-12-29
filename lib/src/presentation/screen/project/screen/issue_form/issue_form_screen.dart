@@ -16,14 +16,9 @@ import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widge
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/procurement_form_item.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/contract_form_item.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/transaction_form_item.dart';
-import 'package:taskflow/src/presentation/widget/attachment.dart';
-import 'package:taskflow/src/presentation/widget/dialog.dart';
-import 'package:taskflow/src/presentation/widget/overlay.dart';
-import 'package:taskflow/src/presentation/widget/super_editor_overlay.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 
 class IssueFormScreen extends ConsumerWidget {
   final int categoryId;

@@ -7,11 +7,9 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
-import 'package:taskflow/src/presentation/widget/dialog.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 

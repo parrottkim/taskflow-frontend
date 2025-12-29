@@ -299,8 +299,10 @@ abstract class CreateRegulationRateRequest with _$CreateRegulationRateRequest {
 @freezed
 abstract class UpdateReportRequest with _$UpdateReportRequest {
   factory UpdateReportRequest({
-    String? content,
-    List<ReportAttachment>? attachments,
+    int? scheduleId,
+    required int projectId,
+    required String content,
+    required List<ReportAttachment> attachments,
     UpdateTripReportRequest? trip, // ⭐️ 선택적 Trip 상세 정보
   }) = _UpdateReportRequest;
 

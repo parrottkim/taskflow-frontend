@@ -7,8 +7,7 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/new_project_button.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_report_button.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_issue_button.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
-import 'package:taskflow/src/presentation/widget/dialog.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 

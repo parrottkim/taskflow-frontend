@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class TransactionDisplayItem extends StatelessWidget {

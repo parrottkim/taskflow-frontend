@@ -11,11 +11,8 @@ import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_l
 import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/widget/toolbar_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/widget/transaction_display_item.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/widget/user_information_widget.dart';
-import 'package:taskflow/src/presentation/widget/attachment.dart';
-import 'package:taskflow/src/presentation/widget/overlay.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 

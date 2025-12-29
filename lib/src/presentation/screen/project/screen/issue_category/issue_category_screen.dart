@@ -9,7 +9,6 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/widget/category_list_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/widget/closure_dialog.dart';
-import 'package:taskflow/src/presentation/widget/overlay.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
