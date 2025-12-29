@@ -1849,7 +1849,7 @@ final supplierSearchControllerProvider = AutoDisposeNotifierProvider<
 
 typedef _$SupplierSearchController = AutoDisposeNotifier<SupplierSearchState>;
 String _$reportFormControllerHash() =>
-    r'9dd0527bfba8694f3614eb8e7c9b3052514283ac';
+    r'f3e3eff4364855f02ebfb06d379e51a2d08cf638';
 
 abstract class _$ReportFormController
     extends BuildlessAutoDisposeAsyncNotifier<ReportFormState> {
@@ -2169,7 +2169,7 @@ class _ReportListControllerProviderElement
 }
 
 String _$reportSubmitControllerHash() =>
-    r'2d3f5b8d58b52126fb3805ce9d6d8c6ec33fd3c3';
+    r'7189ed25ba62a5517b36c41a9fc2b56256f54882';
 
 /// See also [ReportSubmitController].
 @ProviderFor(ReportSubmitController)

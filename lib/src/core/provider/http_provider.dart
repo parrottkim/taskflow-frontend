@@ -1,4 +1,4 @@
-part of '../provider.dart';
+part of '../core.dart';
 
 @riverpod
 Dio http(Ref ref) {

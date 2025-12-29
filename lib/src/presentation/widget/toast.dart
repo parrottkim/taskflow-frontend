@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:taskflow/src/presentation/widget/widget.dart';
+part of 'widget.dart';
 
 enum ToastType { standard, alert, error, verified }
 

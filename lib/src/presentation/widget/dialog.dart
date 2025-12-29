@@ -1,16 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
-import 'package:taskflow/src/presentation/widget/calendar.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
-import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/shared/provider.dart';
+part of 'widget.dart';
 
 class LoginForbiddenDialog extends StatelessWidget {
   const LoginForbiddenDialog({super.key});

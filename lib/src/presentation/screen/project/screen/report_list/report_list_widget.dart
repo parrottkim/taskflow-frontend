@@ -6,16 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/schedule_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/toolbar_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/report_display_item.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/user_information_widget.dart';
-import 'package:taskflow/src/presentation/widget/attachment.dart';
-import 'package:taskflow/src/presentation/widget/overlay.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 

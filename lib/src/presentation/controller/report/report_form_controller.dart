@@ -206,6 +206,10 @@ class ReportFormController extends _$ReportFormController {
 
   Future<void> serializeAndSetContent(
       {required MutableDocument document}) async {
+    final value = state.valueOrNull;
+
+    if (value == null) return;
+
     final Map<ImageNode, MultipartFile> map = {};
     final nodes = document.whereType<ImageNode>();
 
@@ -263,7 +267,7 @@ class ReportFormController extends _$ReportFormController {
 
     print(markdown);
 
-    state = AsyncData(state.valueOrNull!.copyWith(content: markdown));
+    state = AsyncData(value.copyWith(content: markdown));
 
     ref
         .read(reportValidationControllerProvider.notifier)

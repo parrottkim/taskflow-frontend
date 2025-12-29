@@ -7,11 +7,9 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/auth/register/widget/password_invalid_widget.dart';
-import 'package:taskflow/src/presentation/widget/button.dart';
-import 'package:taskflow/src/presentation/widget/preset.dart';
-import 'package:taskflow/src/presentation/widget/toast.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/shared/provider.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/validation.dart';
 
 class ResetPasswordFormWidget extends HookConsumerWidget {

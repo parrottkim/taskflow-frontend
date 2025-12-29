@@ -1044,9 +1044,11 @@ Map<String, dynamic> _$CreateRegulationRateRequestToJson(
 
 _UpdateReportRequest _$UpdateReportRequestFromJson(Map<String, dynamic> json) =>
     _UpdateReportRequest(
-      content: json['content'] as String?,
-      attachments: (json['attachments'] as List<dynamic>?)
-          ?.map((e) => ReportAttachment.fromJson(e as Map<String, dynamic>))
+      scheduleId: (json['scheduleId'] as num?)?.toInt(),
+      projectId: (json['projectId'] as num).toInt(),
+      content: json['content'] as String,
+      attachments: (json['attachments'] as List<dynamic>)
+          .map((e) => ReportAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       trip: json['trip'] == null
           ? null
@@ -1057,6 +1059,8 @@ _UpdateReportRequest _$UpdateReportRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$UpdateReportRequestToJson(
         _UpdateReportRequest instance) =>
     <String, dynamic>{
+      'scheduleId': instance.scheduleId,
+      'projectId': instance.projectId,
       'content': instance.content,
       'attachments': instance.attachments,
       'trip': instance.trip,

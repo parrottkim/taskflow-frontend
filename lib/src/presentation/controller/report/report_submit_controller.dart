@@ -77,7 +77,7 @@ class ReportSubmitController extends _$ReportSubmitController {
 
         request = request.copyWith(trip: item);
       } else if (value.schedule != null &&
-          value.schedule!.category is ScheduleDomestic) {
+          value.schedule!.category is ScheduleOverseas) {
         final item = CreateTripReportRequest(
           expenses: value.expenses
               .map((e) => CreateActualExpenseRequest(
@@ -155,8 +155,10 @@ class ReportSubmitController extends _$ReportSubmitController {
       }
 
       UpdateReportRequest request = UpdateReportRequest(
-        content: value.content,
-        attachments: value.attachments,
+        scheduleId: value.schedule?.id,
+        projectId: projectId,
+        content: value.content ?? '',
+        attachments: value.attachments ?? [],
       );
 
       // 3. 타입별로 분기하여 tripRequest 생성 (타입 프로모션 적용)
@@ -197,7 +199,7 @@ class ReportSubmitController extends _$ReportSubmitController {
 
         request = request.copyWith(trip: item);
       } else if (value.schedule != null &&
-          value.schedule!.category is ScheduleDomestic) {
+          value.schedule!.category is ScheduleOverseas) {
         final item = UpdateTripReportRequest(
           expenses: value.expenses
               .map((e) => UpdateActualExpenseRequest(

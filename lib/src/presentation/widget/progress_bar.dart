@@ -1,5 +1,4 @@
-import 'dart:math';
-import 'package:flutter/material.dart';
+part of 'widget.dart';
 
 class RadialGauge extends StatelessWidget {
   final double minValue;

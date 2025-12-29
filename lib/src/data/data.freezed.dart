@@ -19473,8 +19473,10 @@ class __$CreateRegulationRateRequestCopyWithImpl<$Res>
 
 /// @nodoc
 mixin _$UpdateReportRequest {
-  String? get content;
-  List<ReportAttachment>? get attachments;
+  int? get scheduleId;
+  int get projectId;
+  String get content;
+  List<ReportAttachment> get attachments;
   UpdateTripReportRequest? get trip;
 
   /// Create a copy of UpdateReportRequest
@@ -19493,6 +19495,10 @@ mixin _$UpdateReportRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is UpdateReportRequest &&
+            (identical(other.scheduleId, scheduleId) ||
+                other.scheduleId == scheduleId) &&
+            (identical(other.projectId, projectId) ||
+                other.projectId == projectId) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
                 .equals(other.attachments, attachments) &&
@@ -19501,12 +19507,12 @@ mixin _$UpdateReportRequest {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, content,
+  int get hashCode => Object.hash(runtimeType, scheduleId, projectId, content,
       const DeepCollectionEquality().hash(attachments), trip);
 
   @override
   String toString() {
-    return 'UpdateReportRequest(content: $content, attachments: $attachments, trip: $trip)';
+    return 'UpdateReportRequest(scheduleId: $scheduleId, projectId: $projectId, content: $content, attachments: $attachments, trip: $trip)';
   }
 }
 
@@ -19517,8 +19523,10 @@ abstract mixin class $UpdateReportRequestCopyWith<$Res> {
       _$UpdateReportRequestCopyWithImpl;
   @useResult
   $Res call(
-      {String? content,
-      List<ReportAttachment>? attachments,
+      {int? scheduleId,
+      int projectId,
+      String content,
+      List<ReportAttachment> attachments,
       UpdateTripReportRequest? trip});
 
   $UpdateTripReportRequestCopyWith<$Res>? get trip;
@@ -19537,19 +19545,29 @@ class _$UpdateReportRequestCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? content = freezed,
-    Object? attachments = freezed,
+    Object? scheduleId = freezed,
+    Object? projectId = null,
+    Object? content = null,
+    Object? attachments = null,
     Object? trip = freezed,
   }) {
     return _then(_self.copyWith(
-      content: freezed == content
+      scheduleId: freezed == scheduleId
+          ? _self.scheduleId
+          : scheduleId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      projectId: null == projectId
+          ? _self.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as int,
+      content: null == content
           ? _self.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      attachments: freezed == attachments
+              as String,
+      attachments: null == attachments
           ? _self.attachments
           : attachments // ignore: cast_nullable_to_non_nullable
-              as List<ReportAttachment>?,
+              as List<ReportAttachment>,
       trip: freezed == trip
           ? _self.trip
           : trip // ignore: cast_nullable_to_non_nullable
@@ -19665,15 +19683,16 @@ extension UpdateReportRequestPatterns on UpdateReportRequest {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String? content, List<ReportAttachment>? attachments,
-            UpdateTripReportRequest? trip)?
+    TResult Function(int? scheduleId, int projectId, String content,
+            List<ReportAttachment> attachments, UpdateTripReportRequest? trip)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UpdateReportRequest() when $default != null:
-        return $default(_that.content, _that.attachments, _that.trip);
+        return $default(_that.scheduleId, _that.projectId, _that.content,
+            _that.attachments, _that.trip);
       case _:
         return orElse();
     }
@@ -19694,14 +19713,15 @@ extension UpdateReportRequestPatterns on UpdateReportRequest {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String? content, List<ReportAttachment>? attachments,
-            UpdateTripReportRequest? trip)
+    TResult Function(int? scheduleId, int projectId, String content,
+            List<ReportAttachment> attachments, UpdateTripReportRequest? trip)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateReportRequest():
-        return $default(_that.content, _that.attachments, _that.trip);
+        return $default(_that.scheduleId, _that.projectId, _that.content,
+            _that.attachments, _that.trip);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -19721,14 +19741,15 @@ extension UpdateReportRequestPatterns on UpdateReportRequest {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String? content, List<ReportAttachment>? attachments,
-            UpdateTripReportRequest? trip)?
+    TResult? Function(int? scheduleId, int projectId, String content,
+            List<ReportAttachment> attachments, UpdateTripReportRequest? trip)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UpdateReportRequest() when $default != null:
-        return $default(_that.content, _that.attachments, _that.trip);
+        return $default(_that.scheduleId, _that.projectId, _that.content,
+            _that.attachments, _that.trip);
       case _:
         return null;
     }
@@ -19739,21 +19760,27 @@ extension UpdateReportRequestPatterns on UpdateReportRequest {
 @JsonSerializable()
 class _UpdateReportRequest implements UpdateReportRequest {
   _UpdateReportRequest(
-      {this.content, final List<ReportAttachment>? attachments, this.trip})
+      {this.scheduleId,
+      required this.projectId,
+      required this.content,
+      required final List<ReportAttachment> attachments,
+      this.trip})
       : _attachments = attachments;
   factory _UpdateReportRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateReportRequestFromJson(json);
 
   @override
-  final String? content;
-  final List<ReportAttachment>? _attachments;
+  final int? scheduleId;
   @override
-  List<ReportAttachment>? get attachments {
-    final value = _attachments;
-    if (value == null) return null;
+  final int projectId;
+  @override
+  final String content;
+  final List<ReportAttachment> _attachments;
+  @override
+  List<ReportAttachment> get attachments {
     if (_attachments is EqualUnmodifiableListView) return _attachments;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_attachments);
   }
 
   @override
@@ -19780,6 +19807,10 @@ class _UpdateReportRequest implements UpdateReportRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _UpdateReportRequest &&
+            (identical(other.scheduleId, scheduleId) ||
+                other.scheduleId == scheduleId) &&
+            (identical(other.projectId, projectId) ||
+                other.projectId == projectId) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
                 .equals(other._attachments, _attachments) &&
@@ -19788,12 +19819,12 @@ class _UpdateReportRequest implements UpdateReportRequest {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, content,
+  int get hashCode => Object.hash(runtimeType, scheduleId, projectId, content,
       const DeepCollectionEquality().hash(_attachments), trip);
 
   @override
   String toString() {
-    return 'UpdateReportRequest(content: $content, attachments: $attachments, trip: $trip)';
+    return 'UpdateReportRequest(scheduleId: $scheduleId, projectId: $projectId, content: $content, attachments: $attachments, trip: $trip)';
   }
 }
 
@@ -19806,8 +19837,10 @@ abstract mixin class _$UpdateReportRequestCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? content,
-      List<ReportAttachment>? attachments,
+      {int? scheduleId,
+      int projectId,
+      String content,
+      List<ReportAttachment> attachments,
       UpdateTripReportRequest? trip});
 
   @override
@@ -19827,19 +19860,29 @@ class __$UpdateReportRequestCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? content = freezed,
-    Object? attachments = freezed,
+    Object? scheduleId = freezed,
+    Object? projectId = null,
+    Object? content = null,
+    Object? attachments = null,
     Object? trip = freezed,
   }) {
     return _then(_UpdateReportRequest(
-      content: freezed == content
+      scheduleId: freezed == scheduleId
+          ? _self.scheduleId
+          : scheduleId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      projectId: null == projectId
+          ? _self.projectId
+          : projectId // ignore: cast_nullable_to_non_nullable
+              as int,
+      content: null == content
           ? _self.content
           : content // ignore: cast_nullable_to_non_nullable
-              as String?,
-      attachments: freezed == attachments
+              as String,
+      attachments: null == attachments
           ? _self._attachments
           : attachments // ignore: cast_nullable_to_non_nullable
-              as List<ReportAttachment>?,
+              as List<ReportAttachment>,
       trip: freezed == trip
           ? _self.trip
           : trip // ignore: cast_nullable_to_non_nullable

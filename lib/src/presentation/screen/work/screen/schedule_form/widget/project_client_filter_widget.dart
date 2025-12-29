@@ -6,8 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/widget/dropdown.dart';
-import 'package:taskflow/src/presentation/widget/preset.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ProjectClientFilterWidget extends HookConsumerWidget {
   final int categoryId;
