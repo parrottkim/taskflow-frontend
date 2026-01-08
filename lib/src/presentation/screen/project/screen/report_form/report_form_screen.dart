@@ -208,9 +208,9 @@ class _DesktopWidget extends HookConsumerWidget {
 
                         // All valid — proceed to next step or submit
                         if (isLastStep) {
-                          ref
+                          await ref
                               .read(reportFormControllerProvider(
-                                      projectId: projectId)
+                                      projectId: projectId, reportId: reportId)
                                   .notifier)
                               .serializeAndSetContent(document: document);
 
