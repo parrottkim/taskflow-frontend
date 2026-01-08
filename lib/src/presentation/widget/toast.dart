@@ -25,7 +25,7 @@ class Toast extends StatelessWidget {
         case ToastType.error:
           return colorScheme.errorContainer;
         case ToastType.verified:
-          return Colors.green[50]!;
+          return Color(0xFF388E3C).withValues(alpha: 0.1);
       }
     }
 
@@ -38,7 +38,7 @@ class Toast extends StatelessWidget {
         case ToastType.error:
           return colorScheme.error;
         case ToastType.verified:
-          return Colors.green[900]!;
+          return Color(0xFF388E3C);
       }
     }
 
@@ -51,7 +51,7 @@ class Toast extends StatelessWidget {
         case ToastType.error:
           return colorScheme.error.withValues(alpha: 0.4);
         case ToastType.verified:
-          return Colors.green[900]!.withValues(alpha: 0.4);
+          return Color(0xFF388E3C).withValues(alpha: 0.4);
       }
     }
 
