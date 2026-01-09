@@ -59,131 +59,139 @@ class _DesktopWidget extends HookConsumerWidget {
 
     final isScheduleInvalid = useState(false);
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: 430.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(24.0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 430.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ScheduleSelectorWidget(
-                    projectId: projectId,
-                    reportId: reportId,
-                    schedule: schedule,
-                    isScheduleInvalid: isScheduleInvalid,
-                  ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Divider(),
-                  ),
-                  Skeleton.unite(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(reportFormControllerProvider(
-                                    projectId: projectId, reportId: reportId)
-                                .notifier)
-                            .setSchedule();
-                        context.goNamed(
-                          RouteNames.reportNew,
-                          pathParameters: {
-                            'project_id': projectId.toString(),
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: colorScheme.onPrimary,
-                        iconColor: colorScheme.onPrimary,
-                        backgroundColor: colorScheme.primary,
-                      ),
-                      child: Text(
-                          Intl.message('report_form_schedule_no_schedule')),
+                    padding: EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ScheduleSelectorWidget(
+                          projectId: projectId,
+                          reportId: reportId,
+                          schedule: schedule,
+                          isScheduleInvalid: isScheduleInvalid,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Divider(),
+                        ),
+                        Skeleton.unite(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              ref
+                                  .read(reportFormControllerProvider(
+                                          projectId: projectId,
+                                          reportId: reportId)
+                                      .notifier)
+                                  .setSchedule();
+                              context.goNamed(
+                                RouteNames.reportNew,
+                                pathParameters: {
+                                  'project_id': projectId.toString(),
+                                },
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: colorScheme.onPrimary,
+                              iconColor: colorScheme.onPrimary,
+                              backgroundColor: colorScheme.primary,
+                            ),
+                            child: Text(Intl.message(
+                                'report_form_schedule_no_schedule')),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(
-                left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
-            constraints: BoxConstraints(maxWidth: 430.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    onPressed: () {
-                      isScheduleInvalid.value = schedule == null;
+        ),
+        Divider(),
+        Container(
+          padding:
+              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
+          constraints: BoxConstraints(maxWidth: 430.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: FilledButton(
+                  onPressed: () {
+                    isScheduleInvalid.value = schedule == null;
 
-                      if (isScheduleInvalid.value) return;
+                    if (isScheduleInvalid.value) return;
 
-                      context.goNamed(
-                        RouteNames.reportNew,
-                        pathParameters: {
-                          'project_id': projectId.toString(),
-                        },
-                      );
-                    },
-                    child: Text(Intl.message('common_next')),
-                  ),
-                ),
-                if (reportId != null)
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: FilledButton(
-                      onPressed: () async {
-                        final result = await showDialog(
-                          context: context,
-                          builder: (_) => DeleteDialog(
-                            title: Intl.message('report_form_delete_dialog_1'),
-                            content:
-                                Intl.message('report_form_delete_dialog_2'),
-                          ),
-                        );
-
-                        if (result) {
-                          context.pop();
-
-                          await ref
-                              .read(projectFormControllerProvider(
-                                      projectId: projectId)
-                                  .notifier)
-                              .deleteProject();
-
-                          ref.read(toastProvider).showToast(
-                                child: Toast(
-                                  type: ToastType.standard,
-                                  message: Intl.message('report_form_delete'),
-                                ),
-                              );
-                        }
-                        ref
-                            .read(reportSubmitControllerProvider.notifier)
-                            .deleteReport(
-                                projectId: projectId, reportId: reportId!);
+                    context.goNamed(
+                      RouteNames.reportNew,
+                      pathParameters: {
+                        'project_id': projectId.toString(),
                       },
-                      style: FilledButton.styleFrom(
-                        backgroundColor: colorScheme.error,
-                        iconColor: colorScheme.onError,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Icon(
-                          Symbols.delete_rounded,
-                          size: 19.0,
+                    );
+                  },
+                  child: Text(Intl.message('common_next')),
+                ),
+              ),
+              if (reportId != null)
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: FilledButton(
+                    onPressed: () async {
+                      final result = await showDialog(
+                        context: context,
+                        builder: (_) => DeleteDialog(
+                          title: Intl.message('report_form_delete_dialog_1'),
+                          content: Intl.message('report_form_delete_dialog_2'),
                         ),
+                      );
+
+                      if (result) {
+                        context.pop();
+
+                        await ref
+                            .read(projectFormControllerProvider(
+                                    projectId: projectId)
+                                .notifier)
+                            .deleteProject();
+
+                        ref.read(toastProvider).showToast(
+                              child: Toast(
+                                type: ToastType.standard,
+                                message: Intl.message('report_form_delete'),
+                              ),
+                            );
+                      }
+                      ref
+                          .read(reportSubmitControllerProvider.notifier)
+                          .deleteReport(
+                              projectId: projectId, reportId: reportId!);
+                    },
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colorScheme.error,
+                      iconColor: colorScheme.onError,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Icon(
+                        Symbols.delete_rounded,
+                        size: 19.0,
                       ),
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

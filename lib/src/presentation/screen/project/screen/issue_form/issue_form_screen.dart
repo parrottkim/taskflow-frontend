@@ -340,169 +340,167 @@ class _DesktopWidget extends HookConsumerWidget {
             ),
           ),
         ),
-        Padding(
+        Divider(),
+        Container(
           padding:
               EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 400.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    onPressed: () async {
-                      isContentInvalid.value = document.isEmpty ||
-                          document.every(
-                            (node) =>
-                                node is ParagraphNode &&
-                                node.text.toPlainText().trim().isEmpty,
-                          );
+          constraints: BoxConstraints(maxWidth: 430.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: FilledButton(
+                  onPressed: () async {
+                    isContentInvalid.value = document.isEmpty ||
+                        document.every(
+                          (node) =>
+                              node is ParagraphNode &&
+                              node.text.toPlainText().trim().isEmpty,
+                        );
 
-                      if (value.category is IssueContract) {
-                        final contractItems = value.contractItems;
-                        final transactionItems = value.transactionItems;
+                    if (value.category is IssueContract) {
+                      final contractItems = value.contractItems;
+                      final transactionItems = value.transactionItems;
 
-                        hasContractItems.value = contractItems.isEmpty;
+                      hasContractItems.value = contractItems.isEmpty;
 
-                        isContractItemEmpty.value = contractItems.isNotEmpty &&
-                            contractItems.any((item) =>
-                                item.item.isEmpty || item.price.isEmpty);
+                      isContractItemEmpty.value = contractItems.isNotEmpty &&
+                          contractItems.any((item) =>
+                              item.item.isEmpty || item.price.isEmpty);
 
-                        hasTransactionItems.value = transactionItems.isEmpty;
+                      hasTransactionItems.value = transactionItems.isEmpty;
 
-                        isTransactionItemEmpty.value = transactionItems
-                                .isNotEmpty &&
-                            transactionItems.any((item) =>
-                                item.category == null || item.price.isEmpty);
+                      isTransactionItemEmpty.value =
+                          transactionItems.isNotEmpty &&
+                              transactionItems.any((item) =>
+                                  item.category == null || item.price.isEmpty);
 
-                        final totalRatio = transactionItems.isNotEmpty
-                            ? transactionItems.fold(0.0, (sum, item) {
-                                final ratio =
-                                    double.tryParse(item.ratio) ?? 0.0;
-                                return sum + ratio;
-                              })
-                            : 0.0;
+                      final totalRatio = transactionItems.isNotEmpty
+                          ? transactionItems.fold(0.0, (sum, item) {
+                              final ratio = double.tryParse(item.ratio) ?? 0.0;
+                              return sum + ratio;
+                            })
+                          : 0.0;
 
-                        isRatioInvalid.value = transactionItems.isNotEmpty &&
-                            !isTransactionItemEmpty.value &&
-                            (totalRatio != 100);
-                      }
+                      isRatioInvalid.value = transactionItems.isNotEmpty &&
+                          !isTransactionItemEmpty.value &&
+                          (totalRatio != 100);
+                    }
 
-                      if (value.category is IssueKickoff) {
-                        final kickoffDate = value.kickoffDate;
+                    if (value.category is IssueKickoff) {
+                      final kickoffDate = value.kickoffDate;
 
-                        isKickoffDateEmpty.value = kickoffDate == null;
-                      }
+                      isKickoffDateEmpty.value = kickoffDate == null;
+                    }
 
-                      if (value.category is IssueProcurement) {
-                        final items = value.procurementItems;
+                    if (value.category is IssueProcurement) {
+                      final items = value.procurementItems;
 
-                        hasProcurementItems.value = items.isEmpty;
+                      hasProcurementItems.value = items.isEmpty;
 
-                        isProcurementItemEmpty.value = items.isNotEmpty &&
-                            items.any((item) =>
-                                item.item.isEmpty ||
-                                item.spec.isEmpty ||
-                                item.quantity.isEmpty ||
-                                item.unitPrice.isEmpty ||
-                                item.totalAmount.isEmpty ||
-                                // 온라인 구매 (isOnlinePurchase == true)인 경우:
-                                (item.isOnlinePurchase &&
-                                    (item.purchaseUrl == null ||
-                                        item.purchaseUrl!.isEmpty)) ||
-                                // 온라인 구매가 아닌 경우 (isOnlinePurchase == false):
-                                // (단, supplier가 있는 경우 isOnlinePurchase가 false여도 됨을 반영)
-                                (!item.isOnlinePurchase &&
-                                    item.supplier == null));
-                      }
+                      isProcurementItemEmpty.value = items.isNotEmpty &&
+                          items.any((item) =>
+                              item.item.isEmpty ||
+                              item.spec.isEmpty ||
+                              item.quantity.isEmpty ||
+                              item.unitPrice.isEmpty ||
+                              item.totalAmount.isEmpty ||
+                              // 온라인 구매 (isOnlinePurchase == true)인 경우:
+                              (item.isOnlinePurchase &&
+                                  (item.purchaseUrl == null ||
+                                      item.purchaseUrl!.isEmpty)) ||
+                              // 온라인 구매가 아닌 경우 (isOnlinePurchase == false):
+                              // (단, supplier가 있는 경우 isOnlinePurchase가 false여도 됨을 반영)
+                              (!item.isOnlinePurchase &&
+                                  item.supplier == null));
+                    }
 
-                      if (value.category is IssueTransaction) {
-                        final items = value.transactionItems;
+                    if (value.category is IssueTransaction) {
+                      final items = value.transactionItems;
 
-                        hasTransactionItems.value = items.isEmpty;
+                      hasTransactionItems.value = items.isEmpty;
 
-                        isTransactionItemEmpty.value = items.isNotEmpty &&
-                            items.any((item) =>
-                                item.category == null || item.price.isEmpty);
-                      }
+                      isTransactionItemEmpty.value = items.isNotEmpty &&
+                          items.any((item) =>
+                              item.category == null || item.price.isEmpty);
+                    }
 
-                      if (isContentInvalid.value ||
-                          hasContractItems.value ||
-                          isContractItemEmpty.value ||
-                          hasTransactionItems.value ||
-                          isTransactionItemEmpty.value ||
-                          isRatioInvalid.value ||
-                          isKickoffDateEmpty.value ||
-                          hasProcurementItems.value ||
-                          isProcurementItemEmpty.value) {
-                        return;
-                      }
+                    if (isContentInvalid.value ||
+                        hasContractItems.value ||
+                        isContractItemEmpty.value ||
+                        hasTransactionItems.value ||
+                        isTransactionItemEmpty.value ||
+                        isRatioInvalid.value ||
+                        isKickoffDateEmpty.value ||
+                        hasProcurementItems.value ||
+                        isProcurementItemEmpty.value) {
+                      return;
+                    }
 
-                      await ref
-                          .read(issueFormControllerProvider(
-                                  projectId: projectId,
-                                  categoryId: categoryId,
-                                  issueId: issueId)
-                              .notifier)
-                          .serializeAndSetContent(document: document);
-
-                      if (issueId == null) {
-                        await ref
-                            .read(issueSubmitControllerProvider.notifier)
-                            .createIssue(
-                              projectId: projectId,
-                              categoryId: categoryId,
-                            );
-                      } else {
-                        await ref
-                            .read(issueSubmitControllerProvider.notifier)
-                            .updateIssue(
+                    await ref
+                        .read(issueFormControllerProvider(
                                 projectId: projectId,
                                 categoryId: categoryId,
-                                issueId: issueId!);
+                                issueId: issueId)
+                            .notifier)
+                        .serializeAndSetContent(document: document);
+
+                    if (issueId == null) {
+                      await ref
+                          .read(issueSubmitControllerProvider.notifier)
+                          .createIssue(
+                            projectId: projectId,
+                            categoryId: categoryId,
+                          );
+                    } else {
+                      await ref
+                          .read(issueSubmitControllerProvider.notifier)
+                          .updateIssue(
+                              projectId: projectId,
+                              categoryId: categoryId,
+                              issueId: issueId!);
+                    }
+                  },
+                  child: Text(
+                    issueId != null
+                        ? Intl.message('common_edit')
+                        : Intl.message('common_post'),
+                  ),
+                ),
+              ),
+              if (issueId != null)
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: FilledButton(
+                    onPressed: () async {
+                      final result = await showDialog(
+                        context: context,
+                        builder: (_) => DeleteDialog(
+                          title: Intl.message('issue_form_delete_dialog_1'),
+                          content: Intl.message('issue_form_delete_dialog_2'),
+                        ),
+                      );
+
+                      if (result) {
+                        await ref
+                            .read(issueSubmitControllerProvider.notifier)
+                            .deleteIssue(
+                                projectId: projectId, issueId: issueId!);
                       }
                     },
-                    child: Text(
-                      issueId != null
-                          ? Intl.message('common_edit')
-                          : Intl.message('common_post'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colorScheme.error,
+                      iconColor: colorScheme.onError,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Icon(
+                        Symbols.delete_rounded,
+                        size: 19.0,
+                      ),
                     ),
                   ),
                 ),
-                if (issueId != null)
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: FilledButton(
-                      onPressed: () async {
-                        final result = await showDialog(
-                          context: context,
-                          builder: (_) => DeleteDialog(
-                            title: Intl.message('issue_form_delete_dialog_1'),
-                            content: Intl.message('issue_form_delete_dialog_2'),
-                          ),
-                        );
-
-                        if (result) {
-                          await ref
-                              .read(issueSubmitControllerProvider.notifier)
-                              .deleteIssue(
-                                  projectId: projectId, issueId: issueId!);
-                        }
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor: colorScheme.error,
-                        iconColor: colorScheme.onError,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Icon(
-                          Symbols.delete_rounded,
-                          size: 19.0,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+            ],
           ),
         ),
       ],

@@ -93,157 +93,166 @@ class _DesktopWidget extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(24.0),
-            constraints: BoxConstraints(maxWidth: 430.0),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  Intl.message('project_form_clients'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                ClientSelectorWidget(
-                  projectId: projectId,
-                  clients: value.clients,
-                  isClientsEmpty: isClientsEmpty,
-                ),
-                InvalidWidget(
-                  visible: isClientsEmpty.value,
-                  text: Intl.message('project_form_invalid_1'),
-                ),
-                SizedBox(height: 24.0),
-                Text(
-                  Intl.message('project_form_code'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Skeleton.keep(
+                Container(
+                  padding: const EdgeInsets.all(24.0),
+                  constraints: BoxConstraints(maxWidth: 430.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Intl.message('project_form_clients'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      ClientSelectorWidget(
+                        projectId: projectId,
+                        clients: value.clients,
+                        isClientsEmpty: isClientsEmpty,
+                      ),
+                      InvalidWidget(
+                        visible: isClientsEmpty.value,
+                        text: Intl.message('project_form_invalid_1'),
+                      ),
+                      SizedBox(height: 24.0),
+                      Text(
+                        Intl.message('project_form_code'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Skeleton.keep(
+                              child: TextField(
+                                controller: codeController,
+                                onChanged: (value) {
+                                  isCodeEmpty.value = false;
+
+                                  ref
+                                      .read(projectFormControllerProvider(
+                                              projectId: projectId)
+                                          .notifier)
+                                      .setCode(code: value);
+                                },
+                                decoration: InputDecoration(filled: true),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8.0),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              final identifier = generateRandomIdentifier();
+                              codeController.text = identifier;
+                              ref
+                                  .read(projectFormControllerProvider(
+                                          projectId: projectId)
+                                      .notifier)
+                                  .setCode(code: identifier);
+                            },
+                            icon: Icon(Symbols.glyphs_rounded),
+                            label: Text(
+                              Intl.message('project_form_code_random'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      InvalidWidget(
+                        visible: isCodeEmpty.value,
+                        text: Intl.message('project_form_invalid_2'),
+                      ),
+                      SizedBox(height: 24.0),
+                      Text(
+                        Intl.message('project_form_name'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      Skeleton.keep(
                         child: TextField(
-                          controller: codeController,
+                          controller: nameController,
                           onChanged: (value) {
-                            isCodeEmpty.value = false;
+                            isNameEmpty.value = false;
 
                             ref
                                 .read(projectFormControllerProvider(
                                         projectId: projectId)
                                     .notifier)
-                                .setCode(code: value);
+                                .setName(name: value);
                           },
                           decoration: InputDecoration(filled: true),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 8.0),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        final identifier = generateRandomIdentifier();
-                        codeController.text = identifier;
-                        ref
-                            .read(projectFormControllerProvider(
-                                    projectId: projectId)
-                                .notifier)
-                            .setCode(code: identifier);
-                      },
-                      icon: Icon(Symbols.glyphs_rounded),
-                      label: Text(
-                        Intl.message('project_form_code_random'),
+                      InvalidWidget(
+                        visible: isNameEmpty.value,
+                        text: Intl.message('project_form_invalid_3'),
                       ),
-                    ),
-                  ],
-                ),
-                InvalidWidget(
-                  visible: isCodeEmpty.value,
-                  text: Intl.message('project_form_invalid_2'),
-                ),
-                SizedBox(height: 24.0),
-                Text(
-                  Intl.message('project_form_name'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                Skeleton.keep(
-                  child: TextField(
-                    controller: nameController,
-                    onChanged: (value) {
-                      isNameEmpty.value = false;
-
-                      ref
-                          .read(projectFormControllerProvider(
-                                  projectId: projectId)
-                              .notifier)
-                          .setName(name: value);
-                    },
-                    decoration: InputDecoration(filled: true),
-                  ),
-                ),
-                InvalidWidget(
-                  visible: isNameEmpty.value,
-                  text: Intl.message('project_form_invalid_3'),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24.0),
-                  child: Divider(),
-                ),
-                Text(
-                  Intl.message('project_form_optional'),
-                  style: textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 24.0),
-                Text(
-                  Intl.message('project_form_user'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                ManagerSelectorWidget(
-                    projectId: projectId, selectedManager: value.manager),
-                SizedBox(height: 24.0),
-                if (auth is AuthAuthenticated && auth.user.isAdmin)
-                  Row(
-                    children: [
-                      CustomToggleButton(
-                        value: value.isPreexecuted,
-                        onChanged: !value.isContracted
-                            ? (value) {
-                                ref
-                                    .read(projectFormControllerProvider(
-                                            projectId: projectId)
-                                        .notifier)
-                                    .setIsPreexecuted(
-                                        isPreexecuted: value ?? false);
-                              }
-                            : null,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 24.0),
+                        child: Divider(),
                       ),
-                      SizedBox(width: 8.0),
                       Text(
-                        Intl.message('project_form_preexecuted'),
-                        style: TextStyle(fontWeight: FontWeight.w500),
+                        Intl.message('project_form_optional'),
+                        style: textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(width: 4.0),
-                      TooltipOverlay(
-                        message:
-                            Text(Intl.message('project_form_preexecuted_info')),
-                        child: Icon(
-                          Symbols.info_rounded,
-                          size: 18.0,
-                          color: colorScheme.outline.withValues(alpha: 0.7),
+                      SizedBox(height: 24.0),
+                      Text(
+                        Intl.message('project_form_user'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      ManagerSelectorWidget(
+                          projectId: projectId, selectedManager: value.manager),
+                      SizedBox(height: 24.0),
+                      if (auth is AuthAuthenticated && auth.user.isAdmin)
+                        Row(
+                          children: [
+                            CustomToggleButton(
+                              value: value.isPreexecuted,
+                              onChanged: !value.isContracted
+                                  ? (value) {
+                                      ref
+                                          .read(projectFormControllerProvider(
+                                                  projectId: projectId)
+                                              .notifier)
+                                          .setIsPreexecuted(
+                                              isPreexecuted: value ?? false);
+                                    }
+                                  : null,
+                            ),
+                            SizedBox(width: 8.0),
+                            Text(
+                              Intl.message('project_form_preexecuted'),
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(width: 4.0),
+                            TooltipOverlay(
+                              message: Text(Intl.message(
+                                  'project_form_preexecuted_info')),
+                              child: Icon(
+                                Symbols.info_rounded,
+                                size: 18.0,
+                                color:
+                                    colorScheme.outline.withValues(alpha: 0.7),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
                     ],
                   ),
+                ),
               ],
             ),
           ),
         ),
+        Divider(),
         Container(
           padding:
               EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),

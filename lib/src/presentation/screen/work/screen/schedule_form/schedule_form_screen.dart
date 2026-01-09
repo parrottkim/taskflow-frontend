@@ -123,125 +123,135 @@ class _DesktopWidget extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(24.0),
-            constraints: BoxConstraints(maxWidth: 600.0),
+          child: SingleChildScrollView(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text.rich(
-                  style: textTheme.titleMedium,
-                  TextSpan(
+                Container(
+                  padding: const EdgeInsets.all(24.0),
+                  constraints: BoxConstraints(maxWidth: 600.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextSpan(
-                        text: Intl.message('schedule_new_choose_$categoryId'),
+                      Text.rich(
+                        style: textTheme.titleMedium,
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: Intl.message(
+                                  'schedule_new_choose_$categoryId'),
+                            ),
+                            TextSpan(
+                              text: Intl.message(
+                                  'schedule_new_choose_${categoryId}_1'),
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
                       ),
-                      TextSpan(
-                        text:
-                            Intl.message('schedule_new_choose_${categoryId}_1'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                      SizedBox(height: 24.0),
+                      Text(
+                        Intl.message('schedule_form_project'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      ProjectSelectorWidget(
+                        categoryId: categoryId,
+                        scheduleId: scheduleId,
+                        projectName: value.projectName,
+                        projectClientId: value.projectClientId,
+                        projectClientName: value.projectClientName,
+                      ),
+                      InvalidWidget(
+                        visible: isProjectSelected.value,
+                        text: Intl.message('schedule_form_invalid_1'),
+                      ),
+                      SizedBox(height: 24.0),
+                      Text(
+                        Intl.message('schedule_form_date'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      DateSelectorWidget(
+                        categoryId: categoryId,
+                        scheduleId: scheduleId,
+                        start: value.start,
+                        end: value.end,
+                      ),
+                      InvalidWidget(
+                        visible: isDateSelected.value,
+                        text: Intl.message('schedule_form_invalid_2'),
+                      ),
+                      SizedBox(height: 24.0),
+                      Text(
+                        Intl.message('schedule_form_summary'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      Skeleton.keep(
+                        child: TextField(
+                          focusNode: summaryFocus,
+                          controller: summaryController,
+                          onChanged: (value) {
+                            isSummaryNotEmpty.value = false;
+
+                            ref
+                                .read(scheduleFormControllerProvider(
+                                        categoryId: categoryId,
+                                        scheduleId: scheduleId)
+                                    .notifier)
+                                .setSummary(summary: value);
+                          },
+                          maxLines: 1,
+                          decoration: InputDecoration(filled: true),
+                          onSubmitted: (value) => FocusScope.of(context)
+                              .requestFocus(descriptionFocus),
+                        ),
+                      ),
+                      InvalidWidget(
+                        visible: isSummaryNotEmpty.value,
+                        text: Intl.message('schedule_form_invalid_3'),
+                      ),
+                      SizedBox(height: 24.0),
+                      Text(
+                        Intl.message('schedule_form_description'),
+                        style: textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 8.0),
+                      Skeleton.keep(
+                        child: TextField(
+                          focusNode: descriptionFocus,
+                          controller: descriptionController,
+                          onChanged: (value) {
+                            ref
+                                .read(scheduleFormControllerProvider(
+                                        categoryId: categoryId,
+                                        scheduleId: scheduleId)
+                                    .notifier)
+                                .setDescription(description: value);
+                          },
+                          minLines: 3,
+                          maxLines: 10,
+                          decoration: InputDecoration(filled: true),
+                        ),
+                      ),
+                      InvalidWidget(
+                        visible: isDescriptionNotEmpty.value,
+                        text: Intl.message('schedule_form_invalid_3'),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: 24.0),
-                Text(
-                  Intl.message('schedule_form_project'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                ProjectSelectorWidget(
-                  categoryId: categoryId,
-                  scheduleId: scheduleId,
-                  projectName: value.projectName,
-                  projectClientId: value.projectClientId,
-                  projectClientName: value.projectClientName,
-                ),
-                InvalidWidget(
-                  visible: isProjectSelected.value,
-                  text: Intl.message('schedule_form_invalid_1'),
-                ),
-                SizedBox(height: 24.0),
-                Text(
-                  Intl.message('schedule_form_date'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                DateSelectorWidget(
-                  categoryId: categoryId,
-                  scheduleId: scheduleId,
-                  start: value.start,
-                  end: value.end,
-                ),
-                InvalidWidget(
-                  visible: isDateSelected.value,
-                  text: Intl.message('schedule_form_invalid_2'),
-                ),
-                SizedBox(height: 24.0),
-                Text(
-                  Intl.message('schedule_form_summary'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                Skeleton.keep(
-                  child: TextField(
-                    focusNode: summaryFocus,
-                    controller: summaryController,
-                    onChanged: (value) {
-                      isSummaryNotEmpty.value = false;
-
-                      ref
-                          .read(scheduleFormControllerProvider(
-                                  categoryId: categoryId,
-                                  scheduleId: scheduleId)
-                              .notifier)
-                          .setSummary(summary: value);
-                    },
-                    maxLines: 1,
-                    decoration: InputDecoration(filled: true),
-                    onSubmitted: (value) =>
-                        FocusScope.of(context).requestFocus(descriptionFocus),
-                  ),
-                ),
-                InvalidWidget(
-                  visible: isSummaryNotEmpty.value,
-                  text: Intl.message('schedule_form_invalid_3'),
-                ),
-                SizedBox(height: 24.0),
-                Text(
-                  Intl.message('schedule_form_description'),
-                  style: textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8.0),
-                Skeleton.keep(
-                  child: TextField(
-                    focusNode: descriptionFocus,
-                    controller: descriptionController,
-                    onChanged: (value) {
-                      ref
-                          .read(scheduleFormControllerProvider(
-                                  categoryId: categoryId,
-                                  scheduleId: scheduleId)
-                              .notifier)
-                          .setDescription(description: value);
-                    },
-                    minLines: 3,
-                    maxLines: 10,
-                    decoration: InputDecoration(filled: true),
-                  ),
-                ),
-                InvalidWidget(
-                  visible: isDescriptionNotEmpty.value,
-                  text: Intl.message('schedule_form_invalid_3'),
                 ),
               ],
             ),
           ),
         ),
+        Divider(),
         Container(
           padding:
               EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),

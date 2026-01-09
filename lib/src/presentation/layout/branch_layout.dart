@@ -29,6 +29,8 @@ class BranchLayout extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final dateSelection = ref.watch(dateSelectionControllerProvider);
+    final routerState = GoRouterState.of(context);
+    final currentRouteName = routerState.name ?? '';
 
     return LayoutBuilder(
       builder: (context, constraints) => Container(
@@ -62,11 +64,11 @@ class BranchLayout extends ConsumerWidget {
                         child: title != null
                             ? title!
                             : Text(
-                                Intl.message(GoRouter.of(context).name),
+                                Intl.message(currentRouteName),
                               ),
                       ),
                     ),
-                    if (GoRouter.of(context).name == RouteNames.dashboard)
+                    if (currentRouteName == RouteNames.dashboard)
                       ElevatedButton(
                         onPressed: () async {
                           final result = await showDialog(
@@ -98,9 +100,9 @@ class BranchLayout extends ConsumerWidget {
                           ],
                         ),
                       ),
-                    if (GoRouter.of(context).name == RouteNames.project)
+                    if (currentRouteName == RouteNames.project)
                       NewProjectButton(),
-                    if (GoRouter.of(context).name == RouteNames.projectDetail)
+                    if (currentRouteName == RouteNames.projectDetail)
                       Row(
                         children: [
                           NewReportButton(),
