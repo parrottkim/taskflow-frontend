@@ -15,19 +15,12 @@ class UserScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authControllerProvider);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Container(
-        padding: EdgeInsets.all(24.0),
-        constraints: BoxConstraints(maxWidth: 430.0),
-        child: switch (auth) {
-          AuthAuthenticated(:final user) => _DesktopWidget(user: user),
-          _ => Skeletonizer(
-              child: _DesktopWidget(user: User.dummy()),
-            ),
-        },
-      ),
-    );
+    return switch (auth) {
+      AuthAuthenticated(:final user) => _DesktopWidget(user: user),
+      _ => Skeletonizer(
+          child: _DesktopWidget(user: User.dummy()),
+        ),
+    };
   }
 }
 
@@ -44,48 +37,58 @@ class _DesktopWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ContainerWidget(
-          elevation: 0.0,
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundColor:
-                    Functions(context).generateColorFromId(user.id),
-                radius: 32.0,
-              ),
-              SizedBox(width: 16.0),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(24.0),
+            child: ContainerWidget(
+              elevation: 0.0,
+              constraints: BoxConstraints(maxWidth: 430.0),
+              child: Row(
                 children: [
-                  Text(
-                    user.username,
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                  CircleAvatar(
+                    backgroundColor:
+                        Functions(context).generateColorFromId(user.id),
+                    radius: 32.0,
                   ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    user.position?.name ?? '',
-                    style: TextStyle(
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
-                  ),
-                  Text(
-                    user.department?.name ?? '',
-                    style: TextStyle(
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
+                  SizedBox(width: 16.0),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.username,
+                        style: textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        user.position?.name ?? '',
+                        style: TextStyle(
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      Text(
+                        user.department?.name ?? '',
+                        style: TextStyle(
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
-        Spacer(),
-        SizedBox(
+        Divider(),
+        Container(
           width: double.infinity,
+          padding:
+              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
+          constraints: BoxConstraints(maxWidth: 430.0),
           child: Skeleton.unite(
             child: ElevatedButton.icon(
               onPressed: () {

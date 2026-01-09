@@ -25,8 +25,7 @@ class IssueCategoryScreen extends ConsumerWidget {
     final filter = ref.watch(projectFilterControllerProvider);
 
     return BranchLayout(
-      child: Container(
-        padding: EdgeInsets.all(24.0),
+      child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 430.0),
         child: switch (filter) {
           AsyncData(:final value) => _DesktopWidget(
@@ -79,71 +78,75 @@ class _DesktopWidget extends ConsumerWidget {
       }
     });
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CategoryListWidget(
-          projectId: projectId,
-          categoryItems: categoryItems,
-        ),
-        SizedBox(height: 16.0),
-        ContainerWidget(
-          padding: EdgeInsets.zero,
-          color: colorScheme.errorContainer,
-          child: InkWell(
-            onTap: () async {
-              final project = await ref.read(
-                  projectDetailControllerProvider(projectId: projectId).future);
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CategoryListWidget(
+            projectId: projectId,
+            categoryItems: categoryItems,
+          ),
+          SizedBox(height: 16.0),
+          ContainerWidget(
+            padding: EdgeInsets.zero,
+            color: colorScheme.errorContainer,
+            child: InkWell(
+              onTap: () async {
+                final project = await ref.read(
+                    projectDetailControllerProvider(projectId: projectId)
+                        .future);
 
-              showDialog(
-                context: context,
-                builder: (_) => ClosureDialog(
-                  project: project.project,
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Symbols.mountain_flag_rounded,
-                        size: 20.0,
-                        color: colorScheme.error,
-                      ),
-                      SizedBox(width: 4.0),
-                      Text(
-                        Intl.message('issue_new_choose_7'),
-                        style: textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
+                showDialog(
+                  context: context,
+                  builder: (_) => ClosureDialog(
+                    project: project.project,
+                  ),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Symbols.mountain_flag_rounded,
+                          size: 20.0,
                           color: colorScheme.error,
                         ),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Symbols.arrow_right_alt_rounded,
-                        size: 20.0,
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    Intl.message('issue_new_choose_7_1'),
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.error.withValues(alpha: 0.7),
+                        SizedBox(width: 4.0),
+                        Text(
+                          Intl.message('issue_new_choose_7'),
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colorScheme.error,
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(
+                          Symbols.arrow_right_alt_rounded,
+                          size: 20.0,
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 4.0),
+                    Text(
+                      Intl.message('issue_new_choose_7_1'),
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colorScheme.error.withValues(alpha: 0.7),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

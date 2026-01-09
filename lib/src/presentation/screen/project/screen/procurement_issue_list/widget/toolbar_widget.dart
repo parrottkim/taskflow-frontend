@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -11,16 +12,23 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
-import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class ToolbarWidget extends ConsumerWidget {
+class ToolbarWidget extends HookConsumerWidget {
   final int projectId;
-  final ProcurementIssue issue;
+  final int issueId;
+  final int categoryId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final User user;
 
   const ToolbarWidget({
     super.key,
     required this.projectId,
-    required this.issue,
+    required this.issueId,
+    required this.categoryId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.user,
   });
 
   @override
@@ -32,20 +40,43 @@ class ToolbarWidget extends ConsumerWidget {
     final detail =
         ref.watch(projectDetailControllerProvider(projectId: projectId));
 
+    final isHovered = useState(false);
+
+    final fullDate = createdAt == updatedAt
+        ? '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(createdAt)} ${Intl.message('common_created_at')}'
+        : '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(updatedAt)} ${Intl.message('common_updated_at')}';
+
+    final relativeDate = createdAt == updatedAt
+        ? '${formatRelativeDate(createdAt)} ${Intl.message('common_created_at')}'
+        : '${formatRelativeDate(updatedAt)} ${Intl.message('common_updated_at')}';
+
     return Row(
       children: [
-        AnimatedOpacity(
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInQuad,
-          opacity: Responsive.isDesktop(context) ? 1.0 : 0.0,
-          child: Text(
-            issue.createdAt == issue.updatedAt
-                ? '${formatRelativeDate(issue.createdAt)} ${Intl.message('common_created_at')}'
-                : '${formatRelativeDate(issue.updatedAt)} ${Intl.message('common_updated_at')}',
-            style: textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: colorScheme.outline.withValues(alpha: 0.7),
-            ),
+        MouseRegion(
+          onEnter: (event) => isHovered.value = true,
+          onExit: (event) => isHovered.value = false,
+          child: Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 400),
+                opacity: isHovered.value ? 1.0 : 0.0,
+                child: Text(
+                  fullDate,
+                  textAlign: TextAlign.right,
+                  style: textTheme.bodySmall,
+                ),
+              ),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 400),
+                opacity: isHovered.value ? 0.0 : 1.0,
+                child: Text(
+                  relativeDate,
+                  textAlign: TextAlign.right,
+                  style: textTheme.bodySmall,
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(width: 8.0),
@@ -63,8 +94,8 @@ class ToolbarWidget extends ConsumerWidget {
               port: Uri.base.hasPort ? Uri.base.port : null,
               path: path,
               queryParameters: {
-                'view': 'procurement',
-                'issue': issue.id.toString(),
+                'view': 'contract',
+                'issue': issueId.toString(),
               },
             );
 
@@ -98,7 +129,7 @@ class ToolbarWidget extends ConsumerWidget {
                 title: Intl.message('project_issue_mail'),
                 onPressed: () => ref
                     .read(issueSubmitControllerProvider.notifier)
-                    .sendEmail(issueId: issue.id),
+                    .sendEmail(issueId: issueId),
               ),
             );
           },
@@ -130,15 +161,14 @@ class ToolbarWidget extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: MenuItemButton(
                 onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
-                        auth is AuthAuthenticated &&
-                            auth.user.id == issue.user.id
+                        auth is AuthAuthenticated && auth.user.id == user.id
                     ? () {
                         context.goNamed(
                           RouteNames.issueEdit,
                           pathParameters: {
-                            'category_id': issue.category.id.toString(),
+                            'category_id': categoryId.toString(),
                             'project_id': projectId.toString(),
-                            'issue_id': issue.id.toString(),
+                            'issue_id': issueId.toString(),
                           },
                         );
                       }
@@ -166,8 +196,7 @@ class ToolbarWidget extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: MenuItemButton(
                 onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
-                        auth is AuthAuthenticated &&
-                            auth.user.id == issue.user.id
+                        auth is AuthAuthenticated && auth.user.id == user.id
                     ? () async {
                         final result = await showDialog(
                           context: context,
@@ -181,7 +210,7 @@ class ToolbarWidget extends ConsumerWidget {
                           await ref
                               .read(issueSubmitControllerProvider.notifier)
                               .deleteIssue(
-                                  projectId: projectId, issueId: issue.id);
+                                  projectId: projectId, issueId: issueId);
                         }
                       }
                     : null,
@@ -212,7 +241,7 @@ class ToolbarWidget extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text(
-                  '${issue.user.username} ${Intl.message('common_edit_by')}',
+                  '${user.username} ${Intl.message('common_edit_by')}',
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.outline.withValues(alpha: 0.7),
@@ -222,9 +251,7 @@ class ToolbarWidget extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
-                issue.createdAt == issue.updatedAt
-                    ? '${formatRelativeDate(issue.createdAt)} ${Intl.message('common_created_at')}'
-                    : '${formatRelativeDate(issue.updatedAt)} ${Intl.message('common_updated_at')}',
+                relativeDate,
                 style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: colorScheme.outline.withValues(alpha: 0.7),
