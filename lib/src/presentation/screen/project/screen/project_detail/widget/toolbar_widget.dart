@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -11,10 +12,9 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
-import 'package:taskflow/src/shared/tool/responsive.dart';
 import 'package:universal_html/html.dart' hide Platform;
 
-class ToolbarWidget extends ConsumerWidget {
+class ToolbarWidget extends HookConsumerWidget {
   final Project project;
 
   const ToolbarWidget({
@@ -29,23 +29,46 @@ class ToolbarWidget extends ConsumerWidget {
 
     final auth = ref.watch(authControllerProvider);
 
+    final isHovered = useState(false);
+
+    final fullDate = project.createdAt == project.updatedAt
+        ? '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(project.createdAt)} ${Intl.message('common_created_at')}'
+        : '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(project.updatedAt)} ${Intl.message('common_updated_at')}';
+
+    final relativeDate = project.createdAt == project.updatedAt
+        ? '${formatRelativeDate(project.createdAt)} ${Intl.message('common_created_at')}'
+        : '${formatRelativeDate(project.updatedAt)} ${Intl.message('common_updated_at')}';
+
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Row(
         children: [
           Spacer(),
-          AnimatedOpacity(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInQuad,
-            opacity: Responsive.isDesktop(context) ? 1.0 : 0.0,
-            child: Text(
-              project.createdAt == project.updatedAt
-                  ? '${formatRelativeDate(project.createdAt)} ${Intl.message('common_created_at')}'
-                  : '${formatRelativeDate(project.updatedAt)} ${Intl.message('common_updated_at')}',
-              style: textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: colorScheme.outline.withValues(alpha: 0.7),
-              ),
+          MouseRegion(
+            onEnter: (event) => isHovered.value = true,
+            onExit: (event) => isHovered.value = false,
+            child: Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 400),
+                  opacity: isHovered.value ? 1.0 : 0.0,
+                  child: Text(
+                    fullDate,
+                    textAlign: TextAlign.right,
+                    style: textTheme.bodySmall,
+                  ),
+                ),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 400),
+                  opacity: isHovered.value ? 0.0 : 1.0,
+                  child: Text(
+                    relativeDate,
+                    textAlign: TextAlign.right,
+                    style: textTheme.bodySmall,
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(width: 8.0),
@@ -210,9 +233,7 @@ class ToolbarWidget extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text(
-                  project.createdAt == project.updatedAt
-                      ? '${formatRelativeDate(project.createdAt)} ${Intl.message('common_created_at')}'
-                      : '${formatRelativeDate(project.updatedAt)} ${Intl.message('common_updated_at')}',
+                  relativeDate,
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.outline.withValues(alpha: 0.7),

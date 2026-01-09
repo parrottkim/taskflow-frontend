@@ -23,29 +23,23 @@ class ScheduleListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final schedule = ref.watch(scheduleListControllerProvider());
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 430.0),
-        child: switch (schedule) {
-          AsyncData(:final value) => _DesktopWidget(
-              items: value.items,
-              hasNext: value.hasNext,
-              hasPrevious: value.hasPrevious,
+    return switch (schedule) {
+      AsyncData(:final value) => _DesktopWidget(
+          items: value.items,
+          hasNext: value.hasNext,
+          hasPrevious: value.hasPrevious,
+        ),
+      AsyncError(:final error, :final stackTrace) =>
+        ErrorContainerWidget(error: error, stackTrace: stackTrace),
+      _ => Skeletonizer(
+          child: _DesktopWidget(
+            items: List.filled(
+              30,
+              ScheduleGroup.dummy(),
             ),
-          AsyncError(:final error, :final stackTrace) =>
-            ErrorContainerWidget(error: error, stackTrace: stackTrace),
-          _ => Skeletonizer(
-              child: _DesktopWidget(
-                items: List.filled(
-                  30,
-                  ScheduleGroup.dummy(),
-                ),
-              ),
-            ),
-        },
-      ),
-    );
+          ),
+        ),
+    };
   }
 }
 
@@ -193,212 +187,178 @@ class _DesktopWidget extends HookConsumerWidget {
 
                 return false; // 이벤트를 소비하지 않고 상위 위젯으로 전달
               },
-              child: CustomScrollView(
-                controller: controller,
-                slivers: [
-                  ...items.asMap().entries.map(
-                    (entry) {
-                      final i = entry.key;
-                      final group = entry.value;
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 430.0),
+                child: CustomScrollView(
+                  controller: controller,
+                  slivers: [
+                    ...items.asMap().entries.map(
+                      (entry) {
+                        final i = entry.key;
+                        final group = entry.value;
 
-                      final isPast = group.date.isBefore(DateTime(
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day));
+                        final isPast = group.date.isBefore(DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day));
 
-                      return SliverStickyHeader(
-                        header: Container(
-                          key: headerKeys[i],
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 24.0, vertical: 8.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color:
-                                    colorScheme.outline.withValues(alpha: 0.2),
+                        return SliverStickyHeader(
+                          header: Container(
+                            key: headerKeys[i],
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 24.0, vertical: 8.0),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: colorScheme.outline
+                                      .withValues(alpha: 0.2),
+                                ),
+                              ),
+                              color: colorScheme.surfaceContainerLow,
+                            ),
+                            child: Text(
+                              '${DateFormat.MMMMd(Intl.getCurrentLocale()).format(group.date)} ${DateFormat.EEEE(Intl.getCurrentLocale()).format(group.date)}',
+                              style: textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: isPast
+                                    ? colorScheme.onSurface
+                                        .withValues(alpha: 0.4)
+                                    : colorScheme.primary,
                               ),
                             ),
-                            color: colorScheme.surfaceContainerLow,
                           ),
-                          child: Text(
-                            '${DateFormat.MMMMd(Intl.getCurrentLocale()).format(group.date)} ${DateFormat.EEEE(Intl.getCurrentLocale()).format(group.date)}',
-                            style: textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: isPast
-                                  ? colorScheme.onSurface.withValues(alpha: 0.4)
-                                  : colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                        sliver: SliverPadding(
-                          padding: EdgeInsets.only(bottom: 16.0),
-                          sliver: SliverList.builder(
-                            itemCount: group.items.length,
-                            itemBuilder: (context, index) {
-                              final schedule = group.items[index];
+                          sliver: SliverPadding(
+                            padding: EdgeInsets.only(bottom: 16.0),
+                            sliver: SliverList.builder(
+                              itemCount: group.items.length,
+                              itemBuilder: (context, index) {
+                                final schedule = group.items[index];
 
-                              return Stack(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 24.0,
-                                        right: 12.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Row(
-                                      children: [
-                                        Skeleton.unite(
-                                          child: Opacity(
-                                            opacity: isPast ? 0.4 : 1.0,
-                                            child: Container(
-                                              margin:
-                                                  EdgeInsets.only(right: 8.0),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.0,
-                                                  vertical: 2.0),
-                                              decoration: ShapeDecoration(
-                                                shape: StadiumBorder(
-                                                  side: BorderSide(
+                                return Stack(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 24.0,
+                                          right: 12.0,
+                                          top: 8.0,
+                                          bottom: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Skeleton.unite(
+                                            child: Opacity(
+                                              opacity: isPast ? 0.4 : 1.0,
+                                              child: Container(
+                                                margin:
+                                                    EdgeInsets.only(right: 8.0),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 8.0,
+                                                    vertical: 2.0),
+                                                decoration: ShapeDecoration(
+                                                  shape: StadiumBorder(
+                                                    side: BorderSide(
+                                                      color: Functions(context)
+                                                          .generateColorFromId(
+                                                              schedule
+                                                                  .category.id),
+                                                    ),
+                                                  ),
+                                                  color: Functions(context)
+                                                      .generateColorFromId(
+                                                          schedule.category.id)
+                                                      .withValues(alpha: 0.2),
+                                                ),
+                                                child: Text(
+                                                  schedule.category.name,
+                                                  style: textTheme.labelMedium
+                                                      ?.copyWith(
+                                                    fontWeight: FontWeight.w700,
                                                     color: Functions(context)
                                                         .generateColorFromId(
                                                             schedule
                                                                 .category.id),
                                                   ),
                                                 ),
-                                                color: Functions(context)
-                                                    .generateColorFromId(
-                                                        schedule.category.id)
-                                                    .withValues(alpha: 0.2),
-                                              ),
-                                              child: Text(
-                                                schedule.category.name,
-                                                style: textTheme.labelMedium
-                                                    ?.copyWith(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Functions(context)
-                                                      .generateColorFromId(
-                                                          schedule.category.id),
-                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            schedule.summary,
-                                            overflow: TextOverflow.ellipsis,
-                                            style:
-                                                textTheme.titleSmall?.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: isPast
-                                                  ? colorScheme.onSurface
-                                                      .withValues(
-                                                          alpha:
-                                                              0.4) // 지난 날짜는 흐리게
-                                                  : colorScheme.onSurface,
+                                          Expanded(
+                                            child: Text(
+                                              schedule.summary,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: textTheme.titleSmall
+                                                  ?.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                color: isPast
+                                                    ? colorScheme.onSurface
+                                                        .withValues(
+                                                            alpha:
+                                                                0.4) // 지난 날짜는 흐리게
+                                                    : colorScheme.onSurface,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 4.0),
-                                          child: Text(
-                                            '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.start)}',
-                                            style:
-                                                textTheme.bodySmall?.copyWith(
-                                              color: colorScheme.onSurface
-                                                  .withValues(alpha: 0.7),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 4.0),
+                                            child: Text(
+                                              '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.start)}',
+                                              style:
+                                                  textTheme.bodySmall?.copyWith(
+                                                color: colorScheme.onSurface
+                                                    .withValues(alpha: 0.7),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Positioned.fill(
-                                    child: AnimatedOpacity(
-                                      duration: Duration(milliseconds: 300),
-                                      opacity: selectedSchedule.value != null &&
-                                              selectedSchedule.value == schedule
-                                          ? 1.0
-                                          : 0.0,
-                                      child: ColoredBox(
-                                        color: Colors.black87
-                                            .withValues(alpha: 0.2),
-                                        child: InkWell(
-                                          onTap: () {
-                                            if (selectedSchedule.value ==
-                                                null) {
-                                              selectedSchedule.value = schedule;
-                                            } else {
-                                              selectedSchedule.value = null;
-                                            }
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            child: Row(
-                                              children: [
-                                                Spacer(),
-                                                IgnorePointer(
-                                                  ignoring:
-                                                      selectedSchedule.value ==
-                                                          null,
-                                                  child: ElevatedIconButton(
-                                                    onTap: () {
-                                                      context.goNamed(
-                                                          RouteNames
-                                                              .scheduleEdit,
-                                                          pathParameters: {
-                                                            'schedule_id':
-                                                                schedule.id
-                                                                    .toString(),
-                                                          },
-                                                          queryParameters: {
-                                                            'category': schedule
-                                                                .category.id
-                                                                .toString(),
-                                                          });
-                                                    },
-                                                    padding:
-                                                        EdgeInsets.all(4.0),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                    icon: Symbols
-                                                        .edit_square_rounded,
-                                                    size: 16.0,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 4.0),
-                                                  child: IgnorePointer(
+                                    Positioned.fill(
+                                      child: AnimatedOpacity(
+                                        duration: Duration(milliseconds: 300),
+                                        opacity:
+                                            selectedSchedule.value != null &&
+                                                    selectedSchedule.value ==
+                                                        schedule
+                                                ? 1.0
+                                                : 0.0,
+                                        child: ColoredBox(
+                                          color: Colors.black87
+                                              .withValues(alpha: 0.2),
+                                          child: InkWell(
+                                            onTap: () {
+                                              if (selectedSchedule.value ==
+                                                  null) {
+                                                selectedSchedule.value =
+                                                    schedule;
+                                              } else {
+                                                selectedSchedule.value = null;
+                                              }
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: Row(
+                                                children: [
+                                                  Spacer(),
+                                                  IgnorePointer(
                                                     ignoring: selectedSchedule
                                                             .value ==
                                                         null,
                                                     child: ElevatedIconButton(
-                                                      onTap: () async {
-                                                        final result =
-                                                            await showDialog(
-                                                          context: context,
-                                                          builder: (_) =>
-                                                              DeleteDialog(
-                                                            title: Intl.message(
-                                                                'schedule_form_delete_dialog_1'),
-                                                            content: Intl.message(
-                                                                'schedule_form_delete_dialog_2'),
-                                                          ),
-                                                        );
-
-                                                        if (result) {
-                                                          await ref
-                                                              .read(
-                                                                  scheduleSubmitControllerProvider
-                                                                      .notifier)
-                                                              .deleteSchedule(
-                                                                  scheduleId:
-                                                                      schedule
-                                                                          .id);
-                                                        }
+                                                      onTap: () {
+                                                        context.goNamed(
+                                                            RouteNames
+                                                                .scheduleEdit,
+                                                            pathParameters: {
+                                                              'schedule_id':
+                                                                  schedule.id
+                                                                      .toString(),
+                                                            },
+                                                            queryParameters: {
+                                                              'category': schedule
+                                                                  .category.id
+                                                                  .toString(),
+                                                            });
                                                       },
                                                       padding:
                                                           EdgeInsets.all(4.0),
@@ -406,34 +366,78 @@ class _DesktopWidget extends HookConsumerWidget {
                                                           BorderRadius.circular(
                                                               4.0),
                                                       icon: Symbols
-                                                          .delete_rounded,
+                                                          .edit_square_rounded,
                                                       size: 16.0,
                                                     ),
                                                   ),
-                                                )
-                                              ],
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 4.0),
+                                                    child: IgnorePointer(
+                                                      ignoring: selectedSchedule
+                                                              .value ==
+                                                          null,
+                                                      child: ElevatedIconButton(
+                                                        onTap: () async {
+                                                          final result =
+                                                              await showDialog(
+                                                            context: context,
+                                                            builder: (_) =>
+                                                                DeleteDialog(
+                                                              title: Intl.message(
+                                                                  'schedule_form_delete_dialog_1'),
+                                                              content: Intl.message(
+                                                                  'schedule_form_delete_dialog_2'),
+                                                            ),
+                                                          );
+
+                                                          if (result) {
+                                                            await ref
+                                                                .read(scheduleSubmitControllerProvider
+                                                                    .notifier)
+                                                                .deleteSchedule(
+                                                                    scheduleId:
+                                                                        schedule
+                                                                            .id);
+                                                          }
+                                                        },
+                                                        padding:
+                                                            EdgeInsets.all(4.0),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.0),
+                                                        icon: Symbols
+                                                            .delete_rounded,
+                                                        size: 16.0,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            },
+                                  ],
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         Divider(),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          padding:
+              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
+          constraints: BoxConstraints(maxWidth: 430.0),
           child: FilledButton(
             onPressed: () {
               context.goNamed(RouteNames.scheduleNewChoose);

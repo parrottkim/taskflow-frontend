@@ -181,125 +181,123 @@ class _DesktopWidget extends HookConsumerWidget {
               ],
             ),
           ),
-          Padding(
+          Divider(),
+          Container(
             padding: EdgeInsets.only(
                 left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 400.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () async {
-                        // Update validation status from current form data
-                        ref
-                            .read(reportValidationControllerProvider.notifier)
-                            .updateAllValidationStatus(
-                                projectId: projectId, reportId: reportId);
+            constraints: BoxConstraints(maxWidth: 430.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () async {
+                      // Update validation status from current form data
+                      ref
+                          .read(reportValidationControllerProvider.notifier)
+                          .updateAllValidationStatus(
+                              projectId: projectId, reportId: reportId);
 
-                        // If validation fails, navigate to the first invalid step (if available)
-                        final isAllValid = ref
-                            .read(reportValidationControllerProvider.notifier)
-                            .isValid();
+                      // If validation fails, navigate to the first invalid step (if available)
+                      final isAllValid = ref
+                          .read(reportValidationControllerProvider.notifier)
+                          .isValid();
 
-                        if (!isAllValid) {
+                      if (!isAllValid) {
+                        return;
+                      }
+
+                      // All valid — proceed to next step or submit
+                      if (isLastStep) {
+                        await ref
+                            .read(reportFormControllerProvider(
+                                    projectId: projectId, reportId: reportId)
+                                .notifier)
+                            .serializeAndSetContent(document: document);
+
+                        if (ref
+                            .watch(reportValidationControllerProvider)
+                            .contentInvalid) {
                           return;
                         }
 
-                        // All valid — proceed to next step or submit
-                        if (isLastStep) {
+                        if (reportId == null) {
                           ref
-                              .read(reportFormControllerProvider(
-                                      projectId: projectId)
-                                  .notifier)
-                              .serializeAndSetContent(document: document);
-
-                          if (ref
-                              .watch(reportValidationControllerProvider)
-                              .contentInvalid) {
-                            return;
-                          }
-
-                          if (reportId == null) {
-                            ref
-                                .read(reportSubmitControllerProvider.notifier)
-                                .createReport(projectId: projectId);
-                            return;
-                          } else {
-                            ref
-                                .read(reportSubmitControllerProvider.notifier)
-                                .updateReport(
-                                    projectId: projectId, reportId: reportId!);
-                            return;
-                          }
+                              .read(reportSubmitControllerProvider.notifier)
+                              .createReport(projectId: projectId);
+                          return;
                         } else {
-                          // 다음 단계로 이동
-                          currentIndex.value = currentIndex.value + 1;
+                          ref
+                              .read(reportSubmitControllerProvider.notifier)
+                              .updateReport(
+                                  projectId: projectId, reportId: reportId!);
+                          return;
                         }
+                      } else {
+                        // 다음 단계로 이동
+                        currentIndex.value = currentIndex.value + 1;
+                      }
 
-                        // Additional per-step checks (legacy/extra guards)
-                        // final form = await ref.watch(
-                        //     reportFormControllerProvider(
-                        //             projectId: projectId, reportId: reportId)
-                        //         .future);
+                      // Additional per-step checks (legacy/extra guards)
+                      // final form = await ref.watch(
+                      //     reportFormControllerProvider(
+                      //             projectId: projectId, reportId: reportId)
+                      //         .future);
 
-                        // if (step == 'transportation') {
-                        //   if (form.expenses.any((item) =>
-                        //       item.price == null || item.price!.isEmpty)) {
-                        //     return;
-                        //   }
-                        // }
-                        // if (step == 'local_transportation') {
-                        //   if (form.expenses.any((item) =>
-                        //       item.price == null || item.price!.isEmpty)) {
-                        //     return;
-                        //   }
-                        // }
-                      },
-                      child: Text(isLastStep
-                          ? reportId == null
-                              ? Intl.message('common_post')
-                              : Intl.message('common_edit')
-                          : Intl.message('common_next')),
-                    ),
+                      // if (step == 'transportation') {
+                      //   if (form.expenses.any((item) =>
+                      //       item.price == null || item.price!.isEmpty)) {
+                      //     return;
+                      //   }
+                      // }
+                      // if (step == 'local_transportation') {
+                      //   if (form.expenses.any((item) =>
+                      //       item.price == null || item.price!.isEmpty)) {
+                      //     return;
+                      //   }
+                      // }
+                    },
+                    child: Text(isLastStep
+                        ? reportId == null
+                            ? Intl.message('common_post')
+                            : Intl.message('common_edit')
+                        : Intl.message('common_next')),
                   ),
-                  if (reportId != null)
-                    Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: FilledButton(
-                        onPressed: () async {
-                          final result = await showDialog(
-                            context: context,
-                            builder: (_) => DeleteDialog(
-                              title:
-                                  Intl.message('report_form_delete_dialog_1'),
-                              content:
-                                  Intl.message('report_form_delete_dialog_2'),
-                            ),
-                          );
-
-                          if (result) {
-                            await ref
-                                .read(reportSubmitControllerProvider.notifier)
-                                .deleteReport(
-                                    projectId: projectId, reportId: reportId!);
-                          }
-                        },
-                        style: FilledButton.styleFrom(
-                          backgroundColor: colorScheme.error,
-                          iconColor: colorScheme.onError,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(1.0),
-                          child: Icon(
-                            Symbols.delete_rounded,
-                            size: 19.0,
+                ),
+                if (reportId != null)
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: FilledButton(
+                      onPressed: () async {
+                        final result = await showDialog(
+                          context: context,
+                          builder: (_) => DeleteDialog(
+                            title: Intl.message('report_form_delete_dialog_1'),
+                            content:
+                                Intl.message('report_form_delete_dialog_2'),
                           ),
+                        );
+
+                        if (result) {
+                          await ref
+                              .read(reportSubmitControllerProvider.notifier)
+                              .deleteReport(
+                                  projectId: projectId, reportId: reportId!);
+                        }
+                      },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: colorScheme.error,
+                        iconColor: colorScheme.onError,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: Icon(
+                          Symbols.delete_rounded,
+                          size: 19.0,
                         ),
                       ),
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
           )
         ],
