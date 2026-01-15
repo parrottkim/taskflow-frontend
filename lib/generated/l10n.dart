@@ -3794,6 +3794,36 @@ class S {
     );
   }
 
+  /// `전체 비용 합계`
+  String get report_form_total_cost {
+    return Intl.message(
+      '전체 비용 합계',
+      name: 'report_form_total_cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(과세) 수령 금액`
+  String get report_form_taxable_amount {
+    return Intl.message(
+      '(과세) 수령 금액',
+      name: 'report_form_taxable_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(비과세) 수령 금액`
+  String get report_form_non_taxable_amount {
+    return Intl.message(
+      '(비과세) 수령 금액',
+      name: 'report_form_non_taxable_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `설명`
   String get report_form_description_1 {
     return Intl.message(

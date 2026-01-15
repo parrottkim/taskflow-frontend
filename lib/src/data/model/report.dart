@@ -43,11 +43,13 @@ abstract class ReportAttachment with _$ReportAttachment {
 
 @freezed
 abstract class TripReport with _$TripReport {
+  const TripReport._();
   factory TripReport({
     required List<TripActualExpense> expenses,
     required List<TripRegulationRate> rates,
     TripFuelExpense? fuel,
     @Default(false) bool isDeducted,
+    TripCalculations? calculations,
   }) = _TripReport;
 
   factory TripReport.fromJson(Map<String, dynamic> json) =>
@@ -57,6 +59,39 @@ abstract class TripReport with _$TripReport {
         expenses: [],
         rates: [],
       );
+
+  double totalExpenseFor(int stepId) {
+    return expenses
+        .where((e) => e.stepId == stepId)
+        .map(
+            (e) => double.tryParse((e.price ?? '0').replaceAll(',', '')) ?? 0.0)
+        .fold(0.0, (prev, element) => prev + element);
+  }
+
+  /// 규정 요금(Rate * Days) 합계: 쉼표 제거 및 다중 항목 합산
+  double totalRateFor(int stepId) {
+    return rates.where((r) => r.stepId == stepId).map((r) {
+      final rate = double.tryParse((r.rate ?? '0').replaceAll(',', '')) ?? 0.0;
+      final days = double.tryParse((r.days ?? '0').replaceAll(',', '')) ?? 0.0;
+      return rate * days;
+    }).fold(0.0, (prev, element) => prev + element);
+  }
+
+  double get totalFuelExpense {
+    if (fuel == null) return 0.0;
+
+    final rate =
+        double.tryParse((fuel!.rate ?? '0').replaceAll(',', '')) ?? 0.0;
+    final distance =
+        double.tryParse((fuel!.distance ?? '0').replaceAll(',', '')) ?? 0.0;
+    final mileage =
+        double.tryParse((fuel!.mileage ?? '0').replaceAll(',', '')) ??
+            1.0; // 0으로 나누기 방지
+
+    if (mileage == 0) return 0.0;
+
+    return (rate * distance) / mileage;
+  }
 }
 
 @freezed
@@ -116,7 +151,8 @@ abstract class TripRegulationRate with _$TripRegulationRate {
   factory TripRegulationRate.fromJson(Map<String, dynamic> json) =>
       _$TripRegulationRateFromJson(json);
 
-  factory TripRegulationRate.empty() => TripRegulationRate(stepId: 0);
+  factory TripRegulationRate.empty() =>
+      TripRegulationRate(stepId: 0, rate: '0', days: '0');
 }
 
 @freezed
@@ -144,4 +180,16 @@ abstract class TripRegulation with _$TripRegulation {
       _$TripRegulationFromJson(json);
 
   factory TripRegulation.dummy() => TripRegulation(id: 0, stepId: 0, rate: '0');
+}
+
+@freezed
+abstract class TripCalculations with _$TripCalculations {
+  factory TripCalculations({
+    required int totalCost,
+    int? taxableAmount,
+    int? nonTaxableAmount,
+  }) = _TripCalculations;
+
+  factory TripCalculations.fromJson(Map<String, dynamic> json) =>
+      _$TripCalculationsFromJson(json);
 }

@@ -113,14 +113,14 @@ class FuelExpenseWidget extends HookWidget {
             children: [
               Text(
                 Intl.message('report_form_settlement'),
-                style: TextStyle(
+                style: textTheme.bodySmall?.copyWith(
                   color: colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
               Text(
                 '${NumberFormat('#,###').format(settlement)} ₩',
-                style:
-                    textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                style: textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.w600),
               ),
             ],
           ),
