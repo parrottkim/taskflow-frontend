@@ -142,6 +142,7 @@ ThemeData lightTheme = ThemeData(
   textTheme: textTheme,
   colorScheme: schemeLight,
   scaffoldBackgroundColor: schemeLight.surfaceContainerLow,
+  dividerColor: schemeLight.outline.withValues(alpha: 0.2),
   appBarTheme: AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -245,7 +246,7 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   tabBarTheme: TabBarThemeData(
-    dividerColor: schemeLight.outline.withValues(alpha: 0.2),
+    dividerColor: schemeDark.outline.withValues(alpha: 0.2),
   ),
   dividerTheme: DividerThemeData(
     indent: 0.0,
@@ -332,6 +333,7 @@ ThemeData darkTheme = ThemeData(
   textTheme: textTheme,
   colorScheme: schemeDark,
   scaffoldBackgroundColor: schemeDark.surfaceContainerLow,
+  dividerColor: schemeDark.outline.withValues(alpha: 0.2),
   appBarTheme: AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,

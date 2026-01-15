@@ -211,13 +211,13 @@ class TripDetailsWidget extends StatelessWidget {
               children: [
                 Text(
                   Intl.message('report_form_total'),
-                  style: TextStyle(
+                  style: textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
                 Text(
                   '${NumberFormat('#,###').format(total)} ₩',
-                  style: textTheme.titleLarge
+                  style: textTheme.titleMedium
                       ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
@@ -233,7 +233,7 @@ class TripDetailsWidget extends StatelessWidget {
               children: [
                 Text(
                   Intl.message('report_form_regulation'),
-                  style: TextStyle(
+                  style: textTheme.bodySmall?.copyWith(
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
@@ -273,8 +273,8 @@ class TripDetailsWidget extends StatelessWidget {
                         ),
                       ),
                     Text(
-                      '${NumberFormat('#,###').format(settlement)} ${schedule.category is ScheduleOverseas && category.id == 4 && isDeducted ? '\$' : '₩'}',
-                      style: textTheme.titleLarge
+                      '${NumberFormat('#,###').format(settlement)} ${schedule.category is ScheduleOverseas ? '\$' : '₩'}',
+                      style: textTheme.titleMedium
                           ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ],
@@ -298,7 +298,7 @@ class TripDetailsWidget extends StatelessWidget {
                 ),
                 Text(
                   '${NumberFormat('#,###').format(settlement - total)} ₩',
-                  style: textTheme.titleLarge
+                  style: textTheme.titleMedium
                       ?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ],
