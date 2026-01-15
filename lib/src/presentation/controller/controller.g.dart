@@ -2169,7 +2169,7 @@ class _ReportListControllerProviderElement
 }
 
 String _$reportSubmitControllerHash() =>
-    r'7189ed25ba62a5517b36c41a9fc2b56256f54882';
+    r'6613b788d5fb7670a03e9da81f1b52f3ab710c0b';
 
 /// See also [ReportSubmitController].
 @ProviderFor(ReportSubmitController)

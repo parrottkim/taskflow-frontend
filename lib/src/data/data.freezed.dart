@@ -26531,6 +26531,7 @@ mixin _$TripReport {
   List<TripRegulationRate> get rates;
   TripFuelExpense? get fuel;
   bool get isDeducted;
+  TripCalculations? get calculations;
 
   /// Create a copy of TripReport
   /// with the given fields replaced by the non-null parameter values.
@@ -26551,7 +26552,9 @@ mixin _$TripReport {
             const DeepCollectionEquality().equals(other.rates, rates) &&
             (identical(other.fuel, fuel) || other.fuel == fuel) &&
             (identical(other.isDeducted, isDeducted) ||
-                other.isDeducted == isDeducted));
+                other.isDeducted == isDeducted) &&
+            (identical(other.calculations, calculations) ||
+                other.calculations == calculations));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26561,11 +26564,12 @@ mixin _$TripReport {
       const DeepCollectionEquality().hash(expenses),
       const DeepCollectionEquality().hash(rates),
       fuel,
-      isDeducted);
+      isDeducted,
+      calculations);
 
   @override
   String toString() {
-    return 'TripReport(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted)';
+    return 'TripReport(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, calculations: $calculations)';
   }
 }
 
@@ -26579,9 +26583,11 @@ abstract mixin class $TripReportCopyWith<$Res> {
       {List<TripActualExpense> expenses,
       List<TripRegulationRate> rates,
       TripFuelExpense? fuel,
-      bool isDeducted});
+      bool isDeducted,
+      TripCalculations? calculations});
 
   $TripFuelExpenseCopyWith<$Res>? get fuel;
+  $TripCalculationsCopyWith<$Res>? get calculations;
 }
 
 /// @nodoc
@@ -26600,6 +26606,7 @@ class _$TripReportCopyWithImpl<$Res> implements $TripReportCopyWith<$Res> {
     Object? rates = null,
     Object? fuel = freezed,
     Object? isDeducted = null,
+    Object? calculations = freezed,
   }) {
     return _then(_self.copyWith(
       expenses: null == expenses
@@ -26618,6 +26625,10 @@ class _$TripReportCopyWithImpl<$Res> implements $TripReportCopyWith<$Res> {
           ? _self.isDeducted
           : isDeducted // ignore: cast_nullable_to_non_nullable
               as bool,
+      calculations: freezed == calculations
+          ? _self.calculations
+          : calculations // ignore: cast_nullable_to_non_nullable
+              as TripCalculations?,
     ));
   }
 
@@ -26632,6 +26643,20 @@ class _$TripReportCopyWithImpl<$Res> implements $TripReportCopyWith<$Res> {
 
     return $TripFuelExpenseCopyWith<$Res>(_self.fuel!, (value) {
       return _then(_self.copyWith(fuel: value));
+    });
+  }
+
+  /// Create a copy of TripReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TripCalculationsCopyWith<$Res>? get calculations {
+    if (_self.calculations == null) {
+      return null;
+    }
+
+    return $TripCalculationsCopyWith<$Res>(_self.calculations!, (value) {
+      return _then(_self.copyWith(calculations: value));
     });
   }
 }
@@ -26733,15 +26758,16 @@ extension TripReportPatterns on TripReport {
             List<TripActualExpense> expenses,
             List<TripRegulationRate> rates,
             TripFuelExpense? fuel,
-            bool isDeducted)?
+            bool isDeducted,
+            TripCalculations? calculations)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _TripReport() when $default != null:
-        return $default(
-            _that.expenses, _that.rates, _that.fuel, _that.isDeducted);
+        return $default(_that.expenses, _that.rates, _that.fuel,
+            _that.isDeducted, _that.calculations);
       case _:
         return orElse();
     }
@@ -26766,14 +26792,15 @@ extension TripReportPatterns on TripReport {
             List<TripActualExpense> expenses,
             List<TripRegulationRate> rates,
             TripFuelExpense? fuel,
-            bool isDeducted)
+            bool isDeducted,
+            TripCalculations? calculations)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TripReport():
-        return $default(
-            _that.expenses, _that.rates, _that.fuel, _that.isDeducted);
+        return $default(_that.expenses, _that.rates, _that.fuel,
+            _that.isDeducted, _that.calculations);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -26797,14 +26824,15 @@ extension TripReportPatterns on TripReport {
             List<TripActualExpense> expenses,
             List<TripRegulationRate> rates,
             TripFuelExpense? fuel,
-            bool isDeducted)?
+            bool isDeducted,
+            TripCalculations? calculations)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TripReport() when $default != null:
-        return $default(
-            _that.expenses, _that.rates, _that.fuel, _that.isDeducted);
+        return $default(_that.expenses, _that.rates, _that.fuel,
+            _that.isDeducted, _that.calculations);
       case _:
         return null;
     }
@@ -26813,14 +26841,16 @@ extension TripReportPatterns on TripReport {
 
 /// @nodoc
 @JsonSerializable()
-class _TripReport implements TripReport {
+class _TripReport extends TripReport {
   _TripReport(
       {required final List<TripActualExpense> expenses,
       required final List<TripRegulationRate> rates,
       this.fuel,
-      this.isDeducted = false})
+      this.isDeducted = false,
+      this.calculations})
       : _expenses = expenses,
-        _rates = rates;
+        _rates = rates,
+        super._();
   factory _TripReport.fromJson(Map<String, dynamic> json) =>
       _$TripReportFromJson(json);
 
@@ -26845,6 +26875,8 @@ class _TripReport implements TripReport {
   @override
   @JsonKey()
   final bool isDeducted;
+  @override
+  final TripCalculations? calculations;
 
   /// Create a copy of TripReport
   /// with the given fields replaced by the non-null parameter values.
@@ -26870,7 +26902,9 @@ class _TripReport implements TripReport {
             const DeepCollectionEquality().equals(other._rates, _rates) &&
             (identical(other.fuel, fuel) || other.fuel == fuel) &&
             (identical(other.isDeducted, isDeducted) ||
-                other.isDeducted == isDeducted));
+                other.isDeducted == isDeducted) &&
+            (identical(other.calculations, calculations) ||
+                other.calculations == calculations));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26880,11 +26914,12 @@ class _TripReport implements TripReport {
       const DeepCollectionEquality().hash(_expenses),
       const DeepCollectionEquality().hash(_rates),
       fuel,
-      isDeducted);
+      isDeducted,
+      calculations);
 
   @override
   String toString() {
-    return 'TripReport(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted)';
+    return 'TripReport(expenses: $expenses, rates: $rates, fuel: $fuel, isDeducted: $isDeducted, calculations: $calculations)';
   }
 }
 
@@ -26900,10 +26935,13 @@ abstract mixin class _$TripReportCopyWith<$Res>
       {List<TripActualExpense> expenses,
       List<TripRegulationRate> rates,
       TripFuelExpense? fuel,
-      bool isDeducted});
+      bool isDeducted,
+      TripCalculations? calculations});
 
   @override
   $TripFuelExpenseCopyWith<$Res>? get fuel;
+  @override
+  $TripCalculationsCopyWith<$Res>? get calculations;
 }
 
 /// @nodoc
@@ -26922,6 +26960,7 @@ class __$TripReportCopyWithImpl<$Res> implements _$TripReportCopyWith<$Res> {
     Object? rates = null,
     Object? fuel = freezed,
     Object? isDeducted = null,
+    Object? calculations = freezed,
   }) {
     return _then(_TripReport(
       expenses: null == expenses
@@ -26940,6 +26979,10 @@ class __$TripReportCopyWithImpl<$Res> implements _$TripReportCopyWith<$Res> {
           ? _self.isDeducted
           : isDeducted // ignore: cast_nullable_to_non_nullable
               as bool,
+      calculations: freezed == calculations
+          ? _self.calculations
+          : calculations // ignore: cast_nullable_to_non_nullable
+              as TripCalculations?,
     ));
   }
 
@@ -26954,6 +26997,20 @@ class __$TripReportCopyWithImpl<$Res> implements _$TripReportCopyWith<$Res> {
 
     return $TripFuelExpenseCopyWith<$Res>(_self.fuel!, (value) {
       return _then(_self.copyWith(fuel: value));
+    });
+  }
+
+  /// Create a copy of TripReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TripCalculationsCopyWith<$Res>? get calculations {
+    if (_self.calculations == null) {
+      return null;
+    }
+
+    return $TripCalculationsCopyWith<$Res>(_self.calculations!, (value) {
+      return _then(_self.copyWith(calculations: value));
     });
   }
 }
@@ -29045,6 +29102,352 @@ class __$TripRegulationCopyWithImpl<$Res>
           ? _self.rate
           : rate // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$TripCalculations {
+  int get totalCost;
+  int? get taxableAmount;
+  int? get nonTaxableAmount;
+
+  /// Create a copy of TripCalculations
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TripCalculationsCopyWith<TripCalculations> get copyWith =>
+      _$TripCalculationsCopyWithImpl<TripCalculations>(
+          this as TripCalculations, _$identity);
+
+  /// Serializes this TripCalculations to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TripCalculations &&
+            (identical(other.totalCost, totalCost) ||
+                other.totalCost == totalCost) &&
+            (identical(other.taxableAmount, taxableAmount) ||
+                other.taxableAmount == taxableAmount) &&
+            (identical(other.nonTaxableAmount, nonTaxableAmount) ||
+                other.nonTaxableAmount == nonTaxableAmount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, totalCost, taxableAmount, nonTaxableAmount);
+
+  @override
+  String toString() {
+    return 'TripCalculations(totalCost: $totalCost, taxableAmount: $taxableAmount, nonTaxableAmount: $nonTaxableAmount)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $TripCalculationsCopyWith<$Res> {
+  factory $TripCalculationsCopyWith(
+          TripCalculations value, $Res Function(TripCalculations) _then) =
+      _$TripCalculationsCopyWithImpl;
+  @useResult
+  $Res call({int totalCost, int? taxableAmount, int? nonTaxableAmount});
+}
+
+/// @nodoc
+class _$TripCalculationsCopyWithImpl<$Res>
+    implements $TripCalculationsCopyWith<$Res> {
+  _$TripCalculationsCopyWithImpl(this._self, this._then);
+
+  final TripCalculations _self;
+  final $Res Function(TripCalculations) _then;
+
+  /// Create a copy of TripCalculations
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totalCost = null,
+    Object? taxableAmount = freezed,
+    Object? nonTaxableAmount = freezed,
+  }) {
+    return _then(_self.copyWith(
+      totalCost: null == totalCost
+          ? _self.totalCost
+          : totalCost // ignore: cast_nullable_to_non_nullable
+              as int,
+      taxableAmount: freezed == taxableAmount
+          ? _self.taxableAmount
+          : taxableAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nonTaxableAmount: freezed == nonTaxableAmount
+          ? _self.nonTaxableAmount
+          : nonTaxableAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [TripCalculations].
+extension TripCalculationsPatterns on TripCalculations {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_TripCalculations value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _TripCalculations() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_TripCalculations value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TripCalculations():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_TripCalculations value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TripCalculations() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int totalCost, int? taxableAmount, int? nonTaxableAmount)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _TripCalculations() when $default != null:
+        return $default(
+            _that.totalCost, _that.taxableAmount, _that.nonTaxableAmount);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int totalCost, int? taxableAmount, int? nonTaxableAmount)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TripCalculations():
+        return $default(
+            _that.totalCost, _that.taxableAmount, _that.nonTaxableAmount);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int totalCost, int? taxableAmount, int? nonTaxableAmount)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _TripCalculations() when $default != null:
+        return $default(
+            _that.totalCost, _that.taxableAmount, _that.nonTaxableAmount);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _TripCalculations implements TripCalculations {
+  _TripCalculations(
+      {required this.totalCost, this.taxableAmount, this.nonTaxableAmount});
+  factory _TripCalculations.fromJson(Map<String, dynamic> json) =>
+      _$TripCalculationsFromJson(json);
+
+  @override
+  final int totalCost;
+  @override
+  final int? taxableAmount;
+  @override
+  final int? nonTaxableAmount;
+
+  /// Create a copy of TripCalculations
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$TripCalculationsCopyWith<_TripCalculations> get copyWith =>
+      __$TripCalculationsCopyWithImpl<_TripCalculations>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TripCalculationsToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _TripCalculations &&
+            (identical(other.totalCost, totalCost) ||
+                other.totalCost == totalCost) &&
+            (identical(other.taxableAmount, taxableAmount) ||
+                other.taxableAmount == taxableAmount) &&
+            (identical(other.nonTaxableAmount, nonTaxableAmount) ||
+                other.nonTaxableAmount == nonTaxableAmount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, totalCost, taxableAmount, nonTaxableAmount);
+
+  @override
+  String toString() {
+    return 'TripCalculations(totalCost: $totalCost, taxableAmount: $taxableAmount, nonTaxableAmount: $nonTaxableAmount)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$TripCalculationsCopyWith<$Res>
+    implements $TripCalculationsCopyWith<$Res> {
+  factory _$TripCalculationsCopyWith(
+          _TripCalculations value, $Res Function(_TripCalculations) _then) =
+      __$TripCalculationsCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int totalCost, int? taxableAmount, int? nonTaxableAmount});
+}
+
+/// @nodoc
+class __$TripCalculationsCopyWithImpl<$Res>
+    implements _$TripCalculationsCopyWith<$Res> {
+  __$TripCalculationsCopyWithImpl(this._self, this._then);
+
+  final _TripCalculations _self;
+  final $Res Function(_TripCalculations) _then;
+
+  /// Create a copy of TripCalculations
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? totalCost = null,
+    Object? taxableAmount = freezed,
+    Object? nonTaxableAmount = freezed,
+  }) {
+    return _then(_TripCalculations(
+      totalCost: null == totalCost
+          ? _self.totalCost
+          : totalCost // ignore: cast_nullable_to_non_nullable
+              as int,
+      taxableAmount: freezed == taxableAmount
+          ? _self.taxableAmount
+          : taxableAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nonTaxableAmount: freezed == nonTaxableAmount
+          ? _self.nonTaxableAmount
+          : nonTaxableAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }

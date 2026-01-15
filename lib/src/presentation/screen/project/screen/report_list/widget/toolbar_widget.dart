@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -11,9 +12,8 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
-import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class ToolbarWidget extends ConsumerWidget {
+class ToolbarWidget extends HookConsumerWidget {
   final int projectId;
   final Report item;
 
@@ -30,20 +30,43 @@ class ToolbarWidget extends ConsumerWidget {
 
     final auth = ref.watch(authControllerProvider);
 
+    final isHovered = useState(false);
+
+    final fullDate = item.createdAt == item.updatedAt
+        ? '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(item.createdAt)} ${Intl.message('common_created_at')}'
+        : '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(item.updatedAt)} ${Intl.message('common_updated_at')}';
+
+    final relativeDate = item.createdAt == item.updatedAt
+        ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
+        : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}';
+
     return Row(
       children: [
-        AnimatedOpacity(
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInQuad,
-          opacity: Responsive.isDesktop(context) ? 1.0 : 0.0,
-          child: Text(
-            item.createdAt == item.updatedAt
-                ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
-                : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
-            style: textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: colorScheme.outline.withValues(alpha: 0.7),
-            ),
+        MouseRegion(
+          onEnter: (event) => isHovered.value = true,
+          onExit: (event) => isHovered.value = false,
+          child: Stack(
+            alignment: Alignment.centerRight,
+            children: [
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 400),
+                opacity: isHovered.value ? 1.0 : 0.0,
+                child: Text(
+                  fullDate,
+                  textAlign: TextAlign.right,
+                  style: textTheme.bodySmall,
+                ),
+              ),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 400),
+                opacity: isHovered.value ? 0.0 : 1.0,
+                child: Text(
+                  relativeDate,
+                  textAlign: TextAlign.right,
+                  style: textTheme.bodySmall,
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(width: 8.0),
