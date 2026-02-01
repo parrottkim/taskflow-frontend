@@ -13,18 +13,14 @@ import 'package:taskflow/src/shared/tool/validation.dart';
 class PasswordFormWidget extends HookConsumerWidget {
   final String? path;
 
-  const PasswordFormWidget({
-    super.key,
-    required this.path,
-  });
+  const PasswordFormWidget({super.key, required this.path});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
 
     final emailController = useTextEditingController();
-    final email =
-        useListenableSelector(emailController, () => emailController.text);
+    final email = useValueListenable(emailController);
 
     // 1분 카운트다운 상태
     final countdown = useState<int>(0);
@@ -48,16 +44,19 @@ class PasswordFormWidget extends HookConsumerWidget {
 
       countdown.value = 60;
 
-      final request = ForgotPasswordRequest(email: email);
+      final request = ForgotPasswordRequest(email: email.text);
       await ref
           .read(authControllerProvider.notifier)
           .forgotPassword(request: request);
 
-      ref.read(toastProvider).showToast(
-              child: Toast(
-            message: Intl.message('forgot_password_requested'),
-            type: ToastType.verified,
-          ));
+      ref
+          .read(toastProvider)
+          .showToast(
+            child: Toast(
+              message: Intl.message('forgot_password_requested'),
+              type: ToastType.verified,
+            ),
+          );
     }
 
     return SingleChildScrollView(
@@ -68,9 +67,7 @@ class PasswordFormWidget extends HookConsumerWidget {
           const SizedBox(height: 64.0),
           Text(
             Intl.message('forgot_password_headline'),
-            style: textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
-            ),
+            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 4.0),
           Text(Intl.message('forgot_password_title')),
@@ -82,8 +79,9 @@ class PasswordFormWidget extends HookConsumerWidget {
           const SizedBox(height: 8.0),
           TextField(
             controller: emailController,
-            onSubmitted:
-                Validation.isEmailValid(email) ? (text) => request() : null,
+            onSubmitted: Validation.isEmailValid(email.text)
+                ? (text) => request()
+                : null,
             autofillHints: [AutofillHints.email],
             textInputAction: TextInputAction.next,
           ),
@@ -91,7 +89,8 @@ class PasswordFormWidget extends HookConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton(
-              onPressed: Validation.isEmailValid(email) && countdown.value == 0
+              onPressed:
+                  Validation.isEmailValid(email.text) && countdown.value == 0
                   ? () => request()
                   : null,
               child: countdown.value == 0

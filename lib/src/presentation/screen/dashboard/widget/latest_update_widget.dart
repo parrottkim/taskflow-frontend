@@ -25,7 +25,6 @@ class LatestUpdateWidget extends ConsumerWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) => ContainerWidget(
-        elevation: 0.0,
         padding: EdgeInsets.symmetric(vertical: 24.0),
         height: Responsive.isDesktop(context) ? constraints.maxHeight : 340.0,
         child: Column(
@@ -46,9 +45,7 @@ class LatestUpdateWidget extends ConsumerWidget {
                 AsyncData(:final value) => _DesktopWidget(items: value.items),
                 AsyncError(:final error, :final stackTrace) =>
                   ErrorContainerWidget(error: error, stackTrace: stackTrace),
-                _ => Skeletonizer(
-                    child: _DesktopWidget(items: dummy),
-                  ),
+                _ => Skeletonizer(child: _DesktopWidget(items: dummy)),
               },
             ),
           ],
@@ -61,9 +58,7 @@ class LatestUpdateWidget extends ConsumerWidget {
 class _DesktopWidget extends HookWidget {
   final List<LatestIssue> items;
 
-  const _DesktopWidget({
-    required this.items,
-  });
+  const _DesktopWidget({required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +80,7 @@ class _DesktopWidget extends HookWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('dashboard_no_issue'),
-            ),
+            Text(Intl.message('dashboard_no_issue')),
           ],
         ),
       );
@@ -110,14 +103,13 @@ class _DesktopWidget extends HookWidget {
               context.goNamed(
                 RouteNames.projectDetail,
                 pathParameters: {
-                  'project_id': items[index].projectId.toString()
+                  'project_id': items[index].projectId.toString(),
                 },
                 queryParameters: {'issue': items[index].id.toString()},
               );
             },
             borderRadius: BorderRadius.circular(16.0),
             child: ContainerWidget(
-              elevation: 0.0,
               padding: EdgeInsets.all(16.0),
               color: Colors.transparent,
               child: Column(
@@ -134,9 +126,11 @@ class _DesktopWidget extends HookWidget {
                             borderRadius: BorderRadius.circular(8.0),
                             color: Color(
                               ClientType.values
-                                  .singleWhere((client) =>
-                                      client.id ==
-                                      items[index].clients.first.id)
+                                  .singleWhere(
+                                    (client) =>
+                                        client.id ==
+                                        items[index].clients.first.id,
+                                  )
                                   .color,
                             ),
                           ),
@@ -145,12 +139,16 @@ class _DesktopWidget extends HookWidget {
                             height: 16.0,
                             child: SvgPicture.asset(
                               ClientType.values
-                                  .singleWhere((client) =>
-                                      client.id ==
-                                      items[index].clients.first.id)
+                                  .singleWhere(
+                                    (client) =>
+                                        client.id ==
+                                        items[index].clients.first.id,
+                                  )
                                   .asset,
                               colorFilter: ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
+                                Colors.white,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
                         ),
@@ -158,9 +156,7 @@ class _DesktopWidget extends HookWidget {
                       SizedBox(width: 8.0),
                       Text(
                         items[index].clients.last.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -168,8 +164,9 @@ class _DesktopWidget extends HookWidget {
                   Text(
                     items[index].projectName,
                     maxLines: 1,
-                    style: textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.w500),
+                    style: textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Text(
                     items[index].projectCode,

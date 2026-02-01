@@ -8,11 +8,13 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   Future<ProjectFilterState> _init() async {
-    final categories =
-        await ref.read(issueRepositoryProvider).getAllCategories();
+    final categories = await ref
+        .read(issueRepositoryProvider)
+        .getAllCategories();
 
-    final clients =
-        await ref.read(projectClientRepositoryProvider).getAllClients();
+    final clients = await ref
+        .read(projectClientRepositoryProvider)
+        .getAllClients();
 
     return ProjectFilterState(
       categoryItems: categories,
@@ -56,7 +58,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void setView({String? view}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -64,7 +66,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void setSort({ProjectSort? sort}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -72,7 +74,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void setOrder({Order? order}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -80,7 +82,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void setSearch({String? search}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -88,7 +90,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void setBookmark({bool? bookmark}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -96,7 +98,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void setClients({List<int>? clients}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -104,7 +106,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void setCategories({List<int>? categories}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -112,7 +114,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   void reset() {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -130,7 +132,7 @@ class ProjectFilterController extends _$ProjectFilterController {
   }
 
   Map<String, String?> toQueryParameters() {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return {};
 

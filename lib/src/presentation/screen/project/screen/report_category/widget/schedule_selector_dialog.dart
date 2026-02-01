@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -11,14 +12,14 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ScheduleSelectorDialog extends HookConsumerWidget {
   final int projectId;
-  final int? reportId;
+  final ValueNotifier<Schedule?> selectedSchedule;
   final DateTime? start;
   final DateTime? end;
 
   const ScheduleSelectorDialog({
     super.key,
     required this.projectId,
-    required this.reportId,
+    required this.selectedSchedule,
     this.start,
     this.end,
   });
@@ -27,8 +28,9 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final schedule =
-        ref.watch(scheduleListControllerProvider(projectId: projectId));
+    final schedule = ref.watch(
+      scheduleListControllerProvider(projectId: projectId),
+    );
 
     final searchController = useTextEditingController();
 
@@ -93,24 +95,21 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
                 ),
                 child: switch (schedule) {
                   AsyncData(:final value) => ScheduleListWidget(
-                      projectId: projectId,
-                      reportId: reportId,
-                      items: value.items,
-                      hasNext: value.hasNext,
-                      hasPrevious: value.hasPrevious,
-                    ),
+                    projectId: projectId,
+                    selectedSchedule: selectedSchedule,
+                    items: value.items,
+                    hasNext: value.hasNext,
+                    hasPrevious: value.hasPrevious,
+                  ),
                   AsyncError(:final error, :final stackTrace) =>
                     ErrorContainerWidget(error: error, stackTrace: stackTrace),
                   _ => Skeletonizer(
-                      child: ScheduleListWidget(
-                        projectId: projectId,
-                        reportId: reportId,
-                        items: List.filled(
-                          30,
-                          ScheduleGroup.dummy(),
-                        ),
-                      ),
+                    child: ScheduleListWidget(
+                      projectId: projectId,
+                      selectedSchedule: selectedSchedule,
+                      items: List.filled(30, ScheduleGroup.dummy()),
                     ),
+                  ),
                 },
               ),
             ),

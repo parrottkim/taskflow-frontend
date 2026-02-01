@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -10,8 +11,6 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ExpenseListWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? reportId;
   final Schedule schedule;
   final List<TripStep> steps;
   final List<TripRegulation>? regulations;
@@ -20,8 +19,6 @@ class ExpenseListWidget extends HookConsumerWidget {
 
   const ExpenseListWidget({
     super.key,
-    required this.projectId,
-    this.reportId,
     required this.schedule,
     required this.steps,
     this.regulations,
@@ -31,13 +28,18 @@ class ExpenseListWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final scheduleId = int.tryParse(
+      state.uri.queryParameters['schedule_id'] ?? '',
+    );
+
     return ListView.separated(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: steps.length,
       itemBuilder: (context, index) => _ExpenseItemWidget(
-        projectId: projectId,
-        reportId: reportId,
         schedule: schedule,
         step: steps[index],
         regulations: regulations,
@@ -50,8 +52,6 @@ class ExpenseListWidget extends HookConsumerWidget {
 }
 
 class _ExpenseItemWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? reportId;
   final Schedule schedule;
   final TripStep step;
   final List<TripRegulation>? regulations;
@@ -59,8 +59,6 @@ class _ExpenseItemWidget extends HookConsumerWidget {
   final List<TripRegulationRate>? rates;
 
   const _ExpenseItemWidget({
-    required this.projectId,
-    this.reportId,
     required this.schedule,
     required this.step,
     this.regulations,
@@ -70,14 +68,22 @@ class _ExpenseItemWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final scheduleId = int.tryParse(
+      state.uri.queryParameters['schedule_id'] ?? '',
+    );
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final filteredItems =
-        expenses?.where((element) => element.stepId == step.id).toList();
+    final filteredItems = expenses
+        ?.where((element) => element.stepId == step.id)
+        .toList();
 
-    final regulation =
-        regulations?.firstWhereOrNull((e) => e.stepId == step.id);
+    final regulation = regulations?.firstWhereOrNull(
+      (e) => e.stepId == step.id,
+    );
     final rate = rates?.firstWhereOrNull((e) => e.stepId == step.id);
 
     final rateController = useTextEditingController(text: regulation?.rate);
@@ -88,42 +94,43 @@ class _ExpenseItemWidget extends HookConsumerWidget {
     useListenable(daysFocusNode);
 
     final fareControllers = useMemoized(
-        () => filteredItems
-            ?.where((element) => element.stepId == step.id)
-            .map((element) => TextEditingController(text: element.price))
-            .toList(),
-        [filteredItems?.length]);
+      () => filteredItems
+          ?.where((element) => element.stepId == step.id)
+          .map((element) => TextEditingController(text: element.price))
+          .toList(),
+      [filteredItems?.length],
+    );
     final detailsControllers = useMemoized(
-        () => filteredItems
-            ?.where((element) => element.stepId == step.id)
-            .map((element) => TextEditingController(text: element.details))
-            .toList(),
-        [filteredItems?.length]);
+      () => filteredItems
+          ?.where((element) => element.stepId == step.id)
+          .map((element) => TextEditingController(text: element.details))
+          .toList(),
+      [filteredItems?.length],
+    );
 
     final fareFocusNodes = useMemoized(
-        () => filteredItems
-            ?.where((element) => element.stepId == step.id)
-            .map((element) => FocusNode())
-            .toList(),
-        [filteredItems?.length]);
-    final detailsFocusNodes = useMemoized(
-        () => filteredItems
-            ?.where((element) => element.stepId == step.id)
-            .map((element) => FocusNode())
-            .toList(),
-        [filteredItems?.length]);
-
-    final total = useMemoized(
-      () {
-        return filteredItems?.map((e) => e.price).fold(0.0, (sum, priceString) {
-              String cleanedPrice = priceString?.replaceAll(',', '') ?? '0';
-              double price = double.tryParse(cleanedPrice) ?? 0.0;
-              return sum + price;
-            }) ??
-            0.0;
-      },
-      [filteredItems],
+      () => filteredItems
+          ?.where((element) => element.stepId == step.id)
+          .map((element) => FocusNode())
+          .toList(),
+      [filteredItems?.length],
     );
+    final detailsFocusNodes = useMemoized(
+      () => filteredItems
+          ?.where((element) => element.stepId == step.id)
+          .map((element) => FocusNode())
+          .toList(),
+      [filteredItems?.length],
+    );
+
+    final total = useMemoized(() {
+      return filteredItems?.map((e) => e.price).fold(0.0, (sum, priceString) {
+            String cleanedPrice = priceString?.replaceAll(',', '') ?? '0';
+            double price = double.tryParse(cleanedPrice) ?? 0.0;
+            return sum + price;
+          }) ??
+          0.0;
+    }, [filteredItems]);
 
     final settlement = useMemoized(() {
       String cleanedPrice = regulation?.rate.replaceAll(',', '') ?? '0';
@@ -168,9 +175,7 @@ class _ExpenseItemWidget extends HookConsumerWidget {
       children: [
         Text(
           step.name,
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
         if (step.description != null)
           Padding(
@@ -188,19 +193,17 @@ class _ExpenseItemWidget extends HookConsumerWidget {
             child: TextButton.icon(
               onPressed: () {
                 ref
-                    .read(reportFormControllerProvider(
-                            projectId: projectId, reportId: reportId)
-                        .notifier)
-                    .addActualExpense(
-                      item: TripActualExpense(stepId: step.id),
-                    );
+                    .read(
+                      reportFormControllerProvider(
+                        projectId: projectId,
+                        reportId: reportId,
+                        scheduleId: scheduleId,
+                      ).notifier,
+                    )
+                    .addActualExpense(item: TripActualExpense(stepId: step.id));
               },
-              icon: Icon(
-                Symbols.add_rounded,
-              ),
-              label: Text(
-                Intl.message('issue_form_contract_5'),
-              ),
+              icon: Icon(Symbols.add_rounded),
+              label: Text(Intl.message('issue_form_contract_5')),
             ),
           ),
         if (regulation != null)
@@ -213,7 +216,9 @@ class _ExpenseItemWidget extends HookConsumerWidget {
               opacity: opacityController,
               child: Padding(
                 padding: EdgeInsets.only(
-                    top: 4.0, bottom: filteredItems != null ? 8.0 : 0.0),
+                  top: 4.0,
+                  bottom: filteredItems != null ? 8.0 : 0.0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -242,14 +247,16 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                         DataColumn(
                           columnWidth: FlexColumnWidth(0.6),
                           label: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
                             child: Row(
                               children: [
                                 Icon(
                                   Symbols.numbers_rounded,
-                                  color: colorScheme.onSurface
-                                      .withValues(alpha: 0.7),
+                                  color: colorScheme.onSurface.withValues(
+                                    alpha: 0.7,
+                                  ),
                                   size: 16.0,
                                 ),
                                 SizedBox(width: 4.0),
@@ -257,8 +264,9 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                   Intl.message('report_form_column_3'),
                                   style: textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -268,14 +276,16 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                         DataColumn(
                           columnWidth: FlexColumnWidth(0.4),
                           label: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
                             child: Row(
                               children: [
                                 Icon(
                                   Symbols.numbers_rounded,
-                                  color: colorScheme.onSurface
-                                      .withValues(alpha: 0.7),
+                                  color: colorScheme.onSurface.withValues(
+                                    alpha: 0.7,
+                                  ),
                                   size: 16.0,
                                 ),
                                 SizedBox(width: 4.0),
@@ -283,8 +293,9 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                   Intl.message('report_form_column_4'),
                                   style: textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -305,21 +316,24 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                 style: textTheme.bodyMedium,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                    ),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                    ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                    ),
                                   ),
                                   suffixText:
                                       schedule.category is ScheduleDomestic
-                                          ? '₩'
-                                          : '\$',
+                                      ? '₩'
+                                      : '\$',
                                 ),
                               ),
                             ),
@@ -340,37 +354,45 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                      ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                      ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8.0),
                                       borderSide: BorderSide(
-                                          width: 2.0,
-                                          color: colorScheme.primary),
+                                        width: 2.0,
+                                        color: colorScheme.primary,
+                                      ),
                                     ),
-                                    suffixText:
-                                        Intl.message('report_form_column_4'),
+                                    suffixText: Intl.message(
+                                      'report_form_column_4',
+                                    ),
                                   ),
                                   onChanged: (value) {
                                     // stepInvalid.value[step.id] = false;
 
                                     if (rate == null) {
                                       ref
-                                          .read(reportFormControllerProvider(
-                                                  projectId: projectId,
-                                                  reportId: reportId)
-                                              .notifier)
+                                          .read(
+                                            reportFormControllerProvider(
+                                              projectId: projectId,
+                                              reportId: reportId,
+                                              scheduleId: scheduleId,
+                                            ).notifier,
+                                          )
                                           .addRegulationRate(
-                                              item: TripRegulationRate(
-                                            stepId: step.id,
-                                            days: value,
-                                            rate: regulation.rate,
-                                          ));
+                                            item: TripRegulationRate(
+                                              stepId: step.id,
+                                              days: value,
+                                              rate: regulation.rate,
+                                            ),
+                                          );
                                       return;
                                     }
 
@@ -378,19 +400,26 @@ class _ExpenseItemWidget extends HookConsumerWidget {
 
                                     if (value.isEmpty || value == '0') {
                                       ref
-                                          .read(reportFormControllerProvider(
-                                                  projectId: projectId,
-                                                  reportId: reportId)
-                                              .notifier)
+                                          .read(
+                                            reportFormControllerProvider(
+                                              projectId: projectId,
+                                              reportId: reportId,
+                                              scheduleId: scheduleId,
+                                            ).notifier,
+                                          )
                                           .removeRegulationRate(
-                                              index: itemIndex);
+                                            index: itemIndex,
+                                          );
                                     }
 
                                     ref
-                                        .read(reportFormControllerProvider(
-                                                projectId: projectId,
-                                                reportId: reportId)
-                                            .notifier)
+                                        .read(
+                                          reportFormControllerProvider(
+                                            projectId: projectId,
+                                            reportId: reportId,
+                                            scheduleId: scheduleId,
+                                          ).notifier,
+                                        )
                                         .updateRegulationRate(
                                           index: itemIndex,
                                           days: value,
@@ -446,14 +475,16 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                         DataColumn(
                           columnWidth: FlexColumnWidth(0.4),
                           label: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
                             child: Row(
                               children: [
                                 Icon(
                                   Symbols.numbers_rounded,
-                                  color: colorScheme.onSurface
-                                      .withValues(alpha: 0.7),
+                                  color: colorScheme.onSurface.withValues(
+                                    alpha: 0.7,
+                                  ),
                                   size: 16.0,
                                 ),
                                 SizedBox(width: 4.0),
@@ -461,8 +492,9 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                   Intl.message('report_form_column_1'),
                                   style: textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -472,14 +504,16 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                         DataColumn(
                           columnWidth: FlexColumnWidth(0.6),
                           label: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
                             child: Row(
                               children: [
                                 Icon(
                                   Symbols.text_fields_rounded,
-                                  color: colorScheme.onSurface
-                                      .withValues(alpha: 0.7),
+                                  color: colorScheme.onSurface.withValues(
+                                    alpha: 0.7,
+                                  ),
                                   size: 16.0,
                                 ),
                                 SizedBox(width: 4.0),
@@ -487,8 +521,9 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                   Intl.message('report_form_column_2'),
                                   style: textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -496,178 +531,194 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                           ),
                         ),
                       ],
-                      rows: List.generate(
-                        filteredItems.length,
-                        (index) {
-                          useListenable(fareFocusNodes![index]);
-                          useListenable(detailsFocusNodes![index]);
+                      rows: List.generate(filteredItems.length, (index) {
+                        useListenable(fareFocusNodes![index]);
+                        useListenable(detailsFocusNodes![index]);
 
-                          return DataRow(
-                            cells: [
-                              DataCell(
-                                Material(
-                                  elevation: fareFocusNodes[index].hasFocus
-                                      ? 1.0
-                                      : 0.0,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  color: fareFocusNodes[index].hasFocus
-                                      ? colorScheme.surfaceBright
-                                      : colorScheme.surfaceContainerLow,
-                                  child: TextField(
-                                    controller: fareControllers![index],
-                                    focusNode: fareFocusNodes[index],
-                                    keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.end,
-                                    inputFormatters: [DecimalInputFormatter()],
-                                    style: textTheme.bodyMedium,
-                                    maxLines: 1,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.transparent),
+                        return DataRow(
+                          cells: [
+                            DataCell(
+                              Material(
+                                elevation: fareFocusNodes[index].hasFocus
+                                    ? 1.0
+                                    : 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: fareFocusNodes[index].hasFocus
+                                    ? colorScheme.surfaceBright
+                                    : colorScheme.surfaceContainerLow,
+                                child: TextField(
+                                  controller: fareControllers![index],
+                                  focusNode: fareFocusNodes[index],
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.end,
+                                  inputFormatters: [DecimalInputFormatter()],
+                                  style: textTheme.bodyMedium,
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
                                       ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.transparent),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(
-                                            width: 2.0,
-                                            color: colorScheme.primary),
-                                      ),
-                                      suffixText: '₩',
                                     ),
-                                    onChanged: (value) {
-                                      // stepInvalid.value[step.id] = false;
-
-                                      final itemIndex = expenses!
-                                          .indexOf(filteredItems[index]);
-                                      ref
-                                          .read(reportFormControllerProvider(
-                                                  projectId: projectId,
-                                                  reportId: reportId)
-                                              .notifier)
-                                          .updateActualExpense(
-                                              index: itemIndex, price: value);
-                                    },
-                                    onSubmitted: (value) =>
-                                        FocusScope.of(context).requestFocus(
-                                            detailsFocusNodes[index]),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: BorderSide(
+                                        width: 2.0,
+                                        color: colorScheme.primary,
+                                      ),
+                                    ),
+                                    suffixText: '₩',
                                   ),
+                                  onChanged: (value) {
+                                    // stepInvalid.value[step.id] = false;
+
+                                    final itemIndex = expenses!.indexOf(
+                                      filteredItems[index],
+                                    );
+                                    ref
+                                        .read(
+                                          reportFormControllerProvider(
+                                            projectId: projectId,
+                                            reportId: reportId,
+                                            scheduleId: scheduleId,
+                                          ).notifier,
+                                        )
+                                        .updateActualExpense(
+                                          index: itemIndex,
+                                          price: value,
+                                        );
+                                  },
+                                  onSubmitted: (_) => FocusScope.of(
+                                    context,
+                                  ).requestFocus(detailsFocusNodes[index]),
                                 ),
                               ),
-                              DataCell(
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Material(
-                                        elevation:
-                                            detailsFocusNodes[index].hasFocus
-                                                ? 1.0
-                                                : 0.0,
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        color: detailsFocusNodes[index].hasFocus
-                                            ? colorScheme.surfaceBright
-                                            : colorScheme.surfaceContainerLow,
-                                        child: TextField(
-                                          controller:
-                                              detailsControllers![index],
-                                          focusNode: detailsFocusNodes[index],
-                                          style: textTheme.bodyMedium,
-                                          maxLines: 1,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.transparent),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.transparent),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              borderSide: BorderSide(
-                                                  width: 2.0,
-                                                  color: colorScheme.primary),
+                            ),
+                            DataCell(
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Material(
+                                      elevation:
+                                          detailsFocusNodes[index].hasFocus
+                                          ? 1.0
+                                          : 0.0,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: detailsFocusNodes[index].hasFocus
+                                          ? colorScheme.surfaceBright
+                                          : colorScheme.surfaceContainerLow,
+                                      child: TextField(
+                                        controller: detailsControllers![index],
+                                        focusNode: detailsFocusNodes[index],
+                                        style: textTheme.bodyMedium,
+                                        maxLines: 1,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
                                             ),
                                           ),
-                                          onChanged: (value) {
-                                            // stepInvalid.value[step.id] = false;
-
-                                            final itemIndex = expenses!
-                                                .indexOf(filteredItems[index]);
-                                            ref
-                                                .read(
-                                                    reportFormControllerProvider(
-                                                            projectId:
-                                                                projectId,
-                                                            reportId: reportId)
-                                                        .notifier)
-                                                .updateActualExpense(
-                                                    index: itemIndex,
-                                                    details: value);
-                                          },
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              8.0,
+                                            ),
+                                            borderSide: BorderSide(
+                                              width: 2.0,
+                                              color: colorScheme.primary,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: ElevatedIconButton(
-                                        onTap: () async {
-                                          if (filteredItems.length == 1) {
-                                            // stepInvalid.value[step.id] = false;
+                                        onChanged: (value) {
+                                          // stepInvalid.value[step.id] = false;
 
-                                            await opacityController.reverse();
-                                            await sizeController.reverse();
-
-                                            if (regulation != null) {
-                                              ref
-                                                  .read(
-                                                      reportFormControllerProvider(
-                                                              projectId:
-                                                                  projectId,
-                                                              reportId:
-                                                                  reportId)
-                                                          .notifier)
-                                                  .removeRegulationRate(
-                                                      index: index);
-                                            }
-                                          }
-
-                                          final itemIndex = expenses!
-                                              .indexOf(filteredItems[index]);
-
+                                          final itemIndex = expenses!.indexOf(
+                                            filteredItems[index],
+                                          );
                                           ref
                                               .read(
-                                                  reportFormControllerProvider(
-                                                          projectId: projectId,
-                                                          reportId: reportId)
-                                                      .notifier)
-                                              .removeActualExpense(
-                                                  index: itemIndex);
+                                                reportFormControllerProvider(
+                                                  projectId: projectId,
+                                                  reportId: reportId,
+                                                  scheduleId: scheduleId,
+                                                ).notifier,
+                                              )
+                                              .updateActualExpense(
+                                                index: itemIndex,
+                                                details: value,
+                                              );
                                         },
-                                        padding: EdgeInsets.all(4.0),
-                                        borderRadius:
-                                            BorderRadius.circular(4.0),
-                                        icon: Symbols.delete_rounded,
-                                        size: 16.0,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: ElevatedIconButton(
+                                      onTap: () async {
+                                        if (filteredItems.length == 1) {
+                                          // stepInvalid.value[step.id] = false;
+
+                                          await opacityController.reverse();
+                                          await sizeController.reverse();
+
+                                          if (regulation != null) {
+                                            ref
+                                                .read(
+                                                  reportFormControllerProvider(
+                                                    projectId: projectId,
+                                                    reportId: reportId,
+                                                    scheduleId: scheduleId,
+                                                  ).notifier,
+                                                )
+                                                .removeRegulationRate(
+                                                  index: index,
+                                                );
+                                          }
+                                        }
+
+                                        final itemIndex = expenses!.indexOf(
+                                          filteredItems[index],
+                                        );
+
+                                        ref
+                                            .read(
+                                              reportFormControllerProvider(
+                                                projectId: projectId,
+                                                reportId: reportId,
+                                                scheduleId: scheduleId,
+                                              ).notifier,
+                                            )
+                                            .removeActualExpense(
+                                              index: itemIndex,
+                                            );
+                                      },
+                                      padding: EdgeInsets.all(4.0),
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      icon: Symbols.delete_rounded,
+                                      size: 16.0,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          );
-                        },
-                      ),
+                            ),
+                          ],
+                        );
+                      }),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 8.0),
+                        horizontal: 12.0,
+                        vertical: 8.0,
+                      ),
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -681,17 +732,13 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                         children: [
                           Text(
                             Intl.message('report_form_total'),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           Expanded(
                             child: Text(
                               '${NumberFormat('#,###').format(total)} ₩',
                               textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                           ),
                         ],
@@ -711,8 +758,10 @@ class _ExpenseItemWidget extends HookConsumerWidget {
             child: FadeTransition(
               opacity: opacityController,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 8.0,
+                ),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -726,17 +775,13 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                   children: [
                     Text(
                       Intl.message('report_form_regulation'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     Expanded(
                       child: Text(
                         '${NumberFormat('#,###').format(settlement)} ${schedule.category is ScheduleDomestic ? '₩' : '\$'}',
                         textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
@@ -753,8 +798,10 @@ class _ExpenseItemWidget extends HookConsumerWidget {
             child: FadeTransition(
               opacity: opacityController,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 8.0,
+                ),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -768,17 +815,13 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                   children: [
                     Text(
                       Intl.message('report_form_settlement'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     Expanded(
                       child: Text(
                         '${NumberFormat('#,###').format(settlement - total)} ${schedule.category is ScheduleDomestic ? '₩' : '\$'}',
                         textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],

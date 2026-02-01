@@ -8,22 +8,21 @@ import 'package:taskflow/src/presentation/screen/work/widget/overview_widget.dar
 import 'package:taskflow/src/router/router.dart';
 
 class WorkScreen extends HookConsumerWidget {
-  final String? view;
-
-  const WorkScreen({
-    super.key,
-    this.view,
-  });
+  const WorkScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final view = state.uri.queryParameters['view'];
+
     useEffect(() {
       final location = GoRouter.of(context).name;
 
       if (location != RouteNames.work) return;
 
-      Future.microtask(() =>
-          ref.read(workFilterControllerProvider.notifier).init(view: view));
+      Future.microtask(
+        () => ref.read(workFilterControllerProvider.notifier).init(view: view),
+      );
 
       return null;
     }, [view]);

@@ -5,10 +5,15 @@ class ReportSubmitController extends _$ReportSubmitController {
   @override
   ReportSubmitState build() => ReportSubmitState.idle();
 
-  Future<void> createReport({required int projectId}) async {
+  Future<void> createReport({required int projectId, int? scheduleId}) async {
     final value = ref
-        .read(reportFormControllerProvider(projectId: projectId))
-        .valueOrNull;
+        .read(
+          reportFormControllerProvider(
+            projectId: projectId,
+            scheduleId: scheduleId,
+          ),
+        )
+        .value;
 
     if (value == null) return;
     if (value.content!.isEmpty) return;
@@ -61,15 +66,23 @@ class ReportSubmitController extends _$ReportSubmitController {
         final item = CreateTripReportRequest(
           // value.expenses, value.rates에 안전하게 접근
           expenses: value.expenses
-              .map((e) => CreateActualExpenseRequest(
-                  stepId: e.stepId, price: e.price!, details: e.details))
+              .map(
+                (e) => CreateActualExpenseRequest(
+                  stepId: e.stepId,
+                  price: e.price!,
+                  details: e.details,
+                ),
+              )
               .toList(),
           rates: value.rates
-              .map((e) => CreateRegulationRateRequest(
+              .map(
+                (e) => CreateRegulationRateRequest(
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
-                  details: e.details))
+                  details: e.details,
+                ),
+              )
               .toList(),
           fuel: fuelRequest,
           isDeducted: false,
@@ -80,15 +93,23 @@ class ReportSubmitController extends _$ReportSubmitController {
           value.schedule!.category is ScheduleOverseas) {
         final item = CreateTripReportRequest(
           expenses: value.expenses
-              .map((e) => CreateActualExpenseRequest(
-                  stepId: e.stepId, price: e.price!, details: e.details))
+              .map(
+                (e) => CreateActualExpenseRequest(
+                  stepId: e.stepId,
+                  price: e.price!,
+                  details: e.details,
+                ),
+              )
               .toList(),
           rates: value.rates
-              .map((e) => CreateRegulationRateRequest(
+              .map(
+                (e) => CreateRegulationRateRequest(
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
-                  details: e.details))
+                  details: e.details,
+                ),
+              )
               .toList(),
           fuel: null,
           isDeducted: value.isDeducted,
@@ -106,8 +127,9 @@ class ReportSubmitController extends _$ReportSubmitController {
             .read(reportRepositoryProvider)
             .uploadAttachments(reportId: report.id, files: files);
 
-        report = report
-            .copyWith(attachments: [...report.attachments, ...newAttachments]);
+        report = report.copyWith(
+          attachments: [...report.attachments, ...newAttachments],
+        );
       }
 
       ref
@@ -120,12 +142,20 @@ class ReportSubmitController extends _$ReportSubmitController {
     }
   }
 
-  Future<void> updateReport(
-      {required int projectId, required int reportId}) async {
+  Future<void> updateReport({
+    required int projectId,
+    required int reportId,
+    int? scheduleId,
+  }) async {
     final value = ref
-        .read(reportFormControllerProvider(
-            projectId: projectId, reportId: reportId))
-        .valueOrNull;
+        .read(
+          reportFormControllerProvider(
+            projectId: projectId,
+            reportId: reportId,
+            scheduleId: scheduleId,
+          ),
+        )
+        .value;
 
     if (value == null) return;
     if (value.content!.isEmpty) return;
@@ -179,19 +209,25 @@ class ReportSubmitController extends _$ReportSubmitController {
         final item = UpdateTripReportRequest(
           // value.expenses, value.rates에 안전하게 접근
           expenses: value.expenses
-              .map((e) => UpdateActualExpenseRequest(
+              .map(
+                (e) => UpdateActualExpenseRequest(
                   id: e.id,
                   stepId: e.stepId,
                   price: e.price!,
-                  details: e.details))
+                  details: e.details,
+                ),
+              )
               .toList(),
           rates: value.rates
-              .map((e) => UpdateRegulationRateRequest(
+              .map(
+                (e) => UpdateRegulationRateRequest(
                   id: e.id,
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
-                  details: e.details))
+                  details: e.details,
+                ),
+              )
               .toList(),
           fuel: fuelRequest,
           isDeducted: false,
@@ -202,19 +238,25 @@ class ReportSubmitController extends _$ReportSubmitController {
           value.schedule!.category is ScheduleOverseas) {
         final item = UpdateTripReportRequest(
           expenses: value.expenses
-              .map((e) => UpdateActualExpenseRequest(
+              .map(
+                (e) => UpdateActualExpenseRequest(
                   id: e.id,
                   stepId: e.stepId,
                   price: e.price!,
-                  details: e.details))
+                  details: e.details,
+                ),
+              )
               .toList(),
           rates: value.rates
-              .map((e) => UpdateRegulationRateRequest(
+              .map(
+                (e) => UpdateRegulationRateRequest(
                   id: e.id,
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
-                  details: e.details))
+                  details: e.details,
+                ),
+              )
               .toList(),
           fuel: null,
           isDeducted: value.isDeducted,
@@ -232,8 +274,9 @@ class ReportSubmitController extends _$ReportSubmitController {
             .read(reportRepositoryProvider)
             .uploadAttachments(reportId: report.id, files: files);
 
-        report = report
-            .copyWith(attachments: [...report.attachments, ...newAttachments]);
+        report = report.copyWith(
+          attachments: [...report.attachments, ...newAttachments],
+        );
       }
 
       ref
@@ -247,8 +290,11 @@ class ReportSubmitController extends _$ReportSubmitController {
   }
 
   // (deleteReport 메서드는 수정 없이 유지)
-  Future<void> deleteReport(
-      {required int projectId, required int reportId}) async {
+  Future<void> deleteReport({
+    required int projectId,
+    required int reportId,
+    int? scheduleId,
+  }) async {
     state = const ReportSubmitState.pending();
 
     try {
@@ -263,9 +309,7 @@ class ReportSubmitController extends _$ReportSubmitController {
     }
   }
 
-  Future<void> sendEmail({
-    required int reportId,
-  }) async {
+  Future<void> sendEmail({required int reportId}) async {
     state = const ReportSubmitState.pending();
 
     try {

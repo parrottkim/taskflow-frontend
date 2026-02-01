@@ -23,7 +23,6 @@ class ScheduleWidget extends ConsumerWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) => ContainerWidget(
-        elevation: 0.0,
         padding: EdgeInsets.zero,
         height: Responsive.isDesktop(context) ? constraints.maxHeight : 300.0,
         child: SingleChildScrollView(
@@ -43,7 +42,8 @@ class ScheduleWidget extends ConsumerWidget {
                           onTap: () async {
                             await launchUrl(
                               Uri.parse(
-                                  'https://calendar.google.com/calendar/u/0/embed?src=dantech9999@gmail.com&ctz=Asia/Seoul'),
+                                'https://calendar.google.com/calendar/u/0/embed?src=dantech9999@gmail.com&ctz=Asia/Seoul',
+                              ),
                             );
                           },
                           icon: Symbols.open_in_new_rounded,
@@ -64,11 +64,13 @@ class ScheduleWidget extends ConsumerWidget {
                           ),
                           SizedBox(height: 8.0),
                           Text(
-                            DateFormat.yMMMd(Intl.getCurrentLocale())
-                                .format(DateTime.now()),
+                            DateFormat.yMMMd(
+                              Intl.getCurrentLocale(),
+                            ).format(DateTime.now()),
                             style: TextStyle(
-                              color:
-                                  colorScheme.onSurface.withValues(alpha: 0.6),
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
                             ),
                           ),
                         ],
@@ -80,15 +82,17 @@ class ScheduleWidget extends ConsumerWidget {
                 switch (calendar) {
                   AsyncData(:final value) => _DesktopWidget(items: value.items),
                   AsyncError(:final error, :final stackTrace) => Padding(
-                      padding: const EdgeInsets.only(top: 40.0),
-                      child: ErrorContainerWidget(
-                        error: error,
-                        stackTrace: stackTrace,
-                      ),
+                    padding: const EdgeInsets.only(top: 40.0),
+                    child: ErrorContainerWidget(
+                      error: error,
+                      stackTrace: stackTrace,
                     ),
+                  ),
                   _ => Skeletonizer(
-                      child: _DesktopWidget(
-                          items: List.filled(5, TodaySchedule.dummy()))),
+                    child: _DesktopWidget(
+                      items: List.filled(5, TodaySchedule.dummy()),
+                    ),
+                  ),
                 },
               ],
             ),
@@ -119,8 +123,9 @@ class _DesktopWidget extends HookWidget {
 
     if (items.isEmpty) {
       return Padding(
-        padding:
-            EdgeInsets.only(top: Responsive.isDesktop(context) ? 60.0 : 40.0),
+        padding: EdgeInsets.only(
+          top: Responsive.isDesktop(context) ? 60.0 : 40.0,
+        ),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -131,9 +136,7 @@ class _DesktopWidget extends HookWidget {
                 color: colorScheme.onSurface.withValues(alpha: 0.7),
               ),
               const SizedBox(height: 8.0),
-              Text(
-                Intl.message('dashboard_no_schedule'),
-              ),
+              Text(Intl.message('dashboard_no_schedule')),
             ],
           ),
         ),
@@ -158,12 +161,16 @@ class _DesktopWidget extends HookWidget {
                 child: Skeleton.unite(
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: 8.0, right: 10.0, top: 2.0, bottom: 2.0),
+                      left: 8.0,
+                      right: 10.0,
+                      top: 2.0,
+                      bottom: 2.0,
+                    ),
                     decoration: ShapeDecoration(
                       shape: StadiumBorder(),
-                      color: Functions(context)
-                          .generateColorFromId(category.id)
-                          .withValues(alpha: 0.2),
+                      color: Functions(
+                        context,
+                      ).generateColorFromId(category.id).withValues(alpha: 0.2),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -174,16 +181,18 @@ class _DesktopWidget extends HookWidget {
                               : Symbols.flight_takeoff_rounded,
                           fill: 0.0,
                           size: 16.0,
-                          color: Functions(context)
-                              .generateColorFromId(category.id),
+                          color: Functions(
+                            context,
+                          ).generateColorFromId(category.id),
                         ),
                         SizedBox(width: 4.0),
                         Text(
                           Intl.message('schedule_new_choose_${category.id}_1'),
                           style: textTheme.labelMedium?.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: Functions(context)
-                                .generateColorFromId(category.id),
+                            color: Functions(
+                              context,
+                            ).generateColorFromId(category.id),
                           ),
                         ),
                       ],
@@ -215,8 +224,9 @@ class _DesktopWidget extends HookWidget {
                                 width: 4.0,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  color: Functions(context)
-                                      .generateColorFromId(category.id),
+                                  color: Functions(
+                                    context,
+                                  ).generateColorFromId(category.id),
                                 ),
                               ),
                               SizedBox(width: 8.0),
@@ -230,8 +240,9 @@ class _DesktopWidget extends HookWidget {
                                       maxLines: 1,
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: Functions(context)
-                                            .generateColorFromId(category.id),
+                                        color: Functions(
+                                          context,
+                                        ).generateColorFromId(category.id),
                                       ),
                                     ),
                                     SizedBox(height: 4.0),
@@ -250,9 +261,9 @@ class _DesktopWidget extends HookWidget {
                                           item.user.username,
                                           style: textTheme.bodySmall?.copyWith(
                                             fontWeight: FontWeight.w700,
-                                            color: Functions(context)
-                                                .generateColorFromId(
-                                                    category.id),
+                                            color: Functions(
+                                              context,
+                                            ).generateColorFromId(category.id),
                                           ),
                                         ),
                                       ],
@@ -279,13 +290,15 @@ class _DesktopWidget extends HookWidget {
                                                       .inDays >
                                                   1
                                               ? '${DateFormat.MEd().format(item.start)} - ${DateFormat.MEd().format(item.end)}'
-                                              : DateFormat.MEd()
-                                                  .format(item.start),
+                                              : DateFormat.MEd().format(
+                                                  item.start,
+                                                ),
                                           style: textTheme.bodySmall?.copyWith(
                                             fontWeight: FontWeight.w500,
                                             color: Functions(context)
                                                 .generateColorFromId(
-                                                    category.id)
+                                                  category.id,
+                                                )
                                                 .withValues(alpha: 0.7),
                                           ),
                                         ),
@@ -308,7 +321,8 @@ class _DesktopWidget extends HookWidget {
                                             fontWeight: FontWeight.w500,
                                             color: Functions(context)
                                                 .generateColorFromId(
-                                                    category.id)
+                                                  category.id,
+                                                )
                                                 .withValues(alpha: 0.7),
                                           ),
                                         ),

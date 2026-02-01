@@ -9,13 +9,12 @@ class ProjectDetailController extends _$ProjectDetailController {
 
   Future<ProjectDetailState> _init() async {
     if (projectId == 0) {
-      return ProjectDetailState(
-        project: Project.dummy(),
-      );
+      return ProjectDetailState(project: Project.dummy());
     }
 
-    final result =
-        await ref.read(projectRepositoryProvider).getProject(id: projectId);
+    final result = await ref
+        .read(projectRepositoryProvider)
+        .getProject(id: projectId);
     final counts = await ref
         .read(projectRepositoryProvider)
         .getProjectItemCount(id: projectId);
@@ -23,7 +22,7 @@ class ProjectDetailController extends _$ProjectDetailController {
     return ProjectDetailState(
       project: result,
       contracts: counts.contracts,
-      declarations: counts.declarations,
+      approvals: counts.approvals,
       procurements: counts.procurements,
       reports: counts.reports,
     );
@@ -34,7 +33,7 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   Future<void> toggleBookmark({required bool bookmarked}) async {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final updatedItem = value.project.copyWith(isBookmarked: bookmarked);
@@ -54,7 +53,7 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   Future<void> delete() async {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -65,19 +64,15 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void increaseContractsCount() {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
-    state = AsyncValue.data(
-      value.copyWith(
-        contracts: value.contracts + 1,
-      ),
-    );
+    state = AsyncValue.data(value.copyWith(contracts: value.contracts + 1));
   }
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
   void decreaseContractsCount() {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     state = AsyncValue.data(
@@ -87,43 +82,37 @@ class ProjectDetailController extends _$ProjectDetailController {
     );
   }
 
-  void increaseDeclarationsCount() {
-    final value = state.valueOrNull;
+  void increaseApprovalsCount() {
+    final value = state.value;
     if (value == null) return;
 
-    state = AsyncValue.data(
-      value.copyWith(
-        declarations: value.declarations + 1,
-      ),
-    );
+    state = AsyncValue.data(value.copyWith(approvals: value.approvals + 1));
   }
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
-  void decreaseDeclarationsCount() {
-    final value = state.valueOrNull;
+  void decreaseApprovalsCount() {
+    final value = state.value;
     if (value == null) return;
 
     state = AsyncValue.data(
       value.copyWith(
-        declarations: (value.declarations > 0) ? value.declarations - 1 : 0,
+        approvals: (value.approvals > 0) ? value.approvals - 1 : 0,
       ),
     );
   }
 
   void increaseProcurementsCount() {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     state = AsyncValue.data(
-      value.copyWith(
-        procurements: value.procurements + 1,
-      ),
+      value.copyWith(procurements: value.procurements + 1),
     );
   }
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
   void decreaseProcurementsCount() {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     state = AsyncValue.data(
@@ -134,25 +123,19 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void increaseReportsCount() {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
-    state = AsyncValue.data(
-      value.copyWith(
-        reports: value.reports + 1,
-      ),
-    );
+    state = AsyncValue.data(value.copyWith(reports: value.reports + 1));
   }
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
   void decreaseReportsCount() {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     state = AsyncValue.data(
-      value.copyWith(
-        reports: (value.reports > 0) ? value.reports - 1 : 0,
-      ),
+      value.copyWith(reports: (value.reports > 0) ? value.reports - 1 : 0),
     );
   }
 }

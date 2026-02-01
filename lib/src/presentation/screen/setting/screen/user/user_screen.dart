@@ -17,9 +17,7 @@ class UserScreen extends ConsumerWidget {
 
     return switch (auth) {
       AuthAuthenticated(:final user) => _DesktopWidget(user: user),
-      _ => Skeletonizer(
-          child: _DesktopWidget(user: User.dummy()),
-        ),
+      _ => Skeletonizer(child: _DesktopWidget(user: User.dummy())),
     };
   }
 }
@@ -27,9 +25,7 @@ class UserScreen extends ConsumerWidget {
 class _DesktopWidget extends ConsumerWidget {
   final User user;
 
-  const _DesktopWidget({
-    required this.user,
-  });
+  const _DesktopWidget({required this.user});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,8 +44,9 @@ class _DesktopWidget extends ConsumerWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundColor:
-                        Functions(context).generateColorFromId(user.id),
+                    backgroundColor: Functions(
+                      context,
+                    ).generateColorFromId(user.id),
                     radius: 32.0,
                   ),
                   SizedBox(width: 16.0),
@@ -86,8 +83,12 @@ class _DesktopWidget extends ConsumerWidget {
         Divider(),
         Container(
           width: double.infinity,
-          padding:
-              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
+          padding: EdgeInsets.only(
+            left: 24.0,
+            right: 24.0,
+            top: 16.0,
+            bottom: 32.0,
+          ),
           constraints: BoxConstraints(maxWidth: 430.0),
           child: Skeleton.unite(
             child: ElevatedButton.icon(
@@ -99,9 +100,7 @@ class _DesktopWidget extends ConsumerWidget {
                 iconColor: colorScheme.error,
               ),
               icon: Icon(Symbols.logout_rounded),
-              label: Text(
-                Intl.message('logout'),
-              ),
+              label: Text(Intl.message('logout')),
             ),
           ),
         ),

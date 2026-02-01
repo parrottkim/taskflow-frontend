@@ -10,7 +10,9 @@ class ProjectListController extends _$ProjectListController {
   Future<ProjectListState> _init() async {
     final filter = await ref.watch(projectFilterControllerProvider.future);
 
-    final result = await ref.watch(projectRepositoryProvider).getProjects(
+    final result = await ref
+        .watch(projectRepositoryProvider)
+        .getProjects(
           view: filter.view,
           sort: filter.sort?.key,
           order: filter.order?.key,
@@ -31,13 +33,15 @@ class ProjectListController extends _$ProjectListController {
   Future<void> load() async {
     final filter = await ref.watch(projectFilterControllerProvider.future);
 
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
-      final result = await ref.read(projectRepositoryProvider).getProjects(
+      final result = await ref
+          .read(projectRepositoryProvider)
+          .getProjects(
             page: value.page + 1,
             view: filter.view,
             sort: filter.sort?.key,
@@ -57,9 +61,11 @@ class ProjectListController extends _$ProjectListController {
     });
   }
 
-  Future<void> toggleBookmark(
-      {required int id, required bool bookmarked}) async {
-    final value = state.valueOrNull;
+  Future<void> toggleBookmark({
+    required int id,
+    required bool bookmarked,
+  }) async {
+    final value = state.value;
     if (value == null) return;
 
     final projects = value.items.map((project) {
@@ -80,7 +86,7 @@ class ProjectListController extends _$ProjectListController {
   }
 
   void addListItem({required Project item}) {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final projects = [item, ...value.items];
@@ -88,7 +94,7 @@ class ProjectListController extends _$ProjectListController {
   }
 
   void updateListItem({required Project item}) {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final projects = value.items.map((project) {
@@ -99,7 +105,7 @@ class ProjectListController extends _$ProjectListController {
   }
 
   void removeListItem({required int id}) {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final projects = value.items.where((project) => project.id != id).toList();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -8,7 +9,8 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/schedule_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/toolbar_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/report_display_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/trip_cost_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/trip_preview_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -16,53 +18,39 @@ import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ReportListWidget extends ConsumerWidget {
-  final int projectId;
-  final int? reportId;
-
-  const ReportListWidget({
-    super.key,
-    required this.projectId,
-    this.reportId,
-  });
+  const ReportListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouter.of(context).state;
+    final projectId = int.parse(state.pathParameters['project_id']!);
+
     final trip = ref.watch(reportListControllerProvider(projectId: projectId));
 
     return switch (trip) {
-      AsyncData(:final value) => _DesktopWidget(
-          projectId: projectId,
-          reportId: reportId,
-          items: value.items,
-        ),
-      AsyncError(:final error, :final stackTrace) =>
-        ErrorContainerWidget(error: error, stackTrace: stackTrace),
+      AsyncData(:final value) => _DesktopWidget(items: value.items),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
       _ => Skeletonizer(
-          child: _DesktopWidget(
-            projectId: projectId,
-            items: List.filled(
-              1,
-              Report.dummy(),
-            ),
-          ),
-        ),
+        child: _DesktopWidget(items: List.filled(1, Report.dummy())),
+      ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? reportId;
   final List<Report> items;
 
-  const _DesktopWidget({
-    required this.projectId,
-    this.reportId,
-    required this.items,
-  });
+  const _DesktopWidget({required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouter.of(context).state;
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final reportId = int.tryParse(state.uri.queryParameters['report'] ?? '');
+
     final auth = ref.watch(authControllerProvider);
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -94,7 +82,7 @@ class _DesktopWidget extends HookConsumerWidget {
             final viewport = context.findRenderObject() as RenderBox;
             final targetOffset =
                 renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy -
-                    60.0;
+                60.0;
 
             controller.animateTo(
               targetOffset + controller.offset,
@@ -114,7 +102,9 @@ class _DesktopWidget extends HookConsumerWidget {
         LoadingOverlay.hide();
 
         if (state is ReportSubmitDeleted) {
-          ref.read(toastProvider).showToast(
+          ref
+              .read(toastProvider)
+              .showToast(
                 child: Toast(
                   type: ToastType.standard,
                   message: Intl.message('report_form_delete'),
@@ -139,9 +129,7 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('project_detail_no_report'),
-            ),
+            Text(Intl.message('project_detail_no_report')),
           ],
         ),
       );
@@ -158,7 +146,8 @@ class _DesktopWidget extends HookConsumerWidget {
               notification.metrics.maxScrollExtent - 20.0) {
             ref
                 .read(
-                    reportListControllerProvider(projectId: projectId).notifier)
+                  reportListControllerProvider(projectId: projectId).notifier,
+                )
                 .load();
           }
           return false;
@@ -170,7 +159,8 @@ class _DesktopWidget extends HookConsumerWidget {
               items.length,
               (index) => Padding(
                 padding: EdgeInsets.only(
-                    bottom: index < items.length - 1 ? 8.0 : 0.0),
+                  bottom: index < items.length - 1 ? 8.0 : 0.0,
+                ),
                 child: Row(
                   key: itemKeys[items[index].id],
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,8 +170,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                         child: Skeleton.unite(
                           child: CircleAvatar(
-                            backgroundColor: Functions(context)
-                                .generateColorFromId(items[index].user.id),
+                            backgroundColor: Functions(
+                              context,
+                            ).generateColorFromId(items[index].user.id),
                             radius: 16.0,
                             child: Text(
                               getInitials(items[index].user.username),
@@ -206,7 +197,6 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ),
                         child: ContainerWidget(
-                          elevation: 0.0,
                           padding: EdgeInsets.zero,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -224,47 +214,37 @@ class _DesktopWidget extends HookConsumerWidget {
                                     topLeft: Radius.circular(16.0),
                                     topRight: Radius.circular(16.0),
                                   ),
-                                  color: auth is AuthAuthenticated &&
+                                  color:
+                                      auth is AuthAuthenticated &&
                                           auth.user == items[index].user
-                                      ? colorScheme.primary
-                                          .withValues(alpha: 0.1)
+                                      ? colorScheme.primary.withValues(
+                                          alpha: 0.1,
+                                        )
                                       : colorScheme.surfaceContainerLow,
                                 ),
                                 child: Row(
                                   children: [
                                     UserInformationWidget(
-                                        item: items[index].user),
-                                    const Spacer(),
-                                    ToolbarWidget(
-                                      projectId: projectId,
-                                      item: items[index],
+                                      item: items[index].user,
                                     ),
+                                    const Spacer(),
+                                    ToolbarWidget(item: items[index]),
                                   ],
                                 ),
                               ),
                               const Divider(),
                               if (items[index].schedule != null)
                                 ScheduleWidget(
-                                    schedule: items[index].schedule!),
-                              if (items[index].schedule != null)
-                                ReportDisplayItem(
-                                  item: items[index],
+                                  schedule: items[index].schedule!,
                                 ),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child:
-                                    MarkdownWidget(item: items[index].content),
-                              ),
+                              if (items[index].schedule != null)
+                                TripCostWidget(item: items[index]),
+                              MarkdownWidget(item: items[index].content),
+                              if (items[index].trip != null)
+                                TripPreviewWidget(item: items[index]),
                               if (items[index].attachments.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 16.0,
-                                      right: 16.0,
-                                      top: 8.0,
-                                      bottom: 16.0),
-                                  child: AttachmentListWidget<ReportAttachment>(
-                                    attachments: items[index].attachments,
-                                  ),
+                                AttachmentListWidget<ReportAttachment>(
+                                  attachments: items[index].attachments,
                                 ),
                             ],
                           ),

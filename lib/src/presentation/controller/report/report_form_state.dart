@@ -3,7 +3,6 @@ part of '../controller.dart';
 @freezed
 sealed class ReportFormState with _$ReportFormState {
   factory ReportFormState({
-    @Default([]) List<String> steps,
     @Default([]) List<TripActualExpense> expenses,
     @Default([]) List<TripRegulationRate> rates,
     TripFuelExpense? fuel,

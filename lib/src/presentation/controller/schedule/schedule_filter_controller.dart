@@ -8,8 +8,9 @@ class ScheduleFilterController extends _$ScheduleFilterController {
   }
 
   Future<ScheduleFilterState> _init() async {
-    final categories =
-        await ref.read(scheduleRepositoryProvider).getAllCategories();
+    final categories = await ref
+        .read(scheduleRepositoryProvider)
+        .getAllCategories();
 
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -18,11 +19,14 @@ class ScheduleFilterController extends _$ScheduleFilterController {
     final defaultEnd = today.add(const Duration(days: 28));
 
     return ScheduleFilterState(
-        categoryItems: categories, start: defaultStart, end: defaultEnd);
+      categoryItems: categories,
+      start: defaultStart,
+      end: defaultEnd,
+    );
   }
 
   void setSearch({String? search}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -30,11 +34,12 @@ class ScheduleFilterController extends _$ScheduleFilterController {
   }
 
   void setDateRange({DateTime? start, DateTime? end}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
     state = AsyncData(
-        value.copyWith(start: start ?? value.start, end: end ?? value.end));
+      value.copyWith(start: start ?? value.start, end: end ?? value.end),
+    );
   }
 }

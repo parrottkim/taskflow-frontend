@@ -13,33 +13,28 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class IssueCategoryScreen extends ConsumerWidget {
-  final int projectId;
-
-  const IssueCategoryScreen({
-    super.key,
-    required this.projectId,
-  });
+  const IssueCategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(issueFilterControllerProvider);
 
     return BranchLayout(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 430.0),
         child: switch (filter) {
           AsyncData(:final value) => _DesktopWidget(
-              projectId: projectId,
-              categoryItems: value.categoryItems,
-            ),
-          AsyncError(:final error, :final stackTrace) =>
-            ErrorContainerWidget(error: error, stackTrace: stackTrace),
+            categories: value.categories,
+          ),
+          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            error: error,
+            stackTrace: stackTrace,
+          ),
           _ => Skeletonizer(
-              child: _DesktopWidget(
-                projectId: projectId,
-                categoryItems: List.filled(6, IssueCategory.dummy()),
-              ),
+            child: _DesktopWidget(
+              categories: List.filled(6, IssueCategory.dummy()),
             ),
+          ),
         },
       ),
     );
@@ -47,16 +42,15 @@ class IssueCategoryScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends ConsumerWidget {
-  final int projectId;
-  final List<IssueCategory> categoryItems;
+  final List<IssueCategory> categories;
 
-  const _DesktopWidget({
-    required this.projectId,
-    required this.categoryItems,
-  });
+  const _DesktopWidget({required this.categories});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -70,9 +64,7 @@ class _DesktopWidget extends ConsumerWidget {
           context.pop();
           context.goNamed(
             RouteNames.projectDetail,
-            pathParameters: {
-              'project_id': projectId.toString(),
-            },
+            pathParameters: {'project_id': projectId.toString()},
           );
         }
       }
@@ -83,10 +75,7 @@ class _DesktopWidget extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CategoryListWidget(
-            projectId: projectId,
-            categoryItems: categoryItems,
-          ),
+          CategoryListWidget(categories: categories),
           SizedBox(height: 16.0),
           ContainerWidget(
             padding: EdgeInsets.zero,
@@ -94,14 +83,12 @@ class _DesktopWidget extends ConsumerWidget {
             child: InkWell(
               onTap: () async {
                 final project = await ref.read(
-                    projectDetailControllerProvider(projectId: projectId)
-                        .future);
+                  projectDetailControllerProvider(projectId: projectId).future,
+                );
 
                 showDialog(
                   context: context,
-                  builder: (_) => ClosureDialog(
-                    project: project.project,
-                  ),
+                  builder: (_) => ClosureDialog(project: project.project),
                 );
               },
               child: Padding(

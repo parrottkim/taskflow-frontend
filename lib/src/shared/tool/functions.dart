@@ -60,8 +60,10 @@ String formatRelativeDate(DateTime dateTime) {
     if (differenceInMinutes == 1) {
       return Intl.message('relative_data_minute_ago');
     } else if (differenceInMinutes < 60) {
-      return Intl.message('relative_data_minutes_ago',
-          args: [differenceInMinutes]);
+      return Intl.message(
+        'relative_data_minutes_ago',
+        args: [differenceInMinutes],
+      );
     }
 
     int differenceInHours = now.difference(localDateTime).inHours;
@@ -96,11 +98,15 @@ String formatRelativeDate(DateTime dateTime) {
   if (now.difference(localDateTime).inDays < 365) {
     int differenceInMonths = now.difference(localDateTime).inDays ~/ 30;
     if (differenceInMonths == 1) {
-      return Intl.message('relative_data_month_ago',
-          args: [differenceInMonths]);
+      return Intl.message(
+        'relative_data_month_ago',
+        args: [differenceInMonths],
+      );
     } else {
-      return Intl.message('relative_data_month_ago',
-          args: [differenceInMonths]);
+      return Intl.message(
+        'relative_data_month_ago',
+        args: [differenceInMonths],
+      );
     }
   }
 
@@ -180,4 +186,8 @@ String formatBytes(int bytes) {
   }
 
   return '$formattedSize ${suffixes[i]}';
+}
+
+bool isValidUrl(String url) {
+  return Uri.tryParse(url)?.hasAbsolutePath ?? false;
 }

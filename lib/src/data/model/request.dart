@@ -2,10 +2,8 @@ part of '../data.dart';
 
 @freezed
 abstract class LoginRequest with _$LoginRequest {
-  factory LoginRequest({
-    required String email,
-    required String password,
-  }) = _LoginRequest;
+  factory LoginRequest({required String email, required String password}) =
+      _LoginRequest;
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) =>
       _$LoginRequestFromJson(json);
@@ -25,9 +23,8 @@ abstract class RegisterRequest with _$RegisterRequest {
 
 @freezed
 abstract class ForgotPasswordRequest with _$ForgotPasswordRequest {
-  factory ForgotPasswordRequest({
-    required String email,
-  }) = _ForgotPasswordRequest;
+  factory ForgotPasswordRequest({required String email}) =
+      _ForgotPasswordRequest;
 
   factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =>
       _$ForgotPasswordRequestFromJson(json);
@@ -85,6 +82,7 @@ abstract class CreateIssueRequest with _$CreateIssueRequest {
     List<CreateContractItemRequest>? contractItems,
     List<CreateProcurementItemRequest>? procurementItems,
     List<CreateTransactionItemRequest>? transactionItems,
+    required List<IssueAttachment> attachments,
   }) = _CreateIssueRequest;
 
   factory CreateIssueRequest.fromJson(Map<String, dynamic> json) =>
@@ -102,6 +100,7 @@ abstract class UpdateIssueRequest with _$UpdateIssueRequest {
     List<UpdateContractItemRequest>? contractItems,
     List<UpdateProcurementItemRequest>? procurementItems,
     List<UpdateTransactionItemRequest>? transactionItems,
+    required List<IssueAttachment> attachments,
   }) = _UpdateIssueRequest;
 
   factory UpdateIssueRequest.fromJson(Map<String, dynamic> json) =>

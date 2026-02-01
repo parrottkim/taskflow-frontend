@@ -19,7 +19,6 @@ import 'src/shared/tool/url_strategy/non_web_url_strategy.dart'
 
 Future<void> main() async {
   configureUrl();
-  WidgetsFlutterBinding.ensureInitialized();
 
   GoRouter.optionURLReflectsImperativeAPIs = true;
 
@@ -28,10 +27,13 @@ Future<void> main() async {
   final ftoast = FToast();
 
   // 환경 변수 설정
-  const environment =
-      String.fromEnvironment('ENVIRONMENT', defaultValue: 'prod');
+  const environment = String.fromEnvironment(
+    'ENVIRONMENT',
+    defaultValue: 'prod',
+  );
 
   if (environment == 'local') {
+    WidgetsFlutterBinding.ensureInitialized();
     return runApp(
       ProviderScope(
         overrides: [
@@ -43,40 +45,48 @@ Future<void> main() async {
       ),
     );
   }
-  await runZonedGuarded(() async {
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
+  await runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-    // Remote Config 설정
-    final remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(hours: 1),
-    ));
-    await remoteConfig.fetchAndActivate();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
-    final jsonValue = json.decode(remoteConfig.getString('sentry'));
-
-    GoRouter.optionURLReflectsImperativeAPIs = true;
-
-    // 비동기 작업 완료 후 Sentry 초기화
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = jsonValue[environment]['dsn'];
-        options.sendDefaultPii = true;
-      },
-      appRunner: () => runApp(
-        ProviderScope(
-          overrides: [
-            flutterSecureStorageProvider.overrideWithValue(secure),
-            sharedPreferencesAsyncProvider.overrideWithValue(prefs),
-            toastProvider.overrideWithValue(ftoast),
-          ],
-          child: App(),
+      // Remote Config 설정
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      await remoteConfig.setConfigSettings(
+        RemoteConfigSettings(
+          fetchTimeout: const Duration(minutes: 1),
+          minimumFetchInterval: const Duration(hours: 1),
         ),
-      ),
-    );
-  }, (exception, stackTrace) async {
-    Sentry.captureException(exception, stackTrace: stackTrace);
-  });
+      );
+      await remoteConfig.fetchAndActivate();
+
+      final jsonValue = json.decode(remoteConfig.getString('sentry'));
+
+      GoRouter.optionURLReflectsImperativeAPIs = true;
+
+      // 비동기 작업 완료 후 Sentry 초기화
+      await SentryFlutter.init(
+        (options) {
+          options.dsn = jsonValue[environment]['dsn'];
+          options.sendDefaultPii = true;
+        },
+        appRunner: () => runApp(
+          ProviderScope(
+            overrides: [
+              flutterSecureStorageProvider.overrideWithValue(secure),
+              sharedPreferencesAsyncProvider.overrideWithValue(prefs),
+              toastProvider.overrideWithValue(ftoast),
+            ],
+            child: App(),
+          ),
+        ),
+      );
+    },
+    (exception, stackTrace) async {
+      Sentry.captureException(exception, stackTrace: stackTrace);
+    },
+  );
 }

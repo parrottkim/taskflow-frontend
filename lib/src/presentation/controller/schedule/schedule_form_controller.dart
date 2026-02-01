@@ -3,8 +3,10 @@ part of '../controller.dart';
 @riverpod
 class ScheduleFormController extends _$ScheduleFormController {
   @override
-  FutureOr<ScheduleFormState> build(
-      {required int categoryId, int? scheduleId}) async {
+  FutureOr<ScheduleFormState> build({
+    required int categoryId,
+    int? scheduleId,
+  }) async {
     return await _init();
   }
 
@@ -13,8 +15,9 @@ class ScheduleFormController extends _$ScheduleFormController {
       return ScheduleFormState();
     }
 
-    final result =
-        await ref.read(scheduleRepositoryProvider).getSchedule(id: scheduleId!);
+    final result = await ref
+        .read(scheduleRepositoryProvider)
+        .getSchedule(id: scheduleId!);
 
     return ScheduleFormState(
       projectId: result.projectId,
@@ -29,20 +32,22 @@ class ScheduleFormController extends _$ScheduleFormController {
   }
 
   void setProject({Project? project}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(
-      projectId: project?.id,
-      projectName: project?.name,
-      projectClientId: project?.clients.first.id,
-      projectClientName: project?.clients.last.name,
-    ));
+    state = AsyncData(
+      value.copyWith(
+        projectId: project?.id,
+        projectName: project?.name,
+        projectClientId: project?.clients.first.id,
+        projectClientName: project?.clients.last.name,
+      ),
+    );
   }
 
   void setDate({DateTime? start, DateTime? end}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -50,7 +55,7 @@ class ScheduleFormController extends _$ScheduleFormController {
   }
 
   void setSummary({required String summary}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -58,7 +63,7 @@ class ScheduleFormController extends _$ScheduleFormController {
   }
 
   void setDescription({required String description}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 

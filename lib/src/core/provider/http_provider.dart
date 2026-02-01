@@ -13,26 +13,24 @@ Dio http(Ref ref) {
   );
   final dio = Dio(options);
 
-  dio.interceptors.add(AuthenticationInterceptor(
-    client: dio,
-    ref: ref,
-  ));
+  dio.interceptors.add(
+    AuthenticationInterceptor(client: dio, container: ref.container),
+  );
 
   return dio;
 }
 
 class AuthenticationInterceptor extends Interceptor {
   final Dio client;
-  final Ref ref;
+  final ProviderContainer container;
 
-  AuthenticationInterceptor({
-    required this.client,
-    required this.ref,
-  });
+  AuthenticationInterceptor({required this.client, required this.container});
 
   @override
   Future<void> onError(
-      DioException err, ErrorInterceptorHandler handler) async {
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     // 1. err.response가 null이 아닐 때만 statusCode를 가져옵니다.
     final statusCode = err.response?.statusCode;
     dynamic responseData = err.response?.data; // 응답 데이터의 실제 타입
@@ -68,8 +66,9 @@ class AuthenticationInterceptor extends Interceptor {
     if (statusCode == 401) {
       // 3. message가 'access_token_expired'일 때만 로직을 실행합니다.
       if (message == 'access_token_expired') {
-        final refreshToken =
-            await ref.watch(localRepositoryProvider).getRefreshToken();
+        final refreshToken = await container
+            .read(localRepositoryProvider)
+            .getRefreshToken();
 
         if (refreshToken == null) {
           return handler.reject(err);
@@ -78,22 +77,18 @@ class AuthenticationInterceptor extends Interceptor {
         // ... (토큰 갱신 로직은 그대로 유지) ...
         final response = await client.post(
           'auth/refresh',
-          options: Options(
-            headers: {
-              'Authorization': 'Bearer $refreshToken',
-            },
-          ),
+          options: Options(headers: {'Authorization': 'Bearer $refreshToken'}),
         );
 
         if (response.statusCode == 201) {
           final accessToken = response.data['accessToken'];
           final refreshToken = response.data['refreshToken'];
 
-          ref
-              .watch(localRepositoryProvider)
+          container
+              .read(localRepositoryProvider)
               .setAccessToken(accessToken: accessToken);
-          ref
-              .watch(localRepositoryProvider)
+          container
+              .read(localRepositoryProvider)
               .setRefreshToken(refreshToken: refreshToken);
 
           err.requestOptions.headers['Authorization'] = 'Bearer $accessToken';
@@ -106,11 +101,11 @@ class AuthenticationInterceptor extends Interceptor {
 
       // 401 오류지만 access_token_expired가 아니거나, message가 null인 경우
       // (Refresh Token 만료, 유효하지 않은 토큰, 기타 401)
-      await ref.read(authControllerProvider.notifier).logout();
+      await container.read(authControllerProvider.notifier).logout();
     }
 
     // 401이 아니거나 갱신 실패 후 최종 오류 처리
-    await ref
+    await container
         .read(errorControllerProvider.notifier)
         .onError(err, StackTrace.current);
     return handler.next(err);
@@ -118,7 +113,9 @@ class AuthenticationInterceptor extends Interceptor {
 
   @override
   Future<void> onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final String languageCode = PlatformDispatcher.instance.locale.languageCode;
     final String countryCode =
         PlatformDispatcher.instance.locale.countryCode ?? '';
@@ -130,8 +127,9 @@ class AuthenticationInterceptor extends Interceptor {
 
     options.headers['Accept-Language'] = acceptLanguage;
 
-    final accessToken =
-        await ref.watch(localRepositoryProvider).getAccessToken();
+    final accessToken = await container
+        .read(localRepositoryProvider)
+        .getAccessToken();
     if (options.path != 'auth/refresh' && accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
 

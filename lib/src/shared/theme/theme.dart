@@ -15,8 +15,9 @@ class KeyColor {
 
 extension PercentageLetterSpacing on TextStyle {
   TextStyle withLetterSpacing(double percentage) {
-    double letterSpacing = double.parse(((percentage / 100) * fontSize!)
-        .toStringAsFixed(2)); // toStringAsFixed(2): to two decimal places
+    double letterSpacing = double.parse(
+      ((percentage / 100) * fontSize!).toStringAsFixed(2),
+    ); // toStringAsFixed(2): to two decimal places
     return copyWith(letterSpacing: letterSpacing);
   }
 }
@@ -117,27 +118,25 @@ final ColorScheme schemeLight = SeedColorScheme.fromSeeds(
   brightness: Brightness.light,
   primaryKey: KeyColor.primary,
   primary: KeyColor.primary,
-  tones: FlexTones.oneHue(Brightness.light)
-      .monochromeSurfaces()
-      .higherContrastFixed(),
+  tones: FlexTones.oneHue(
+    Brightness.light,
+  ).monochromeSurfaces().higherContrastFixed(),
 );
 
 final ColorScheme schemeDark = SeedColorScheme.fromSeeds(
   brightness: Brightness.dark,
   primaryKey: KeyColor.primary,
   primaryContainer: KeyColor.primary,
-  tones: FlexTones.oneHue(Brightness.dark)
-      .monochromeSurfaces()
-      .higherContrastFixed(),
+  tones: FlexTones.oneHue(
+    Brightness.dark,
+  ).monochromeSurfaces().higherContrastFixed(),
 );
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   visualDensity: VisualDensity.compact,
   actionIconTheme: ActionIconThemeData(
-    backButtonIconBuilder: (context) => Icon(
-      Symbols.chevron_left_rounded,
-    ),
+    backButtonIconBuilder: (context) => Icon(Symbols.chevron_left_rounded),
   ),
   textTheme: textTheme,
   colorScheme: schemeLight,
@@ -160,7 +159,7 @@ ThemeData lightTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     isDense: true,
     fillColor: schemeLight.surfaceBright,
-    contentPadding: EdgeInsets.fromLTRB(10.0, 14.0, 10.0, 8.0),
+    contentPadding: EdgeInsets.fromLTRB(8.0, 14.0, 8.0, 8.0),
     errorStyle: const TextStyle(height: 0.0),
     floatingLabelBehavior: FloatingLabelBehavior.never,
     iconColor: schemeLight.onSurface.withValues(alpha: 0.7),
@@ -188,13 +187,9 @@ ThemeData lightTheme = ThemeData(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
       textStyle: WidgetStatePropertyAll(
-        textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
+        textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
-      padding: WidgetStatePropertyAll(
-        const EdgeInsets.all(16.0),
-      ),
+      padding: WidgetStatePropertyAll(const EdgeInsets.all(16.0)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
   ),
@@ -239,9 +234,7 @@ ThemeData lightTheme = ThemeData(
           side: BorderSide(color: schemeLight.outline.withValues(alpha: 0.2)),
         ),
       ),
-      padding: WidgetStatePropertyAll(
-        const EdgeInsets.all(16.0),
-      ),
+      padding: WidgetStatePropertyAll(const EdgeInsets.all(16.0)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
   ),
@@ -258,9 +251,7 @@ ThemeData lightTheme = ThemeData(
     backgroundColor: schemeLight.surfaceBright,
     barrierColor: Colors.black26,
     insetPadding: const EdgeInsets.all(24.0),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16.0),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
   ),
   bottomSheetTheme: BottomSheetThemeData(
     backgroundColor: schemeLight.surfaceBright,
@@ -285,23 +276,17 @@ ThemeData lightTheme = ThemeData(
       ],
       color: schemeLight.surface,
     ),
-    textStyle: TextStyle(
-      color: schemeLight.onSurface,
-    ),
+    textStyle: TextStyle(color: schemeLight.onSurface),
     triggerMode: TooltipTriggerMode.tap,
   ),
   menuTheme: MenuThemeData(
     style: MenuStyle(
-      backgroundColor: WidgetStatePropertyAll(
-        schemeLight.surface,
-      ),
+      backgroundColor: WidgetStatePropertyAll(schemeLight.surface),
     ),
   ),
   menuButtonTheme: MenuButtonThemeData(
     style: ButtonStyle(
-      padding: WidgetStatePropertyAll(
-        EdgeInsets.symmetric(horizontal: 8.0),
-      ),
+      padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 8.0)),
       visualDensity: VisualDensity(horizontal: 0.0, vertical: -4.0),
     ),
   ),
@@ -326,9 +311,7 @@ ThemeData darkTheme = ThemeData(
   applyElevationOverlayColor: true,
   visualDensity: VisualDensity.compact,
   actionIconTheme: ActionIconThemeData(
-    backButtonIconBuilder: (context) => Icon(
-      Symbols.chevron_left_rounded,
-    ),
+    backButtonIconBuilder: (context) => Icon(Symbols.chevron_left_rounded),
   ),
   textTheme: textTheme,
   colorScheme: schemeDark,
@@ -351,7 +334,7 @@ ThemeData darkTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     isDense: true,
     fillColor: schemeDark.surfaceBright,
-    contentPadding: EdgeInsets.fromLTRB(10.0, 14.0, 10.0, 8.0),
+    contentPadding: EdgeInsets.fromLTRB(8.0, 14.0, 8.0, 8.0),
     errorStyle: const TextStyle(height: 0.0),
     floatingLabelBehavior: FloatingLabelBehavior.never,
     iconColor: schemeDark.onSurface.withValues(alpha: 0.6),
@@ -379,13 +362,9 @@ ThemeData darkTheme = ThemeData(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
       textStyle: WidgetStatePropertyAll(
-        textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
+        textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
-      padding: WidgetStatePropertyAll(
-        const EdgeInsets.all(16.0),
-      ),
+      padding: WidgetStatePropertyAll(const EdgeInsets.all(16.0)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
   ),
@@ -430,9 +409,7 @@ ThemeData darkTheme = ThemeData(
           side: BorderSide(color: schemeDark.outline.withValues(alpha: 0.2)),
         ),
       ),
-      padding: WidgetStatePropertyAll(
-        const EdgeInsets.all(16.0),
-      ),
+      padding: WidgetStatePropertyAll(const EdgeInsets.all(16.0)),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
   ),
@@ -449,9 +426,7 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: schemeDark.surfaceBright,
     barrierColor: Colors.black26,
     insetPadding: const EdgeInsets.all(24.0),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16.0),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
   ),
   bottomSheetTheme: BottomSheetThemeData(
     backgroundColor: schemeDark.surfaceBright,
@@ -468,23 +443,17 @@ ThemeData darkTheme = ThemeData(
       borderRadius: BorderRadius.circular(16.0),
       color: schemeDark.surface,
     ),
-    textStyle: TextStyle(
-      color: schemeDark.onSurface,
-    ),
+    textStyle: TextStyle(color: schemeDark.onSurface),
     triggerMode: TooltipTriggerMode.tap,
   ),
   menuTheme: MenuThemeData(
     style: MenuStyle(
-      backgroundColor: WidgetStatePropertyAll(
-        schemeDark.surface,
-      ),
+      backgroundColor: WidgetStatePropertyAll(schemeDark.surface),
     ),
   ),
   menuButtonTheme: MenuButtonThemeData(
     style: ButtonStyle(
-      padding: WidgetStatePropertyAll(
-        EdgeInsets.symmetric(horizontal: 8.0),
-      ),
+      padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 8.0)),
       visualDensity: VisualDensity(horizontal: 0.0, vertical: -4.0),
     ),
   ),

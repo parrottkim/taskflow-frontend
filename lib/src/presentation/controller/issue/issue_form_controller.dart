@@ -3,130 +3,64 @@ part of '../controller.dart';
 @riverpod
 class IssueFormController extends _$IssueFormController {
   @override
-  FutureOr<IssueFormState> build(
-          {required int projectId,
-          required int categoryId,
-          int? issueId}) async =>
-      await _init();
+  FutureOr<IssueFormState> build({
+    required int projectId,
+    required int categoryId,
+    int? issueId,
+  }) async => await _init();
 
   Future<IssueFormState> _init() async {
-    if (issueId == null) {
-      final categories =
-          await ref.read(issueRepositoryProvider).getAllCategories();
-
-      final contract = await ref
+    if (issueId != null) {
+      final result = await ref
           .read(issueRepositoryProvider)
-          .getContractIssue(id: projectId);
-
-      final contractItems = await ref
-          .read(issueRepositoryProvider)
-          .getContractItems(id: projectId);
-      final transactionItems = await ref
-          .read(issueRepositoryProvider)
-          .getTransactionItems(id: projectId);
+          .getIssue(id: issueId!);
 
       return IssueFormState(
-        category: categories
-            .firstWhereOrNull((category) => category.id == categoryId),
-        currency: contract.data?.currency,
-        contractItems: contractItems,
-        transactionItems: transactionItems,
+        category: result.category,
+        content: result.content,
+        attachments: result.attachments,
+        currency: result.currency,
+        kickoffDate: result.kickoffDate,
+        contractItems: result.contractItems,
+        transactionItems: result.transactionItems,
+        procurementItems: result.procurementItems,
       );
     }
 
-    final result =
-        await ref.read(issueRepositoryProvider).getIssue(id: issueId!);
+    final category = await ref
+        .read(issueRepositoryProvider)
+        .getCategory(id: categoryId);
+
+    final contract = await ref
+        .read(issueRepositoryProvider)
+        .getContractIssue(id: projectId);
+
+    final contractItems = await ref
+        .read(issueRepositoryProvider)
+        .getContractItems(id: projectId);
+
+    final transactionItems = await ref
+        .read(issueRepositoryProvider)
+        .getTransactionItems(id: projectId);
 
     return IssueFormState(
-      category: result.category,
-      content: result.content,
-      attachments: result.attachments,
-      currency: result.currency,
-      kickoffDate: result.kickoffDate,
-      contractItems: result.contractItems,
-      transactionItems: result.transactionItems,
-      procurementItems: result.procurementItems,
+      category: category,
+      currency: contract.data?.currency,
+      contractItems: contractItems,
+      transactionItems: transactionItems,
     );
   }
 
-  void setCategory({required IssueCategory category}) {
-    final value = state.valueOrNull;
+  void setContent(String markdown) {
+    final value = state.value;
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(category: category));
-  }
-
-  Future<void> serializeAndSetContent(
-      {required MutableDocument document}) async {
-    final Map<ImageNode, MultipartFile> map = {};
-    final nodes = document.whereType<ImageNode>();
-
-    for (final node in nodes) {
-      try {
-        final base64 = node.imageUrl.split(',').last;
-        final bytes = base64Decode(base64);
-        final mimeType = lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
-
-        final extension = extensionFromMime(mimeType) ?? 'jpeg';
-        final filename = '${node.id}.$extension'; // 임시 파일명에 고유 ID 추가
-
-        final multipartFile = MultipartFile.fromBytes(
-          bytes,
-          filename: filename,
-          contentType: MediaType.parse(mimeType),
-        );
-
-        map[node] = multipartFile;
-      } catch (e) {
-        print('Image processing failed for node: ${node.id}, error: $e');
-      }
-    }
-
-    // 2. 맵의 값(업로드할 파일 리스트)만 추출하여 일괄 업로드합니다.
-    final files = map.values.toList();
-
-    if (files.isNotEmpty) {
-      try {
-        final uploadResults = await ref
-            .read(sftpRepositoryProvider)
-            .uploadInlineImage(path: 'issue', files: files);
-
-        // 3. 업로드 결과를 순서대로 순회하며 문서의 노드를 업데이트합니다.
-        final originalNodes = map.keys.toList();
-
-        for (int i = 0; i < uploadResults.length; i++) {
-          final originalNode = originalNodes[i];
-          final uploadedUrl = uploadResults[i].url; // 서버에서 반환한 최종 URL
-
-          final newNode = ImageNode(
-            id: originalNode.id,
-            imageUrl: uploadedUrl,
-          );
-          document.replaceNodeById(originalNode.id, newNode);
-        }
-      } catch (e) {
-        print('Batch image upload failed, error: $e');
-      }
-    }
-
-    // 4. 최종 문서를 Markdown으로 변환하고 상태를 업데이트합니다.
-    final markdown = serializeDocumentToMarkdown(document,
-        syntax: MarkdownSyntax.superEditor);
-
-    print(markdown);
-
-    state = AsyncData(state.valueOrNull!.copyWith(content: markdown));
-  }
-
-  void setContent({required bool flag}) {
-    final value = state.valueOrNull;
-
-    if (value == null) return;
+    state = AsyncData(value.copyWith(content: markdown));
   }
 
   void setContractCurrency({required Currency currency}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -134,16 +68,19 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void addContractItem({ContractItem? item}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(
-        contractItems: [...value.contractItems, item ?? ContractItem.empty()]));
+    state = AsyncData(
+      value.copyWith(
+        contractItems: [...value.contractItems, item ?? ContractItem.empty()],
+      ),
+    );
   }
 
   void updateContractItem({required int index, String? item, String? price}) {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final newItems = [...value.contractItems];
@@ -164,8 +101,9 @@ class IssueFormController extends _$IssueFormController {
       // transactionItems 가격 업데이트
       final updatedTransactions = value.transactionItems.map((t) {
         final ratio = double.tryParse(t.ratio.replaceAll(',', '')) ?? 0.0;
-        final calculatedPrice =
-            NumberFormat('#,###.##').format(total * (ratio / 100));
+        final calculatedPrice = NumberFormat(
+          '#,###.##',
+        ).format(total * (ratio / 100));
         return t.copyWith(price: calculatedPrice);
       }).toList();
 
@@ -179,7 +117,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeContractItem({required int index}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -198,7 +136,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeAllContractItem() {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -206,7 +144,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void setKickoffDate({required DateTime date}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -214,14 +152,18 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void addProcurementItem({ProcurementItem? item}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(procurementItems: [
-      ...value.procurementItems,
-      item ?? ProcurementItem.empty()
-    ]));
+    state = AsyncData(
+      value.copyWith(
+        procurementItems: [
+          ...value.procurementItems,
+          item ?? ProcurementItem.empty(),
+        ],
+      ),
+    );
   }
 
   void updateProcurementItem({
@@ -235,7 +177,7 @@ class IssueFormController extends _$IssueFormController {
     String? purchaseUrl,
     Supplier? supplier,
   }) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -284,7 +226,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeProcurementItem({required int index}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -303,7 +245,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeAllProcurementItem() {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -311,14 +253,18 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void addTransactionItem({TransactionItem? item}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(transactionItems: [
-      ...value.transactionItems,
-      item ?? TransactionItem.empty()
-    ]));
+    state = AsyncData(
+      value.copyWith(
+        transactionItems: [
+          ...value.transactionItems,
+          item ?? TransactionItem.empty(),
+        ],
+      ),
+    );
   }
 
   void updateTransactionItem({
@@ -328,7 +274,7 @@ class IssueFormController extends _$IssueFormController {
     String? ratio,
     String? note,
   }) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -347,11 +293,8 @@ class IssueFormController extends _$IssueFormController {
     }
   }
 
-  void toggleTransactionItemPaid({
-    required int index,
-    required bool isPaid,
-  }) {
-    final value = state.valueOrNull;
+  void toggleTransactionItemPaid({required int index, required bool isPaid}) {
+    final value = state.value;
     if (value == null) return;
 
     final items = [...value.transactionItems];
@@ -367,7 +310,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeTransactionItem({required int index}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -386,7 +329,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeAllTransactionItem() {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -394,17 +337,21 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeAttachment(IssueAttachment attachment) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(attachments: [
-      ...value.attachments?.where((item) => item.id != attachment.id) ?? [],
-    ]));
+    state = AsyncData(
+      value.copyWith(
+        attachments: [
+          ...value.attachments?.where((item) => item.id != attachment.id) ?? [],
+        ],
+      ),
+    );
   }
 
   void addFile(XFile file) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -412,12 +359,14 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeFile(XFile file) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
-    state = AsyncData(value.copyWith(files: [
-      ...value.files?.where((item) => item.path != file.path) ?? [],
-    ]));
+    state = AsyncData(
+      value.copyWith(
+        files: [...value.files?.where((item) => item.path != file.path) ?? []],
+      ),
+    );
   }
 }

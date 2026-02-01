@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -10,18 +11,12 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ProcurementFormItem extends HookConsumerWidget {
-  final int categoryId;
-  final int projectId;
-  final int? issueId;
   final List<ProcurementItem>? items;
   final ValueNotifier<bool> hasProcurementItems;
   final ValueNotifier<bool> isProcurementItemEmpty;
 
   const ProcurementFormItem({
     super.key,
-    required this.categoryId,
-    required this.projectId,
-    this.issueId,
     this.items,
     required this.hasProcurementItems,
     required this.isProcurementItemEmpty,
@@ -29,6 +24,11 @@ class ProcurementFormItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -72,7 +72,8 @@ class ProcurementFormItem extends HookConsumerWidget {
       () =>
           items
               ?.map(
-                  (element) => TextEditingController(text: element.totalAmount))
+                (element) => TextEditingController(text: element.totalAmount),
+              )
               .toList() ??
           [],
       [items?.length],
@@ -110,17 +111,16 @@ class ProcurementFormItem extends HookConsumerWidget {
       [items?.length],
     );
 
-    final total = useMemoized(
-      () {
-        return items?.map((e) => e.totalAmount).fold(0.0,
-            (sum, totalAmountString) {
-          String cleanedPrice = totalAmountString.replaceAll(',', '');
-          double price = double.tryParse(cleanedPrice) ?? 0.0;
-          return sum + price;
-        });
-      },
-      [items],
-    );
+    final total = useMemoized(() {
+      return items?.map((e) => e.totalAmount).fold(0.0, (
+        sum,
+        totalAmountString,
+      ) {
+        String cleanedPrice = totalAmountString.replaceAll(',', '');
+        double price = double.tryParse(cleanedPrice) ?? 0.0;
+        return sum + price;
+      });
+    }, [items]);
 
     final opacityController = useAnimationController(
       duration: const Duration(milliseconds: 150),
@@ -168,19 +168,17 @@ class ProcurementFormItem extends HookConsumerWidget {
                     isProcurementItemEmpty.value = false;
 
                     ref
-                        .read(issueFormControllerProvider(
-                                projectId: projectId,
-                                categoryId: categoryId,
-                                issueId: issueId)
-                            .notifier)
+                        .read(
+                          issueFormControllerProvider(
+                            projectId: projectId,
+                            categoryId: categoryId,
+                            issueId: issueId,
+                          ).notifier,
+                        )
                         .addProcurementItem();
                   },
-                  icon: Icon(
-                    Symbols.add_rounded,
-                  ),
-                  label: Text(
-                    Intl.message('issue_form_procurement_11'),
-                  ),
+                  icon: Icon(Symbols.add_rounded),
+                  label: Text(Intl.message('issue_form_procurement_11')),
                 ),
               ],
             ),
@@ -227,14 +225,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                             DataColumn(
                               columnWidth: FixedColumnWidth(200.0),
                               label: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       Symbols.text_fields_rounded,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       size: 16.0,
                                     ),
                                     SizedBox(width: 4.0),
@@ -242,8 +242,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       Intl.message('issue_form_procurement_2'),
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: colorScheme.onSurface
-                                            .withValues(alpha: 0.7),
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.7,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -253,14 +254,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                             DataColumn(
                               columnWidth: FixedColumnWidth(200.0),
                               label: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       Symbols.text_fields_rounded,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       size: 16.0,
                                     ),
                                     SizedBox(width: 4.0),
@@ -268,8 +271,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       Intl.message('issue_form_procurement_3'),
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: colorScheme.onSurface
-                                            .withValues(alpha: 0.7),
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.7,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -279,14 +283,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                             DataColumn(
                               columnWidth: FixedColumnWidth(80.0),
                               label: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       Symbols.numbers_rounded,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       size: 16.0,
                                     ),
                                     SizedBox(width: 4.0),
@@ -294,8 +300,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       Intl.message('issue_form_procurement_4'),
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: colorScheme.onSurface
-                                            .withValues(alpha: 0.7),
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.7,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -305,14 +312,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                             DataColumn(
                               columnWidth: FixedColumnWidth(150.0),
                               label: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       Symbols.numbers_rounded,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       size: 16.0,
                                     ),
                                     SizedBox(width: 4.0),
@@ -320,8 +329,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       Intl.message('issue_form_procurement_5'),
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: colorScheme.onSurface
-                                            .withValues(alpha: 0.7),
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.7,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -331,14 +341,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                             DataColumn(
                               columnWidth: FixedColumnWidth(180.0),
                               label: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       Symbols.numbers_rounded,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       size: 16.0,
                                     ),
                                     SizedBox(width: 4.0),
@@ -346,8 +358,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       Intl.message('issue_form_procurement_6'),
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: colorScheme.onSurface
-                                            .withValues(alpha: 0.7),
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.7,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -357,14 +370,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                             DataColumn(
                               columnWidth: FixedColumnWidth(120.0),
                               label: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       Symbols.package_rounded,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       size: 16.0,
                                     ),
                                     SizedBox(width: 4.0),
@@ -372,8 +387,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       Intl.message('issue_form_procurement_7'),
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: colorScheme.onSurface
-                                            .withValues(alpha: 0.7),
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.7,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -382,14 +398,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                             ),
                             DataColumn(
                               label: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
                                 child: Row(
                                   children: [
                                     Icon(
                                       Symbols.package_rounded,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                       size: 16.0,
                                     ),
                                     SizedBox(width: 4.0),
@@ -397,8 +415,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       Intl.message('issue_form_procurement_9'),
                                       style: textTheme.bodyMedium?.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        color: colorScheme.onSurface
-                                            .withValues(alpha: 0.7),
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.7,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -406,642 +425,690 @@ class ProcurementFormItem extends HookConsumerWidget {
                               ),
                             ),
                           ],
-                          rows: List.generate(
-                            items!.length,
-                            (index) {
-                              useListenable(itemFocuses[index]);
-                              useListenable(specFocuses[index]);
-                              useListenable(quantityFocuses[index]);
-                              useListenable(unitPriceFocuses[index]);
-                              useListenable(purchaseUrlFocuses[index]);
+                          rows: List.generate(items!.length, (index) {
+                            useListenable(itemFocuses[index]);
+                            useListenable(specFocuses[index]);
+                            useListenable(quantityFocuses[index]);
+                            useListenable(unitPriceFocuses[index]);
+                            useListenable(purchaseUrlFocuses[index]);
 
-                              return DataRow(
-                                cells: [
-                                  DataCell(
-                                    Material(
-                                      elevation: itemFocuses[index].hasFocus
-                                          ? 1.0
-                                          : 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: itemFocuses[index].hasFocus
-                                          ? colorScheme.surfaceBright
-                                          : colorScheme.surfaceContainerLow,
-                                      child: TextField(
-                                        controller: itemControllers[index],
-                                        focusNode: itemFocuses[index],
-                                        style: textTheme.bodyMedium,
-                                        maxLines: 1,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(
-                                                width: 2.0,
-                                                color: colorScheme.primary),
+                            return DataRow(
+                              cells: [
+                                DataCell(
+                                  Material(
+                                    elevation: itemFocuses[index].hasFocus
+                                        ? 1.0
+                                        : 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: itemFocuses[index].hasFocus
+                                        ? colorScheme.surfaceBright
+                                        : colorScheme.surfaceContainerLow,
+                                    child: TextField(
+                                      controller: itemControllers[index],
+                                      focusNode: itemFocuses[index],
+                                      style: textTheme.bodyMedium,
+                                      maxLines: 1,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
                                           ),
                                         ),
-                                        onChanged: (value) {
-                                          isProcurementItemEmpty.value = false;
-                                          ref
-                                              .read(issueFormControllerProvider(
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.0,
+                                          ),
+                                          borderSide: BorderSide(
+                                            width: 2.0,
+                                            color: colorScheme.primary,
+                                          ),
+                                        ),
+                                      ),
+                                      onChanged: (value) {
+                                        isProcurementItemEmpty.value = false;
+                                        ref
+                                            .read(
+                                              issueFormControllerProvider(
                                                 projectId: projectId,
                                                 categoryId: categoryId,
                                                 issueId: issueId,
-                                              ).notifier)
-                                              .updateProcurementItem(
-                                                  index: index, item: value);
-                                        },
-                                        onSubmitted: (value) =>
-                                            FocusScope.of(context).requestFocus(
-                                                specFocuses[index]),
-                                      ),
+                                              ).notifier,
+                                            )
+                                            .updateProcurementItem(
+                                              index: index,
+                                              item: value,
+                                            );
+                                      },
+                                      onSubmitted: (_) => FocusScope.of(
+                                        context,
+                                      ).requestFocus(specFocuses[index]),
                                     ),
                                   ),
-                                  DataCell(
-                                    Material(
-                                      elevation: specFocuses[index].hasFocus
-                                          ? 1.0
-                                          : 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: specFocuses[index].hasFocus
-                                          ? colorScheme.surfaceBright
-                                          : colorScheme.surfaceContainerLow,
-                                      child: TextField(
-                                        controller: specControllers[index],
-                                        focusNode: specFocuses[index],
-                                        style: textTheme.bodyMedium,
-                                        maxLines: 1,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(
-                                                width: 2.0,
-                                                color: colorScheme.primary),
+                                ),
+                                DataCell(
+                                  Material(
+                                    elevation: specFocuses[index].hasFocus
+                                        ? 1.0
+                                        : 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: specFocuses[index].hasFocus
+                                        ? colorScheme.surfaceBright
+                                        : colorScheme.surfaceContainerLow,
+                                    child: TextField(
+                                      controller: specControllers[index],
+                                      focusNode: specFocuses[index],
+                                      style: textTheme.bodyMedium,
+                                      maxLines: 1,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
                                           ),
                                         ),
-                                        onChanged: (value) {
-                                          isProcurementItemEmpty.value = false;
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.0,
+                                          ),
+                                          borderSide: BorderSide(
+                                            width: 2.0,
+                                            color: colorScheme.primary,
+                                          ),
+                                        ),
+                                      ),
+                                      onChanged: (value) {
+                                        isProcurementItemEmpty.value = false;
 
-                                          ref
-                                              .read(issueFormControllerProvider(
+                                        ref
+                                            .read(
+                                              issueFormControllerProvider(
                                                 projectId: projectId,
                                                 categoryId: categoryId,
                                                 issueId: issueId,
-                                              ).notifier)
-                                              .updateProcurementItem(
-                                                  index: index, spec: value);
-                                        },
-                                        onSubmitted: (value) =>
-                                            FocusScope.of(context).requestFocus(
-                                                quantityFocuses[index]),
-                                      ),
+                                              ).notifier,
+                                            )
+                                            .updateProcurementItem(
+                                              index: index,
+                                              spec: value,
+                                            );
+                                      },
+                                      onSubmitted: (_) => FocusScope.of(
+                                        context,
+                                      ).requestFocus(quantityFocuses[index]),
                                     ),
                                   ),
-                                  DataCell(
-                                    Material(
-                                      elevation: quantityFocuses[index].hasFocus
-                                          ? 1.0
-                                          : 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: quantityFocuses[index].hasFocus
-                                          ? colorScheme.surfaceBright
-                                          : colorScheme.surfaceContainerLow,
-                                      child: TextField(
-                                        controller: quantityControllers[index],
-                                        focusNode: quantityFocuses[index],
-                                        keyboardType: TextInputType.number,
-                                        maxLines: 1,
-                                        inputFormatters: [
-                                          DecimalInputFormatter()
-                                        ],
-                                        textAlign: TextAlign.end,
-                                        style: textTheme.bodyMedium,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(
-                                                width: 2.0,
-                                                color: colorScheme.primary),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          isProcurementItemEmpty.value = false;
-
-                                          if (value.isNotEmpty &&
-                                              unitPriceControllers[index]
-                                                  .text
-                                                  .isNotEmpty) {
-                                            final quantity = value
-                                                .trim()
-                                                .replaceAll(',', '');
-                                            final parsedQuantity =
-                                                int.tryParse(quantity);
-
-                                            final unitPrice =
-                                                unitPriceControllers[index]
-                                                    .text
-                                                    .trim()
-                                                    .replaceAll(',', '');
-                                            final parsedUnitPrice =
-                                                int.tryParse(unitPrice);
-
-                                            if (parsedQuantity == null ||
-                                                parsedUnitPrice == null) return;
-
-                                            final totalAmount =
-                                                NumberFormat('#,###').format(
-                                                    parsedQuantity *
-                                                        parsedUnitPrice);
-
-                                            totalAmountControllers[index].text =
-                                                totalAmount;
-
-                                            ref
-                                                .read(
-                                                    issueFormControllerProvider(
-                                                  projectId: projectId,
-                                                  categoryId: categoryId,
-                                                  issueId: issueId,
-                                                ).notifier)
-                                                .updateProcurementItem(
-                                                    index: index,
-                                                    totalAmount: totalAmount);
-                                          }
-
-                                          ref
-                                              .read(issueFormControllerProvider(
-                                                projectId: projectId,
-                                                categoryId: categoryId,
-                                                issueId: issueId,
-                                              ).notifier)
-                                              .updateProcurementItem(
-                                                  index: index,
-                                                  quantity: value);
-                                        },
-                                        onSubmitted: (value) =>
-                                            FocusScope.of(context).requestFocus(
-                                                unitPriceFocuses[index]),
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    Material(
-                                      elevation:
-                                          unitPriceFocuses[index].hasFocus
-                                              ? 1.0
-                                              : 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: unitPriceFocuses[index].hasFocus
-                                          ? colorScheme.surfaceBright
-                                          : colorScheme.surfaceContainerLow,
-                                      child: TextField(
-                                        controller: unitPriceControllers[index],
-                                        focusNode: unitPriceFocuses[index],
-                                        keyboardType: TextInputType.number,
-                                        maxLines: 1,
-                                        inputFormatters: [
-                                          DecimalInputFormatter()
-                                        ],
-                                        textAlign: TextAlign.end,
-                                        style: textTheme.bodyMedium,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.transparent),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(
-                                                width: 2.0,
-                                                color: colorScheme.primary),
-                                          ),
-                                          suffixText: '₩',
-                                        ),
-                                        onChanged: (value) {
-                                          isProcurementItemEmpty.value = false;
-
-                                          if (value.isNotEmpty &&
-                                              quantityControllers[index]
-                                                  .text
-                                                  .isNotEmpty) {
-                                            final quantity =
-                                                quantityControllers[index]
-                                                    .text
-                                                    .trim()
-                                                    .replaceAll(',', '');
-                                            final parsedQuantity =
-                                                int.tryParse(quantity);
-
-                                            final unitPrice = value
-                                                .trim()
-                                                .replaceAll(',', '');
-                                            final parsedUnitPrice =
-                                                int.tryParse(unitPrice);
-
-                                            if (parsedQuantity == null ||
-                                                parsedUnitPrice == null) return;
-
-                                            final totalAmount =
-                                                NumberFormat('#,###').format(
-                                                    parsedQuantity *
-                                                        parsedUnitPrice);
-
-                                            totalAmountControllers[index].text =
-                                                totalAmount;
-
-                                            ref
-                                                .read(
-                                                    issueFormControllerProvider(
-                                                  projectId: projectId,
-                                                  categoryId: categoryId,
-                                                  issueId: issueId,
-                                                ).notifier)
-                                                .updateProcurementItem(
-                                                    index: index,
-                                                    totalAmount: totalAmount);
-                                          }
-
-                                          ref
-                                              .read(issueFormControllerProvider(
-                                                projectId: projectId,
-                                                categoryId: categoryId,
-                                                issueId: issueId,
-                                              ).notifier)
-                                              .updateProcurementItem(
-                                                  index: index,
-                                                  unitPrice: value);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  DataCell(
-                                    TextField(
-                                      readOnly: true,
-                                      controller: totalAmountControllers[index],
+                                ),
+                                DataCell(
+                                  Material(
+                                    elevation: quantityFocuses[index].hasFocus
+                                        ? 1.0
+                                        : 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: quantityFocuses[index].hasFocus
+                                        ? colorScheme.surfaceBright
+                                        : colorScheme.surfaceContainerLow,
+                                    child: TextField(
+                                      controller: quantityControllers[index],
+                                      focusNode: quantityFocuses[index],
                                       keyboardType: TextInputType.number,
+                                      maxLines: 1,
                                       inputFormatters: [
-                                        DecimalInputFormatter()
+                                        DecimalInputFormatter(),
                                       ],
                                       textAlign: TextAlign.end,
                                       style: textTheme.bodyMedium,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.transparent),
+                                            color: Colors.transparent,
+                                          ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.transparent),
+                                            color: Colors.transparent,
+                                          ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.0,
+                                          ),
                                           borderSide: BorderSide(
-                                              color: Colors.transparent),
+                                            width: 2.0,
+                                            color: colorScheme.primary,
+                                          ),
+                                        ),
+                                      ),
+                                      onChanged: (value) {
+                                        isProcurementItemEmpty.value = false;
+
+                                        if (value.isNotEmpty &&
+                                            unitPriceControllers[index]
+                                                .text
+                                                .isNotEmpty) {
+                                          final quantity = value
+                                              .trim()
+                                              .replaceAll(',', '');
+                                          final parsedQuantity = int.tryParse(
+                                            quantity,
+                                          );
+
+                                          final unitPrice =
+                                              unitPriceControllers[index].text
+                                                  .trim()
+                                                  .replaceAll(',', '');
+                                          final parsedUnitPrice = int.tryParse(
+                                            unitPrice,
+                                          );
+
+                                          if (parsedQuantity == null ||
+                                              parsedUnitPrice == null)
+                                            return;
+
+                                          final totalAmount =
+                                              NumberFormat('#,###').format(
+                                                parsedQuantity *
+                                                    parsedUnitPrice,
+                                              );
+
+                                          totalAmountControllers[index].text =
+                                              totalAmount;
+
+                                          ref
+                                              .read(
+                                                issueFormControllerProvider(
+                                                  projectId: projectId,
+                                                  categoryId: categoryId,
+                                                  issueId: issueId,
+                                                ).notifier,
+                                              )
+                                              .updateProcurementItem(
+                                                index: index,
+                                                totalAmount: totalAmount,
+                                              );
+                                        }
+
+                                        ref
+                                            .read(
+                                              issueFormControllerProvider(
+                                                projectId: projectId,
+                                                categoryId: categoryId,
+                                                issueId: issueId,
+                                              ).notifier,
+                                            )
+                                            .updateProcurementItem(
+                                              index: index,
+                                              quantity: value,
+                                            );
+                                      },
+                                      onSubmitted: (_) => FocusScope.of(
+                                        context,
+                                      ).requestFocus(unitPriceFocuses[index]),
+                                    ),
+                                  ),
+                                ),
+                                DataCell(
+                                  Material(
+                                    elevation: unitPriceFocuses[index].hasFocus
+                                        ? 1.0
+                                        : 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: unitPriceFocuses[index].hasFocus
+                                        ? colorScheme.surfaceBright
+                                        : colorScheme.surfaceContainerLow,
+                                    child: TextField(
+                                      controller: unitPriceControllers[index],
+                                      focusNode: unitPriceFocuses[index],
+                                      keyboardType: TextInputType.number,
+                                      maxLines: 1,
+                                      inputFormatters: [
+                                        DecimalInputFormatter(),
+                                      ],
+                                      textAlign: TextAlign.end,
+                                      style: textTheme.bodyMedium,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8.0,
+                                          ),
+                                          borderSide: BorderSide(
+                                            width: 2.0,
+                                            color: colorScheme.primary,
+                                          ),
                                         ),
                                         suffixText: '₩',
                                       ),
                                       onChanged: (value) {
                                         isProcurementItemEmpty.value = false;
 
-                                        ref
-                                            .read(issueFormControllerProvider(
-                                              projectId: projectId,
-                                              categoryId: categoryId,
-                                              issueId: issueId,
-                                            ).notifier)
-                                            .updateProcurementItem(
+                                        if (value.isNotEmpty &&
+                                            quantityControllers[index]
+                                                .text
+                                                .isNotEmpty) {
+                                          final quantity =
+                                              quantityControllers[index].text
+                                                  .trim()
+                                                  .replaceAll(',', '');
+                                          final parsedQuantity = int.tryParse(
+                                            quantity,
+                                          );
+
+                                          final unitPrice = value
+                                              .trim()
+                                              .replaceAll(',', '');
+                                          final parsedUnitPrice = int.tryParse(
+                                            unitPrice,
+                                          );
+
+                                          if (parsedQuantity == null ||
+                                              parsedUnitPrice == null)
+                                            return;
+
+                                          final totalAmount =
+                                              NumberFormat('#,###').format(
+                                                parsedQuantity *
+                                                    parsedUnitPrice,
+                                              );
+
+                                          totalAmountControllers[index].text =
+                                              totalAmount;
+
+                                          ref
+                                              .read(
+                                                issueFormControllerProvider(
+                                                  projectId: projectId,
+                                                  categoryId: categoryId,
+                                                  issueId: issueId,
+                                                ).notifier,
+                                              )
+                                              .updateProcurementItem(
                                                 index: index,
-                                                totalAmount: value);
+                                                totalAmount: totalAmount,
+                                              );
+                                        }
+
+                                        ref
+                                            .read(
+                                              issueFormControllerProvider(
+                                                projectId: projectId,
+                                                categoryId: categoryId,
+                                                issueId: issueId,
+                                              ).notifier,
+                                            )
+                                            .updateProcurementItem(
+                                              index: index,
+                                              unitPrice: value,
+                                            );
                                       },
                                     ),
                                   ),
-                                  DataCell(
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: CustomToggleButton(
-                                            onChanged: (value) {
-                                              isProcurementItemEmpty.value =
-                                                  false;
+                                ),
+                                DataCell(
+                                  TextField(
+                                    readOnly: true,
+                                    controller: totalAmountControllers[index],
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [DecimalInputFormatter()],
+                                    textAlign: TextAlign.end,
+                                    style: textTheme.bodyMedium,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      suffixText: '₩',
+                                    ),
+                                    onChanged: (value) {
+                                      isProcurementItemEmpty.value = false;
 
-                                              ref
-                                                  .read(
-                                                      issueFormControllerProvider(
+                                      ref
+                                          .read(
+                                            issueFormControllerProvider(
+                                              projectId: projectId,
+                                              categoryId: categoryId,
+                                              issueId: issueId,
+                                            ).notifier,
+                                          )
+                                          .updateProcurementItem(
+                                            index: index,
+                                            totalAmount: value,
+                                          );
+                                    },
+                                  ),
+                                ),
+                                DataCell(
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: CustomToggleButton(
+                                          onChanged: (value) {
+                                            isProcurementItemEmpty.value =
+                                                false;
+
+                                            ref
+                                                .read(
+                                                  issueFormControllerProvider(
                                                     projectId: projectId,
                                                     categoryId: categoryId,
                                                     issueId: issueId,
-                                                  ).notifier)
-                                                  .updateProcurementItem(
-                                                    index: index,
-                                                    isOnlinePurchase: value,
-                                                  );
-                                              if (value == false) {
-                                                purchaseUrlControllers[index]
-                                                    .clear();
-                                              }
-                                              if (value == true) {
-                                                WidgetsBinding.instance
-                                                    .addPostFrameCallback((_) {
-                                                  FocusScope.of(context)
-                                                      .requestFocus(
-                                                          purchaseUrlFocuses[
-                                                              index]);
-                                                });
-                                              }
-                                            },
-                                            value:
-                                                items![index].isOnlinePurchase,
-                                          ),
+                                                  ).notifier,
+                                                )
+                                                .updateProcurementItem(
+                                                  index: index,
+                                                  isOnlinePurchase: value,
+                                                );
+                                            if (value == false) {
+                                              purchaseUrlControllers[index]
+                                                  .clear();
+                                            }
+                                            if (value == true) {
+                                              WidgetsBinding.instance
+                                                  .addPostFrameCallback((_) {
+                                                    FocusScope.of(
+                                                      context,
+                                                    ).requestFocus(
+                                                      purchaseUrlFocuses[index],
+                                                    );
+                                                  });
+                                            }
+                                          },
+                                          value: items![index].isOnlinePurchase,
                                         ),
-                                        Expanded(
-                                          child: Material(
-                                            elevation: items![index]
-                                                        .isOnlinePurchase &&
-                                                    purchaseUrlFocuses[index]
-                                                        .hasFocus
-                                                ? 1.0
-                                                : 0.0,
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            color: items![index]
-                                                        .isOnlinePurchase &&
-                                                    purchaseUrlFocuses[index]
-                                                        .hasFocus
-                                                ? colorScheme.surfaceBright
-                                                : colorScheme
-                                                    .surfaceContainerLow,
-                                            child: TextField(
-                                              readOnly: !items![index]
-                                                  .isOnlinePurchase,
-                                              controller:
-                                                  purchaseUrlControllers[index],
-                                              focusNode:
-                                                  purchaseUrlFocuses[index],
-                                              maxLines: 1,
-                                              inputFormatters: [
-                                                UrlPrefixFormatter()
-                                              ],
-                                              style: textTheme.bodyMedium,
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Colors.transparent),
+                                      ),
+                                      Expanded(
+                                        child: Material(
+                                          elevation:
+                                              items![index].isOnlinePurchase &&
+                                                  purchaseUrlFocuses[index]
+                                                      .hasFocus
+                                              ? 1.0
+                                              : 0.0,
+                                          borderRadius: BorderRadius.circular(
+                                            8.0,
+                                          ),
+                                          color:
+                                              items![index].isOnlinePurchase &&
+                                                  purchaseUrlFocuses[index]
+                                                      .hasFocus
+                                              ? colorScheme.surfaceBright
+                                              : colorScheme.surfaceContainerLow,
+                                          child: TextField(
+                                            readOnly:
+                                                !items![index].isOnlinePurchase,
+                                            controller:
+                                                purchaseUrlControllers[index],
+                                            focusNode:
+                                                purchaseUrlFocuses[index],
+                                            maxLines: 1,
+                                            inputFormatters: [
+                                              UrlPrefixFormatter(),
+                                            ],
+                                            style: textTheme.bodyMedium,
+                                            decoration: InputDecoration(
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.transparent,
                                                 ),
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color:
-                                                          Colors.transparent),
-                                                ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  borderSide: BorderSide(
-                                                      width: 2.0,
-                                                      color: items![index]
-                                                              .isOnlinePurchase
-                                                          ? colorScheme.primary
-                                                          : Colors.transparent),
-                                                ),
-                                                hintText: items![index]
-                                                        .isOnlinePurchase
-                                                    ? Intl.message(
-                                                        'issue_form_procurement_8')
-                                                    : null,
                                               ),
-                                              onChanged: (value) {
-                                                isProcurementItemEmpty.value =
-                                                    false;
-                                                ref
-                                                    .read(
-                                                        issueFormControllerProvider(
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.transparent,
+                                                ),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                borderSide: BorderSide(
+                                                  width: 2.0,
+                                                  color:
+                                                      items![index]
+                                                          .isOnlinePurchase
+                                                      ? colorScheme.primary
+                                                      : Colors.transparent,
+                                                ),
+                                              ),
+                                              hintText:
+                                                  items![index].isOnlinePurchase
+                                                  ? Intl.message(
+                                                      'issue_form_procurement_8',
+                                                    )
+                                                  : null,
+                                            ),
+                                            onChanged: (value) {
+                                              isProcurementItemEmpty.value =
+                                                  false;
+                                              ref
+                                                  .read(
+                                                    issueFormControllerProvider(
                                                       projectId: projectId,
                                                       categoryId: categoryId,
                                                       issueId: issueId,
-                                                    ).notifier)
-                                                    .updateProcurementItem(
-                                                      index: index,
-                                                      purchaseUrl: value,
-                                                    );
-                                              },
-                                            ),
+                                                    ).notifier,
+                                                  )
+                                                  .updateProcurementItem(
+                                                    index: index,
+                                                    purchaseUrl: value,
+                                                  );
+                                            },
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  DataCell(
-                                    Row(
-                                      children: [
-                                        if (items![index].supplier == null)
-                                          Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: ElevatedButton(
-                                              onPressed: !items![index]
-                                                      .isOnlinePurchase
-                                                  ? () {
-                                                      isProcurementItemEmpty
-                                                          .value = false;
+                                ),
+                                DataCell(
+                                  Row(
+                                    children: [
+                                      if (items![index].supplier == null)
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: ElevatedButton(
+                                            onPressed:
+                                                !items![index].isOnlinePurchase
+                                                ? () {
+                                                    isProcurementItemEmpty
+                                                            .value =
+                                                        false;
 
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (_) =>
-                                                            SupplierSearchDialog(
-                                                                categoryId:
-                                                                    categoryId,
-                                                                projectId:
-                                                                    projectId,
-                                                                issueId:
-                                                                    issueId,
-                                                                itemIndex:
-                                                                    index),
-                                                      );
-                                                    }
-                                                  : null,
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadiusGeometry
-                                                          .circular(4.0),
-                                                  side: BorderSide(
-                                                      color: colorScheme.outline
-                                                          .withValues(
-                                                              alpha: 0.4)),
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (_) =>
+                                                          SupplierSearchDialog(
+                                                            projectId:
+                                                                projectId,
+                                                            categoryId:
+                                                                categoryId,
+                                                            issueId: issueId,
+                                                            itemIndex: index,
+                                                          ),
+                                                    );
+                                                  }
+                                                : null,
+                                            style: ElevatedButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadiusGeometry.circular(
+                                                      4.0,
+                                                    ),
+                                                side: BorderSide(
+                                                  color: colorScheme.outline
+                                                      .withValues(alpha: 0.4),
                                                 ),
-                                                minimumSize: Size(80, 36),
-                                                padding: EdgeInsets.zero,
-                                                textStyle:
-                                                    textTheme.labelMedium,
                                               ),
-                                              child: Text(
-                                                Intl.message(
-                                                    'issue_form_procurement_10'),
+                                              minimumSize: Size(80, 36),
+                                              padding: EdgeInsets.zero,
+                                              textStyle: textTheme.labelMedium,
+                                            ),
+                                            child: Text(
+                                              Intl.message(
+                                                'issue_form_procurement_10',
                                               ),
                                             ),
-                                          )
-                                        else
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Container(
-                                                  clipBehavior: Clip.hardEdge,
-                                                  width: 20.0,
-                                                  height: 20.0,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                    color: items![index]
-                                                                .supplier!
-                                                                .logo !=
-                                                            null
-                                                        ? Colors.white
-                                                        : colorScheme.primary,
-                                                  ),
-                                                  child: items![index]
+                                          ),
+                                        )
+                                      else
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 8.0,
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Container(
+                                                clipBehavior: Clip.hardEdge,
+                                                width: 20.0,
+                                                height: 20.0,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        4.0,
+                                                      ),
+                                                  color:
+                                                      items![index]
                                                               .supplier!
                                                               .logo !=
                                                           null
-                                                      ? Image.network(
-                                                          items![index]
-                                                              .supplier!
-                                                              .logo!,
-                                                          fit: BoxFit
-                                                              .contain, // 이미지가 컨테이너를 꽉 채우도록 설정
-                                                          errorBuilder:
-                                                              (_, __, ___) =>
-                                                                  Icon(
-                                                            Symbols
-                                                                .public_rounded,
-                                                            size: 20.0,
-                                                            color: colorScheme
-                                                                .onPrimary,
+                                                      ? Colors.white
+                                                      : colorScheme.primary,
+                                                ),
+                                                child:
+                                                    items![index]
+                                                            .supplier!
+                                                            .logo !=
+                                                        null
+                                                    ? Image.network(
+                                                        items![index]
+                                                            .supplier!
+                                                            .logo!,
+                                                        fit: BoxFit
+                                                            .contain, // 이미지가 컨테이너를 꽉 채우도록 설정
+                                                        errorBuilder:
+                                                            (
+                                                              _,
+                                                              __,
+                                                              ___,
+                                                            ) => Icon(
+                                                              Symbols
+                                                                  .public_rounded,
+                                                              size: 20.0,
+                                                              color: colorScheme
+                                                                  .onPrimary,
+                                                            ),
+                                                      )
+                                                    : Icon(
+                                                        Symbols.public_rounded,
+                                                        size: 20.0,
+                                                        color: colorScheme
+                                                            .onPrimary,
+                                                      ),
+                                              ),
+                                              SizedBox(width: 4.0),
+                                              Text(
+                                                items![index].supplier!.name,
+                                              ),
+                                              SizedBox(width: 4.0),
+                                              Padding(
+                                                padding: const EdgeInsets.all(
+                                                  4.0,
+                                                ),
+                                                child: ElevatedIconButton(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (_) =>
+                                                          SupplierSearchDialog(
+                                                            projectId:
+                                                                projectId,
+                                                            categoryId:
+                                                                categoryId,
+                                                            issueId: issueId,
+                                                            itemIndex: index,
                                                           ),
-                                                        )
-                                                      : Icon(
-                                                          Symbols
-                                                              .public_rounded,
-                                                          size: 20.0,
-                                                          color: colorScheme
-                                                              .onPrimary,
-                                                        ),
+                                                    );
+                                                  },
+                                                  padding: EdgeInsets.all(4.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        4.0,
+                                                      ),
+                                                  icon: Symbols.cached_rounded,
+                                                  size: 16.0,
                                                 ),
-                                                SizedBox(width: 4.0),
-                                                Text(items![index]
-                                                    .supplier!
-                                                    .name),
-                                                SizedBox(width: 4.0),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  child: ElevatedIconButton(
-                                                    onTap: () {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (_) =>
-                                                            SupplierSearchDialog(
-                                                                categoryId:
-                                                                    categoryId,
-                                                                projectId:
-                                                                    projectId,
-                                                                issueId:
-                                                                    issueId,
-                                                                itemIndex:
-                                                                    index),
-                                                      );
-                                                    },
-                                                    padding:
-                                                        EdgeInsets.all(4.0),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                    icon:
-                                                        Symbols.cached_rounded,
-                                                    size: 16.0,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 4.0),
-                                          child: ElevatedIconButton(
-                                            onTap: () async {
-                                              if (items!.length == 1) {
-                                                hasProcurementItems.value =
-                                                    false;
-                                                isProcurementItemEmpty.value =
-                                                    false;
-
-                                                await opacityController
-                                                    .reverse();
-                                                await sizeController.reverse();
-                                              }
-
-                                              ref
-                                                  .read(
-                                                      issueFormControllerProvider(
-                                                              projectId:
-                                                                  projectId,
-                                                              categoryId:
-                                                                  categoryId,
-                                                              issueId: issueId)
-                                                          .notifier)
-                                                  .removeProcurementItem(
-                                                      index: index);
-                                            },
-                                            padding: EdgeInsets.all(4.0),
-                                            borderRadius:
-                                                BorderRadius.circular(4.0),
-                                            icon: Symbols.delete_rounded,
-                                            size: 16.0,
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              );
-                            },
-                          ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0,
+                                        ),
+                                        child: ElevatedIconButton(
+                                          onTap: () async {
+                                            if (items!.length == 1) {
+                                              hasProcurementItems.value = false;
+                                              isProcurementItemEmpty.value =
+                                                  false;
+
+                                              await opacityController.reverse();
+                                              await sizeController.reverse();
+                                            }
+
+                                            ref
+                                                .read(
+                                                  issueFormControllerProvider(
+                                                    projectId: projectId,
+                                                    categoryId: categoryId,
+                                                    issueId: issueId,
+                                                  ).notifier,
+                                                )
+                                                .removeProcurementItem(
+                                                  index: index,
+                                                );
+                                          },
+                                          padding: EdgeInsets.all(4.0),
+                                          borderRadius: BorderRadius.circular(
+                                            4.0,
+                                          ),
+                                          icon: Symbols.delete_rounded,
+                                          size: 16.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
                         ),
                       ),
                       Container(
@@ -1061,12 +1128,12 @@ class ProcurementFormItem extends HookConsumerWidget {
                               flex: 6,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 8.0),
+                                  horizontal: 12.0,
+                                  vertical: 8.0,
+                                ),
                                 child: Text(
                                   Intl.message('issue_form_procurement_15'),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: TextStyle(fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
@@ -1074,13 +1141,13 @@ class ProcurementFormItem extends HookConsumerWidget {
                               flex: 4,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0, vertical: 8.0),
+                                  horizontal: 12.0,
+                                  vertical: 8.0,
+                                ),
                                 child: Text(
                                   '${NumberFormat('#,###').format(total)} ₩',
                                   textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: TextStyle(fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),

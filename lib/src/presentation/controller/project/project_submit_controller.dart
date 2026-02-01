@@ -6,7 +6,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
   ProjectSubmitState build() => ProjectSubmitState.idle();
 
   Future<void> createProject() async {
-    final value = ref.read(projectFormControllerProvider()).valueOrNull;
+    final value = ref.read(projectFormControllerProvider()).value;
 
     if (value == null) return;
 
@@ -41,7 +41,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
   Future<void> updateProject({required int projectId}) async {
     final value = ref
         .read(projectFormControllerProvider(projectId: projectId))
-        .valueOrNull;
+        .value;
 
     if (value == null) return;
 
@@ -56,10 +56,9 @@ class ProjectSubmitController extends _$ProjectSubmitController {
         isPreexecuted: value.isPreexecuted,
       );
 
-      final project = await ref.read(projectRepositoryProvider).updateProject(
-            id: projectId,
-            request: request,
-          );
+      final project = await ref
+          .read(projectRepositoryProvider)
+          .updateProject(id: projectId, request: request);
 
       ref
           .read(projectListControllerProvider.notifier)
@@ -74,13 +73,17 @@ class ProjectSubmitController extends _$ProjectSubmitController {
     }
   }
 
-  Future<void> closeProject(
-      {required int projectId, required String closureMessage}) async {
+  Future<void> closeProject({
+    required int projectId,
+    required String closureMessage,
+  }) async {
     state = const ProjectSubmitState.pending();
 
     try {
-      final request =
-          UpdateProjectRequest(isClosed: true, closureMessage: closureMessage);
+      final request = UpdateProjectRequest(
+        isClosed: true,
+        closureMessage: closureMessage,
+      );
 
       final project = await ref
           .read(projectRepositoryProvider)

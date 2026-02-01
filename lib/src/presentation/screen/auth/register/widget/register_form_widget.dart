@@ -25,26 +25,24 @@ class RegisterFormWidget extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
 
-    final username = useListenableSelector(
-        usernameController, () => usernameController.text);
-    final email =
-        useListenableSelector(emailController, () => emailController.text);
-    final password = useListenableSelector(
-        passwordController, () => passwordController.text);
+    final username = useValueListenable(usernameController);
+    final email = useValueListenable(emailController);
+    final password = useValueListenable(passwordController);
 
     final usernameFocus = useFocusNode();
     final emailFocus = useFocusNode();
     final passwordFocus = useFocusNode();
 
     final passwordVisibility = useState<bool>(false);
-    final validationItems =
-        useState(WidgetPreset(context).passwordValidationItems);
+    final validationItems = useState(
+      WidgetPreset(context).passwordValidationItems,
+    );
 
     final termsAndAgreement = useState<bool>(false);
 
     useEffect(() {
       final newItems = validationItems.value.map((item) {
-        final isMatch = password.contains(item.regex);
+        final isMatch = password.text.contains(item.regex);
         return item.copyWith(flag: isMatch);
       }).toList();
       validationItems.value = newItems;
@@ -54,8 +52,11 @@ class RegisterFormWidget extends HookConsumerWidget {
 
     Future<void> register() async {
       TextInput.finishAutofillContext();
-      final request =
-          RegisterRequest(username: username, email: email, password: password);
+      final request = RegisterRequest(
+        username: username.text,
+        email: email.text,
+        password: password.text,
+      );
       await ref
           .read(authControllerProvider.notifier)
           .register(request: request);
@@ -94,7 +95,7 @@ class RegisterFormWidget extends HookConsumerWidget {
               TextField(
                 controller: usernameController,
                 focusNode: usernameFocus,
-                onSubmitted: (text) => emailFocus.requestFocus(),
+                onSubmitted: (_) => emailFocus.requestFocus(),
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
@@ -104,7 +105,7 @@ class RegisterFormWidget extends HookConsumerWidget {
                       duration: const Duration(milliseconds: 300),
                       firstCurve: Curves.easeInQuad,
                       secondCurve: Curves.easeInQuad,
-                      crossFadeState: Validation.isUsernameValid(username)
+                      crossFadeState: Validation.isUsernameValid(username.text)
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,
                       firstChild: const Icon(
@@ -132,12 +133,14 @@ class RegisterFormWidget extends HookConsumerWidget {
               TextField(
                 controller: emailController,
                 focusNode: emailFocus,
-                onSubmitted: (text) => passwordFocus.requestFocus(),
+                onSubmitted: (_) => passwordFocus.requestFocus(),
                 keyboardType: TextInputType.emailAddress,
                 autofillHints: const [AutofillHints.username],
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  error: email.isNotEmpty && !Validation.isEmailValid(email)
+                  error:
+                      email.text.isNotEmpty &&
+                          !Validation.isEmailValid(email.text)
                       ? SizedBox.shrink()
                       : null,
                   suffixIcon: Padding(
@@ -146,7 +149,7 @@ class RegisterFormWidget extends HookConsumerWidget {
                       duration: const Duration(milliseconds: 300),
                       firstCurve: Curves.easeInQuad,
                       secondCurve: Curves.easeInQuad,
-                      crossFadeState: Validation.isEmailValid(email)
+                      crossFadeState: Validation.isEmailValid(email.text)
                           ? CrossFadeState.showFirst
                           : CrossFadeState.showSecond,
                       firstChild: const Icon(
@@ -174,20 +177,22 @@ class RegisterFormWidget extends HookConsumerWidget {
               TextField(
                 controller: passwordController,
                 focusNode: passwordFocus,
-                onSubmitted: Validation.isUsernameValid(username) &&
-                        Validation.isEmailValid(email) &&
-                        Validation.isPasswordValid(password)
-                    ? (text) => register()
+                onSubmitted:
+                    Validation.isUsernameValid(username.text) &&
+                        Validation.isEmailValid(email.text) &&
+                        Validation.isPasswordValid(password.text)
+                    ? (_) => register()
                     : null,
                 obscureText: !passwordVisibility.value,
                 autofillHints: const [AutofillHints.password],
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  error: password.isNotEmpty &&
-                          !Validation.isPasswordValid(password)
+                  error:
+                      password.text.isNotEmpty &&
+                          !Validation.isPasswordValid(password.text)
                       ? SizedBox.shrink()
                       : null,
-                  suffixIcon: password.isNotEmpty
+                  suffixIcon: password.text.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(right: 4.0),
                           child: CustomIconButton(
@@ -211,7 +216,7 @@ class RegisterFormWidget extends HookConsumerWidget {
           ),
           SizedBox(height: 24.0),
           PasswordInvalidWidget(
-            password: password,
+            password: password.text,
             items: validationItems.value,
           ),
           TermsAndAgreementWidget(termsAndAgreement: termsAndAgreement),
@@ -219,9 +224,10 @@ class RegisterFormWidget extends HookConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton(
-              onPressed: Validation.isUsernameValid(username) &&
-                      Validation.isEmailValid(email) &&
-                      Validation.isPasswordValid(password) &&
+              onPressed:
+                  Validation.isUsernameValid(username.text) &&
+                      Validation.isEmailValid(email.text) &&
+                      Validation.isPasswordValid(password.text) &&
                       termsAndAgreement.value
                   ? () => register()
                   : null,

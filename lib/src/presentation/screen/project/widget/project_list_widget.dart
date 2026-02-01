@@ -40,30 +40,23 @@ class ProjectListWidget extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: ContainerWidget(
-        elevation: 0.0,
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
         child: switch (state) {
           AsyncData(:final value) => Responsive(
-              desktop: _DesktopWidget(
-                items: value.items,
-              ),
-              mobile: _MobileWidget(
-                items: value.items,
-              ),
-            ),
-          AsyncError(:final error, :final stackTrace) =>
-            ErrorContainerWidget(error: error, stackTrace: stackTrace),
+            desktop: _DesktopWidget(items: value.items),
+            mobile: _MobileWidget(items: value.items),
+          ),
+          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            error: error,
+            stackTrace: stackTrace,
+          ),
           _ => Skeletonizer(
-              child: Responsive(
-                desktop: _DesktopWidget(
-                  items: dummy,
-                ),
-                mobile: _MobileWidget(
-                  items: dummy,
-                ),
-              ),
+            child: Responsive(
+              desktop: _DesktopWidget(items: dummy),
+              mobile: _MobileWidget(items: dummy),
             ),
+          ),
         },
       ),
     );
@@ -73,9 +66,7 @@ class ProjectListWidget extends ConsumerWidget {
 class _DesktopWidget extends HookConsumerWidget {
   final List<Project> items;
 
-  const _DesktopWidget({
-    required this.items,
-  });
+  const _DesktopWidget({required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -183,9 +174,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  Text(
-                    Intl.message('project_no_item'),
-                  ),
+                  Text(Intl.message('project_no_item')),
                 ],
               ),
             ),
@@ -207,54 +196,42 @@ class _DesktopWidget extends HookConsumerWidget {
                   columns: [
                     DataColumn(
                       columnWidth: FixedColumnWidth(220.0),
-                      label: Text(
-                        Intl.message('project_column_1'),
-                      ),
+                      label: Text(Intl.message('project_column_1')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(200.0),
-                      label: Text(
-                        Intl.message('project_column_2'),
-                      ),
+                      label: Text(Intl.message('project_column_2')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(1.0),
-                      label: Text(
-                        Intl.message('project_column_3'),
-                      ),
+                      label: Text(Intl.message('project_column_3')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(140.0),
-                      label: Text(
-                        Intl.message('project_column_4'),
-                      ),
+                      label: Text(Intl.message('project_column_4')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(140.0),
-                      label: Text(
-                        Intl.message('project_column_5'),
-                      ),
+                      label: Text(Intl.message('project_column_5')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(140.0),
-                      label: Text(
-                        Intl.message('project_column_6'),
-                      ),
+                      label: Text(Intl.message('project_column_6')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(100.0),
-                      label: Text(
-                        Intl.message('project_column_7'),
-                      ),
+                      label: Text(Intl.message('project_column_7')),
                     ),
                   ],
                   rows: List.generate(
                     items.length,
                     (index) => DataRow(
-                      onSelectChanged: (value) => context
-                          .goNamed(RouteNames.projectDetail, pathParameters: {
-                        'project_id': items[index].id.toString()
-                      }),
+                      onSelectChanged: (value) => context.goNamed(
+                        RouteNames.projectDetail,
+                        pathParameters: {
+                          'project_id': items[index].id.toString(),
+                        },
+                      ),
                       cells: [
                         DataCell(
                           Row(
@@ -266,9 +243,11 @@ class _DesktopWidget extends HookConsumerWidget {
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: Color(
                                       ClientType.values
-                                          .singleWhere((client) =>
-                                              client.id ==
-                                              items[index].clients.first.id)
+                                          .singleWhere(
+                                            (client) =>
+                                                client.id ==
+                                                items[index].clients.first.id,
+                                          )
                                           .color,
                                     ),
                                   ),
@@ -277,12 +256,16 @@ class _DesktopWidget extends HookConsumerWidget {
                                     height: 16.0,
                                     child: SvgPicture.asset(
                                       ClientType.values
-                                          .singleWhere((client) =>
-                                              client.id ==
-                                              items[index].clients.first.id)
+                                          .singleWhere(
+                                            (client) =>
+                                                client.id ==
+                                                items[index].clients.first.id,
+                                          )
                                           .asset,
                                       colorFilter: ColorFilter.mode(
-                                          Colors.white, BlendMode.srcIn),
+                                        Colors.white,
+                                        BlendMode.srcIn,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -290,8 +273,9 @@ class _DesktopWidget extends HookConsumerWidget {
                               SizedBox(width: 12.0),
                               Text(
                                 items[index].clients.last.name,
-                                style: textTheme.bodyMedium
-                                    ?.copyWith(fontWeight: FontWeight.w600),
+                                style: textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),
@@ -305,11 +289,14 @@ class _DesktopWidget extends HookConsumerWidget {
                                   padding: EdgeInsets.only(right: 6.0),
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 2.0),
+                                      horizontal: 8.0,
+                                      vertical: 2.0,
+                                    ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4.0),
-                                      color: colorScheme.error
-                                          .withValues(alpha: 0.6),
+                                      color: colorScheme.error.withValues(
+                                        alpha: 0.6,
+                                      ),
                                     ),
                                     child: Text(
                                       Intl.message('project_preexecuted'),
@@ -325,11 +312,14 @@ class _DesktopWidget extends HookConsumerWidget {
                                   padding: EdgeInsets.only(right: 6.0),
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 2.0),
+                                      horizontal: 8.0,
+                                      vertical: 2.0,
+                                    ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(4.0),
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.6),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.6,
+                                      ),
                                     ),
                                     child: Text(
                                       Intl.message('project_closed'),
@@ -347,21 +337,24 @@ class _DesktopWidget extends HookConsumerWidget {
                         DataCell(
                           items[index].latestCategory != null
                               ? CategoryWidget(
-                                  item: items[index].latestCategory!)
+                                  item: items[index].latestCategory!,
+                                )
                               : Text('-'),
                         ),
                         DataCell(
                           items[index].manager != null
                               ? UserInformation.compact(
-                                  user: items[index].manager!)
+                                  user: items[index].manager!,
+                                )
                               : Text('-'),
                         ),
                         DataCell(
                           Text(
                             formatRelativeDate(items[index].createdAt),
                             style: TextStyle(
-                              color:
-                                  colorScheme.onSurface.withValues(alpha: 0.7),
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
                             ),
                           ),
                         ),
@@ -372,12 +365,13 @@ class _DesktopWidget extends HookConsumerWidget {
                               ElevatedIconButton(
                                 onTap: () async {
                                   await ref
-                                      .read(projectListControllerProvider
-                                          .notifier)
+                                      .read(
+                                        projectListControllerProvider.notifier,
+                                      )
                                       .toggleBookmark(
-                                          id: items[index].id,
-                                          bookmarked:
-                                              !items[index].isBookmarked);
+                                        id: items[index].id,
+                                        bookmarked: !items[index].isBookmarked,
+                                      );
                                 },
                                 padding: EdgeInsets.all(4.0),
                                 borderRadius: BorderRadius.circular(4.0),
@@ -394,11 +388,12 @@ class _DesktopWidget extends HookConsumerWidget {
                                   child: ElevatedIconButton(
                                     onTap: !items[index].isClosed
                                         ? () => context.goNamed(
-                                                RouteNames.projectEdit,
-                                                pathParameters: {
-                                                  'project_id':
-                                                      items[index].id.toString()
-                                                })
+                                            RouteNames.projectEdit,
+                                            pathParameters: {
+                                              'project_id': items[index].id
+                                                  .toString(),
+                                            },
+                                          )
                                         : null,
                                     padding: EdgeInsets.all(4.0),
                                     borderRadius: BorderRadius.circular(4.0),
@@ -424,9 +419,7 @@ class _DesktopWidget extends HookConsumerWidget {
 class _MobileWidget extends HookConsumerWidget {
   final List<Project> items;
 
-  const _MobileWidget({
-    required this.items,
-  });
+  const _MobileWidget({required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -450,9 +443,7 @@ class _MobileWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('project_no_item'),
-            ),
+            Text(Intl.message('project_no_item')),
           ],
         ),
       );
@@ -471,8 +462,10 @@ class _MobileWidget extends HookConsumerWidget {
         itemCount: items.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {
-            context.goNamed(RouteNames.projectDetail,
-                pathParameters: {'project_id': items[index].id.toString()});
+            context.goNamed(
+              RouteNames.projectDetail,
+              pathParameters: {'project_id': items[index].id.toString()},
+            );
           },
           child: Stack(
             alignment: Alignment.topRight,
@@ -487,8 +480,9 @@ class _MobileWidget extends HookConsumerWidget {
                         await ref
                             .read(projectListControllerProvider.notifier)
                             .toggleBookmark(
-                                id: items[index].id,
-                                bookmarked: !items[index].isBookmarked);
+                              id: items[index].id,
+                              bookmarked: !items[index].isBookmarked,
+                            );
                       },
                       padding: EdgeInsets.all(4.0),
                       borderRadius: BorderRadius.circular(4.0),
@@ -500,10 +494,12 @@ class _MobileWidget extends HookConsumerWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 4.0),
                         child: ElevatedIconButton(
-                          onTap: () => context.goNamed(RouteNames.projectEdit,
-                              pathParameters: {
-                                'project_id': items[index].id.toString()
-                              }),
+                          onTap: () => context.goNamed(
+                            RouteNames.projectEdit,
+                            pathParameters: {
+                              'project_id': items[index].id.toString(),
+                            },
+                          ),
                           padding: EdgeInsets.all(4.0),
                           borderRadius: BorderRadius.circular(4.0),
                           icon: Symbols.edit_square_rounded,
@@ -529,11 +525,14 @@ class _MobileWidget extends HookConsumerWidget {
                                 padding: EdgeInsets.only(right: 6.0),
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 2.0),
+                                    horizontal: 8.0,
+                                    vertical: 2.0,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4.0),
-                                    color: colorScheme.error
-                                        .withValues(alpha: 0.6),
+                                    color: colorScheme.error.withValues(
+                                      alpha: 0.6,
+                                    ),
                                   ),
                                   child: Text(
                                     Intl.message('project_preexecuted'),
@@ -549,11 +548,14 @@ class _MobileWidget extends HookConsumerWidget {
                                 padding: EdgeInsets.only(right: 6.0),
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0, vertical: 2.0),
+                                    horizontal: 8.0,
+                                    vertical: 2.0,
+                                  ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4.0),
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.6),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.6,
+                                    ),
                                   ),
                                   child: Text(
                                     Intl.message('project_closed'),
@@ -570,8 +572,9 @@ class _MobileWidget extends HookConsumerWidget {
                     if (items[index].latestCategory != null)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
-                        child:
-                            CategoryWidget(item: items[index].latestCategory!),
+                        child: CategoryWidget(
+                          item: items[index].latestCategory!,
+                        ),
                       ),
                     Row(
                       children: [
@@ -582,9 +585,11 @@ class _MobileWidget extends HookConsumerWidget {
                               borderRadius: BorderRadius.circular(8.0),
                               color: Color(
                                 ClientType.values
-                                    .singleWhere((client) =>
-                                        client.id ==
-                                        items[index].clients.first.id)
+                                    .singleWhere(
+                                      (client) =>
+                                          client.id ==
+                                          items[index].clients.first.id,
+                                    )
                                     .color,
                               ),
                             ),
@@ -593,12 +598,16 @@ class _MobileWidget extends HookConsumerWidget {
                               height: 16.0,
                               child: SvgPicture.asset(
                                 ClientType.values
-                                    .singleWhere((client) =>
-                                        client.id ==
-                                        items[index].clients.first.id)
+                                    .singleWhere(
+                                      (client) =>
+                                          client.id ==
+                                          items[index].clients.first.id,
+                                    )
                                     .asset,
                                 colorFilter: ColorFilter.mode(
-                                    Colors.white, BlendMode.srcIn),
+                                  Colors.white,
+                                  BlendMode.srcIn,
+                                ),
                               ),
                             ),
                           ),
@@ -606,9 +615,7 @@ class _MobileWidget extends HookConsumerWidget {
                         SizedBox(width: 8.0),
                         Text(
                           items[index].clients.last.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -617,8 +624,9 @@ class _MobileWidget extends HookConsumerWidget {
                       items[index].name,
                       maxLines: Responsive.isMobile(context) ? 2 : 1,
                       overflow: TextOverflow.ellipsis,
-                      style: textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w500),
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     Text(
                       items[index].code,
@@ -655,16 +663,18 @@ class _MobileWidget extends HookConsumerWidget {
                             Icon(
                               Symbols.person_rounded,
                               size: 18.0,
-                              color:
-                                  colorScheme.onSurface.withValues(alpha: 0.6),
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
                             ),
                             SizedBox(width: 4.0),
                             Text(
                               items[index].manager!.username,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: colorScheme.onSurface
-                                    .withValues(alpha: 0.6),
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
                               ),
                             ),
                           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -10,9 +11,6 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ContractFormItem extends ConsumerWidget {
-  final int categoryId;
-  final int projectId;
-  final int? issueId;
   final Currency? currency;
   final List<ContractItem> contractItems;
   final List<TransactionItem> transactionItems;
@@ -24,9 +22,6 @@ class ContractFormItem extends ConsumerWidget {
 
   const ContractFormItem({
     super.key,
-    required this.categoryId,
-    required this.projectId,
-    this.issueId,
     this.currency,
     required this.contractItems,
     required this.transactionItems,
@@ -39,42 +34,49 @@ class ContractFormItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
+
     final filter = ref.watch(issueFilterControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
+        categoryId: categoryId,
+        projectId: projectId,
+        issueId: issueId,
+        currency: currency,
+        currencies: value.currencies,
+        contractItems: contractItems,
+        transactionItems: transactionItems,
+        hasContractItems: hasContractItems,
+        isContractItemEmpty: isContractItemEmpty,
+        hasTransactionItems: hasTransactionItems,
+        isTransactionItemEmpty: isTransactionItemEmpty,
+        isRatioInvalid: isRatioInvalid,
+        categories: value.transactionCategories,
+      ),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
+      _ => Skeletonizer(
+        child: _DesktopWidget(
           categoryId: categoryId,
           projectId: projectId,
-          issueId: issueId,
-          currency: currency,
-          currencies: value.currencies,
-          contractItems: contractItems,
-          transactionItems: transactionItems,
+          currency: Currency.empty(),
+          currencies: [],
+          contractItems: [],
+          transactionItems: [],
           hasContractItems: hasContractItems,
           isContractItemEmpty: isContractItemEmpty,
           hasTransactionItems: hasTransactionItems,
           isTransactionItemEmpty: isTransactionItemEmpty,
           isRatioInvalid: isRatioInvalid,
-          categories: value.transactionCategories,
+          categories: [],
         ),
-      AsyncError(:final error, :final stackTrace) =>
-        ErrorContainerWidget(error: error, stackTrace: stackTrace),
-      _ => Skeletonizer(
-          child: _DesktopWidget(
-            categoryId: categoryId,
-            projectId: projectId,
-            currency: Currency.empty(),
-            currencies: [],
-            contractItems: [],
-            transactionItems: [],
-            hasContractItems: hasContractItems,
-            isContractItemEmpty: isContractItemEmpty,
-            hasTransactionItems: hasTransactionItems,
-            isTransactionItemEmpty: isTransactionItemEmpty,
-            isRatioInvalid: isRatioInvalid,
-            categories: [],
-          ),
-        ),
+      ),
     };
   }
 }
@@ -279,9 +281,7 @@ class _DesktopWidget extends HookConsumerWidget {
         children: [
           Text(
             Intl.message('issue_form_contract_1'),
-            style: textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           SizedBox(height: 8.0),
           // TODO: 추후 구현 필요
@@ -461,27 +461,27 @@ class _DesktopWidget extends HookConsumerWidget {
               isContractItemEmpty.value = false;
 
               ref
-                  .read(issueFormControllerProvider(
-                          projectId: projectId,
-                          categoryId: categoryId,
-                          issueId: issueId)
-                      .notifier)
+                  .read(
+                    issueFormControllerProvider(
+                      projectId: projectId,
+                      categoryId: categoryId,
+                      issueId: issueId,
+                    ).notifier,
+                  )
                   .setContractCurrency(currency: selectedCurrency.value);
 
               ref
-                  .read(issueFormControllerProvider(
-                          projectId: projectId,
-                          categoryId: categoryId,
-                          issueId: issueId)
-                      .notifier)
+                  .read(
+                    issueFormControllerProvider(
+                      projectId: projectId,
+                      categoryId: categoryId,
+                      issueId: issueId,
+                    ).notifier,
+                  )
                   .addContractItem();
             },
-            icon: Icon(
-              Symbols.add_rounded,
-            ),
-            label: Text(
-              Intl.message('issue_form_contract_5'),
-            ),
+            icon: Icon(Symbols.add_rounded),
+            label: Text(Intl.message('issue_form_contract_5')),
           ),
           if (contractItems.isNotEmpty)
             SizeTransition(
@@ -515,17 +515,17 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                           ),
                         ),
-                        label: Text(
-                          Intl.message('issue_form_contract_6'),
-                        ),
+                        label: Text(Intl.message('issue_form_contract_6')),
                         itemBuilder: (currency) => Text(currency.code),
                         onChanged: (value) {
                           ref
-                              .read(issueFormControllerProvider(
-                                      projectId: projectId,
-                                      categoryId: categoryId,
-                                      issueId: issueId)
-                                  .notifier)
+                              .read(
+                                issueFormControllerProvider(
+                                  projectId: projectId,
+                                  categoryId: categoryId,
+                                  issueId: issueId,
+                                ).notifier,
+                              )
                               .setContractCurrency(currency: value!);
                         },
                       ),
@@ -555,14 +555,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FlexColumnWidth(0.7),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.text_fields_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -570,8 +572,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_contract_3'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -581,14 +584,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FlexColumnWidth(0.5),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -596,8 +601,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_contract_4'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -605,172 +611,182 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                           ),
                         ],
-                        rows: List.generate(
-                          contractItems.length,
-                          (index) {
-                            useListenable(contractItemFocuses[index]);
-                            useListenable(contractPriceFocuses[index]);
+                        rows: List.generate(contractItems.length, (index) {
+                          useListenable(contractItemFocuses[index]);
+                          useListenable(contractPriceFocuses[index]);
 
-                            return DataRow(
-                              cells: [
-                                DataCell(
-                                  Material(
-                                    elevation:
-                                        contractItemFocuses[index].hasFocus
-                                            ? 1.0
-                                            : 0.0,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: contractItemFocuses[index].hasFocus
-                                        ? colorScheme.surfaceBright
-                                        : colorScheme.surfaceContainerLow,
-                                    child: TextField(
-                                      controller:
-                                          contractItemControllers[index],
-                                      focusNode: contractItemFocuses[index],
-                                      style: textTheme.bodyMedium,
-                                      maxLines: 1,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          borderSide: BorderSide(
-                                              width: 2.0,
-                                              color: colorScheme.primary),
+                          return DataRow(
+                            cells: [
+                              DataCell(
+                                Material(
+                                  elevation: contractItemFocuses[index].hasFocus
+                                      ? 1.0
+                                      : 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: contractItemFocuses[index].hasFocus
+                                      ? colorScheme.surfaceBright
+                                      : colorScheme.surfaceContainerLow,
+                                  child: TextField(
+                                    controller: contractItemControllers[index],
+                                    focusNode: contractItemFocuses[index],
+                                    style: textTheme.bodyMedium,
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
                                         ),
                                       ),
-                                      onChanged: (value) {
-                                        isContractItemEmpty.value = false;
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ),
+                                        borderSide: BorderSide(
+                                          width: 2.0,
+                                          color: colorScheme.primary,
+                                        ),
+                                      ),
+                                    ),
+                                    onChanged: (value) {
+                                      isContractItemEmpty.value = false;
 
-                                        ref
-                                            .read(issueFormControllerProvider(
+                                      ref
+                                          .read(
+                                            issueFormControllerProvider(
                                               projectId: projectId,
                                               categoryId: categoryId,
                                               issueId: issueId,
-                                            ).notifier)
-                                            .updateContractItem(
-                                                index: index, item: value);
-                                      },
-                                      onSubmitted: (value) =>
-                                          FocusScope.of(context).requestFocus(
-                                              contractPriceFocuses[index]),
-                                    ),
+                                            ).notifier,
+                                          )
+                                          .updateContractItem(
+                                            index: index,
+                                            item: value,
+                                          );
+                                    },
+                                    onSubmitted: (_) => FocusScope.of(
+                                      context,
+                                    ).requestFocus(contractPriceFocuses[index]),
                                   ),
                                 ),
-                                DataCell(
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Material(
-                                          elevation: contractPriceFocuses[index]
-                                                  .hasFocus
-                                              ? 1.0
-                                              : 0.0,
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          color: contractPriceFocuses[index]
-                                                  .hasFocus
-                                              ? colorScheme.surfaceBright
-                                              : colorScheme.surfaceContainerLow,
-                                          child: TextField(
-                                            controller:
-                                                contractPriceControllers[index],
-                                            focusNode:
-                                                contractPriceFocuses[index],
-                                            keyboardType: TextInputType.number,
-                                            inputFormatters: [
-                                              DecimalInputFormatter()
-                                            ],
-                                            textAlign: TextAlign.end,
-                                            style: textTheme.bodyMedium,
-                                            maxLines: 1,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.transparent),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.transparent),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                borderSide: BorderSide(
-                                                    width: 2.0,
-                                                    color: colorScheme.primary),
-                                              ),
-                                              suffixText:
-                                                  selectedCurrency.value.symbol,
-                                            ),
-                                            onChanged: (value) {
-                                              isContractItemEmpty.value = false;
-
-                                              ref
-                                                  .read(
-                                                      issueFormControllerProvider(
-                                                    projectId: projectId,
-                                                    categoryId: categoryId,
-                                                    issueId: issueId,
-                                                  ).notifier)
-                                                  .updateContractItem(
-                                                      index: index,
-                                                      price: value);
-                                            },
-                                          ),
+                              ),
+                              DataCell(
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Material(
+                                        elevation:
+                                            contractPriceFocuses[index].hasFocus
+                                            ? 1.0
+                                            : 0.0,
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: ElevatedIconButton(
-                                          onTap: () async {
-                                            if (contractItems.length == 1) {
-                                              hasContractItems.value = false;
-                                              isContractItemEmpty.value = false;
-
-                                              await contractOpacityController
-                                                  .reverse();
-                                              await contractSizeController
-                                                  .reverse();
-                                            }
+                                        color:
+                                            contractPriceFocuses[index].hasFocus
+                                            ? colorScheme.surfaceBright
+                                            : colorScheme.surfaceContainerLow,
+                                        child: TextField(
+                                          controller:
+                                              contractPriceControllers[index],
+                                          focusNode:
+                                              contractPriceFocuses[index],
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            DecimalInputFormatter(),
+                                          ],
+                                          textAlign: TextAlign.end,
+                                          style: textTheme.bodyMedium,
+                                          maxLines: 1,
+                                          decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                              ),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              borderSide: BorderSide(
+                                                width: 2.0,
+                                                color: colorScheme.primary,
+                                              ),
+                                            ),
+                                            suffixText:
+                                                selectedCurrency.value.symbol,
+                                          ),
+                                          onChanged: (value) {
+                                            isContractItemEmpty.value = false;
 
                                             ref
                                                 .read(
-                                                    issueFormControllerProvider(
-                                                            projectId:
-                                                                projectId,
-                                                            categoryId:
-                                                                categoryId,
-                                                            issueId: issueId)
-                                                        .notifier)
-                                                .removeContractItem(
-                                                    index: index);
+                                                  issueFormControllerProvider(
+                                                    projectId: projectId,
+                                                    categoryId: categoryId,
+                                                    issueId: issueId,
+                                                  ).notifier,
+                                                )
+                                                .updateContractItem(
+                                                  index: index,
+                                                  price: value,
+                                                );
                                           },
-                                          padding: EdgeInsets.all(4.0),
-                                          borderRadius:
-                                              BorderRadius.circular(4.0),
-                                          icon: Symbols.delete_rounded,
-                                          size: 16.0,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: ElevatedIconButton(
+                                        onTap: () async {
+                                          if (contractItems.length == 1) {
+                                            hasContractItems.value = false;
+                                            isContractItemEmpty.value = false;
+
+                                            await contractOpacityController
+                                                .reverse();
+                                            await contractSizeController
+                                                .reverse();
+                                          }
+
+                                          ref
+                                              .read(
+                                                issueFormControllerProvider(
+                                                  projectId: projectId,
+                                                  categoryId: categoryId,
+                                                  issueId: issueId,
+                                                ).notifier,
+                                              )
+                                              .removeContractItem(index: index);
+                                        },
+                                        padding: EdgeInsets.all(4.0),
+                                        borderRadius: BorderRadius.circular(
+                                          4.0,
+                                        ),
+                                        icon: Symbols.delete_rounded,
+                                        size: 16.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            );
-                          },
-                        ),
+                              ),
+                            ],
+                          );
+                        }),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 8.0),
+                          horizontal: 12.0,
+                          vertical: 8.0,
+                        ),
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
@@ -785,17 +801,13 @@ class _DesktopWidget extends HookConsumerWidget {
                           children: [
                             Text(
                               Intl.message('issue_form_contract_8'),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                             Expanded(
                               child: Text(
                                 '${NumberFormat('#,###').format(total)} ${selectedCurrency.value.code}',
                                 textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: TextStyle(fontWeight: FontWeight.w600),
                               ),
                             ),
                           ],
@@ -817,9 +829,7 @@ class _DesktopWidget extends HookConsumerWidget {
           SizedBox(height: 24.0),
           Text(
             Intl.message('issue_form_transaction_1'),
-            style: textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           SizedBox(height: 8.0),
           TextButton.icon(
@@ -828,19 +838,17 @@ class _DesktopWidget extends HookConsumerWidget {
               isTransactionItemEmpty.value = false;
 
               ref
-                  .read(issueFormControllerProvider(
-                          projectId: projectId,
-                          categoryId: categoryId,
-                          issueId: issueId)
-                      .notifier)
+                  .read(
+                    issueFormControllerProvider(
+                      projectId: projectId,
+                      categoryId: categoryId,
+                      issueId: issueId,
+                    ).notifier,
+                  )
                   .addTransactionItem();
             },
-            icon: Icon(
-              Symbols.add_rounded,
-            ),
-            label: Text(
-              Intl.message('issue_form_transaction_2'),
-            ),
+            icon: Icon(Symbols.add_rounded),
+            label: Text(Intl.message('issue_form_transaction_2')),
           ),
           if (transactionItems.isNotEmpty)
             SizeTransition(
@@ -881,14 +889,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FixedColumnWidth(140.0),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.checkbook_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -896,8 +906,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_3'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -907,14 +918,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FlexColumnWidth(0.3),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.pie_chart_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -922,8 +935,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_4'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -938,8 +952,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.attach_money_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -947,8 +962,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_5'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -956,197 +972,207 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                           ),
                         ],
-                        rows: List.generate(
-                          transactionItems.length,
-                          (index) {
-                            useListenable(transactionRatioFocuses[index]);
-                            useListenable(transactionPriceControllers[index]);
+                        rows: List.generate(transactionItems.length, (index) {
+                          useListenable(transactionRatioFocuses[index]);
+                          useListenable(transactionPriceControllers[index]);
 
-                            return DataRow(
-                              cells: [
-                                DataCell(
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedDropdownButton<
-                                        TransactionItemCategory>(
-                                      isExpanded: true,
-                                      items: categories,
-                                      selectedItem: selectedCategories[index],
-                                      icon: Icon(Symbols.checkbook_rounded),
-                                      label: Text(
-                                        Intl.message(
-                                            'issue_form_transaction_6'),
+                          return DataRow(
+                            cells: [
+                              DataCell(
+                                SizedBox(
+                                  width: double.infinity,
+                                  child:
+                                      ElevatedDropdownButton<
+                                        TransactionItemCategory
+                                      >(
+                                        isExpanded: true,
+                                        items: categories,
+                                        selectedItem: selectedCategories[index],
+                                        icon: Icon(Symbols.checkbook_rounded),
+                                        label: Text(
+                                          Intl.message(
+                                            'issue_form_transaction_6',
+                                          ),
+                                        ),
+                                        itemBuilder: (category) =>
+                                            Text(category.name),
+                                        onChanged: (value) {
+                                          hasTransactionItems.value = false;
+                                          isTransactionItemEmpty.value = false;
+                                          isRatioInvalid.value = false;
+                                          ref
+                                              .read(
+                                                issueFormControllerProvider(
+                                                  projectId: projectId,
+                                                  categoryId: categoryId,
+                                                  issueId: issueId,
+                                                ).notifier,
+                                              )
+                                              .updateTransactionItem(
+                                                index: index,
+                                                category: value,
+                                              );
+                                        },
                                       ),
-                                      itemBuilder: (category) =>
-                                          Text(category.name),
-                                      onChanged: (value) {
-                                        hasTransactionItems.value = false;
-                                        isTransactionItemEmpty.value = false;
-                                        isRatioInvalid.value = false;
-                                        ref
-                                            .read(issueFormControllerProvider(
-                                                    projectId: projectId,
-                                                    categoryId: categoryId,
-                                                    issueId: issueId)
-                                                .notifier)
-                                            .updateTransactionItem(
-                                              index: index,
-                                              category: value,
-                                            );
-                                      },
-                                    ),
-                                  ),
                                 ),
-                                DataCell(
-                                  Material(
-                                    elevation:
-                                        transactionRatioFocuses[index].hasFocus
-                                            ? 1.0
-                                            : 0.0,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color:
-                                        transactionRatioFocuses[index].hasFocus
-                                            ? colorScheme.surfaceBright
-                                            : colorScheme.surfaceContainerLow,
-                                    child: TextField(
-                                      controller:
-                                          transactionRatioControllers[index],
-                                      focusNode: transactionRatioFocuses[index],
-                                      keyboardType: TextInputType.number,
-                                      inputFormatters: [
-                                        DecimalInputFormatter()
-                                      ],
-                                      textAlign: TextAlign.end,
-                                      style: textTheme.bodyMedium,
-                                      maxLength: 3,
-                                      maxLines: 1,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
+                              ),
+                              DataCell(
+                                Material(
+                                  elevation:
+                                      transactionRatioFocuses[index].hasFocus
+                                      ? 1.0
+                                      : 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: transactionRatioFocuses[index].hasFocus
+                                      ? colorScheme.surfaceBright
+                                      : colorScheme.surfaceContainerLow,
+                                  child: TextField(
+                                    controller:
+                                        transactionRatioControllers[index],
+                                    focusNode: transactionRatioFocuses[index],
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [DecimalInputFormatter()],
+                                    textAlign: TextAlign.end,
+                                    style: textTheme.bodyMedium,
+                                    maxLength: 3,
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
                                         ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          borderSide: BorderSide(
-                                              width: 2.0,
-                                              color: colorScheme.primary),
-                                        ),
-                                        counterText: '',
-                                        suffixText: '%',
                                       ),
-                                      onChanged: (value) {
-                                        hasTransactionItems.value = false;
-                                        isTransactionItemEmpty.value = false;
-                                        isRatioInvalid.value = false;
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ),
+                                        borderSide: BorderSide(
+                                          width: 2.0,
+                                          color: colorScheme.primary,
+                                        ),
+                                      ),
+                                      counterText: '',
+                                      suffixText: '%',
+                                    ),
+                                    onChanged: (value) {
+                                      hasTransactionItems.value = false;
+                                      isTransactionItemEmpty.value = false;
+                                      isRatioInvalid.value = false;
 
-                                        final ratio = double.tryParse(
-                                                value.replaceAll(',', '')) ??
-                                            0.0;
+                                      final ratio =
+                                          double.tryParse(
+                                            value.replaceAll(',', ''),
+                                          ) ??
+                                          0.0;
 
-                                        final calculatedPrice =
-                                            (total) * (ratio / 100);
+                                      final calculatedPrice =
+                                          (total) * (ratio / 100);
 
-                                        final formattedPrice =
-                                            NumberFormat('#,###.##')
-                                                .format(calculatedPrice);
+                                      final formattedPrice = NumberFormat(
+                                        '#,###.##',
+                                      ).format(calculatedPrice);
 
-                                        transactionPriceControllers[index]
-                                            .text = formattedPrice;
+                                      transactionPriceControllers[index].text =
+                                          formattedPrice;
 
-                                        ref
-                                            .read(issueFormControllerProvider(
+                                      ref
+                                          .read(
+                                            issueFormControllerProvider(
                                               projectId: projectId,
                                               categoryId: categoryId,
                                               issueId: issueId,
-                                            ).notifier)
-                                            .updateTransactionItem(
-                                              index: index,
-                                              ratio: value,
-                                              price: formattedPrice,
-                                            );
-                                      },
-                                    ),
+                                            ).notifier,
+                                          )
+                                          .updateTransactionItem(
+                                            index: index,
+                                            ratio: value,
+                                            price: formattedPrice,
+                                          );
+                                    },
                                   ),
                                 ),
-                                DataCell(
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          readOnly: true,
-                                          controller:
-                                              transactionPriceControllers[
-                                                  index],
-                                          inputFormatters: [
-                                            DecimalInputFormatter(),
-                                          ],
-                                          textAlign: TextAlign.end,
-                                          style: textTheme.bodyMedium,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.transparent),
+                              ),
+                              DataCell(
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        readOnly: true,
+                                        controller:
+                                            transactionPriceControllers[index],
+                                        inputFormatters: [
+                                          DecimalInputFormatter(),
+                                        ],
+                                        textAlign: TextAlign.end,
+                                        style: textTheme.bodyMedium,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
                                             ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.transparent),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.transparent),
-                                            ),
-                                            suffixText:
-                                                selectedCurrency.value.symbol,
                                           ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                            ),
+                                          ),
+                                          suffixText:
+                                              selectedCurrency.value.symbol,
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: ElevatedIconButton(
-                                          onTap: () async {
-                                            if (transactionItems.length == 1) {
-                                              hasTransactionItems.value = false;
-                                              isTransactionItemEmpty.value =
-                                                  false;
-                                              isRatioInvalid.value = false;
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: ElevatedIconButton(
+                                        onTap: () async {
+                                          if (transactionItems.length == 1) {
+                                            hasTransactionItems.value = false;
+                                            isTransactionItemEmpty.value =
+                                                false;
+                                            isRatioInvalid.value = false;
 
-                                              await transactionOpacityController
-                                                  .reverse();
-                                              await transactionSizeController
-                                                  .reverse();
-                                            }
+                                            await transactionOpacityController
+                                                .reverse();
+                                            await transactionSizeController
+                                                .reverse();
+                                          }
 
-                                            ref
-                                                .read(
-                                                    issueFormControllerProvider(
-                                                            projectId:
-                                                                projectId,
-                                                            categoryId:
-                                                                categoryId,
-                                                            issueId: issueId)
-                                                        .notifier)
-                                                .removeTransactionItem(
-                                                    index: index);
-                                          },
-                                          padding: EdgeInsets.all(4.0),
-                                          borderRadius:
-                                              BorderRadius.circular(4.0),
-                                          icon: Symbols.delete_rounded,
-                                          size: 16.0,
+                                          ref
+                                              .read(
+                                                issueFormControllerProvider(
+                                                  projectId: projectId,
+                                                  categoryId: categoryId,
+                                                  issueId: issueId,
+                                                ).notifier,
+                                              )
+                                              .removeTransactionItem(
+                                                index: index,
+                                              );
+                                        },
+                                        padding: EdgeInsets.all(4.0),
+                                        borderRadius: BorderRadius.circular(
+                                          4.0,
                                         ),
+                                        icon: Symbols.delete_rounded,
+                                        size: 16.0,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            );
-                          },
-                        ),
+                              ),
+                            ],
+                          );
+                        }),
                       ),
                     ],
                   ),

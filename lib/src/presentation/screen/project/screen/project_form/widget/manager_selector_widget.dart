@@ -24,19 +24,19 @@ class ManagerSelectorWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          projectId: projectId,
-          selectedManager: selectedManager,
-          departmentItems: value.departmentItems,
-          positionItems: value.positionItems,
-        ),
+        projectId: projectId,
+        selectedManager: selectedManager,
+        departmentItems: value.departmentItems,
+        positionItems: value.positionItems,
+      ),
       _ => Skeletonizer(
-          ignoreContainers: true,
-          child: _DesktopWidget(
-            selectedManager: selectedManager,
-            departmentItems: [],
-            positionItems: [],
-          ),
+        ignoreContainers: true,
+        child: _DesktopWidget(
+          selectedManager: selectedManager,
+          departmentItems: [],
+          positionItems: [],
         ),
+      ),
     };
   }
 }
@@ -66,23 +66,23 @@ class _DesktopWidget extends ConsumerWidget {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        padding:
-            EdgeInsets.only(left: 16.0, right: 12.0, top: 16.0, bottom: 16.0),
+        padding: EdgeInsets.only(
+          left: 16.0,
+          right: 12.0,
+          top: 16.0,
+          bottom: 16.0,
+        ),
       ),
       icon: selectedManager == null
-          ? Icon(
-              Symbols.person_search_rounded,
-            )
+          ? Icon(Symbols.person_search_rounded)
           : CircleAvatar(
-              backgroundColor:
-                  Functions(context).generateColorFromId(selectedManager!.id),
+              backgroundColor: Functions(
+                context,
+              ).generateColorFromId(selectedManager!.id),
               radius: 10.0,
               child: Text(
                 getInitials(selectedManager!.username),
-                style: TextStyle(
-                  fontSize: 10.0,
-                  color: Colors.white,
-                ),
+                style: TextStyle(fontSize: 10.0, color: Colors.white),
               ),
             ),
       label: Row(
@@ -95,15 +95,16 @@ class _DesktopWidget extends ConsumerWidget {
           ),
           SizedBox(width: 8.0),
           if (selectedManager == null)
-            Icon(
-              Symbols.chevron_right_rounded,
-            )
+            Icon(Symbols.chevron_right_rounded)
           else
             InkWell(
               onTap: () {
                 ref
-                    .read(projectFormControllerProvider(projectId: projectId)
-                        .notifier)
+                    .read(
+                      projectFormControllerProvider(
+                        projectId: projectId,
+                      ).notifier,
+                    )
                     .setManager(manager: null);
               },
               borderRadius: BorderRadius.circular(4.0),

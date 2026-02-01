@@ -1,3 +1,4 @@
+import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/generated/l10n.dart';
@@ -32,15 +33,13 @@ class App extends ConsumerWidget {
         ],
       ),
       title: 'Taskflow',
-      localizationsDelegates: const [
+      supportedLocales: const [Locale('ko', 'KR'), Locale('en', 'US')],
+      localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ko', 'KR'),
-        Locale('en', 'US'),
+        AppFlowyEditorLocalizations.delegate,
       ],
       scrollBehavior: AppScrollBehavior(),
       themeMode: ThemeMode.system,
