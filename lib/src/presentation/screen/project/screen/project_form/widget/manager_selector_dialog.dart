@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -94,16 +95,17 @@ class ManagerSelectorDialog extends HookConsumerWidget {
                 ),
                 child: switch (user) {
                   AsyncData(:final value) => UserListWidget(
-                      projectId: projectId,
-                      items: value.items,
-                    ),
+                    projectId: projectId,
+                    items: value.items,
+                  ),
                   AsyncError(:final error, :final stackTrace) =>
                     ErrorContainerWidget(error: error, stackTrace: stackTrace),
                   _ => Skeletonizer(
-                      child: UserListWidget(
-                        items: List.filled(5, User.dummy()),
-                      ),
+                    child: UserListWidget(
+                      projectId: projectId,
+                      items: List.filled(5, User.dummy()),
                     ),
+                  ),
                 },
               ),
             ),

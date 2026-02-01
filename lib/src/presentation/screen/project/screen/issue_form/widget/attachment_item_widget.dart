@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
@@ -8,21 +9,16 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class AttachmentItemWidget extends HookConsumerWidget {
-  final int categoryId;
-  final int projectId;
-  final int? issueId;
   final IssueAttachment attachment;
 
-  const AttachmentItemWidget({
-    super.key,
-    required this.categoryId,
-    required this.projectId,
-    this.issueId,
-    required this.attachment,
-  });
+  const AttachmentItemWidget({super.key, required this.attachment});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -64,9 +60,7 @@ class AttachmentItemWidget extends HookConsumerWidget {
           SizedBox(width: 8.0),
           Text(
             attachment.filename,
-            style: textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           Spacer(),
           // 파일 크기 표시
@@ -81,17 +75,16 @@ class AttachmentItemWidget extends HookConsumerWidget {
           CustomIconButton(
             onTap: () {
               ref
-                  .read(issueFormControllerProvider(
-                          projectId: projectId,
-                          categoryId: categoryId,
-                          issueId: issueId)
-                      .notifier)
+                  .read(
+                    issueFormControllerProvider(
+                      projectId: projectId,
+                      categoryId: categoryId,
+                      issueId: issueId,
+                    ).notifier,
+                  )
                   .removeAttachment(attachment);
             },
-            icon: Icon(
-              Symbols.delete_rounded,
-              size: 20.0,
-            ),
+            icon: Icon(Symbols.delete_rounded, size: 20.0),
           ),
         ],
       ),

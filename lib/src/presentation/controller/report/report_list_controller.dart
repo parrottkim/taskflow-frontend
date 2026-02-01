@@ -8,9 +8,9 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<ReportListState> _init() async {
-    final result = await ref.read(reportRepositoryProvider).getReports(
-          projectId: projectId,
-        );
+    final result = await ref
+        .read(reportRepositoryProvider)
+        .getReports(projectId: projectId);
 
     return ReportListState(
       items: result.items,
@@ -21,16 +21,15 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> load() async {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
-      final result = await ref.read(reportRepositoryProvider).getReports(
-            page: value.page + 1,
-            projectId: projectId,
-          );
+      final result = await ref
+          .read(reportRepositoryProvider)
+          .getReports(page: value.page + 1, projectId: projectId);
 
       return value.copyWith(
         items: [...value.items, ...result.items],
@@ -42,7 +41,7 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> addListItem({required Report item}) async {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final updatedReports = [item, ...value.items];
@@ -55,7 +54,7 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> updateListItem(Report updatedItem) async {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
     final updatedReports = value.items.map((issue) {
@@ -66,11 +65,12 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> removeListItem({required int id}) async {
-    final value = state.valueOrNull;
+    final value = state.value;
     if (value == null) return;
 
-    final updatedReports =
-        value.items.where((project) => project.id != id).toList();
+    final updatedReports = value.items
+        .where((project) => project.id != id)
+        .toList();
 
     state = AsyncValue.data(value.copyWith(items: updatedReports));
 

@@ -33,7 +33,9 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
     Future<void> processFile(List<XFile> files) async {
       for (var file in files) {
         if (await file.length() > maxImageSize) {
-          ref.read(toastProvider).showToast(
+          ref
+              .read(toastProvider)
+              .showToast(
                 child: Toast(
                   type: ToastType.alert,
                   message: Intl.message(
@@ -124,9 +126,7 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
                   Skeleton.unite(
                     child: ElevatedButton(
                       onPressed: () async {
-                        final result = await openFiles(
-                          acceptedTypeGroups: [],
-                        );
+                        final result = await openFiles(acceptedTypeGroups: []);
                         processFile(result);
                       },
                       child: Text(Intl.message('issue_form_attachment_upload')),
@@ -174,18 +174,23 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
 /// Used in Issue and Report list/detail views
 class AttachmentListWidget<T> extends ConsumerWidget {
   final List<T> attachments;
-  final bool showPadding;
+  final EdgeInsetsGeometry padding;
 
   const AttachmentListWidget({
     super.key,
     required this.attachments,
-    this.showPadding = true,
+    this.padding = const EdgeInsets.only(
+      left: 16.0,
+      right: 16.0,
+      top: 8.0,
+      bottom: 16.0,
+    ),
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: showPadding ? const EdgeInsets.only(top: 24.0) : EdgeInsets.zero,
+      padding: padding,
       child: ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -224,7 +229,6 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
     final effectivePath = _getPath(attachment);
 
     return ContainerWidget(
-      elevation: 0.0,
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       borderRadius: BorderRadius.circular(8.0),
       child: Row(
@@ -238,7 +242,7 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
                 size: 24.0,
                 color: colorScheme.onSurface.withValues(alpha: 0.7),
               ),
-              if (extension(filename).isNotEmpty)
+              if (path.extension(filename).isNotEmpty)
                 Positioned(
                   bottom: 4.0,
                   child: Container(
@@ -248,7 +252,7 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
                       color: colorScheme.primary.withValues(alpha: 0.7),
                     ),
                     child: Text(
-                      extension(filename).substring(1),
+                      path.extension(filename).substring(1),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 8.0,
@@ -296,7 +300,9 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
 
                 await Clipboard.setData(ClipboardData(text: uri.toString()));
 
-                ref.read(toastProvider).showToast(
+                ref
+                    .read(toastProvider)
+                    .showToast(
                       child: Toast(
                         type: ToastType.standard,
                         message: Intl.message('project_detail_share_link'),
@@ -363,11 +369,7 @@ class FileItemWidget extends HookConsumerWidget {
   final XFile file;
   final VoidCallback onRemove;
 
-  const FileItemWidget({
-    super.key,
-    required this.file,
-    required this.onRemove,
-  });
+  const FileItemWidget({super.key, required this.file, required this.onRemove});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -391,7 +393,7 @@ class FileItemWidget extends HookConsumerWidget {
                 size: 24.0,
                 color: colorScheme.onSurface.withValues(alpha: 0.7),
               ),
-              if (extension(file.name).isNotEmpty)
+              if (path.extension(file.name).isNotEmpty)
                 Positioned(
                   bottom: 4.0,
                   child: Container(
@@ -401,7 +403,7 @@ class FileItemWidget extends HookConsumerWidget {
                       color: colorScheme.primary.withValues(alpha: 0.7),
                     ),
                     child: Text(
-                      extension(file.name).substring(1),
+                      path.extension(file.name).substring(1),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 8.0,

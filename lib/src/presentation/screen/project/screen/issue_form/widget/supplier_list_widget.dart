@@ -8,16 +8,16 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 
 class SupplierListWidget extends HookConsumerWidget {
-  final int categoryId;
   final int projectId;
+  final int categoryId;
   final int? issueId;
   final int itemIndex;
   final List<Supplier> items;
 
   const SupplierListWidget({
     super.key,
-    required this.categoryId,
     required this.projectId,
+    required this.categoryId,
     this.issueId,
     required this.itemIndex,
     required this.items,
@@ -43,9 +43,7 @@ class SupplierListWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('issue_form_procurement_14'),
-            ),
+            Text(Intl.message('issue_form_procurement_14')),
           ],
         ),
       );
@@ -64,18 +62,24 @@ class SupplierListWidget extends HookConsumerWidget {
         itemBuilder: (context, index) => InkWell(
           onTap: () {
             ref
-                .read(issueFormControllerProvider(
-                  projectId: projectId,
-                  categoryId: categoryId,
-                  issueId: issueId,
-                ).notifier)
+                .read(
+                  issueFormControllerProvider(
+                    projectId: projectId,
+                    categoryId: categoryId,
+                    issueId: issueId,
+                  ).notifier,
+                )
                 .updateProcurementItem(
-                    index: itemIndex, supplier: items[index]);
+                  index: itemIndex,
+                  supplier: items[index],
+                );
             context.pop();
           },
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,16 +118,12 @@ class SupplierListWidget extends HookConsumerWidget {
                     children: [
                       Text(
                         items[index].name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       Text(
                         items[index].number,
                         style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(
-                            alpha: 0.7,
-                          ),
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
                         ),
                       ),
                       if (items[index].address != null)

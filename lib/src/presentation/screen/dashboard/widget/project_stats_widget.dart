@@ -17,13 +17,16 @@ class ProjectStatsWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final dateSelection = ref.watch(dateSelectionControllerProvider);
-    final state = ref.watch(projectStatsControllerProvider(
-        start: dateSelection.start, end: dateSelection.end));
+    final state = ref.watch(
+      projectStatsControllerProvider(
+        start: dateSelection.start,
+        end: dateSelection.end,
+      ),
+    );
     final dummy = List.filled(4, ProjectStats.dummy());
 
     return LayoutBuilder(
       builder: (context, constraints) => ContainerWidget(
-        elevation: 0.0,
         height: Responsive.isDesktop(context) ? constraints.maxHeight : 300.0,
         padding: EdgeInsets.only(top: 20.0),
         child: Column(
@@ -43,13 +46,10 @@ class ProjectStatsWidget extends ConsumerWidget {
               child: switch (state) {
                 AsyncData(:final value) => _DesktopWidget(items: value.items),
                 AsyncError(:final error, :final stackTrace) =>
-                  ErrorContainerWidget(
-                    error: error,
-                    stackTrace: stackTrace,
-                  ),
+                  ErrorContainerWidget(error: error, stackTrace: stackTrace),
                 _ => Skeletonizer(child: _DesktopWidget(items: dummy)),
               },
-            )
+            ),
           ],
         ),
       ),
@@ -76,16 +76,19 @@ class _DesktopWidget extends StatelessWidget {
           showCheckboxColumn: false,
           columns: [
             DataColumn(
-                columnWidth: FractionColumnWidth(0.6),
-                label: Text(Intl.message('dashboard_project_stats_1'))),
+              columnWidth: FractionColumnWidth(0.6),
+              label: Text(Intl.message('dashboard_project_stats_1')),
+            ),
             DataColumn(
-                columnWidth: FractionColumnWidth(0.2),
-                headingRowAlignment: MainAxisAlignment.center,
-                label: Text(Intl.message('dashboard_project_stats_2'))),
+              columnWidth: FractionColumnWidth(0.2),
+              headingRowAlignment: MainAxisAlignment.center,
+              label: Text(Intl.message('dashboard_project_stats_2')),
+            ),
             DataColumn(
-                columnWidth: FractionColumnWidth(0.2),
-                headingRowAlignment: MainAxisAlignment.center,
-                label: Text(Intl.message('dashboard_project_stats_3'))),
+              columnWidth: FractionColumnWidth(0.2),
+              headingRowAlignment: MainAxisAlignment.center,
+              label: Text(Intl.message('dashboard_project_stats_3')),
+            ),
           ],
           rows: [],
         ),
@@ -114,9 +117,10 @@ class _DesktopWidget extends StatelessWidget {
                 items.length,
                 (index) => DataRow(
                   onSelectChanged: (_) {
-                    context.goNamed(RouteNames.project, queryParameters: {
-                      'search': items[index].user.username,
-                    });
+                    context.goNamed(
+                      RouteNames.project,
+                      queryParameters: {'search': items[index].user.username},
+                    );
                   },
                   cells: [
                     DataCell(UserInformation(user: items[index].user)),

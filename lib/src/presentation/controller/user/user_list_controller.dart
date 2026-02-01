@@ -10,7 +10,9 @@ class UserListController extends _$UserListController {
   Future<UserListState> _init() async {
     final filter = await ref.watch(userFilterControllerProvider.future);
 
-    final result = await ref.read(userRepositoryProvider).getUsers(
+    final result = await ref
+        .read(userRepositoryProvider)
+        .getUsers(
           departmentId: filter.department?.id,
           positionId: filter.position?.id,
           search: filter.search,
@@ -27,13 +29,15 @@ class UserListController extends _$UserListController {
   Future<void> load() async {
     final filter = await ref.watch(userFilterControllerProvider.future);
 
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
-      final result = await ref.read(userRepositoryProvider).getUsers(
+      final result = await ref
+          .read(userRepositoryProvider)
+          .getUsers(
             page: value.page + 1,
             departmentId: filter.department?.id,
             positionId: filter.position?.id,

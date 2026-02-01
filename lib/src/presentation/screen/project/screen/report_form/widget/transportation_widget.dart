@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -8,25 +9,29 @@ import 'package:taskflow/src/presentation/screen/project/screen/report_form/widg
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class TransportationWidget extends ConsumerWidget {
-  final int projectId;
-  final int? reportId;
   final Schedule schedule;
   final List<TripActualExpense> expenses;
 
   const TransportationWidget({
     super.key,
-    required this.projectId,
-    this.reportId,
     required this.schedule,
     required this.expenses,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final scheduleId = int.tryParse(
+      state.uri.queryParameters['schedule_id'] ?? '',
+    );
+
     final textTheme = Theme.of(context).textTheme;
 
-    final filter = ref
-        .watch(tripFilterControllerProvider(categoryId: schedule.category.id));
+    final filter = ref.watch(
+      tripFilterControllerProvider(categoryId: schedule.category.id),
+    );
 
     return SingleChildScrollView(
       child: Align(
@@ -47,24 +52,20 @@ class TransportationWidget extends ConsumerWidget {
               SizedBox(height: 24.0),
               switch (filter) {
                 AsyncData(:final value) => ExpenseListWidget(
-                    projectId: projectId,
-                    reportId: reportId,
-                    schedule: schedule,
-                    steps: value.steps.where((e) => e.categoryId == 1).toList(),
-                    expenses: expenses,
-                  ),
+                  schedule: schedule,
+                  steps: value.steps.where((e) => e.categoryId == 1).toList(),
+                  expenses: expenses,
+                ),
                 AsyncError(:final error, :final stackTrace) =>
                   ErrorContainerWidget(error: error, stackTrace: stackTrace),
                 _ => Skeletonizer(
-                    ignoreContainers: true,
-                    child: ExpenseListWidget(
-                      projectId: projectId,
-                      reportId: reportId,
-                      schedule: schedule,
-                      steps: List.filled(3, TripStep.dummy()),
-                      expenses: [],
-                    ),
+                  ignoreContainers: true,
+                  child: ExpenseListWidget(
+                    schedule: schedule,
+                    steps: List.filled(3, TripStep.dummy()),
+                    expenses: [],
                   ),
+                ),
               },
             ],
           ),

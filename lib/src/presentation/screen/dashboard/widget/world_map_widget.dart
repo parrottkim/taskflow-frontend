@@ -33,8 +33,9 @@ class WorldMapWidget extends HookConsumerWidget {
 
     useEffect(() {
       Future.microtask(() async {
-        final data = await DefaultAssetBundle.of(context)
-            .loadString('assets/files/map.json');
+        final data = await DefaultAssetBundle.of(
+          context,
+        ).loadString('assets/files/map.json');
         final geoJsonData = json.decode(data);
 
         // GeometryCollection을 지원하도록 수정
@@ -48,14 +49,16 @@ class WorldMapWidget extends HookConsumerWidget {
             for (var geom in geometries) {
               if (geom['type'] == 'Polygon') {
                 // Polygon 처리
-                polygons.add(Polygon(
-                  points: geom['coordinates'][0]
-                      .map<LatLng>((coord) => LatLng(coord[1], coord[0]))
-                      .toList(),
-                  borderColor: colorScheme.outline,
-                  color: colorScheme.outline.withValues(alpha: 0.2),
-                  borderStrokeWidth: 0.4, // 경계선 두께
-                ));
+                polygons.add(
+                  Polygon(
+                    points: geom['coordinates'][0]
+                        .map<LatLng>((coord) => LatLng(coord[1], coord[0]))
+                        .toList(),
+                    borderColor: colorScheme.outline,
+                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    borderStrokeWidth: 0.4, // 경계선 두께
+                  ),
+                );
               }
             }
           }
@@ -66,164 +69,181 @@ class WorldMapWidget extends HookConsumerWidget {
       return null;
     }, []);
 
-    return LayoutBuilder(builder: (context, constraints) {
-      // 최소, 최대 너비에 따른 비율 계산 (예: 300 ~ 1200)
-      const minWidth = 300.0;
-      const maxWidth = 1200.0;
-      const minZoom = -0.5;
-      const maxZoom = 1.0;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // 최소, 최대 너비에 따른 비율 계산 (예: 300 ~ 1200)
+        const minWidth = 300.0;
+        const maxWidth = 1200.0;
+        const minZoom = -0.5;
+        const maxZoom = 1.0;
 
-      // 너비를 0~1 사이로 정규화
-      double normalizedWidth =
-          ((constraints.maxWidth - minWidth) / (maxWidth - minWidth))
-              .clamp(0.0, 1.0);
+        // 너비를 0~1 사이로 정규화
+        double normalizedWidth =
+            ((constraints.maxWidth - minWidth) / (maxWidth - minWidth)).clamp(
+              0.0,
+              1.0,
+            );
 
-      // 선형 보간을 통해 줌 계산
-      final initialZoom = minZoom + (maxZoom - minZoom) * normalizedWidth;
+        // 선형 보간을 통해 줌 계산
+        final initialZoom = minZoom + (maxZoom - minZoom) * normalizedWidth;
 
-      return ContainerWidget(
-        elevation: 0.0,
-        padding: EdgeInsets.zero,
-        child: Stack(
-          children: [
-            switch (state) {
-              AsyncData(:final value) => _DesktopWidget(items: value.items),
-              AsyncError(:final error, :final stackTrace) =>
-                ErrorContainerWidget(error: error, stackTrace: stackTrace),
-              _ => Skeletonizer(
-                  child: _DesktopWidget(items: dummy),
+        return ContainerWidget(
+          padding: EdgeInsets.zero,
+          child: Stack(
+            children: [
+              switch (state) {
+                AsyncData(:final value) => _DesktopWidget(items: value.items),
+                AsyncError(:final error, :final stackTrace) =>
+                  ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                _ => Skeletonizer(child: _DesktopWidget(items: dummy)),
+              },
+              FlutterMap(
+                mapController: MapController(),
+                options: MapOptions(
+                  crs: Epsg4326(),
+                  initialCenter: LatLng(12.0, -40.0),
+                  initialZoom: initialZoom,
+                  backgroundColor: Colors.transparent,
                 ),
-            },
-            FlutterMap(
-              mapController: MapController(),
-              options: MapOptions(
-                crs: Epsg4326(),
-                initialCenter: LatLng(12.0, -40.0),
-                initialZoom: initialZoom,
-                backgroundColor: Colors.transparent,
-              ),
-              children: [
-                PolygonLayer(polygons: parser.value.polygons),
-                MarkerLayer(
-                  markers: markers.map<Marker>((marker) {
-                    return Marker(
-                      point: LatLng(marker.latitude, marker.longitude),
-                      width: 12.0,
-                      height: 12.0,
-                      child: MouseRegion(
-                        onEnter: (value) => selectedMarker.value = marker,
-                        onExit: (value) => selectedMarker.value = null,
-                        child: Tooltip(
-                          preferBelow: false,
-                          enableTapToDismiss: false,
-                          verticalOffset: 12.0,
-                          richMessage: WidgetSpan(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 2.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: marker.items.map((item) {
-                                  final index = marker.items.indexOf(item);
+                children: [
+                  PolygonLayer(polygons: parser.value.polygons),
+                  MarkerLayer(
+                    markers: markers.map<Marker>((marker) {
+                      return Marker(
+                        point: LatLng(marker.latitude, marker.longitude),
+                        width: 12.0,
+                        height: 12.0,
+                        child: MouseRegion(
+                          onEnter: (value) => selectedMarker.value = marker,
+                          onExit: (value) => selectedMarker.value = null,
+                          child: Tooltip(
+                            preferBelow: false,
+                            enableTapToDismiss: false,
+                            verticalOffset: 12.0,
+                            richMessage: WidgetSpan(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 2.0,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: marker.items.map((item) {
+                                    final index = marker.items.indexOf(item);
 
-                                  return Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () {
-                                        context.goNamed(RouteNames.project,
+                                    return Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {
+                                          context.goNamed(
+                                            RouteNames.project,
                                             queryParameters: {
                                               'search': item.name,
-                                            });
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
+                                            },
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
                                             bottom:
                                                 index != marker.items.length - 1
-                                                    ? 4.0
-                                                    : 0.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4.0),
-                                                color: Color(
-                                                  ClientType.values
-                                                      .singleWhere((client) =>
-                                                          client.id ==
-                                                          marker.items[index]
-                                                              .type.id)
-                                                      .color,
+                                                ? 4.0
+                                                : 0.0,
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Container(
+                                                padding: const EdgeInsets.all(
+                                                  4.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        4.0,
+                                                      ),
+                                                  color: Color(
+                                                    ClientType.values
+                                                        .singleWhere(
+                                                          (client) =>
+                                                              client.id ==
+                                                              marker
+                                                                  .items[index]
+                                                                  .type
+                                                                  .id,
+                                                        )
+                                                        .color,
+                                                  ),
+                                                ),
+                                                child: SizedBox(
+                                                  width: 12.0,
+                                                  height: 12.0,
+                                                  child: SvgPicture.asset(
+                                                    ClientType.values
+                                                        .singleWhere(
+                                                          (client) =>
+                                                              client.id ==
+                                                              marker
+                                                                  .items[index]
+                                                                  .type
+                                                                  .id,
+                                                        )
+                                                        .asset,
+                                                    colorFilter:
+                                                        ColorFilter.mode(
+                                                          Colors.white,
+                                                          BlendMode.srcIn,
+                                                        ),
+                                                  ),
                                                 ),
                                               ),
-                                              child: SizedBox(
-                                                width: 12.0,
-                                                height: 12.0,
-                                                child: SvgPicture.asset(
-                                                  ClientType.values
-                                                      .singleWhere((client) =>
-                                                          client.id ==
-                                                          marker.items[index]
-                                                              .type.id)
-                                                      .asset,
-                                                  colorFilter: ColorFilter.mode(
-                                                      Colors.white,
-                                                      BlendMode.srcIn),
-                                                ),
+                                              SizedBox(width: 6.0),
+                                              Text(
+                                                marker.items[index].name,
+                                                style: textTheme.bodySmall
+                                                    ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
                                               ),
-                                            ),
-                                            SizedBox(width: 6.0),
-                                            Text(
-                                              marker.items[index].name,
-                                              style:
-                                                  textTheme.bodySmall?.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                             ),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: selectedMarker.value == marker
-                                    ? colorScheme.primary
-                                    : colorScheme.outline,
-                                width: 4.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: selectedMarker.value == marker
+                                      ? colorScheme.primary
+                                      : colorScheme.outline,
+                                  width: 4.0,
+                                ),
+                                color: Colors.white,
                               ),
-                              color: Colors.white,
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    });
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
 class _DesktopWidget extends StatelessWidget {
   final List<ClientCount> items;
 
-  const _DesktopWidget({
-    required this.items,
-  });
+  const _DesktopWidget({required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -248,8 +268,9 @@ class _DesktopWidget extends StatelessWidget {
             TextSpan(
               children: [
                 TextSpan(
-                    text:
-                        '${items.singleWhere((element) => element.depth == 1).count} '),
+                  text:
+                      '${items.singleWhere((element) => element.depth == 1).count} ',
+                ),
                 TextSpan(
                   text: Intl.message('dashboard_world_map_1_1'),
                   style: textTheme.titleSmall,
@@ -271,8 +292,9 @@ class _DesktopWidget extends StatelessWidget {
             TextSpan(
               children: [
                 TextSpan(
-                    text:
-                        '${items.singleWhere((element) => element.depth == 2).count} '),
+                  text:
+                      '${items.singleWhere((element) => element.depth == 2).count} ',
+                ),
                 TextSpan(
                   text: Intl.message('dashboard_world_map_2_1'),
                   style: textTheme.titleSmall,

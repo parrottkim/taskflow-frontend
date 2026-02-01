@@ -16,27 +16,23 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
   final String? path;
   final String? token;
 
-  const ResetPasswordFormWidget({
-    super.key,
-    this.path,
-    this.token,
-  });
+  const ResetPasswordFormWidget({super.key, this.path, this.token});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
 
     final passwordController = useTextEditingController();
-    final password = useListenableSelector(
-        passwordController, () => passwordController.text);
+    final password = useValueListenable(passwordController);
 
     final passwordVisibility = useState<bool>(false);
-    final validationItems =
-        useState(WidgetPreset(context).passwordValidationItems);
+    final validationItems = useState(
+      WidgetPreset(context).passwordValidationItems,
+    );
 
     useEffect(() {
       final newItems = validationItems.value.map((item) {
-        final isMatch = password.contains(item.regex);
+        final isMatch = password.text.contains(item.regex);
         return item.copyWith(flag: isMatch);
       }).toList();
       validationItems.value = newItems;
@@ -47,8 +43,10 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
     Future<void> request() async {
       if (token == null) return;
 
-      final request =
-          ResetPasswordRequest(token: token!, newPassword: password);
+      final request = ResetPasswordRequest(
+        token: token!,
+        newPassword: password.text,
+      );
 
       await ref
           .read(authControllerProvider.notifier)
@@ -56,11 +54,14 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
 
       context.goNamed(RouteNames.login);
 
-      ref.read(toastProvider).showToast(
-              child: Toast(
-            message: Intl.message('reset_password_success'),
-            type: ToastType.verified,
-          ));
+      ref
+          .read(toastProvider)
+          .showToast(
+            child: Toast(
+              message: Intl.message('reset_password_success'),
+              type: ToastType.verified,
+            ),
+          );
     }
 
     return SingleChildScrollView(
@@ -71,9 +72,7 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
           const SizedBox(height: 64.0),
           Text(
             Intl.message('reset_password_headline'),
-            style: textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w800,
-            ),
+            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 4.0),
           Text(Intl.message('reset_password_title')),
@@ -85,18 +84,19 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
           const SizedBox(height: 8.0),
           TextField(
             controller: passwordController,
-            onSubmitted: Validation.isPasswordValid(password)
-                ? (text) => request()
+            onSubmitted: Validation.isPasswordValid(password.text)
+                ? (_) => request()
                 : null,
             obscureText: !passwordVisibility.value,
             autofillHints: const [AutofillHints.password],
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
               error:
-                  password.isNotEmpty && !Validation.isPasswordValid(password)
-                      ? SizedBox.shrink()
-                      : null,
-              suffixIcon: password.isNotEmpty
+                  password.text.isNotEmpty &&
+                      !Validation.isPasswordValid(password.text)
+                  ? SizedBox.shrink()
+                  : null,
+              suffixIcon: password.text.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(right: 4.0),
                       child: CustomIconButton(
@@ -117,17 +117,16 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
           ),
           SizedBox(height: 24.0),
           PasswordInvalidWidget(
-            password: password,
+            password: password.text,
             items: validationItems.value,
           ),
           SizedBox(
             width: double.infinity,
             child: FilledButton(
-              onPressed:
-                  Validation.isPasswordValid(password) ? () => request() : null,
-              child: Text(
-                Intl.message('reset_password_button'),
-              ),
+              onPressed: Validation.isPasswordValid(password.text)
+                  ? () => request()
+                  : null,
+              child: Text(Intl.message('reset_password_button')),
             ),
           ),
         ],

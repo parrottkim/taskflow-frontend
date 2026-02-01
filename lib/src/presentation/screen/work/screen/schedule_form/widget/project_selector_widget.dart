@@ -31,21 +31,17 @@ class ProjectSelectorWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          categoryId: categoryId,
-          scheduleId: scheduleId,
-          projectName: projectName,
-          projectClientId: projectClientId,
-          projectClientName: projectClientName,
-          clientItems: value.clientItems,
-        ),
+        categoryId: categoryId,
+        scheduleId: scheduleId,
+        projectName: projectName,
+        projectClientId: projectClientId,
+        projectClientName: projectClientName,
+        clientItems: value.clientItems,
+      ),
       _ => Skeletonizer(
-          ignoreContainers: true,
-          child: _DesktopWidget(
-            categoryId: categoryId,
-            scheduleId: scheduleId,
-            clientItems: [],
-          ),
-        ),
+        ignoreContainers: true,
+        child: _DesktopWidget(categoryId: categoryId, clientItems: []),
+      ),
     };
   }
 }
@@ -81,8 +77,12 @@ class _DesktopWidget extends ConsumerWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding:
-            EdgeInsets.only(left: 16.0, right: 12.0, top: 16.0, bottom: 16.0),
+        padding: EdgeInsets.only(
+          left: 16.0,
+          right: 12.0,
+          top: 16.0,
+          bottom: 16.0,
+        ),
       ),
       icon: projectClientId == null
           ? Icon(Symbols.work_rounded)
@@ -121,32 +121,27 @@ class _DesktopWidget extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: projectClientName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    WidgetSpan(
-                      child: SizedBox(width: 4.0),
-                    ),
-                    TextSpan(
-                      text: projectName,
-                    ),
+                    WidgetSpan(child: SizedBox(width: 4.0)),
+                    TextSpan(text: projectName),
                   ],
                 ),
               ),
             ),
           SizedBox(width: 8.0),
           if (projectClientId == null)
-            Icon(
-              Symbols.chevron_right_rounded,
-            )
+            Icon(Symbols.chevron_right_rounded)
           else
             InkWell(
               onTap: () {
                 ref
-                    .read(scheduleFormControllerProvider(
-                            categoryId: categoryId, scheduleId: scheduleId)
-                        .notifier)
+                    .read(
+                      scheduleFormControllerProvider(
+                        categoryId: categoryId,
+                        scheduleId: scheduleId,
+                      ).notifier,
+                    )
                     .setProject(project: null);
               },
               borderRadius: BorderRadius.circular(4.0),

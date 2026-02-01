@@ -22,8 +22,9 @@ class CustomIconButton extends StatelessWidget {
       data: IconThemeData(
         weight: 400.0,
         opticalSize: 24.0,
-        color:
-            colorScheme.onSurface.withValues(alpha: onTap != null ? 0.7 : 0.3),
+        color: colorScheme.onSurface.withValues(
+          alpha: onTap != null ? 0.7 : 0.3,
+        ),
       ),
       child: Material(
         color: Colors.transparent,
@@ -102,8 +103,14 @@ class ElevatedIconButton extends StatelessWidget {
 class ToolbarButton extends StatelessWidget {
   final VoidCallback? onTap;
   final IconData icon;
+  final bool isHighlight;
 
-  const ToolbarButton({super.key, required this.onTap, required this.icon});
+  const ToolbarButton({
+    super.key,
+    required this.onTap,
+    required this.icon,
+    this.isHighlight = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -112,12 +119,12 @@ class ToolbarButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(6.0),
         child: Icon(
           icon,
-          fill: 1.0,
-          color: colorScheme.onSurface
-              .withValues(alpha: onTap != null ? 0.7 : 0.3),
+          size: 20.0,
+          weight: isHighlight ? 600.0 : 300.0,
+          color: isHighlight ? colorScheme.primary : colorScheme.onSurface,
         ),
       ),
     );
@@ -166,8 +173,9 @@ class CustomToggleButton extends HookWidget {
         selectedValue.value = !(selectedValue.value ?? false);
       }
 
-      final normalized =
-          tristate ? selectedValue.value : selectedValue.value ?? false;
+      final normalized = tristate
+          ? selectedValue.value
+          : selectedValue.value ?? false;
       onChanged!(normalized);
     }
 
@@ -198,8 +206,10 @@ class CustomToggleButton extends HookWidget {
                 ),
                 splashRadius: 0.0,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity:
-                    const VisualDensity(horizontal: -4.0, vertical: -4.0),
+                visualDensity: const VisualDensity(
+                  horizontal: -4.0,
+                  vertical: -4.0,
+                ),
               ),
             ),
             if (child != null)
@@ -238,8 +248,8 @@ class CustomTextButton extends HookWidget {
             fontWeight: FontWeight.w600,
             color: onPressed != null
                 ? isHover.value
-                    ? colorScheme.secondary
-                    : colorScheme.primary
+                      ? colorScheme.secondary
+                      : colorScheme.primary
                 : colorScheme.onSurface.withValues(alpha: 0.3),
           ),
         ),

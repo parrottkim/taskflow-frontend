@@ -6,57 +6,143 @@ part of 'router.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'037eda4f7b3492c67909e36a269383429e6bc18a';
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
-/// See also [router].
+@ProviderFor(RouterListenableNotifier)
+final routerListenableProvider = RouterListenableNotifierProvider._();
+
+final class RouterListenableNotifierProvider
+    extends $AsyncNotifierProvider<RouterListenableNotifier, void> {
+  RouterListenableNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'routerListenableProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$routerListenableNotifierHash();
+
+  @$internal
+  @override
+  RouterListenableNotifier create() => RouterListenableNotifier();
+}
+
+String _$routerListenableNotifierHash() =>
+    r'195247aff7f0ad11605d1e838dcac05156915ee0';
+
+abstract class _$RouterListenableNotifier extends $AsyncNotifier<void> {
+  FutureOr<void> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(router)
-final routerProvider = AutoDisposeProvider<AppRouter>.internal(
-  router,
-  name: r'routerProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final routerProvider = RouterProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef RouterRef = AutoDisposeProviderRef<AppRouter>;
-String _$routerInterceptorHash() => r'11ef0ae8b045f81c8a18336579ee1dbaa4149295';
+final class RouterProvider
+    extends $FunctionalProvider<AppRouter, AppRouter, AppRouter>
+    with $Provider<AppRouter> {
+  RouterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'routerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$routerHash();
+
+  @$internal
+  @override
+  $ProviderElement<AppRouter> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  AppRouter create(Ref ref) {
+    return router(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AppRouter value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AppRouter>(value),
+    );
+  }
+}
+
+String _$routerHash() => r'c8586a5331c88eb5e9a46f43e0035cb13a066d44';
 
 /// 라우터 인터셉터를 생성하는 함수
-///
-/// Copied from [routerInterceptor].
+
 @ProviderFor(routerInterceptor)
-final routerInterceptorProvider =
-    AutoDisposeProvider<RouterInterceptor>.internal(
-  routerInterceptor,
-  name: r'routerInterceptorProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$routerInterceptorHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final routerInterceptorProvider = RouterInterceptorProvider._();
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef RouterInterceptorRef = AutoDisposeProviderRef<RouterInterceptor>;
-String _$routerNotifierHash() => r'e68436a6f67204c4fa1928148cb5c04b4e921268';
+/// 라우터 인터셉터를 생성하는 함수
 
-/// See also [RouterNotifier].
-@ProviderFor(RouterNotifier)
-final routerNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<RouterNotifier, void>.internal(
-  RouterNotifier.new,
-  name: r'routerNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$routerNotifierHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final class RouterInterceptorProvider
+    extends
+        $FunctionalProvider<
+          RouterInterceptor,
+          RouterInterceptor,
+          RouterInterceptor
+        >
+    with $Provider<RouterInterceptor> {
+  /// 라우터 인터셉터를 생성하는 함수
+  RouterInterceptorProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'routerInterceptorProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
 
-typedef _$RouterNotifier = AutoDisposeAsyncNotifier<void>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
+  @override
+  String debugGetCreateSourceHash() => _$routerInterceptorHash();
+
+  @$internal
+  @override
+  $ProviderElement<RouterInterceptor> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  RouterInterceptor create(Ref ref) {
+    return routerInterceptor(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(RouterInterceptor value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<RouterInterceptor>(value),
+    );
+  }
+}
+
+String _$routerInterceptorHash() => r'11ef0ae8b045f81c8a18336579ee1dbaa4149295';

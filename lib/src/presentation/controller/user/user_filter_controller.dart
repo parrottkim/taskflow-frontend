@@ -12,16 +12,19 @@ class UserFilterController extends _$UserFilterController {
   }
 
   Future<UserFilterState> _init() async {
-    final departments =
-        await ref.read(userRepositoryProvider).getAllDepartments();
+    final departments = await ref
+        .read(userRepositoryProvider)
+        .getAllDepartments();
     final positions = await ref.read(userRepositoryProvider).getAllPositions();
 
     return UserFilterState(
-        departmentItems: departments, positionItems: positions);
+      departmentItems: departments,
+      positionItems: positions,
+    );
   }
 
   void updateSearch({String? search}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -35,7 +38,7 @@ class UserFilterController extends _$UserFilterController {
   }
 
   void updatePosition({UserPosition? position}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -43,7 +46,7 @@ class UserFilterController extends _$UserFilterController {
   }
 
   void updateDepartment({UserDepartment? department}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 

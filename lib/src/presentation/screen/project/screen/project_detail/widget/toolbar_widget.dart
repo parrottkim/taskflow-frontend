@@ -12,15 +12,11 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
-import 'package:universal_html/html.dart' hide Platform;
 
 class ToolbarWidget extends HookConsumerWidget {
   final Project project;
 
-  const ToolbarWidget({
-    super.key,
-    required this.project,
-  });
+  const ToolbarWidget({super.key, required this.project});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -74,19 +70,30 @@ class ToolbarWidget extends HookConsumerWidget {
           SizedBox(width: 8.0),
           CustomIconButton(
             onTap: () async {
-              final url = window.location.href;
+              final path = GoRouter.of(
+                context,
+              ).routerDelegate.currentConfiguration.uri.path;
+
+              final uri = Uri(
+                scheme: Uri.base.scheme,
+                host: Uri.base.host,
+                port: Uri.base.hasPort ? Uri.base.port : null,
+                path: path,
+              );
 
               if (isDesktopPlatform()) {
-                await Clipboard.setData(ClipboardData(text: url));
+                await Clipboard.setData(ClipboardData(text: uri.toString()));
 
-                ref.read(toastProvider).showToast(
+                ref
+                    .read(toastProvider)
+                    .showToast(
                       child: Toast(
                         type: ToastType.standard,
                         message: Intl.message('common_link_copied'),
                       ),
                     );
               } else {
-                SharePlus.instance.share(ShareParams(uri: Uri.parse(url)));
+                SharePlus.instance.share(ShareParams(uri: uri));
               }
             },
             icon: Padding(
@@ -101,8 +108,11 @@ class ToolbarWidget extends HookConsumerWidget {
           CustomIconButton(
             onTap: () async {
               await ref
-                  .read(projectDetailControllerProvider(projectId: project.id)
-                      .notifier)
+                  .read(
+                    projectDetailControllerProvider(
+                      projectId: project.id,
+                    ).notifier,
+                  )
                   .toggleBookmark(bookmarked: !project.isBookmarked);
             },
             icon: Icon(
@@ -122,23 +132,24 @@ class ToolbarWidget extends HookConsumerWidget {
                       }
                     }
                   : null,
-              icon: Icon(
-                Symbols.more_horiz_rounded,
-              ),
+              icon: Icon(Symbols.more_horiz_rounded),
             ),
             menuChildren: [
               SizedBox(height: 8.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: MenuItemButton(
-                  onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
+                  onPressed:
+                      auth is AuthAuthenticated && auth.user.isAdmin ||
                           auth is AuthAuthenticated &&
                               auth.user.id == project.user.id
                       ? () {
-                          context.goNamed(RouteNames.projectEdit,
-                              pathParameters: {
-                                'project_id': project.id.toString()
-                              });
+                          context.goNamed(
+                            RouteNames.projectEdit,
+                            pathParameters: {
+                              'project_id': project.id.toString(),
+                            },
+                          );
                         }
                       : null,
                   style: MenuItemButton.styleFrom(
@@ -146,34 +157,36 @@ class ToolbarWidget extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                     padding: const EdgeInsets.only(
-                        left: 8.0, right: 16.0, top: 4.0, bottom: 4.0),
+                      left: 8.0,
+                      right: 16.0,
+                      top: 4.0,
+                      bottom: 4.0,
+                    ),
                   ),
-                  leadingIcon: Icon(
-                    Symbols.edit_square_rounded,
-                    size: 18.0,
-                  ),
+                  leadingIcon: Icon(Symbols.edit_square_rounded, size: 18.0),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minWidth: 120.0),
-                    child: Text(
-                      Intl.message('common_edit'),
-                    ),
+                    child: Text(Intl.message('common_edit')),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: MenuItemButton(
-                  onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
+                  onPressed:
+                      auth is AuthAuthenticated && auth.user.isAdmin ||
                           auth is AuthAuthenticated &&
                               auth.user.id == project.user.id
                       ? () async {
                           final result = await showDialog(
                             context: context,
                             builder: (_) => DeleteDialog(
-                              title:
-                                  Intl.message('project_form_delete_dialog_1'),
-                              content:
-                                  Intl.message('project_form_delete_dialog_2'),
+                              title: Intl.message(
+                                'project_form_delete_dialog_1',
+                              ),
+                              content: Intl.message(
+                                'project_form_delete_dialog_2',
+                              ),
                             ),
                           );
 
@@ -181,16 +194,21 @@ class ToolbarWidget extends HookConsumerWidget {
                             context.pop();
 
                             await ref
-                                .read(projectDetailControllerProvider(
-                                        projectId: project.id)
-                                    .notifier)
+                                .read(
+                                  projectDetailControllerProvider(
+                                    projectId: project.id,
+                                  ).notifier,
+                                )
                                 .delete();
 
-                            ref.read(toastProvider).showToast(
+                            ref
+                                .read(toastProvider)
+                                .showToast(
                                   child: Toast(
                                     type: ToastType.standard,
-                                    message:
-                                        Intl.message('project_form_delete'),
+                                    message: Intl.message(
+                                      'project_form_delete',
+                                    ),
                                   ),
                                 );
                           }
@@ -201,17 +219,16 @@ class ToolbarWidget extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                     padding: const EdgeInsets.only(
-                        left: 8.0, right: 16.0, top: 4.0, bottom: 4.0),
+                      left: 8.0,
+                      right: 16.0,
+                      top: 4.0,
+                      bottom: 4.0,
+                    ),
                   ),
-                  leadingIcon: Icon(
-                    Symbols.delete_rounded,
-                    size: 18.0,
-                  ),
+                  leadingIcon: Icon(Symbols.delete_rounded, size: 18.0),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minWidth: 120.0),
-                    child: Text(
-                      Intl.message('common_delete'),
-                    ),
+                    child: Text(Intl.message('common_delete')),
                   ),
                 ),
               ),

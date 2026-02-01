@@ -63,7 +63,6 @@ class SummaryCardWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return ContainerWidget(
-      elevation: 0.0,
       width: MediaQuery.of(context).size.width - 120.0,
       color: _buildBackgroundColor(context),
       child: Column(

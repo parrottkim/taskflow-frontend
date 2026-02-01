@@ -16,12 +16,8 @@ class SearchWidget extends ConsumerWidget {
     final filter = ref.watch(projectFilterControllerProvider);
 
     return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-          search: value.search,
-        ),
-      _ => Skeletonizer.zone(
-          child: _DesktopWidget(),
-        ),
+      AsyncData(:final value) => _DesktopWidget(search: value.search),
+      _ => Skeletonizer.zone(child: _DesktopWidget()),
     };
   }
 }
@@ -36,7 +32,7 @@ class _DesktopWidget extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final controller = useTextEditingController(text: search);
-    final text = useListenableSelector(controller, () => controller.text);
+    final keyword = useValueListenable(controller);
 
     useEffect(() {
       if (search != null) {
@@ -50,11 +46,11 @@ class _DesktopWidget extends HookConsumerWidget {
       child: TextField(
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
-        onSubmitted: (value) {
-          if (text.isNotEmpty) {
+        onSubmitted: (_) {
+          if (keyword.text.isNotEmpty) {
             ref
                 .read(projectFilterControllerProvider.notifier)
-                .setSearch(search: text);
+                .setSearch(search: keyword.text);
           }
 
           final queryParameters = ref

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -10,33 +11,33 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ClientSelectorWidget extends ConsumerWidget {
-  final int? projectId;
   final List<Client>? clients;
   final ValueNotifier<bool> isClientsEmpty;
 
   const ClientSelectorWidget({
     super.key,
-    this.projectId,
     this.clients,
     required this.isClientsEmpty,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.tryParse(state.pathParameters['project_id'] ?? '');
     final filter = ref.watch(projectFilterControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          projectId: projectId,
-          clients: clients,
-          clientItems: value.clientItems,
-          maxClientDepth: value.maxClientDepth,
-          isClientsEmpty: isClientsEmpty,
-        ),
+        projectId: projectId,
+        clients: clients,
+        clientItems: value.clientItems,
+        maxClientDepth: value.maxClientDepth,
+        isClientsEmpty: isClientsEmpty,
+      ),
       _ => Skeletonizer(
-          ignoreContainers: true,
-          child: _DesktopWidget(isClientsEmpty: isClientsEmpty),
-        ),
+        ignoreContainers: true,
+        child: _DesktopWidget(isClientsEmpty: isClientsEmpty),
+      ),
     };
   }
 }
@@ -61,7 +62,9 @@ class _DesktopWidget extends HookConsumerWidget {
     final allClients = clientItems.expand((group) => group.items).toList();
 
     List<Client> getNextLevelItems(
-        List<Client> currentPath, List<ClientGroup> allClientGroups) {
+      List<Client> currentPath,
+      List<ClientGroup> allClientGroups,
+    ) {
       if (allClientGroups.isEmpty) {
         return [];
       }
@@ -78,9 +81,11 @@ class _DesktopWidget extends HookConsumerWidget {
         final nextDepth = currentPath.length;
         try {
           return allClientGroups
-              .firstWhere((group) =>
-                  group.depth == nextDepth &&
-                  group.parentId == lastSelectedClient.id)
+              .firstWhere(
+                (group) =>
+                    group.depth == nextDepth &&
+                    group.parentId == lastSelectedClient.id,
+              )
               .items;
         } catch (e) {
           return [];
@@ -88,8 +93,11 @@ class _DesktopWidget extends HookConsumerWidget {
       }
     }
 
-    Client? getParentItem(List<Client> currentPath,
-        List<ClientGroup> allClientGroups, Client selectedItem) {
+    Client? getParentItem(
+      List<Client> currentPath,
+      List<ClientGroup> allClientGroups,
+      Client selectedItem,
+    ) {
       final index = currentPath.indexOf(selectedItem);
       if (index > 0) {
         return currentPath[index - 1];
@@ -134,8 +142,10 @@ class _DesktopWidget extends HookConsumerWidget {
                     ClientType.values
                         .singleWhere((client) => client.id == item.id)
                         .asset,
-                    colorFilter:
-                        ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    colorFilter: ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ),

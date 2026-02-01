@@ -9,15 +9,13 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class LoginScreen extends ConsumerWidget {
-  final String? path;
-
-  const LoginScreen({
-    super.key,
-    this.path,
-  });
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final path = state.uri.queryParameters['redirect_to'];
+
     ref.listen(authControllerProvider, (_, state) {
       if (state is AuthPending) {
         LoadingOverlay.show(context);
@@ -25,7 +23,9 @@ class LoginScreen extends ConsumerWidget {
         LoadingOverlay.hide();
         if (state is AuthForbidden) {
           showDialog(
-              context: context, builder: (_) => const LoginForbiddenDialog());
+            context: context,
+            builder: (_) => const LoginForbiddenDialog(),
+          );
         }
         if (state is AuthRequest) {
           context.goNamed(
@@ -53,21 +53,15 @@ class LoginScreen extends ConsumerWidget {
 class _DesktopWidget extends StatelessWidget {
   final String? path;
 
-  const _DesktopWidget({
-    this.path,
-  });
+  const _DesktopWidget({this.path});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
-          Expanded(
-            child: LoginFormWidget(path: path),
-          ),
-          Expanded(
-            child: BackgroundWidget(),
-          ),
+          Expanded(child: LoginFormWidget(path: path)),
+          Expanded(child: BackgroundWidget()),
         ],
       ),
     );
@@ -77,16 +71,12 @@ class _DesktopWidget extends StatelessWidget {
 class _MobileWidget extends StatelessWidget {
   final String? path;
 
-  const _MobileWidget({
-    this.path,
-  });
+  const _MobileWidget({this.path});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: LoginFormWidget(path: path),
-      ),
+      body: Center(child: LoginFormWidget(path: path)),
     );
   }
 }

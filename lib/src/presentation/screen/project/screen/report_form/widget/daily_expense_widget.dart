@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -8,16 +9,12 @@ import 'package:taskflow/src/presentation/screen/project/screen/report_form/widg
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class DailyExpenseWidget extends ConsumerWidget {
-  final int projectId;
-  final int? reportId;
   final Schedule schedule;
   final List<TripRegulationRate> rates;
   final bool? isDeducted;
 
   const DailyExpenseWidget({
     super.key,
-    required this.projectId,
-    this.reportId,
     required this.schedule,
     required this.rates,
     this.isDeducted,
@@ -25,10 +22,18 @@ class DailyExpenseWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final scheduleId = int.tryParse(
+      state.uri.queryParameters['schedule_id'] ?? '',
+    );
+
     final textTheme = Theme.of(context).textTheme;
 
-    final filter = ref
-        .watch(tripFilterControllerProvider(categoryId: schedule.category.id));
+    final filter = ref.watch(
+      tripFilterControllerProvider(categoryId: schedule.category.id),
+    );
 
     return SingleChildScrollView(
       child: Align(
@@ -53,37 +58,35 @@ class DailyExpenseWidget extends ConsumerWidget {
                   child: CustomToggleButton(
                     value: isDeducted,
                     onChanged: (value) => ref
-                        .read(reportFormControllerProvider(
-                                projectId: projectId, reportId: reportId)
-                            .notifier)
+                        .read(
+                          reportFormControllerProvider(
+                            projectId: projectId,
+                            reportId: reportId,
+                            scheduleId: scheduleId,
+                          ).notifier,
+                        )
                         .setDeducted(flag: value ?? false),
-                    child: Text(
-                      Intl.message('report_form_column_5'),
-                    ),
+                    child: Text(Intl.message('report_form_column_5')),
                   ),
                 ),
               switch (filter) {
                 AsyncData(:final value) => ExpenseListWidget(
-                    projectId: projectId,
-                    reportId: reportId,
-                    schedule: schedule,
-                    steps: value.steps.where((e) => e.categoryId == 4).toList(),
-                    regulations: value.regulations,
-                    rates: rates,
-                  ),
+                  schedule: schedule,
+                  steps: value.steps.where((e) => e.categoryId == 4).toList(),
+                  regulations: value.regulations,
+                  rates: rates,
+                ),
                 AsyncError(:final error, :final stackTrace) =>
                   ErrorContainerWidget(error: error, stackTrace: stackTrace),
                 _ => Skeletonizer(
-                    ignoreContainers: true,
-                    child: ExpenseListWidget(
-                      projectId: projectId,
-                      reportId: reportId,
-                      schedule: schedule,
-                      steps: List.filled(3, TripStep.dummy()),
-                      regulations: [],
-                      rates: [],
-                    ),
+                  ignoreContainers: true,
+                  child: ExpenseListWidget(
+                    schedule: schedule,
+                    steps: List.filled(3, TripStep.dummy()),
+                    regulations: [],
+                    rates: [],
                   ),
+                ),
               },
             ],
           ),

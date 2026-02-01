@@ -10,7 +10,9 @@ class ScheduleListController extends _$ScheduleListController {
   Future<ScheduleListState> _init() async {
     final filter = await ref.read(scheduleFilterControllerProvider.future);
 
-    final result = await ref.read(scheduleRepositoryProvider).getSchedules(
+    final result = await ref
+        .read(scheduleRepositoryProvider)
+        .getSchedules(
           projectId: projectId,
           search: filter.search,
           start: filter.start,
@@ -32,8 +34,11 @@ class ScheduleListController extends _$ScheduleListController {
     final Map<DateTime, ScheduleGroup> mergedGroups = {};
 
     for (final group in groups) {
-      final dateKey =
-          DateTime(group.date.year, group.date.month, group.date.day);
+      final dateKey = DateTime(
+        group.date.year,
+        group.date.month,
+        group.date.day,
+      );
 
       if (mergedGroups.containsKey(dateKey)) {
         // 이미 같은 날짜의 그룹이 있다면
@@ -47,8 +52,10 @@ class ScheduleListController extends _$ScheduleListController {
         uniqueItems.sort((a, b) => a.id.compareTo(b.id));
 
         // 기존 그룹의 아이템 목록을 업데이트 (새로운 객체 생성)
-        mergedGroups[dateKey] =
-            ScheduleGroup(date: existingGroup.date, items: uniqueItems);
+        mergedGroups[dateKey] = ScheduleGroup(
+          date: existingGroup.date,
+          items: uniqueItems,
+        );
       } else {
         // 새로운 날짜의 그룹이라면
         // ⚠️ 만약 items에 중복이 있을 수 있다면 여기서 한 번 더 toSet() 처리
@@ -64,18 +71,21 @@ class ScheduleListController extends _$ScheduleListController {
   }
 
   Future<void> loadPrevious() async {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null || value.hasPrevious != true) return;
 
     final filter = await ref.read(scheduleFilterControllerProvider.future);
 
     final newEnd = value.start; // 현재 시작일 직전까지의 데이터를 요청해야 하므로, end를 현재 start로 설정
-    final newStart = value.start
-        .subtract(const Duration(days: 28)); // start는 현재 start에서 7일 전
+    final newStart = value.start.subtract(
+      const Duration(days: 28),
+    ); // start는 현재 start에서 7일 전
 
     // 3. 데이터 요청
-    final result = await ref.read(scheduleRepositoryProvider).getSchedules(
+    final result = await ref
+        .read(scheduleRepositoryProvider)
+        .getSchedules(
           projectId: projectId,
           search: filter.search,
           // start는 null을 전달하여 DTO 기본값(일주일 전)이 사용되거나,
@@ -90,18 +100,19 @@ class ScheduleListController extends _$ScheduleListController {
     // 4. 데이터 병합 및 상태 업데이트
     state = AsyncData(
       value.copyWith(
-          // 새로 가져온 데이터(이전)를 기존 데이터 앞에 추가
-          items: mergedItems,
-          hasPrevious: result.hasPrevious,
-          // 시작 기준일 업데이트
-          start: newStart,
-          end: newEnd),
+        // 새로 가져온 데이터(이전)를 기존 데이터 앞에 추가
+        items: mergedItems,
+        hasPrevious: result.hasPrevious,
+        // 시작 기준일 업데이트
+        start: newStart,
+        end: newEnd,
+      ),
     );
   }
 
   /// 이후 일정 목록을 가져와 현재 목록에 병합합니다. (스크롤 하단에 도달 시)
   Future<void> loadNext() async {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null || value.hasNext != true) return;
 
@@ -111,7 +122,9 @@ class ScheduleListController extends _$ScheduleListController {
     final newEnd = value.end.add(const Duration(days: 28));
 
     // 3. 데이터 요청
-    final result = await ref.read(scheduleRepositoryProvider).getSchedules(
+    final result = await ref
+        .read(scheduleRepositoryProvider)
+        .getSchedules(
           projectId: projectId,
           search: filter.search,
           start: newStart,

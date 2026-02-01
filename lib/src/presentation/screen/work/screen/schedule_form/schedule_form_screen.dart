@@ -14,39 +14,33 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 
 class ScheduleFormScreen extends ConsumerWidget {
-  final String? path;
-  final int categoryId;
-  final int? scheduleId;
-
-  const ScheduleFormScreen({
-    super.key,
-    this.path,
-    required this.categoryId,
-    this.scheduleId,
-  });
+  const ScheduleFormScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final form = ref.watch(scheduleFormControllerProvider(
-        categoryId: categoryId, scheduleId: scheduleId));
+    final state = GoRouterState.of(context);
+    final path = state.uri.queryParameters['redirect_to'];
+    final categoryId = int.parse(state.uri.queryParameters['category']!);
+    final scheduleId = int.tryParse(state.pathParameters['schedule_id'] ?? '');
+
+    final form = ref.watch(
+      scheduleFormControllerProvider(
+        categoryId: categoryId,
+        scheduleId: scheduleId,
+      ),
+    );
 
     return BranchLayout(
       child: switch (form) {
-        AsyncData(:final value) => _DesktopWidget(
-            path: path,
-            categoryId: categoryId,
-            scheduleId: scheduleId,
-            value: value,
-          ),
-        AsyncError(:final error, :final stackTrace) =>
-          ErrorContainerWidget(error: error, stackTrace: stackTrace),
+        AsyncData(:final value) => _DesktopWidget(path: path, value: value),
+        AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+          error: error,
+          stackTrace: stackTrace,
+        ),
         _ => Skeletonizer(
-            ignoreContainers: true,
-            child: _DesktopWidget(
-              categoryId: categoryId,
-              value: ScheduleFormState(),
-            ),
-          ),
+          ignoreContainers: true,
+          child: _DesktopWidget(value: ScheduleFormState()),
+        ),
       },
     );
   }
@@ -54,25 +48,23 @@ class ScheduleFormScreen extends ConsumerWidget {
 
 class _DesktopWidget extends HookConsumerWidget {
   final String? path;
-  final int categoryId;
-  final int? scheduleId;
   final ScheduleFormState value;
 
-  const _DesktopWidget({
-    this.path,
-    required this.categoryId,
-    this.scheduleId,
-    required this.value,
-  });
+  const _DesktopWidget({this.path, required this.value});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final categoryId = int.parse(state.uri.queryParameters['category']!);
+    final scheduleId = int.tryParse(state.pathParameters['schedule_id'] ?? '');
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     final summaryController = useTextEditingController(text: value.summary);
-    final descriptionController =
-        useTextEditingController(text: value.description);
+    final descriptionController = useTextEditingController(
+      text: value.description,
+    );
 
     final summaryFocus = useFocusNode();
     final descriptionFocus = useFocusNode();
@@ -89,7 +81,9 @@ class _DesktopWidget extends HookConsumerWidget {
         LoadingOverlay.hide();
 
         if (state is ScheduleSubmitSuccess) {
-          ref.read(toastProvider).showToast(
+          ref
+              .read(toastProvider)
+              .showToast(
                 child: Toast(
                   type: ToastType.verified,
                   message: Intl.message('schedule_form_success'),
@@ -99,9 +93,7 @@ class _DesktopWidget extends HookConsumerWidget {
             context.pop();
             context.goNamed(
               RouteNames.work,
-              queryParameters: {
-                'view': 'schedule',
-              },
+              queryParameters: {'view': 'schedule'},
             );
           } else {
             context.go(path!);
@@ -111,9 +103,7 @@ class _DesktopWidget extends HookConsumerWidget {
         if (state is ScheduleSubmitDeleted) {
           context.goNamed(
             RouteNames.work,
-            queryParameters: {
-              'view': 'schedule',
-            },
+            queryParameters: {'view': 'schedule'},
           );
         }
       }
@@ -140,11 +130,13 @@ class _DesktopWidget extends HookConsumerWidget {
                           children: [
                             TextSpan(
                               text: Intl.message(
-                                  'schedule_new_choose_$categoryId'),
+                                'schedule_new_choose_$categoryId',
+                              ),
                             ),
                             TextSpan(
                               text: Intl.message(
-                                  'schedule_new_choose_${categoryId}_1'),
+                                'schedule_new_choose_${categoryId}_1',
+                              ),
                               style: TextStyle(fontWeight: FontWeight.w700),
                             ),
                           ],
@@ -153,8 +145,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('schedule_form_project'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       ProjectSelectorWidget(
@@ -171,16 +164,12 @@ class _DesktopWidget extends HookConsumerWidget {
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('schedule_form_date'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
-                      DateSelectorWidget(
-                        categoryId: categoryId,
-                        scheduleId: scheduleId,
-                        start: value.start,
-                        end: value.end,
-                      ),
+                      DateSelectorWidget(start: value.start, end: value.end),
                       InvalidWidget(
                         visible: isDateSelected.value,
                         text: Intl.message('schedule_form_invalid_2'),
@@ -188,8 +177,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('schedule_form_summary'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       Skeleton.keep(
@@ -200,16 +190,19 @@ class _DesktopWidget extends HookConsumerWidget {
                             isSummaryNotEmpty.value = false;
 
                             ref
-                                .read(scheduleFormControllerProvider(
-                                        categoryId: categoryId,
-                                        scheduleId: scheduleId)
-                                    .notifier)
+                                .read(
+                                  scheduleFormControllerProvider(
+                                    categoryId: categoryId,
+                                    scheduleId: scheduleId,
+                                  ).notifier,
+                                )
                                 .setSummary(summary: value);
                           },
                           maxLines: 1,
                           decoration: InputDecoration(filled: true),
-                          onSubmitted: (value) => FocusScope.of(context)
-                              .requestFocus(descriptionFocus),
+                          onSubmitted: (value) => FocusScope.of(
+                            context,
+                          ).requestFocus(descriptionFocus),
                         ),
                       ),
                       InvalidWidget(
@@ -219,8 +212,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('schedule_form_description'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       Skeleton.keep(
@@ -229,10 +223,12 @@ class _DesktopWidget extends HookConsumerWidget {
                           controller: descriptionController,
                           onChanged: (value) {
                             ref
-                                .read(scheduleFormControllerProvider(
-                                        categoryId: categoryId,
-                                        scheduleId: scheduleId)
-                                    .notifier)
+                                .read(
+                                  scheduleFormControllerProvider(
+                                    categoryId: categoryId,
+                                    scheduleId: scheduleId,
+                                  ).notifier,
+                                )
                                 .setDescription(description: value);
                           },
                           minLines: 3,
@@ -253,8 +249,12 @@ class _DesktopWidget extends HookConsumerWidget {
         ),
         Divider(),
         Container(
-          padding:
-              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
+          padding: EdgeInsets.only(
+            left: 24.0,
+            right: 24.0,
+            top: 16.0,
+            bottom: 32.0,
+          ),
           constraints: BoxConstraints(maxWidth: 430.0),
           child: Row(
             children: [
@@ -285,7 +285,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       await ref
                           .read(scheduleSubmitControllerProvider.notifier)
                           .updateSchedule(
-                              categoryId: categoryId, scheduleId: scheduleId!);
+                            categoryId: categoryId,
+                            scheduleId: scheduleId!,
+                          );
                     }
                   },
                   child: Text(
@@ -304,8 +306,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         context: context,
                         builder: (_) => DeleteDialog(
                           title: Intl.message('schedule_form_delete_dialog_1'),
-                          content:
-                              Intl.message('schedule_form_delete_dialog_2'),
+                          content: Intl.message(
+                            'schedule_form_delete_dialog_2',
+                          ),
                         ),
                       );
 
@@ -316,7 +319,9 @@ class _DesktopWidget extends HookConsumerWidget {
                             .read(scheduleSubmitControllerProvider.notifier)
                             .deleteSchedule(scheduleId: scheduleId!);
 
-                        ref.read(toastProvider).showToast(
+                        ref
+                            .read(toastProvider)
+                            .showToast(
                               child: Toast(
                                 type: ToastType.standard,
                                 message: Intl.message('project_form_delete'),
@@ -330,10 +335,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(1.0),
-                      child: Icon(
-                        Symbols.delete_rounded,
-                        size: 19.0,
-                      ),
+                      child: Icon(Symbols.delete_rounded, size: 19.0),
                     ),
                   ),
                 ),

@@ -101,10 +101,12 @@ class Routes {
 
 @riverpod
 AppRouter router(Ref ref) {
-  final notifier = ref.watch(routerNotifierProvider.notifier);
-
   return AppRouter(
-      ref, notifier, ref.watch(routerInterceptorProvider), Routes.splash);
+    ref,
+    ref.watch(routerListenableProvider.notifier),
+    ref.watch(routerInterceptorProvider),
+    Routes.splash,
+  );
 }
 
 class AppRouter {
@@ -113,12 +115,7 @@ class AppRouter {
   final RouterInterceptor interceptor;
   final String initialLocation;
 
-  AppRouter(
-    this.ref,
-    this.notifier,
-    this.interceptor,
-    this.initialLocation,
-  );
+  AppRouter(this.ref, this.notifier, this.interceptor, this.initialLocation);
 
   late final GoRouter config = GoRouter(
     navigatorKey: _key,
@@ -135,11 +132,10 @@ class AppRouter {
         name: RouteNames.splash,
         path: Routes.splash,
         pageBuilder: (context, state) {
-          String? path = state.uri.queryParameters['redirect_to'];
           return NoTransitionPage(
             key: state.pageKey,
             name: state.name,
-            child: SplashScreen(path: path),
+            child: SplashScreen(),
           );
         },
       ),
@@ -147,20 +143,21 @@ class AppRouter {
         name: RouteNames.login,
         path: Routes.login,
         pageBuilder: (context, state) {
-          String? path = state.uri.queryParameters['redirect_to'];
           return buildFadeTransition(
-              context: context, state: state, child: LoginScreen(path: path));
+            context: context,
+            state: state,
+            child: LoginScreen(),
+          );
         },
         routes: [
           GoRoute(
             name: RouteNames.register,
             path: Routes.register,
             pageBuilder: (context, state) {
-              String? path = state.uri.queryParameters['redirect_to'];
               return NoTransitionPage(
                 key: state.pageKey,
                 name: state.name,
-                child: RegisterScreen(path: path),
+                child: RegisterScreen(),
               );
             },
           ),
@@ -168,11 +165,10 @@ class AppRouter {
             name: RouteNames.forgotPassword,
             path: Routes.forgotPassword,
             pageBuilder: (context, state) {
-              String? path = state.uri.queryParameters['redirect_to'];
               return NoTransitionPage(
                 key: state.pageKey,
                 name: state.name,
-                child: ForgotPasswordScreen(path: path),
+                child: ForgotPasswordScreen(),
               );
             },
           ),
@@ -180,13 +176,10 @@ class AppRouter {
             name: RouteNames.resetPassword,
             path: Routes.resetPassword,
             pageBuilder: (context, state) {
-              String? path = state.uri.queryParameters['redirect_to'];
-              String? token = state.uri.queryParameters['token'];
-
               return NoTransitionPage(
                 key: state.pageKey,
                 name: state.name,
-                child: ResetPasswordScreen(path: path, token: token),
+                child: ResetPasswordScreen(),
               );
             },
           ),
@@ -220,26 +213,10 @@ class AppRouter {
                 name: RouteNames.project,
                 path: Routes.project,
                 pageBuilder: (context, state) {
-                  final view = state.uri.queryParameters['view'];
-                  final sort = state.uri.queryParameters['sort'];
-                  final order = state.uri.queryParameters['order'];
-                  final search = state.uri.queryParameters['search'];
-                  final bookmark = state.uri.queryParameters['bookmark'];
-                  final clients = state.uri.queryParameters['clients'];
-                  final categories = state.uri.queryParameters['categories'];
-
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: ProjectScreen(
-                      view: view,
-                      sort: sort,
-                      order: order,
-                      search: search,
-                      bookmark: bookmark,
-                      clients: clients,
-                      categories: categories,
-                    ),
+                    child: ProjectScreen(),
                   );
                 },
                 routes: [
@@ -248,9 +225,7 @@ class AppRouter {
                     path: Routes.projectNew,
                     parentNavigatorKey: _projectKey,
                     pageBuilder: (context, state) {
-                      return NoTransitionPage(
-                        child: ProjectFormScreen(),
-                      );
+                      return NoTransitionPage(child: ProjectFormScreen());
                     },
                     onExit: (context, state) async {
                       final error = ref.watch(errorControllerProvider);
@@ -276,12 +251,7 @@ class AppRouter {
                     path: ':project_id/${Routes.projectEdit}',
                     parentNavigatorKey: _projectKey,
                     pageBuilder: (context, state) {
-                      String? projectId = state.pathParameters['project_id'];
-
-                      return NoTransitionPage(
-                        child:
-                            ProjectFormScreen(projectId: int.parse(projectId!)),
-                      );
+                      return NoTransitionPage(child: ProjectFormScreen());
                     },
                     onExit: (context, state) async {
                       final error = ref.watch(errorControllerProvider);
@@ -307,21 +277,7 @@ class AppRouter {
                     path: ':project_id',
                     parentNavigatorKey: _projectKey,
                     pageBuilder: (context, state) {
-                      String? projectId = state.pathParameters['project_id'];
-                      String? issueId = state.uri.queryParameters['issue'];
-                      String? reportId = state.uri.queryParameters['report'];
-                      final view = state.uri.queryParameters['view'];
-
-                      return NoTransitionPage(
-                        child: ProjectDetailScreen(
-                          projectId: int.parse(projectId!),
-                          issueId:
-                              issueId != null ? int.tryParse(issueId) : null,
-                          reportId:
-                              reportId != null ? int.tryParse(reportId) : null,
-                          view: view,
-                        ),
-                      );
+                      return NoTransitionPage(child: ProjectDetailScreen());
                     },
                     routes: [
                       GoRoute(
@@ -337,13 +293,8 @@ class AppRouter {
                             name: RouteNames.issueNewChoose,
                             path: Routes.issueNewChoose,
                             pageBuilder: (context, state) {
-                              String? projectId =
-                                  state.pathParameters['project_id'];
-
                               return NoTransitionPage(
-                                child: IssueCategoryScreen(
-                                  projectId: int.parse(projectId!),
-                                ),
+                                child: IssueCategoryScreen(),
                               );
                             },
                             routes: [
@@ -357,15 +308,18 @@ class AppRouter {
                                       state.pathParameters['category_id']!;
 
                                   final list = await ref.read(
-                                      issueListControllerProvider(
-                                              projectId: int.parse(projectId))
-                                          .future);
+                                    issueListControllerProvider(
+                                      projectId: int.parse(projectId),
+                                    ).future,
+                                  );
 
                                   final detail = await ref.read(
-                                      projectFilterControllerProvider.future);
+                                    projectFilterControllerProvider.future,
+                                  );
                                   final selectedCategory = detail.categoryItems
                                       .firstWhere(
-                                          (c) => c.id.toString() == categoryId);
+                                        (c) => c.id.toString() == categoryId,
+                                      );
 
                                   bool isDuplicate = false;
 
@@ -394,23 +348,17 @@ class AppRouter {
                                   return null;
                                 },
                                 pageBuilder: (context, state) {
-                                  String? categoryId =
-                                      state.pathParameters['category_id'];
-                                  String? projectId =
-                                      state.pathParameters['project_id'];
-
                                   return NoTransitionPage(
-                                    child: IssueFormScreen(
-                                      categoryId: int.parse(categoryId!),
-                                      projectId: int.parse(projectId!),
-                                    ),
+                                    child: IssueFormScreen(),
                                   );
                                 },
                                 onExit: (context, state) async {
-                                  final error =
-                                      ref.watch(errorControllerProvider);
-                                  final submit =
-                                      ref.watch(issueSubmitControllerProvider);
+                                  final error = ref.watch(
+                                    errorControllerProvider,
+                                  );
+                                  final submit = ref.watch(
+                                    issueSubmitControllerProvider,
+                                  );
 
                                   if (error is ErrorUnauthorized) {
                                     return true;
@@ -420,10 +368,10 @@ class AppRouter {
                                       submit is! IssueSubmitDeleted) {
                                     final shouldNavigate =
                                         await showDialog<bool>(
-                                      context: context,
-                                      builder: (context) =>
-                                          const PopScopeDialog(),
-                                    );
+                                          context: context,
+                                          builder: (context) =>
+                                              const PopScopeDialog(),
+                                        );
                                     return shouldNavigate ?? false;
                                   }
                                   return true;
@@ -434,28 +382,15 @@ class AppRouter {
                           GoRoute(
                             name: RouteNames.issueEdit,
                             path: ':issue_id/${Routes.issueEdit}/:category_id',
+                            parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
-                              String? categoryId =
-                                  state.pathParameters['category_id'];
-                              String? projectId =
-                                  state.pathParameters['project_id'];
-                              String? issueId =
-                                  state.pathParameters['issue_id'];
-
-                              return NoTransitionPage(
-                                child: IssueFormScreen(
-                                  categoryId: int.parse(categoryId!),
-                                  projectId: int.parse(projectId!),
-                                  issueId: issueId != null
-                                      ? int.tryParse(issueId)
-                                      : null,
-                                ),
-                              );
+                              return NoTransitionPage(child: IssueFormScreen());
                             },
                             onExit: (context, state) async {
                               final error = ref.watch(errorControllerProvider);
-                              final submit =
-                                  ref.watch(issueSubmitControllerProvider);
+                              final submit = ref.watch(
+                                issueSubmitControllerProvider,
+                              );
 
                               if (error is ErrorUnauthorized) {
                                 return true;
@@ -486,14 +421,10 @@ class AppRouter {
                           GoRoute(
                             name: RouteNames.reportNewChoose,
                             path: Routes.reportNewChoose, // 예: choose
+                            parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
-                              String? projectId =
-                                  state.pathParameters['project_id'];
-
                               return NoTransitionPage(
-                                child: ReportCategoryScreen(
-                                  projectId: int.parse(projectId!),
-                                ),
+                                child: ReportCategoryScreen(),
                               );
                             },
                             routes: [
@@ -501,21 +432,19 @@ class AppRouter {
                               GoRoute(
                                 name: RouteNames.reportNew,
                                 path: Routes.reportNew,
+                                parentNavigatorKey: _projectKey,
                                 pageBuilder: (context, state) {
-                                  final projectId =
-                                      state.pathParameters['project_id']!;
-
                                   return NoTransitionPage(
-                                    child: ReportFormScreen(
-                                      projectId: int.parse(projectId),
-                                    ),
+                                    child: ReportFormScreen(),
                                   );
                                 },
                                 onExit: (context, state) async {
-                                  final error =
-                                      ref.watch(errorControllerProvider);
-                                  final submit =
-                                      ref.watch(reportSubmitControllerProvider);
+                                  final error = ref.watch(
+                                    errorControllerProvider,
+                                  );
+                                  final submit = ref.watch(
+                                    reportSubmitControllerProvider,
+                                  );
 
                                   if (error is ErrorUnauthorized) {
                                     return true;
@@ -525,10 +454,10 @@ class AppRouter {
                                       submit is! ReportSubmitDeleted) {
                                     final shouldNavigate =
                                         await showDialog<bool>(
-                                      context: context,
-                                      builder: (context) =>
-                                          const PopScopeDialog(),
-                                    );
+                                          context: context,
+                                          builder: (context) =>
+                                              const PopScopeDialog(),
+                                        );
                                     return shouldNavigate ?? false;
                                   }
                                   return true;
@@ -539,24 +468,17 @@ class AppRouter {
                           GoRoute(
                             name: RouteNames.reportEdit,
                             path: ':report_id/${Routes.reportEdit}',
+                            parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
-                              final projectId =
-                                  state.pathParameters['project_id']!;
-                              final reportId =
-                                  state.pathParameters['report_id']!;
-
-                              // ReportFormScreen이 step을 내부에서 처리합니다.
                               return NoTransitionPage(
-                                child: ReportFormScreen(
-                                  projectId: int.parse(projectId),
-                                  reportId: int.parse(reportId),
-                                ),
+                                child: ReportFormScreen(),
                               );
                             },
                             onExit: (context, state) async {
                               final error = ref.watch(errorControllerProvider);
-                              final submit =
-                                  ref.watch(reportSubmitControllerProvider);
+                              final submit = ref.watch(
+                                reportSubmitControllerProvider,
+                              );
 
                               if (error is ErrorUnauthorized) {
                                 return true;
@@ -588,12 +510,10 @@ class AppRouter {
                 name: RouteNames.work,
                 path: Routes.work,
                 pageBuilder: (context, state) {
-                  final view = state.uri.queryParameters['view'];
-
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: WorkScreen(view: view),
+                    child: WorkScreen(),
                   );
                 },
                 routes: [
@@ -609,14 +529,12 @@ class AppRouter {
                       GoRoute(
                         name: RouteNames.scheduleNewChoose,
                         path: Routes.scheduleNewChoose,
+                        parentNavigatorKey: _workKey,
                         pageBuilder: (context, state) {
-                          String? path =
-                              state.uri.queryParameters['redirect_to'];
-
                           return NoTransitionPage(
                             key: state.pageKey,
                             name: state.name,
-                            child: ScheduleCategoryScreen(path: path),
+                            child: ScheduleCategoryScreen(),
                           );
                         },
                         routes: [
@@ -624,24 +542,17 @@ class AppRouter {
                             name: RouteNames.scheduleNew,
                             path: Routes.scheduleNew,
                             pageBuilder: (context, state) {
-                              String? path =
-                                  state.uri.queryParameters['redirect_to'];
-                              String? categoryId =
-                                  state.uri.queryParameters['category'];
-
                               return NoTransitionPage(
                                 key: state.pageKey,
                                 name: state.name,
-                                child: ScheduleFormScreen(
-                                  path: path,
-                                  categoryId: int.parse(categoryId!),
-                                ),
+                                child: ScheduleFormScreen(),
                               );
                             },
                             onExit: (context, state) async {
                               final error = ref.watch(errorControllerProvider);
-                              final submit =
-                                  ref.watch(scheduleSubmitControllerProvider);
+                              final submit = ref.watch(
+                                scheduleSubmitControllerProvider,
+                              );
 
                               if (error is ErrorUnauthorized) {
                                 return true;
@@ -664,24 +575,17 @@ class AppRouter {
                         name: RouteNames.scheduleEdit,
                         path: ':schedule_id/${Routes.scheduleEdit}',
                         pageBuilder: (context, state) {
-                          String? categoryId =
-                              state.uri.queryParameters['category'];
-                          String? scheduleId =
-                              state.pathParameters['schedule_id'];
-
                           return NoTransitionPage(
                             key: state.pageKey,
                             name: state.name,
-                            child: ScheduleFormScreen(
-                              categoryId: int.parse(categoryId!),
-                              scheduleId: int.parse(scheduleId!),
-                            ),
+                            child: ScheduleFormScreen(),
                           );
                         },
                         onExit: (context, state) async {
                           final error = ref.watch(errorControllerProvider);
-                          final submit =
-                              ref.watch(scheduleSubmitControllerProvider);
+                          final submit = ref.watch(
+                            scheduleSubmitControllerProvider,
+                          );
 
                           if (error is ErrorUnauthorized) {
                             return true;
@@ -739,12 +643,10 @@ class AppRouter {
                 name: RouteNames.setting,
                 path: Routes.setting,
                 pageBuilder: (context, state) {
-                  final view = state.uri.queryParameters['view'];
-
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: SettingScreen(view: view),
+                    child: SettingScreen(),
                   );
                 },
               ),
@@ -756,13 +658,10 @@ class AppRouter {
         name: RouteNames.download,
         path: Routes.download,
         pageBuilder: (context, state) {
-          final path = state.uri.queryParameters['path'];
-          final filename = state.uri.queryParameters['filename'];
-
           return NoTransitionPage(
             key: state.pageKey,
             name: state.name,
-            child: DownloadScreen(path: path, filename: filename),
+            child: DownloadScreen(),
           );
         },
       ),

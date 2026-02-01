@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -17,55 +18,48 @@ import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ContractIssueListWidget extends ConsumerWidget {
-  final int projectId;
-  final int? issueId;
-
-  const ContractIssueListWidget({
-    super.key,
-    required this.projectId,
-    this.issueId,
-  });
+  const ContractIssueListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouter.of(context).state;
+    final projectId = int.parse(state.pathParameters['project_id']!);
+
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
     return switch (issue) {
       AsyncData(:final value) => _DesktopWidget(
-          projectId: projectId,
-          issueId: issueId,
-          contract: value.contract,
-          kickoff: value.kickoff,
-          transaction: value.transaction,
-          payment: value.payment,
-          contractItems: value.contractItems,
-          transactionItems: value.transactionItems,
-        ),
-      AsyncError(:final error, :final stackTrace) =>
-        ErrorContainerWidget(error: error, stackTrace: stackTrace),
+        contract: value.contract,
+        kickoff: value.kickoff,
+        transaction: value.transaction,
+        payment: value.payment,
+        contractItems: value.contractItems,
+        transactionItems: value.transactionItems,
+      ),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
       _ => Skeletonizer(
-          child: _DesktopWidget(
-            projectId: projectId,
-            contract: ContractIssue(
-              id: 0,
-              category: IssueCategory.dummy(),
-              user: User.dummy(),
-              content: '',
-              currency: Currency.empty(),
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-            ),
-            contractItems: [],
-            transactionItems: [],
+        child: _DesktopWidget(
+          contract: ContractIssue(
+            id: 0,
+            category: IssueCategory.dummy(),
+            user: User.dummy(),
+            content: '',
+            currency: Currency.empty(),
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
           ),
-        )
+          contractItems: [],
+          transactionItems: [],
+        ),
+      ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? issueId;
   final ContractIssue? contract;
   final KickoffIssue? kickoff;
   final TransactionIssue? transaction;
@@ -74,8 +68,6 @@ class _DesktopWidget extends HookConsumerWidget {
   final List<TransactionItem> transactionItems;
 
   const _DesktopWidget({
-    required this.projectId,
-    this.issueId,
     this.contract,
     this.kickoff,
     this.transaction,
@@ -86,7 +78,8 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print(transactionItems);
+    final state = GoRouter.of(context).state;
+    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
 
     final auth = ref.watch(authControllerProvider);
 
@@ -131,11 +124,13 @@ class _DesktopWidget extends HookConsumerWidget {
         if (ctx == null) return;
 
         final renderBox = ctx.findRenderObject() as RenderBox;
-        final scrollBox = controller.position.context.storageContext
-            .findRenderObject() as RenderBox;
+        final scrollBox =
+            controller.position.context.storageContext.findRenderObject()
+                as RenderBox;
 
-        final offset =
-            renderBox.localToGlobal(Offset.zero, ancestor: scrollBox).dy;
+        final offset = renderBox
+            .localToGlobal(Offset.zero, ancestor: scrollBox)
+            .dy;
 
         controller.animateTo(
           controller.offset + offset,
@@ -154,7 +149,9 @@ class _DesktopWidget extends HookConsumerWidget {
         LoadingOverlay.hide();
 
         if (state is IssueSubmitDeleted) {
-          ref.read(toastProvider).showToast(
+          ref
+              .read(toastProvider)
+              .showToast(
                 child: Toast(
                   type: ToastType.standard,
                   message: Intl.message('report_form_delete'),
@@ -182,9 +179,7 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('project_detail_no_contracts'),
-            ),
+            Text(Intl.message('project_detail_no_contracts')),
           ],
         ),
       );
@@ -211,8 +206,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                         child: Skeleton.unite(
                           child: CircleAvatar(
-                            backgroundColor: Functions(context)
-                                .generateColorFromId(payment!.user.id),
+                            backgroundColor: Functions(
+                              context,
+                            ).generateColorFromId(payment!.user.id),
                             radius: 16.0,
                             child: Text(
                               getInitials(payment!.user.username),
@@ -237,7 +233,6 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ),
                         child: ContainerWidget(
-                          elevation: 0.0,
                           padding: EdgeInsets.zero,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -255,10 +250,12 @@ class _DesktopWidget extends HookConsumerWidget {
                                     topLeft: Radius.circular(16.0),
                                     topRight: Radius.circular(16.0),
                                   ),
-                                  color: auth is AuthAuthenticated &&
+                                  color:
+                                      auth is AuthAuthenticated &&
                                           auth.user == payment!.user
-                                      ? colorScheme.primary
-                                          .withValues(alpha: 0.1)
+                                      ? colorScheme.primary.withValues(
+                                          alpha: 0.1,
+                                        )
                                       : colorScheme.surfaceContainerLow,
                                 ),
                                 child: Row(
@@ -266,7 +263,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                     UserInformationWidget(item: payment!.user),
                                     const Spacer(),
                                     ToolbarWidget(
-                                      projectId: projectId,
                                       issueId: payment!.id,
                                       categoryId: payment!.category.id,
                                       createdAt: payment!.createdAt,
@@ -277,21 +273,17 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CategoryWidget(item: payment!.category),
-                                    SizedBox(height: 16.0),
-                                    MarkdownWidget(item: payment!.content),
-                                    if (payment!.attachments.isNotEmpty)
-                                      AttachmentListWidget<IssueAttachment>(
-                                        attachments: payment!.attachments,
-                                      ),
-                                  ],
-                                ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CategoryWidget(item: payment!.category),
+                                  MarkdownWidget(item: payment!.content),
+                                  if (payment!.attachments.isNotEmpty)
+                                    AttachmentListWidget<IssueAttachment>(
+                                      attachments: payment!.attachments,
+                                    ),
+                                ],
                               ),
                             ],
                           ),
@@ -313,8 +305,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                         child: Skeleton.unite(
                           child: CircleAvatar(
-                            backgroundColor: Functions(context)
-                                .generateColorFromId(transaction!.user.id),
+                            backgroundColor: Functions(
+                              context,
+                            ).generateColorFromId(transaction!.user.id),
                             radius: 16.0,
                             child: Text(
                               getInitials(transaction!.user.username),
@@ -339,7 +332,6 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ),
                         child: ContainerWidget(
-                          elevation: 0.0,
                           padding: EdgeInsets.zero,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -357,19 +349,21 @@ class _DesktopWidget extends HookConsumerWidget {
                                     topLeft: Radius.circular(16.0),
                                     topRight: Radius.circular(16.0),
                                   ),
-                                  color: auth is AuthAuthenticated &&
+                                  color:
+                                      auth is AuthAuthenticated &&
                                           auth.user == transaction!.user
-                                      ? colorScheme.primary
-                                          .withValues(alpha: 0.1)
+                                      ? colorScheme.primary.withValues(
+                                          alpha: 0.1,
+                                        )
                                       : colorScheme.surfaceContainerLow,
                                 ),
                                 child: Row(
                                   children: [
                                     UserInformationWidget(
-                                        item: transaction!.user),
+                                      item: transaction!.user,
+                                    ),
                                     const Spacer(),
                                     ToolbarWidget(
-                                      projectId: projectId,
                                       issueId: transaction!.id,
                                       categoryId: transaction!.category.id,
                                       createdAt: transaction!.createdAt,
@@ -380,25 +374,21 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CategoryWidget(item: transaction!.category),
-                                    SizedBox(height: 16.0),
-                                    TransactionDisplayItem(
-                                      currency: transaction!.currency,
-                                      items: transactionItems,
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CategoryWidget(item: transaction!.category),
+                                  TransactionDisplayItem(
+                                    currency: transaction!.currency,
+                                    items: transactionItems,
+                                  ),
+                                  MarkdownWidget(item: transaction!.content),
+                                  if (transaction!.attachments.isNotEmpty)
+                                    AttachmentListWidget<IssueAttachment>(
+                                      attachments: transaction!.attachments,
                                     ),
-                                    MarkdownWidget(item: transaction!.content),
-                                    if (transaction!.attachments.isNotEmpty)
-                                      AttachmentListWidget<IssueAttachment>(
-                                        attachments: transaction!.attachments,
-                                      ),
-                                  ],
-                                ),
+                                ],
                               ),
                             ],
                           ),
@@ -420,8 +410,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                         child: Skeleton.unite(
                           child: CircleAvatar(
-                            backgroundColor: Functions(context)
-                                .generateColorFromId(kickoff!.user.id),
+                            backgroundColor: Functions(
+                              context,
+                            ).generateColorFromId(kickoff!.user.id),
                             radius: 16.0,
                             child: Text(
                               getInitials(kickoff!.user.username),
@@ -446,7 +437,6 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ),
                         child: ContainerWidget(
-                          elevation: 0.0,
                           padding: EdgeInsets.zero,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -464,10 +454,12 @@ class _DesktopWidget extends HookConsumerWidget {
                                     topLeft: Radius.circular(16.0),
                                     topRight: Radius.circular(16.0),
                                   ),
-                                  color: auth is AuthAuthenticated &&
+                                  color:
+                                      auth is AuthAuthenticated &&
                                           auth.user == kickoff!.user
-                                      ? colorScheme.primary
-                                          .withValues(alpha: 0.1)
+                                      ? colorScheme.primary.withValues(
+                                          alpha: 0.1,
+                                        )
                                       : colorScheme.surfaceContainerLow,
                                 ),
                                 child: Row(
@@ -475,7 +467,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                     UserInformationWidget(item: kickoff!.user),
                                     const Spacer(),
                                     ToolbarWidget(
-                                      projectId: projectId,
                                       issueId: kickoff!.id,
                                       categoryId: kickoff!.category.id,
                                       createdAt: kickoff!.createdAt,
@@ -486,24 +477,20 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CategoryWidget(item: kickoff!.category),
-                                    SizedBox(height: 16.0),
-                                    KickoffDisplayItem(
-                                      kickoffDate: kickoff!.kickoffDate,
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CategoryWidget(item: kickoff!.category),
+                                  KickoffDisplayItem(
+                                    kickoffDate: kickoff!.kickoffDate,
+                                  ),
+                                  MarkdownWidget(item: kickoff!.content),
+                                  if (kickoff!.attachments.isNotEmpty)
+                                    AttachmentListWidget<IssueAttachment>(
+                                      attachments: kickoff!.attachments,
                                     ),
-                                    MarkdownWidget(item: kickoff!.content),
-                                    if (kickoff!.attachments.isNotEmpty)
-                                      AttachmentListWidget<IssueAttachment>(
-                                        attachments: kickoff!.attachments,
-                                      ),
-                                  ],
-                                ),
+                                ],
                               ),
                             ],
                           ),
@@ -523,8 +510,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                       child: Skeleton.unite(
                         child: CircleAvatar(
-                          backgroundColor: Functions(context)
-                              .generateColorFromId(contract!.user.id),
+                          backgroundColor: Functions(
+                            context,
+                          ).generateColorFromId(contract!.user.id),
                           radius: 16.0,
                           child: Text(
                             getInitials(contract!.user.username),
@@ -549,7 +537,6 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       child: ContainerWidget(
-                        elevation: 0.0,
                         padding: EdgeInsets.zero,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -567,7 +554,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                   topLeft: Radius.circular(16.0),
                                   topRight: Radius.circular(16.0),
                                 ),
-                                color: auth is AuthAuthenticated &&
+                                color:
+                                    auth is AuthAuthenticated &&
                                         auth.user == contract!.user
                                     ? colorScheme.primary.withValues(alpha: 0.1)
                                     : colorScheme.surfaceContainerLow,
@@ -577,7 +565,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                   UserInformationWidget(item: contract!.user),
                                   const Spacer(),
                                   ToolbarWidget(
-                                    projectId: projectId,
                                     issueId: contract!.id,
                                     categoryId: contract!.category.id,
                                     createdAt: contract!.createdAt,
@@ -588,26 +575,22 @@ class _DesktopWidget extends HookConsumerWidget {
                               ),
                             ),
                             const Divider(),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CategoryWidget(item: contract!.category),
-                                  SizedBox(height: 16.0),
-                                  ContractDisplayItem(
-                                    currency: contract!.currency,
-                                    contractItems: contractItems,
-                                    transactionItems: transactionItems,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CategoryWidget(item: contract!.category),
+                                ContractDisplayItem(
+                                  currency: contract!.currency,
+                                  contractItems: contractItems,
+                                  transactionItems: transactionItems,
+                                ),
+                                MarkdownWidget(item: contract!.content),
+                                if (contract!.attachments.isNotEmpty)
+                                  AttachmentListWidget<IssueAttachment>(
+                                    attachments: contract!.attachments,
                                   ),
-                                  MarkdownWidget(item: contract!.content),
-                                  if (contract!.attachments.isNotEmpty)
-                                    AttachmentListWidget<IssueAttachment>(
-                                      attachments: contract!.attachments,
-                                    ),
-                                ],
-                              ),
+                              ],
                             ),
                           ],
                         ),

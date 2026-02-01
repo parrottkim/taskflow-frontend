@@ -15,47 +15,41 @@ import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ProjectFormScreen extends ConsumerWidget {
-  final int? projectId;
-
-  const ProjectFormScreen({
-    super.key,
-    this.projectId,
-  });
+  const ProjectFormScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.tryParse(state.pathParameters['project_id'] ?? '');
+
     final form = ref.watch(projectFormControllerProvider(projectId: projectId));
 
     return BranchLayout(
       child: switch (form) {
-        AsyncData(:final value) => _DesktopWidget(
-            projectId: projectId,
-            value: value,
-          ),
-        AsyncError(:final error, :final stackTrace) =>
-          ErrorContainerWidget(error: error, stackTrace: stackTrace),
+        AsyncData(:final value) => _DesktopWidget(value: value),
+        AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+          error: error,
+          stackTrace: stackTrace,
+        ),
         _ => Skeletonizer(
-            ignoreContainers: true,
-            child: _DesktopWidget(
-              value: ProjectFormState(),
-            ),
-          ),
+          ignoreContainers: true,
+          child: _DesktopWidget(value: ProjectFormState()),
+        ),
       },
     );
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int? projectId;
   final ProjectFormState value;
 
-  const _DesktopWidget({
-    this.projectId,
-    required this.value,
-  });
+  const _DesktopWidget({required this.value});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.tryParse(state.pathParameters['project_id'] ?? '');
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -64,10 +58,8 @@ class _DesktopWidget extends HookConsumerWidget {
     final codeController = useTextEditingController(text: value.code);
     final nameController = useTextEditingController(text: value.name);
 
-    final code =
-        useListenableSelector(codeController, () => codeController.text);
-    final name =
-        useListenableSelector(nameController, () => nameController.text);
+    final code = useValueListenable(codeController);
+    final name = useValueListenable(nameController);
 
     final isClientsEmpty = useState<bool>(false);
     final isCodeEmpty = useState<bool>(false);
@@ -80,8 +72,10 @@ class _DesktopWidget extends HookConsumerWidget {
         LoadingOverlay.hide();
 
         if (state is ProjectSubmitSuccess) {
-          context.goNamed(RouteNames.projectDetail,
-              pathParameters: {'project_id': state.project.id.toString()});
+          context.goNamed(
+            RouteNames.projectDetail,
+            pathParameters: {'project_id': state.project.id.toString()},
+          );
         }
         if (state is ProjectSubmitDeleted) {
           context.goNamed(RouteNames.project);
@@ -105,12 +99,12 @@ class _DesktopWidget extends HookConsumerWidget {
                     children: [
                       Text(
                         Intl.message('project_form_clients'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       ClientSelectorWidget(
-                        projectId: projectId,
                         clients: value.clients,
                         isClientsEmpty: isClientsEmpty,
                       ),
@@ -121,8 +115,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('project_form_code'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       Row(
@@ -135,9 +130,11 @@ class _DesktopWidget extends HookConsumerWidget {
                                   isCodeEmpty.value = false;
 
                                   ref
-                                      .read(projectFormControllerProvider(
-                                              projectId: projectId)
-                                          .notifier)
+                                      .read(
+                                        projectFormControllerProvider(
+                                          projectId: projectId,
+                                        ).notifier,
+                                      )
                                       .setCode(code: value);
                                 },
                                 decoration: InputDecoration(filled: true),
@@ -150,9 +147,11 @@ class _DesktopWidget extends HookConsumerWidget {
                               final identifier = generateRandomIdentifier();
                               codeController.text = identifier;
                               ref
-                                  .read(projectFormControllerProvider(
-                                          projectId: projectId)
-                                      .notifier)
+                                  .read(
+                                    projectFormControllerProvider(
+                                      projectId: projectId,
+                                    ).notifier,
+                                  )
                                   .setCode(code: identifier);
                             },
                             icon: Icon(Symbols.glyphs_rounded),
@@ -169,8 +168,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('project_form_name'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       Skeleton.keep(
@@ -180,9 +180,11 @@ class _DesktopWidget extends HookConsumerWidget {
                             isNameEmpty.value = false;
 
                             ref
-                                .read(projectFormControllerProvider(
-                                        projectId: projectId)
-                                    .notifier)
+                                .read(
+                                  projectFormControllerProvider(
+                                    projectId: projectId,
+                                  ).notifier,
+                                )
                                 .setName(name: value);
                           },
                           decoration: InputDecoration(filled: true),
@@ -198,18 +200,22 @@ class _DesktopWidget extends HookConsumerWidget {
                       ),
                       Text(
                         Intl.message('project_form_optional'),
-                        style: textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('project_form_user'),
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       ManagerSelectorWidget(
-                          projectId: projectId, selectedManager: value.manager),
+                        projectId: projectId,
+                        selectedManager: value.manager,
+                      ),
                       SizedBox(height: 24.0),
                       if (auth is AuthAuthenticated && auth.user.isAdmin)
                         Row(
@@ -219,11 +225,14 @@ class _DesktopWidget extends HookConsumerWidget {
                               onChanged: !value.isContracted
                                   ? (value) {
                                       ref
-                                          .read(projectFormControllerProvider(
-                                                  projectId: projectId)
-                                              .notifier)
+                                          .read(
+                                            projectFormControllerProvider(
+                                              projectId: projectId,
+                                            ).notifier,
+                                          )
                                           .setIsPreexecuted(
-                                              isPreexecuted: value ?? false);
+                                            isPreexecuted: value ?? false,
+                                          );
                                     }
                                   : null,
                             ),
@@ -234,17 +243,30 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                             SizedBox(width: 4.0),
                             TooltipOverlay(
-                              message: Text(Intl.message(
-                                  'project_form_preexecuted_info')),
+                              message: Text(
+                                Intl.message('project_form_preexecuted_info'),
+                              ),
                               child: Icon(
                                 Symbols.info_rounded,
                                 size: 18.0,
-                                color:
-                                    colorScheme.outline.withValues(alpha: 0.7),
+                                color: colorScheme.outline.withValues(
+                                  alpha: 0.7,
+                                ),
                               ),
                             ),
                           ],
                         ),
+                      SizedBox(width: 4.0),
+                      TooltipOverlay(
+                        message: Text(
+                          Intl.message('project_form_preexecuted_info'),
+                        ),
+                        child: Icon(
+                          Symbols.info_rounded,
+                          size: 18.0,
+                          color: colorScheme.outline.withValues(alpha: 0.7),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -254,8 +276,12 @@ class _DesktopWidget extends HookConsumerWidget {
         ),
         Divider(),
         Container(
-          padding:
-              EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 32.0),
+          padding: EdgeInsets.only(
+            left: 24.0,
+            right: 24.0,
+            top: 16.0,
+            bottom: 32.0,
+          ),
           constraints: BoxConstraints(maxWidth: 430.0),
           child: Row(
             children: [
@@ -263,8 +289,8 @@ class _DesktopWidget extends HookConsumerWidget {
                 child: FilledButton(
                   onPressed: () async {
                     isClientsEmpty.value = !value.isAllClientSelected;
-                    isCodeEmpty.value = code.isEmpty;
-                    isNameEmpty.value = name.isEmpty;
+                    isCodeEmpty.value = code.text.isEmpty;
+                    isNameEmpty.value = name.text.isEmpty;
 
                     if (isClientsEmpty.value ||
                         isCodeEmpty.value ||
@@ -279,7 +305,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     } else {
                       await ref
                           .read(projectSubmitControllerProvider.notifier)
-                          .updateProject(projectId: projectId!);
+                          .updateProject(projectId: projectId);
                     }
                   },
                   child: Text(
@@ -306,12 +332,16 @@ class _DesktopWidget extends HookConsumerWidget {
                         context.pop();
 
                         await ref
-                            .read(projectFormControllerProvider(
-                                    projectId: projectId)
-                                .notifier)
+                            .read(
+                              projectFormControllerProvider(
+                                projectId: projectId,
+                              ).notifier,
+                            )
                             .deleteProject();
 
-                        ref.read(toastProvider).showToast(
+                        ref
+                            .read(toastProvider)
+                            .showToast(
                               child: Toast(
                                 type: ToastType.standard,
                                 message: Intl.message('project_form_delete'),
@@ -325,10 +355,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(1.0),
-                      child: Icon(
-                        Symbols.delete_rounded,
-                        size: 19.0,
-                      ),
+                      child: Icon(Symbols.delete_rounded, size: 19.0),
                     ),
                   ),
                 ),
