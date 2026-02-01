@@ -438,13 +438,10 @@ class _DesktopWidget extends HookConsumerWidget {
                             );
                       }
                     },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: colorScheme.error,
-                      iconColor: colorScheme.onError,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
-                      child: Icon(Symbols.delete_rounded, size: 19.0),
+                    child: Text(
+                      issueId != null
+                          ? Intl.message('common_edit')
+                          : Intl.message('common_post'),
                     ),
                   ),
                 ),

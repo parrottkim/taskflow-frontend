@@ -301,52 +301,6 @@ class AppRouter {
                               GoRoute(
                                 name: RouteNames.issueNew,
                                 path: '${Routes.issueNew}/:category_id',
-                                redirect: (context, state) async {
-                                  final projectId =
-                                      state.pathParameters['project_id']!;
-                                  final categoryId =
-                                      state.pathParameters['category_id']!;
-
-                                  final list = await ref.read(
-                                    issueListControllerProvider(
-                                      projectId: int.parse(projectId),
-                                    ).future,
-                                  );
-
-                                  final detail = await ref.read(
-                                    projectFilterControllerProvider.future,
-                                  );
-                                  final selectedCategory = detail.categoryItems
-                                      .firstWhere(
-                                        (c) => c.id.toString() == categoryId,
-                                      );
-
-                                  bool isDuplicate = false;
-
-                                  if (selectedCategory is IssueContract &&
-                                      list.contract != null) {
-                                    isDuplicate = true;
-                                  } else if (selectedCategory is IssueKickoff &&
-                                      list.kickoff != null) {
-                                    isDuplicate = true;
-                                  } else if (selectedCategory
-                                          is IssueTransaction &&
-                                      list.transaction != null) {
-                                    isDuplicate = true;
-                                  } else if (selectedCategory is IssuePayment &&
-                                      list.payment != null) {
-                                    isDuplicate = true;
-                                  }
-
-                                  if (isDuplicate) {
-                                    return state.namedLocation(
-                                      RouteNames.issueNewChoose,
-                                      pathParameters: {'project_id': projectId},
-                                    );
-                                  }
-
-                                  return null;
-                                },
                                 pageBuilder: (context, state) {
                                   return NoTransitionPage(
                                     child: IssueFormScreen(),
