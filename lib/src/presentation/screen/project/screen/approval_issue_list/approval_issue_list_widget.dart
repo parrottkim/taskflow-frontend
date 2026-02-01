@@ -246,7 +246,10 @@ class _DesktopWidget extends HookConsumerWidget {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CategoryWidget(item: items[index].category),
+                            CategoryWidget(
+                              padding: EdgeInsets.all(16.0),
+                              item: items[index].category,
+                            ),
                             MarkdownWidget(item: items[index].content),
                             if (items[index].attachments.isNotEmpty)
                               AttachmentListWidget(
