@@ -64,6 +64,7 @@ class _DesktopWidget extends HookConsumerWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
+            padding: EdgeInsets.all(24.0),
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 430.0),
               child: Column(
