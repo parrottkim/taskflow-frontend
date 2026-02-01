@@ -4,6 +4,9 @@ part of '../data.dart';
 abstract class IssueService {
   factory IssueService(Dio dio, {String baseUrl}) = _IssueService;
 
+  @GET('issue/categories/{id}')
+  Future<IssueCategory> getCategory({@Path() required int id});
+
   @GET('issue/categories')
   Future<List<IssueCategory>> getAllCategories();
 
@@ -23,23 +26,27 @@ abstract class IssueService {
   Future<List<TransactionItem>> getTransactionItems({@Path() required int id});
 
   @GET('issue/contract/{id}')
-  Future<HttpResponse<ContractIssue?>> getContractIssue(
-      {@Path() required int id});
+  Future<HttpResponse<ContractIssue?>> getContractIssue({
+    @Path() required int id,
+  });
 
   @GET('issue/kickoff/{id}')
-  Future<HttpResponse<KickoffIssue?>> getKickoffIssue(
-      {@Path() required int id});
+  Future<HttpResponse<KickoffIssue?>> getKickoffIssue({
+    @Path() required int id,
+  });
 
   @GET('issue/transaction/{id}')
-  Future<HttpResponse<TransactionIssue?>> getTransactionIssue(
-      {@Path() required int id});
+  Future<HttpResponse<TransactionIssue?>> getTransactionIssue({
+    @Path() required int id,
+  });
 
   @GET('issue/payment/{id}')
-  Future<HttpResponse<PaymentIssue?>> getPaymentIssue(
-      {@Path() required int id});
+  Future<HttpResponse<PaymentIssue?>> getPaymentIssue({
+    @Path() required int id,
+  });
 
-  @GET('issue/declaration')
-  Future<Result<DeclarationIssue>> getDeclarationIssues({
+  @GET('issue/approval')
+  Future<Result<ApprovalIssue>> getApprovalIssues({
     @Query('page') int page = 1,
     @Query('limit') int limit = 10,
     @Query('project_id') required int projectId,
@@ -59,9 +66,7 @@ abstract class IssueService {
   Future<void> sendMail({@Path() required int id});
 
   @POST('issue')
-  Future<Issue> createIssue({
-    @Body() required CreateIssueRequest request,
-  });
+  Future<Issue> createIssue({@Body() required CreateIssueRequest request});
 
   @PATCH('issue/{id}')
   Future<Issue> updateIssue({

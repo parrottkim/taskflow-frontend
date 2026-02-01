@@ -9,23 +9,18 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ProjectClientFilterWidget extends HookConsumerWidget {
-  final int categoryId;
-  final int? scheduleId;
   final List<ClientGroup> clientItems;
 
-  const ProjectClientFilterWidget({
-    super.key,
-    required this.categoryId,
-    this.scheduleId,
-    required this.clientItems,
-  });
+  const ProjectClientFilterWidget({super.key, required this.clientItems});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final allClients = clientItems.expand((group) => group.items).toList();
 
     List<Client> getNextLevelItems(
-        List<Client> currentPath, List<ClientGroup> allClientGroups) {
+      List<Client> currentPath,
+      List<ClientGroup> allClientGroups,
+    ) {
       if (allClientGroups.isEmpty) {
         return [];
       }
@@ -42,9 +37,11 @@ class ProjectClientFilterWidget extends HookConsumerWidget {
         final nextDepth = currentPath.length;
         try {
           return allClientGroups
-              .firstWhere((group) =>
-                  group.depth == nextDepth &&
-                  group.parentId == lastSelectedClient.id)
+              .firstWhere(
+                (group) =>
+                    group.depth == nextDepth &&
+                    group.parentId == lastSelectedClient.id,
+              )
               .items;
         } catch (e) {
           return [];
@@ -52,8 +49,11 @@ class ProjectClientFilterWidget extends HookConsumerWidget {
       }
     }
 
-    Client? getParentItem(List<Client> currentPath,
-        List<ClientGroup> allClientGroups, Client selectedItem) {
+    Client? getParentItem(
+      List<Client> currentPath,
+      List<ClientGroup> allClientGroups,
+      Client selectedItem,
+    ) {
       final index = currentPath.indexOf(selectedItem);
       if (index > 0) {
         return currentPath[index - 1];
@@ -100,8 +100,10 @@ class ProjectClientFilterWidget extends HookConsumerWidget {
                       ClientType.values
                           .singleWhere((client) => client.id == item.id)
                           .asset,
-                      colorFilter:
-                          ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                      colorFilter: ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),
@@ -114,9 +116,13 @@ class ProjectClientFilterWidget extends HookConsumerWidget {
         getParentItem: (currentPath, allItems, selectedItem) =>
             getParentItem(currentPath, clientItems, selectedItem),
         onChanged: (newPath) {
-          ref.read(projectFilterControllerProvider.notifier).setClients(
-              clients:
-                  newPath.isEmpty ? null : newPath.map((e) => e.id).toList());
+          ref
+              .read(projectFilterControllerProvider.notifier)
+              .setClients(
+                clients: newPath.isEmpty
+                    ? null
+                    : newPath.map((e) => e.id).toList(),
+              );
         },
       ),
     );

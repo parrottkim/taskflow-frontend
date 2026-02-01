@@ -27,9 +27,11 @@ class ProjectFormController extends _$ProjectFormController {
     );
   }
 
-  void setClients(
-      {required List<Client> clients, required bool isAllClientSelected}) {
-    final value = state.valueOrNull;
+  void setClients({
+    required List<Client> clients,
+    required bool isAllClientSelected,
+  }) {
+    final value = state.value;
 
     if (value == null) return;
 
@@ -42,7 +44,7 @@ class ProjectFormController extends _$ProjectFormController {
   }
 
   void setCode({required String code}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -50,7 +52,7 @@ class ProjectFormController extends _$ProjectFormController {
   }
 
   void setName({required String name}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -58,7 +60,7 @@ class ProjectFormController extends _$ProjectFormController {
   }
 
   void setManager({User? manager}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -66,7 +68,7 @@ class ProjectFormController extends _$ProjectFormController {
   }
 
   void setIsPreexecuted({required bool isPreexecuted}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -74,7 +76,7 @@ class ProjectFormController extends _$ProjectFormController {
   }
 
   Future<void> deleteProject() async {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 

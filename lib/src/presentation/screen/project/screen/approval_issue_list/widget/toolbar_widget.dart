@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -12,9 +11,9 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class ToolbarWidget extends HookConsumerWidget {
-  final int projectId;
+class ToolbarWidget extends ConsumerWidget {
   final int issueId;
   final int categoryId;
   final DateTime createdAt;
@@ -23,7 +22,6 @@ class ToolbarWidget extends HookConsumerWidget {
 
   const ToolbarWidget({
     super.key,
-    required this.projectId,
     required this.issueId,
     required this.categoryId,
     required this.createdAt,
@@ -33,60 +31,39 @@ class ToolbarWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouter.of(context).state;
+    final projectId = int.parse(state.pathParameters['project_id']!);
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     final auth = ref.watch(authControllerProvider);
-    final detail =
-        ref.watch(projectDetailControllerProvider(projectId: projectId));
-
-    final isHovered = useState(false);
-
-    final fullDate = createdAt == updatedAt
-        ? '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(createdAt)} ${Intl.message('common_created_at')}'
-        : '${DateFormat.yMEd(Localizations.localeOf(context).languageCode).format(updatedAt)} ${Intl.message('common_updated_at')}';
-
-    final relativeDate = createdAt == updatedAt
-        ? '${formatRelativeDate(createdAt)} ${Intl.message('common_created_at')}'
-        : '${formatRelativeDate(updatedAt)} ${Intl.message('common_updated_at')}';
+    final detail = ref.watch(
+      projectDetailControllerProvider(projectId: projectId),
+    );
 
     return Row(
       children: [
-        MouseRegion(
-          onEnter: (event) => isHovered.value = true,
-          onExit: (event) => isHovered.value = false,
-          child: Stack(
-            alignment: Alignment.centerRight,
-            children: [
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 400),
-                opacity: isHovered.value ? 1.0 : 0.0,
-                child: Text(
-                  fullDate,
-                  textAlign: TextAlign.right,
-                  style: textTheme.bodySmall,
-                ),
-              ),
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 400),
-                opacity: isHovered.value ? 0.0 : 1.0,
-                child: Text(
-                  relativeDate,
-                  textAlign: TextAlign.right,
-                  style: textTheme.bodySmall,
-                ),
-              ),
-            ],
+        AnimatedOpacity(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInQuad,
+          opacity: Responsive.isDesktop(context) ? 1.0 : 0.0,
+          child: Text(
+            createdAt == updatedAt
+                ? '${formatRelativeDate(createdAt)} ${Intl.message('common_created_at')}'
+                : '${formatRelativeDate(updatedAt)} ${Intl.message('common_updated_at')}',
+            style: textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: colorScheme.outline.withValues(alpha: 0.7),
+            ),
           ),
         ),
         const SizedBox(width: 8.0),
         CustomIconButton(
           onTap: () async {
-            final path = GoRouter.of(context)
-                .routerDelegate
-                .currentConfiguration
-                .uri
-                .path;
+            final path = GoRouter.of(
+              context,
+            ).routerDelegate.currentConfiguration.uri.path;
 
             final uri = Uri(
               scheme: Uri.base.scheme,
@@ -94,7 +71,7 @@ class ToolbarWidget extends HookConsumerWidget {
               port: Uri.base.hasPort ? Uri.base.port : null,
               path: path,
               queryParameters: {
-                'view': 'contract',
+                'view': 'approval',
                 'issue': issueId.toString(),
               },
             );
@@ -102,7 +79,9 @@ class ToolbarWidget extends HookConsumerWidget {
             if (isDesktopPlatform()) {
               Clipboard.setData(ClipboardData(text: uri.toString()));
 
-              ref.read(toastProvider).showToast(
+              ref
+                  .read(toastProvider)
+                  .showToast(
                     child: Toast(
                       type: ToastType.standard,
                       message: Intl.message('common_link_copied'),
@@ -114,11 +93,7 @@ class ToolbarWidget extends HookConsumerWidget {
           },
           icon: Padding(
             padding: const EdgeInsets.all(2.0),
-            child: const Icon(
-              Symbols.share_rounded,
-              size: 20.0,
-              weight: 500.0,
-            ),
+            child: const Icon(Symbols.share_rounded, size: 20.0, weight: 500.0),
           ),
         ),
         CustomIconButton(
@@ -133,14 +108,13 @@ class ToolbarWidget extends HookConsumerWidget {
               ),
             );
           },
-          icon: const Icon(
-            Symbols.forward_to_inbox_rounded,
-          ),
+          icon: const Icon(Symbols.forward_to_inbox_rounded),
         ),
         MenuAnchor(
           alignmentOffset: Offset(-140.0, 0.0),
           builder: (context, controller, child) => CustomIconButton(
-            onTap: detail is AsyncData &&
+            onTap:
+                detail is AsyncData &&
                     detail.value != null &&
                     !detail.value!.project.isClosed
                 ? () {
@@ -151,16 +125,15 @@ class ToolbarWidget extends HookConsumerWidget {
                     }
                   }
                 : null,
-            icon: Icon(
-              Symbols.more_horiz_rounded,
-            ),
+            icon: Icon(Symbols.more_horiz_rounded),
           ),
           menuChildren: [
             SizedBox(height: 8.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: MenuItemButton(
-                onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
+                onPressed:
+                    auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated && auth.user.id == user.id
                     ? () {
                         context.goNamed(
@@ -178,24 +151,24 @@ class ToolbarWidget extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   padding: const EdgeInsets.only(
-                      left: 8.0, right: 16.0, top: 4.0, bottom: 4.0),
+                    left: 8.0,
+                    right: 16.0,
+                    top: 4.0,
+                    bottom: 4.0,
+                  ),
                 ),
-                leadingIcon: Icon(
-                  Symbols.edit_square_rounded,
-                  size: 18.0,
-                ),
+                leadingIcon: Icon(Symbols.edit_square_rounded, size: 18.0),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minWidth: 120.0),
-                  child: Text(
-                    Intl.message('common_edit'),
-                  ),
+                  child: Text(Intl.message('common_edit')),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: MenuItemButton(
-                onPressed: auth is AuthAuthenticated && auth.user.isAdmin ||
+                onPressed:
+                    auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated && auth.user.id == user.id
                     ? () async {
                         final result = await showDialog(
@@ -210,7 +183,9 @@ class ToolbarWidget extends HookConsumerWidget {
                           await ref
                               .read(issueSubmitControllerProvider.notifier)
                               .deleteIssue(
-                                  projectId: projectId, issueId: issueId);
+                                projectId: projectId,
+                                issueId: issueId,
+                              );
                         }
                       }
                     : null,
@@ -219,17 +194,16 @@ class ToolbarWidget extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(4.0),
                   ),
                   padding: const EdgeInsets.only(
-                      left: 8.0, right: 16.0, top: 4.0, bottom: 4.0),
+                    left: 8.0,
+                    right: 16.0,
+                    top: 4.0,
+                    bottom: 4.0,
+                  ),
                 ),
-                leadingIcon: Icon(
-                  Symbols.delete_rounded,
-                  size: 18.0,
-                ),
+                leadingIcon: Icon(Symbols.delete_rounded, size: 18.0),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minWidth: 120.0),
-                  child: Text(
-                    Intl.message('common_delete'),
-                  ),
+                  child: Text(Intl.message('common_delete')),
                 ),
               ),
             ),
@@ -251,7 +225,9 @@ class ToolbarWidget extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
-                relativeDate,
+                createdAt == updatedAt
+                    ? '${formatRelativeDate(createdAt)} ${Intl.message('common_created_at')}'
+                    : '${formatRelativeDate(updatedAt)} ${Intl.message('common_updated_at')}',
                 style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: colorScheme.outline.withValues(alpha: 0.7),

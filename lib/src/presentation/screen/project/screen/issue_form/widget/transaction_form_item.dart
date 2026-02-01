@@ -11,52 +11,56 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class TransactionFormItem extends ConsumerWidget {
-  final int categoryId;
-  final int projectId;
-  final int? issueId;
   final Currency? currency;
-  final List<TransactionItem>? items;
+  final List<TransactionItem> items;
   final ValueNotifier<bool> hasTransactionItems;
   final ValueNotifier<bool> isTransactionItemEmpty;
 
   const TransactionFormItem({
     super.key,
-    required this.categoryId,
-    required this.projectId,
-    this.issueId,
     this.currency,
-    this.items,
+    required this.items,
     required this.hasTransactionItems,
     required this.isTransactionItemEmpty,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
+
     final filter = ref.watch(issueFilterControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        categoryId: categoryId,
+        issueId: issueId,
+        currency: currency,
+        categories: value.transactionCategories,
+        currencies: value.currencies,
+        items: items,
+        hasTransactionItems: hasTransactionItems,
+        isTransactionItemEmpty: isTransactionItemEmpty,
+      ),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
+      _ => Skeletonizer(
+        child: _DesktopWidget(
           categoryId: categoryId,
           projectId: projectId,
-          issueId: issueId,
-          currency: currency,
-          categories: value.transactionCategories,
-          currencies: value.currencies,
-          items: items,
+          currency: Currency.empty(),
+          categories: [],
+          currencies: [],
+          items: List.filled(1, TransactionItem.dummy()),
           hasTransactionItems: hasTransactionItems,
-          isTransactionItemEmpty: isTransactionItemEmpty),
-      AsyncError(:final error, :final stackTrace) =>
-        ErrorContainerWidget(error: error, stackTrace: stackTrace),
-      _ => Skeletonizer(
-          child: _DesktopWidget(
-            categoryId: categoryId,
-            projectId: projectId,
-            categories: [],
-            currencies: [],
-            hasTransactionItems: hasTransactionItems,
-            isTransactionItemEmpty: isTransactionItemEmpty,
-          ),
+          isTransactionItemEmpty: isTransactionItemEmpty,
         ),
+      ),
     };
   }
 }
@@ -137,9 +141,7 @@ class _DesktopWidget extends HookConsumerWidget {
         children: [
           Text(
             Intl.message('issue_form_transaction_1'),
-            style: textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           if (items != null && items!.isNotEmpty)
             SizeTransition(
@@ -180,14 +182,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FixedColumnWidth(100.0),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.checkbook_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -195,8 +199,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_3'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -206,14 +211,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FixedColumnWidth(90.0),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -221,8 +228,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_4'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -232,14 +240,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FlexColumnWidth(0.4),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -247,8 +257,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_5'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -258,14 +269,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FixedColumnWidth(90.0),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -273,8 +286,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_6'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -284,14 +298,16 @@ class _DesktopWidget extends HookConsumerWidget {
                           DataColumn(
                             columnWidth: FlexColumnWidth(0.6),
                             label: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
                               child: Row(
                                 children: [
                                   Icon(
                                     Symbols.text_fields_rounded,
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.7),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.7,
+                                    ),
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -299,8 +315,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_7'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.7,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -308,111 +325,124 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                           ),
                         ],
-                        rows: List.generate(
-                          items!.length,
-                          (index) {
-                            useListenable(priceFocusNodes[index]);
-                            useListenable(noteFocusNodes[index]);
+                        rows: List.generate(items!.length, (index) {
+                          useListenable(priceFocusNodes[index]);
+                          useListenable(noteFocusNodes[index]);
 
-                            return DataRow(
-                              cells: [
-                                DataCell(
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Text(items![index].category!.name),
+                          return DataRow(
+                            cells: [
+                              DataCell(
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                  ),
+                                  child: Text(items![index].category!.name),
+                                ),
+                              ),
+                              DataCell(
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                  ),
+                                  child: Text(
+                                    '${items![index].ratio} %',
+                                    textAlign: TextAlign.end,
                                   ),
                                 ),
-                                DataCell(
-                                  Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Text(
-                                      '${items![index].ratio} %',
-                                      textAlign: TextAlign.end,
-                                    ),
+                              ),
+                              DataCell(
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                  ),
+                                  child: Text(
+                                    '${items![index].price} ${currency!.symbol}',
+                                    textAlign: TextAlign.end,
                                   ),
                                 ),
-                                DataCell(
-                                  Container(
-                                    width: double.infinity,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Text(
-                                        '${items![index].price} ${currency!.symbol}',
-                                        textAlign: TextAlign.end),
+                              ),
+                              DataCell(
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
                                   ),
-                                ),
-                                DataCell(
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: CustomToggleButton(
-                                      value: items![index].isPaid,
-                                      onChanged: (value) {
-                                        ref
-                                            .read(issueFormControllerProvider(
+                                  child: CustomToggleButton(
+                                    value: items![index].isPaid,
+                                    onChanged: (value) {
+                                      ref
+                                          .read(
+                                            issueFormControllerProvider(
                                               projectId: projectId,
                                               categoryId: categoryId,
                                               issueId: issueId,
-                                            ).notifier)
-                                            .toggleTransactionItemPaid(
-                                                index: index,
-                                                isPaid: value ?? false);
-                                      },
-                                    ),
+                                            ).notifier,
+                                          )
+                                          .toggleTransactionItemPaid(
+                                            index: index,
+                                            isPaid: value ?? false,
+                                          );
+                                    },
                                   ),
                                 ),
-                                DataCell(
-                                  Material(
-                                    elevation: noteFocusNodes[index].hasFocus
-                                        ? 1.0
-                                        : 0.0,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: noteFocusNodes[index].hasFocus
-                                        ? colorScheme.surfaceBright
-                                        : colorScheme.surfaceContainerLow,
-                                    child: TextField(
-                                      controller: noteControllers[index],
-                                      focusNode: noteFocusNodes[index],
-                                      style: textTheme.bodyMedium,
-                                      maxLines: 1,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.transparent),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          borderSide: BorderSide(
-                                              width: 2.0,
-                                              color: colorScheme.primary),
+                              ),
+                              DataCell(
+                                Material(
+                                  elevation: noteFocusNodes[index].hasFocus
+                                      ? 1.0
+                                      : 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: noteFocusNodes[index].hasFocus
+                                      ? colorScheme.surfaceBright
+                                      : colorScheme.surfaceContainerLow,
+                                  child: TextField(
+                                    controller: noteControllers[index],
+                                    focusNode: noteFocusNodes[index],
+                                    style: textTheme.bodyMedium,
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
                                         ),
                                       ),
-                                      onChanged: (value) {
-                                        isTransactionItemEmpty.value = false;
-                                        ref
-                                            .read(issueFormControllerProvider(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          8.0,
+                                        ),
+                                        borderSide: BorderSide(
+                                          width: 2.0,
+                                          color: colorScheme.primary,
+                                        ),
+                                      ),
+                                    ),
+                                    onChanged: (value) {
+                                      isTransactionItemEmpty.value = false;
+                                      ref
+                                          .read(
+                                            issueFormControllerProvider(
                                               projectId: projectId,
                                               categoryId: categoryId,
                                               issueId: issueId,
-                                            ).notifier)
-                                            .updateTransactionItem(
-                                                index: index, note: value);
-                                      },
-                                    ),
+                                            ).notifier,
+                                          )
+                                          .updateTransactionItem(
+                                            index: index,
+                                            note: value,
+                                          );
+                                    },
                                   ),
                                 ),
-                              ],
-                            );
-                          },
-                        ),
+                              ),
+                            ],
+                          );
+                        }),
                       ),
                     ],
                   ),
@@ -423,7 +453,6 @@ class _DesktopWidget extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: ContainerWidget(
-                elevation: 0.0,
                 width: double.infinity,
                 borderRadius: BorderRadius.circular(8.0),
                 color: colorScheme.outline.withValues(alpha: 0.2),
@@ -433,20 +462,21 @@ class _DesktopWidget extends HookConsumerWidget {
                   children: [
                     Text(
                       Intl.message('issue_form_transaction_item_empty_1'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 4.0),
                     CustomTextButton(
                       onPressed: () async {
-                        final categories = await ref
-                            .read(projectFilterControllerProvider.future);
+                        final filter = await ref.read(
+                          issueFilterControllerProvider.future,
+                        );
                         final list = await ref.read(
-                            issueListControllerProvider(projectId: projectId)
-                                .future);
+                          issueListControllerProvider(
+                            projectId: projectId,
+                          ).future,
+                        );
 
-                        final categoryId = categories.categoryItems
+                        final categoryId = filter.categories
                             .firstWhere((category) => category is IssueContract)
                             .id;
 

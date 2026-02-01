@@ -22,21 +22,21 @@ abstract class Project with _$Project {
   }) = _Project;
 
   factory Project.dummy() => Project(
-        id: 0,
-        code: 'Dummy Project Code',
-        name: 'Dummy Project Name',
-        views: 0,
-        user: User.dummy(),
-        latestCategory: null,
-        isPreexecuted: false,
-        isContracted: false,
-        isClosed: false,
-        isBookmarked: false,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        deletedAt: null,
-        clients: [Client.dummy()],
-      );
+    id: 0,
+    code: 'Dummy Project Code',
+    name: 'Dummy Project Name',
+    views: 0,
+    user: User.dummy(),
+    latestCategory: null,
+    isPreexecuted: false,
+    isContracted: false,
+    isClosed: false,
+    isBookmarked: false,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    deletedAt: null,
+    clients: [Client.dummy()],
+  );
 
   factory Project.fromJson(Map<String, dynamic> json) =>
       _$ProjectFromJson(json);
@@ -88,10 +88,10 @@ abstract class ProjectStats with _$ProjectStats {
   }) = _ProjectStats;
 
   factory ProjectStats.dummy() => ProjectStats(
-        valid: 0,
-        total: 10,
-        user: User(id: 0, email: 'test@test.com', username: '홍길동'),
-      );
+    valid: 0,
+    total: 10,
+    user: User(id: 0, email: 'test@test.com', username: '홍길동'),
+  );
 
   factory ProjectStats.fromJson(Map<String, dynamic> json) =>
       _$ProjectStatsFromJson(json);
@@ -101,7 +101,7 @@ abstract class ProjectStats with _$ProjectStats {
 abstract class ProjectItemCount with _$ProjectItemCount {
   factory ProjectItemCount({
     @Default(0) int contracts,
-    @Default(0) int declarations,
+    @Default(0) int approvals,
     @Default(0) int procurements,
     @Default(0) int reports,
   }) = _ProjectItemCount;

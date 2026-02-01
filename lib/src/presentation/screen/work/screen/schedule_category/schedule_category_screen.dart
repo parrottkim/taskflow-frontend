@@ -11,15 +11,12 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class ScheduleCategoryScreen extends ConsumerWidget {
-  final String? path;
-
-  const ScheduleCategoryScreen({
-    super.key,
-    this.path,
-  });
+  const ScheduleCategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final path = state.uri.queryParameters['redirect_to'];
     final filter = ref.watch(scheduleFilterControllerProvider);
 
     return BranchLayout(
@@ -27,19 +24,18 @@ class ScheduleCategoryScreen extends ConsumerWidget {
         constraints: BoxConstraints(maxWidth: 430.0),
         child: switch (filter) {
           AsyncData(:final value) => _DesktopWidget(
-              path: path,
-              items: value.categoryItems,
-            ),
-          AsyncError(:final error, :final stackTrace) =>
-            ErrorContainerWidget(error: error, stackTrace: stackTrace),
+            path: path,
+            items: value.categoryItems,
+          ),
+          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            error: error,
+            stackTrace: stackTrace,
+          ),
           _ => Skeletonizer(
-              child: _DesktopWidget(
-                items: List.filled(
-                  5,
-                  ScheduleCategory.dummy(),
-                ),
-              ),
+            child: _DesktopWidget(
+              items: List.filled(5, ScheduleCategory.dummy()),
             ),
+          ),
         },
       ),
     );
@@ -50,10 +46,7 @@ class _DesktopWidget extends StatelessWidget {
   final String? path;
   final List<ScheduleCategory> items;
 
-  const _DesktopWidget({
-    this.path,
-    required this.items,
-  });
+  const _DesktopWidget({this.path, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +85,13 @@ class _DesktopWidget extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: Intl.message(
-                                  'schedule_new_choose_${index + 1}'),
+                                'schedule_new_choose_${index + 1}',
+                              ),
                             ),
                             TextSpan(
                               text: Intl.message(
-                                  'schedule_new_choose_${index + 1}_1'),
+                                'schedule_new_choose_${index + 1}_1',
+                              ),
                               style: TextStyle(fontWeight: FontWeight.w700),
                             ),
                           ],

@@ -12,8 +12,9 @@ abstract class Result<T> with _$Result<T> {
   }) = _Result;
 
   factory Result.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$ResultFromJson(json, fromJsonT);
+    Map<String, dynamic> json,
+    T Function(Object?) fromJsonT,
+  ) => _$ResultFromJson(json, fromJsonT);
 }
 
 enum ImageExtension {
@@ -34,10 +35,7 @@ enum ImageExtension {
 
 @freezed
 abstract class File with _$File {
-  factory File({
-    required String path,
-    required String url,
-  }) = _File;
+  factory File({required String path, required String url}) = _File;
 
   factory File.fromJson(Map<String, dynamic> json) => _$FileFromJson(json);
 }

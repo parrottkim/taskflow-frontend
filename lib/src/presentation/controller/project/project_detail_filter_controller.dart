@@ -18,7 +18,7 @@ class ProjectDetailFilterController extends _$ProjectDetailFilterController {
   }
 
   void setView({String? view}) {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return;
 
@@ -26,13 +26,11 @@ class ProjectDetailFilterController extends _$ProjectDetailFilterController {
   }
 
   Map<String, String?> toQueryParameters() {
-    final value = state.valueOrNull;
+    final value = state.value;
 
     if (value == null) return {};
 
-    final queryParameters = {
-      if (value.view != null) 'view': value.view,
-    };
+    final queryParameters = {if (value.view != null) 'view': value.view};
 
     return queryParameters;
   }

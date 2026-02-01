@@ -9,7 +9,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     final auth = ref.read(authControllerProvider);
     final value = ref
         .read(scheduleFormControllerProvider(categoryId: categoryId))
-        .valueOrNull;
+        .value;
 
     if (value == null) return;
     if (auth is! AuthAuthenticated) return;
@@ -41,13 +41,19 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     }
   }
 
-  Future<void> updateSchedule(
-      {required int categoryId, required int scheduleId}) async {
+  Future<void> updateSchedule({
+    required int categoryId,
+    required int scheduleId,
+  }) async {
     final auth = ref.read(authControllerProvider);
     final value = ref
-        .read(scheduleFormControllerProvider(
-            categoryId: categoryId, scheduleId: scheduleId))
-        .valueOrNull;
+        .read(
+          scheduleFormControllerProvider(
+            categoryId: categoryId,
+            scheduleId: scheduleId,
+          ),
+        )
+        .value;
 
     if (value == null) return;
     if (auth is! AuthAuthenticated) return;

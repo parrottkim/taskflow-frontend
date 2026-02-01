@@ -3,27 +3,24 @@ import 'package:path/path.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class FileItemWidget extends HookConsumerWidget {
-  final int categoryId;
-  final int projectId;
-  final int? issueId;
   final XFile file;
 
-  const FileItemWidget({
-    super.key,
-    required this.categoryId,
-    required this.projectId,
-    this.issueId,
-    required this.file,
-  });
+  const FileItemWidget({super.key, required this.file});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -90,17 +87,16 @@ class FileItemWidget extends HookConsumerWidget {
           CustomIconButton(
             onTap: () {
               ref
-                  .read(issueFormControllerProvider(
-                          projectId: projectId,
-                          categoryId: categoryId,
-                          issueId: issueId)
-                      .notifier)
+                  .read(
+                    issueFormControllerProvider(
+                      projectId: projectId,
+                      categoryId: categoryId,
+                      issueId: issueId,
+                    ).notifier,
+                  )
                   .removeFile(file);
             },
-            icon: Icon(
-              Symbols.delete_rounded,
-              size: 20.0,
-            ),
+            icon: Icon(Symbols.delete_rounded, size: 20.0),
           ),
         ],
       ),

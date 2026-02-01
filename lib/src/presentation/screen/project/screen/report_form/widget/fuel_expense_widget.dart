@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -9,21 +10,19 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class FuelExpenseWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? reportId;
   final TripFuelExpense? fuel;
-  // final ValueNotifier<bool> isFuelInvalid;
 
-  const FuelExpenseWidget({
-    super.key,
-    required this.projectId,
-    this.reportId,
-    this.fuel,
-    // required this.isFuelInvalid,
-  });
+  const FuelExpenseWidget({super.key, this.fuel});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final scheduleId = int.tryParse(
+      state.uri.queryParameters['schedule_id'] ?? '',
+    );
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -39,29 +38,26 @@ class FuelExpenseWidget extends HookConsumerWidget {
     useListenable(mileageFocus);
     useListenable(distanceFocus);
 
-    final total = useMemoized(
-      () {
-        if (fuel?.rate == null ||
-            fuel!.rate!.isEmpty ||
-            fuel?.mileage == null ||
-            fuel!.mileage!.isEmpty ||
-            fuel?.distance == null ||
-            fuel!.distance!.isEmpty) {
-          return 0.0;
-        }
+    final total = useMemoized(() {
+      if (fuel?.rate == null ||
+          fuel!.rate!.isEmpty ||
+          fuel?.mileage == null ||
+          fuel!.mileage!.isEmpty ||
+          fuel?.distance == null ||
+          fuel!.distance!.isEmpty) {
+        return 0.0;
+      }
 
-        final cleanedRate = fuel?.rate?.replaceAll(',', '') ?? '0';
-        final cleanedMileage = fuel?.mileage?.replaceAll(',', '') ?? '0';
-        final cleanedDistance = fuel?.distance?.replaceAll(',', '') ?? '0';
+      final cleanedRate = fuel?.rate?.replaceAll(',', '') ?? '0';
+      final cleanedMileage = fuel?.mileage?.replaceAll(',', '') ?? '0';
+      final cleanedDistance = fuel?.distance?.replaceAll(',', '') ?? '0';
 
-        final rate = double.tryParse(cleanedRate) ?? 0.0;
-        final mileage = double.tryParse(cleanedMileage) ?? 0.0;
-        final distance = double.tryParse(cleanedDistance) ?? 0.0;
+      final rate = double.tryParse(cleanedRate) ?? 0.0;
+      final mileage = double.tryParse(cleanedMileage) ?? 0.0;
+      final distance = double.tryParse(cleanedDistance) ?? 0.0;
 
-        return rate * (distance / mileage);
-      },
-      [fuel],
-    );
+      return rate * (distance / mileage);
+    }, [fuel]);
 
     final validation = ref.watch(reportValidationControllerProvider);
     final isFuelInvalid = validation.fuelInvalid;
@@ -74,9 +70,7 @@ class FuelExpenseWidget extends HookConsumerWidget {
         children: [
           Text(
             Intl.message('report_form_column_6'),
-            style: textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           SizedBox(height: 4.0),
           DataTable(
@@ -199,16 +193,22 @@ class FuelExpenseWidget extends HookConsumerWidget {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: BorderSide(
-                                width: 2.0, color: colorScheme.primary),
+                              width: 2.0,
+                              color: colorScheme.primary,
+                            ),
                           ),
                           suffixText: '₩',
                         ),
                         onChanged: (value) => ref
-                            .read(reportFormControllerProvider(
-                                    projectId: projectId, reportId: reportId)
-                                .notifier)
+                            .read(
+                              reportFormControllerProvider(
+                                projectId: projectId,
+                                reportId: reportId,
+                                scheduleId: scheduleId,
+                              ).notifier,
+                            )
                             .setFuelExpense(rate: value),
-                        onSubmitted: (value) =>
+                        onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(mileageFocus),
                       ),
                     ),
@@ -238,16 +238,22 @@ class FuelExpenseWidget extends HookConsumerWidget {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: BorderSide(
-                                width: 2.0, color: colorScheme.primary),
+                              width: 2.0,
+                              color: colorScheme.primary,
+                            ),
                           ),
                           suffixText: 'km/L',
                         ),
                         onChanged: (value) => ref
-                            .read(reportFormControllerProvider(
-                                    projectId: projectId, reportId: reportId)
-                                .notifier)
+                            .read(
+                              reportFormControllerProvider(
+                                projectId: projectId,
+                                reportId: reportId,
+                                scheduleId: scheduleId,
+                              ).notifier,
+                            )
                             .setFuelExpense(mileage: value),
-                        onSubmitted: (value) =>
+                        onSubmitted: (_) =>
                             FocusScope.of(context).requestFocus(distanceFocus),
                       ),
                     ),
@@ -277,14 +283,20 @@ class FuelExpenseWidget extends HookConsumerWidget {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: BorderSide(
-                                width: 2.0, color: colorScheme.primary),
+                              width: 2.0,
+                              color: colorScheme.primary,
+                            ),
                           ),
                           suffixText: 'km',
                         ),
                         onChanged: (value) => ref
-                            .read(reportFormControllerProvider(
-                                    projectId: projectId, reportId: reportId)
-                                .notifier)
+                            .read(
+                              reportFormControllerProvider(
+                                projectId: projectId,
+                                reportId: reportId,
+                                scheduleId: scheduleId,
+                              ).notifier,
+                            )
                             .setFuelExpense(distance: value),
                       ),
                     ),
@@ -309,12 +321,12 @@ class FuelExpenseWidget extends HookConsumerWidget {
                   flex: 6,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
+                      horizontal: 12.0,
+                      vertical: 8.0,
+                    ),
                     child: Text(
                       Intl.message('report_form_total'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -322,13 +334,13 @@ class FuelExpenseWidget extends HookConsumerWidget {
                   flex: 4,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 8.0),
+                      horizontal: 12.0,
+                      vertical: 8.0,
+                    ),
                     child: Text(
                       '${NumberFormat('#,###').format(total)} ₩',
                       textAlign: TextAlign.end,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

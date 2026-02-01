@@ -16,23 +16,17 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class OverviewWidget extends ConsumerWidget {
-  final int projectId;
-  final int? issueId;
-  final int? reportId;
   final Project project;
   final int contracts;
-  final int declarations;
+  final int approvals;
   final int procurements;
   final int reports;
 
   const OverviewWidget({
     super.key,
-    required this.projectId,
-    this.issueId,
-    this.reportId,
     required this.project,
     this.contracts = 0,
-    this.declarations = 0,
+    this.approvals = 0,
     this.procurements = 0,
     this.reports = 0,
   });
@@ -43,44 +37,30 @@ class OverviewWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          projectId: projectId,
-          issueId: issueId,
-          reportId: reportId,
-          project: project,
-          contracts: contracts,
-          declarations: declarations,
-          procurements: procurements,
-          reports: reports,
-          view: value.view,
-        ),
-      _ => Skeletonizer(
-          child: _DesktopWidget(
-            projectId: projectId,
-            project: project,
-          ),
-        ),
+        project: project,
+        contracts: contracts,
+        approvals: approvals,
+        procurements: procurements,
+        reports: reports,
+        view: value.view,
+      ),
+      _ => Skeletonizer(child: _DesktopWidget(project: project)),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? issueId;
-  final int? reportId;
   final Project project;
   final int contracts;
-  final int declarations;
+  final int approvals;
   final int procurements;
   final int reports;
   final String? view;
 
   const _DesktopWidget({
-    required this.projectId,
-    this.issueId,
-    this.reportId,
     required this.project,
     this.contracts = 0,
-    this.declarations = 0,
+    this.approvals = 0,
     this.procurements = 0,
     this.reports = 0,
     this.view,
@@ -88,14 +68,20 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
+    final reportId = int.tryParse(state.uri.queryParameters['report'] ?? '');
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final selectedItem =
-        useState<ProjectDetailSegment>(ProjectDetailSegment.values.firstWhere(
-      (e) => e.name == view,
-      orElse: () => ProjectDetailSegment.values.first,
-    ));
+    final selectedItem = useState<ProjectDetailSegment>(
+      ProjectDetailSegment.values.firstWhere(
+        (e) => e.name == view,
+        orElse: () => ProjectDetailSegment.values.first,
+      ),
+    );
 
     final controller = useTabController(
       initialLength: ProjectDetailSegment.values.length,
@@ -168,17 +154,13 @@ class _DesktopWidget extends HookConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: ContainerWidget(
-                  elevation: 0.0,
                   borderRadius: BorderRadius.circular(8.0),
                   color: colorScheme.outline.withValues(alpha: 0.2),
                   borderColor: colorScheme.outline,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Symbols.mountain_flag_rounded,
-                        size: 20.0,
-                      ),
+                      Icon(Symbols.mountain_flag_rounded, size: 20.0),
                       SizedBox(width: 8.0),
                       Expanded(
                         child: Column(
@@ -186,14 +168,10 @@ class _DesktopWidget extends HookConsumerWidget {
                           children: [
                             Text(
                               Intl.message('project_detail_closed_1'),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                             SizedBox(height: 4.0),
-                            Text(
-                              Intl.message('project_detail_closed_2'),
-                            ),
+                            Text(Intl.message('project_detail_closed_2')),
                           ],
                         ),
                       ),
@@ -205,7 +183,6 @@ class _DesktopWidget extends HookConsumerWidget {
           ),
         Expanded(
           child: ContainerWidget(
-            elevation: 0.0,
             padding: EdgeInsets.zero,
             child: Stack(
               alignment: Alignment.topRight,
@@ -214,8 +191,11 @@ class _DesktopWidget extends HookConsumerWidget {
                   headerSliverBuilder: (context, innerBoxIsScrolled) => [
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding:
-                            EdgeInsets.only(left: 24.0, right: 24.0, top: 24.0),
+                        padding: EdgeInsets.only(
+                          left: 24.0,
+                          right: 24.0,
+                          top: 24.0,
+                        ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,19 +219,23 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ProjectDetailSegment.values[index];
 
                             ref
-                                .read(projectDetailFilterControllerProvider
-                                    .notifier)
+                                .read(
+                                  projectDetailFilterControllerProvider
+                                      .notifier,
+                                )
                                 .setView(view: selectedItem.value.name);
 
                             final queryParameters = ref
-                                .read(projectDetailFilterControllerProvider
-                                    .notifier)
+                                .read(
+                                  projectDetailFilterControllerProvider
+                                      .notifier,
+                                )
                                 .toQueryParameters();
 
                             context.goNamed(
                               RouteNames.projectDetail,
                               pathParameters: {
-                                'project_id': projectId.toString()
+                                'project_id': projectId.toString(),
                               },
                               queryParameters: queryParameters,
                             );
@@ -264,7 +248,8 @@ class _DesktopWidget extends HookConsumerWidget {
                           tabs: List.generate(
                             ProjectDetailSegment.values.length,
                             (index) {
-                              final isActive = (controller.animation?.value ??
+                              final isActive =
+                                  (controller.animation?.value ??
                                           controller.index)
                                       .round() ==
                                   index;
@@ -273,8 +258,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ProjectDetailSegment.values[index];
                               final count = switch (segment) {
                                 ProjectDetailSegment.contract => contracts,
-                                ProjectDetailSegment.declaration =>
-                                  declarations,
+                                ProjectDetailSegment.approval => approvals,
                                 ProjectDetailSegment.procurement =>
                                   procurements,
                                 ProjectDetailSegment.report => reports,
@@ -288,30 +272,34 @@ class _DesktopWidget extends HookConsumerWidget {
                               return Tab(
                                 child: Row(
                                   children: [
-                                    Text(ProjectDetailSegment
-                                        .values[index].label),
+                                    Text(
+                                      ProjectDetailSegment.values[index].label,
+                                    ),
                                     if (countText != null)
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 6.0),
+                                        padding: const EdgeInsets.only(
+                                          left: 6.0,
+                                        ),
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 4.0, vertical: 2.0),
+                                            horizontal: 4.0,
+                                            vertical: 2.0,
+                                          ),
                                           decoration: ShapeDecoration(
                                             shape: StadiumBorder(),
                                             color: isActive
                                                 ? colorScheme.primary
                                                 : colorScheme.outline
-                                                    .withValues(alpha: 0.7),
+                                                      .withValues(alpha: 0.7),
                                           ),
                                           child: Text(
                                             countText,
-                                            style:
-                                                textTheme.labelMedium?.copyWith(
-                                              fontSize: 8.0,
-                                              fontWeight: FontWeight.w600,
-                                              color: colorScheme.onPrimary,
-                                            ),
+                                            style: textTheme.labelMedium
+                                                ?.copyWith(
+                                                  fontSize: 8.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: colorScheme.onPrimary,
+                                                ),
                                           ),
                                         ),
                                       ),

@@ -1,73 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/declaration_issue_list/widget/toolbar_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/approval_issue_list/widget/toolbar_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class DeclarationIssueListWidget extends ConsumerWidget {
-  final int projectId;
-  final int? issueId;
-
-  const DeclarationIssueListWidget({
-    super.key,
-    required this.projectId,
-    this.issueId,
-  });
+class ApprovalIssueListWidget extends ConsumerWidget {
+  const ApprovalIssueListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouter.of(context).state;
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
+
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
     return switch (issue) {
-      AsyncData(:final value) => _DesktopWidget(
-          projectId: projectId,
-          issueId: issueId,
-          items: value.declarations,
-        ),
-      AsyncError(:final error, :final stackTrace) =>
-        ErrorContainerWidget(error: error, stackTrace: stackTrace),
+      AsyncData(:final value) => _DesktopWidget(items: value.approvals),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
       _ => Skeletonizer(
-          child: _DesktopWidget(
-            projectId: projectId,
-            items: List.filled(
-              5,
-              DeclarationIssue(
-                id: 0,
-                category: IssueCategory.dummy(),
-                user: User.dummy(),
-                content: '',
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
-              ),
+        child: _DesktopWidget(
+          items: List.filled(
+            5,
+            ApprovalIssue(
+              id: 0,
+              category: IssueCategory.dummy(),
+              user: User.dummy(),
+              content: '',
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
             ),
           ),
         ),
+      ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? issueId;
-  final List<DeclarationIssue> items;
+  final List<ApprovalIssue> items;
 
-  const _DesktopWidget({
-    required this.projectId,
-    this.issueId,
-    required this.items,
-  });
+  const _DesktopWidget({required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouter.of(context).state;
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
+
     final auth = ref.watch(authControllerProvider);
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -101,7 +94,7 @@ class _DesktopWidget extends HookConsumerWidget {
             final viewport = context.findRenderObject() as RenderBox;
             final targetOffset =
                 renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy -
-                    60.0;
+                60.0;
 
             controller.animateTo(
               targetOffset + controller.offset,
@@ -121,7 +114,9 @@ class _DesktopWidget extends HookConsumerWidget {
         LoadingOverlay.hide();
 
         if (state is IssueSubmitDeleted) {
-          ref.read(toastProvider).showToast(
+          ref
+              .read(toastProvider)
+              .showToast(
                 child: Toast(
                   type: ToastType.standard,
                   message: Intl.message('report_form_delete'),
@@ -146,9 +141,7 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('project_detail_no_declarations'),
-            ),
+            Text(Intl.message('project_detail_no_approvals')),
           ],
         ),
       );
@@ -165,8 +158,9 @@ class _DesktopWidget extends HookConsumerWidget {
               notification.metrics.maxScrollExtent - 20.0) {
             ref
                 .read(
-                    issueListControllerProvider(projectId: projectId).notifier)
-                .loadDeclarations();
+                  issueListControllerProvider(projectId: projectId).notifier,
+                )
+                .loadApprovals();
           }
           return false;
         },
@@ -183,8 +177,9 @@ class _DesktopWidget extends HookConsumerWidget {
                   padding: const EdgeInsets.only(top: 8.0, right: 8.0),
                   child: Skeleton.unite(
                     child: CircleAvatar(
-                      backgroundColor: Functions(context)
-                          .generateColorFromId(items[index].user.id),
+                      backgroundColor: Functions(
+                        context,
+                      ).generateColorFromId(items[index].user.id),
                       radius: 16.0,
                       child: Text(
                         getInitials(items[index].user.username),
@@ -209,7 +204,6 @@ class _DesktopWidget extends HookConsumerWidget {
                     ),
                   ),
                   child: ContainerWidget(
-                    elevation: 0.0,
                     padding: EdgeInsets.zero,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -227,7 +221,8 @@ class _DesktopWidget extends HookConsumerWidget {
                               topLeft: Radius.circular(16.0),
                               topRight: Radius.circular(16.0),
                             ),
-                            color: auth is AuthAuthenticated &&
+                            color:
+                                auth is AuthAuthenticated &&
                                     auth.user == items[index].user
                                 ? colorScheme.primary.withValues(alpha: 0.1)
                                 : colorScheme.surfaceContainerLow,
@@ -237,7 +232,6 @@ class _DesktopWidget extends HookConsumerWidget {
                               UserInformationWidget(item: items[index].user),
                               const Spacer(),
                               ToolbarWidget(
-                                projectId: projectId,
                                 issueId: items[index].id,
                                 categoryId: items[index].category.id,
                                 createdAt: items[index].createdAt,
@@ -248,21 +242,17 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ),
                         const Divider(),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CategoryWidget(item: items[index].category),
-                              SizedBox(height: 16.0),
-                              MarkdownWidget(item: items[index].content),
-                              if (items[index].attachments.isNotEmpty)
-                                AttachmentListWidget(
-                                  attachments: items[index].attachments,
-                                ),
-                            ],
-                          ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CategoryWidget(item: items[index].category),
+                            MarkdownWidget(item: items[index].content),
+                            if (items[index].attachments.isNotEmpty)
+                              AttachmentListWidget(
+                                attachments: items[index].attachments,
+                              ),
+                          ],
                         ),
                       ],
                     ),

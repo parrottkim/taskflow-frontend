@@ -40,9 +40,7 @@ class ScheduleProjectSelector extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('schedule_form_project_emtpy'),
-            ),
+            Text(Intl.message('schedule_form_project_emtpy')),
           ],
         ),
       );
@@ -52,11 +50,7 @@ class ScheduleProjectSelector extends HookConsumerWidget {
       onNotification: (notification) {
         if (notification.metrics.pixels >=
             notification.metrics.maxScrollExtent - 20.0) {
-          ref
-              .read(
-                projectListControllerProvider.notifier,
-              )
-              .load();
+          ref.read(projectListControllerProvider.notifier).load();
         }
         return false;
       },
@@ -66,15 +60,20 @@ class ScheduleProjectSelector extends HookConsumerWidget {
         itemBuilder: (context, index) => InkWell(
           onTap: () {
             ref
-                .read(scheduleFormControllerProvider(
-                        categoryId: categoryId, scheduleId: scheduleId)
-                    .notifier)
+                .read(
+                  scheduleFormControllerProvider(
+                    categoryId: categoryId,
+                    scheduleId: scheduleId,
+                  ).notifier,
+                )
                 .setProject(project: items[index]);
             context.pop();
           },
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,8 +86,10 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(4.0),
                       color: Color(
                         ClientType.values
-                            .singleWhere((client) =>
-                                client.id == items[index].clients.first.id)
+                            .singleWhere(
+                              (client) =>
+                                  client.id == items[index].clients.first.id,
+                            )
                             .color,
                       ),
                     ),
@@ -97,11 +98,15 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                       height: 12.0,
                       child: SvgPicture.asset(
                         ClientType.values
-                            .singleWhere((client) =>
-                                client.id == items[index].clients.first.id)
+                            .singleWhere(
+                              (client) =>
+                                  client.id == items[index].clients.first.id,
+                            )
                             .asset,
-                        colorFilter:
-                            ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                   ),
@@ -116,9 +121,7 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                         children: [
                           Text(
                             items[index].clients.last.name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: TextStyle(fontWeight: FontWeight.w600),
                           ),
                           SizedBox(width: 4.0),
                           Expanded(
@@ -133,9 +136,7 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                       Text(
                         items[index].code,
                         style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(
-                            alpha: 0.7,
-                          ),
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
                         ),
                       ),
                     ],

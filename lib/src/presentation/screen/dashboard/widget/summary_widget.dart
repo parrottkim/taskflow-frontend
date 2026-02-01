@@ -15,23 +15,29 @@ class SummaryWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dateSelection = ref.watch(dateSelectionControllerProvider);
-    final state = ref.watch(summaryControllerProvider(
-        start: dateSelection.start, end: dateSelection.end));
+    final state = ref.watch(
+      summaryControllerProvider(
+        start: dateSelection.start,
+        end: dateSelection.end,
+      ),
+    );
     final dummy = ProjectSummary.dummy();
 
     return switch (state) {
       AsyncData(:final value) => Responsive(
-          desktop: _DesktopWidget(item: value.summary),
-          mobile: _MobileWidget(item: value.summary),
-        ),
-      AsyncError(:final error, :final stackTrace) =>
-        ErrorContainerWidget(error: error, stackTrace: stackTrace),
+        desktop: _DesktopWidget(item: value.summary),
+        mobile: _MobileWidget(item: value.summary),
+      ),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
       _ => Skeletonizer(
-          child: Responsive(
-            desktop: _DesktopWidget(item: dummy),
-            mobile: _MobileWidget(item: dummy),
-          ),
-        )
+        child: Responsive(
+          desktop: _DesktopWidget(item: dummy),
+          mobile: _MobileWidget(item: dummy),
+        ),
+      ),
     };
   }
 }

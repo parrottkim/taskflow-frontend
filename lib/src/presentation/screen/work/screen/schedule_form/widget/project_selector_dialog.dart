@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -82,11 +83,7 @@ class ProjectSelectorDialog extends HookConsumerWidget {
                   .setSearch(search: value),
             ),
             Divider(),
-            ProjectClientFilterWidget(
-              categoryId: categoryId,
-              scheduleId: scheduleId,
-              clientItems: clientItems,
-            ),
+            ProjectClientFilterWidget(clientItems: clientItems),
             Expanded(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -96,22 +93,18 @@ class ProjectSelectorDialog extends HookConsumerWidget {
                 ),
                 child: switch (project) {
                   AsyncData(:final value) => ScheduleProjectSelector(
-                      categoryId: categoryId,
-                      scheduleId: scheduleId,
-                      items: value.items,
-                    ),
+                    categoryId: categoryId,
+                    scheduleId: scheduleId,
+                    items: value.items,
+                  ),
                   AsyncError(:final error, :final stackTrace) =>
                     ErrorContainerWidget(error: error, stackTrace: stackTrace),
                   _ => Skeletonizer(
-                      child: ScheduleProjectSelector(
-                        categoryId: categoryId,
-                        scheduleId: scheduleId,
-                        items: List.filled(
-                          5,
-                          Project.dummy(),
-                        ),
-                      ),
+                    child: ScheduleProjectSelector(
+                      categoryId: categoryId,
+                      items: List.filled(5, Project.dummy()),
                     ),
+                  ),
                 },
               ),
             ),

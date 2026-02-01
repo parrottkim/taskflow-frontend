@@ -17,43 +17,31 @@ abstract class LatestIssue with _$LatestIssue {
       _$LatestIssueFromJson(json);
 
   factory LatestIssue.dummy() => LatestIssue(
-        id: 0,
-        projectId: 0,
-        projectCode: 'Dummy Project Code',
-        projectName: 'Dummy Project Name',
-        category: IssueCategory.dummy(),
-        clients: [Client.dummy()],
-        user: User.dummy(),
-        createdAt: DateTime.now(),
-      );
+    id: 0,
+    projectId: 0,
+    projectCode: 'Dummy Project Code',
+    projectName: 'Dummy Project Name',
+    category: IssueCategory.dummy(),
+    clients: [Client.dummy()],
+    user: User.dummy(),
+    createdAt: DateTime.now(),
+  );
 }
 
 @Freezed(unionKey: 'type')
 abstract class IssueCategory with _$IssueCategory {
-  factory IssueCategory.kickoff({
-    required int id,
-    required String name,
-  }) = IssueKickoff;
-  factory IssueCategory.contract({
-    required int id,
-    required String name,
-  }) = IssueContract;
-  factory IssueCategory.transaction({
-    required int id,
-    required String name,
-  }) = IssueTransaction;
-  factory IssueCategory.payment({
-    required int id,
-    required String name,
-  }) = IssuePayment;
-  factory IssueCategory.declaration({
-    required int id,
-    required String name,
-  }) = IssueDeclaration;
-  factory IssueCategory.procurement({
-    required int id,
-    required String name,
-  }) = IssueProcurement;
+  factory IssueCategory.kickoff({required int id, required String name}) =
+      IssueKickoff;
+  factory IssueCategory.contract({required int id, required String name}) =
+      IssueContract;
+  factory IssueCategory.transaction({required int id, required String name}) =
+      IssueTransaction;
+  factory IssueCategory.payment({required int id, required String name}) =
+      IssuePayment;
+  factory IssueCategory.approval({required int id, required String name}) =
+      IssueApproval;
+  factory IssueCategory.procurement({required int id, required String name}) =
+      IssueProcurement;
 
   factory IssueCategory.fromJson(Map<String, dynamic> json) =>
       _$IssueCategoryFromJson(json);
@@ -91,13 +79,13 @@ sealed class Issue with _$Issue {
   factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
 
   factory Issue.dummy() => Issue(
-        id: 0,
-        content: '',
-        category: IssueCategory.dummy(),
-        user: User.dummy(),
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
+    id: 0,
+    content: '',
+    category: IssueCategory.dummy(),
+    user: User.dummy(),
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
 }
 
 @freezed
@@ -116,11 +104,8 @@ abstract class IssueAttachment with _$IssueAttachment {
 
 @freezed
 abstract class ContractItem with _$ContractItem {
-  factory ContractItem({
-    int? id,
-    required String item,
-    required String price,
-  }) = _ContractItem;
+  factory ContractItem({int? id, required String item, required String price}) =
+      _ContractItem;
 
   factory ContractItem.fromJson(Map<String, dynamic> json) =>
       _$ContractItemFromJson(json);
@@ -146,20 +131,18 @@ abstract class ProcurementItem with _$ProcurementItem {
       _$ProcurementItemFromJson(json);
 
   factory ProcurementItem.empty() => ProcurementItem(
-        item: '',
-        spec: '',
-        quantity: '',
-        unitPrice: '',
-        totalAmount: '',
-      );
+    item: '',
+    spec: '',
+    quantity: '',
+    unitPrice: '',
+    totalAmount: '',
+  );
 }
 
 @freezed
 abstract class TransactionItemCategory with _$TransactionItemCategory {
-  factory TransactionItemCategory({
-    required int id,
-    required String name,
-  }) = _TransactionItemCategory;
+  factory TransactionItemCategory({required int id, required String name}) =
+      _TransactionItemCategory;
 
   factory TransactionItemCategory.fromJson(Map<String, dynamic> json) =>
       _$TransactionItemCategoryFromJson(json);
@@ -185,6 +168,12 @@ abstract class TransactionItem with _$TransactionItem {
 
   factory TransactionItem.empty() =>
       TransactionItem(category: null, price: '', ratio: '', note: '');
+
+  factory TransactionItem.dummy() => TransactionItem(
+    category: TransactionItemCategory.empty(),
+    price: '',
+    ratio: '',
+  );
 }
 
 @freezed
@@ -277,8 +266,8 @@ abstract class PaymentIssue with _$PaymentIssue {
 }
 
 @freezed
-abstract class DeclarationIssue with _$DeclarationIssue {
-  factory DeclarationIssue({
+abstract class ApprovalIssue with _$ApprovalIssue {
+  factory ApprovalIssue({
     required int id,
     required IssueCategory category,
     required User user,
@@ -287,8 +276,8 @@ abstract class DeclarationIssue with _$DeclarationIssue {
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? deletedAt,
-  }) = _DeclarationIssue;
+  }) = _ApprovalIssue;
 
-  factory DeclarationIssue.fromJson(Map<String, dynamic> json) =>
-      _$DeclarationIssueFromJson(json);
+  factory ApprovalIssue.fromJson(Map<String, dynamic> json) =>
+      _$ApprovalIssueFromJson(json);
 }

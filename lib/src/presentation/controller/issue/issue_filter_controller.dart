@@ -8,13 +8,22 @@ class IssueFilterController extends _$IssueFilterController {
   }
 
   Future<IssueFilterState> _init() async {
-    final transactionCategories =
-        await ref.read(issueRepositoryProvider).getAllTransactionCategories();
+    final categories = await ref
+        .read(issueRepositoryProvider)
+        .getAllCategories();
 
-    final currencies =
-        await ref.read(currencyRepositoryProvider).getAllCurrencies();
+    final transactionCategories = await ref
+        .read(issueRepositoryProvider)
+        .getAllTransactionCategories();
+
+    final currencies = await ref
+        .read(currencyRepositoryProvider)
+        .getAllCurrencies();
 
     return IssueFilterState(
-        transactionCategories: transactionCategories, currencies: currencies);
+      categories: categories,
+      transactionCategories: transactionCategories,
+      currencies: currencies,
+    );
   }
 }

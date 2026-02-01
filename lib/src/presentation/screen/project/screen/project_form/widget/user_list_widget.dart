@@ -11,11 +11,7 @@ class UserListWidget extends HookConsumerWidget {
   final int? projectId;
   final List<User> items;
 
-  const UserListWidget({
-    super.key,
-    this.projectId,
-    required this.items,
-  });
+  const UserListWidget({super.key, this.projectId, required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,9 +32,7 @@ class UserListWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              Intl.message('project_form_user_empty'),
-            ),
+            Text(Intl.message('project_form_user_empty')),
           ],
         ),
       );
@@ -58,8 +52,9 @@ class UserListWidget extends HookConsumerWidget {
         itemBuilder: (context, index) => ListTile(
           onTap: () {
             ref
-                .read(projectFormControllerProvider(projectId: projectId)
-                    .notifier)
+                .read(
+                  projectFormControllerProvider(projectId: projectId).notifier,
+                )
                 .setManager(manager: items[index]);
             context.pop();
           },

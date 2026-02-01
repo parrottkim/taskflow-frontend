@@ -14,10 +14,7 @@ import 'package:taskflow/src/router/router.dart';
 class LoginFormWidget extends HookConsumerWidget {
   final String? path;
 
-  const LoginFormWidget({
-    super.key,
-    required this.path,
-  });
+  const LoginFormWidget({super.key, required this.path});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,10 +23,8 @@ class LoginFormWidget extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
 
-    final email =
-        useListenableSelector(emailController, () => emailController.text);
-    final password = useListenableSelector(
-        passwordController, () => passwordController.text);
+    final email = useValueListenable(emailController);
+    final password = useValueListenable(passwordController);
 
     final emailFocus = useFocusNode();
     final passwordFocus = useFocusNode();
@@ -45,7 +40,7 @@ class LoginFormWidget extends HookConsumerWidget {
 
     login() async {
       TextInput.finishAutofillContext();
-      final login = LoginRequest(email: email, password: password);
+      final login = LoginRequest(email: email.text, password: password.text);
       await ref.read(authControllerProvider.notifier).login(login: login);
     }
 
@@ -53,8 +48,10 @@ class LoginFormWidget extends HookConsumerWidget {
       child: Column(
         children: [
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 48.0,
+            ),
             constraints: const BoxConstraints(maxWidth: 440.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -82,19 +79,16 @@ class LoginFormWidget extends HookConsumerWidget {
                     children: [
                       Text(
                         Intl.message('login_email'),
-                        style: Theme.of(
-                          context,
-                        )
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       TextField(
                         controller: emailController,
                         focusNode: emailFocus,
-                        onSubmitted: (text) => passwordFocus.requestFocus(),
-                        onChanged: (text) => isInvalid.value = false,
+                        onSubmitted: (_) => passwordFocus.requestFocus(),
+                        onChanged: (_) => isInvalid.value = false,
                         autofocus: true,
                         keyboardType: TextInputType.emailAddress,
                         autofillHints: const [AutofillHints.email],
@@ -103,26 +97,24 @@ class LoginFormWidget extends HookConsumerWidget {
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('login_password'),
-                        style: Theme.of(
-                          context,
-                        )
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       SizedBox(height: 8.0),
                       TextField(
                         controller: passwordController,
                         focusNode: passwordFocus,
-                        onSubmitted: email.isNotEmpty && password.isNotEmpty
-                            ? (text) => login()
+                        onSubmitted:
+                            email.text.isNotEmpty && password.text.isNotEmpty
+                            ? (_) => login()
                             : null,
                         onChanged: (text) => isInvalid.value = false,
                         obscureText: !passwordVisibility.value,
                         keyboardType: TextInputType.visiblePassword,
                         autofillHints: const [AutofillHints.password],
                         decoration: InputDecoration(
-                          suffixIcon: password.isNotEmpty
+                          suffixIcon: password.text.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.only(right: 4.0),
                                   child: CustomIconButton(
@@ -155,16 +147,14 @@ class LoginFormWidget extends HookConsumerWidget {
                             onChanged: (value) async => await ref
                                 .read(localControllerProvider.notifier)
                                 .setPersistLogin(flag: value ?? false),
-                            child: Text(
-                              Intl.message('login_persist'),
-                            ),
+                            child: Text(Intl.message('login_persist')),
                           ),
                           Spacer(),
                           CustomTextButton(
                             onPressed: () => context.goNamed(
                               RouteNames.forgotPassword,
                               queryParameters: {
-                                if (path != null) 'redirect_to': path
+                                if (path != null) 'redirect_to': path,
                               },
                             ),
                             text: Intl.message('login_forgot'),
@@ -190,7 +180,7 @@ class LoginFormWidget extends HookConsumerWidget {
                               onPressed: () => context.goNamed(
                                 RouteNames.register,
                                 queryParameters: {
-                                  if (path != null) 'redirect_to': path
+                                  if (path != null) 'redirect_to': path,
                                 },
                               ),
                               text: Intl.message('login_create_account_2'),

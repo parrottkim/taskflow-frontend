@@ -10,10 +10,7 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 class ClosureDialog extends HookConsumerWidget {
   final Project project;
 
-  const ClosureDialog({
-    super.key,
-    required this.project,
-  });
+  const ClosureDialog({super.key, required this.project});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +19,7 @@ class ClosureDialog extends HookConsumerWidget {
 
     final controller = useTextEditingController();
 
-    final message = useListenableSelector(controller, () => controller.text);
+    final message = useValueListenable(controller);
 
     return Dialog(
       child: ContainerWidget(
@@ -51,7 +48,6 @@ class ClosureDialog extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ContainerWidget(
-                    elevation: 0.0,
                     borderRadius: BorderRadius.circular(8.0),
                     color: colorScheme.errorContainer,
                     borderColor: colorScheme.error,
@@ -76,21 +72,13 @@ class ClosureDialog extends HookConsumerWidget {
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  Text(
-                    Intl.message('issue_new_choose_7_3'),
-                  ),
+                  Text(Intl.message('issue_new_choose_7_3')),
                   SizedBox(height: 8.0),
-                  Text(
-                    Intl.message('issue_new_choose_7_4'),
-                  ),
+                  Text(Intl.message('issue_new_choose_7_4')),
                   SizedBox(height: 8.0),
-                  Text(
-                    Intl.message('issue_new_choose_7_5'),
-                  ),
+                  Text(Intl.message('issue_new_choose_7_5')),
                   SizedBox(height: 8.0),
-                  Text(
-                    Intl.message('issue_new_choose_7_6'),
-                  ),
+                  Text(Intl.message('issue_new_choose_7_6')),
                 ],
               ),
             ),
@@ -108,31 +96,25 @@ class ClosureDialog extends HookConsumerWidget {
                       children: [
                         TextSpan(
                           text: project.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                         TextSpan(text: ' '),
-                        TextSpan(
-                          text: Intl.message('issue_new_choose_7_7'),
-                        ),
+                        TextSpan(text: Intl.message('issue_new_choose_7_7')),
                       ],
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  TextField(
-                    controller: controller,
-                    maxLines: 1,
-                  ),
+                  TextField(controller: controller, maxLines: 1),
                   SizedBox(height: 8.0),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: message.isNotEmpty
+                      onPressed: message.text.isNotEmpty
                           ? () {
                               ref
                                   .read(
-                                      projectSubmitControllerProvider.notifier)
+                                    projectSubmitControllerProvider.notifier,
+                                  )
                                   .closeProject(
                                     projectId: project.id,
                                     closureMessage: controller.text,
@@ -144,9 +126,7 @@ class ClosureDialog extends HookConsumerWidget {
                       ),
                       child: Text(
                         Intl.message('issue_new_choose_7_8'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),

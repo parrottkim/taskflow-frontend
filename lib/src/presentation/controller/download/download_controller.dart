@@ -8,35 +8,42 @@ class DownloadController extends _$DownloadController {
   }
 
   Future<DownloadState> _init() async {
-    if (path == null || filename == null) return DownloadState.failed();
+    if (path == null || filename == null) {
+      return DownloadState.failed();
+    }
 
-    final result =
-        await ref.read(sftpRepositoryProvider).downloadFile(path: path!);
+    final result = await ref
+        .read(sftpRepositoryProvider)
+        .downloadFile(path: path!);
 
-    if (result.data.isEmpty) return DownloadState.failed();
+    if (result.data.isEmpty) {
+      return DownloadState.failed();
+    }
 
     final userAgent = window.navigator.userAgent.toLowerCase();
-    final isIOS = userAgent.contains("iphone") || userAgent.contains("ipad");
+    final isIOS = userAgent.contains('iphone') || userAgent.contains('ipad');
 
     if (isIOS) {
-      // iOS는 blob 다운로드가 안되므로 data url 사용
+      // iOS: blob 다운로드 불가 → data URL 사용
       final base64 = base64Encode(result.data);
-      final url = "data:application/octet-stream;base64,$base64";
+      final url = 'data:application/octet-stream;base64,$base64';
 
-      AnchorElement(href: url)
-        ..setAttribute("download", filename!)
-        ..click();
+      final anchor = HTMLAnchorElement()
+        ..href = url
+        ..download = filename!;
+      anchor.click();
     } else {
-      // 일반 브라우저 정상 동작
+      // 일반 브라우저
       final bytes = Uint8List.fromList(result.data);
-      final blob = Blob([bytes]);
-      final url = Url.createObjectUrlFromBlob(blob);
+      final blob = Blob([bytes.toJS].toJS);
+      final url = URL.createObjectURL(blob);
 
-      AnchorElement(href: url)
-        ..setAttribute("download", filename!)
-        ..click();
+      final anchor = HTMLAnchorElement()
+        ..href = url
+        ..download = filename!;
+      anchor.click();
 
-      Url.revokeObjectUrl(url);
+      URL.revokeObjectURL(url);
     }
 
     return DownloadState.success();

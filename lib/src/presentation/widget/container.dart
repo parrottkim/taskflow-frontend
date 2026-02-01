@@ -21,7 +21,7 @@ class ContainerWidget extends StatelessWidget {
     this.constraints,
     this.width,
     this.height,
-    this.elevation = 1.0,
+    this.elevation = 0.0,
     this.padding = const EdgeInsets.all(20.0),
     this.borderRadius = const BorderRadius.all(Radius.circular(16.0)),
   });
@@ -57,8 +57,11 @@ class ErrorContainerWidget extends StatelessWidget {
   final Object error;
   final StackTrace stackTrace;
 
-  const ErrorContainerWidget(
-      {super.key, required this.error, required this.stackTrace});
+  const ErrorContainerWidget({
+    super.key,
+    required this.error,
+    required this.stackTrace,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +73,8 @@ class ErrorContainerWidget extends StatelessWidget {
         Intl.message('connection_error'),
       DioException e when e.type == DioExceptionType.connectionTimeout =>
         Intl.message('connection_timeout'),
-      DioException e when e.response?.data is Map => switch (
-            e.response?.data['message']) {
+      DioException e when e.response?.data is Map =>
+        switch (e.response?.data['message']) {
           String msg => msg,
           List msgList => msgList.join('\n'),
           _ => Intl.message('error_unexpected'),

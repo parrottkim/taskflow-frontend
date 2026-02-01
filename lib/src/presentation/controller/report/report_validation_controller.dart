@@ -20,28 +20,38 @@ class ReportValidationController extends _$ReportValidationController {
     state = state.copyWith(contentInvalid: isInvalid);
   }
 
-  void updateAllValidationStatus(
-      {required int projectId, required int? reportId}) {
+  void updateAllValidationStatus({
+    required int projectId,
+    required int? reportId,
+    required int? scheduleId,
+  }) {
     // ReportFormController의 데이터를 읽어옵니다.
     final value = ref
-        .read(reportFormControllerProvider(
-            projectId: projectId, reportId: reportId))
-        .valueOrNull;
+        .read(
+          reportFormControllerProvider(
+            projectId: projectId,
+            reportId: reportId,
+            scheduleId: scheduleId,
+          ),
+        )
+        .value;
 
     if (value == null || value.schedule == null) return;
 
     // TripStep ID 목록을 가져옵니다.
     final allSteps = ref.read(
-        tripFilterControllerProvider(categoryId: value.schedule!.category.id));
-    final stepIds = allSteps.valueOrNull?.steps.map((s) => s.id).toList() ?? [];
+      tripFilterControllerProvider(categoryId: value.schedule!.category.id),
+    );
+    final stepIds = allSteps.value?.steps.map((s) => s.id).toList() ?? [];
 
     bool isInvalid = false;
 
     for (final stepId in stepIds) {
       final expenses = value.expenses.where((e) => e.stepId == stepId).toList();
 
-      isInvalid =
-          expenses.any((item) => item.price == null || item.price!.isEmpty);
+      isInvalid = expenses.any(
+        (item) => item.price == null || item.price!.isEmpty,
+      );
 
       setStepValid(stepId, isInvalid);
     }
@@ -50,7 +60,8 @@ class ReportValidationController extends _$ReportValidationController {
     final schedule = value.schedule;
     final fuel = value.fuel;
 
-    final isFuelInvalid = schedule!.category is ScheduleDomestic &&
+    final isFuelInvalid =
+        schedule!.category is ScheduleDomestic &&
         fuel != null &&
         (fuel.rate == null ||
             fuel.rate!.isEmpty ||
@@ -67,8 +78,9 @@ class ReportValidationController extends _$ReportValidationController {
   // 모든 stepValidations 값이 false (유효함)이고, fuelInvalid가 false (유효함)여야 true를 반환
   bool isValid() {
     // stepValidations의 모든 값이 false (유효함)인지 확인
-    final isAllStepsValid =
-        state.stepValidations.values.every((isInvalid) => isInvalid == false);
+    final isAllStepsValid = state.stepValidations.values.every(
+      (isInvalid) => isInvalid == false,
+    );
 
     // fuelInvalid가 false (유효함)인지 확인
     final isFuelValid = state.fuelInvalid == false;

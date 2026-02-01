@@ -6,213 +6,192 @@ class WidgetPreset {
   WidgetPreset(this.context);
 
   List<ValidationItem> get passwordValidationItems => [
-        ValidationItem(
-          label: Intl.message('register_password_validation_1'),
-          regex: RegExp(r'^.{8,}$'),
-          flag: false,
-        ),
-        ValidationItem(
-          label: Intl.message('register_password_validation_2'),
-          regex: RegExp(r'[A-Z]'),
-          flag: false,
-        ),
-        ValidationItem(
-          label: Intl.message('register_password_validation_3'),
-          regex: RegExp(r'[a-z]'),
-          flag: false,
-        ),
-        ValidationItem(
-          label: Intl.message('register_password_validation_4'),
-          regex: RegExp(r'[0-9]'),
-          flag: false,
-        ),
-        ValidationItem(
-          label: Intl.message('register_password_validation_5'),
-          regex: RegExp(r'[!@#\$%^&*(),.?":{}|<>]'),
-          flag: false,
-        ),
-      ];
+    ValidationItem(
+      label: Intl.message('register_password_validation_1'),
+      regex: RegExp(r'^.{8,}$'),
+      flag: false,
+    ),
+    ValidationItem(
+      label: Intl.message('register_password_validation_2'),
+      regex: RegExp(r'[A-Z]'),
+      flag: false,
+    ),
+    ValidationItem(
+      label: Intl.message('register_password_validation_3'),
+      regex: RegExp(r'[a-z]'),
+      flag: false,
+    ),
+    ValidationItem(
+      label: Intl.message('register_password_validation_4'),
+      regex: RegExp(r'[0-9]'),
+      flag: false,
+    ),
+    ValidationItem(
+      label: Intl.message('register_password_validation_5'),
+      regex: RegExp(r'[!@#\$%^&*(),.?":{}|<>]'),
+      flag: false,
+    ),
+  ];
 
   List<NavigationItem> get navigationItems => [
-        NavigationButton(
-          icon: Symbols.space_dashboard_rounded,
-          route: RouteNames.dashboard,
-          label: Intl.message('navigation_item_1'),
-        ),
-        NavigationTitle(
-          label: Intl.message('navigation_title_1'),
-        ),
-        NavigationButton(
-          icon: Symbols.work_rounded,
-          route: RouteNames.project,
-          label: Intl.message('navigation_item_2'),
-        ),
-        NavigationButton(
-          icon: Symbols.laptop_windows_rounded,
-          route: RouteNames.work,
-          label: Intl.message('navigation_item_3'),
-        ),
-        NavigationButton(
-          icon: Symbols.newsstand_rounded,
-          route: RouteNames.document,
-          label: Intl.message('navigation_item_4'),
-        ),
-        NavigationTitle(
-          label: Intl.message('navigation_title_2'),
-          isAdmin: true,
-        ),
-        NavigationButton(
-          icon: Symbols.finance_rounded,
-          route: RouteNames.analytics,
-          label: Intl.message('navigation_item_5'),
-          isAdmin: true,
-        ),
-        NavigationTitle(
-          label: Intl.message('navigation_title_3'),
-        ),
-        NavigationButton(
-          icon: Symbols.settings_rounded,
-          route: RouteNames.setting,
-          label: Intl.message('navigation_item_6'),
-        ),
-      ];
+    NavigationButton(
+      icon: Symbols.space_dashboard_rounded,
+      route: RouteNames.dashboard,
+      label: Intl.message('navigation_item_1'),
+    ),
+    NavigationTitle(label: Intl.message('navigation_title_1')),
+    NavigationButton(
+      icon: Symbols.work_rounded,
+      route: RouteNames.project,
+      label: Intl.message('navigation_item_2'),
+    ),
+    NavigationButton(
+      icon: Symbols.laptop_windows_rounded,
+      route: RouteNames.work,
+      label: Intl.message('navigation_item_3'),
+    ),
+    NavigationButton(
+      icon: Symbols.newsstand_rounded,
+      route: RouteNames.document,
+      label: Intl.message('navigation_item_4'),
+    ),
+    NavigationTitle(label: Intl.message('navigation_title_2'), isAdmin: true),
+    NavigationButton(
+      icon: Symbols.finance_rounded,
+      route: RouteNames.analytics,
+      label: Intl.message('navigation_item_5'),
+      isAdmin: true,
+    ),
+    NavigationTitle(label: Intl.message('navigation_title_3')),
+    NavigationButton(
+      icon: Symbols.settings_rounded,
+      route: RouteNames.setting,
+      label: Intl.message('navigation_item_6'),
+    ),
+  ];
 
   List<ClientCount> get dummyClientCount => [
-        ClientCount(depth: 0, count: 30),
-        ClientCount(depth: 1, count: 50),
-        ClientCount(depth: 2, count: 80),
-      ];
+    ClientCount(depth: 0, count: 30),
+    ClientCount(depth: 1, count: 50),
+    ClientCount(depth: 2, count: 80),
+  ];
 
   List<ClientMarker> get markers => [
-        ClientMarker(
-          latitude: 32.7034579,
-          longitude: -85.1227099,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMMA'),
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMGMA'),
-            ClientMarkerTooltip(type: ClientType.kia, name: 'KaGA'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 25.7416901,
-          longitude: -99.9848248,
-          items: [
-            ClientMarkerTooltip(type: ClientType.kia, name: 'KMMX'),
-          ],
-        ),
-        ClientMarker(
-          latitude: -22.6949213,
-          longitude: -47.604286,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMB'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 49.6618149,
-          longitude: 18.4424672,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMMC'),
-            ClientMarkerTooltip(type: ClientType.kia, name: 'KaSK (KMS)'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 40.771757,
-          longitude: 30.0218881,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HAOS'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 21,
-          longitude: 78,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMI'),
-            ClientMarkerTooltip(type: ClientType.kia, name: 'KIN (KMI)'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 40.1083135,
-          longitude: 116.6547006,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'BHMC'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 33.3641129,
-          longitude: 120.2129256,
-          items: [
-            ClientMarkerTooltip(type: ClientType.kia, name: 'DYKMC'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 1.3528215,
-          longitude: 103.709285,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMGICs'),
-          ],
-        ),
-        ClientMarker(
-          latitude: -6.4040317,
-          longitude: 107.1848675,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMMI'),
-          ],
-        ),
-        ClientMarker(
-          latitude: 37,
-          longitude: 127.5,
-          items: [
-            ClientMarkerTooltip(type: ClientType.hyundai, name: '아산'),
-            ClientMarkerTooltip(type: ClientType.hyundai, name: '울산'),
-            ClientMarkerTooltip(type: ClientType.hyundai, name: '전주'),
-            ClientMarkerTooltip(type: ClientType.kia, name: '광명'),
-            ClientMarkerTooltip(type: ClientType.kia, name: '화성'),
-            ClientMarkerTooltip(type: ClientType.kia, name: '광주'),
-            ClientMarkerTooltip(type: ClientType.labAndOther, name: '남양 연구소'),
-            ClientMarkerTooltip(type: ClientType.labAndOther, name: '의왕 연구소'),
-            ClientMarkerTooltip(type: ClientType.labAndOther, name: '서산 동희오토'),
-            ClientMarkerTooltip(type: ClientType.labAndOther, name: '광주 GGM'),
-          ],
-        ),
-      ];
+    ClientMarker(
+      latitude: 32.7034579,
+      longitude: -85.1227099,
+      items: [
+        ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMMA'),
+        ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMGMA'),
+        ClientMarkerTooltip(type: ClientType.kia, name: 'KaGA'),
+      ],
+    ),
+    ClientMarker(
+      latitude: 25.7416901,
+      longitude: -99.9848248,
+      items: [ClientMarkerTooltip(type: ClientType.kia, name: 'KMMX')],
+    ),
+    ClientMarker(
+      latitude: -22.6949213,
+      longitude: -47.604286,
+      items: [ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMB')],
+    ),
+    ClientMarker(
+      latitude: 49.6618149,
+      longitude: 18.4424672,
+      items: [
+        ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMMC'),
+        ClientMarkerTooltip(type: ClientType.kia, name: 'KaSK (KMS)'),
+      ],
+    ),
+    ClientMarker(
+      latitude: 40.771757,
+      longitude: 30.0218881,
+      items: [ClientMarkerTooltip(type: ClientType.hyundai, name: 'HAOS')],
+    ),
+    ClientMarker(
+      latitude: 21,
+      longitude: 78,
+      items: [
+        ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMI'),
+        ClientMarkerTooltip(type: ClientType.kia, name: 'KIN (KMI)'),
+      ],
+    ),
+    ClientMarker(
+      latitude: 40.1083135,
+      longitude: 116.6547006,
+      items: [ClientMarkerTooltip(type: ClientType.hyundai, name: 'BHMC')],
+    ),
+    ClientMarker(
+      latitude: 33.3641129,
+      longitude: 120.2129256,
+      items: [ClientMarkerTooltip(type: ClientType.kia, name: 'DYKMC')],
+    ),
+    ClientMarker(
+      latitude: 1.3528215,
+      longitude: 103.709285,
+      items: [ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMGICs')],
+    ),
+    ClientMarker(
+      latitude: -6.4040317,
+      longitude: 107.1848675,
+      items: [ClientMarkerTooltip(type: ClientType.hyundai, name: 'HMMI')],
+    ),
+    ClientMarker(
+      latitude: 37,
+      longitude: 127.5,
+      items: [
+        ClientMarkerTooltip(type: ClientType.hyundai, name: '아산'),
+        ClientMarkerTooltip(type: ClientType.hyundai, name: '울산'),
+        ClientMarkerTooltip(type: ClientType.hyundai, name: '전주'),
+        ClientMarkerTooltip(type: ClientType.kia, name: '광명'),
+        ClientMarkerTooltip(type: ClientType.kia, name: '화성'),
+        ClientMarkerTooltip(type: ClientType.kia, name: '광주'),
+        ClientMarkerTooltip(type: ClientType.labAndOther, name: '남양 연구소'),
+        ClientMarkerTooltip(type: ClientType.labAndOther, name: '의왕 연구소'),
+        ClientMarkerTooltip(type: ClientType.labAndOther, name: '서산 동희오토'),
+        ClientMarkerTooltip(type: ClientType.labAndOther, name: '광주 GGM'),
+      ],
+    ),
+  ];
 
   List<MenuOption> get quickMenu => [
-        MenuOption(
-          icon: Symbols.today_rounded,
-          label: Intl.message('dashboard_functions_1'),
-          onPressed: () {
-            context.goNamed(RouteNames.scheduleNewChoose);
-          },
-        ),
-        MenuOption(
-          icon: Symbols.description_rounded,
-          label: Intl.message('dashboard_functions_2'),
-          onPressed: () {
-            context.goNamed(RouteNames.projectNew);
-          },
-        ),
-      ];
+    MenuOption(
+      icon: Symbols.today_rounded,
+      label: Intl.message('dashboard_functions_1'),
+      onPressed: () {
+        context.goNamed(RouteNames.scheduleNewChoose);
+      },
+    ),
+    MenuOption(
+      icon: Symbols.description_rounded,
+      label: Intl.message('dashboard_functions_2'),
+      onPressed: () {
+        context.goNamed(RouteNames.projectNew);
+      },
+    ),
+  ];
 
   List<MenuOption> get workMenu => [
-        MenuOption(
-          icon: Symbols.today_rounded,
-          label: Intl.message('work_1'),
-          description: Intl.message('work_1_1'),
-          onPressed: () {},
-        ),
-        MenuOption(
-          icon: Symbols.beach_access_rounded,
-          label: Intl.message('work_2'),
-          description: Intl.message('work_2_1'),
-          onPressed: null,
-        ),
-        MenuOption(
-          icon: Symbols.summarize_rounded,
-          label: Intl.message('work_3'),
-          description: Intl.message('work_3_1'),
-          onPressed: null,
-        ),
-      ];
+    MenuOption(
+      icon: Symbols.today_rounded,
+      label: Intl.message('work_1'),
+      description: Intl.message('work_1_1'),
+      onPressed: () {},
+    ),
+    MenuOption(
+      icon: Symbols.beach_access_rounded,
+      label: Intl.message('work_2'),
+      description: Intl.message('work_2_1'),
+      onPressed: null,
+    ),
+    MenuOption(
+      icon: Symbols.summarize_rounded,
+      label: Intl.message('work_3'),
+      description: Intl.message('work_3_1'),
+      onPressed: null,
+    ),
+  ];
 }
 
 enum ClientType {
@@ -291,11 +270,8 @@ enum ProjectSegment {
 
   String get label => Intl.message(labelKey);
 
-  factory ProjectSegment.fromKey(String key) =>
-      ProjectSegment.values.firstWhere(
-        (e) => e.name == key,
-        orElse: () => ProjectSegment.all,
-      );
+  factory ProjectSegment.fromKey(String key) => ProjectSegment.values
+      .firstWhere((e) => e.name == key, orElse: () => ProjectSegment.all);
 }
 
 enum ProjectSort {
@@ -312,14 +288,14 @@ enum ProjectSort {
   String get label => Intl.message(labelKey);
 
   factory ProjectSort.fromKey(String key) => ProjectSort.values.firstWhere(
-        (e) => e.key == key,
-        orElse: () => ProjectSort.updated,
-      );
+    (e) => e.key == key,
+    orElse: () => ProjectSort.updated,
+  );
 }
 
 enum ProjectDetailSegment {
   contract('project_detail_segment_1'),
-  declaration('project_detail_segment_2'),
+  approval('project_detail_segment_2'),
   procurement('project_detail_segment_3'),
   report('project_detail_segment_4'),
   timeline('project_detail_segment_5');
@@ -348,9 +324,9 @@ enum WorkSegment {
   String get label => Intl.message(labelKey);
 
   factory WorkSegment.fromKey(String key) => WorkSegment.values.firstWhere(
-        (e) => e.name == key,
-        orElse: () => WorkSegment.schedule,
-      );
+    (e) => e.name == key,
+    orElse: () => WorkSegment.schedule,
+  );
 }
 
 enum SettingSegment {
@@ -363,9 +339,6 @@ enum SettingSegment {
 
   String get label => Intl.message(labelKey);
 
-  factory SettingSegment.fromKey(String key) =>
-      SettingSegment.values.firstWhere(
-        (e) => e.name == key,
-        orElse: () => SettingSegment.user,
-      );
+  factory SettingSegment.fromKey(String key) => SettingSegment.values
+      .firstWhere((e) => e.name == key, orElse: () => SettingSegment.user);
 }

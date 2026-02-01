@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
@@ -8,15 +9,15 @@ import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widge
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class SupplierSearchDialog extends HookConsumerWidget {
-  final int categoryId;
   final int projectId;
+  final int categoryId;
   final int? issueId;
   final int itemIndex;
 
   const SupplierSearchDialog({
     super.key,
-    required this.categoryId,
     required this.projectId,
+    required this.categoryId,
     this.issueId,
     required this.itemIndex,
   });
@@ -113,51 +114,49 @@ class SupplierSearchDialog extends HookConsumerWidget {
                   aspectRatio: 1.0,
                   child: switch (search) {
                     SupplierSearchWaiting(:final search) => Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: 24.0,
-                              height: 24.0,
-                              child: CircularProgressIndicator(
-                                strokeCap: StrokeCap.round,
-                              ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 24.0,
+                            height: 24.0,
+                            child: CircularProgressIndicator(
+                              strokeCap: StrokeCap.round,
                             ),
-                            SizedBox(height: 8.0),
-                            Text.rich(
-                              style: textTheme.bodyMedium,
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: search,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Text.rich(
+                            style: textTheme.bodyMedium,
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: search,
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                                TextSpan(text: ' '),
+                                TextSpan(
+                                  text: Intl.message(
+                                    'issue_form_procurement_16',
                                   ),
-                                  TextSpan(
-                                    text: ' ',
-                                  ),
-                                  TextSpan(
-                                    text: Intl.message(
-                                        'issue_form_procurement_16'),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                    ),
                     SupplierSearchResult(:final items) => SupplierListWidget(
-                        categoryId: categoryId,
-                        projectId: projectId,
-                        issueId: issueId,
-                        itemIndex: itemIndex,
-                        items: items),
+                      projectId: projectId,
+                      categoryId: categoryId,
+                      issueId: issueId,
+                      itemIndex: itemIndex,
+                      items: items,
+                    ),
                     _ => SizedBox(),
                   },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -10,74 +10,79 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 
 class CategoryListWidget extends ConsumerWidget {
-  final int projectId;
-  final List<IssueCategory> categoryItems;
+  final List<IssueCategory> categories;
 
-  const CategoryListWidget({
-    super.key,
-    required this.projectId,
-    required this.categoryItems,
-  });
+  const CategoryListWidget({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final issueList = ref.watch(
+      issueListControllerProvider(projectId: projectId),
+    );
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     return ContainerWidget(
+      elevation: 1.0,
       padding: EdgeInsets.zero,
       child: ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: categoryItems.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) => InkWell(
-          onTap: () async {
-            final list = await ref
-                .read(issueListControllerProvider(projectId: projectId).future);
-
-            if (categoryItems[index] is IssueContract &&
-                list.contract != null) {
-              ref.read(toastProvider).showToast(
-                    child: Toast(
-                      message: Intl.message('contract_issue_exists'),
-                    ),
-                  );
-              return;
-            } else if (categoryItems[index] is IssueKickoff &&
-                list.kickoff != null) {
-              ref.read(toastProvider).showToast(
-                    child: Toast(
-                      message: Intl.message('kickoff_issue_exists'),
-                    ),
-                  );
-              return;
-            } else if (categoryItems[index] is IssueTransaction &&
-                list.transaction != null) {
-              ref.read(toastProvider).showToast(
-                    child: Toast(
-                      message: Intl.message('transaction_issue_exists'),
-                    ),
-                  );
-              return;
-            } else if (categoryItems[index] is IssuePayment &&
-                list.payment != null) {
-              ref.read(toastProvider).showToast(
-                    child: Toast(
-                      message: Intl.message('payment_issue_exists'),
-                    ),
-                  );
-              return;
+          onTap: () {
+            if (issueList case AsyncData(:final value)) {
+              if (categories[index] is IssueContract &&
+                  value.contract != null) {
+                ref
+                    .read(toastProvider)
+                    .showToast(
+                      child: Toast(
+                        message: Intl.message('contract_issue_exists'),
+                      ),
+                    );
+                return;
+              } else if (categories[index] is IssueKickoff &&
+                  value.kickoff != null) {
+                ref
+                    .read(toastProvider)
+                    .showToast(
+                      child: Toast(
+                        message: Intl.message('kickoff_issue_exists'),
+                      ),
+                    );
+                return;
+              } else if (categories[index] is IssueTransaction &&
+                  value.transaction != null) {
+                ref
+                    .read(toastProvider)
+                    .showToast(
+                      child: Toast(
+                        message: Intl.message('transaction_issue_exists'),
+                      ),
+                    );
+                return;
+              } else if (categories[index] is IssuePayment &&
+                  value.payment != null) {
+                ref
+                    .read(toastProvider)
+                    .showToast(
+                      child: Toast(
+                        message: Intl.message('payment_issue_exists'),
+                      ),
+                    );
+                return;
+              }
             }
 
-            // ref
-            //     .read(
-            //         issueFormControllerProvider(projectId: projectId, categoryId: ).notifier)
-            //     .setCategory(category: categoryItems[index]);
             context.goNamed(
               RouteNames.issueNew,
               pathParameters: {
-                'category_id': categoryItems[index].id.toString(),
                 'project_id': projectId.toString(),
+                'category_id': categories[index].id.toString(),
               },
             );
           },
@@ -97,8 +102,9 @@ class CategoryListWidget extends ConsumerWidget {
                             text: Intl.message('issue_new_choose_${index + 1}'),
                           ),
                           TextSpan(
-                            text:
-                                Intl.message('issue_new_choose_${index + 1}_1'),
+                            text: Intl.message(
+                              'issue_new_choose_${index + 1}_1',
+                            ),
                             style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ],

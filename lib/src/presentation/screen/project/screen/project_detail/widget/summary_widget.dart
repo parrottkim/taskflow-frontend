@@ -9,10 +9,7 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 class SummaryWidget extends HookConsumerWidget {
   final Project project;
 
-  const SummaryWidget({
-    super.key,
-    required this.project,
-  });
+  const SummaryWidget({super.key, required this.project});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,17 +52,13 @@ class SummaryWidget extends HookConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ContainerWidget(
-                  elevation: 0.0,
                   borderRadius: BorderRadius.circular(8.0),
                   color: colorScheme.outline.withValues(alpha: 0.2),
                   borderColor: colorScheme.outline,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Symbols.mountain_flag_rounded,
-                        size: 20.0,
-                      ),
+                      Icon(Symbols.mountain_flag_rounded, size: 20.0),
                       SizedBox(width: 8.0),
                       Expanded(
                         child: Column(
@@ -73,14 +66,10 @@ class SummaryWidget extends HookConsumerWidget {
                           children: [
                             Text(
                               Intl.message('project_detail_closed_1'),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                             SizedBox(height: 4.0),
-                            Text(
-                              Intl.message('project_detail_closed_2'),
-                            ),
+                            Text(Intl.message('project_detail_closed_2')),
                           ],
                         ),
                       ),
@@ -94,7 +83,6 @@ class SummaryWidget extends HookConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: ContainerWidget(
-                elevation: 0.0,
                 width: double.infinity,
                 padding: EdgeInsets.all(16.0),
                 borderRadius: BorderRadius.circular(8.0),
@@ -104,9 +92,7 @@ class SummaryWidget extends HookConsumerWidget {
                   children: [
                     Text(
                       Intl.message('project_detail_summary_2'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 8.0),
                     Text(
@@ -120,7 +106,6 @@ class SummaryWidget extends HookConsumerWidget {
               ),
             ),
           ContainerWidget(
-            elevation: 0.0,
             width: double.infinity,
             padding: EdgeInsets.all(16.0),
             borderRadius: BorderRadius.circular(8.0),
@@ -130,12 +115,10 @@ class SummaryWidget extends HookConsumerWidget {
               children: [
                 Text(
                   Intl.message('project_detail_summary_1'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 8.0),
-                UserInformation.compact(user: project.user)
+                UserInformation.compact(user: project.user),
               ],
             ),
           ),

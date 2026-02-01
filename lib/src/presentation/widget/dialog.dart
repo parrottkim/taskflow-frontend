@@ -30,9 +30,7 @@ class LoginForbiddenDialog extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                Intl.message('login_forbidden_2'),
-              ),
+              child: Text(Intl.message('login_forbidden_2')),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -45,9 +43,7 @@ class LoginForbiddenDialog extends StatelessWidget {
                 onPressed: () => context.pop(),
                 child: Text(
                   Intl.message('common_ok'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -88,9 +84,7 @@ class LoginRequestDialog extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                Intl.message('login_request_2'),
-              ),
+              child: Text(Intl.message('login_request_2')),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -103,9 +97,7 @@ class LoginRequestDialog extends StatelessWidget {
                 onPressed: () => context.pop(),
                 child: Text(
                   Intl.message('common_ok'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -127,7 +119,7 @@ class SearchDialog extends HookConsumerWidget {
     final local = ref.watch(localControllerProvider);
 
     final controller = useTextEditingController();
-    final search = useListenableSelector(controller, () => controller.text);
+    final keyword = useValueListenable(controller);
 
     return Dialog(
       child: ContainerWidget(
@@ -141,11 +133,11 @@ class SearchDialog extends HookConsumerWidget {
             TextField(
               controller: controller,
               autofocus: true,
-              onSubmitted: search.isNotEmpty
-                  ? (value) {
+              onSubmitted: keyword.text.isNotEmpty
+                  ? (_) {
                       ref
                           .read(localControllerProvider.notifier)
-                          .addKeywords(text: search);
+                          .addKeywords(text: keyword.text);
                     }
                   : null,
               decoration: InputDecoration(
@@ -201,39 +193,40 @@ class SearchDialog extends HookConsumerWidget {
                         ),
                         const Spacer(),
                         CustomTextButton(
-                            onPressed: () => ref
-                                .read(localControllerProvider.notifier)
-                                .removeKeywords(),
-                            text: Intl.message(
-                                'navigation_search_keyword_erase')),
+                          onPressed: () => ref
+                              .read(localControllerProvider.notifier)
+                              .removeKeywords(),
+                          text: Intl.message('navigation_search_keyword_erase'),
+                        ),
                       ],
                     ),
                   ),
                   switch (local) {
-                    AsyncData(:final value) => value.keywords.isNotEmpty
-                        ? ListView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            itemCount: value.keywords.length,
-                            itemBuilder: (context, index) => ListTile(
-                              onTap: () {},
-                              title: Text(
-                                value.keywords[index].keyword,
+                    AsyncData(:final value) =>
+                      value.keywords.isNotEmpty
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              itemCount: value.keywords.length,
+                              itemBuilder: (context, index) => ListTile(
+                                onTap: () {},
+                                title: Text(value.keywords[index].keyword),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                                vertical: 12.0,
+                              ),
+                              child: Text(
+                                Intl.message('navigation_search_keyword_empty'),
                               ),
                             ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 12.0),
-                            child: Text(
-                              Intl.message('navigation_search_keyword_empty'),
-                            ),
-                          ),
                     _ => SizedBox(),
                   },
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -245,11 +238,7 @@ class DatePickerDialog extends HookWidget {
   final DateTime? initialDate;
   final String? title;
 
-  const DatePickerDialog({
-    super.key,
-    this.initialDate,
-    this.title,
-  });
+  const DatePickerDialog({super.key, this.initialDate, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -304,9 +293,7 @@ class DatePickerDialog extends HookWidget {
                       onPressed: () => context.pop(),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -324,9 +311,7 @@ class DatePickerDialog extends HookWidget {
                       ),
                       child: Text(
                         Intl.message('common_ok'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -406,16 +391,15 @@ class DateRangePickerDialog extends HookConsumerWidget {
                       onPressed: () => context.pop(),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
                   SizedBox(width: 4.0),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: rangeStartDate.value != null &&
+                      onPressed:
+                          rangeStartDate.value != null &&
                               rangeEndDate.value != null
                           ? () {
                               context.pop({
@@ -430,9 +414,7 @@ class DateRangePickerDialog extends HookConsumerWidget {
                       ),
                       child: Text(
                         Intl.message('common_ok'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -506,9 +488,12 @@ class ErrorDialog extends ConsumerWidget {
                     child: ElevatedButton(
                       onPressed: () async {
                         await Clipboard.setData(
-                            ClipboardData(text: '$error\n$stackTrace'));
+                          ClipboardData(text: '$error\n$stackTrace'),
+                        );
 
-                        ref.read(toastProvider).showToast(
+                        ref
+                            .read(toastProvider)
+                            .showToast(
                               child: Toast(
                                 type: ToastType.standard,
                                 message: Intl.message('common_copied'),
@@ -517,9 +502,7 @@ class ErrorDialog extends ConsumerWidget {
                       },
                       child: Text(
                         Intl.message('error_dialog_2'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -533,9 +516,7 @@ class ErrorDialog extends ConsumerWidget {
                       ),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -580,9 +561,7 @@ class PopScopeDialog extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                Intl.message('pop_scope_content'),
-              ),
+              child: Text(Intl.message('pop_scope_content')),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -597,9 +576,7 @@ class PopScopeDialog extends StatelessWidget {
                       onPressed: () => context.pop(false),
                       child: Text(
                         Intl.message('common_stay'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -613,9 +590,7 @@ class PopScopeDialog extends StatelessWidget {
                       ),
                       child: Text(
                         Intl.message('common_leave'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -663,9 +638,7 @@ class DeleteDialog extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                content,
-              ),
+              child: Text(content),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -680,9 +653,7 @@ class DeleteDialog extends StatelessWidget {
                       onPressed: () => context.pop(false),
                       child: Text(
                         Intl.message('common_cancel'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -696,9 +667,7 @@ class DeleteDialog extends StatelessWidget {
                       ),
                       child: Text(
                         Intl.message('common_delete'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -716,11 +685,7 @@ class SendEmailDialog extends ConsumerWidget {
   final String title;
   final Function()? onPressed;
 
-  const SendEmailDialog({
-    super.key,
-    required this.title,
-    this.onPressed,
-  });
+  const SendEmailDialog({super.key, required this.title, this.onPressed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -750,18 +715,14 @@ class SendEmailDialog extends ConsumerWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                Intl.message('project_mail_select_1'),
-              ),
+              child: Text(Intl.message('project_mail_select_1')),
             ),
             SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: CustomToggleButton(
                 value: true,
-                child: Text(
-                  Intl.message('project_mail_select_2'),
-                ),
+                child: Text(Intl.message('project_mail_select_2')),
               ),
             ),
             Padding(
@@ -777,9 +738,7 @@ class SendEmailDialog extends ConsumerWidget {
                       onPressed: () => context.pop(),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -790,19 +749,25 @@ class SendEmailDialog extends ConsumerWidget {
                           ? () async {
                               try {
                                 await onPressed!();
-                                ref.read(toastProvider).showToast(
+                                ref
+                                    .read(toastProvider)
+                                    .showToast(
                                       child: Toast(
-                                        message:
-                                            Intl.message('project_mail_send'),
+                                        message: Intl.message(
+                                          'project_mail_send',
+                                        ),
                                       ),
                                     );
                                 context.pop();
                               } catch (e) {
-                                ref.read(toastProvider).showToast(
+                                ref
+                                    .read(toastProvider)
+                                    .showToast(
                                       child: Toast(
                                         type: ToastType.alert,
                                         message: Intl.message(
-                                            'project_mail_send_fail'),
+                                          'project_mail_send_fail',
+                                        ),
                                       ),
                                     );
                               }
@@ -814,9 +779,7 @@ class SendEmailDialog extends ConsumerWidget {
                       ),
                       child: Text(
                         Intl.message('common_ok'),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
