@@ -1,16 +1,21 @@
 part of 'widget.dart';
 
 class CategoryWidget extends StatelessWidget {
+  final EdgeInsetsGeometry padding;
   final IssueCategory item;
 
-  const CategoryWidget({super.key, required this.item});
+  const CategoryWidget({
+    super.key,
+    this.padding = EdgeInsets.zero,
+    required this.item,
+  });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: padding,
       child: Skeleton.unite(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),

@@ -277,7 +277,10 @@ class _DesktopWidget extends HookConsumerWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CategoryWidget(item: payment!.category),
+                                  CategoryWidget(
+                                    padding: EdgeInsets.all(16.0),
+                                    item: payment!.category,
+                                  ),
                                   MarkdownWidget(item: payment!.content),
                                   if (payment!.attachments.isNotEmpty)
                                     AttachmentListWidget<IssueAttachment>(
@@ -378,7 +381,10 @@ class _DesktopWidget extends HookConsumerWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CategoryWidget(item: transaction!.category),
+                                  CategoryWidget(
+                                    padding: EdgeInsets.all(16.0),
+                                    item: transaction!.category,
+                                  ),
                                   TransactionDisplayItem(
                                     currency: transaction!.currency,
                                     items: transactionItems,
@@ -481,7 +487,10 @@ class _DesktopWidget extends HookConsumerWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CategoryWidget(item: kickoff!.category),
+                                  CategoryWidget(
+                                    padding: EdgeInsets.all(16.0),
+                                    item: kickoff!.category,
+                                  ),
                                   KickoffDisplayItem(
                                     kickoffDate: kickoff!.kickoffDate,
                                   ),
@@ -579,7 +588,10 @@ class _DesktopWidget extends HookConsumerWidget {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CategoryWidget(item: contract!.category),
+                                CategoryWidget(
+                                  padding: EdgeInsets.all(16.0),
+                                  item: contract!.category,
+                                ),
                                 ContractDisplayItem(
                                   currency: contract!.currency,
                                   contractItems: contractItems,

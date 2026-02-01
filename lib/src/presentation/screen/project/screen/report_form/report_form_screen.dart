@@ -328,7 +328,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               .read(reportSubmitControllerProvider.notifier)
                               .updateReport(
                                 projectId: projectId,
-                                reportId: reportId!,
+                                reportId: reportId,
                               );
                           return;
                         }
@@ -385,7 +385,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               .read(reportSubmitControllerProvider.notifier)
                               .deleteReport(
                                 projectId: projectId,
-                                reportId: reportId!,
+                                reportId: reportId,
                               );
                         }
                       },
