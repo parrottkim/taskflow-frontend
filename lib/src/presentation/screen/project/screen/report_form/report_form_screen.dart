@@ -321,7 +321,10 @@ class _DesktopWidget extends HookConsumerWidget {
                         if (reportId == null) {
                           ref
                               .read(reportSubmitControllerProvider.notifier)
-                              .createReport(projectId: projectId);
+                              .createReport(
+                                projectId: projectId,
+                                scheduleId: scheduleId,
+                              );
                           return;
                         } else {
                           ref
@@ -329,6 +332,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               .updateReport(
                                 projectId: projectId,
                                 reportId: reportId,
+                                scheduleId: scheduleId,
                               );
                           return;
                         }
