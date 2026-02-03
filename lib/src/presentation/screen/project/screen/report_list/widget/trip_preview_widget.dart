@@ -21,6 +21,17 @@ class TripPreviewWidget extends HookConsumerWidget {
       tripFilterControllerProvider(categoryId: item.schedule?.category.id),
     );
 
+    ref.listen(tripPreviewControllerProvider, (_, state) {
+      if (state is TripPreviewLoading) {
+        TextOverlay.show(context, Intl.message('report_list_loading_1'));
+      } else if (state is TripPreviewRendering) {
+        TextOverlay.hide();
+        TextOverlay.show(context, Intl.message('report_list_loading_2'));
+      } else {
+        TextOverlay.hide();
+      }
+    });
+
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
         item: item,

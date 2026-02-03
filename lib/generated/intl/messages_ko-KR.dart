@@ -594,6 +594,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("설명을 입력해 주세요"),
         "report_form_local_transportation":
             MessageLookupByLibrary.simpleMessage("현지 교통비"),
+        "report_form_non_taxable_amount":
+            MessageLookupByLibrary.simpleMessage("(비과세) 수령 금액"),
         "report_form_other": MessageLookupByLibrary.simpleMessage("기타"),
         "report_form_project": MessageLookupByLibrary.simpleMessage("프로젝트 정보"),
         "report_form_regulation": MessageLookupByLibrary.simpleMessage("규정 금액"),
@@ -614,12 +616,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("일정 검색"),
         "report_form_settlement": MessageLookupByLibrary.simpleMessage("정산 금액"),
         "report_form_step": MessageLookupByLibrary.simpleMessage("단계"),
+        "report_form_taxable_amount":
+            MessageLookupByLibrary.simpleMessage("(과세) 수령 금액"),
         "report_form_title": MessageLookupByLibrary.simpleMessage("실무 결과 보고"),
         "report_form_title_1":
             MessageLookupByLibrary.simpleMessage("국내 출장 명령서 등록"),
         "report_form_title_2":
             MessageLookupByLibrary.simpleMessage("해외 출장 명령서 등록"),
         "report_form_total": MessageLookupByLibrary.simpleMessage("총 사용 금액"),
+        "report_form_total_cost":
+            MessageLookupByLibrary.simpleMessage("전체 비용 합계"),
         "report_form_transportation":
             MessageLookupByLibrary.simpleMessage("교통비"),
         "report_list_loading_1":
