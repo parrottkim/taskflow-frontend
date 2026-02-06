@@ -37,7 +37,7 @@ class _DesktopWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 24.0),
+      padding: EdgeInsets.only(top: 24.0),
       child: OverviewWidget(),
     );
   }

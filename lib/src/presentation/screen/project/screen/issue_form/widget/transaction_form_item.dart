@@ -26,18 +26,10 @@ class TransactionFormItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
-
     final filter = ref.watch(issueFilterControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-        projectId: projectId,
-        categoryId: categoryId,
-        issueId: issueId,
         currency: currency,
         categories: value.transactionCategories,
         currencies: value.currencies,
@@ -51,8 +43,6 @@ class TransactionFormItem extends ConsumerWidget {
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
-          categoryId: categoryId,
-          projectId: projectId,
           currency: Currency.empty(),
           categories: [],
           currencies: [],
@@ -66,9 +56,6 @@ class TransactionFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int categoryId;
-  final int projectId;
-  final int? issueId;
   final Currency? currency;
   final List<TransactionItemCategory> categories;
   final List<Currency> currencies;
@@ -77,9 +64,6 @@ class _DesktopWidget extends HookConsumerWidget {
   final ValueNotifier<bool> isTransactionItemEmpty;
 
   const _DesktopWidget({
-    required this.categoryId,
-    required this.projectId,
-    this.issueId,
     this.currency,
     required this.categories,
     required this.currencies,
@@ -90,6 +74,11 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

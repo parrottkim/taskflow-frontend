@@ -123,9 +123,11 @@ class _DesktopWidget extends HookConsumerWidget {
 
                     context.goNamed(
                       RouteNames.reportNew,
-                      pathParameters: {'project_id': projectId.toString()},
-                      queryParameters: {
+                      pathParameters: {
+                        'project_id': projectId.toString(),
                         if (reportId != null) 'report_id': reportId.toString(),
+                      },
+                      queryParameters: {
                         if (schedule != null)
                           'schedule_id': schedule!.id.toString(),
                       },

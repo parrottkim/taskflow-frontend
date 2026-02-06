@@ -29,7 +29,10 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void updateProject({required Project project}) {
-    state = AsyncValue.data(ProjectDetailState(project: project));
+    final value = state.value;
+    if (value == null) return;
+
+    state = AsyncValue.data(value.copyWith(project: project));
   }
 
   Future<void> toggleBookmark({required bool bookmarked}) async {
