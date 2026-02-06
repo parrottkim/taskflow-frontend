@@ -25,9 +25,9 @@ class ProcurementFormItem extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = GoRouterState.of(context);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
     final projectId = int.parse(state.pathParameters['project_id']!);
-    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
 
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;

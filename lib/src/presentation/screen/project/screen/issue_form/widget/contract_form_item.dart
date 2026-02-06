@@ -34,18 +34,10 @@ class ContractFormItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final issueId = int.tryParse(state.uri.queryParameters['issue_id'] ?? '');
-
     final filter = ref.watch(issueFilterControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-        categoryId: categoryId,
-        projectId: projectId,
-        issueId: issueId,
         currency: currency,
         currencies: value.currencies,
         contractItems: contractItems,
@@ -63,8 +55,6 @@ class ContractFormItem extends ConsumerWidget {
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
-          categoryId: categoryId,
-          projectId: projectId,
           currency: Currency.empty(),
           currencies: [],
           contractItems: [],
@@ -82,9 +72,6 @@ class ContractFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int categoryId;
-  final int projectId;
-  final int? issueId;
   final Currency? currency;
   final List<Currency> currencies;
   final List<ContractItem> contractItems;
@@ -97,9 +84,6 @@ class _DesktopWidget extends HookConsumerWidget {
   final List<TransactionItemCategory> categories;
 
   const _DesktopWidget({
-    required this.categoryId,
-    required this.projectId,
-    this.issueId,
     this.currency,
     required this.currencies,
     required this.contractItems,
@@ -114,6 +98,11 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = GoRouterState.of(context);
+    final projectId = int.parse(state.pathParameters['project_id']!);
+    final categoryId = int.parse(state.pathParameters['category_id']!);
+    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
+
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

@@ -74,6 +74,13 @@ class _DesktopWidget extends HookConsumerWidget {
     final isSummaryNotEmpty = useState(false);
     final isDescriptionNotEmpty = useState(false);
 
+    useEffect(() {
+      Future.microtask(
+        () => ref.read(projectFilterControllerProvider.notifier).init(),
+      );
+      return null;
+    }, []);
+
     ref.listen(scheduleSubmitControllerProvider, (_, state) {
       if (state is ScheduleSubmitPending) {
         LoadingOverlay.show(context);
@@ -286,7 +293,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           .read(scheduleSubmitControllerProvider.notifier)
                           .updateSchedule(
                             categoryId: categoryId,
-                            scheduleId: scheduleId!,
+                            scheduleId: scheduleId,
                           );
                     }
                   },
@@ -317,7 +324,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
                         await ref
                             .read(scheduleSubmitControllerProvider.notifier)
-                            .deleteSchedule(scheduleId: scheduleId!);
+                            .deleteSchedule(scheduleId: scheduleId);
 
                         ref
                             .read(toastProvider)
