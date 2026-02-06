@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:js_interop';
 
-import 'package:appflowy_editor/appflowy_editor.dart';
-import 'package:provider/provider.dart';
 import 'package:web/web.dart' hide ResponseType, Client, Report;
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
