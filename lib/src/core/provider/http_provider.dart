@@ -13,18 +13,16 @@ Dio http(Ref ref) {
   );
   final dio = Dio(options);
 
-  dio.interceptors.add(
-    AuthenticationInterceptor(client: dio, container: ref.container),
-  );
+  dio.interceptors.add(HttpInterceptor(dio: dio, container: ref.container));
 
   return dio;
 }
 
-class AuthenticationInterceptor extends Interceptor {
-  final Dio client;
+class HttpInterceptor extends Interceptor {
+  final Dio dio;
   final ProviderContainer container;
 
-  AuthenticationInterceptor({required this.client, required this.container});
+  HttpInterceptor({required this.dio, required this.container});
 
   @override
   Future<void> onError(
@@ -75,7 +73,7 @@ class AuthenticationInterceptor extends Interceptor {
         }
 
         // ... (토큰 갱신 로직은 그대로 유지) ...
-        final response = await client.post(
+        final response = await dio.post(
           'auth/refresh',
           options: Options(headers: {'Authorization': 'Bearer $refreshToken'}),
         );
@@ -95,7 +93,7 @@ class AuthenticationInterceptor extends Interceptor {
 
           print('refreshed');
 
-          return handler.resolve(await client.fetch(err.requestOptions));
+          return handler.resolve(await dio.fetch(err.requestOptions));
         }
       }
 

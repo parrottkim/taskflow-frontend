@@ -340,25 +340,6 @@ class _DesktopWidget extends HookConsumerWidget {
                         // 다음 단계로 이동
                         currentIndex.value = currentIndex.value + 1;
                       }
-
-                      // Additional per-step checks (legacy/extra guards)
-                      // final form = await ref.watch(
-                      //     reportFormControllerProvider(
-                      //             projectId: projectId, reportId: reportId)
-                      //         .future);
-
-                      // if (step == 'transportation') {
-                      //   if (form.expenses.any((item) =>
-                      //       item.price == null || item.price!.isEmpty)) {
-                      //     return;
-                      //   }
-                      // }
-                      // if (step == 'local_transportation') {
-                      //   if (form.expenses.any((item) =>
-                      //       item.price == null || item.price!.isEmpty)) {
-                      //     return;
-                      //   }
-                      // }
                     },
                     child: Text(
                       isLastStep
