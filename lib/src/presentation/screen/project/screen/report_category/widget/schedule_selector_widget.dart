@@ -25,7 +25,7 @@ class ScheduleSelectorWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = GoRouterState.of(context);
     final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
 
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
