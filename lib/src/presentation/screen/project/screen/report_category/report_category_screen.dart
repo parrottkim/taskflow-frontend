@@ -18,7 +18,7 @@ class ReportCategoryScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = GoRouterState.of(context);
     final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
     final scheduleId = int.tryParse(
       state.uri.queryParameters['schedule_id'] ?? '',
     );
@@ -53,7 +53,7 @@ class _DesktopWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = GoRouterState.of(context);
     final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.uri.queryParameters['report_id'] ?? '');
+    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
 
     final selectedSchedule = useState<Schedule?>(schedule);
 
