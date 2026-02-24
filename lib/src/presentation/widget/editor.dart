@@ -16,115 +16,115 @@ class EditorWidget extends HookConsumerWidget {
       () => EditorScrollController(editorState: editorState, shrinkWrap: true),
     );
 
+    Future<void> handleImagePaste(
+      EditorState editorState,
+      WidgetRef ref,
+      int maxImageSize,
+    ) async {
+      final clipboard = SystemClipboard.instance;
+      if (clipboard == null) return;
+
+      final reader = await clipboard.read();
+
+      // 이미지가 있는지 확인
+      ImageExtension? image;
+      for (final e in ImageExtension.values) {
+        if (reader.canProvide(e.format)) {
+          image = e;
+          break;
+        }
+      }
+
+      // 이미지가 없으면 그냥 종료 (기본 텍스트 붙여넣기는 이미 ignored를 통해 실행됨)
+      if (image == null) return;
+
+      // 이미지 처리 로직 실행... (기존에 작성하신 로직)
+      reader.getFile(image.format, (file) async {
+        try {
+          final stream = file.getStream();
+
+          final completer = Completer<Uint8List>();
+          final chunks = <int>[];
+
+          stream.listen(
+            (chunk) => chunks.addAll(chunk),
+            onDone: () => completer.complete(Uint8List.fromList(chunks)),
+            onError: completer.completeError,
+            cancelOnError: true,
+          );
+
+          var bytes = await completer.future;
+
+          if (bytes.lengthInBytes > maxImageSize) {
+            final image = img.decodeImage(bytes);
+
+            if (image != null) {
+              final resized = img.copyResize(image, width: 960);
+
+              bytes = Uint8List.fromList(img.encodeJpg(resized, quality: 80));
+            }
+          }
+
+          final base64Data = base64Encode(bytes);
+
+          final selection = editorState.selection;
+          if (selection == null || !selection.isCollapsed) {
+            return;
+          }
+          final node = editorState.getNodeAtPath(selection.end.path);
+          if (node == null) {
+            return;
+          }
+
+          final transaction = editorState.transaction;
+
+          transaction.beforeSelection = selection;
+
+          final imagePath =
+              node.type == ParagraphBlockKeys.type &&
+                  (node.delta?.isEmpty ?? false)
+              ? node.path
+              : node.path.next;
+
+          // 1. 이미지 노드 삽입
+          transaction.insertNode(imagePath, imageNode(url: base64Data));
+
+          // 2. 이미 기존 비어있던 문단이면 삭제
+          if (node.type == ParagraphBlockKeys.type &&
+              (node.delta?.isEmpty ?? false)) {
+            transaction.deleteNode(node);
+          }
+
+          final newLinePath = imagePath.next;
+          transaction.insertNode(newLinePath, paragraphNode());
+
+          transaction.afterSelection = Selection.collapsed(
+            Position(path: newLinePath, offset: 0),
+          );
+
+          await editorState.apply(transaction);
+        } catch (e) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.alert,
+                  message: Intl.message('error_clipboard_image_paste'),
+                ),
+              );
+        }
+      });
+    }
+
     final pasteImageCommand = CommandShortcutEvent(
       key: 'paste_image',
       command: 'ctrl+v',
       macOSCommand: 'cmd+v',
       getDescription: () => '',
       handler: (editorState) {
-        () async {
-          final clipboard = SystemClipboard.instance;
+        handleImagePaste(editorState, ref, maxImageSize);
 
-          if (clipboard == null) return KeyEventResult.ignored;
-
-          final reader = await clipboard.read();
-
-          ImageExtension? image;
-          for (final e in ImageExtension.values) {
-            if (reader.canProvide(e.format)) {
-              image = e;
-              break;
-            }
-          }
-
-          if (image == null) {
-            return KeyEventResult.ignored;
-          }
-
-          if (reader.canProvide(image.format)) {
-            reader.getFile(image.format, (file) async {
-              try {
-                final stream = file.getStream();
-
-                final completer = Completer<Uint8List>();
-                final chunks = <int>[];
-
-                stream.listen(
-                  (chunk) => chunks.addAll(chunk),
-                  onDone: () => completer.complete(Uint8List.fromList(chunks)),
-                  onError: completer.completeError,
-                  cancelOnError: true,
-                );
-
-                var bytes = await completer.future;
-
-                if (bytes.lengthInBytes > maxImageSize) {
-                  final image = img.decodeImage(bytes);
-
-                  if (image != null) {
-                    final resized = img.copyResize(image, width: 960);
-
-                    bytes = Uint8List.fromList(
-                      img.encodeJpg(resized, quality: 80),
-                    );
-                  }
-                }
-
-                final base64Data = base64Encode(bytes);
-
-                final selection = editorState.selection;
-                if (selection == null || !selection.isCollapsed) {
-                  return;
-                }
-                final node = editorState.getNodeAtPath(selection.end.path);
-                if (node == null) {
-                  return;
-                }
-
-                final transaction = editorState.transaction;
-
-                transaction.beforeSelection = selection;
-
-                final imagePath =
-                    node.type == ParagraphBlockKeys.type &&
-                        (node.delta?.isEmpty ?? false)
-                    ? node.path
-                    : node.path.next;
-
-                // 1. 이미지 노드 삽입
-                transaction.insertNode(imagePath, imageNode(url: base64Data));
-
-                // 2. 이미 기존 비어있던 문단이면 삭제
-                if (node.type == ParagraphBlockKeys.type &&
-                    (node.delta?.isEmpty ?? false)) {
-                  transaction.deleteNode(node);
-                }
-
-                final newLinePath = imagePath.next;
-                transaction.insertNode(newLinePath, paragraphNode());
-
-                transaction.afterSelection = Selection.collapsed(
-                  Position(path: newLinePath, offset: 0),
-                );
-
-                await editorState.apply(transaction);
-              } catch (e) {
-                ref
-                    .read(toastProvider)
-                    .showToast(
-                      child: Toast(
-                        type: ToastType.alert,
-                        message: Intl.message('error_clipboard_image_paste'),
-                      ),
-                    );
-              }
-            });
-
-            return KeyEventResult.handled;
-          }
-        }();
-
-        return KeyEventResult.handled;
+        return KeyEventResult.ignored;
       },
     );
 
