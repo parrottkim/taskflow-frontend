@@ -47,7 +47,7 @@ class ReportFormSection extends StatelessWidget {
         expenses: value.expenses,
       ),
       'description' => DescriptionWidget(
-        editorState: editorState!,
+        editorState: editorState,
         attachments: value.attachments,
         files: value.files,
       ),
