@@ -72,6 +72,8 @@ Future<void> main() async {
         (options) {
           options.dsn = jsonValue[environment]['dsn'];
           options.sendDefaultPii = true;
+
+          options.release = const String.fromEnvironment('SENTRY_RELEASE');
         },
         appRunner: () => runApp(
           ProviderScope(

@@ -4,6 +4,7 @@
 FROM dart:3.9.2 as builder 
 
 ARG ENVIRONMENT=dev
+ARG SENTRY_RELEASE
 
 ENV PATH="/usr/local/flutter/bin:${PATH}"
 
@@ -16,7 +17,11 @@ COPY pubspec.* ./
 COPY . .
 RUN flutter pub get
 # 주입된 ARG ENVIRONMENT를 사용하여 해당 환경만 빌드
-RUN flutter build web --release --dart-define=ENVIRONMENT=${ENVIRONMENT} --no-tree-shake-icons --base-href=/
+RUN flutter build web --release \
+  --source-maps \
+  --dart-define=ENVIRONMENT=${ENVIRONMENT} \
+  --dart-define=SENTRY_RELEASE=${SENTRY_RELEASE} \
+  --no-tree-shake-icons --base-href=/
 
 # ----------------------------------------------------------------------
 # 2. 프로덕션 스테이지 (Nginx)
