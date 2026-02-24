@@ -156,30 +156,41 @@ class EditorWidget extends HookConsumerWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 32.0),
-                child: AppFlowyEditor(
-                  shrinkWrap: true,
-                  editorState: editorState,
-                  blockComponentBuilders: blockComponentBuilders,
-                  commandShortcutEvents: [
-                    pasteImageCommand,
-                    ...standardCommandShortcutEvents,
-                  ],
-                  editorScrollController: editorScrollController,
-                  editorStyle: EditorStyle.desktop(
-                    padding: EdgeInsets.symmetric(horizontal: 24.0),
-                    textStyleConfiguration: TextStyleConfiguration(
-                      text: textTheme.bodyLarge!,
-                      code: textTheme.bodyMedium!.copyWith(
-                        fontFamily: 'SpaceMono',
-                        color: colorScheme.error,
-                      ),
-                      bold: textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.w600,
+                child: Focus(
+                  onKeyEvent: (node, event) {
+                    // Check if the key pressed is Space
+                    if (event.logicalKey == LogicalKeyboardKey.space) {
+                      // Return handled to prevent further propagation to the scroll view
+                      return KeyEventResult.skipRemainingHandlers;
+                    }
+                    return KeyEventResult.ignored;
+                  },
+
+                  child: AppFlowyEditor(
+                    shrinkWrap: true,
+                    editorState: editorState,
+                    blockComponentBuilders: blockComponentBuilders,
+                    commandShortcutEvents: [
+                      pasteImageCommand,
+                      ...standardCommandShortcutEvents,
+                    ],
+                    editorScrollController: editorScrollController,
+                    editorStyle: EditorStyle.desktop(
+                      padding: EdgeInsets.symmetric(horizontal: 24.0),
+                      textStyleConfiguration: TextStyleConfiguration(
+                        text: textTheme.bodyLarge!,
+                        code: textTheme.bodyMedium!.copyWith(
+                          fontFamily: 'SpaceMono',
+                          color: colorScheme.error,
+                        ),
+                        bold: textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                  ),
-                  dropTargetStyle: const AppFlowyDropTargetStyle(
-                    color: Colors.red,
+                    dropTargetStyle: const AppFlowyDropTargetStyle(
+                      color: Colors.red,
+                    ),
                   ),
                 ),
               ),
