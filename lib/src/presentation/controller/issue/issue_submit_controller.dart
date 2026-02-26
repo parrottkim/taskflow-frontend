@@ -23,9 +23,9 @@ class IssueSubmitController extends _$IssueSubmitController {
     state = const IssueSubmitState.pending();
 
     try {
-      late Issue issue;
-
       List<MultipartFile> files = [];
+
+      late Issue issue;
 
       if (value.files != null) {
         for (final file in value.files!) {
@@ -44,13 +44,6 @@ class IssueSubmitController extends _$IssueSubmitController {
         }
       }
 
-      CreateIssueRequest request = CreateIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: value.content ?? '',
-        attachments: value.attachments ?? [],
-      );
-
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
             .map((e) => CreateContractItemRequest(item: e.item, price: e.price))
@@ -67,14 +60,68 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        request = request.copyWith(
-          currencyId: value.currency?.id,
+        final request = CreateContractIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          currencyId: value.currency!.id,
           contractItems: contractItems,
           transactionItems: transactionItems,
+          attachments: value.attachments ?? [],
         );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .createContractIssue(request: request);
       } else if (value.category is IssueKickoff) {
-        request = request.copyWith(kickoffDate: value.kickoffDate);
+        final request = CreateKickoffIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          kickoffDate: value.kickoffDate!,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .createKickoffIssue(request: request);
+      } else if (value.category is IssueTransaction) {
+        final items = value.transactionItems
+            .map(
+              (e) => UpdateTransactionItemRequest(
+                id: e.id,
+                categoryId: e.category!.id,
+                price: e.price,
+                ratio: e.ratio,
+                note: e.note,
+                isPaid: e.isPaid,
+                paidAt: e.paidAt,
+              ),
+            )
+            .toList();
+
+        final request = CreateTransactionIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          transactionItems: items,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .createTransactionIssue(request: request);
       } else if (value.category is IssueApproval) {
+        final request = CreateApprovalIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .createApprovalIssue(request: request);
       } else if (value.category is IssueProcurement) {
         final items = value.procurementItems
             .map(
@@ -91,33 +138,31 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        request = request.copyWith(procurementItems: items);
-      } else if (value.category is IssueTransaction) {
-        final items = value.transactionItems
-            .map(
-              (e) => CreateTransactionItemRequest(
-                categoryId: e.category!.id,
-                price: e.price,
-                ratio: e.ratio,
-                note: e.note,
-                isPaid: e.isPaid,
-                paidAt: e.paidAt,
-              ),
-            )
-            .toList();
-
-        request = request.copyWith(
-          currencyId: value.currency?.id,
-          transactionItems: items,
+        final request = CreateProcurementIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          procurementItems: items,
+          attachments: value.attachments ?? [],
         );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .createProcurementIssue(request: request);
       } else if (value.category is IssuePayment) {
+        final request = CreatePaymentIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .createPaymentIssue(request: request);
       } else {
         throw Exception('Unknown issue category');
       }
-
-      issue = await ref
-          .read(issueRepositoryProvider)
-          .createIssue(request: request);
 
       if (files.isNotEmpty) {
         final newAttachments = await ref
@@ -192,14 +237,6 @@ class IssueSubmitController extends _$IssueSubmitController {
         }
       }
 
-      UpdateIssueRequest request = UpdateIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: value.content ?? '',
-        currencyId: value.currency?.id,
-        attachments: value.attachments ?? [],
-      );
-
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
             .map(
@@ -225,14 +262,42 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        request = request.copyWith(
-          currencyId: value.currency?.id,
-          contractItems: contractItems.isEmpty ? null : contractItems,
-          transactionItems: transactionItems.isEmpty ? null : transactionItems,
+        final request = UpdateContractIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          currencyId: value.currency!.id,
+          contractItems: contractItems,
+          transactionItems: transactionItems,
+          attachments: value.attachments ?? [],
         );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .updateContractIssue(id: issueId, request: request);
       } else if (value.category is IssueKickoff) {
-        request = request.copyWith(kickoffDate: value.kickoffDate);
+        final request = UpdateKickoffIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          kickoffDate: value.kickoffDate!,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .updateKickoffIssue(id: issueId, request: request);
       } else if (value.category is IssueApproval) {
+        final request = UpdateApprovalIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .updateApprovalIssue(id: issueId, request: request);
       } else if (value.category is IssueProcurement) {
         final items = value.procurementItems
             .map(
@@ -250,7 +315,17 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        request = request.copyWith(procurementItems: items);
+        final request = UpdateProcurementIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          procurementItems: items,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .updateProcurementIssue(id: issueId, request: request);
       } else if (value.category is IssueTransaction) {
         final items = value.transactionItems
             .map(
@@ -266,18 +341,31 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        request = request.copyWith(
-          currencyId: value.currency?.id,
+        final request = UpdateTransactionIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
           transactionItems: items,
+          attachments: value.attachments ?? [],
         );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .updateTransactionIssue(id: issueId, request: request);
       } else if (value.category is IssuePayment) {
+        final request = UpdatePaymentIssueRequest(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: value.content!,
+          attachments: value.attachments ?? [],
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .updatePaymentIssue(id: issueId, request: request);
       } else {
         throw Exception('Unknown issue category');
       }
-
-      issue = await ref
-          .read(issueRepositoryProvider)
-          .updateIssue(id: issueId, request: request);
 
       if (files.isNotEmpty) {
         final newAttachments = await ref

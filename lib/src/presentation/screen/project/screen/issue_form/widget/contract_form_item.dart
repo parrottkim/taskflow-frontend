@@ -160,6 +160,21 @@ class _DesktopWidget extends HookConsumerWidget {
       [transactionItems.length],
     );
 
+    // total이 변경되면 transaction prices를 재계산
+    useEffect(() {
+      for (int i = 0; i < transactionItems.length; i++) {
+        final ratio =
+            double.tryParse(
+              transactionRatioControllers[i].text.replaceAll(',', ''),
+            ) ??
+            0.0;
+        final calculatedPrice = (total) * (ratio / 100);
+        final formattedPrice = NumberFormat('#,###.##').format(calculatedPrice);
+        transactionPriceControllers[i].text = formattedPrice;
+      }
+      return null;
+    }, [total]);
+
     // final dragged = useState(false);
 
     final contractOpacityController = useAnimationController(
@@ -204,63 +219,6 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, [transactionItems]);
 
-    // Future<void> processFile(XFile file) async {
-    //   hasContractItems.value = false;
-
-    //   LoadingOverlay.show(context);
-
-    //   try {
-    //     final bytes = await file.readAsBytes();
-    //     final blob = Blob([bytes]); // Blob 생성
-    //     final jsFile = blob.jsify();
-
-    //     final jsArray = await extractContract(jsFile).toDart;
-    //     final rows = jsArray.toDart
-    //         .map((element) => element.toDart.map((e) => e.dartify()).toList())
-    //         .toList();
-
-    //     ref
-    //         .read(issueFormControllerProvider(
-    //
-    //                 projectId: projectId,
-    //                 issueId: issueId)
-    //             .notifier)
-    //         .removeAllContractItem();
-
-    //     for (final row in rows) {
-    //       if (row.isEmpty) return;
-
-    //       final rawPrice = row.last.toString().trim().replaceAll(',', '');
-    //       final parsedPrice = int.tryParse(rawPrice);
-
-    //       if (parsedPrice == null) continue;
-
-    //       final item = row.first.toString();
-    //       final price = NumberFormat('#,###').format(parsedPrice * 1000);
-
-    //       ref
-    //           .read(issueFormControllerProvider(
-    //
-    //                   projectId: projectId,
-    //                   issueId: issueId)
-    //               .notifier)
-    //           .addContractItem(item: ContractItem(item: item, price: price));
-    //     }
-    //   } catch (e) {
-    //     ref.read(toastProvider).showToast(
-    //           child: Toast(
-    //             type: ToastType.alert,
-    //             message: Intl.message(
-    //               'issue_form_contract_format_invalid',
-    //               args: [file.name],
-    //             ),
-    //           ),
-    //         );
-    //   } finally {
-    //     LoadingOverlay.hide();
-    //   }
-    // }
-
     return Container(
       padding: EdgeInsets.only(bottom: 24.0),
       constraints: BoxConstraints(maxWidth: 600.0),
@@ -273,177 +231,6 @@ class _DesktopWidget extends HookConsumerWidget {
             style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           SizedBox(height: 8.0),
-          // TODO: 추후 구현 필요
-          // DropTarget(
-          //   onDragDone: (details) async {
-          //     LoadingOverlay.show(context);
-
-          //     if (details.files.length > 1) {
-          //       ref.read(toastProvider).showToast(
-          //             child: Toast(
-          //               type: ToastType.alert,
-          //               message: Intl.message('issue_form_contract_too_many'),
-          //             ),
-          //           );
-          //     }
-
-          //     final file = details.files.last;
-          //     final mimeType = details.files.last.mimeType;
-
-          //     if (mimeType == null ||
-          //         mimeType !=
-          //             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
-          //       LoadingOverlay.hide();
-          //       ref.read(toastProvider).showToast(
-          //             child: Toast(
-          //               type: ToastType.alert,
-          //               message: Intl.message(
-          //                 'issue_form_contract_invalid',
-          //               ),
-          //             ),
-          //           );
-          //       return;
-          //     }
-
-          //     await processFile(file);
-          //   },
-          //   onDragEntered: (details) => dragged.value = true,
-          //   onDragExited: (details) => dragged.value = false,
-          //   child: AnimatedContainer(
-          //     duration: Duration(milliseconds: 300),
-          //     curve: Curves.easeInQuad,
-          //     padding: EdgeInsets.symmetric(vertical: 24.0),
-          //     width: double.infinity,
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(8.0),
-          //       border: Border.all(
-          //         color: dragged.value
-          //             ? Theme.of(context)
-          //                 .colorScheme
-          //                 .primary
-          //                 .withValues(alpha: 0.2)
-          //             : Theme.of(context)
-          //                 .colorScheme
-          //                 .outline
-          //                 .withValues(alpha: 0.2),
-          //       ),
-          //       color: dragged.value
-          //           ? Theme.of(context)
-          //               .colorScheme
-          //               .tertiaryContainer
-          //               .withValues(alpha: 0.5)
-          //           : Theme.of(context).colorScheme.surface,
-          //     ),
-          //     child: Column(
-          //       children: [
-          //         Skeleton.unite(
-          //           child: Stack(
-          //             alignment: Alignment.bottomRight,
-          //             children: [
-          //               Padding(
-          //                 padding: const EdgeInsets.all(6.0),
-          //                 child: Icon(
-          //                   Symbols.contract_rounded,
-          //                   size: 36.0,
-          //                   color: colorScheme.primary,
-          //                 ),
-          //               ),
-          //               Positioned(
-          //                 bottom: 4.0,
-          //                 right: 4.0,
-          //                 child: Container(
-          //                   padding: EdgeInsets.all(3.0),
-          //                   decoration: ShapeDecoration(
-          //                     shape: CircleBorder(),
-          //                     color: colorScheme.primary,
-          //                   ),
-          //                   child: Icon(
-          //                     Symbols.upload_rounded,
-          //                     size: 14.0,
-          //                     weight: 700.0,
-          //                     color: colorScheme.onPrimary,
-          //                   ),
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //         SizedBox(height: 12.0),
-          //         Text(
-          //           Intl.message('issue_form_contract_drop'),
-          //           style: textTheme.bodyMedium?.copyWith(
-          //             fontWeight: FontWeight.w600,
-          //           ),
-          //         ),
-          //         SizedBox(height: 4.0),
-          //         Text(
-          //           Intl.message('issue_form_contract_2'),
-          //           style: textTheme.bodySmall?.copyWith(
-          //             color: colorScheme.onSurface.withValues(alpha: 0.7),
-          //           ),
-          //         ),
-          //         SizedBox(height: 12.0),
-          //         Skeleton.unite(
-          //           child: ElevatedButton(
-          //             onPressed: () async {
-          //               final xlsxType =
-          //                   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-
-          //               final group = XTypeGroup(mimeTypes: [xlsxType]);
-
-          //               final XFile? file = await openFile(
-          //                   acceptedTypeGroups: <XTypeGroup>[group]);
-
-          //               LoadingOverlay.show(context);
-
-          //               if (file == null) {
-          //                 LoadingOverlay.hide();
-          //                 return;
-          //               }
-
-          //               if (extension(file.name) != '.xlsx') {
-          //                 ref.read(toastProvider).showToast(
-          //                       child: Toast(
-          //                         type: ToastType.alert,
-          //                         message: Intl.message(
-          //                           'issue_form_contract_invalid',
-          //                         ),
-          //                       ),
-          //                     );
-          //                 LoadingOverlay.hide();
-          //                 return;
-          //               }
-
-          //               // final bytes = await file.readAsBytes();
-          //               // UNDONE: .xlsx mimeType 확인 불가
-          //               // final mimeType =
-          //               //     lookupMimeType(file.path, headerBytes: bytes);
-
-          //               // if (mimeType == null || mimeType != xlsxType) {
-          //               //   ref.read(toastProvider).showToast(
-          //               //         child: Toast(
-          //               //           type: ToastType.alert,
-          //               //           message: Intl.message(
-          //               //             'issue_form_contract_invalid',
-          //               //             args: [file.name],
-          //               //           ),
-          //               //         ),
-          //               //       );
-          //               //   return;
-          //               // }
-
-          //               await processFile(file);
-          //             },
-          //             child: Text(
-          //               Intl.message('issue_form_contract_upload'),
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(height: 16.0),
           TextButton.icon(
             onPressed: () {
               hasContractItems.value = false;

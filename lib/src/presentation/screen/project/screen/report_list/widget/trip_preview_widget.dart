@@ -92,7 +92,7 @@ class _DesktopWidget extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (auth is AuthAuthenticated && auth.user == item.user)
+          if (auth is AuthAuthenticated && auth.user.id == item.user.id)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TextButton.icon(
