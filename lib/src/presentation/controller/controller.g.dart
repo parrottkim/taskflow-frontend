@@ -936,7 +936,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'c3ca22cd40a953f5617ba0ef618ff8c2459e4ead';
+    r'ef3c955d931dd9bdb034ee5b9dba1e9c9522518b';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();

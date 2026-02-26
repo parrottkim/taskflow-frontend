@@ -65,13 +65,70 @@ abstract class IssueService {
   @POST('issue/mail/{id}')
   Future<void> sendMail({@Path() required int id});
 
-  @POST('issue')
-  Future<Issue> createIssue({@Body() required CreateIssueRequest request});
+  @POST('issue/contract')
+  Future<Issue> createContractIssue({
+    @Body() required CreateContractIssueRequest request,
+  });
 
-  @PATCH('issue/{id}')
-  Future<Issue> updateIssue({
-    @Path('id') required int id,
-    @Body() required UpdateIssueRequest request,
+  @POST('issue/kickoff')
+  Future<Issue> createKickoffIssue({
+    @Body() required CreateKickoffIssueRequest request,
+  });
+
+  @POST('issue/transaction')
+  Future<Issue> createTransactionIssue({
+    @Body() required CreateTransactionIssueRequest request,
+  });
+
+  @POST('issue/approval')
+  Future<Issue> createApprovalIssue({
+    @Body() required CreateApprovalIssueRequest request,
+  });
+
+  @POST('issue/procurement')
+  Future<Issue> createProcurementIssue({
+    @Body() required CreateProcurementIssueRequest request,
+  });
+
+  @POST('issue/payment')
+  Future<Issue> createPaymentIssue({
+    @Body() required CreatePaymentIssueRequest request,
+  });
+
+  @PATCH('issue/{id}/contract')
+  Future<Issue> updateContractIssue({
+    @Path() required int id,
+    @Body() required UpdateContractIssueRequest request,
+  });
+
+  @PATCH('issue/{id}/kickoff')
+  Future<Issue> updateKickoffIssue({
+    @Path() required int id,
+    @Body() required UpdateKickoffIssueRequest request,
+  });
+
+  @PATCH('issue/{id}/transaction')
+  Future<Issue> updateTransactionIssue({
+    @Path() required int id,
+    @Body() required UpdateTransactionIssueRequest request,
+  });
+
+  @PATCH('issue/{id}/approval')
+  Future<Issue> updateApprovalIssue({
+    @Path() required int id,
+    @Body() required UpdateApprovalIssueRequest request,
+  });
+
+  @PATCH('issue/{id}/procurement')
+  Future<Issue> updateProcurementIssue({
+    @Path() required int id,
+    @Body() required UpdateProcurementIssueRequest request,
+  });
+
+  @PATCH('issue/{id}/payment')
+  Future<Issue> updatePaymentIssue({
+    @Path() required int id,
+    @Body() required UpdatePaymentIssueRequest request,
   });
 
   @DELETE('issue/{id}')

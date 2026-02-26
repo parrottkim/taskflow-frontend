@@ -382,7 +382,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               if (auth is AuthAuthenticated &&
                                       auth.user.isAdmin ||
                                   auth is AuthAuthenticated &&
-                                      auth.user == items[index].user)
+                                      auth.user.id == items[index].user.id)
                                 Padding(
                                   padding: EdgeInsets.only(left: 4.0),
                                   child: ElevatedIconButton(

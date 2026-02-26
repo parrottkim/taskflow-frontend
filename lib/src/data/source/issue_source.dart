@@ -74,14 +74,70 @@ class IssueDataSource implements IssueRepository {
   Future<void> sendMail({required int id}) => _service.sendMail(id: id);
 
   @override
-  Future<Issue> createIssue({required CreateIssueRequest request}) =>
-      _service.createIssue(request: request);
+  Future<Issue> createContractIssue({
+    required CreateContractIssueRequest request,
+  }) => _service.createContractIssue(request: request);
 
   @override
-  Future<Issue> updateIssue({
+  Future<Issue> createKickoffIssue({
+    required CreateKickoffIssueRequest request,
+  }) => _service.createKickoffIssue(request: request);
+
+  @override
+  Future<Issue> createTransactionIssue({
+    required CreateTransactionIssueRequest request,
+  }) => _service.createTransactionIssue(request: request);
+
+  @override
+  Future<Issue> createApprovalIssue({
+    required CreateApprovalIssueRequest request,
+  }) => _service.createApprovalIssue(request: request);
+
+  @override
+  Future<Issue> createProcurementIssue({
+    required CreateProcurementIssueRequest request,
+  }) => _service.createProcurementIssue(request: request);
+
+  @override
+  Future<Issue> createPaymentIssue({
+    required CreatePaymentIssueRequest request,
+  }) => _service.createPaymentIssue(request: request);
+
+  @override
+  Future<Issue> updateContractIssue({
     required int id,
-    required UpdateIssueRequest request,
-  }) => _service.updateIssue(id: id, request: request);
+    required UpdateContractIssueRequest request,
+  }) => _service.updateContractIssue(id: id, request: request);
+
+  @override
+  Future<Issue> updateKickoffIssue({
+    required int id,
+    required UpdateKickoffIssueRequest request,
+  }) => _service.updateKickoffIssue(id: id, request: request);
+
+  @override
+  Future<Issue> updateTransactionIssue({
+    required int id,
+    required UpdateTransactionIssueRequest request,
+  }) => _service.updateTransactionIssue(id: id, request: request);
+
+  @override
+  Future<Issue> updateApprovalIssue({
+    required int id,
+    required UpdateApprovalIssueRequest request,
+  }) => _service.updateApprovalIssue(id: id, request: request);
+
+  @override
+  Future<Issue> updateProcurementIssue({
+    required int id,
+    required UpdateProcurementIssueRequest request,
+  }) => _service.updateProcurementIssue(id: id, request: request);
+
+  @override
+  Future<Issue> updatePaymentIssue({
+    required int id,
+    required UpdatePaymentIssueRequest request,
+  }) => _service.updatePaymentIssue(id: id, request: request);
 
   @override
   Future<Issue> deleteIssue({required int id}) => _service.deleteIssue(id: id);

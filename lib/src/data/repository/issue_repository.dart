@@ -39,11 +39,58 @@ abstract class IssueRepository {
 
   Future<void> sendMail({required int id});
 
-  Future<Issue> createIssue({required CreateIssueRequest request});
+  Future<Issue> createContractIssue({
+    required CreateContractIssueRequest request,
+  });
 
-  Future<Issue> updateIssue({
+  Future<Issue> createKickoffIssue({
+    required CreateKickoffIssueRequest request,
+  });
+
+  Future<Issue> createTransactionIssue({
+    required CreateTransactionIssueRequest request,
+  });
+
+  Future<Issue> createApprovalIssue({
+    required CreateApprovalIssueRequest request,
+  });
+
+  Future<Issue> createProcurementIssue({
+    required CreateProcurementIssueRequest request,
+  });
+
+  Future<Issue> createPaymentIssue({
+    required CreatePaymentIssueRequest request,
+  });
+
+  Future<Issue> updateContractIssue({
     required int id,
-    required UpdateIssueRequest request,
+    required UpdateContractIssueRequest request,
+  });
+
+  Future<Issue> updateKickoffIssue({
+    required int id,
+    required UpdateKickoffIssueRequest request,
+  });
+
+  Future<Issue> updateTransactionIssue({
+    required int id,
+    required UpdateTransactionIssueRequest request,
+  });
+
+  Future<Issue> updateApprovalIssue({
+    required int id,
+    required UpdateApprovalIssueRequest request,
+  });
+
+  Future<Issue> updateProcurementIssue({
+    required int id,
+    required UpdateProcurementIssueRequest request,
+  });
+
+  Future<Issue> updatePaymentIssue({
+    required int id,
+    required UpdatePaymentIssueRequest request,
   });
 
   Future<Issue> deleteIssue({required int id});
