@@ -120,7 +120,7 @@ class _DesktopWidget extends HookConsumerWidget {
               .showToast(
                 child: Toast(
                   type: ToastType.standard,
-                  message: Intl.message('report_form_delete'),
+                  message: Intl.message('issue_form_delete'),
                 ),
               );
         }
@@ -224,7 +224,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                             color:
                                 auth is AuthAuthenticated &&
-                                    auth.user == items[index].user
+                                    auth.user.id == items[index].user.id
                                 ? colorScheme.primary.withValues(alpha: 0.1)
                                 : colorScheme.surfaceContainerLow,
                           ),

@@ -216,7 +216,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user == items[index].user
+                                          auth.user.id == items[index].user.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -240,7 +240,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               if (items[index].schedule != null)
                                 TripCostWidget(item: items[index]),
                               MarkdownWidget(item: items[index].content),
-                              if (items[index].trip != null)
+                              if (items[index].schedule != null)
                                 TripPreviewWidget(item: items[index]),
                               if (items[index].attachments.isNotEmpty)
                                 AttachmentListWidget<ReportAttachment>(

@@ -134,7 +134,8 @@ class ToolbarWidget extends HookConsumerWidget {
               child: MenuItemButton(
                 onPressed:
                     auth is AuthAuthenticated && auth.user.isAdmin ||
-                        auth is AuthAuthenticated && auth.user == item.user
+                        auth is AuthAuthenticated &&
+                            auth.user.id == item.user.id
                     ? () {
                         context.pushNamed(
                           RouteNames.reportEdit,
@@ -168,7 +169,8 @@ class ToolbarWidget extends HookConsumerWidget {
               child: MenuItemButton(
                 onPressed:
                     auth is AuthAuthenticated && auth.user.isAdmin ||
-                        auth is AuthAuthenticated && auth.user == item.user
+                        auth is AuthAuthenticated &&
+                            auth.user.id == item.user.id
                     ? () async {
                         final result = await showDialog(
                           context: context,

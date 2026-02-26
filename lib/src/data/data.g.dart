@@ -698,28 +698,18 @@ Map<String, dynamic> _$UpdateProjectRequestToJson(
   'closureMessage': instance.closureMessage,
 };
 
-_CreateIssueRequest _$CreateIssueRequestFromJson(
+_CreateContractIssueRequest _$CreateContractIssueRequestFromJson(
   Map<String, dynamic> json,
-) => _CreateIssueRequest(
+) => _CreateContractIssueRequest(
   projectId: (json['projectId'] as num).toInt(),
   categoryId: (json['categoryId'] as num).toInt(),
-  content: json['content'] as String?,
-  currencyId: (json['currencyId'] as num?)?.toInt(),
-  kickoffDate: json['kickoffDate'] == null
-      ? null
-      : DateTime.parse(json['kickoffDate'] as String),
-  contractItems: (json['contractItems'] as List<dynamic>?)
-      ?.map(
-        (e) => CreateContractItemRequest.fromJson(e as Map<String, dynamic>),
-      )
+  content: json['content'] as String,
+  currencyId: (json['currencyId'] as num).toInt(),
+  contractItems: (json['contractItems'] as List<dynamic>)
+      .map((e) => CreateContractItemRequest.fromJson(e as Map<String, dynamic>))
       .toList(),
-  procurementItems: (json['procurementItems'] as List<dynamic>?)
-      ?.map(
-        (e) => CreateProcurementItemRequest.fromJson(e as Map<String, dynamic>),
-      )
-      .toList(),
-  transactionItems: (json['transactionItems'] as List<dynamic>?)
-      ?.map(
+  transactionItems: (json['transactionItems'] as List<dynamic>)
+      .map(
         (e) => CreateTransactionItemRequest.fromJson(e as Map<String, dynamic>),
       )
       .toList(),
@@ -728,41 +718,94 @@ _CreateIssueRequest _$CreateIssueRequestFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$CreateIssueRequestToJson(_CreateIssueRequest instance) =>
-    <String, dynamic>{
-      'projectId': instance.projectId,
-      'categoryId': instance.categoryId,
-      'content': instance.content,
-      'currencyId': instance.currencyId,
-      'kickoffDate': instance.kickoffDate?.toIso8601String(),
-      'contractItems': instance.contractItems,
-      'procurementItems': instance.procurementItems,
-      'transactionItems': instance.transactionItems,
-      'attachments': instance.attachments,
-    };
+Map<String, dynamic> _$CreateContractIssueRequestToJson(
+  _CreateContractIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'currencyId': instance.currencyId,
+  'contractItems': instance.contractItems,
+  'transactionItems': instance.transactionItems,
+  'attachments': instance.attachments,
+};
 
-_UpdateIssueRequest _$UpdateIssueRequestFromJson(
+_CreateKickoffIssueRequest _$CreateKickoffIssueRequestFromJson(
   Map<String, dynamic> json,
-) => _UpdateIssueRequest(
-  projectId: (json['projectId'] as num?)?.toInt(),
-  categoryId: (json['categoryId'] as num?)?.toInt(),
-  content: json['content'] as String?,
-  currencyId: (json['currencyId'] as num?)?.toInt(),
-  kickoffDate: json['kickoffDate'] == null
-      ? null
-      : DateTime.parse(json['kickoffDate'] as String),
-  contractItems: (json['contractItems'] as List<dynamic>?)
-      ?.map(
-        (e) => UpdateContractItemRequest.fromJson(e as Map<String, dynamic>),
+) => _CreateKickoffIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  kickoffDate: DateTime.parse(json['kickoffDate'] as String),
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$CreateKickoffIssueRequestToJson(
+  _CreateKickoffIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'kickoffDate': instance.kickoffDate.toIso8601String(),
+  'attachments': instance.attachments,
+};
+
+_CreateApprovalIssueRequest _$CreateApprovalIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _CreateApprovalIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$CreateApprovalIssueRequestToJson(
+  _CreateApprovalIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'attachments': instance.attachments,
+};
+
+_CreateProcurementIssueRequest _$CreateProcurementIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _CreateProcurementIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  procurementItems: (json['procurementItems'] as List<dynamic>)
+      .map(
+        (e) => CreateProcurementItemRequest.fromJson(e as Map<String, dynamic>),
       )
       .toList(),
-  procurementItems: (json['procurementItems'] as List<dynamic>?)
-      ?.map(
-        (e) => UpdateProcurementItemRequest.fromJson(e as Map<String, dynamic>),
-      )
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
       .toList(),
-  transactionItems: (json['transactionItems'] as List<dynamic>?)
-      ?.map(
+);
+
+Map<String, dynamic> _$CreateProcurementIssueRequestToJson(
+  _CreateProcurementIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'procurementItems': instance.procurementItems,
+  'attachments': instance.attachments,
+};
+
+_CreateTransactionIssueRequest _$CreateTransactionIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _CreateTransactionIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  transactionItems: (json['transactionItems'] as List<dynamic>)
+      .map(
         (e) => UpdateTransactionItemRequest.fromJson(e as Map<String, dynamic>),
       )
       .toList(),
@@ -771,18 +814,181 @@ _UpdateIssueRequest _$UpdateIssueRequestFromJson(
       .toList(),
 );
 
-Map<String, dynamic> _$UpdateIssueRequestToJson(_UpdateIssueRequest instance) =>
-    <String, dynamic>{
-      'projectId': instance.projectId,
-      'categoryId': instance.categoryId,
-      'content': instance.content,
-      'currencyId': instance.currencyId,
-      'kickoffDate': instance.kickoffDate?.toIso8601String(),
-      'contractItems': instance.contractItems,
-      'procurementItems': instance.procurementItems,
-      'transactionItems': instance.transactionItems,
-      'attachments': instance.attachments,
-    };
+Map<String, dynamic> _$CreateTransactionIssueRequestToJson(
+  _CreateTransactionIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'transactionItems': instance.transactionItems,
+  'attachments': instance.attachments,
+};
+
+_CreatePaymentIssueRequest _$CreatePaymentIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _CreatePaymentIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$CreatePaymentIssueRequestToJson(
+  _CreatePaymentIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'attachments': instance.attachments,
+};
+
+_UpdateContractIssueRequest _$UpdateContractIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdateContractIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  currencyId: (json['currencyId'] as num).toInt(),
+  contractItems: (json['contractItems'] as List<dynamic>)
+      .map((e) => UpdateContractItemRequest.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  transactionItems: (json['transactionItems'] as List<dynamic>)
+      .map(
+        (e) => UpdateTransactionItemRequest.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$UpdateContractIssueRequestToJson(
+  _UpdateContractIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'currencyId': instance.currencyId,
+  'contractItems': instance.contractItems,
+  'transactionItems': instance.transactionItems,
+  'attachments': instance.attachments,
+};
+
+_UpdateKickoffIssueRequest _$UpdateKickoffIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdateKickoffIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  kickoffDate: DateTime.parse(json['kickoffDate'] as String),
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$UpdateKickoffIssueRequestToJson(
+  _UpdateKickoffIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'kickoffDate': instance.kickoffDate.toIso8601String(),
+  'attachments': instance.attachments,
+};
+
+_UpdateApprovalIssueRequest _$UpdateApprovalIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdateApprovalIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$UpdateApprovalIssueRequestToJson(
+  _UpdateApprovalIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'attachments': instance.attachments,
+};
+
+_UpdateProcurementIssueRequest _$UpdateProcurementIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdateProcurementIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  procurementItems: (json['procurementItems'] as List<dynamic>)
+      .map(
+        (e) => UpdateProcurementItemRequest.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$UpdateProcurementIssueRequestToJson(
+  _UpdateProcurementIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'procurementItems': instance.procurementItems,
+  'attachments': instance.attachments,
+};
+
+_UpdateTransactionIssueRequest _$UpdateTransactionIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdateTransactionIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  transactionItems: (json['transactionItems'] as List<dynamic>)
+      .map(
+        (e) => UpdateTransactionItemRequest.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$UpdateTransactionIssueRequestToJson(
+  _UpdateTransactionIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'transactionItems': instance.transactionItems,
+  'attachments': instance.attachments,
+};
+
+_UpdatePaymentIssueRequest _$UpdatePaymentIssueRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdatePaymentIssueRequest(
+  projectId: (json['projectId'] as num).toInt(),
+  categoryId: (json['categoryId'] as num).toInt(),
+  content: json['content'] as String,
+  attachments: (json['attachments'] as List<dynamic>)
+      .map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$UpdatePaymentIssueRequestToJson(
+  _UpdatePaymentIssueRequest instance,
+) => <String, dynamic>{
+  'projectId': instance.projectId,
+  'categoryId': instance.categoryId,
+  'content': instance.content,
+  'attachments': instance.attachments,
+};
 
 _CreateContractItemRequest _$CreateContractItemRequestFromJson(
   Map<String, dynamic> json,
@@ -2777,7 +2983,9 @@ class _IssueService implements IssueService {
   }
 
   @override
-  Future<Issue> createIssue({required CreateIssueRequest request}) async {
+  Future<Issue> createContractIssue({
+    required CreateContractIssueRequest request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -2786,7 +2994,7 @@ class _IssueService implements IssueService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'issue',
+            'issue/contract',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -2804,9 +3012,154 @@ class _IssueService implements IssueService {
   }
 
   @override
-  Future<Issue> updateIssue({
+  Future<Issue> createKickoffIssue({
+    required CreateKickoffIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/kickoff',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> createTransactionIssue({
+    required CreateTransactionIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/transaction',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> createApprovalIssue({
+    required CreateApprovalIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/approval',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> createProcurementIssue({
+    required CreateProcurementIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/procurement',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> createPaymentIssue({
+    required CreatePaymentIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/payment',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> updateContractIssue({
     required int id,
-    required UpdateIssueRequest request,
+    required UpdateContractIssueRequest request,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -2816,7 +3169,157 @@ class _IssueService implements IssueService {
       Options(method: 'PATCH', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'issue/${id}',
+            'issue/${id}/contract',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> updateKickoffIssue({
+    required int id,
+    required UpdateKickoffIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/${id}/kickoff',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> updateTransactionIssue({
+    required int id,
+    required UpdateTransactionIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/${id}/transaction',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> updateApprovalIssue({
+    required int id,
+    required UpdateApprovalIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/${id}/approval',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> updateProcurementIssue({
+    required int id,
+    required UpdateProcurementIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/${id}/procurement',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Issue> updatePaymentIssue({
+    required int id,
+    required UpdatePaymentIssueRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/${id}/payment',
             queryParameters: queryParameters,
             data: _data,
           )

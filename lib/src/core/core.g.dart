@@ -177,7 +177,7 @@ final class HttpProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$httpHash() => r'3486bfc0d50f2b23b495ae21a6d6db5958d60575';
+String _$httpHash() => r'9e6cd4a9d0714b3d4934516c49124086852b80b7';
 
 @ProviderFor(sharedPreferencesAsync)
 final sharedPreferencesAsyncProvider = SharedPreferencesAsyncProvider._();

@@ -154,7 +154,7 @@ class _DesktopWidget extends HookConsumerWidget {
               .showToast(
                 child: Toast(
                   type: ToastType.standard,
-                  message: Intl.message('report_form_delete'),
+                  message: Intl.message('issue_form_delete'),
                 ),
               );
         }
@@ -252,7 +252,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user == payment!.user
+                                          auth.user.id == payment!.user.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -354,7 +354,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user == transaction!.user
+                                          auth.user.id == transaction!.user.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -462,7 +462,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user == kickoff!.user
+                                          auth.user.id == kickoff!.user.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -565,7 +565,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                                 color:
                                     auth is AuthAuthenticated &&
-                                        auth.user == contract!.user
+                                        auth.user.id == contract!.user.id
                                     ? colorScheme.primary.withValues(alpha: 0.1)
                                     : colorScheme.surfaceContainerLow,
                               ),
