@@ -138,15 +138,22 @@ class ReportFormController extends _$ReportFormController {
 
     if (value == null) return;
 
-    final newItem = [...value.rates];
+    final newRates = [...value.rates];
 
-    if (index >= 0 && index < newItem.length) {
-      newItem.removeAt(index);
+    if (index >= 0 && index < newRates.length) {
+      // 삭제할 rate의 stepId 가져오기
+      final stepIdToRemove = newRates[index].stepId;
+      newRates.removeAt(index);
+
+      // 동일한 stepId를 가진 expenses도 함께 삭제
+      final newExpenses = value.expenses
+          .where((expense) => expense.stepId != stepIdToRemove)
+          .toList();
+
+      state = AsyncData(value.copyWith(rates: newRates, expenses: newExpenses));
     } else {
       return;
     }
-
-    state = AsyncData(value.copyWith(rates: newItem));
   }
 
   void setFuelExpense({String? rate, String? mileage, String? distance}) {

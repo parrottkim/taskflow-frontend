@@ -13,9 +13,7 @@ class LoadingOverlay {
             Positioned.fill(
               child: GestureDetector(
                 onTap: () {}, // Handle tap events if needed
-                child: Container(
-                  color: Colors.black87.withValues(alpha: 0.2),
-                ),
+                child: Container(color: Colors.black87.withValues(alpha: 0.2)),
               ),
             ),
             // Centered loading indicator
@@ -58,9 +56,7 @@ class TextOverlay {
             Positioned.fill(
               child: GestureDetector(
                 onTap: () {}, // Handle tap events if needed
-                child: Container(
-                  color: Colors.black87.withValues(alpha: 0.2),
-                ),
+                child: Container(color: Colors.black87.withValues(alpha: 0.2)),
               ),
             ),
             // Centered loading indicator
@@ -77,9 +73,9 @@ class TextOverlay {
                     Text(
                       text,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -140,36 +136,52 @@ class TooltipOverlay extends HookWidget {
       final size = renderBox.size;
 
       overlayEntry.value = OverlayEntry(
-        builder: (_) => Positioned(
-          left: target.dx,
-          top: target.dy + size.height + 8,
-          child: FadeTransition(
-            opacity: animationController,
-            child: Material(
-              elevation: 1.0,
-              borderRadius: BorderRadius.circular(4.0),
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, right: 42.0, top: 12.0, bottom: 12.0),
-                    child: message,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomIconButton(
-                      onTap: hide,
-                      icon: Icon(
-                        Symbols.close,
-                        size: 16.0,
-                      ),
-                    ),
-                  ),
-                ],
+        builder: (_) => Stack(
+          children: [
+            // 배경 전체 터치 감지
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: hide,
+                child: Container(color: Colors.transparent),
               ),
             ),
-          ),
+            // Tooltip 위젯
+            Positioned(
+              left: target.dx,
+              top: target.dy + size.height + 8,
+              child: FadeTransition(
+                opacity: animationController,
+                child: GestureDetector(
+                  onTap: () {}, // 자기 자신 탭은 닫지 않음
+                  child: Material(
+                    elevation: 1.0,
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 16.0,
+                            right: 42.0,
+                            top: 12.0,
+                            bottom: 12.0,
+                          ),
+                          child: message,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomIconButton(
+                            onTap: hide,
+                            icon: Icon(Symbols.close, size: 16.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       );
 

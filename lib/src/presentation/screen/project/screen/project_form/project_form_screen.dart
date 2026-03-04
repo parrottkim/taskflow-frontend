@@ -256,17 +256,6 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                           ],
                         ),
-                      SizedBox(width: 4.0),
-                      TooltipOverlay(
-                        message: Text(
-                          Intl.message('project_form_preexecuted_info'),
-                        ),
-                        child: Icon(
-                          Symbols.info_rounded,
-                          size: 18.0,
-                          color: colorScheme.outline.withValues(alpha: 0.7),
-                        ),
-                      ),
                     ],
                   ),
                 ),
