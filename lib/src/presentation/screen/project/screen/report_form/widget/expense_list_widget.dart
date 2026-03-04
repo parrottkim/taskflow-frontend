@@ -663,7 +663,11 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                           await opacityController.reverse();
                                           await sizeController.reverse();
 
-                                          if (regulation != null) {
+                                          if (regulation != null &&
+                                              rate != null) {
+                                            final rateIndex = rates!.indexOf(
+                                              rate,
+                                            );
                                             ref
                                                 .read(
                                                   reportFormControllerProvider(
@@ -673,7 +677,7 @@ class _ExpenseItemWidget extends HookConsumerWidget {
                                                   ).notifier,
                                                 )
                                                 .removeRegulationRate(
-                                                  index: index,
+                                                  index: rateIndex,
                                                 );
                                           }
                                         }
