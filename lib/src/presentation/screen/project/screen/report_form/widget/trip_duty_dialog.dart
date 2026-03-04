@@ -1,139 +1,140 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
+import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
-class TripDutyDialog extends StatelessWidget {
-  const TripDutyDialog({super.key});
+class TripDutyDialog extends ConsumerWidget {
+  final int categoryId;
+
+  const TripDutyDialog({super.key, required this.categoryId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final brightness = Theme.of(context).brightness;
+
+    final filter = ref.watch(
+      tripFilterControllerProvider(categoryId: categoryId),
+    );
 
     return Dialog(
       child: ContainerWidget(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        padding: EdgeInsets.zero,
         constraints: const BoxConstraints(maxWidth: 400.0),
         child: Column(
           children: [
             Expanded(
-              child: ListView(
-                shrinkWrap: true, // 내용만큼만 높이 차지
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, bottom: 16.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.directions_run_rounded,
-                          size: 20.0,
-                          color: colorScheme.primary,
-                        ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          '당일 출장',
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
+              child: switch (filter) {
+                AsyncData(:final value) => ListView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(16.0),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4.0, bottom: 16.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.directions_run_rounded,
+                            size: 20.0,
                             color: colorScheme.primary,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 8.0),
+                          Text(
+                            '당일 출장',
+                            style: textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주중',
-                    '당일 출장',
-                    meal: '실비',
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주말',
-                    '회사 정상근무',
-                    meal: '실비',
-                    extra: '30,000',
-                    off: '1.0',
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주말',
-                    '근거리 당일 출장',
-                    meal: '실비',
-                    extra: '30,000',
-                    off: '1.0',
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주말',
-                    '원거리 당일 출장 (울산/광주)',
-                    allowance: '35,000',
-                    extra: '30,000',
-                    off: '1.0',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Divider(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0, bottom: 16.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.hotel_rounded,
-                          size: 20.0,
-                          color: colorScheme.primary,
-                        ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          '숙박 포함 출장',
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
+                    _AllowanceCard(dayType: '주중', title: '당일 출장'),
+                    _AllowanceCard(
+                      dayType: '주말',
+                      title: '회사 정상근무',
+                      extra: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 11)
+                          ?.rate,
+                      off: '1.0',
+                    ),
+                    _AllowanceCard(
+                      dayType: '주말',
+                      title: '근거리 당일 출장',
+                      extra: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 11)
+                          ?.rate,
+                      off: '1.0',
+                    ),
+                    _AllowanceCard(
+                      dayType: '주말',
+                      title: '원거리 당일 출장 (울산/광주)',
+                      allowance: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 10)
+                          ?.rate,
+                      extra: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 11)
+                          ?.rate,
+                      off: '1.0',
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Divider(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4.0, bottom: 16.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.hotel_rounded,
+                            size: 20.0,
                             color: colorScheme.primary,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 8.0),
+                          Text(
+                            '숙박 포함 출장',
+                            style: textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주중',
-                    '근무 없이 단순 이동일',
-                    meal: '실비',
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주중',
-                    '회사/공장 근무 포함 이동',
-                    allowance: '35,000',
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주말',
-                    '근무 없이 단순 이동 (토요일 등)',
-                    allowance: '35,000',
-                    off: '0.5',
-                  ),
-                  _buildAllowanceCard(
-                    colorScheme,
-                    brightness,
-                    '주말',
-                    '회사/공장 근무 포함 이동',
-                    allowance: '35,000',
-                    extra: '30,000',
-                    off: '1.0',
-                  ),
-                ],
-              ),
+                    _AllowanceCard(dayType: '주중', title: '근무 없이 단순 이동일'),
+                    _AllowanceCard(
+                      dayType: '주중',
+                      title: '회사/공장 근무 포함 이동',
+                      allowance: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 10)
+                          ?.rate,
+                    ),
+                    _AllowanceCard(
+                      dayType: '주말',
+                      title: '근무 없이 단순 이동 (토요일 등)',
+                      allowance: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 10)
+                          ?.rate,
+                      off: '0.5',
+                    ),
+                    _AllowanceCard(
+                      dayType: '주말',
+                      title: '회사/공장 근무 포함 이동',
+                      allowance: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 10)
+                          ?.rate,
+                      extra: value.regulations
+                          .firstWhereOrNull((e) => e.stepId == 11)
+                          ?.rate,
+                      off: '1.0',
+                    ),
+                  ],
+                ),
+                _ => SizedBox(),
+              },
             ),
             Divider(),
             SizedBox(height: 16.0),
@@ -152,17 +153,28 @@ class TripDutyDialog extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildAllowanceCard(
-    ColorScheme colorScheme,
-    Brightness brightness,
-    String dayType,
-    String title, {
-    String? meal,
-    String? allowance,
-    String? extra,
-    String? off,
-  }) {
+class _AllowanceCard extends StatelessWidget {
+  final String dayType;
+  final String title;
+  final String? allowance;
+  final String? extra;
+  final String? off;
+
+  const _AllowanceCard({
+    required this.dayType,
+    required this.title,
+    this.allowance,
+    this.extra,
+    this.off,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     bool isWeekend = dayType == '주말';
 
     return Container(
@@ -183,17 +195,16 @@ class TripDutyDialog extends StatelessWidget {
                 width: 42,
                 child: Text(
                   dayType,
-                  style: TextStyle(
+                  style: textTheme.bodyMedium?.copyWith(
                     color: isWeekend ? colorScheme.error : colorScheme.primary,
                     fontWeight: FontWeight.w800,
-                    fontSize: 13,
                   ),
                 ),
               ),
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(
+                  style: textTheme.bodyMedium?.copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface,
@@ -214,33 +225,29 @@ class TripDutyDialog extends StatelessWidget {
             spacing: 6.0,
             runSpacing: 6.0,
             children: [
-              if (meal != null)
-                _buildStatusChip(
-                  brightness,
-                  '일비 0 ($meal)',
-                  const Color(0xFFF1F3F5),
-                  const Color(0xFF646E7A),
+              if (allowance == null)
+                _StatusChip(
+                  label: '일비 0 (실비)',
+                  bgColor: const Color(0xFFF1F3F5),
+                  textColor: const Color(0xFF646E7A),
                 ),
               if (allowance != null)
-                _buildStatusChip(
-                  brightness,
-                  '일비 $allowance',
-                  const Color(0xFFE7F5FF),
-                  const Color(0xFF1971C2),
+                _StatusChip(
+                  label: '일비 $allowance',
+                  bgColor: const Color(0xFFE7F5FF),
+                  textColor: const Color(0xFF1971C2),
                 ),
               if (extra != null)
-                _buildStatusChip(
-                  brightness,
-                  '특근비 $extra',
-                  const Color(0xFFFFF4E6),
-                  const Color(0xFFE67700),
+                _StatusChip(
+                  label: '특근비 $extra',
+                  bgColor: const Color(0xFFFFF4E6),
+                  textColor: const Color(0xFFE67700),
                 ),
               if (off != null)
-                _buildStatusChip(
-                  brightness,
-                  '대체 휴무 $off',
-                  const Color(0xFFEBFBEE),
-                  const Color(0xFF2B8A3E),
+                _StatusChip(
+                  label: '대체 휴무 $off',
+                  bgColor: const Color(0xFFEBFBEE),
+                  textColor: const Color(0xFF2B8A3E),
                 ),
             ],
           ),
@@ -248,13 +255,24 @@ class TripDutyDialog extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildStatusChip(
-    Brightness brightness,
-    String label,
-    Color bgColor,
-    Color textColor,
-  ) {
+class _StatusChip extends StatelessWidget {
+  final String label;
+  final Color bgColor;
+  final Color textColor;
+
+  const _StatusChip({
+    required this.label,
+    required this.bgColor,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final brightness = Theme.of(context).brightness;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       decoration: BoxDecoration(
@@ -263,11 +281,9 @@ class TripDutyDialog extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
+        style: textTheme.labelSmall?.copyWith(
           color: brightness == Brightness.light ? textColor : bgColor,
-          fontSize: 11,
           fontWeight: FontWeight.w600,
-          letterSpacing: -0.2,
         ),
       ),
     );
