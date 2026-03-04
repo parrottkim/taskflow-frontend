@@ -63,7 +63,9 @@ class DailyExpenseWidget extends ConsumerWidget {
                         onTap: () {
                           showDialog(
                             context: context,
-                            builder: (_) => TripDutyDialog(),
+                            builder: (_) => TripDutyDialog(
+                              categoryId: schedule.category.id,
+                            ),
                           );
                         },
                         child: Icon(
