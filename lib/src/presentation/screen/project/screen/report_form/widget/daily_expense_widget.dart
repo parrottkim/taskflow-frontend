@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/expense_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/trip_duty_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class DailyExpenseWidget extends ConsumerWidget {
@@ -29,6 +31,7 @@ class DailyExpenseWidget extends ConsumerWidget {
       state.uri.queryParameters['schedule_id'] ?? '',
     );
 
+    final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     final filter = ref.watch(
@@ -45,11 +48,32 @@ class DailyExpenseWidget extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                Intl.message('report_form_daily_expense'),
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                children: [
+                  Text(
+                    Intl.message('report_form_daily_expense'),
+                    style: textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  if (schedule.category is ScheduleDomestic)
+                    Padding(
+                      padding: EdgeInsets.only(left: 4.0),
+                      child: InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => TripDutyDialog(),
+                          );
+                        },
+                        child: Icon(
+                          Symbols.info_rounded,
+                          size: 18.0,
+                          color: colorScheme.outline.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ),
+                ],
               ),
               SizedBox(height: 24.0),
               if (schedule.category is ScheduleOverseas)
