@@ -53,6 +53,7 @@ class TripDutyDialog extends ConsumerWidget {
                       ),
                     ),
                     _AllowanceCard(dayType: '주중', title: '당일 출장'),
+                    SizedBox(height: 8.0),
                     _AllowanceCard(
                       dayType: '주말',
                       title: '회사 정상근무',
@@ -61,6 +62,7 @@ class TripDutyDialog extends ConsumerWidget {
                           ?.rate,
                       off: '1.0',
                     ),
+                    SizedBox(height: 8.0),
                     _AllowanceCard(
                       dayType: '주말',
                       title: '근거리 당일 출장',
@@ -69,6 +71,7 @@ class TripDutyDialog extends ConsumerWidget {
                           ?.rate,
                       off: '1.0',
                     ),
+                    SizedBox(height: 8.0),
                     _AllowanceCard(
                       dayType: '주말',
                       title: '원거리 당일 출장 (울산/광주)',
@@ -105,6 +108,7 @@ class TripDutyDialog extends ConsumerWidget {
                       ),
                     ),
                     _AllowanceCard(dayType: '주중', title: '근무 없이 단순 이동일'),
+                    SizedBox(height: 8.0),
                     _AllowanceCard(
                       dayType: '주중',
                       title: '회사/공장 근무 포함 이동',
@@ -112,6 +116,7 @@ class TripDutyDialog extends ConsumerWidget {
                           .firstWhereOrNull((e) => e.stepId == 10)
                           ?.rate,
                     ),
+                    SizedBox(height: 8.0),
                     _AllowanceCard(
                       dayType: '주말',
                       title: '근무 없이 단순 이동 (토요일 등)',
@@ -120,6 +125,7 @@ class TripDutyDialog extends ConsumerWidget {
                           ?.rate,
                       off: '0.5',
                     ),
+                    SizedBox(height: 8.0),
                     _AllowanceCard(
                       dayType: '주말',
                       title: '회사/공장 근무 포함 이동',
@@ -137,10 +143,9 @@ class TripDutyDialog extends ConsumerWidget {
               },
             ),
             Divider(),
-            SizedBox(height: 16.0),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
                   context.pop();
@@ -178,7 +183,6 @@ class _AllowanceCard extends StatelessWidget {
     bool isWeekend = dayType == '주말';
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerLowest,
