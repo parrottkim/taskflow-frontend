@@ -3,14 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ScheduleWidget extends StatelessWidget {
   final Schedule schedule;
 
-  const ScheduleWidget({
-    super.key,
-    required this.schedule,
-  });
+  const ScheduleWidget({super.key, required this.schedule});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +16,7 @@ class ScheduleWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 16.0,
-        right: 16.0,
-        top: 16.0,
-      ),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,8 +28,10 @@ class ScheduleWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Skeleton.unite(
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 2.0,
+                      ),
                       decoration: ShapeDecoration(
                         shape: StadiumBorder(),
                         color: colorScheme.error,
@@ -56,8 +52,10 @@ class ScheduleWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Skeleton.unite(
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 2.0,
+                      ),
                       decoration: ShapeDecoration(
                         shape: StadiumBorder(),
                         color: colorScheme.primary,
@@ -77,8 +75,10 @@ class ScheduleWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Skeleton.unite(
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 2.0,
+                      ),
                       decoration: ShapeDecoration(
                         shape: StadiumBorder(),
                         color: colorScheme.surfaceContainerHighest,
@@ -99,8 +99,9 @@ class ScheduleWidget extends StatelessWidget {
                   decoration: ShapeDecoration(
                     shape: StadiumBorder(
                       side: BorderSide(
-                        color: Functions(context)
-                            .generateColorFromId(schedule.category.id),
+                        color: Functions(
+                          context,
+                        ).generateColorFromId(schedule.category.id),
                       ),
                     ),
                     color: Functions(context)
@@ -111,8 +112,9 @@ class ScheduleWidget extends StatelessWidget {
                     schedule.category.name,
                     style: textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.w700,
-                      color: Functions(context)
-                          .generateColorFromId(schedule.category.id),
+                      color: Functions(
+                        context,
+                      ).generateColorFromId(schedule.category.id),
                     ),
                   ),
                 ),
@@ -150,36 +152,57 @@ class ScheduleWidget extends StatelessWidget {
                     children: [
                       Text(
                         '${DateFormat.yMEd(Intl.getCurrentLocale()).format(schedule.start)} - ${DateFormat.yMEd(Intl.getCurrentLocale()).format(schedule.end)}',
-                        style: textTheme.bodyLarge?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: Responsive.isDesktop(context)
+                            ? textTheme.bodyLarge?.copyWith(
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.7,
+                                ),
+                                fontWeight: FontWeight.w700,
+                              )
+                            : textTheme.bodyMedium?.copyWith(
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.7,
+                                ),
+                                fontWeight: FontWeight.w700,
+                              ),
                       ),
                       SizedBox(height: 8.0),
                       Text(
                         schedule.summary,
-                        style: textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Responsive.isDesktop(context)
+                            ? textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              )
+                            : textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
                       ),
+                      SizedBox(height: 4.0),
                       Text(
                         schedule.description == null ||
                                 schedule.description!.isEmpty
                             ? Intl.message(
-                                'report_form_schedule_description_empty')
+                                'report_form_schedule_description_empty',
+                              )
                             : schedule.description!,
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withValues(
-                            alpha: 0.7,
-                          ),
-                        ),
+                        style: Responsive.isDesktop(context)
+                            ? textTheme.bodyMedium?.copyWith(
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.7,
+                                ),
+                              )
+                            : textTheme.bodySmall?.copyWith(
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.7,
+                                ),
+                              ),
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

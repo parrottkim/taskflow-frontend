@@ -1834,7 +1834,7 @@ final class ReportFormControllerProvider
 }
 
 String _$reportFormControllerHash() =>
-    r'82b90c88c5eb03414b6ede23f0695d5dd9ba9657';
+    r'5f374636fc147ea4e2ec0770901e497d75c4a509';
 
 final class ReportFormControllerFamily extends $Family
     with

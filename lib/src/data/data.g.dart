@@ -1768,6 +1768,7 @@ _TripCalculations _$TripCalculationsFromJson(Map<String, dynamic> json) =>
       totalCost: (json['totalCost'] as num).toInt(),
       taxableAmount: (json['taxableAmount'] as num?)?.toInt(),
       nonTaxableAmount: (json['nonTaxableAmount'] as num?)?.toInt(),
+      exchangeRate: (json['exchangeRate'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$TripCalculationsToJson(_TripCalculations instance) =>
@@ -1775,6 +1776,7 @@ Map<String, dynamic> _$TripCalculationsToJson(_TripCalculations instance) =>
       'totalCost': instance.totalCost,
       'taxableAmount': instance.taxableAmount,
       'nonTaxableAmount': instance.nonTaxableAmount,
+      'exchangeRate': instance.exchangeRate,
     };
 
 _User _$UserFromJson(Map<String, dynamic> json) => _User(

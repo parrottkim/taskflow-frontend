@@ -17,14 +17,14 @@ abstract class Report with _$Report {
   factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
 
   factory Report.dummy() => Report(
-        id: 0,
-        user: User.dummy(),
-        content: '',
-        attachments: [],
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        deletedAt: null,
-      );
+    id: 0,
+    user: User.dummy(),
+    content: '',
+    attachments: [],
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    deletedAt: null,
+  );
 }
 
 @freezed
@@ -55,26 +55,29 @@ abstract class TripReport with _$TripReport {
   factory TripReport.fromJson(Map<String, dynamic> json) =>
       _$TripReportFromJson(json);
 
-  factory TripReport.dummy() => TripReport(
-        expenses: [],
-        rates: [],
-      );
+  factory TripReport.dummy() => TripReport(expenses: [], rates: []);
 
   double totalExpenseFor(int stepId) {
     return expenses
         .where((e) => e.stepId == stepId)
         .map(
-            (e) => double.tryParse((e.price ?? '0').replaceAll(',', '')) ?? 0.0)
+          (e) => double.tryParse((e.price ?? '0').replaceAll(',', '')) ?? 0.0,
+        )
         .fold(0.0, (prev, element) => prev + element);
   }
 
   /// 규정 요금(Rate * Days) 합계: 쉼표 제거 및 다중 항목 합산
   double totalRateFor(int stepId) {
-    return rates.where((r) => r.stepId == stepId).map((r) {
-      final rate = double.tryParse((r.rate ?? '0').replaceAll(',', '')) ?? 0.0;
-      final days = double.tryParse((r.days ?? '0').replaceAll(',', '')) ?? 0.0;
-      return rate * days;
-    }).fold(0.0, (prev, element) => prev + element);
+    return rates
+        .where((r) => r.stepId == stepId)
+        .map((r) {
+          final rate =
+              double.tryParse((r.rate ?? '0').replaceAll(',', '')) ?? 0.0;
+          final days =
+              double.tryParse((r.days ?? '0').replaceAll(',', '')) ?? 0.0;
+          return rate * days;
+        })
+        .fold(0.0, (prev, element) => prev + element);
   }
 
   double get totalFuelExpense {
@@ -86,7 +89,7 @@ abstract class TripReport with _$TripReport {
         double.tryParse((fuel!.distance ?? '0').replaceAll(',', '')) ?? 0.0;
     final mileage =
         double.tryParse((fuel!.mileage ?? '0').replaceAll(',', '')) ??
-            1.0; // 0으로 나누기 방지
+        1.0; // 0으로 나누기 방지
 
     if (mileage == 0) return 0.0;
 
@@ -188,6 +191,7 @@ abstract class TripCalculations with _$TripCalculations {
     required int totalCost,
     int? taxableAmount,
     int? nonTaxableAmount,
+    int? exchangeRate,
   }) = _TripCalculations;
 
   factory TripCalculations.fromJson(Map<String, dynamic> json) =>
