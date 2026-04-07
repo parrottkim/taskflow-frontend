@@ -94,8 +94,9 @@ class _DesktopWidget extends HookConsumerWidget {
         children: [
           if (auth is AuthAuthenticated &&
               auth.user.id == item.user.id &&
-              (item.schedule is ScheduleDomestic ||
-                  item.schedule is ScheduleOverseas))
+              item.schedule != null &&
+              (item.schedule!.category is ScheduleDomestic ||
+                  item.schedule!.category is ScheduleOverseas))
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TextButton.icon(
