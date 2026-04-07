@@ -584,6 +584,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "report_form_description":
             MessageLookupByLibrary.simpleMessage("설명 및 첨부파일"),
         "report_form_description_1": MessageLookupByLibrary.simpleMessage("설명"),
+        "report_form_exchange_rate": MessageLookupByLibrary.simpleMessage("환율"),
         "report_form_invalid_1":
             MessageLookupByLibrary.simpleMessage("일정을 선택해 주세요"),
         "report_form_invalid_2": m11,

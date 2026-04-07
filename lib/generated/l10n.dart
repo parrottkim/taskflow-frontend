@@ -4430,6 +4430,16 @@ class S {
     );
   }
 
+  /// `환율`
+  String get report_form_exchange_rate {
+    return Intl.message(
+      '환율',
+      name: 'report_form_exchange_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `설명`
   String get report_form_description_1 {
     return Intl.message(

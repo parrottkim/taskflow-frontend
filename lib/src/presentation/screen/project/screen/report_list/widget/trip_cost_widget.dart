@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
@@ -130,6 +129,41 @@ class TripCostWidget extends HookConsumerWidget {
                         ],
                       ),
                     ),
+                  if (item.schedule!.category is ScheduleOverseas)
+                    BentoTile(
+                      row: 1,
+                      column: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Intl.message('report_form_exchange_rate'),
+                            style: textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
+                            ),
+                          ),
+                          Text.rich(
+                            style: textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '${NumberFormat('#,###').format(item.trip!.calculations!.exchangeRate)} ',
+                                ),
+                                TextSpan(
+                                  text: '₩ / 1\$',
+                                  style: textTheme.titleMedium,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -158,42 +192,75 @@ class TripCostWidget extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Text(
-                        Intl.message('report_form_taxable_amount'),
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
-                        ),
+                  if (item.schedule!.category is ScheduleDomestic)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            Intl.message('report_form_taxable_amount'),
+                            style: textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '${NumberFormat('#,###').format(item.trip!.calculations!.taxableAmount)} ₩',
+                            style: textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
-                      Spacer(),
-                      Text(
-                        '${NumberFormat('#,###').format(item.trip!.calculations!.taxableAmount)} ₩',
-                        style: textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                    ),
+                  if (item.schedule!.category is ScheduleDomestic)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            Intl.message('report_form_non_taxable_amount'),
+                            style: textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '${NumberFormat('#,###').format(item.trip!.calculations!.nonTaxableAmount)} ₩',
+                            style: textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      Text(
-                        Intl.message('report_form_non_taxable_amount'),
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
-                        ),
+                    ),
+                  if (item.schedule!.category is ScheduleOverseas)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            Intl.message('report_form_exchange_rate'),
+                            style: textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '${NumberFormat('#,###').format(item.trip!.calculations!.exchangeRate)} ₩ / 1\$',
+                            style: textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
-                      Spacer(),
-                      Text(
-                        '${NumberFormat('#,###').format(item.trip!.calculations!.nonTaxableAmount)} ₩',
-                        style: textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
                 ],
               ),
             ),
