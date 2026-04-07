@@ -240,7 +240,11 @@ class _DesktopWidget extends HookConsumerWidget {
                               if (items[index].schedule != null)
                                 TripCostWidget(item: items[index]),
                               MarkdownWidget(item: items[index].content),
-                              if (items[index].schedule != null)
+                              if (items[index].schedule != null &&
+                                  (items[index].schedule!.category
+                                          is ScheduleDomestic ||
+                                      items[index].schedule!.category
+                                          is ScheduleDomestic))
                                 TripPreviewWidget(item: items[index]),
                               if (items[index].attachments.isNotEmpty)
                                 AttachmentListWidget<ReportAttachment>(
