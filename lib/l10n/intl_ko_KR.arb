@@ -485,6 +485,7 @@
   "report_form_total_cost": "전체 비용 합계",
   "report_form_taxable_amount": "(과세) 수령 금액",
   "report_form_non_taxable_amount": "(비과세) 수령 금액",
+  "report_form_exchange_rate": "환율",
   "report_form_description_1": "설명",
   "report_form_attachment": "첨부파일",
   "report_form_deducted_1": "렌탈, 택시 실비 처리",
