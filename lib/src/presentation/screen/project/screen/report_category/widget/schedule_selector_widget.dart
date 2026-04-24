@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -11,21 +10,21 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ScheduleSelectorWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
   final ValueNotifier<Schedule?> selectedSchedule;
   final ValueNotifier<bool> isScheduleInvalid;
 
   const ScheduleSelectorWidget({
     super.key,
+    required this.projectId,
+    this.reportId,
     required this.selectedSchedule,
     required this.isScheduleInvalid,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

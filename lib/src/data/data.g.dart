@@ -698,6 +698,18 @@ Map<String, dynamic> _$UpdateProjectRequestToJson(
   'closureMessage': instance.closureMessage,
 };
 
+_SendIssueMailRequest _$SendIssueMailRequestFromJson(
+  Map<String, dynamic> json,
+) => _SendIssueMailRequest(
+  userIds: (json['userIds'] as List<dynamic>?)
+      ?.map((e) => (e as num).toInt())
+      .toList(),
+);
+
+Map<String, dynamic> _$SendIssueMailRequestToJson(
+  _SendIssueMailRequest instance,
+) => <String, dynamic>{'userIds': instance.userIds};
+
 _CreateContractIssueRequest _$CreateContractIssueRequestFromJson(
   Map<String, dynamic> json,
 ) => _CreateContractIssueRequest(
@@ -1162,6 +1174,18 @@ Map<String, dynamic> _$CreateScheduleRequestToJson(
   'start': instance.start.toIso8601String(),
   'end': instance.end.toIso8601String(),
 };
+
+_SendReportMailRequest _$SendReportMailRequestFromJson(
+  Map<String, dynamic> json,
+) => _SendReportMailRequest(
+  userIds: (json['userIds'] as List<dynamic>?)
+      ?.map((e) => (e as num).toInt())
+      .toList(),
+);
+
+Map<String, dynamic> _$SendReportMailRequestToJson(
+  _SendReportMailRequest instance,
+) => <String, dynamic>{'userIds': instance.userIds};
 
 _CreateReportRequest _$CreateReportRequestFromJson(Map<String, dynamic> json) =>
     _CreateReportRequest(
@@ -2679,6 +2703,41 @@ class _IssueService implements IssueService {
   }
 
   @override
+  Future<HttpResponse<List<int>>> exportPurchaseRequest({
+    required int id,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<List<int>>>(
+      Options(
+            method: 'GET',
+            headers: _headers,
+            extra: _extra,
+            responseType: ResponseType.bytes,
+          )
+          .compose(
+            _dio.options,
+            'issue/procurement/export/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<int> _value;
+    try {
+      _value = _result.data!.cast<int>();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
   Future<List<ContractItem>> getContractItems({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -2966,11 +3025,14 @@ class _IssueService implements IssueService {
   }
 
   @override
-  Future<void> sendMail({required int id}) async {
+  Future<void> sendMail({
+    required int id,
+    required SendIssueMailRequest request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = request;
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -4298,11 +4360,14 @@ class _ReportService implements ReportService {
   }
 
   @override
-  Future<void> sendMail({required int id}) async {
+  Future<void> sendMail({
+    required int id,
+    required SendReportMailRequest request,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = request;
     final _options = _setStreamType<void>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(

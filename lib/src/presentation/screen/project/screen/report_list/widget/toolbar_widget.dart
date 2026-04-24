@@ -14,14 +14,13 @@ import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ToolbarWidget extends HookConsumerWidget {
+  final int projectId;
   final Report item;
 
-  const ToolbarWidget({super.key, required this.item});
+  const ToolbarWidget({super.key, required this.projectId, required this.item});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -107,9 +106,13 @@ class ToolbarWidget extends HookConsumerWidget {
               context: context,
               builder: (_) => SendEmailDialog(
                 title: Intl.message('project_report_mail'),
-                onPressed: () => ref
+                onPressed: (users, isAllSelected) => ref
                     .read(reportSubmitControllerProvider.notifier)
-                    .sendEmail(reportId: item.id),
+                    .sendEmail(
+                      reportId: item.id,
+                      users: users,
+                      isAllSelected: isAllSelected,
+                    ),
               ),
             );
           },

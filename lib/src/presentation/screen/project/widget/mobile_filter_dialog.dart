@@ -42,8 +42,9 @@ class MobileFilterDialog extends HookWidget {
     final selectedSort = useState<ProjectSort?>(sort);
     final selectedOrder = useState<Order?>(order);
 
-    final currentDepth =
-        useState(clients?.length.clamp(0, maxClientDepth - 1) ?? 0);
+    final currentDepth = useState(
+      clients?.length.clamp(0, maxClientDepth - 1) ?? 0,
+    );
 
     return Dialog(
       child: ContainerWidget(
@@ -73,11 +74,14 @@ class MobileFilterDialog extends HookWidget {
                 depth: currentDepth.value == 0
                     ? 0
                     : clientItems
-                        .firstWhere((item) =>
-                            item.depth == currentDepth.value &&
-                            item.parentId ==
-                                selectedClients.value[currentDepth.value - 1])
-                        .depth,
+                          .firstWhere(
+                            (item) =>
+                                item.depth == currentDepth.value &&
+                                item.parentId ==
+                                    selectedClients.value[currentDepth.value -
+                                        1],
+                          )
+                          .depth,
               ),
             ],
           ),
@@ -123,9 +127,7 @@ class MainFilterPage extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             Intl.message('project_filter_5_1'),
-            style: textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-            ),
+            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
           ),
         ),
         SizedBox(height: 16.0),
@@ -169,9 +171,7 @@ class MainFilterPage extends ConsumerWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () => context.pop(),
-                  child: Text(
-                    Intl.message('common_cancel'),
-                  ),
+                  child: Text(Intl.message('common_cancel')),
                 ),
               ),
               SizedBox(width: 4.0),
@@ -192,16 +192,19 @@ class MainFilterPage extends ConsumerWidget {
                     ref
                         .read(projectFilterControllerProvider.notifier)
                         .setCategories(
-                            categories: selectedCategories.value.isEmpty
-                                ? null
-                                : selectedCategories.value);
+                          categories: selectedCategories.value.isEmpty
+                              ? null
+                              : selectedCategories.value,
+                        );
 
                     final queryParameters = ref
                         .read(projectFilterControllerProvider.notifier)
                         .toQueryParameters();
 
-                    context.goNamed(RouteNames.project,
-                        queryParameters: queryParameters);
+                    context.goNamed(
+                      RouteNames.project,
+                      queryParameters: queryParameters,
+                    );
 
                     context.pop();
                   },
@@ -209,11 +212,7 @@ class MainFilterPage extends ConsumerWidget {
                     foregroundColor: colorScheme.onPrimary,
                     backgroundColor: colorScheme.primary,
                   ),
-                  child: Text(
-                    Intl.message(
-                      'common_apply',
-                    ),
-                  ),
+                  child: Text(Intl.message('common_apply')),
                 ),
               ),
             ],
@@ -298,7 +297,9 @@ class ClientFilterPage extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0, vertical: 12.0),
+                  horizontal: 24.0,
+                  vertical: 12.0,
+                ),
                 child: Row(
                   children: [
                     if (depth == 0)
@@ -306,9 +307,11 @@ class ClientFilterPage extends StatelessWidget {
                         padding: const EdgeInsets.all(3.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
-                          color: Color(ClientType.values
-                              .firstWhere((c) => c.id == client.id)
-                              .color),
+                          color: Color(
+                            ClientType.values
+                                .firstWhere((c) => c.id == client.id)
+                                .color,
+                          ),
                         ),
                         child: SizedBox(
                           width: 13.0,
@@ -318,16 +321,16 @@ class ClientFilterPage extends StatelessWidget {
                                 .firstWhere((c) => c.id == client.id)
                                 .asset,
                             colorFilter: const ColorFilter.mode(
-                                Colors.white, BlendMode.srcIn),
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ), // only at depth 0
                     if (depth == 0) SizedBox(width: 8.0),
                     Text(
                       client.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),

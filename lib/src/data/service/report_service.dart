@@ -8,14 +8,10 @@ abstract class ReportService {
   Future<List<TripCategory>> getAllTripCategories();
 
   @GET('report/trip/steps/{id}')
-  Future<List<TripStep>> getAllTripSteps({
-    @Path() required int id,
-  });
+  Future<List<TripStep>> getAllTripSteps({@Path() required int id});
 
   @GET('report/trip/regulations/{id}')
-  Future<List<TripRegulation>> getAllTripRegulations({
-    @Path() required int id,
-  });
+  Future<List<TripRegulation>> getAllTripRegulations({@Path() required int id});
 
   @GET('report/trip/export/{id}')
   @DioResponseType(ResponseType.bytes)
@@ -32,12 +28,13 @@ abstract class ReportService {
   });
 
   @POST('report/mail/{id}')
-  Future<void> sendMail({@Path() required int id});
+  Future<void> sendMail({
+    @Path() required int id,
+    @Body() required SendReportMailRequest request,
+  });
 
   @POST('report')
-  Future<Report> createReport({
-    @Body() required CreateReportRequest request,
-  });
+  Future<Report> createReport({@Body() required CreateReportRequest request});
 
   @PATCH('report/{id}')
   Future<Report> updateReport({
@@ -46,9 +43,7 @@ abstract class ReportService {
   });
 
   @DELETE('report/{id}')
-  Future<void> deleteReport({
-    @Path() required int id,
-  });
+  Future<void> deleteReport({@Path() required int id});
 
   @POST('report/{report_id}/attachments')
   @MultiPart()

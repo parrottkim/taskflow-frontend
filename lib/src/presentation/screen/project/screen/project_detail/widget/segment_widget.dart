@@ -6,6 +6,7 @@ import 'package:taskflow/src/presentation/screen/project/screen/procurement_issu
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/report_list_widget.dart';
 
 class SegmentWidget extends StatelessWidget {
+  final int projectId;
   final int? issueId;
   final int? reportId;
   final Project project;
@@ -13,6 +14,7 @@ class SegmentWidget extends StatelessWidget {
 
   const SegmentWidget({
     super.key,
+    required this.projectId,
     this.issueId,
     this.reportId,
     required this.project,
@@ -24,10 +26,10 @@ class SegmentWidget extends StatelessWidget {
     return TabBarView(
       controller: controller,
       children: [
-        ContractIssueListWidget(),
-        ApprovalIssueListWidget(),
-        ProcurementIssueListWidget(),
-        ReportListWidget(),
+        ContractIssueListWidget(projectId: projectId, issueId: issueId),
+        ApprovalIssueListWidget(projectId: projectId, issueId: issueId),
+        ProcurementIssueListWidget(projectId: projectId, issueId: issueId),
+        ReportListWidget(projectId: projectId, reportId: reportId),
         // TODO: 구현 필요
         Center(),
       ],

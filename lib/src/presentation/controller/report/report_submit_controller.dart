@@ -309,11 +309,23 @@ class ReportSubmitController extends _$ReportSubmitController {
     }
   }
 
-  Future<void> sendEmail({required int reportId}) async {
+  Future<void> sendEmail({
+    required int reportId,
+    required List<User> users,
+    required bool isAllSelected,
+  }) async {
     state = const ReportSubmitState.pending();
 
+    final request = SendReportMailRequest(
+      userIds: isAllSelected
+          ? null
+          : users.map((element) => element.id).toList(),
+    );
+
     try {
-      await ref.read(reportRepositoryProvider).sendMail(id: reportId);
+      await ref
+          .read(reportRepositoryProvider)
+          .sendMail(id: reportId, request: request);
 
       state = ReportSubmitState.mailed();
     } catch (e) {

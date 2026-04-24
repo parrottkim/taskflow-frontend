@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide DatePickerDialog;
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -7,21 +6,23 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class KickoffFormItem extends ConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
   final DateTime? kickoffDate;
   final ValueNotifier<bool> isKickoffDateEmpty;
 
   const KickoffFormItem({
     super.key,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
     this.kickoffDate,
     required this.isKickoffDateEmpty,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
     final textTheme = Theme.of(context).textTheme;
 
     return Column(

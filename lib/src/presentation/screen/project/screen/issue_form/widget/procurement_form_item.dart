@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -11,12 +10,18 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ProcurementFormItem extends HookConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
   final List<ProcurementItem>? items;
   final ValueNotifier<bool> hasProcurementItems;
   final ValueNotifier<bool> isProcurementItemEmpty;
 
   const ProcurementFormItem({
     super.key,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
     this.items,
     required this.hasProcurementItems,
     required this.isProcurementItemEmpty,
@@ -24,11 +29,6 @@ class ProcurementFormItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

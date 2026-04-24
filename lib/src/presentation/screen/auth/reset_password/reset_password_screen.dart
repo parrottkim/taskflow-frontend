@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/fractionally_layout.dart';
@@ -7,14 +6,13 @@ import 'package:taskflow/src/presentation/screen/auth/reset_password/widget/rese
 import 'package:taskflow/src/presentation/screen/auth/reset_password/widget/retry_dialog.dart';
 
 class ResetPasswordScreen extends ConsumerWidget {
-  const ResetPasswordScreen({super.key});
+  final String? path;
+  final String? token;
+
+  const ResetPasswordScreen({super.key, this.path, this.token});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final path = state.uri.queryParameters['redirect_to'];
-    final token = state.uri.queryParameters['token'];
-
     ref.listen(errorControllerProvider, (_, state) {
       if (state is ErrorUnauthorized &&
           state.message == 'reset_token_expired_or_invalid') {

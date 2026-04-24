@@ -9,24 +9,23 @@ import 'package:taskflow/src/presentation/screen/project/screen/report_form/widg
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class LocalTransportationWidget extends ConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
   final Schedule schedule;
   final List<TripActualExpense> expenses;
 
   const LocalTransportationWidget({
     super.key,
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
     required this.schedule,
     required this.expenses,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-    final scheduleId = int.tryParse(
-      state.uri.queryParameters['schedule_id'] ?? '',
-    );
-
     final textTheme = Theme.of(context).textTheme;
 
     final filter = ref.watch(
@@ -52,6 +51,9 @@ class LocalTransportationWidget extends ConsumerWidget {
               SizedBox(height: 24.0),
               switch (filter) {
                 AsyncData(:final value) => ExpenseListWidget(
+                  projectId: projectId,
+                  reportId: reportId,
+                  scheduleId: scheduleId,
                   schedule: schedule,
                   steps: value.steps.where((e) => e.categoryId == 2).toList(),
                   expenses: expenses,
@@ -61,6 +63,9 @@ class LocalTransportationWidget extends ConsumerWidget {
                 _ => Skeletonizer(
                   ignoreContainers: true,
                   child: ExpenseListWidget(
+                    projectId: projectId,
+                    reportId: reportId,
+                    scheduleId: scheduleId,
                     schedule: schedule,
                     steps: List.filled(3, TripStep.dummy()),
                     expenses: [],

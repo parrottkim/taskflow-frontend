@@ -14,15 +14,19 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 
 class ScheduleFormScreen extends ConsumerWidget {
-  const ScheduleFormScreen({super.key});
+  final String? path;
+  final int categoryId;
+  final int? scheduleId;
+
+  const ScheduleFormScreen({
+    super.key,
+    this.path,
+    required this.categoryId,
+    this.scheduleId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final path = state.uri.queryParameters['redirect_to'];
-    final categoryId = int.parse(state.uri.queryParameters['category']!);
-    final scheduleId = int.tryParse(state.pathParameters['schedule_id'] ?? '');
-
     final form = ref.watch(
       scheduleFormControllerProvider(
         categoryId: categoryId,
@@ -32,14 +36,24 @@ class ScheduleFormScreen extends ConsumerWidget {
 
     return BranchLayout(
       child: switch (form) {
-        AsyncData(:final value) => _DesktopWidget(path: path, value: value),
+        AsyncData(:final value) => _DesktopWidget(
+          path: path,
+          categoryId: categoryId,
+          scheduleId: scheduleId,
+          value: value,
+        ),
         AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
           error: error,
           stackTrace: stackTrace,
         ),
         _ => Skeletonizer(
           ignoreContainers: true,
-          child: _DesktopWidget(value: ScheduleFormState()),
+          child: _DesktopWidget(
+            path: path,
+            categoryId: categoryId,
+            scheduleId: scheduleId,
+            value: ScheduleFormState(),
+          ),
         ),
       },
     );
@@ -48,16 +62,19 @@ class ScheduleFormScreen extends ConsumerWidget {
 
 class _DesktopWidget extends HookConsumerWidget {
   final String? path;
+  final int categoryId;
+  final int? scheduleId;
   final ScheduleFormState value;
 
-  const _DesktopWidget({this.path, required this.value});
+  const _DesktopWidget({
+    this.path,
+    required this.categoryId,
+    this.scheduleId,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final categoryId = int.parse(state.uri.queryParameters['category']!);
-    final scheduleId = int.tryParse(state.pathParameters['schedule_id'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -176,7 +193,12 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 8.0),
-                      DateSelectorWidget(start: value.start, end: value.end),
+                      DateSelectorWidget(
+                        categoryId: categoryId,
+                        scheduleId: scheduleId,
+                        start: value.start,
+                        end: value.end,
+                      ),
                       InvalidWidget(
                         visible: isDateSelected.value,
                         text: Intl.message('schedule_form_invalid_2'),
@@ -293,7 +315,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           .read(scheduleSubmitControllerProvider.notifier)
                           .updateSchedule(
                             categoryId: categoryId,
-                            scheduleId: scheduleId,
+                            scheduleId: scheduleId!,
                           );
                     }
                   },
@@ -324,7 +346,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
                         await ref
                             .read(scheduleSubmitControllerProvider.notifier)
-                            .deleteSchedule(scheduleId: scheduleId);
+                            .deleteSchedule(scheduleId: scheduleId!);
 
                         ref
                             .read(toastProvider)

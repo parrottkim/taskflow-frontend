@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/manager_selector_dialog.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ManagerSelectorWidget extends ConsumerWidget {
@@ -20,49 +19,33 @@ class ManagerSelectorWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(userFilterControllerProvider);
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-        projectId: projectId,
-        selectedManager: selectedManager,
-        departmentItems: value.departmentItems,
-        positionItems: value.positionItems,
-      ),
-      _ => Skeletonizer(
-        ignoreContainers: true,
-        child: _DesktopWidget(
-          selectedManager: selectedManager,
-          departmentItems: [],
-          positionItems: [],
-        ),
-      ),
-    };
+    return _DesktopWidget(
+      projectId: projectId,
+      selectedManager: selectedManager,
+    );
   }
 }
 
 class _DesktopWidget extends ConsumerWidget {
   final int? projectId;
   final User? selectedManager;
-  final List<UserDepartment> departmentItems;
-  final List<UserPosition> positionItems;
 
-  const _DesktopWidget({
-    this.projectId,
-    required this.selectedManager,
-    required this.departmentItems,
-    required this.positionItems,
-  });
+  const _DesktopWidget({this.projectId, required this.selectedManager});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton.icon(
       onPressed: () => showDialog(
         context: context,
-        builder: (_) => ManagerSelectorDialog(
-          projectId: projectId,
-          departmentItems: departmentItems,
-          positionItems: positionItems,
+        builder: (_) => UserSelectorDialog(
+          selectionType: UserSelectionType.single,
+          onSingleSelected: (user) {
+            ref
+                .read(
+                  projectFormControllerProvider(projectId: projectId).notifier,
+                )
+                .setManager(manager: user);
+          },
         ),
       ),
       style: ElevatedButton.styleFrom(

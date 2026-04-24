@@ -28,6 +28,7 @@
   "common_fold": "닫기",
   "common_edit_by": "최종 편집",
   "common_print": "출력하기",
+  "common_send_all": "전체 발송",
   "text_color": "텍스트 색상",
   "highlight_color": "배경 색상",
   "date_title": "날짜 선택",
@@ -48,12 +49,17 @@
   "filter_applied": "적용중",
   "filter_select_all": "모두 선택",
   "filter_unselect_all": "모두 선택 해제",
+  "filter_all_selected": "모두 선택됨",
   "filter_sort": "정렬",
   "filter_sort_1": "정렬 기준",
   "filter_order": "순서",
   "filter_order_1": "정렬 방향",
   "filter_ascending": "오름차순",
   "filter_descending": "내림차순",
+
+  "@_EXPORT": {},
+  "export_loading_1": "데이터 로딩 중입니다",
+  "export_loading_2": "PDF 변환 중입니다",
 
   "@_ERROR": {},
   "connection_error": "연결 오류가 발생했습니다. 네트워크를 확인하세요.",
@@ -303,7 +309,6 @@
   "project_issue_mail": "업무 내용 공유",
   "project_report_mail": "실무 결과 공유",
   "project_mail_select_1": "메일을 보낼 사용자를 선택해 주세요.",
-  "project_mail_select_2": "전체 선택",
   "project_mail_send": "메일이 전송되었습니다",
   "project_mail_send_fail": "메일 전송이 실패했습니다",
 
@@ -500,8 +505,6 @@
   "report_form_invalid_5": "설명을 입력해 주세요",
   
   "@_REPORT_LIST": {},
-  "report_list_loading_1": "데이터 로딩 중입니다",
-  "report_list_loading_2": "PDF 변환 중입니다",
   "report_list_total_cost": "전체 비용 합계",
   "report_list_taxable_amount": "(과세) 수령금액",
   "report_list_non_taxable_amount": "(비과세) 수령금액",

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -10,7 +9,7 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/schedule_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/toolbar_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/trip_cost_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/trip_preview_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/trip_export_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -18,39 +17,49 @@ import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ReportListWidget extends ConsumerWidget {
-  const ReportListWidget({super.key});
+  final int projectId;
+  final int? reportId;
+
+  const ReportListWidget({super.key, required this.projectId, this.reportId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-
     final trip = ref.watch(reportListControllerProvider(projectId: projectId));
 
     return switch (trip) {
-      AsyncData(:final value) => _DesktopWidget(items: value.items),
+      AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        reportId: reportId,
+        items: value.items,
+      ),
       AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
         error: error,
         stackTrace: stackTrace,
       ),
       _ => Skeletonizer(
-        child: _DesktopWidget(items: List.filled(1, Report.dummy())),
+        child: _DesktopWidget(
+          projectId: projectId,
+          reportId: reportId,
+          items: List.filled(1, Report.dummy()),
+        ),
       ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
   final List<Report> items;
 
-  const _DesktopWidget({required this.items});
+  const _DesktopWidget({
+    required this.projectId,
+    this.reportId,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.uri.queryParameters['report'] ?? '');
-
     final auth = ref.watch(authControllerProvider);
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -228,7 +237,10 @@ class _DesktopWidget extends HookConsumerWidget {
                                       item: items[index].user,
                                     ),
                                     const Spacer(),
-                                    ToolbarWidget(item: items[index]),
+                                    ToolbarWidget(
+                                      projectId: projectId,
+                                      item: items[index],
+                                    ),
                                   ],
                                 ),
                               ),
@@ -245,7 +257,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                           is ScheduleDomestic ||
                                       items[index].schedule!.category
                                           is ScheduleDomestic))
-                                TripPreviewWidget(item: items[index]),
+                                TripExportWidget(item: items[index]),
                               if (items[index].attachments.isNotEmpty)
                                 AttachmentListWidget<ReportAttachment>(
                                   attachments: items[index].attachments,

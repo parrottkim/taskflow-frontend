@@ -10,10 +10,10 @@ import 'package:taskflow/src/presentation/screen/project/screen/report_list/widg
 import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/trip_details_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
-class TripPreviewWidget extends HookConsumerWidget {
+class TripExportWidget extends HookConsumerWidget {
   final Report item;
 
-  const TripPreviewWidget({super.key, required this.item});
+  const TripExportWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,12 +21,12 @@ class TripPreviewWidget extends HookConsumerWidget {
       tripFilterControllerProvider(categoryId: item.schedule?.category.id),
     );
 
-    ref.listen(tripPreviewControllerProvider, (_, state) {
-      if (state is TripPreviewLoading) {
-        TextOverlay.show(context, Intl.message('report_list_loading_1'));
-      } else if (state is TripPreviewRendering) {
+    ref.listen(tripExportControllerProvider, (_, state) {
+      if (state is TripExportLoading) {
+        TextOverlay.show(context, Intl.message('export_loading_1'));
+      } else if (state is TripExportRendering) {
         TextOverlay.hide();
-        TextOverlay.show(context, Intl.message('report_list_loading_2'));
+        TextOverlay.show(context, Intl.message('export_loading_2'));
       } else {
         TextOverlay.hide();
       }
@@ -102,8 +102,8 @@ class _DesktopWidget extends HookConsumerWidget {
               child: TextButton.icon(
                 onPressed: () async {
                   await ref
-                      .read(tripPreviewControllerProvider.notifier)
-                      .preview(tripId: item.id);
+                      .read(tripExportControllerProvider.notifier)
+                      .export(tripId: item.id);
                 },
                 icon: Icon(Symbols.print_rounded),
                 label: Text(Intl.message('common_print')),

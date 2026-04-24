@@ -16,6 +16,9 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class OverviewWidget extends ConsumerWidget {
+  final int projectId;
+  final int? issueId;
+  final int? reportId;
   final Project project;
   final int contracts;
   final int approvals;
@@ -24,6 +27,9 @@ class OverviewWidget extends ConsumerWidget {
 
   const OverviewWidget({
     super.key,
+    required this.projectId,
+    this.issueId,
+    this.reportId,
     required this.project,
     this.contracts = 0,
     this.approvals = 0,
@@ -37,6 +43,9 @@ class OverviewWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        issueId: issueId,
+        reportId: reportId,
         project: project,
         contracts: contracts,
         approvals: approvals,
@@ -44,12 +53,22 @@ class OverviewWidget extends ConsumerWidget {
         reports: reports,
         view: value.view,
       ),
-      _ => Skeletonizer(child: _DesktopWidget(project: project)),
+      _ => Skeletonizer(
+        child: _DesktopWidget(
+          projectId: projectId,
+          issueId: issueId,
+          reportId: reportId,
+          project: project,
+        ),
+      ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? issueId;
+  final int? reportId;
   final Project project;
   final int contracts;
   final int approvals;
@@ -58,6 +77,9 @@ class _DesktopWidget extends HookConsumerWidget {
   final String? view;
 
   const _DesktopWidget({
+    required this.projectId,
+    this.issueId,
+    this.reportId,
     required this.project,
     this.contracts = 0,
     this.approvals = 0,
@@ -68,11 +90,6 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
-    final reportId = int.tryParse(state.uri.queryParameters['report'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -313,6 +330,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     ),
                   ],
                   body: SegmentWidget(
+                    projectId: projectId,
                     issueId: issueId,
                     reportId: reportId,
                     project: project,

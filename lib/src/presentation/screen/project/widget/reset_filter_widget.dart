@@ -16,17 +16,15 @@ class ResetFilterWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          view: value.view,
-          sort: value.sort,
-          order: value.order,
-          search: value.search,
-          bookmark: value.bookmark,
-          clients: value.clients,
-          categories: value.categories,
-        ),
-      _ => Skeletonizer(
-          child: _DesktopWidget(),
-        ),
+        view: value.view,
+        sort: value.sort,
+        order: value.order,
+        search: value.search,
+        bookmark: value.bookmark,
+        clients: value.clients,
+        categories: value.categories,
+      ),
+      _ => Skeletonizer(child: _DesktopWidget()),
     };
   }
 }
@@ -53,7 +51,8 @@ class _DesktopWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedIconButton(
-      onTap: view != null ||
+      onTap:
+          view != null ||
               sort != null ||
               order != null ||
               search != null ||

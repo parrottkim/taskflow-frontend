@@ -72,6 +72,14 @@ abstract class UpdateProjectRequest with _$UpdateProjectRequest {
 }
 
 @freezed
+abstract class SendIssueMailRequest with _$SendIssueMailRequest {
+  factory SendIssueMailRequest({List<int>? userIds}) = _SendIssueMailRequest;
+
+  factory SendIssueMailRequest.fromJson(Map<String, dynamic> json) =>
+      _$SendIssueMailRequestFromJson(json);
+}
+
+@freezed
 abstract class CreateContractIssueRequest with _$CreateContractIssueRequest {
   factory CreateContractIssueRequest({
     required int projectId,
@@ -243,42 +251,6 @@ abstract class UpdatePaymentIssueRequest with _$UpdatePaymentIssueRequest {
       _$UpdatePaymentIssueRequestFromJson(json);
 }
 
-// @freezed
-// abstract class CreateIssueRequest with _$CreateIssueRequest {
-//   factory CreateIssueRequest({
-//     required int projectId,
-//     required int categoryId,
-//     String? content,
-//     int? currencyId,
-//     DateTime? kickoffDate,
-//     List<CreateContractItemRequest>? contractItems,
-//     List<CreateProcurementItemRequest>? procurementItems,
-//     List<CreateTransactionItemRequest>? transactionItems,
-//     required List<IssueAttachment> attachments,
-//   }) = _CreateIssueRequest;
-
-//   factory CreateIssueRequest.fromJson(Map<String, dynamic> json) =>
-//       _$CreateIssueRequestFromJson(json);
-// }
-
-// @freezed
-// abstract class UpdateIssueRequest with _$UpdateIssueRequest {
-//   factory UpdateIssueRequest({
-//     int? projectId,
-//     int? categoryId,
-//     String? content,
-//     int? currencyId,
-//     DateTime? kickoffDate,
-//     List<UpdateContractItemRequest>? contractItems,
-//     List<UpdateProcurementItemRequest>? procurementItems,
-//     List<UpdateTransactionItemRequest>? transactionItems,
-//     required List<IssueAttachment> attachments,
-//   }) = _UpdateIssueRequest;
-
-//   factory UpdateIssueRequest.fromJson(Map<String, dynamic> json) =>
-//       _$UpdateIssueRequestFromJson(json);
-// }
-
 @freezed
 abstract class CreateContractItemRequest with _$CreateContractItemRequest {
   factory CreateContractItemRequest({
@@ -400,6 +372,14 @@ abstract class ScheduleRequest with _$ScheduleRequest {
 
   factory ScheduleRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateScheduleRequestFromJson(json);
+}
+
+@freezed
+abstract class SendReportMailRequest with _$SendReportMailRequest {
+  factory SendReportMailRequest({List<int>? userIds}) = _SendReportMailRequest;
+
+  factory SendReportMailRequest.fromJson(Map<String, dynamic> json) =>
+      _$SendReportMailRequestFromJson(json);
 }
 
 // ⭐️ [신규] 보고서 생성 전체 요청 모델 (CreateReportDto 대응)

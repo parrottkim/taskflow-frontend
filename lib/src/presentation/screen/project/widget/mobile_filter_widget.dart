@@ -17,27 +17,23 @@ class MobileFilterWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          view: value.view,
-          sort: value.sort,
-          order: value.order,
-          search: value.search,
-          clients: value.clients,
-          categories: value.categories,
-          clientItems: value.clientItems,
-          categoryItems: value.categoryItems,
-          maxClientDepth: value.maxClientDepth,
-        ),
+        view: value.view,
+        sort: value.sort,
+        order: value.order,
+        search: value.search,
+        clients: value.clients,
+        categories: value.categories,
+        clientItems: value.clientItems,
+        categoryItems: value.categoryItems,
+        maxClientDepth: value.maxClientDepth,
+      ),
       _ => Skeletonizer.zone(
-          child: ElevatedButton.icon(
-            onPressed: () {},
-            icon: Bone.icon(),
-            label: Skeleton.leaf(
-              child: Text(
-                Intl.message('project_filter_5'),
-              ),
-            ),
-          ),
+        child: ElevatedButton.icon(
+          onPressed: () {},
+          icon: Bone.icon(),
+          label: Skeleton.leaf(child: Text(Intl.message('project_filter_5'))),
         ),
+      ),
     };
   }
 }
@@ -87,9 +83,7 @@ class _DesktopWidget extends StatelessWidget {
       label: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            Intl.message('project_filter_5'),
-          ),
+          Text(Intl.message('project_filter_5')),
           if (sort != null ||
               order != null ||
               search != null ||
