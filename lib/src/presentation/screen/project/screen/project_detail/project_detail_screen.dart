@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
@@ -14,14 +13,21 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ProjectDetailScreen extends HookConsumerWidget {
-  const ProjectDetailScreen({super.key});
+  final int projectId;
+  final int? issueId;
+  final int? reportId;
+  final String? view;
+
+  const ProjectDetailScreen({
+    super.key,
+    required this.projectId,
+    this.issueId,
+    this.reportId,
+    this.view,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final view = state.uri.queryParameters['view'];
-
     final detail = ref.watch(
       projectDetailControllerProvider(projectId: projectId),
     );
@@ -39,6 +45,9 @@ class ProjectDetailScreen extends HookConsumerWidget {
       child: switch (detail) {
         AsyncData(:final value) => Responsive(
           desktop: _DesktopWidget(
+            projectId: projectId,
+            issueId: issueId,
+            reportId: reportId,
             project: value.project,
             contracts: value.contracts,
             approvals: value.approvals,
@@ -46,6 +55,9 @@ class ProjectDetailScreen extends HookConsumerWidget {
             reports: value.reports,
           ),
           mobile: _MobileWidget(
+            projectId: projectId,
+            issueId: issueId,
+            reportId: reportId,
             project: value.project,
             contracts: value.contracts,
             approvals: value.approvals,
@@ -59,8 +71,18 @@ class ProjectDetailScreen extends HookConsumerWidget {
         ),
         _ => Skeletonizer(
           child: Responsive(
-            desktop: _DesktopWidget(project: Project.dummy()),
-            mobile: _MobileWidget(project: Project.dummy()),
+            desktop: _DesktopWidget(
+              projectId: projectId,
+              issueId: issueId,
+              reportId: reportId,
+              project: Project.dummy(),
+            ),
+            mobile: _MobileWidget(
+              projectId: projectId,
+              issueId: issueId,
+              reportId: reportId,
+              project: Project.dummy(),
+            ),
           ),
         ),
       },
@@ -69,6 +91,9 @@ class ProjectDetailScreen extends HookConsumerWidget {
 }
 
 class _DesktopWidget extends StatelessWidget {
+  final int projectId;
+  final int? issueId;
+  final int? reportId;
   final Project project;
   final int contracts;
   final int approvals;
@@ -76,6 +101,9 @@ class _DesktopWidget extends StatelessWidget {
   final int reports;
 
   const _DesktopWidget({
+    required this.projectId,
+    this.issueId,
+    this.reportId,
     required this.project,
     this.contracts = 0,
     this.approvals = 0,
@@ -92,6 +120,9 @@ class _DesktopWidget extends StatelessWidget {
         children: [
           Expanded(
             child: OverviewWidget(
+              projectId: projectId,
+              issueId: issueId,
+              reportId: reportId,
               project: project,
               contracts: contracts,
               approvals: approvals,
@@ -108,6 +139,9 @@ class _DesktopWidget extends StatelessWidget {
 }
 
 class _MobileWidget extends StatelessWidget {
+  final int projectId;
+  final int? issueId;
+  final int? reportId;
   final Project project;
   final int contracts;
   final int approvals;
@@ -115,6 +149,9 @@ class _MobileWidget extends StatelessWidget {
   final int reports;
 
   const _MobileWidget({
+    required this.projectId,
+    this.issueId,
+    this.reportId,
     required this.project,
     this.contracts = 0,
     this.approvals = 0,
@@ -139,6 +176,9 @@ class _MobileWidget extends StatelessWidget {
           SizedBox(height: 8.0),
           Expanded(
             child: OverviewWidget(
+              projectId: projectId,
+              issueId: issueId,
+              reportId: reportId,
               project: project,
               contracts: contracts,
               approvals: approvals,

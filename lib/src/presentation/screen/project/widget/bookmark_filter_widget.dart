@@ -15,12 +15,8 @@ class BookmarkFilterWidget extends ConsumerWidget {
     final filter = ref.watch(projectFilterControllerProvider);
 
     return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-          bookmark: value.bookmark,
-        ),
-      _ => Skeletonizer(
-          child: _DesktopWidget(),
-        )
+      AsyncData(:final value) => _DesktopWidget(bookmark: value.bookmark),
+      _ => Skeletonizer(child: _DesktopWidget()),
     };
   }
 }
@@ -28,9 +24,7 @@ class BookmarkFilterWidget extends ConsumerWidget {
 class _DesktopWidget extends ConsumerWidget {
   final bool? bookmark;
 
-  const _DesktopWidget({
-    this.bookmark,
-  });
+  const _DesktopWidget({this.bookmark});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

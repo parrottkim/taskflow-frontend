@@ -21,17 +21,19 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 
 class ReportFormScreen extends HookConsumerWidget {
-  const ReportFormScreen({super.key});
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
+
+  const ReportFormScreen({
+    super.key,
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-    final scheduleId = int.tryParse(
-      state.uri.queryParameters['schedule_id'] ?? '',
-    );
-
     final form = ref.watch(
       reportFormControllerProvider(
         projectId: projectId,
@@ -41,13 +43,21 @@ class ReportFormScreen extends HookConsumerWidget {
     );
 
     return switch (form) {
-      AsyncData(:final value) => _DesktopWidget(value: value),
+      AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        reportId: reportId,
+        scheduleId: scheduleId,
+        value: value,
+      ),
       AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
         error: error,
         stackTrace: stackTrace,
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
+          projectId: projectId,
+          reportId: reportId,
+          scheduleId: scheduleId,
           value: ReportFormState(schedule: Schedule.dummy()),
         ),
       ),
@@ -56,19 +66,20 @@ class ReportFormScreen extends HookConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
   final ReportFormState value;
 
-  const _DesktopWidget({required this.value});
+  const _DesktopWidget({
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-    final scheduleId = int.tryParse(
-      state.uri.queryParameters['schedule_id'] ?? '',
-    );
-
     final colorScheme = Theme.of(context).colorScheme;
 
     // trip이 있으면 6개, 없으면 1개 스텝
@@ -268,6 +279,9 @@ class _DesktopWidget extends HookConsumerWidget {
                   ),
                 Expanded(
                   child: ReportFormSection(
+                    projectId: projectId,
+                    reportId: reportId,
+                    scheduleId: scheduleId,
                     step: currentStep,
                     value: value,
                     editorState: editorState,
@@ -331,7 +345,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               .read(reportSubmitControllerProvider.notifier)
                               .updateReport(
                                 projectId: projectId,
-                                reportId: reportId,
+                                reportId: reportId!,
                                 scheduleId: scheduleId,
                               );
                           return;
@@ -370,7 +384,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               .read(reportSubmitControllerProvider.notifier)
                               .deleteReport(
                                 projectId: projectId,
-                                reportId: reportId,
+                                reportId: reportId!,
                               );
                         }
                       },

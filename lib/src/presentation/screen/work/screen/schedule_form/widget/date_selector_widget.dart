@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide DateRangePickerDialog;
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -7,17 +6,21 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class DateSelectorWidget extends ConsumerWidget {
+  final int categoryId;
+  final int? scheduleId;
   final DateTime? start;
   final DateTime? end;
 
-  const DateSelectorWidget({super.key, this.start, this.end});
+  const DateSelectorWidget({
+    super.key,
+    required this.categoryId,
+    this.scheduleId,
+    this.start,
+    this.end,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final categoryId = int.parse(state.uri.queryParameters['category']!);
-    final scheduleId = int.tryParse(state.pathParameters['schedule_id'] ?? '');
-
     return ElevatedButton.icon(
       onPressed: () async {
         final result = await showDialog(

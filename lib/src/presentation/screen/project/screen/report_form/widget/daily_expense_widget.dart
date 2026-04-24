@@ -11,12 +11,18 @@ import 'package:taskflow/src/presentation/screen/project/screen/report_form/widg
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class DailyExpenseWidget extends ConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
   final Schedule schedule;
   final List<TripRegulationRate> rates;
   final bool? isDeducted;
 
   const DailyExpenseWidget({
     super.key,
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
     required this.schedule,
     required this.rates,
     this.isDeducted,
@@ -24,13 +30,6 @@ class DailyExpenseWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-    final scheduleId = int.tryParse(
-      state.uri.queryParameters['schedule_id'] ?? '',
-    );
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -97,6 +96,9 @@ class DailyExpenseWidget extends ConsumerWidget {
                 ),
               switch (filter) {
                 AsyncData(:final value) => ExpenseListWidget(
+                  projectId: projectId,
+                  reportId: reportId,
+                  scheduleId: scheduleId,
                   schedule: schedule,
                   steps: value.steps.where((e) => e.categoryId == 4).toList(),
                   regulations: value.regulations,
@@ -107,6 +109,9 @@ class DailyExpenseWidget extends ConsumerWidget {
                 _ => Skeletonizer(
                   ignoreContainers: true,
                   child: ExpenseListWidget(
+                    projectId: projectId,
+                    reportId: reportId,
+                    scheduleId: scheduleId,
                     schedule: schedule,
                     steps: List.filled(3, TripStep.dummy()),
                     regulations: [],

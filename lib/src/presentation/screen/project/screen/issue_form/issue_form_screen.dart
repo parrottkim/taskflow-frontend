@@ -23,15 +23,19 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 
 class IssueFormScreen extends ConsumerWidget {
-  const IssueFormScreen({super.key});
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
+
+  const IssueFormScreen({
+    super.key,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
-
     final form = ref.watch(
       issueFormControllerProvider(
         projectId: projectId,
@@ -42,13 +46,21 @@ class IssueFormScreen extends ConsumerWidget {
 
     return BranchLayout(
       child: switch (form) {
-        AsyncData(:final value) => _DesktopWidget(value: value),
+        AsyncData(:final value) => _DesktopWidget(
+          projectId: projectId,
+          categoryId: categoryId,
+          issueId: issueId,
+          value: value,
+        ),
         AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
           error: error,
           stackTrace: stackTrace,
         ),
         _ => Skeletonizer(
           child: _DesktopWidget(
+            projectId: projectId,
+            categoryId: categoryId,
+            issueId: issueId,
             value: IssueFormState(
               category: IssueCategory.dummy(),
               contractItems: [],
@@ -63,17 +75,21 @@ class IssueFormScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
+
   final IssueFormState value;
 
-  const _DesktopWidget({required this.value});
+  const _DesktopWidget({
+    required this.value,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
 
     final isContentInvalid = useState(false);
@@ -243,6 +259,9 @@ class _DesktopWidget extends HookConsumerWidget {
                 SizedBox(height: 24.0),
                 switch (value.category) {
                   IssueContract() => ContractFormItem(
+                    projectId: projectId,
+                    categoryId: categoryId,
+                    issueId: issueId,
                     contractItems: value.contractItems,
                     transactionItems: value.transactionItems,
                     hasContractItems: hasContractItems,
@@ -252,15 +271,24 @@ class _DesktopWidget extends HookConsumerWidget {
                     isRatioInvalid: isRatioInvalid,
                   ),
                   IssueKickoff() => KickoffFormItem(
+                    projectId: projectId,
+                    categoryId: categoryId,
+                    issueId: issueId,
                     kickoffDate: value.kickoffDate,
                     isKickoffDateEmpty: isKickoffDateEmpty,
                   ),
                   IssueProcurement() => ProcurementFormItem(
+                    projectId: projectId,
+                    categoryId: categoryId,
+                    issueId: issueId,
                     items: value.procurementItems,
                     hasProcurementItems: hasProcurementItems,
                     isProcurementItemEmpty: isProcurementItemEmpty,
                   ),
                   IssueTransaction() => TransactionFormItem(
+                    projectId: projectId,
+                    categoryId: categoryId,
+                    issueId: issueId,
                     currency: value.currency,
                     items: value.transactionItems,
                     hasTransactionItems: hasTransactionItems,
@@ -434,7 +462,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             .updateIssue(
                               projectId: projectId,
                               categoryId: categoryId,
-                              issueId: issueId,
+                              issueId: issueId!,
                             );
                       }
                     },
@@ -463,7 +491,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               .read(issueSubmitControllerProvider.notifier)
                               .deleteIssue(
                                 projectId: projectId,
-                                issueId: issueId,
+                                issueId: issueId!,
                               );
                         }
                       },

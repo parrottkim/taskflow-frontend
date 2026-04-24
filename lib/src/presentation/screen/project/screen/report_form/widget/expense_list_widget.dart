@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +10,9 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ExpenseListWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
   final Schedule schedule;
   final List<TripStep> steps;
   final List<TripRegulation>? regulations;
@@ -19,6 +21,9 @@ class ExpenseListWidget extends HookConsumerWidget {
 
   const ExpenseListWidget({
     super.key,
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
     required this.schedule,
     required this.steps,
     this.regulations,
@@ -33,6 +38,9 @@ class ExpenseListWidget extends HookConsumerWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: steps.length,
       itemBuilder: (context, index) => _ExpenseItemWidget(
+        projectId: projectId,
+        reportId: reportId,
+        scheduleId: scheduleId,
         schedule: schedule,
         step: steps[index],
         regulations: regulations,
@@ -45,6 +53,9 @@ class ExpenseListWidget extends HookConsumerWidget {
 }
 
 class _ExpenseItemWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
   final Schedule schedule;
   final TripStep step;
   final List<TripRegulation>? regulations;
@@ -52,6 +63,9 @@ class _ExpenseItemWidget extends HookConsumerWidget {
   final List<TripRegulationRate>? rates;
 
   const _ExpenseItemWidget({
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
     required this.schedule,
     required this.step,
     this.regulations,
@@ -61,12 +75,6 @@ class _ExpenseItemWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-    final scheduleId = int.tryParse(
-      state.uri.queryParameters['schedule_id'] ?? '',
-    );
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

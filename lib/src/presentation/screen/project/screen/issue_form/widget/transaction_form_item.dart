@@ -11,6 +11,9 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class TransactionFormItem extends ConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
   final Currency? currency;
   final List<TransactionItem> items;
   final ValueNotifier<bool> hasTransactionItems;
@@ -18,6 +21,9 @@ class TransactionFormItem extends ConsumerWidget {
 
   const TransactionFormItem({
     super.key,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
     this.currency,
     required this.items,
     required this.hasTransactionItems,
@@ -30,6 +36,9 @@ class TransactionFormItem extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        categoryId: categoryId,
+        issueId: issueId,
         currency: currency,
         categories: value.transactionCategories,
         currencies: value.currencies,
@@ -43,6 +52,9 @@ class TransactionFormItem extends ConsumerWidget {
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
+          projectId: projectId,
+          categoryId: categoryId,
+          issueId: issueId,
           currency: Currency.empty(),
           categories: [],
           currencies: [],
@@ -56,6 +68,9 @@ class TransactionFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
   final Currency? currency;
   final List<TransactionItemCategory> categories;
   final List<Currency> currencies;
@@ -64,6 +79,9 @@ class _DesktopWidget extends HookConsumerWidget {
   final ValueNotifier<bool> isTransactionItemEmpty;
 
   const _DesktopWidget({
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
     this.currency,
     required this.categories,
     required this.currencies,
@@ -74,11 +92,6 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

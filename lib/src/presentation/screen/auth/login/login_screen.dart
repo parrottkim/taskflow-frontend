@@ -9,13 +9,12 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class LoginScreen extends ConsumerWidget {
-  const LoginScreen({super.key});
+  final String? path;
+
+  const LoginScreen({super.key, this.path});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final path = state.uri.queryParameters['redirect_to'];
-
     ref.listen(authControllerProvider, (_, state) {
       if (state is AuthPending) {
         LoadingOverlay.show(context);

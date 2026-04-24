@@ -12,24 +12,26 @@ class NewIssueButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = GoRouterState.of(context);
-    final projectId = state.pathParameters['project_id'];
+    final projectId = int.parse(state.pathParameters['project_id']!);
 
     final detail = ref.watch(
-        projectDetailControllerProvider(projectId: int.parse(projectId!)));
+      projectDetailControllerProvider(projectId: projectId),
+    );
 
     return FilledButton.icon(
-      onPressed: detail is AsyncData &&
+      onPressed:
+          detail is AsyncData &&
               detail.value != null &&
               !detail.value!.project.isClosed
           ? () {
-              context.goNamed(RouteNames.issueNewChoose,
-                  pathParameters: {'project_id': projectId});
+              context.goNamed(
+                RouteNames.issueNewChoose,
+                pathParameters: {'project_id': projectId.toString()},
+              );
             }
           : null,
       icon: Icon(Symbols.add_rounded),
-      label: Text(
-        Intl.message('issue_new'),
-      ),
+      label: Text(Intl.message('issue_new')),
     );
   }
 }

@@ -8,13 +8,12 @@ import 'package:taskflow/src/presentation/screen/work/widget/overview_widget.dar
 import 'package:taskflow/src/router/router.dart';
 
 class WorkScreen extends HookConsumerWidget {
-  const WorkScreen({super.key});
+  final String? view;
+
+  const WorkScreen({super.key, this.view});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final view = state.uri.queryParameters['view'];
-
     useEffect(() {
       final location = GoRouter.of(context).name;
 

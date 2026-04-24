@@ -17,12 +17,17 @@ abstract class ReportRepository {
     required int projectId,
   });
 
-  Future<void> sendMail({required int id});
+  Future<void> sendMail({
+    required int id,
+    required SendReportMailRequest request,
+  });
 
   Future<Report> createReport({required CreateReportRequest request});
 
-  Future<Report> updateReport(
-      {required int id, required UpdateReportRequest request});
+  Future<Report> updateReport({
+    required int id,
+    required UpdateReportRequest request,
+  });
 
   Future<void> deleteReport({required int id});
 
@@ -31,8 +36,5 @@ abstract class ReportRepository {
     required List<MultipartFile> files,
   });
 
-  Future<void> deleteAttachment({
-    required int reportId,
-    required int fileId,
-  });
+  Future<void> deleteAttachment({required int reportId, required int fileId});
 }

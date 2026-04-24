@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -15,24 +14,33 @@ import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ApprovalIssueListWidget extends ConsumerWidget {
-  const ApprovalIssueListWidget({super.key});
+  final int projectId;
+  final int? issueId;
+
+  const ApprovalIssueListWidget({
+    super.key,
+    required this.projectId,
+    this.issueId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
-
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
     return switch (issue) {
-      AsyncData(:final value) => _DesktopWidget(items: value.approvals),
+      AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        issueId: issueId,
+        items: value.approvals,
+      ),
       AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
         error: error,
         stackTrace: stackTrace,
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
+          projectId: projectId,
+          issueId: issueId,
           items: List.filled(
             5,
             ApprovalIssue(
@@ -51,16 +59,18 @@ class ApprovalIssueListWidget extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? issueId;
   final List<ApprovalIssue> items;
 
-  const _DesktopWidget({required this.items});
+  const _DesktopWidget({
+    required this.projectId,
+    this.issueId,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
-
     final auth = ref.watch(authControllerProvider);
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -232,6 +242,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               UserInformationWidget(item: items[index].user),
                               const Spacer(),
                               ToolbarWidget(
+                                projectId: projectId,
                                 issueId: items[index].id,
                                 categoryId: items[index].category.id,
                                 createdAt: items[index].createdAt,

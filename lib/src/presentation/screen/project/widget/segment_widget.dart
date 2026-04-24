@@ -16,9 +16,7 @@ class SegmentWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(view: value.view),
-      _ => Skeletonizer(
-          child: _DesktopWidget(),
-        ),
+      _ => Skeletonizer(child: _DesktopWidget()),
     };
   }
 }
@@ -30,11 +28,12 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItem =
-        useState<ProjectSegment>(ProjectSegment.values.firstWhere(
-      (e) => e.name == view,
-      orElse: () => ProjectSegment.values.first,
-    ));
+    final selectedItem = useState<ProjectSegment>(
+      ProjectSegment.values.firstWhere(
+        (e) => e.name == view,
+        orElse: () => ProjectSegment.values.first,
+      ),
+    );
 
     final controller = useTabController(
       initialLength: ProjectSegment.values.length,
@@ -79,9 +78,7 @@ class _DesktopWidget extends HookConsumerWidget {
         ProjectSegment.values.length,
         (index) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(
-            ProjectSegment.values[index].label,
-          ),
+          child: Text(ProjectSegment.values[index].label),
         ),
       ),
     );

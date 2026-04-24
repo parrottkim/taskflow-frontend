@@ -125,9 +125,13 @@ class ToolbarWidget extends HookConsumerWidget {
               context: context,
               builder: (_) => SendEmailDialog(
                 title: Intl.message('project_issue_mail'),
-                onPressed: () => ref
+                onPressed: (users, isAllSelected) => ref
                     .read(issueSubmitControllerProvider.notifier)
-                    .sendEmail(issueId: issueId),
+                    .sendEmail(
+                      issueId: issueId,
+                      users: users,
+                      isAllSelected: isAllSelected,
+                    ),
               ),
             );
           },

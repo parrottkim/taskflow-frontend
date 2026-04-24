@@ -20,13 +20,13 @@ class DesktopCategoryFilterWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          categories: value.categories, items: value.categoryItems),
+        categories: value.categories,
+        items: value.categoryItems,
+      ),
       _ => Skeletonizer(
-          ignoreContainers: true,
-          child: _DesktopWidget(
-            items: [],
-          ),
-        ),
+        ignoreContainers: true,
+        child: _DesktopWidget(items: []),
+      ),
     };
   }
 }
@@ -35,20 +35,20 @@ class _DesktopWidget extends HookConsumerWidget {
   final List<int>? categories;
   final List<IssueCategory> items;
 
-  const _DesktopWidget({
-    this.categories,
-    required this.items,
-  });
+  const _DesktopWidget({this.categories, required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItems = useState<List<IssueCategory>>(categories
-            ?.map((e) => items.firstWhere((element) => element.id == e))
-            .toList() ??
-        []);
+    final selectedItems = useState<List<IssueCategory>>(
+      categories
+              ?.map((e) => items.firstWhere((element) => element.id == e))
+              .toList() ??
+          [],
+    );
 
     useEffect(() {
-      selectedItems.value = categories
+      selectedItems.value =
+          categories
               ?.map((e) => items.firstWhere((element) => element.id == e))
               .toList() ??
           [];
@@ -57,8 +57,13 @@ class _DesktopWidget extends HookConsumerWidget {
 
     return MultiSelectElevatedDropdownButton(
       onChanged: (value) {
-        ref.read(projectFilterControllerProvider.notifier).setCategories(
-            categories: value.isEmpty ? null : value.map((e) => e.id).toList());
+        ref
+            .read(projectFilterControllerProvider.notifier)
+            .setCategories(
+              categories: value.isEmpty
+                  ? null
+                  : value.map((e) => e.id).toList(),
+            );
 
         final queryParameters = ref
             .read(projectFilterControllerProvider.notifier)

@@ -12,40 +12,46 @@ class DownloadController extends _$DownloadController {
       return DownloadState.failed();
     }
 
-    final result = await ref
-        .read(sftpRepositoryProvider)
-        .downloadFile(path: path!);
+    try {
+      final result = await ref
+          .read(sftpRepositoryProvider)
+          .downloadFile(path: path!);
 
-    if (result.data.isEmpty) {
+      if (result.data.isEmpty) {
+        return DownloadState.failed();
+      }
+
+      final userAgent = window.navigator.userAgent.toLowerCase();
+      final isIOS = userAgent.contains('iphone') || userAgent.contains('ipad');
+
+      if (isIOS) {
+        // iOS: blob 다운로드 불가 → data URL 사용
+        final base64 = base64Encode(result.data);
+        final url = 'data:application/octet-stream;base64,$base64';
+
+        final anchor = HTMLAnchorElement()
+          ..href = url
+          ..download = filename!;
+        anchor.click();
+      } else {
+        // 일반 브라우저
+        final bytes = Uint8List.fromList(result.data);
+        final blob = Blob([bytes.toJS].toJS);
+        final url = URL.createObjectURL(blob);
+
+        final anchor = HTMLAnchorElement()
+          ..href = url
+          ..download = filename!;
+        anchor.click();
+
+        URL.revokeObjectURL(url);
+      }
+
+      return DownloadState.success();
+    } catch (e, stackTrace) {
+      print(e);
+      print(stackTrace);
       return DownloadState.failed();
     }
-
-    final userAgent = window.navigator.userAgent.toLowerCase();
-    final isIOS = userAgent.contains('iphone') || userAgent.contains('ipad');
-
-    if (isIOS) {
-      // iOS: blob 다운로드 불가 → data URL 사용
-      final base64 = base64Encode(result.data);
-      final url = 'data:application/octet-stream;base64,$base64';
-
-      final anchor = HTMLAnchorElement()
-        ..href = url
-        ..download = filename!;
-      anchor.click();
-    } else {
-      // 일반 브라우저
-      final bytes = Uint8List.fromList(result.data);
-      final blob = Blob([bytes.toJS].toJS);
-      final url = URL.createObjectURL(blob);
-
-      final anchor = HTMLAnchorElement()
-        ..href = url
-        ..download = filename!;
-      anchor.click();
-
-      URL.revokeObjectURL(url);
-    }
-
-    return DownloadState.success();
   }
 }

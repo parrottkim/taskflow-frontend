@@ -25,29 +25,36 @@ class ReportDataSource implements ReportRepository {
   Future<Report> getReport({required int id}) => _service.getReport(id: id);
 
   @override
-  Future<Result<Report>> getReports(
-          {int page = 1, int limit = 10, required int projectId}) =>
-      _service.getReports(page: page, limit: limit, projectId: projectId);
+  Future<Result<Report>> getReports({
+    int page = 1,
+    int limit = 10,
+    required int projectId,
+  }) => _service.getReports(page: page, limit: limit, projectId: projectId);
 
   @override
-  Future<void> sendMail({required int id}) => _service.sendMail(id: id);
+  Future<void> sendMail({
+    required int id,
+    required SendReportMailRequest request,
+  }) => _service.sendMail(id: id, request: request);
 
   @override
   Future<Report> createReport({required CreateReportRequest request}) =>
       _service.createReport(request: request);
 
   @override
-  Future<Report> updateReport(
-          {required int id, required UpdateReportRequest request}) =>
-      _service.updateReport(id: id, request: request);
+  Future<Report> updateReport({
+    required int id,
+    required UpdateReportRequest request,
+  }) => _service.updateReport(id: id, request: request);
 
   @override
   Future<void> deleteReport({required int id}) => _service.deleteReport(id: id);
 
   @override
-  Future<List<ReportAttachment>> uploadAttachments(
-          {required int reportId, required List<MultipartFile> files}) =>
-      _service.uploadAttachments(reportId: reportId, files: files);
+  Future<List<ReportAttachment>> uploadAttachments({
+    required int reportId,
+    required List<MultipartFile> files,
+  }) => _service.uploadAttachments(reportId: reportId, files: files);
 
   @override
   Future<void> deleteAttachment({required int reportId, required int fileId}) =>

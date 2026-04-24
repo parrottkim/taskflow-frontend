@@ -15,25 +15,30 @@ import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ProjectFormScreen extends ConsumerWidget {
-  const ProjectFormScreen({super.key});
+  final int? projectId;
+
+  const ProjectFormScreen({super.key, this.projectId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.tryParse(state.pathParameters['project_id'] ?? '');
-
     final form = ref.watch(projectFormControllerProvider(projectId: projectId));
 
     return BranchLayout(
       child: switch (form) {
-        AsyncData(:final value) => _DesktopWidget(value: value),
+        AsyncData(:final value) => _DesktopWidget(
+          projectId: projectId,
+          value: value,
+        ),
         AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
           error: error,
           stackTrace: stackTrace,
         ),
         _ => Skeletonizer(
           ignoreContainers: true,
-          child: _DesktopWidget(value: ProjectFormState()),
+          child: _DesktopWidget(
+            projectId: projectId,
+            value: ProjectFormState(),
+          ),
         ),
       },
     );
@@ -41,15 +46,13 @@ class ProjectFormScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int? projectId;
   final ProjectFormState value;
 
-  const _DesktopWidget({required this.value});
+  const _DesktopWidget({this.projectId, required this.value});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.tryParse(state.pathParameters['project_id'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -105,6 +108,7 @@ class _DesktopWidget extends HookConsumerWidget {
                       ),
                       SizedBox(height: 8.0),
                       ClientSelectorWidget(
+                        projectId: projectId,
                         clients: value.clients,
                         isClientsEmpty: isClientsEmpty,
                       ),
@@ -294,7 +298,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     } else {
                       await ref
                           .read(projectSubmitControllerProvider.notifier)
-                          .updateProject(projectId: projectId);
+                          .updateProject(projectId: projectId!);
                     }
                   },
                   child: Text(

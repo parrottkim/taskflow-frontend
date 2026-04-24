@@ -57,17 +57,14 @@ class ElevatedDropdownButton<T> extends HookWidget {
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(8.0),
                   child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: width.value ?? 0,
-                    ),
+                    constraints: BoxConstraints(minWidth: width.value ?? 0),
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .outline
-                            .withValues(alpha: 0.3),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.outline.withValues(alpha: 0.3),
                       ),
                       color: colorScheme.surface,
                     ),
@@ -105,44 +102,48 @@ class ElevatedDropdownButton<T> extends HookWidget {
               ),
             ),
           ),
-          child: ElevatedButton.icon(
-            onPressed: () {
-              overlayController.toggle();
-            },
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.only(
-                  left: 16.0, right: 12.0, top: 16.0, bottom: 16.0),
-            ),
-            icon: icon,
-            label: Row(
-              mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
-              children: [
-                if (selectedItem.value != null)
-                  itemBuilder(selectedItem.value as T)
-                else
-                  label,
-                if (isExpanded) Spacer(),
-                if (showClose && selectedItem.value != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: InkWell(
-                      onTap: () {
-                        selectedItem.value = null;
-                        overlayController.hide();
-                        onChanged?.call(null);
-                      },
-                      borderRadius: BorderRadius.circular(4.0),
-                      child: const Icon(Symbols.close_rounded),
+          child: Skeleton.unite(
+            child: ElevatedButton.icon(
+              onPressed: () {
+                overlayController.toggle();
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 12.0,
+                  top: 16.0,
+                  bottom: 16.0,
+                ),
+              ),
+              icon: icon,
+              label: Row(
+                mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
+                children: [
+                  if (selectedItem.value != null)
+                    itemBuilder(selectedItem.value as T)
+                  else
+                    label,
+                  if (isExpanded) Spacer(),
+                  if (showClose && selectedItem.value != null)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: InkWell(
+                        onTap: () {
+                          selectedItem.value = null;
+                          overlayController.hide();
+                          onChanged?.call(null);
+                        },
+                        borderRadius: BorderRadius.circular(4.0),
+                        child: const Icon(Symbols.close_rounded),
+                      ),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Icon(Symbols.keyboard_arrow_down_rounded),
                     ),
-                  )
-                else
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Icon(
-                      Symbols.keyboard_arrow_down_rounded,
-                    ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -205,17 +206,14 @@ class MultiSelectElevatedDropdownButton<T> extends HookWidget {
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(8.0),
                   child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: width.value ?? 0,
-                    ),
+                    constraints: BoxConstraints(minWidth: width.value ?? 0),
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .outline
-                            .withValues(alpha: 0.3),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.outline.withValues(alpha: 0.3),
                       ),
                       color: colorScheme.surface,
                     ),
@@ -231,8 +229,9 @@ class MultiSelectElevatedDropdownButton<T> extends HookWidget {
                                 : Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                final currentSelection =
-                                    List<T>.from(selectedItems.value);
+                                final currentSelection = List<T>.from(
+                                  selectedItems.value,
+                                );
                                 if (currentSelection.contains(item)) {
                                   currentSelection.remove(item);
                                 } else {
@@ -275,7 +274,11 @@ class MultiSelectElevatedDropdownButton<T> extends HookWidget {
             },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.only(
-                  left: 16.0, right: 12.0, top: 16.0, bottom: 16.0),
+                left: 16.0,
+                right: 12.0,
+                top: 16.0,
+                bottom: 16.0,
+              ),
             ),
             icon: icon,
             label: Row(
@@ -284,7 +287,8 @@ class MultiSelectElevatedDropdownButton<T> extends HookWidget {
                 selectedItems.value.isNotEmpty
                     ? Text(
                         '${selectedItems.value.length} ${Intl.message('filter_suffix')}',
-                        style: TextStyle(fontWeight: FontWeight.w600))
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                      )
                     : Text(label ?? ''),
                 if (selectedItems.value.isNotEmpty)
                   Padding(
@@ -302,9 +306,7 @@ class MultiSelectElevatedDropdownButton<T> extends HookWidget {
                 else
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Icon(
-                      Symbols.keyboard_arrow_down_rounded,
-                    ),
+                    child: Icon(Symbols.keyboard_arrow_down_rounded),
                   ),
               ],
             ),
@@ -324,9 +326,9 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
   final ValueChanged<List<T>>? onChanged;
   final FocusNode? focus;
   final List<T> Function(List<T> currentPath, List<T> allItems)
-      getNextLevelItems;
+  getNextLevelItems;
   final T? Function(List<T> currentPath, List<T> allItems, T selectedItem)
-      getParentItem;
+  getParentItem;
 
   const BreadcrumbDropdownButton({
     super.key,
@@ -350,8 +352,9 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
     final width = useState<double?>(null);
 
     final currentLevelItems = useState<List<T>>(getNextLevelItems([], items));
-    final currentSelectionIndex =
-        useState<int>(-1); // -1 for root, 0 for first breadcrumb, etc.
+    final currentSelectionIndex = useState<int>(
+      -1,
+    ); // -1 for root, 0 for first breadcrumb, etc.
 
     useEffect(() {
       // Reset currentLevelItems when selectedPath changes externally
@@ -386,17 +389,14 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(8.0),
                   child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: width.value ?? 0,
-                    ),
+                    constraints: BoxConstraints(minWidth: width.value ?? 0),
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .outline
-                            .withValues(alpha: 0.3),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.outline.withValues(alpha: 0.3),
                       ),
                       color: colorScheme.surface,
                     ),
@@ -410,30 +410,40 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  final newPath =
-                                      List<T>.from(selectedPath.value);
+                                  final newPath = List<T>.from(
+                                    selectedPath.value,
+                                  );
                                   if (newPath.isNotEmpty) {
                                     newPath.removeLast();
                                   }
                                   selectedPath.value = newPath;
                                   onChanged?.call(newPath);
-                                  currentLevelItems.value =
-                                      getNextLevelItems(newPath, items);
+                                  currentLevelItems.value = getNextLevelItems(
+                                    newPath,
+                                    items,
+                                  );
                                   currentSelectionIndex.value =
                                       newPath.length - 1;
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0, vertical: 8.0),
+                                    horizontal: 16.0,
+                                    vertical: 8.0,
+                                  ),
                                   child: Row(
                                     children: [
-                                      const Icon(Symbols.arrow_back_rounded,
-                                          size: 20.0),
+                                      const Icon(
+                                        Symbols.arrow_back_rounded,
+                                        size: 20.0,
+                                      ),
                                       const SizedBox(width: 8.0),
                                       currentSelectionIndex.value == -1
                                           ? (Text(label ?? '')) // Root level
-                                          : itemBuilder(selectedPath.value[
-                                              currentSelectionIndex.value]),
+                                          : itemBuilder(
+                                              selectedPath
+                                                  .value[currentSelectionIndex
+                                                  .value],
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -444,13 +454,16 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  final newPath =
-                                      List<T>.from(selectedPath.value);
+                                  final newPath = List<T>.from(
+                                    selectedPath.value,
+                                  );
                                   newPath.add(item);
                                   selectedPath.value = newPath;
                                   onChanged?.call(newPath);
-                                  currentLevelItems.value =
-                                      getNextLevelItems(newPath, items);
+                                  currentLevelItems.value = getNextLevelItems(
+                                    newPath,
+                                    items,
+                                  );
                                   currentSelectionIndex.value =
                                       newPath.length - 1;
                                 },
@@ -478,7 +491,11 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
             },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.only(
-                  left: 16.0, right: 12.0, top: 16.0, bottom: 16.0),
+                left: 16.0,
+                right: 12.0,
+                top: 16.0,
+                bottom: 16.0,
+              ),
             ),
             icon: icon,
             label: Row(
@@ -486,20 +503,20 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
               children: [
                 if (selectedPath.value.isNotEmpty)
                   ...selectedPath.value
-                      .map((item) => Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              itemBuilder(item),
-                              if (selectedPath.value.indexOf(item) <
-                                  selectedPath.value.length - 1)
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  child:
-                                      Icon(Symbols.chevron_right, size: 16.0),
-                                ),
-                            ],
-                          ))
+                      .map(
+                        (item) => Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            itemBuilder(item),
+                            if (selectedPath.value.indexOf(item) <
+                                selectedPath.value.length - 1)
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 4.0),
+                                child: Icon(Symbols.chevron_right, size: 16.0),
+                              ),
+                          ],
+                        ),
+                      )
                       .toList()
                 else
                   Text(label ?? ''),
@@ -519,9 +536,7 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
                 else
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Icon(
-                      Symbols.keyboard_arrow_down_rounded,
-                    ),
+                    child: Icon(Symbols.keyboard_arrow_down_rounded),
                   ),
               ],
             ),

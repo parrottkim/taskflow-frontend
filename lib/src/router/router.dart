@@ -141,10 +141,12 @@ class AppRouter {
         name: RouteNames.login,
         path: Routes.login,
         pageBuilder: (context, state) {
+          final path = state.uri.queryParameters['redirect_to'];
+
           return buildFadeTransition(
             context: context,
             state: state,
-            child: LoginScreen(),
+            child: LoginScreen(path: path),
           );
         },
         routes: [
@@ -152,10 +154,12 @@ class AppRouter {
             name: RouteNames.register,
             path: Routes.register,
             pageBuilder: (context, state) {
+              final path = state.uri.queryParameters['redirect_to'];
+
               return NoTransitionPage(
                 key: state.pageKey,
                 name: state.name,
-                child: RegisterScreen(),
+                child: RegisterScreen(path: path),
               );
             },
           ),
@@ -163,10 +167,12 @@ class AppRouter {
             name: RouteNames.forgotPassword,
             path: Routes.forgotPassword,
             pageBuilder: (context, state) {
+              final path = state.uri.queryParameters['redirect_to'];
+
               return NoTransitionPage(
                 key: state.pageKey,
                 name: state.name,
-                child: ForgotPasswordScreen(),
+                child: ForgotPasswordScreen(path: path),
               );
             },
           ),
@@ -174,10 +180,13 @@ class AppRouter {
             name: RouteNames.resetPassword,
             path: Routes.resetPassword,
             pageBuilder: (context, state) {
+              final path = state.uri.queryParameters['redirect_to'];
+              final token = state.uri.queryParameters['token'];
+
               return NoTransitionPage(
                 key: state.pageKey,
                 name: state.name,
-                child: ResetPasswordScreen(),
+                child: ResetPasswordScreen(path: path, token: token),
               );
             },
           ),
@@ -211,10 +220,26 @@ class AppRouter {
                 name: RouteNames.project,
                 path: Routes.project,
                 pageBuilder: (context, state) {
+                  final view = state.uri.queryParameters['view'];
+                  final sort = state.uri.queryParameters['sort'];
+                  final order = state.uri.queryParameters['order'];
+                  final search = state.uri.queryParameters['search'];
+                  final bookmark = state.uri.queryParameters['bookmark'];
+                  final clients = state.uri.queryParameters['clients'];
+                  final categories = state.uri.queryParameters['categories'];
+
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: ProjectScreen(),
+                    child: ProjectScreen(
+                      view: view,
+                      sort: sort,
+                      order: order,
+                      search: search,
+                      bookmark: bookmark,
+                      clients: clients,
+                      categories: categories,
+                    ),
                   );
                 },
                 routes: [
@@ -223,7 +248,11 @@ class AppRouter {
                     path: Routes.projectNew,
                     parentNavigatorKey: _projectKey,
                     pageBuilder: (context, state) {
-                      return NoTransitionPage(child: ProjectFormScreen());
+                      return NoTransitionPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        child: ProjectFormScreen(),
+                      );
                     },
                     onExit: (context, state) async {
                       final error = ref.watch(errorControllerProvider);
@@ -249,7 +278,15 @@ class AppRouter {
                     path: ':project_id/${Routes.projectEdit}',
                     parentNavigatorKey: _projectKey,
                     pageBuilder: (context, state) {
-                      return NoTransitionPage(child: ProjectFormScreen());
+                      final projectId = int.tryParse(
+                        state.pathParameters['project_id'] ?? '',
+                      );
+
+                      return NoTransitionPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        child: ProjectFormScreen(projectId: projectId),
+                      );
                     },
                     onExit: (context, state) async {
                       final error = ref.watch(errorControllerProvider);
@@ -275,7 +312,27 @@ class AppRouter {
                     path: ':project_id',
                     parentNavigatorKey: _projectKey,
                     pageBuilder: (context, state) {
-                      return NoTransitionPage(child: ProjectDetailScreen());
+                      final projectId = int.parse(
+                        state.pathParameters['project_id']!,
+                      );
+                      final issueId = int.tryParse(
+                        state.uri.queryParameters['issue'] ?? '',
+                      );
+                      final reportId = int.tryParse(
+                        state.uri.queryParameters['report'] ?? '',
+                      );
+                      final view = state.uri.queryParameters['view'];
+
+                      return NoTransitionPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        child: ProjectDetailScreen(
+                          projectId: projectId,
+                          issueId: issueId,
+                          reportId: reportId,
+                          view: view,
+                        ),
+                      );
                     },
                     routes: [
                       GoRoute(
@@ -291,8 +348,16 @@ class AppRouter {
                             name: RouteNames.issueNewChoose,
                             path: Routes.issueNewChoose,
                             pageBuilder: (context, state) {
+                              final projectId = int.parse(
+                                state.pathParameters['project_id']!,
+                              );
+
                               return NoTransitionPage(
-                                child: IssueCategoryScreen(),
+                                key: state.pageKey,
+                                name: state.name,
+                                child: IssueCategoryScreen(
+                                  projectId: projectId,
+                                ),
                               );
                             },
                             routes: [
@@ -300,8 +365,24 @@ class AppRouter {
                                 name: RouteNames.issueNew,
                                 path: '${Routes.issueNew}/:category_id',
                                 pageBuilder: (context, state) {
+                                  final projectId = int.parse(
+                                    state.pathParameters['project_id']!,
+                                  );
+                                  final categoryId = int.parse(
+                                    state.pathParameters['category_id']!,
+                                  );
+                                  final issueId = int.tryParse(
+                                    state.pathParameters['issue_id'] ?? '',
+                                  );
+
                                   return NoTransitionPage(
-                                    child: IssueFormScreen(),
+                                    key: state.pageKey,
+                                    name: state.name,
+                                    child: IssueFormScreen(
+                                      projectId: projectId,
+                                      categoryId: categoryId,
+                                      issueId: issueId,
+                                    ),
                                   );
                                 },
                                 onExit: (context, state) async {
@@ -336,7 +417,25 @@ class AppRouter {
                             path: ':issue_id/${Routes.issueEdit}/:category_id',
                             parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
-                              return NoTransitionPage(child: IssueFormScreen());
+                              final projectId = int.parse(
+                                state.pathParameters['project_id']!,
+                              );
+                              final categoryId = int.parse(
+                                state.pathParameters['category_id']!,
+                              );
+                              final issueId = int.tryParse(
+                                state.pathParameters['issue_id'] ?? '',
+                              );
+
+                              return NoTransitionPage(
+                                key: state.pageKey,
+                                name: state.name,
+                                child: IssueFormScreen(
+                                  projectId: projectId,
+                                  categoryId: categoryId,
+                                  issueId: issueId,
+                                ),
+                              );
                             },
                             onExit: (context, state) async {
                               final error = ref.watch(errorControllerProvider);
@@ -375,8 +474,24 @@ class AppRouter {
                             path: Routes.reportNewChoose, // 예: choose
                             parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
+                              final projectId = int.parse(
+                                state.pathParameters['project_id']!,
+                              );
+                              final reportId = int.tryParse(
+                                state.pathParameters['report_id'] ?? '',
+                              );
+                              final scheduleId = int.tryParse(
+                                state.uri.queryParameters['schedule_id'] ?? '',
+                              );
+
                               return NoTransitionPage(
-                                child: ReportCategoryScreen(),
+                                key: state.pageKey,
+                                name: state.name,
+                                child: ReportCategoryScreen(
+                                  projectId: projectId,
+                                  reportId: reportId,
+                                  scheduleId: scheduleId,
+                                ),
                               );
                             },
                             routes: [
@@ -386,8 +501,21 @@ class AppRouter {
                                 path: Routes.reportNew,
                                 parentNavigatorKey: _projectKey,
                                 pageBuilder: (context, state) {
+                                  final projectId = int.parse(
+                                    state.pathParameters['project_id']!,
+                                  );
+                                  final scheduleId = int.tryParse(
+                                    state.uri.queryParameters['schedule_id'] ??
+                                        '',
+                                  );
+
                                   return NoTransitionPage(
-                                    child: ReportFormScreen(),
+                                    key: state.pageKey,
+                                    name: state.name,
+                                    child: ReportFormScreen(
+                                      projectId: projectId,
+                                      scheduleId: scheduleId,
+                                    ),
                                   );
                                 },
                                 onExit: (context, state) async {
@@ -422,8 +550,24 @@ class AppRouter {
                             path: ':report_id/${Routes.reportEdit}',
                             parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
+                              final projectId = int.parse(
+                                state.pathParameters['project_id']!,
+                              );
+                              final reportId = int.tryParse(
+                                state.pathParameters['report_id'] ?? '',
+                              );
+                              final scheduleId = int.tryParse(
+                                state.uri.queryParameters['schedule_id'] ?? '',
+                              );
+
                               return NoTransitionPage(
-                                child: ReportFormScreen(),
+                                key: state.pageKey,
+                                name: state.name,
+                                child: ReportFormScreen(
+                                  projectId: projectId,
+                                  reportId: reportId,
+                                  scheduleId: scheduleId,
+                                ),
                               );
                             },
                             onExit: (context, state) async {
@@ -462,10 +606,12 @@ class AppRouter {
                 name: RouteNames.work,
                 path: Routes.work,
                 pageBuilder: (context, state) {
+                  final view = state.uri.queryParameters['view'];
+
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: WorkScreen(),
+                    child: WorkScreen(view: view),
                   );
                 },
                 routes: [
@@ -483,10 +629,12 @@ class AppRouter {
                         path: Routes.scheduleNewChoose,
                         parentNavigatorKey: _workKey,
                         pageBuilder: (context, state) {
+                          final path = state.uri.queryParameters['redirect_to'];
+
                           return NoTransitionPage(
                             key: state.pageKey,
                             name: state.name,
-                            child: ScheduleCategoryScreen(),
+                            child: ScheduleCategoryScreen(path: path),
                           );
                         },
                         routes: [
@@ -494,10 +642,23 @@ class AppRouter {
                             name: RouteNames.scheduleNew,
                             path: Routes.scheduleNew,
                             pageBuilder: (context, state) {
+                              final path =
+                                  state.uri.queryParameters['redirect_to'];
+                              final categoryId = int.parse(
+                                state.uri.queryParameters['category']!,
+                              );
+                              final scheduleId = int.tryParse(
+                                state.pathParameters['schedule_id'] ?? '',
+                              );
+
                               return NoTransitionPage(
                                 key: state.pageKey,
                                 name: state.name,
-                                child: ScheduleFormScreen(),
+                                child: ScheduleFormScreen(
+                                  path: path,
+                                  categoryId: categoryId,
+                                  scheduleId: scheduleId,
+                                ),
                               );
                             },
                             onExit: (context, state) async {
@@ -527,10 +688,22 @@ class AppRouter {
                         name: RouteNames.scheduleEdit,
                         path: ':schedule_id/${Routes.scheduleEdit}',
                         pageBuilder: (context, state) {
+                          final path = state.uri.queryParameters['redirect_to'];
+                          final categoryId = int.parse(
+                            state.uri.queryParameters['category']!,
+                          );
+                          final scheduleId = int.tryParse(
+                            state.pathParameters['schedule_id'] ?? '',
+                          );
+
                           return NoTransitionPage(
                             key: state.pageKey,
                             name: state.name,
-                            child: ScheduleFormScreen(),
+                            child: ScheduleFormScreen(
+                              path: path,
+                              categoryId: categoryId,
+                              scheduleId: scheduleId,
+                            ),
                           );
                         },
                         onExit: (context, state) async {
@@ -595,10 +768,12 @@ class AppRouter {
                 name: RouteNames.setting,
                 path: Routes.setting,
                 pageBuilder: (context, state) {
+                  final view = state.uri.queryParameters['view'];
+
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: SettingScreen(),
+                    child: SettingScreen(view: view),
                   );
                 },
               ),
@@ -610,10 +785,13 @@ class AppRouter {
         name: RouteNames.download,
         path: Routes.download,
         pageBuilder: (context, state) {
+          final path = state.uri.queryParameters['path'];
+          final filename = state.uri.queryParameters['filename'];
+
           return NoTransitionPage(
             key: state.pageKey,
             name: state.name,
-            child: DownloadScreen(),
+            child: DownloadScreen(path: path, filename: filename),
           );
         },
       ),

@@ -8,13 +8,12 @@ import 'package:taskflow/src/presentation/screen/setting/widget/overview_widget.
 import 'package:taskflow/src/router/router.dart';
 
 class SettingScreen extends HookConsumerWidget {
-  const SettingScreen({super.key});
+  final String? view;
+
+  const SettingScreen({super.key, this.view});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final view = state.uri.queryParameters['view'];
-
     useEffect(() {
       final location = GoRouter.of(context).name;
 

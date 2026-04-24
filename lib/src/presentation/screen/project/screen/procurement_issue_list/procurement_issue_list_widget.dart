@@ -9,7 +9,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_display_item.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_preview_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_export_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/toolbar_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -17,23 +17,33 @@ import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ProcurementIssueListWidget extends ConsumerWidget {
-  const ProcurementIssueListWidget({super.key});
+  final int projectId;
+  final int? issueId;
+
+  const ProcurementIssueListWidget({
+    super.key,
+    required this.projectId,
+    this.issueId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
     return switch (issue) {
-      AsyncData(:final value) => _DesktopWidget(items: value.procurements),
+      AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        issueId: issueId,
+        items: value.procurements,
+      ),
       AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
         error: error,
         stackTrace: stackTrace,
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
+          projectId: projectId,
+          issueId: issueId,
           items: List.filled(
             5,
             ProcurementIssue(
@@ -52,16 +62,18 @@ class ProcurementIssueListWidget extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? issueId;
   final List<ProcurementIssue> items;
 
-  const _DesktopWidget({required this.items});
+  const _DesktopWidget({
+    required this.projectId,
+    this.issueId,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
-
     final auth = ref.watch(authControllerProvider);
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -255,7 +267,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               items: items[index].procurementItems,
                             ),
                             MarkdownWidget(item: items[index].content),
-                            ProcurementPreviewWidget(),
+                            ProcurementExportWidget(item: items[index]),
                             if (items[index].attachments.isNotEmpty)
                               AttachmentListWidget(
                                 attachments: items[index].attachments,
