@@ -9,12 +9,18 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class DescriptionWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
   final EditorState editorState;
   final List<ReportAttachment>? attachments;
   final List<XFile>? files;
 
   const DescriptionWidget({
     super.key,
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
     required this.editorState,
     this.attachments,
     this.files,
@@ -22,13 +28,6 @@ class DescriptionWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-    final scheduleId = int.tryParse(
-      state.uri.queryParameters['schedule_id'] ?? '',
-    );
-
     final validation = ref.watch(reportValidationControllerProvider);
     final isDescriptionInvalid = validation.contentInvalid;
 

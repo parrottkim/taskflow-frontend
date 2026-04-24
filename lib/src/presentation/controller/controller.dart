@@ -46,6 +46,8 @@ part 'download/download_state.dart';
 part 'error/error_controller.dart';
 part 'error/error_state.dart';
 
+part 'issue/issue_export_controller.dart';
+part 'issue/issue_export_state.dart';
 part 'issue/issue_filter_controller.dart';
 part 'issue/issue_filter_state.dart';
 part 'issue/issue_form_controller.dart';
@@ -97,8 +99,8 @@ part 'report/report_validation_state.dart';
 
 part 'trip/trip_filter_controller.dart';
 part 'trip/trip_filter_state.dart';
-part 'trip/trip_preview_controller.dart';
-part 'trip/trip_preview_state.dart';
+part 'trip/trip_export_controller.dart';
+part 'trip/trip_export_state.dart';
 part 'trip/trip_step_controller.dart';
 part 'trip/trip_step_state.dart';
 

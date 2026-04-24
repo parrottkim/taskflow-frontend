@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -11,6 +10,9 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ContractFormItem extends ConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
   final Currency? currency;
   final List<ContractItem> contractItems;
   final List<TransactionItem> transactionItems;
@@ -22,6 +24,9 @@ class ContractFormItem extends ConsumerWidget {
 
   const ContractFormItem({
     super.key,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
     this.currency,
     required this.contractItems,
     required this.transactionItems,
@@ -38,6 +43,9 @@ class ContractFormItem extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        categoryId: categoryId,
+        issueId: issueId,
         currency: currency,
         currencies: value.currencies,
         contractItems: contractItems,
@@ -55,6 +63,9 @@ class ContractFormItem extends ConsumerWidget {
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
+          projectId: projectId,
+          categoryId: categoryId,
+          issueId: issueId,
           currency: Currency.empty(),
           currencies: [],
           contractItems: [],
@@ -72,6 +83,9 @@ class ContractFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
   final Currency? currency;
   final List<Currency> currencies;
   final List<ContractItem> contractItems;
@@ -85,6 +99,9 @@ class _DesktopWidget extends HookConsumerWidget {
 
   const _DesktopWidget({
     this.currency,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
     required this.currencies,
     required this.contractItems,
     required this.transactionItems,
@@ -98,11 +115,6 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

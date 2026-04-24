@@ -1,6 +1,5 @@
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
@@ -9,16 +8,21 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class AttachmentItemWidget extends HookConsumerWidget {
+  final int projectId;
+  final int categoryId;
+  final int? issueId;
   final IssueAttachment attachment;
 
-  const AttachmentItemWidget({super.key, required this.attachment});
+  const AttachmentItemWidget({
+    super.key,
+    required this.projectId,
+    required this.categoryId,
+    this.issueId,
+    required this.attachment,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final categoryId = int.parse(state.pathParameters['category_id']!);
-    final issueId = int.tryParse(state.pathParameters['issue_id'] ?? '');
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 

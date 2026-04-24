@@ -16,12 +16,7 @@ class BranchLayout extends ConsumerWidget {
   final Widget? title;
   final Function()? onTap;
 
-  const BranchLayout({
-    super.key,
-    required this.child,
-    this.title,
-    this.onTap,
-  });
+  const BranchLayout({super.key, required this.child, this.title, this.onTap});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,7 +37,11 @@ class BranchLayout extends ConsumerWidget {
             if (Responsive.isDesktop(context))
               Container(
                 padding: const EdgeInsets.only(
-                    top: 36.0, left: 24.0, bottom: 10.0, right: 24.0),
+                  top: 36.0,
+                  left: 24.0,
+                  bottom: 10.0,
+                  right: 24.0,
+                ),
                 child: Row(
                   children: [
                     if (context.canPop())
@@ -50,10 +49,7 @@ class BranchLayout extends ConsumerWidget {
                         padding: const EdgeInsets.only(right: 12.0),
                         child: CustomIconButton(
                           onTap: onTap ?? () => context.pop(),
-                          icon: Icon(
-                            Symbols.chevron_left,
-                            size: 24.0,
-                          ),
+                          icon: Icon(Symbols.chevron_left, size: 24.0),
                         ),
                       ),
                     Expanded(
@@ -63,9 +59,7 @@ class BranchLayout extends ConsumerWidget {
                         ),
                         child: title != null
                             ? title!
-                            : Text(
-                                Intl.message(currentRouteName),
-                              ),
+                            : Text(Intl.message(currentRouteName)),
                       ),
                     ),
                     if (currentRouteName == RouteNames.dashboard)
@@ -86,7 +80,9 @@ class BranchLayout extends ConsumerWidget {
                             ref
                                 .read(dateSelectionControllerProvider.notifier)
                                 .dataSelectionChange(
-                                    start: startDate, end: endDate);
+                                  start: startDate,
+                                  end: endDate,
+                                );
                           }
                         },
                         child: Row(
@@ -94,7 +90,8 @@ class BranchLayout extends ConsumerWidget {
                           children: [
                             SizedBox(width: 4.0),
                             Text(
-                                '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.end)}'),
+                              '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.end)}',
+                            ),
                             SizedBox(width: 4.0),
                             Icon(Symbols.expand_more_rounded),
                           ],
@@ -113,9 +110,7 @@ class BranchLayout extends ConsumerWidget {
                   ],
                 ),
               ),
-            Flexible(
-              child: child,
-            ),
+            Flexible(child: child),
           ],
         ),
       ),

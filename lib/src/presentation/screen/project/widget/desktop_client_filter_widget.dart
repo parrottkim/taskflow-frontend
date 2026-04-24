@@ -19,14 +19,14 @@ class DesktopClientFilterWidget extends ConsumerWidget {
     final filter = ref.watch(projectFilterControllerProvider);
 
     return switch (filter) {
-      AsyncData(:final value) =>
-        _DesktopWidget(clients: value.clients, items: value.clientItems),
+      AsyncData(:final value) => _DesktopWidget(
+        clients: value.clients,
+        items: value.clientItems,
+      ),
       _ => Skeletonizer(
-          ignoreContainers: true,
-          child: _DesktopWidget(
-            items: [],
-          ),
-        ),
+        ignoreContainers: true,
+        child: _DesktopWidget(items: []),
+      ),
     };
   }
 }
@@ -35,17 +35,16 @@ class _DesktopWidget extends HookConsumerWidget {
   final List<int>? clients;
   final List<ClientGroup> items;
 
-  const _DesktopWidget({
-    this.clients,
-    required this.items,
-  });
+  const _DesktopWidget({this.clients, required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final allClients = items.expand((group) => group.items).toList();
 
     List<Client> getNextLevelItems(
-        List<Client> currentPath, List<ClientGroup> allClientGroups) {
+      List<Client> currentPath,
+      List<ClientGroup> allClientGroups,
+    ) {
       if (allClientGroups.isEmpty) {
         return [];
       }
@@ -62,9 +61,11 @@ class _DesktopWidget extends HookConsumerWidget {
         final nextDepth = currentPath.length; // Depth of the next level
         try {
           return allClientGroups
-              .firstWhere((group) =>
-                  group.depth == nextDepth &&
-                  group.parentId == lastSelectedClient.id)
+              .firstWhere(
+                (group) =>
+                    group.depth == nextDepth &&
+                    group.parentId == lastSelectedClient.id,
+              )
               .items;
         } catch (e) {
           return []; // No next level items
@@ -72,8 +73,11 @@ class _DesktopWidget extends HookConsumerWidget {
       }
     }
 
-    Client? getParentItem(List<Client> currentPath,
-        List<ClientGroup> allClientGroups, Client selectedItem) {
+    Client? getParentItem(
+      List<Client> currentPath,
+      List<ClientGroup> allClientGroups,
+      Client selectedItem,
+    ) {
       final index = currentPath.indexOf(selectedItem);
       if (index > 0) {
         return currentPath[index - 1]; // Return the previous item in the path
@@ -89,7 +93,8 @@ class _DesktopWidget extends HookConsumerWidget {
     );
 
     useEffect(() {
-      selectedPath.value = clients
+      selectedPath.value =
+          clients
               ?.map((id) => allClients.firstWhere((item) => item.id == id))
               .toList() ??
           [];
@@ -127,8 +132,10 @@ class _DesktopWidget extends HookConsumerWidget {
                     ClientType.values
                         .singleWhere((client) => client.id == item.id)
                         .asset,
-                    colorFilter:
-                        ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    colorFilter: ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ),
@@ -137,13 +144,22 @@ class _DesktopWidget extends HookConsumerWidget {
         );
       },
       getNextLevelItems: (currentPath, allItems) => getNextLevelItems(
-          currentPath, items), // Pass items (ClientGroup list)
+        currentPath,
+        items,
+      ), // Pass items (ClientGroup list)
       getParentItem: (currentPath, allItems, selectedItem) => getParentItem(
-          currentPath, items, selectedItem), // Pass items (ClientGroup list)
+        currentPath,
+        items,
+        selectedItem,
+      ), // Pass items (ClientGroup list)
       onChanged: (newPath) {
-        ref.read(projectFilterControllerProvider.notifier).setClients(
-            clients:
-                newPath.isEmpty ? null : newPath.map((e) => e.id).toList());
+        ref
+            .read(projectFilterControllerProvider.notifier)
+            .setClients(
+              clients: newPath.isEmpty
+                  ? null
+                  : newPath.map((e) => e.id).toList(),
+            );
 
         final queryParameters = ref
             .read(projectFilterControllerProvider.notifier)

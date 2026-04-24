@@ -19,6 +19,12 @@ abstract class IssueService {
     @Query('limit') int limit = 20,
   });
 
+  @GET('issue/procurement/export/{id}')
+  @DioResponseType(ResponseType.bytes)
+  Future<HttpResponse<List<int>>> exportPurchaseRequest({
+    @Path() required int id,
+  });
+
   @GET('issue/contract/item/{id}')
   Future<List<ContractItem>> getContractItems({@Path() required int id});
 
@@ -63,7 +69,10 @@ abstract class IssueService {
   Future<Issue> getIssue({@Path() required int id});
 
   @POST('issue/mail/{id}')
-  Future<void> sendMail({@Path() required int id});
+  Future<void> sendMail({
+    @Path() required int id,
+    @Body() required SendIssueMailRequest request,
+  });
 
   @POST('issue/contract')
   Future<Issue> createContractIssue({

@@ -416,11 +416,23 @@ class IssueSubmitController extends _$IssueSubmitController {
     }
   }
 
-  Future<void> sendEmail({required int issueId}) async {
+  Future<void> sendEmail({
+    required int issueId,
+    required List<User> users,
+    required bool isAllSelected,
+  }) async {
     state = const IssueSubmitState.pending();
 
+    final request = SendIssueMailRequest(
+      userIds: isAllSelected
+          ? null
+          : users.map((element) => element.id).toList(),
+    );
+
     try {
-      await ref.read(issueRepositoryProvider).sendMail(id: issueId);
+      await ref
+          .read(issueRepositoryProvider)
+          .sendMail(id: issueId, request: request);
 
       state = IssueSubmitState.mailed();
     } catch (e) {

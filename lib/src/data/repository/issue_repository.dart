@@ -9,6 +9,8 @@ abstract class IssueRepository {
 
   Future<Result<LatestIssue>> getLatestIssues({int page = 1, int limit = 20});
 
+  Future<HttpResponse<List<int>>> exportPurchaseRequest({required int id});
+
   Future<List<ContractItem>> getContractItems({required int id});
 
   Future<List<TransactionItem>> getTransactionItems({required int id});
@@ -37,7 +39,10 @@ abstract class IssueRepository {
 
   Future<Issue> getIssue({required int id});
 
-  Future<void> sendMail({required int id});
+  Future<void> sendMail({
+    required int id,
+    required SendIssueMailRequest request,
+  });
 
   Future<Issue> createContractIssue({
     required CreateContractIssueRequest request,

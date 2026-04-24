@@ -11,12 +11,12 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class ScheduleCategoryScreen extends ConsumerWidget {
-  const ScheduleCategoryScreen({super.key});
+  final String? path;
+
+  const ScheduleCategoryScreen({super.key, this.path});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final path = state.uri.queryParameters['redirect_to'];
     final filter = ref.watch(scheduleFilterControllerProvider);
 
     return BranchLayout(

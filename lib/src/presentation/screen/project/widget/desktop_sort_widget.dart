@@ -18,13 +18,10 @@ class DesktopSortWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-          sort: value.sort,
-          order: value.order,
-        ),
-      _ => Skeletonizer(
-          ignoreContainers: true,
-          child: _DesktopWidget(),
-        ),
+        sort: value.sort,
+        order: value.order,
+      ),
+      _ => Skeletonizer(ignoreContainers: true, child: _DesktopWidget()),
     };
   }
 }
@@ -33,10 +30,7 @@ class _DesktopWidget extends HookConsumerWidget {
   final ProjectSort? sort;
   final Order? order;
 
-  const _DesktopWidget({
-    this.sort,
-    this.order,
-  });
+  const _DesktopWidget({this.sort, this.order});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,8 +55,9 @@ class _DesktopWidget extends HookConsumerWidget {
         }
 
         selectedSort.value = value;
-        selectedOrder.value =
-            selectedOrder.value == Order.asc ? Order.desc : Order.asc;
+        selectedOrder.value = selectedOrder.value == Order.asc
+            ? Order.desc
+            : Order.asc;
 
         ref.read(projectFilterControllerProvider.notifier).setSort(sort: value);
         ref
@@ -79,9 +74,7 @@ class _DesktopWidget extends HookConsumerWidget {
       selectedItem: selectedSort,
       icon: const RotatedBox(
         quarterTurns: 1,
-        child: Icon(
-          Symbols.sync_alt_rounded,
-        ),
+        child: Icon(Symbols.sync_alt_rounded),
       ),
       label: Text(Intl.message('filter_sort')),
       itemBuilder: (item) => Row(

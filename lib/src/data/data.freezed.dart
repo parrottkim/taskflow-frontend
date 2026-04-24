@@ -8776,6 +8776,277 @@ as String?,
 
 
 /// @nodoc
+mixin _$SendIssueMailRequest {
+
+ List<int>? get userIds;
+/// Create a copy of SendIssueMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SendIssueMailRequestCopyWith<SendIssueMailRequest> get copyWith => _$SendIssueMailRequestCopyWithImpl<SendIssueMailRequest>(this as SendIssueMailRequest, _$identity);
+
+  /// Serializes this SendIssueMailRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendIssueMailRequest&&const DeepCollectionEquality().equals(other.userIds, userIds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(userIds));
+
+@override
+String toString() {
+  return 'SendIssueMailRequest(userIds: $userIds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SendIssueMailRequestCopyWith<$Res>  {
+  factory $SendIssueMailRequestCopyWith(SendIssueMailRequest value, $Res Function(SendIssueMailRequest) _then) = _$SendIssueMailRequestCopyWithImpl;
+@useResult
+$Res call({
+ List<int>? userIds
+});
+
+
+
+
+}
+/// @nodoc
+class _$SendIssueMailRequestCopyWithImpl<$Res>
+    implements $SendIssueMailRequestCopyWith<$Res> {
+  _$SendIssueMailRequestCopyWithImpl(this._self, this._then);
+
+  final SendIssueMailRequest _self;
+  final $Res Function(SendIssueMailRequest) _then;
+
+/// Create a copy of SendIssueMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? userIds = freezed,}) {
+  return _then(_self.copyWith(
+userIds: freezed == userIds ? _self.userIds : userIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SendIssueMailRequest].
+extension SendIssueMailRequestPatterns on SendIssueMailRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SendIssueMailRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SendIssueMailRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SendIssueMailRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _SendIssueMailRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SendIssueMailRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SendIssueMailRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int>? userIds)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SendIssueMailRequest() when $default != null:
+return $default(_that.userIds);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int>? userIds)  $default,) {final _that = this;
+switch (_that) {
+case _SendIssueMailRequest():
+return $default(_that.userIds);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int>? userIds)?  $default,) {final _that = this;
+switch (_that) {
+case _SendIssueMailRequest() when $default != null:
+return $default(_that.userIds);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _SendIssueMailRequest implements SendIssueMailRequest {
+   _SendIssueMailRequest({final  List<int>? userIds}): _userIds = userIds;
+  factory _SendIssueMailRequest.fromJson(Map<String, dynamic> json) => _$SendIssueMailRequestFromJson(json);
+
+ final  List<int>? _userIds;
+@override List<int>? get userIds {
+  final value = _userIds;
+  if (value == null) return null;
+  if (_userIds is EqualUnmodifiableListView) return _userIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+
+/// Create a copy of SendIssueMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SendIssueMailRequestCopyWith<_SendIssueMailRequest> get copyWith => __$SendIssueMailRequestCopyWithImpl<_SendIssueMailRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SendIssueMailRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendIssueMailRequest&&const DeepCollectionEquality().equals(other._userIds, _userIds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_userIds));
+
+@override
+String toString() {
+  return 'SendIssueMailRequest(userIds: $userIds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SendIssueMailRequestCopyWith<$Res> implements $SendIssueMailRequestCopyWith<$Res> {
+  factory _$SendIssueMailRequestCopyWith(_SendIssueMailRequest value, $Res Function(_SendIssueMailRequest) _then) = __$SendIssueMailRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ List<int>? userIds
+});
+
+
+
+
+}
+/// @nodoc
+class __$SendIssueMailRequestCopyWithImpl<$Res>
+    implements _$SendIssueMailRequestCopyWith<$Res> {
+  __$SendIssueMailRequestCopyWithImpl(this._self, this._then);
+
+  final _SendIssueMailRequest _self;
+  final $Res Function(_SendIssueMailRequest) _then;
+
+/// Create a copy of SendIssueMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? userIds = freezed,}) {
+  return _then(_SendIssueMailRequest(
+userIds: freezed == userIds ? _self._userIds : userIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$CreateContractIssueRequest {
 
  int get projectId; int get categoryId; String get content; int get currencyId; List<CreateContractItemRequest> get contractItems; List<CreateTransactionItemRequest> get transactionItems; List<IssueAttachment> get attachments;
@@ -14416,6 +14687,277 @@ as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore:
 as int,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
 as DateTime,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
 as DateTime,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$SendReportMailRequest {
+
+ List<int>? get userIds;
+/// Create a copy of SendReportMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SendReportMailRequestCopyWith<SendReportMailRequest> get copyWith => _$SendReportMailRequestCopyWithImpl<SendReportMailRequest>(this as SendReportMailRequest, _$identity);
+
+  /// Serializes this SendReportMailRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendReportMailRequest&&const DeepCollectionEquality().equals(other.userIds, userIds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(userIds));
+
+@override
+String toString() {
+  return 'SendReportMailRequest(userIds: $userIds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SendReportMailRequestCopyWith<$Res>  {
+  factory $SendReportMailRequestCopyWith(SendReportMailRequest value, $Res Function(SendReportMailRequest) _then) = _$SendReportMailRequestCopyWithImpl;
+@useResult
+$Res call({
+ List<int>? userIds
+});
+
+
+
+
+}
+/// @nodoc
+class _$SendReportMailRequestCopyWithImpl<$Res>
+    implements $SendReportMailRequestCopyWith<$Res> {
+  _$SendReportMailRequestCopyWithImpl(this._self, this._then);
+
+  final SendReportMailRequest _self;
+  final $Res Function(SendReportMailRequest) _then;
+
+/// Create a copy of SendReportMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? userIds = freezed,}) {
+  return _then(_self.copyWith(
+userIds: freezed == userIds ? _self.userIds : userIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SendReportMailRequest].
+extension SendReportMailRequestPatterns on SendReportMailRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SendReportMailRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SendReportMailRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SendReportMailRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _SendReportMailRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SendReportMailRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SendReportMailRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int>? userIds)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SendReportMailRequest() when $default != null:
+return $default(_that.userIds);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int>? userIds)  $default,) {final _that = this;
+switch (_that) {
+case _SendReportMailRequest():
+return $default(_that.userIds);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int>? userIds)?  $default,) {final _that = this;
+switch (_that) {
+case _SendReportMailRequest() when $default != null:
+return $default(_that.userIds);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _SendReportMailRequest implements SendReportMailRequest {
+   _SendReportMailRequest({final  List<int>? userIds}): _userIds = userIds;
+  factory _SendReportMailRequest.fromJson(Map<String, dynamic> json) => _$SendReportMailRequestFromJson(json);
+
+ final  List<int>? _userIds;
+@override List<int>? get userIds {
+  final value = _userIds;
+  if (value == null) return null;
+  if (_userIds is EqualUnmodifiableListView) return _userIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+
+/// Create a copy of SendReportMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SendReportMailRequestCopyWith<_SendReportMailRequest> get copyWith => __$SendReportMailRequestCopyWithImpl<_SendReportMailRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SendReportMailRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendReportMailRequest&&const DeepCollectionEquality().equals(other._userIds, _userIds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_userIds));
+
+@override
+String toString() {
+  return 'SendReportMailRequest(userIds: $userIds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SendReportMailRequestCopyWith<$Res> implements $SendReportMailRequestCopyWith<$Res> {
+  factory _$SendReportMailRequestCopyWith(_SendReportMailRequest value, $Res Function(_SendReportMailRequest) _then) = __$SendReportMailRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ List<int>? userIds
+});
+
+
+
+
+}
+/// @nodoc
+class __$SendReportMailRequestCopyWithImpl<$Res>
+    implements _$SendReportMailRequestCopyWith<$Res> {
+  __$SendReportMailRequestCopyWithImpl(this._self, this._then);
+
+  final _SendReportMailRequest _self;
+  final $Res Function(_SendReportMailRequest) _then;
+
+/// Create a copy of SendReportMailRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? userIds = freezed,}) {
+  return _then(_SendReportMailRequest(
+userIds: freezed == userIds ? _self._userIds : userIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,
   ));
 }
 

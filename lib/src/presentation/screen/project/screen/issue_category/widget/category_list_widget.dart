@@ -10,14 +10,17 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 
 class CategoryListWidget extends ConsumerWidget {
+  final int projectId;
   final List<IssueCategory> categories;
 
-  const CategoryListWidget({super.key, required this.categories});
+  const CategoryListWidget({
+    super.key,
+    required this.projectId,
+    required this.categories,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
     final issueList = ref.watch(
       issueListControllerProvider(projectId: projectId),
     );

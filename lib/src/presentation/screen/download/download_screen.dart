@@ -1,21 +1,33 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:web/web.dart' as web;
 
 class DownloadScreen extends ConsumerWidget {
-  const DownloadScreen({super.key});
+  final String? path;
+  final String? filename;
+
+  const DownloadScreen({super.key, this.path, this.filename});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final path = state.uri.queryParameters['path'];
-    final filename = state.uri.queryParameters['filename'];
-
     ref.watch(downloadControllerProvider(path: path, filename: filename));
+
+    ref.listen(downloadControllerProvider(path: path, filename: filename), (
+      _,
+      state,
+    ) {
+      final downloadState = state.value;
+
+      if (downloadState is DownloadSuccess) {
+        web.window.close();
+      }
+    });
 
     return Scaffold(
       body: Center(

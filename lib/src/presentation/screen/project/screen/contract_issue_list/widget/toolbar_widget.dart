@@ -14,6 +14,7 @@ import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ToolbarWidget extends HookConsumerWidget {
+  final int projectId;
   final int issueId;
   final int categoryId;
   final DateTime createdAt;
@@ -22,6 +23,7 @@ class ToolbarWidget extends HookConsumerWidget {
 
   const ToolbarWidget({
     super.key,
+    required this.projectId,
     required this.issueId,
     required this.categoryId,
     required this.createdAt,
@@ -31,9 +33,6 @@ class ToolbarWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -125,9 +124,13 @@ class ToolbarWidget extends HookConsumerWidget {
               context: context,
               builder: (_) => SendEmailDialog(
                 title: Intl.message('project_issue_mail'),
-                onPressed: () => ref
+                onPressed: (users, isAllSelected) => ref
                     .read(issueSubmitControllerProvider.notifier)
-                    .sendEmail(issueId: issueId),
+                    .sendEmail(
+                      issueId: issueId,
+                      users: users,
+                      isAllSelected: isAllSelected,
+                    ),
               ),
             );
           },

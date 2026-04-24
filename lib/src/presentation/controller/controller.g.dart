@@ -549,7 +549,7 @@ final class DownloadControllerProvider
 }
 
 String _$downloadControllerHash() =>
-    r'c176d9d4c4f8b6804b1b517d3728cc611aeb6dfe';
+    r'460766c74d69917f16ae9156b226c12585bb57e8';
 
 final class DownloadControllerFamily extends $Family
     with
@@ -649,6 +649,59 @@ abstract class _$ErrorController extends $Notifier<ErrorState> {
             as $ClassProviderElement<
               AnyNotifier<ErrorState, ErrorState>,
               ErrorState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(IssueExportController)
+final issueExportControllerProvider = IssueExportControllerProvider._();
+
+final class IssueExportControllerProvider
+    extends $NotifierProvider<IssueExportController, IssueExportState> {
+  IssueExportControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'issueExportControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$issueExportControllerHash();
+
+  @$internal
+  @override
+  IssueExportController create() => IssueExportController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(IssueExportState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<IssueExportState>(value),
+    );
+  }
+}
+
+String _$issueExportControllerHash() =>
+    r'19ee003d9fb7fe9f0271aa134d34aa10ab019350';
+
+abstract class _$IssueExportController extends $Notifier<IssueExportState> {
+  IssueExportState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<IssueExportState, IssueExportState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<IssueExportState, IssueExportState>,
+              IssueExportState,
               Object?,
               Object?
             >;
@@ -936,7 +989,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'ef3c955d931dd9bdb034ee5b9dba1e9c9522518b';
+    r'744fdb8c24798eb819ee999dfd0f64032cb6d980';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -1044,7 +1097,7 @@ final class ProjectDetailControllerProvider
 }
 
 String _$projectDetailControllerHash() =>
-    r'e7d5d09115c04140a0c241adb07342b4c5f9366e';
+    r'850fae97e84c22f95c5b420eaf672d8441a98abe';
 
 final class ProjectDetailControllerFamily extends $Family
     with
@@ -2029,7 +2082,7 @@ final class ReportSubmitControllerProvider
 }
 
 String _$reportSubmitControllerHash() =>
-    r'c659b0b33503aa1017549ef0d10ebf245939f5d3';
+    r'7d8948ebb051a23ac186013ef4422b0dca440b95';
 
 abstract class _$ReportSubmitController extends $Notifier<ReportSubmitState> {
   ReportSubmitState build();
@@ -2195,52 +2248,52 @@ abstract class _$TripFilterController extends $AsyncNotifier<TripFilterState> {
   }
 }
 
-@ProviderFor(TripPreviewController)
-final tripPreviewControllerProvider = TripPreviewControllerProvider._();
+@ProviderFor(TripExportController)
+final tripExportControllerProvider = TripExportControllerProvider._();
 
-final class TripPreviewControllerProvider
-    extends $NotifierProvider<TripPreviewController, TripPreviewState> {
-  TripPreviewControllerProvider._()
+final class TripExportControllerProvider
+    extends $NotifierProvider<TripExportController, TripExportState> {
+  TripExportControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'tripPreviewControllerProvider',
+        name: r'tripExportControllerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$tripPreviewControllerHash();
+  String debugGetCreateSourceHash() => _$tripExportControllerHash();
 
   @$internal
   @override
-  TripPreviewController create() => TripPreviewController();
+  TripExportController create() => TripExportController();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(TripPreviewState value) {
+  Override overrideWithValue(TripExportState value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<TripPreviewState>(value),
+      providerOverride: $SyncValueProvider<TripExportState>(value),
     );
   }
 }
 
-String _$tripPreviewControllerHash() =>
-    r'4a9b78b1ce1ca97542a97a2e104273406a7e989a';
+String _$tripExportControllerHash() =>
+    r'3ce00fe0116790e3974d54c4433f2acbaee31616';
 
-abstract class _$TripPreviewController extends $Notifier<TripPreviewState> {
-  TripPreviewState build();
+abstract class _$TripExportController extends $Notifier<TripExportState> {
+  TripExportState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<TripPreviewState, TripPreviewState>;
+    final ref = this.ref as $Ref<TripExportState, TripExportState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<TripPreviewState, TripPreviewState>,
-              TripPreviewState,
+              AnyNotifier<TripExportState, TripExportState>,
+              TripExportState,
               Object?,
               Object?
             >;

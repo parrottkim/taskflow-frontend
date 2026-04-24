@@ -12,19 +12,27 @@ import 'package:taskflow/src/presentation/screen/project/widget/desktop_filter_b
 import 'package:taskflow/src/presentation/screen/project/widget/mobile_filter_bar.dart';
 
 class ProjectScreen extends HookConsumerWidget {
-  const ProjectScreen({super.key});
+  final String? view;
+  final String? sort;
+  final String? order;
+  final String? search;
+  final String? bookmark;
+  final String? clients;
+  final String? categories;
+
+  const ProjectScreen({
+    super.key,
+    this.view,
+    this.sort,
+    this.order,
+    this.search,
+    this.bookmark,
+    this.clients,
+    this.categories,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final view = state.uri.queryParameters['view'];
-    final sort = state.uri.queryParameters['sort'];
-    final order = state.uri.queryParameters['order'];
-    final search = state.uri.queryParameters['search'];
-    final bookmark = state.uri.queryParameters['bookmark'];
-    final clients = state.uri.queryParameters['clients'];
-    final categories = state.uri.queryParameters['categories'];
-
     useEffect(() {
       final location = GoRouter.of(context).name;
 

@@ -12,17 +12,18 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class ReportCategoryScreen extends HookConsumerWidget {
-  const ReportCategoryScreen({super.key});
+  final int projectId;
+  final int? reportId;
+  final int? scheduleId;
+  const ReportCategoryScreen({
+    super.key,
+    required this.projectId,
+    this.reportId,
+    this.scheduleId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-    final scheduleId = int.tryParse(
-      state.uri.queryParameters['schedule_id'] ?? '',
-    );
-
     final form = ref.watch(
       reportFormControllerProvider(
         projectId: projectId,
@@ -33,28 +34,32 @@ class ReportCategoryScreen extends HookConsumerWidget {
 
     return BranchLayout(
       child: switch (form) {
-        AsyncData(:final value) => _DesktopWidget(schedule: value.schedule),
+        AsyncData(:final value) => _DesktopWidget(
+          projectId: projectId,
+          reportId: reportId,
+          schedule: value.schedule,
+        ),
         AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
           error: error,
           stackTrace: stackTrace,
         ),
-        _ => Skeletonizer(child: _DesktopWidget()),
+        _ => Skeletonizer(
+          child: _DesktopWidget(projectId: projectId, reportId: reportId),
+        ),
       },
     );
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? reportId;
   final Schedule? schedule;
 
-  const _DesktopWidget({this.schedule});
+  const _DesktopWidget({required this.projectId, this.reportId, this.schedule});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-    final reportId = int.tryParse(state.pathParameters['report_id'] ?? '');
-
     final selectedSchedule = useState<Schedule?>(schedule);
 
     final isScheduleInvalid = useState(false);
@@ -71,6 +76,8 @@ class _DesktopWidget extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ScheduleSelectorWidget(
+                    projectId: projectId,
+                    reportId: reportId,
                     selectedSchedule: selectedSchedule,
                     isScheduleInvalid: isScheduleInvalid,
                   ),

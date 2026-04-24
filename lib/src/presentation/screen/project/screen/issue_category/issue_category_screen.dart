@@ -13,7 +13,9 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class IssueCategoryScreen extends ConsumerWidget {
-  const IssueCategoryScreen({super.key});
+  final int projectId;
+
+  const IssueCategoryScreen({super.key, required this.projectId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,6 +26,7 @@ class IssueCategoryScreen extends ConsumerWidget {
         constraints: BoxConstraints(maxWidth: 430.0),
         child: switch (filter) {
           AsyncData(:final value) => _DesktopWidget(
+            projectId: projectId,
             categories: value.categories,
           ),
           AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
@@ -32,6 +35,7 @@ class IssueCategoryScreen extends ConsumerWidget {
           ),
           _ => Skeletonizer(
             child: _DesktopWidget(
+              projectId: projectId,
               categories: List.filled(6, IssueCategory.dummy()),
             ),
           ),
@@ -42,15 +46,13 @@ class IssueCategoryScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends ConsumerWidget {
+  final int projectId;
   final List<IssueCategory> categories;
 
-  const _DesktopWidget({required this.categories});
+  const _DesktopWidget({required this.projectId, required this.categories});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouterState.of(context);
-    final projectId = int.parse(state.pathParameters['project_id']!);
-
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -75,7 +77,7 @@ class _DesktopWidget extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CategoryListWidget(categories: categories),
+          CategoryListWidget(projectId: projectId, categories: categories),
           SizedBox(height: 16.0),
           ContainerWidget(
             padding: EdgeInsets.zero,

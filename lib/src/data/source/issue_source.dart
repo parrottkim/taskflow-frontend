@@ -21,6 +21,10 @@ class IssueDataSource implements IssueRepository {
       _service.getLatestIssues(page: page, limit: limit);
 
   @override
+  Future<HttpResponse<List<int>>> exportPurchaseRequest({required int id}) =>
+      _service.exportPurchaseRequest(id: id);
+
+  @override
   Future<List<ContractItem>> getContractItems({required int id}) =>
       _service.getContractItems(id: id);
 
@@ -71,7 +75,10 @@ class IssueDataSource implements IssueRepository {
   Future<Issue> getIssue({required int id}) => _service.getIssue(id: id);
 
   @override
-  Future<void> sendMail({required int id}) => _service.sendMail(id: id);
+  Future<void> sendMail({
+    required int id,
+    required SendIssueMailRequest request,
+  }) => _service.sendMail(id: id, request: request);
 
   @override
   Future<Issue> createContractIssue({

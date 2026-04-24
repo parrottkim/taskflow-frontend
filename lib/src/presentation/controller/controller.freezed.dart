@@ -3315,6 +3315,380 @@ as String,
 }
 
 /// @nodoc
+mixin _$IssueExportState implements DiagnosticableTreeMixin {
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'IssueExportState'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueExportState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'IssueExportState()';
+}
+
+
+}
+
+/// @nodoc
+class $IssueExportStateCopyWith<$Res>  {
+$IssueExportStateCopyWith(IssueExportState _, $Res Function(IssueExportState) __);
+}
+
+
+/// Adds pattern-matching-related methods to [IssueExportState].
+extension IssueExportStatePatterns on IssueExportState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( IssueExportIdle value)?  idle,TResult Function( IssueExportLoading value)?  loading,TResult Function( IssueExportRendering value)?  rendering,TResult Function( IssueExportSuccess value)?  success,TResult Function( IssueExportFailed value)?  failed,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case IssueExportIdle() when idle != null:
+return idle(_that);case IssueExportLoading() when loading != null:
+return loading(_that);case IssueExportRendering() when rendering != null:
+return rendering(_that);case IssueExportSuccess() when success != null:
+return success(_that);case IssueExportFailed() when failed != null:
+return failed(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( IssueExportIdle value)  idle,required TResult Function( IssueExportLoading value)  loading,required TResult Function( IssueExportRendering value)  rendering,required TResult Function( IssueExportSuccess value)  success,required TResult Function( IssueExportFailed value)  failed,}){
+final _that = this;
+switch (_that) {
+case IssueExportIdle():
+return idle(_that);case IssueExportLoading():
+return loading(_that);case IssueExportRendering():
+return rendering(_that);case IssueExportSuccess():
+return success(_that);case IssueExportFailed():
+return failed(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( IssueExportIdle value)?  idle,TResult? Function( IssueExportLoading value)?  loading,TResult? Function( IssueExportRendering value)?  rendering,TResult? Function( IssueExportSuccess value)?  success,TResult? Function( IssueExportFailed value)?  failed,}){
+final _that = this;
+switch (_that) {
+case IssueExportIdle() when idle != null:
+return idle(_that);case IssueExportLoading() when loading != null:
+return loading(_that);case IssueExportRendering() when rendering != null:
+return rendering(_that);case IssueExportSuccess() when success != null:
+return success(_that);case IssueExportFailed() when failed != null:
+return failed(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  idle,TResult Function()?  loading,TResult Function()?  rendering,TResult Function()?  success,TResult Function()?  failed,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case IssueExportIdle() when idle != null:
+return idle();case IssueExportLoading() when loading != null:
+return loading();case IssueExportRendering() when rendering != null:
+return rendering();case IssueExportSuccess() when success != null:
+return success();case IssueExportFailed() when failed != null:
+return failed();case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  idle,required TResult Function()  loading,required TResult Function()  rendering,required TResult Function()  success,required TResult Function()  failed,}) {final _that = this;
+switch (_that) {
+case IssueExportIdle():
+return idle();case IssueExportLoading():
+return loading();case IssueExportRendering():
+return rendering();case IssueExportSuccess():
+return success();case IssueExportFailed():
+return failed();}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  idle,TResult? Function()?  loading,TResult? Function()?  rendering,TResult? Function()?  success,TResult? Function()?  failed,}) {final _that = this;
+switch (_that) {
+case IssueExportIdle() when idle != null:
+return idle();case IssueExportLoading() when loading != null:
+return loading();case IssueExportRendering() when rendering != null:
+return rendering();case IssueExportSuccess() when success != null:
+return success();case IssueExportFailed() when failed != null:
+return failed();case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class IssueExportIdle with DiagnosticableTreeMixin implements IssueExportState {
+   IssueExportIdle();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'IssueExportState.idle'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueExportIdle);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'IssueExportState.idle()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class IssueExportLoading with DiagnosticableTreeMixin implements IssueExportState {
+   IssueExportLoading();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'IssueExportState.loading'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueExportLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'IssueExportState.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class IssueExportRendering with DiagnosticableTreeMixin implements IssueExportState {
+   IssueExportRendering();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'IssueExportState.rendering'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueExportRendering);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'IssueExportState.rendering()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class IssueExportSuccess with DiagnosticableTreeMixin implements IssueExportState {
+   IssueExportSuccess();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'IssueExportState.success'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueExportSuccess);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'IssueExportState.success()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class IssueExportFailed with DiagnosticableTreeMixin implements IssueExportState {
+   IssueExportFailed();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'IssueExportState.failed'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueExportFailed);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'IssueExportState.failed()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$IssueFilterState implements DiagnosticableTreeMixin {
 
  List<IssueCategory> get categories; List<TransactionItemCategory> get transactionCategories; List<Currency> get currencies;
@@ -10846,7 +11220,7 @@ as List<TripRegulation>,
 }
 
 /// @nodoc
-mixin _$TripPreviewState implements DiagnosticableTreeMixin {
+mixin _$TripExportState implements DiagnosticableTreeMixin {
 
 
 
@@ -10854,13 +11228,13 @@ mixin _$TripPreviewState implements DiagnosticableTreeMixin {
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'TripPreviewState'))
+    ..add(DiagnosticsProperty('type', 'TripExportState'))
     ;
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripPreviewState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripExportState);
 }
 
 
@@ -10869,20 +11243,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'TripPreviewState()';
+  return 'TripExportState()';
 }
 
 
 }
 
 /// @nodoc
-class $TripPreviewStateCopyWith<$Res>  {
-$TripPreviewStateCopyWith(TripPreviewState _, $Res Function(TripPreviewState) __);
+class $TripExportStateCopyWith<$Res>  {
+$TripExportStateCopyWith(TripExportState _, $Res Function(TripExportState) __);
 }
 
 
-/// Adds pattern-matching-related methods to [TripPreviewState].
-extension TripPreviewStatePatterns on TripPreviewState {
+/// Adds pattern-matching-related methods to [TripExportState].
+extension TripExportStatePatterns on TripExportState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -10895,14 +11269,14 @@ extension TripPreviewStatePatterns on TripPreviewState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TripPreviewIdle value)?  idle,TResult Function( TripPreviewLoading value)?  loading,TResult Function( TripPreviewRendering value)?  rendering,TResult Function( TripPreviewSuccess value)?  success,TResult Function( TripPreviewFailed value)?  failed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TripExportIdle value)?  idle,TResult Function( TripExportLoading value)?  loading,TResult Function( TripExportRendering value)?  rendering,TResult Function( TripExportSuccess value)?  success,TResult Function( TripExportFailed value)?  failed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case TripPreviewIdle() when idle != null:
-return idle(_that);case TripPreviewLoading() when loading != null:
-return loading(_that);case TripPreviewRendering() when rendering != null:
-return rendering(_that);case TripPreviewSuccess() when success != null:
-return success(_that);case TripPreviewFailed() when failed != null:
+case TripExportIdle() when idle != null:
+return idle(_that);case TripExportLoading() when loading != null:
+return loading(_that);case TripExportRendering() when rendering != null:
+return rendering(_that);case TripExportSuccess() when success != null:
+return success(_that);case TripExportFailed() when failed != null:
 return failed(_that);case _:
   return orElse();
 
@@ -10921,14 +11295,14 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TripPreviewIdle value)  idle,required TResult Function( TripPreviewLoading value)  loading,required TResult Function( TripPreviewRendering value)  rendering,required TResult Function( TripPreviewSuccess value)  success,required TResult Function( TripPreviewFailed value)  failed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TripExportIdle value)  idle,required TResult Function( TripExportLoading value)  loading,required TResult Function( TripExportRendering value)  rendering,required TResult Function( TripExportSuccess value)  success,required TResult Function( TripExportFailed value)  failed,}){
 final _that = this;
 switch (_that) {
-case TripPreviewIdle():
-return idle(_that);case TripPreviewLoading():
-return loading(_that);case TripPreviewRendering():
-return rendering(_that);case TripPreviewSuccess():
-return success(_that);case TripPreviewFailed():
+case TripExportIdle():
+return idle(_that);case TripExportLoading():
+return loading(_that);case TripExportRendering():
+return rendering(_that);case TripExportSuccess():
+return success(_that);case TripExportFailed():
 return failed(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -10943,14 +11317,14 @@ return failed(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TripPreviewIdle value)?  idle,TResult? Function( TripPreviewLoading value)?  loading,TResult? Function( TripPreviewRendering value)?  rendering,TResult? Function( TripPreviewSuccess value)?  success,TResult? Function( TripPreviewFailed value)?  failed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TripExportIdle value)?  idle,TResult? Function( TripExportLoading value)?  loading,TResult? Function( TripExportRendering value)?  rendering,TResult? Function( TripExportSuccess value)?  success,TResult? Function( TripExportFailed value)?  failed,}){
 final _that = this;
 switch (_that) {
-case TripPreviewIdle() when idle != null:
-return idle(_that);case TripPreviewLoading() when loading != null:
-return loading(_that);case TripPreviewRendering() when rendering != null:
-return rendering(_that);case TripPreviewSuccess() when success != null:
-return success(_that);case TripPreviewFailed() when failed != null:
+case TripExportIdle() when idle != null:
+return idle(_that);case TripExportLoading() when loading != null:
+return loading(_that);case TripExportRendering() when rendering != null:
+return rendering(_that);case TripExportSuccess() when success != null:
+return success(_that);case TripExportFailed() when failed != null:
 return failed(_that);case _:
   return null;
 
@@ -10970,11 +11344,11 @@ return failed(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  idle,TResult Function()?  loading,TResult Function()?  rendering,TResult Function()?  success,TResult Function()?  failed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case TripPreviewIdle() when idle != null:
-return idle();case TripPreviewLoading() when loading != null:
-return loading();case TripPreviewRendering() when rendering != null:
-return rendering();case TripPreviewSuccess() when success != null:
-return success();case TripPreviewFailed() when failed != null:
+case TripExportIdle() when idle != null:
+return idle();case TripExportLoading() when loading != null:
+return loading();case TripExportRendering() when rendering != null:
+return rendering();case TripExportSuccess() when success != null:
+return success();case TripExportFailed() when failed != null:
 return failed();case _:
   return orElse();
 
@@ -10995,11 +11369,11 @@ return failed();case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  idle,required TResult Function()  loading,required TResult Function()  rendering,required TResult Function()  success,required TResult Function()  failed,}) {final _that = this;
 switch (_that) {
-case TripPreviewIdle():
-return idle();case TripPreviewLoading():
-return loading();case TripPreviewRendering():
-return rendering();case TripPreviewSuccess():
-return success();case TripPreviewFailed():
+case TripExportIdle():
+return idle();case TripExportLoading():
+return loading();case TripExportRendering():
+return rendering();case TripExportSuccess():
+return success();case TripExportFailed():
 return failed();}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -11016,11 +11390,11 @@ return failed();}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  idle,TResult? Function()?  loading,TResult? Function()?  rendering,TResult? Function()?  success,TResult? Function()?  failed,}) {final _that = this;
 switch (_that) {
-case TripPreviewIdle() when idle != null:
-return idle();case TripPreviewLoading() when loading != null:
-return loading();case TripPreviewRendering() when rendering != null:
-return rendering();case TripPreviewSuccess() when success != null:
-return success();case TripPreviewFailed() when failed != null:
+case TripExportIdle() when idle != null:
+return idle();case TripExportLoading() when loading != null:
+return loading();case TripExportRendering() when rendering != null:
+return rendering();case TripExportSuccess() when success != null:
+return success();case TripExportFailed() when failed != null:
 return failed();case _:
   return null;
 
@@ -11032,8 +11406,8 @@ return failed();case _:
 /// @nodoc
 
 
-class TripPreviewIdle with DiagnosticableTreeMixin implements TripPreviewState {
-   TripPreviewIdle();
+class TripExportIdle with DiagnosticableTreeMixin implements TripExportState {
+   TripExportIdle();
   
 
 
@@ -11043,13 +11417,13 @@ class TripPreviewIdle with DiagnosticableTreeMixin implements TripPreviewState {
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'TripPreviewState.idle'))
+    ..add(DiagnosticsProperty('type', 'TripExportState.idle'))
     ;
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripPreviewIdle);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripExportIdle);
 }
 
 
@@ -11058,7 +11432,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'TripPreviewState.idle()';
+  return 'TripExportState.idle()';
 }
 
 
@@ -11070,8 +11444,8 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
-class TripPreviewLoading with DiagnosticableTreeMixin implements TripPreviewState {
-   TripPreviewLoading();
+class TripExportLoading with DiagnosticableTreeMixin implements TripExportState {
+   TripExportLoading();
   
 
 
@@ -11081,13 +11455,13 @@ class TripPreviewLoading with DiagnosticableTreeMixin implements TripPreviewStat
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'TripPreviewState.loading'))
+    ..add(DiagnosticsProperty('type', 'TripExportState.loading'))
     ;
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripPreviewLoading);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripExportLoading);
 }
 
 
@@ -11096,7 +11470,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'TripPreviewState.loading()';
+  return 'TripExportState.loading()';
 }
 
 
@@ -11108,8 +11482,8 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
-class TripPreviewRendering with DiagnosticableTreeMixin implements TripPreviewState {
-   TripPreviewRendering();
+class TripExportRendering with DiagnosticableTreeMixin implements TripExportState {
+   TripExportRendering();
   
 
 
@@ -11119,13 +11493,13 @@ class TripPreviewRendering with DiagnosticableTreeMixin implements TripPreviewSt
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'TripPreviewState.rendering'))
+    ..add(DiagnosticsProperty('type', 'TripExportState.rendering'))
     ;
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripPreviewRendering);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripExportRendering);
 }
 
 
@@ -11134,7 +11508,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'TripPreviewState.rendering()';
+  return 'TripExportState.rendering()';
 }
 
 
@@ -11146,8 +11520,8 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
-class TripPreviewSuccess with DiagnosticableTreeMixin implements TripPreviewState {
-   TripPreviewSuccess();
+class TripExportSuccess with DiagnosticableTreeMixin implements TripExportState {
+   TripExportSuccess();
   
 
 
@@ -11157,13 +11531,13 @@ class TripPreviewSuccess with DiagnosticableTreeMixin implements TripPreviewStat
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'TripPreviewState.success'))
+    ..add(DiagnosticsProperty('type', 'TripExportState.success'))
     ;
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripPreviewSuccess);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripExportSuccess);
 }
 
 
@@ -11172,7 +11546,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'TripPreviewState.success()';
+  return 'TripExportState.success()';
 }
 
 
@@ -11184,8 +11558,8 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
-class TripPreviewFailed with DiagnosticableTreeMixin implements TripPreviewState {
-   TripPreviewFailed();
+class TripExportFailed with DiagnosticableTreeMixin implements TripExportState {
+   TripExportFailed();
   
 
 
@@ -11195,13 +11569,13 @@ class TripPreviewFailed with DiagnosticableTreeMixin implements TripPreviewState
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'TripPreviewState.failed'))
+    ..add(DiagnosticsProperty('type', 'TripExportState.failed'))
     ;
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripPreviewFailed);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TripExportFailed);
 }
 
 
@@ -11210,7 +11584,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'TripPreviewState.failed()';
+  return 'TripExportState.failed()';
 }
 
 

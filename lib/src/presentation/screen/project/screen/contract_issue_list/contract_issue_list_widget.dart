@@ -18,17 +18,23 @@ import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ContractIssueListWidget extends ConsumerWidget {
-  const ContractIssueListWidget({super.key});
+  final int projectId;
+  final int? issueId;
+
+  const ContractIssueListWidget({
+    super.key,
+    required this.projectId,
+    this.issueId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final projectId = int.parse(state.pathParameters['project_id']!);
-
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
     return switch (issue) {
       AsyncData(:final value) => _DesktopWidget(
+        projectId: projectId,
+        issueId: issueId,
         contract: value.contract,
         kickoff: value.kickoff,
         transaction: value.transaction,
@@ -42,6 +48,8 @@ class ContractIssueListWidget extends ConsumerWidget {
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
+          projectId: projectId,
+          issueId: issueId,
           contract: ContractIssue(
             id: 0,
             category: IssueCategory.dummy(),
@@ -60,6 +68,8 @@ class ContractIssueListWidget extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int projectId;
+  final int? issueId;
   final ContractIssue? contract;
   final KickoffIssue? kickoff;
   final TransactionIssue? transaction;
@@ -68,6 +78,8 @@ class _DesktopWidget extends HookConsumerWidget {
   final List<TransactionItem> transactionItems;
 
   const _DesktopWidget({
+    required this.projectId,
+    this.issueId,
     this.contract,
     this.kickoff,
     this.transaction,
@@ -78,9 +90,6 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = GoRouter.of(context).state;
-    final issueId = int.tryParse(state.uri.queryParameters['issue'] ?? '');
-
     final auth = ref.watch(authControllerProvider);
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -263,6 +272,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     UserInformationWidget(item: payment!.user),
                                     const Spacer(),
                                     ToolbarWidget(
+                                      projectId: projectId,
                                       issueId: payment!.id,
                                       categoryId: payment!.category.id,
                                       createdAt: payment!.createdAt,
@@ -367,6 +377,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     ),
                                     const Spacer(),
                                     ToolbarWidget(
+                                      projectId: projectId,
                                       issueId: transaction!.id,
                                       categoryId: transaction!.category.id,
                                       createdAt: transaction!.createdAt,
@@ -473,6 +484,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     UserInformationWidget(item: kickoff!.user),
                                     const Spacer(),
                                     ToolbarWidget(
+                                      projectId: projectId,
                                       issueId: kickoff!.id,
                                       categoryId: kickoff!.category.id,
                                       createdAt: kickoff!.createdAt,
@@ -574,6 +586,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   UserInformationWidget(item: contract!.user),
                                   const Spacer(),
                                   ToolbarWidget(
+                                    projectId: projectId,
                                     issueId: contract!.id,
                                     categoryId: contract!.category.id,
                                     createdAt: contract!.createdAt,
