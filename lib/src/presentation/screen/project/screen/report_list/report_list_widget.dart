@@ -256,7 +256,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   (items[index].schedule!.category
                                           is ScheduleDomestic ||
                                       items[index].schedule!.category
-                                          is ScheduleDomestic))
+                                          is ScheduleOverseas))
                                 TripExportWidget(item: items[index]),
                               if (items[index].attachments.isNotEmpty)
                                 AttachmentListWidget<ReportAttachment>(
