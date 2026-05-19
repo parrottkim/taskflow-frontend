@@ -28,23 +28,21 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(file) => "${file} 파일은 유효한 이미지 파일이 아닙니다.";
 
-  static String m4(file) => "${file} 파일은 올바른 구매 요청서 양식이 아닙니다.";
+  static String m4(days) => "${days}일 전";
 
-  static String m5(days) => "${days}일 전";
+  static String m5(hours) => "${hours}시간 전";
 
-  static String m6(hours) => "${hours}시간 전";
+  static String m6(minutes) => "${minutes}분 전";
 
-  static String m7(minutes) => "${minutes}분 전";
+  static String m7(month) => "${month}달 전";
 
-  static String m8(month) => "${month}달 전";
+  static String m8(weeks) => "${weeks}주 전";
 
-  static String m9(weeks) => "${weeks}주 전";
+  static String m9(years) => "${years}년 전";
 
-  static String m10(years) => "${years}년 전";
+  static String m10(step) => "${step} 금액을 빈 칸 없이 입력해 주세요";
 
-  static String m11(step) => "${step} 금액을 빈 칸 없이 입력해 주세요";
-
-  static String m12(step) => "${step} 일 수를 입력해 주세요";
+  static String m11(step) => "${step} 일 수를 입력해 주세요";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -83,6 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "클립보드에 링크를 복사했습니다.",
     ),
     "common_next": MessageLookupByLibrary.simpleMessage("다음"),
+    "common_note": MessageLookupByLibrary.simpleMessage("비고"),
     "common_ok": MessageLookupByLibrary.simpleMessage("확인"),
     "common_open": MessageLookupByLibrary.simpleMessage("열기"),
     "common_post": MessageLookupByLibrary.simpleMessage("등록하기"),
@@ -183,6 +182,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "highlight_color": MessageLookupByLibrary.simpleMessage("배경 색상"),
     "hyundai": MessageLookupByLibrary.simpleMessage("현대자동차"),
     "issue_edit": MessageLookupByLibrary.simpleMessage("업무 수정"),
+    "issue_edit_procurement_request": MessageLookupByLibrary.simpleMessage(
+      "구매 조달 발주 처리",
+    ),
     "issue_form_attachment": MessageLookupByLibrary.simpleMessage("첨부파일"),
     "issue_form_attachment_drop": MessageLookupByLibrary.simpleMessage(
       "파일을 여기에 놓기",
@@ -272,7 +274,22 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "issue_form_procurement_15": MessageLookupByLibrary.simpleMessage("품목 합계"),
     "issue_form_procurement_16": MessageLookupByLibrary.simpleMessage("검색 중⋯"),
+    "issue_form_procurement_17": MessageLookupByLibrary.simpleMessage(
+      "* 구매 처리된 구매 품목은 수정할 수 없습니다.",
+    ),
+    "issue_form_procurement_18": MessageLookupByLibrary.simpleMessage(
+      "구매 요청서 출력하기",
+    ),
+    "issue_form_procurement_19": MessageLookupByLibrary.simpleMessage("발주 목록"),
     "issue_form_procurement_2": MessageLookupByLibrary.simpleMessage("품목 내역"),
+    "issue_form_procurement_20": MessageLookupByLibrary.simpleMessage("발주 담당"),
+    "issue_form_procurement_21": MessageLookupByLibrary.simpleMessage("발주 일자"),
+    "issue_form_procurement_22": MessageLookupByLibrary.simpleMessage("납기 일자"),
+    "issue_form_procurement_23": MessageLookupByLibrary.simpleMessage("별도 협의"),
+    "issue_form_procurement_24": MessageLookupByLibrary.simpleMessage("지불 조건"),
+    "issue_form_procurement_25": MessageLookupByLibrary.simpleMessage(
+      "* 발주 처리는 관리자 권한인 사용자만 사용할 수 있습니다.",
+    ),
     "issue_form_procurement_3": MessageLookupByLibrary.simpleMessage("사양"),
     "issue_form_procurement_4": MessageLookupByLibrary.simpleMessage("수량"),
     "issue_form_procurement_5": MessageLookupByLibrary.simpleMessage("단가"),
@@ -280,30 +297,46 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_procurement_7": MessageLookupByLibrary.simpleMessage("온라인 구매"),
     "issue_form_procurement_8": MessageLookupByLibrary.simpleMessage("구매 링크"),
     "issue_form_procurement_9": MessageLookupByLibrary.simpleMessage("공급처"),
-    "issue_form_procurement_drop": MessageLookupByLibrary.simpleMessage(
-      "구매 요청서 여기에 놓기",
-    ),
-    "issue_form_procurement_format_invalid": m4,
-    "issue_form_procurement_invalid": MessageLookupByLibrary.simpleMessage(
-      "구매 요청서 파일은 엑셀(.xlsx) 파일만 업로드 할 수 있습니다.",
+    "issue_form_procurement_idle": MessageLookupByLibrary.simpleMessage(
+      "발주 처리",
     ),
     "issue_form_procurement_item_invalid_1":
         MessageLookupByLibrary.simpleMessage("구매 품목을 입력하거나, 견적서를 업로드해 주세요"),
     "issue_form_procurement_item_invalid_2":
         MessageLookupByLibrary.simpleMessage("구매 품목을 빈 칸 없이 입력해 주세요"),
-    "issue_form_procurement_too_many": MessageLookupByLibrary.simpleMessage(
-      "구매 요청서는 하나만 업로드할 수 있습니다. 여러 파일을 업로드하면 마지막 파일이 적용됩니다.",
+    "issue_form_procurement_requested": MessageLookupByLibrary.simpleMessage(
+      "발주 완료",
     ),
-    "issue_form_procurement_upload": MessageLookupByLibrary.simpleMessage(
-      "구매 요청서 선택",
+    "issue_form_procurement_requested_1": MessageLookupByLibrary.simpleMessage(
+      "수수료 포함",
     ),
+    "issue_form_procurement_requested_2": MessageLookupByLibrary.simpleMessage(
+      "납기 일자",
+    ),
+    "issue_form_procurement_requested_3": MessageLookupByLibrary.simpleMessage(
+      "지불 조건",
+    ),
+    "issue_form_procurement_requested_4": MessageLookupByLibrary.simpleMessage(
+      "금액",
+    ),
+    "issue_form_procurement_requested_5": MessageLookupByLibrary.simpleMessage(
+      "별도 협의",
+    ),
+    "issue_form_procurement_requested_6": MessageLookupByLibrary.simpleMessage(
+      "비고",
+    ),
+    "issue_form_procurement_requested_invalid_1":
+        MessageLookupByLibrary.simpleMessage("최소 하나의 공급처를 선택해 주세요"),
+    "issue_form_procurement_requested_invalid_2":
+        MessageLookupByLibrary.simpleMessage("납기 일자를 선택해 주세요"),
+    "issue_form_procurement_requested_invalid_3":
+        MessageLookupByLibrary.simpleMessage("지불 조건을 입력해 주세요"),
     "issue_form_transaction_1": MessageLookupByLibrary.simpleMessage("청구 목록"),
     "issue_form_transaction_2": MessageLookupByLibrary.simpleMessage("목록 추가"),
     "issue_form_transaction_3": MessageLookupByLibrary.simpleMessage("지급 단계"),
     "issue_form_transaction_4": MessageLookupByLibrary.simpleMessage("비율 (%)"),
     "issue_form_transaction_5": MessageLookupByLibrary.simpleMessage("금액"),
     "issue_form_transaction_6": MessageLookupByLibrary.simpleMessage("지급 여부"),
-    "issue_form_transaction_7": MessageLookupByLibrary.simpleMessage("비고"),
     "issue_form_transaction_item_empty_1": MessageLookupByLibrary.simpleMessage(
       "청구 목록은 계약 및 수주 업무에서 생성 가능합니다",
     ),
@@ -590,17 +623,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "계정은 관리자의 승인 후 사용할 수 있습니다",
     ),
     "register_username": MessageLookupByLibrary.simpleMessage("본명"),
-    "relative_data_days_ago": m5,
+    "relative_data_days_ago": m4,
     "relative_data_hour_ago": MessageLookupByLibrary.simpleMessage("한 시간 전"),
-    "relative_data_hours_ago": m6,
+    "relative_data_hours_ago": m5,
     "relative_data_just_now": MessageLookupByLibrary.simpleMessage("방금"),
     "relative_data_minute_ago": MessageLookupByLibrary.simpleMessage("1분 전"),
-    "relative_data_minutes_ago": m7,
-    "relative_data_month_ago": m8,
+    "relative_data_minutes_ago": m6,
+    "relative_data_month_ago": m7,
     "relative_data_week_ago": MessageLookupByLibrary.simpleMessage("한 주 전"),
-    "relative_data_weeks_ago": m9,
+    "relative_data_weeks_ago": m8,
     "relative_data_year_ago": MessageLookupByLibrary.simpleMessage("1년 전"),
-    "relative_data_years_ago": m10,
+    "relative_data_years_ago": m9,
     "relative_data_yesterday": MessageLookupByLibrary.simpleMessage("어제"),
     "report_edit": MessageLookupByLibrary.simpleMessage("실무 결과 수정"),
     "report_exists": MessageLookupByLibrary.simpleMessage(
@@ -646,8 +679,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "report_form_invalid_1": MessageLookupByLibrary.simpleMessage(
       "일정을 선택해 주세요",
     ),
-    "report_form_invalid_2": m11,
-    "report_form_invalid_3": m12,
+    "report_form_invalid_2": m10,
+    "report_form_invalid_3": m11,
     "report_form_invalid_4": MessageLookupByLibrary.simpleMessage(
       "모든 내용을 빠짐없이 입력해 주세요",
     ),
@@ -706,6 +739,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "report_new_choose": MessageLookupByLibrary.simpleMessage("실무 결과 보고"),
     "report_not_found": MessageLookupByLibrary.simpleMessage(
       "출장 명령서를 찾을 수 없습니다.",
+    ),
+    "request_not_found": MessageLookupByLibrary.simpleMessage(
+      "발주 항목을 찾을 수 없습니다.",
     ),
     "reset_password_button": MessageLookupByLibrary.simpleMessage("요청하기"),
     "reset_password_headline": MessageLookupByLibrary.simpleMessage(
@@ -803,6 +839,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transaction_issue_exists": MessageLookupByLibrary.simpleMessage(
       "이미 생성된 거래 명세/인보이스 업무가 있습니다.",
     ),
+    "unknown_step": MessageLookupByLibrary.simpleMessage("알 수 없는 단계입니다"),
     "unspecified": MessageLookupByLibrary.simpleMessage("미지정"),
     "user_exists": MessageLookupByLibrary.simpleMessage(
       "해당 이메일로 이미 가입된 사용자가 있습니다.\n다른 이메일 주소를 사용해 주세요.",

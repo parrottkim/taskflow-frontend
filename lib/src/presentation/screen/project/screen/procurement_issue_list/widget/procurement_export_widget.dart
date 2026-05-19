@@ -8,8 +8,13 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ProcurementExportWidget extends ConsumerWidget {
   final ProcurementIssue item;
+  final List<ProcurementIssueRequest> requests;
 
-  const ProcurementExportWidget({super.key, required this.item});
+  const ProcurementExportWidget({
+    super.key,
+    required this.item,
+    required this.requests,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,24 +29,28 @@ class ProcurementExportWidget extends ConsumerWidget {
       }
     });
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextButton.icon(
-              onPressed: () async {
-                await ref
-                    .read(issueExportControllerProvider.notifier)
-                    .export(issueId: item.id);
-              },
-              icon: Icon(Symbols.print_rounded),
-              label: Text(Intl.message('common_print')),
-            ),
+    return IgnorePointer(
+      ignoring: requests.isNotEmpty,
+      child: Opacity(
+        opacity: requests.isNotEmpty ? 0.4 : 1.0,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: TextButton.icon(
+                  onPressed: () async => await ref
+                      .read(issueExportControllerProvider.notifier)
+                      .exportPurchaseRequest(issueId: item.id),
+                  icon: Icon(Symbols.print_rounded),
+                  label: Text(Intl.message('issue_form_procurement_18')),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

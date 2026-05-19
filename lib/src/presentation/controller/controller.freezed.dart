@@ -3691,7 +3691,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 mixin _$IssueFilterState implements DiagnosticableTreeMixin {
 
- List<IssueCategory> get categories; List<TransactionItemCategory> get transactionCategories; List<Currency> get currencies;
+ List<IssueCategory> get categories; List<TransactionIssueItemCategory> get transactionCategories; List<Currency> get currencies;
 /// Create a copy of IssueFilterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3728,7 +3728,7 @@ abstract mixin class $IssueFilterStateCopyWith<$Res>  {
   factory $IssueFilterStateCopyWith(IssueFilterState value, $Res Function(IssueFilterState) _then) = _$IssueFilterStateCopyWithImpl;
 @useResult
 $Res call({
- List<IssueCategory> categories, List<TransactionItemCategory> transactionCategories, List<Currency> currencies
+ List<IssueCategory> categories, List<TransactionIssueItemCategory> transactionCategories, List<Currency> currencies
 });
 
 
@@ -3749,7 +3749,7 @@ class _$IssueFilterStateCopyWithImpl<$Res>
   return _then(_self.copyWith(
 categories: null == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
 as List<IssueCategory>,transactionCategories: null == transactionCategories ? _self.transactionCategories : transactionCategories // ignore: cast_nullable_to_non_nullable
-as List<TransactionItemCategory>,currencies: null == currencies ? _self.currencies : currencies // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItemCategory>,currencies: null == currencies ? _self.currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,
   ));
 }
@@ -3835,7 +3835,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<TransactionItemCategory> transactionCategories,  List<Currency> currencies)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IssueFilterState() when $default != null:
 return $default(_that.categories,_that.transactionCategories,_that.currencies);case _:
@@ -3856,7 +3856,7 @@ return $default(_that.categories,_that.transactionCategories,_that.currencies);c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<TransactionItemCategory> transactionCategories,  List<Currency> currencies)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)  $default,) {final _that = this;
 switch (_that) {
 case _IssueFilterState():
 return $default(_that.categories,_that.transactionCategories,_that.currencies);case _:
@@ -3876,7 +3876,7 @@ return $default(_that.categories,_that.transactionCategories,_that.currencies);c
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<IssueCategory> categories,  List<TransactionItemCategory> transactionCategories,  List<Currency> currencies)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<IssueCategory> categories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)?  $default,) {final _that = this;
 switch (_that) {
 case _IssueFilterState() when $default != null:
 return $default(_that.categories,_that.transactionCategories,_that.currencies);case _:
@@ -3891,7 +3891,7 @@ return $default(_that.categories,_that.transactionCategories,_that.currencies);c
 
 
 class _IssueFilterState with DiagnosticableTreeMixin implements IssueFilterState {
-   _IssueFilterState({final  List<IssueCategory> categories = const [], final  List<TransactionItemCategory> transactionCategories = const [], final  List<Currency> currencies = const []}): _categories = categories,_transactionCategories = transactionCategories,_currencies = currencies;
+   _IssueFilterState({final  List<IssueCategory> categories = const [], final  List<TransactionIssueItemCategory> transactionCategories = const [], final  List<Currency> currencies = const []}): _categories = categories,_transactionCategories = transactionCategories,_currencies = currencies;
   
 
  final  List<IssueCategory> _categories;
@@ -3901,8 +3901,8 @@ class _IssueFilterState with DiagnosticableTreeMixin implements IssueFilterState
   return EqualUnmodifiableListView(_categories);
 }
 
- final  List<TransactionItemCategory> _transactionCategories;
-@override@JsonKey() List<TransactionItemCategory> get transactionCategories {
+ final  List<TransactionIssueItemCategory> _transactionCategories;
+@override@JsonKey() List<TransactionIssueItemCategory> get transactionCategories {
   if (_transactionCategories is EqualUnmodifiableListView) return _transactionCategories;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_transactionCategories);
@@ -3952,7 +3952,7 @@ abstract mixin class _$IssueFilterStateCopyWith<$Res> implements $IssueFilterSta
   factory _$IssueFilterStateCopyWith(_IssueFilterState value, $Res Function(_IssueFilterState) _then) = __$IssueFilterStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<IssueCategory> categories, List<TransactionItemCategory> transactionCategories, List<Currency> currencies
+ List<IssueCategory> categories, List<TransactionIssueItemCategory> transactionCategories, List<Currency> currencies
 });
 
 
@@ -3973,7 +3973,7 @@ class __$IssueFilterStateCopyWithImpl<$Res>
   return _then(_IssueFilterState(
 categories: null == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<IssueCategory>,transactionCategories: null == transactionCategories ? _self._transactionCategories : transactionCategories // ignore: cast_nullable_to_non_nullable
-as List<TransactionItemCategory>,currencies: null == currencies ? _self._currencies : currencies // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItemCategory>,currencies: null == currencies ? _self._currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,
   ));
 }
@@ -3984,7 +3984,7 @@ as List<Currency>,
 /// @nodoc
 mixin _$IssueFormState implements DiagnosticableTreeMixin {
 
- IssueCategory? get category; String? get content; List<IssueAttachment>? get attachments; List<XFile>? get files; Currency? get currency; DateTime? get kickoffDate; List<ContractItem> get contractItems; List<ProcurementItem> get procurementItems; List<TransactionItem> get transactionItems;
+ IssueCategory? get category; String? get content; List<IssueAttachment>? get attachments; List<XFile>? get files; Currency? get currency; DateTime? get kickoffDate; bool get isRequested; bool get isOrdered; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<ProcurementIssueItem> get procurementItems;
 /// Create a copy of IssueFormState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3996,21 +3996,21 @@ $IssueFormStateCopyWith<IssueFormState> get copyWith => _$IssueFormStateCopyWith
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueFormState'))
-    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('procurementItems', procurementItems))..add(DiagnosticsProperty('transactionItems', transactionItems));
+    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('isRequested', isRequested))..add(DiagnosticsProperty('isOrdered', isOrdered))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('transactionItems', transactionItems))..add(DiagnosticsProperty('procurementItems', procurementItems));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&const DeepCollectionEquality().equals(other.files, files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&const DeepCollectionEquality().equals(other.files, files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&(identical(other.isRequested, isRequested) || other.isRequested == isRequested)&&(identical(other.isOrdered, isOrdered) || other.isOrdered == isOrdered)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(attachments),const DeepCollectionEquality().hash(files),currency,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(procurementItems),const DeepCollectionEquality().hash(transactionItems));
+int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(attachments),const DeepCollectionEquality().hash(files),currency,kickoffDate,isRequested,isOrdered,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(procurementItems));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
+  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, isRequested: $isRequested, isOrdered: $isOrdered, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems)';
 }
 
 
@@ -4021,7 +4021,7 @@ abstract mixin class $IssueFormStateCopyWith<$Res>  {
   factory $IssueFormStateCopyWith(IssueFormState value, $Res Function(IssueFormState) _then) = _$IssueFormStateCopyWithImpl;
 @useResult
 $Res call({
- IssueCategory? category, String? content, List<IssueAttachment>? attachments, List<XFile>? files, Currency? currency, DateTime? kickoffDate, List<ContractItem> contractItems, List<ProcurementItem> procurementItems, List<TransactionItem> transactionItems
+ IssueCategory? category, String? content, List<IssueAttachment>? attachments, List<XFile>? files, Currency? currency, DateTime? kickoffDate, bool isRequested, bool isOrdered, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems
 });
 
 
@@ -4038,7 +4038,7 @@ class _$IssueFormStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueFormState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? category = freezed,Object? content = freezed,Object? attachments = freezed,Object? files = freezed,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? procurementItems = null,Object? transactionItems = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? category = freezed,Object? content = freezed,Object? attachments = freezed,Object? files = freezed,Object? currency = freezed,Object? kickoffDate = freezed,Object? isRequested = null,Object? isOrdered = null,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,}) {
   return _then(_self.copyWith(
 category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
@@ -4046,10 +4046,12 @@ as String?,attachments: freezed == attachments ? _self.attachments : attachments
 as List<IssueAttachment>?,files: freezed == files ? _self.files : files // ignore: cast_nullable_to_non_nullable
 as List<XFile>?,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
 as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
-as List<ContractItem>,procurementItems: null == procurementItems ? _self.procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
-as List<ProcurementItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionItem>,
+as DateTime?,isRequested: null == isRequested ? _self.isRequested : isRequested // ignore: cast_nullable_to_non_nullable
+as bool,isOrdered: null == isOrdered ? _self.isOrdered : isOrdered // ignore: cast_nullable_to_non_nullable
+as bool,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self.procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
+as List<ProcurementIssueItem>,
   ));
 }
 /// Create a copy of IssueFormState
@@ -4158,10 +4160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IssueCategory? category,  String? content,  List<IssueAttachment>? attachments,  List<XFile>? files,  Currency? currency,  DateTime? kickoffDate,  List<ContractItem> contractItems,  List<ProcurementItem> procurementItems,  List<TransactionItem> transactionItems)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IssueCategory? category,  String? content,  List<IssueAttachment>? attachments,  List<XFile>? files,  Currency? currency,  DateTime? kickoffDate,  bool isRequested,  bool isOrdered,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IssueFormState() when $default != null:
-return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.procurementItems,_that.transactionItems);case _:
+return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.isRequested,_that.isOrdered,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
   return orElse();
 
 }
@@ -4179,10 +4181,10 @@ return $default(_that.category,_that.content,_that.attachments,_that.files,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IssueCategory? category,  String? content,  List<IssueAttachment>? attachments,  List<XFile>? files,  Currency? currency,  DateTime? kickoffDate,  List<ContractItem> contractItems,  List<ProcurementItem> procurementItems,  List<TransactionItem> transactionItems)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IssueCategory? category,  String? content,  List<IssueAttachment>? attachments,  List<XFile>? files,  Currency? currency,  DateTime? kickoffDate,  bool isRequested,  bool isOrdered,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)  $default,) {final _that = this;
 switch (_that) {
 case _IssueFormState():
-return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.procurementItems,_that.transactionItems);case _:
+return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.isRequested,_that.isOrdered,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -4199,10 +4201,10 @@ return $default(_that.category,_that.content,_that.attachments,_that.files,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IssueCategory? category,  String? content,  List<IssueAttachment>? attachments,  List<XFile>? files,  Currency? currency,  DateTime? kickoffDate,  List<ContractItem> contractItems,  List<ProcurementItem> procurementItems,  List<TransactionItem> transactionItems)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IssueCategory? category,  String? content,  List<IssueAttachment>? attachments,  List<XFile>? files,  Currency? currency,  DateTime? kickoffDate,  bool isRequested,  bool isOrdered,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)?  $default,) {final _that = this;
 switch (_that) {
 case _IssueFormState() when $default != null:
-return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.procurementItems,_that.transactionItems);case _:
+return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.isRequested,_that.isOrdered,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
   return null;
 
 }
@@ -4214,7 +4216,7 @@ return $default(_that.category,_that.content,_that.attachments,_that.files,_that
 
 
 class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
-  const _IssueFormState({this.category, this.content, final  List<IssueAttachment>? attachments, final  List<XFile>? files, this.currency, this.kickoffDate, final  List<ContractItem> contractItems = const [], final  List<ProcurementItem> procurementItems = const [], final  List<TransactionItem> transactionItems = const []}): _attachments = attachments,_files = files,_contractItems = contractItems,_procurementItems = procurementItems,_transactionItems = transactionItems;
+  const _IssueFormState({this.category, this.content, final  List<IssueAttachment>? attachments, final  List<XFile>? files, this.currency, this.kickoffDate, this.isRequested = false, this.isOrdered = false, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<ProcurementIssueItem> procurementItems = const []}): _attachments = attachments,_files = files,_contractItems = contractItems,_transactionItems = transactionItems,_procurementItems = procurementItems;
   
 
 @override final  IssueCategory? category;
@@ -4239,25 +4241,27 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
 
 @override final  Currency? currency;
 @override final  DateTime? kickoffDate;
- final  List<ContractItem> _contractItems;
-@override@JsonKey() List<ContractItem> get contractItems {
+@override@JsonKey() final  bool isRequested;
+@override@JsonKey() final  bool isOrdered;
+ final  List<ContractIssueItem> _contractItems;
+@override@JsonKey() List<ContractIssueItem> get contractItems {
   if (_contractItems is EqualUnmodifiableListView) return _contractItems;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_contractItems);
 }
 
- final  List<ProcurementItem> _procurementItems;
-@override@JsonKey() List<ProcurementItem> get procurementItems {
-  if (_procurementItems is EqualUnmodifiableListView) return _procurementItems;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_procurementItems);
-}
-
- final  List<TransactionItem> _transactionItems;
-@override@JsonKey() List<TransactionItem> get transactionItems {
+ final  List<TransactionIssueItem> _transactionItems;
+@override@JsonKey() List<TransactionIssueItem> get transactionItems {
   if (_transactionItems is EqualUnmodifiableListView) return _transactionItems;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_transactionItems);
+}
+
+ final  List<ProcurementIssueItem> _procurementItems;
+@override@JsonKey() List<ProcurementIssueItem> get procurementItems {
+  if (_procurementItems is EqualUnmodifiableListView) return _procurementItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_procurementItems);
 }
 
 
@@ -4272,21 +4276,21 @@ _$IssueFormStateCopyWith<_IssueFormState> get copyWith => __$IssueFormStateCopyW
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueFormState'))
-    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('procurementItems', procurementItems))..add(DiagnosticsProperty('transactionItems', transactionItems));
+    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('isRequested', isRequested))..add(DiagnosticsProperty('isOrdered', isOrdered))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('transactionItems', transactionItems))..add(DiagnosticsProperty('procurementItems', procurementItems));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&const DeepCollectionEquality().equals(other._files, _files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&const DeepCollectionEquality().equals(other._files, _files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&(identical(other.isRequested, isRequested) || other.isRequested == isRequested)&&(identical(other.isOrdered, isOrdered) || other.isOrdered == isOrdered)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(_attachments),const DeepCollectionEquality().hash(_files),currency,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_procurementItems),const DeepCollectionEquality().hash(_transactionItems));
+int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(_attachments),const DeepCollectionEquality().hash(_files),currency,kickoffDate,isRequested,isOrdered,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_procurementItems));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, procurementItems: $procurementItems, transactionItems: $transactionItems)';
+  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, isRequested: $isRequested, isOrdered: $isOrdered, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems)';
 }
 
 
@@ -4297,7 +4301,7 @@ abstract mixin class _$IssueFormStateCopyWith<$Res> implements $IssueFormStateCo
   factory _$IssueFormStateCopyWith(_IssueFormState value, $Res Function(_IssueFormState) _then) = __$IssueFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- IssueCategory? category, String? content, List<IssueAttachment>? attachments, List<XFile>? files, Currency? currency, DateTime? kickoffDate, List<ContractItem> contractItems, List<ProcurementItem> procurementItems, List<TransactionItem> transactionItems
+ IssueCategory? category, String? content, List<IssueAttachment>? attachments, List<XFile>? files, Currency? currency, DateTime? kickoffDate, bool isRequested, bool isOrdered, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems
 });
 
 
@@ -4314,7 +4318,7 @@ class __$IssueFormStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueFormState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? category = freezed,Object? content = freezed,Object? attachments = freezed,Object? files = freezed,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? procurementItems = null,Object? transactionItems = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? category = freezed,Object? content = freezed,Object? attachments = freezed,Object? files = freezed,Object? currency = freezed,Object? kickoffDate = freezed,Object? isRequested = null,Object? isOrdered = null,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,}) {
   return _then(_IssueFormState(
 category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory?,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
@@ -4322,10 +4326,12 @@ as String?,attachments: freezed == attachments ? _self._attachments : attachment
 as List<IssueAttachment>?,files: freezed == files ? _self._files : files // ignore: cast_nullable_to_non_nullable
 as List<XFile>?,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
 as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime?,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
-as List<ContractItem>,procurementItems: null == procurementItems ? _self._procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
-as List<ProcurementItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionItem>,
+as DateTime?,isRequested: null == isRequested ? _self.isRequested : isRequested // ignore: cast_nullable_to_non_nullable
+as bool,isOrdered: null == isOrdered ? _self.isOrdered : isOrdered // ignore: cast_nullable_to_non_nullable
+as bool,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self._procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
+as List<ProcurementIssueItem>,
   ));
 }
 
@@ -4359,7 +4365,7 @@ $CurrencyCopyWith<$Res>? get currency {
 /// @nodoc
 mixin _$IssueListState implements DiagnosticableTreeMixin {
 
- ContractIssue? get contract; KickoffIssue? get kickoff; TransactionIssue? get transaction; PaymentIssue? get payment; List<ApprovalIssue> get approvals; int get approvalsPage; int get approvalsTotal; bool get approvalsHasReachEnd; List<ProcurementIssue> get procurements; int get procurementsPage; int get procurementsTotal; bool get procurementsHasReachEnd; List<ContractItem> get contractItems; List<TransactionItem> get transactionItems;
+ ContractIssue? get contract; KickoffIssue? get kickoff; TransactionIssue? get transaction; PaymentIssue? get payment; List<ApprovalIssue> get approvals; int get approvalsPage; int get approvalsTotal; bool get approvalsHasReachEnd; List<ProcurementIssue> get procurements; int get procurementsPage; int get procurementsTotal; bool get procurementsHasReachEnd; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems;
 /// Create a copy of IssueListState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4396,7 +4402,7 @@ abstract mixin class $IssueListStateCopyWith<$Res>  {
   factory $IssueListStateCopyWith(IssueListState value, $Res Function(IssueListState) _then) = _$IssueListStateCopyWithImpl;
 @useResult
 $Res call({
- ContractIssue? contract, KickoffIssue? kickoff, TransactionIssue? transaction, PaymentIssue? payment, List<ApprovalIssue> approvals, int approvalsPage, int approvalsTotal, bool approvalsHasReachEnd, List<ProcurementIssue> procurements, int procurementsPage, int procurementsTotal, bool procurementsHasReachEnd, List<ContractItem> contractItems, List<TransactionItem> transactionItems
+ ContractIssue? contract, KickoffIssue? kickoff, TransactionIssue? transaction, PaymentIssue? payment, List<ApprovalIssue> approvals, int approvalsPage, int approvalsTotal, bool approvalsHasReachEnd, List<ProcurementIssue> procurements, int procurementsPage, int procurementsTotal, bool procurementsHasReachEnd, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems
 });
 
 
@@ -4428,8 +4434,8 @@ as List<ProcurementIssue>,procurementsPage: null == procurementsPage ? _self.pro
 as int,procurementsTotal: null == procurementsTotal ? _self.procurementsTotal : procurementsTotal // ignore: cast_nullable_to_non_nullable
 as int,procurementsHasReachEnd: null == procurementsHasReachEnd ? _self.procurementsHasReachEnd : procurementsHasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
-as List<ContractItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionItem>,
+as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,
   ));
 }
 /// Create a copy of IssueListState
@@ -4562,7 +4568,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ContractIssue? contract,  KickoffIssue? kickoff,  TransactionIssue? transaction,  PaymentIssue? payment,  List<ApprovalIssue> approvals,  int approvalsPage,  int approvalsTotal,  bool approvalsHasReachEnd,  List<ProcurementIssue> procurements,  int procurementsPage,  int procurementsTotal,  bool procurementsHasReachEnd,  List<ContractItem> contractItems,  List<TransactionItem> transactionItems)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ContractIssue? contract,  KickoffIssue? kickoff,  TransactionIssue? transaction,  PaymentIssue? payment,  List<ApprovalIssue> approvals,  int approvalsPage,  int approvalsTotal,  bool approvalsHasReachEnd,  List<ProcurementIssue> procurements,  int procurementsPage,  int procurementsTotal,  bool procurementsHasReachEnd,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IssueListState() when $default != null:
 return $default(_that.contract,_that.kickoff,_that.transaction,_that.payment,_that.approvals,_that.approvalsPage,_that.approvalsTotal,_that.approvalsHasReachEnd,_that.procurements,_that.procurementsPage,_that.procurementsTotal,_that.procurementsHasReachEnd,_that.contractItems,_that.transactionItems);case _:
@@ -4583,7 +4589,7 @@ return $default(_that.contract,_that.kickoff,_that.transaction,_that.payment,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ContractIssue? contract,  KickoffIssue? kickoff,  TransactionIssue? transaction,  PaymentIssue? payment,  List<ApprovalIssue> approvals,  int approvalsPage,  int approvalsTotal,  bool approvalsHasReachEnd,  List<ProcurementIssue> procurements,  int procurementsPage,  int procurementsTotal,  bool procurementsHasReachEnd,  List<ContractItem> contractItems,  List<TransactionItem> transactionItems)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ContractIssue? contract,  KickoffIssue? kickoff,  TransactionIssue? transaction,  PaymentIssue? payment,  List<ApprovalIssue> approvals,  int approvalsPage,  int approvalsTotal,  bool approvalsHasReachEnd,  List<ProcurementIssue> procurements,  int procurementsPage,  int procurementsTotal,  bool procurementsHasReachEnd,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems)  $default,) {final _that = this;
 switch (_that) {
 case _IssueListState():
 return $default(_that.contract,_that.kickoff,_that.transaction,_that.payment,_that.approvals,_that.approvalsPage,_that.approvalsTotal,_that.approvalsHasReachEnd,_that.procurements,_that.procurementsPage,_that.procurementsTotal,_that.procurementsHasReachEnd,_that.contractItems,_that.transactionItems);case _:
@@ -4603,7 +4609,7 @@ return $default(_that.contract,_that.kickoff,_that.transaction,_that.payment,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ContractIssue? contract,  KickoffIssue? kickoff,  TransactionIssue? transaction,  PaymentIssue? payment,  List<ApprovalIssue> approvals,  int approvalsPage,  int approvalsTotal,  bool approvalsHasReachEnd,  List<ProcurementIssue> procurements,  int procurementsPage,  int procurementsTotal,  bool procurementsHasReachEnd,  List<ContractItem> contractItems,  List<TransactionItem> transactionItems)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ContractIssue? contract,  KickoffIssue? kickoff,  TransactionIssue? transaction,  PaymentIssue? payment,  List<ApprovalIssue> approvals,  int approvalsPage,  int approvalsTotal,  bool approvalsHasReachEnd,  List<ProcurementIssue> procurements,  int procurementsPage,  int procurementsTotal,  bool procurementsHasReachEnd,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems)?  $default,) {final _that = this;
 switch (_that) {
 case _IssueListState() when $default != null:
 return $default(_that.contract,_that.kickoff,_that.transaction,_that.payment,_that.approvals,_that.approvalsPage,_that.approvalsTotal,_that.approvalsHasReachEnd,_that.procurements,_that.procurementsPage,_that.procurementsTotal,_that.procurementsHasReachEnd,_that.contractItems,_that.transactionItems);case _:
@@ -4618,7 +4624,7 @@ return $default(_that.contract,_that.kickoff,_that.transaction,_that.payment,_th
 
 
 class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
-   _IssueListState({this.contract, this.kickoff, this.transaction, this.payment, final  List<ApprovalIssue> approvals = const [], this.approvalsPage = 1, this.approvalsTotal = 0, this.approvalsHasReachEnd = false, final  List<ProcurementIssue> procurements = const [], this.procurementsPage = 1, this.procurementsTotal = 0, this.procurementsHasReachEnd = false, final  List<ContractItem> contractItems = const [], final  List<TransactionItem> transactionItems = const []}): _approvals = approvals,_procurements = procurements,_contractItems = contractItems,_transactionItems = transactionItems;
+   _IssueListState({this.contract, this.kickoff, this.transaction, this.payment, final  List<ApprovalIssue> approvals = const [], this.approvalsPage = 1, this.approvalsTotal = 0, this.approvalsHasReachEnd = false, final  List<ProcurementIssue> procurements = const [], this.procurementsPage = 1, this.procurementsTotal = 0, this.procurementsHasReachEnd = false, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const []}): _approvals = approvals,_procurements = procurements,_contractItems = contractItems,_transactionItems = transactionItems;
   
 
 @override final  ContractIssue? contract;
@@ -4645,15 +4651,15 @@ class _IssueListState with DiagnosticableTreeMixin implements IssueListState {
 @override@JsonKey() final  int procurementsPage;
 @override@JsonKey() final  int procurementsTotal;
 @override@JsonKey() final  bool procurementsHasReachEnd;
- final  List<ContractItem> _contractItems;
-@override@JsonKey() List<ContractItem> get contractItems {
+ final  List<ContractIssueItem> _contractItems;
+@override@JsonKey() List<ContractIssueItem> get contractItems {
   if (_contractItems is EqualUnmodifiableListView) return _contractItems;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_contractItems);
 }
 
- final  List<TransactionItem> _transactionItems;
-@override@JsonKey() List<TransactionItem> get transactionItems {
+ final  List<TransactionIssueItem> _transactionItems;
+@override@JsonKey() List<TransactionIssueItem> get transactionItems {
   if (_transactionItems is EqualUnmodifiableListView) return _transactionItems;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_transactionItems);
@@ -4696,7 +4702,7 @@ abstract mixin class _$IssueListStateCopyWith<$Res> implements $IssueListStateCo
   factory _$IssueListStateCopyWith(_IssueListState value, $Res Function(_IssueListState) _then) = __$IssueListStateCopyWithImpl;
 @override @useResult
 $Res call({
- ContractIssue? contract, KickoffIssue? kickoff, TransactionIssue? transaction, PaymentIssue? payment, List<ApprovalIssue> approvals, int approvalsPage, int approvalsTotal, bool approvalsHasReachEnd, List<ProcurementIssue> procurements, int procurementsPage, int procurementsTotal, bool procurementsHasReachEnd, List<ContractItem> contractItems, List<TransactionItem> transactionItems
+ ContractIssue? contract, KickoffIssue? kickoff, TransactionIssue? transaction, PaymentIssue? payment, List<ApprovalIssue> approvals, int approvalsPage, int approvalsTotal, bool approvalsHasReachEnd, List<ProcurementIssue> procurements, int procurementsPage, int procurementsTotal, bool procurementsHasReachEnd, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems
 });
 
 
@@ -4728,8 +4734,8 @@ as List<ProcurementIssue>,procurementsPage: null == procurementsPage ? _self.pro
 as int,procurementsTotal: null == procurementsTotal ? _self.procurementsTotal : procurementsTotal // ignore: cast_nullable_to_non_nullable
 as int,procurementsHasReachEnd: null == procurementsHasReachEnd ? _self.procurementsHasReachEnd : procurementsHasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
-as List<ContractItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionItem>,
+as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,
   ));
 }
 
@@ -5273,6 +5279,335 @@ class _$IssueSubmitFailureCopyWithImpl<$Res>
   return _then(IssueSubmitFailure(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$ProcurementIssueFormState implements DiagnosticableTreeMixin {
+
+ List<ProcurementIssueItem> get items; List<ProcurementIssueRequest> get requests; Set<int> get selectedSupplierIds; Map<int, DateTime?> get deliveryDates; Map<int, String?> get paymentTerms; Map<int, bool> get hasFees; Map<int, String?> get notes;
+/// Create a copy of ProcurementIssueFormState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProcurementIssueFormStateCopyWith<ProcurementIssueFormState> get copyWith => _$ProcurementIssueFormStateCopyWithImpl<ProcurementIssueFormState>(this as ProcurementIssueFormState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ProcurementIssueFormState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('requests', requests))..add(DiagnosticsProperty('selectedSupplierIds', selectedSupplierIds))..add(DiagnosticsProperty('deliveryDates', deliveryDates))..add(DiagnosticsProperty('paymentTerms', paymentTerms))..add(DiagnosticsProperty('hasFees', hasFees))..add(DiagnosticsProperty('notes', notes));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcurementIssueFormState&&const DeepCollectionEquality().equals(other.items, items)&&const DeepCollectionEquality().equals(other.requests, requests)&&const DeepCollectionEquality().equals(other.selectedSupplierIds, selectedSupplierIds)&&const DeepCollectionEquality().equals(other.deliveryDates, deliveryDates)&&const DeepCollectionEquality().equals(other.paymentTerms, paymentTerms)&&const DeepCollectionEquality().equals(other.hasFees, hasFees)&&const DeepCollectionEquality().equals(other.notes, notes));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),const DeepCollectionEquality().hash(requests),const DeepCollectionEquality().hash(selectedSupplierIds),const DeepCollectionEquality().hash(deliveryDates),const DeepCollectionEquality().hash(paymentTerms),const DeepCollectionEquality().hash(hasFees),const DeepCollectionEquality().hash(notes));
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ProcurementIssueFormState(items: $items, requests: $requests, selectedSupplierIds: $selectedSupplierIds, deliveryDates: $deliveryDates, paymentTerms: $paymentTerms, hasFees: $hasFees, notes: $notes)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProcurementIssueFormStateCopyWith<$Res>  {
+  factory $ProcurementIssueFormStateCopyWith(ProcurementIssueFormState value, $Res Function(ProcurementIssueFormState) _then) = _$ProcurementIssueFormStateCopyWithImpl;
+@useResult
+$Res call({
+ List<ProcurementIssueItem> items, List<ProcurementIssueRequest> requests, Set<int> selectedSupplierIds, Map<int, DateTime?> deliveryDates, Map<int, String?> paymentTerms, Map<int, bool> hasFees, Map<int, String?> notes
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProcurementIssueFormStateCopyWithImpl<$Res>
+    implements $ProcurementIssueFormStateCopyWith<$Res> {
+  _$ProcurementIssueFormStateCopyWithImpl(this._self, this._then);
+
+  final ProcurementIssueFormState _self;
+  final $Res Function(ProcurementIssueFormState) _then;
+
+/// Create a copy of ProcurementIssueFormState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? requests = null,Object? selectedSupplierIds = null,Object? deliveryDates = null,Object? paymentTerms = null,Object? hasFees = null,Object? notes = null,}) {
+  return _then(_self.copyWith(
+items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as List<ProcurementIssueItem>,requests: null == requests ? _self.requests : requests // ignore: cast_nullable_to_non_nullable
+as List<ProcurementIssueRequest>,selectedSupplierIds: null == selectedSupplierIds ? _self.selectedSupplierIds : selectedSupplierIds // ignore: cast_nullable_to_non_nullable
+as Set<int>,deliveryDates: null == deliveryDates ? _self.deliveryDates : deliveryDates // ignore: cast_nullable_to_non_nullable
+as Map<int, DateTime?>,paymentTerms: null == paymentTerms ? _self.paymentTerms : paymentTerms // ignore: cast_nullable_to_non_nullable
+as Map<int, String?>,hasFees: null == hasFees ? _self.hasFees : hasFees // ignore: cast_nullable_to_non_nullable
+as Map<int, bool>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
+as Map<int, String?>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ProcurementIssueFormState].
+extension ProcurementIssueFormStatePatterns on ProcurementIssueFormState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProcurementIssueFormState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ProcurementIssueFormState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProcurementIssueFormState value)  $default,){
+final _that = this;
+switch (_that) {
+case _ProcurementIssueFormState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProcurementIssueFormState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ProcurementIssueFormState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ProcurementIssueFormState() when $default != null:
+return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)  $default,) {final _that = this;
+switch (_that) {
+case _ProcurementIssueFormState():
+return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)?  $default,) {final _that = this;
+switch (_that) {
+case _ProcurementIssueFormState() when $default != null:
+return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _ProcurementIssueFormState extends ProcurementIssueFormState with DiagnosticableTreeMixin {
+   _ProcurementIssueFormState({final  List<ProcurementIssueItem> items = const [], final  List<ProcurementIssueRequest> requests = const [], final  Set<int> selectedSupplierIds = const <int>{}, final  Map<int, DateTime?> deliveryDates = const {}, final  Map<int, String?> paymentTerms = const {}, final  Map<int, bool> hasFees = const {}, final  Map<int, String?> notes = const {}}): _items = items,_requests = requests,_selectedSupplierIds = selectedSupplierIds,_deliveryDates = deliveryDates,_paymentTerms = paymentTerms,_hasFees = hasFees,_notes = notes,super._();
+  
+
+ final  List<ProcurementIssueItem> _items;
+@override@JsonKey() List<ProcurementIssueItem> get items {
+  if (_items is EqualUnmodifiableListView) return _items;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_items);
+}
+
+ final  List<ProcurementIssueRequest> _requests;
+@override@JsonKey() List<ProcurementIssueRequest> get requests {
+  if (_requests is EqualUnmodifiableListView) return _requests;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_requests);
+}
+
+ final  Set<int> _selectedSupplierIds;
+@override@JsonKey() Set<int> get selectedSupplierIds {
+  if (_selectedSupplierIds is EqualUnmodifiableSetView) return _selectedSupplierIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableSetView(_selectedSupplierIds);
+}
+
+ final  Map<int, DateTime?> _deliveryDates;
+@override@JsonKey() Map<int, DateTime?> get deliveryDates {
+  if (_deliveryDates is EqualUnmodifiableMapView) return _deliveryDates;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_deliveryDates);
+}
+
+ final  Map<int, String?> _paymentTerms;
+@override@JsonKey() Map<int, String?> get paymentTerms {
+  if (_paymentTerms is EqualUnmodifiableMapView) return _paymentTerms;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_paymentTerms);
+}
+
+ final  Map<int, bool> _hasFees;
+@override@JsonKey() Map<int, bool> get hasFees {
+  if (_hasFees is EqualUnmodifiableMapView) return _hasFees;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_hasFees);
+}
+
+ final  Map<int, String?> _notes;
+@override@JsonKey() Map<int, String?> get notes {
+  if (_notes is EqualUnmodifiableMapView) return _notes;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_notes);
+}
+
+
+/// Create a copy of ProcurementIssueFormState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ProcurementIssueFormStateCopyWith<_ProcurementIssueFormState> get copyWith => __$ProcurementIssueFormStateCopyWithImpl<_ProcurementIssueFormState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ProcurementIssueFormState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('requests', requests))..add(DiagnosticsProperty('selectedSupplierIds', selectedSupplierIds))..add(DiagnosticsProperty('deliveryDates', deliveryDates))..add(DiagnosticsProperty('paymentTerms', paymentTerms))..add(DiagnosticsProperty('hasFees', hasFees))..add(DiagnosticsProperty('notes', notes));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcurementIssueFormState&&const DeepCollectionEquality().equals(other._items, _items)&&const DeepCollectionEquality().equals(other._requests, _requests)&&const DeepCollectionEquality().equals(other._selectedSupplierIds, _selectedSupplierIds)&&const DeepCollectionEquality().equals(other._deliveryDates, _deliveryDates)&&const DeepCollectionEquality().equals(other._paymentTerms, _paymentTerms)&&const DeepCollectionEquality().equals(other._hasFees, _hasFees)&&const DeepCollectionEquality().equals(other._notes, _notes));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),const DeepCollectionEquality().hash(_requests),const DeepCollectionEquality().hash(_selectedSupplierIds),const DeepCollectionEquality().hash(_deliveryDates),const DeepCollectionEquality().hash(_paymentTerms),const DeepCollectionEquality().hash(_hasFees),const DeepCollectionEquality().hash(_notes));
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ProcurementIssueFormState(items: $items, requests: $requests, selectedSupplierIds: $selectedSupplierIds, deliveryDates: $deliveryDates, paymentTerms: $paymentTerms, hasFees: $hasFees, notes: $notes)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ProcurementIssueFormStateCopyWith<$Res> implements $ProcurementIssueFormStateCopyWith<$Res> {
+  factory _$ProcurementIssueFormStateCopyWith(_ProcurementIssueFormState value, $Res Function(_ProcurementIssueFormState) _then) = __$ProcurementIssueFormStateCopyWithImpl;
+@override @useResult
+$Res call({
+ List<ProcurementIssueItem> items, List<ProcurementIssueRequest> requests, Set<int> selectedSupplierIds, Map<int, DateTime?> deliveryDates, Map<int, String?> paymentTerms, Map<int, bool> hasFees, Map<int, String?> notes
+});
+
+
+
+
+}
+/// @nodoc
+class __$ProcurementIssueFormStateCopyWithImpl<$Res>
+    implements _$ProcurementIssueFormStateCopyWith<$Res> {
+  __$ProcurementIssueFormStateCopyWithImpl(this._self, this._then);
+
+  final _ProcurementIssueFormState _self;
+  final $Res Function(_ProcurementIssueFormState) _then;
+
+/// Create a copy of ProcurementIssueFormState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? requests = null,Object? selectedSupplierIds = null,Object? deliveryDates = null,Object? paymentTerms = null,Object? hasFees = null,Object? notes = null,}) {
+  return _then(_ProcurementIssueFormState(
+items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as List<ProcurementIssueItem>,requests: null == requests ? _self._requests : requests // ignore: cast_nullable_to_non_nullable
+as List<ProcurementIssueRequest>,selectedSupplierIds: null == selectedSupplierIds ? _self._selectedSupplierIds : selectedSupplierIds // ignore: cast_nullable_to_non_nullable
+as Set<int>,deliveryDates: null == deliveryDates ? _self._deliveryDates : deliveryDates // ignore: cast_nullable_to_non_nullable
+as Map<int, DateTime?>,paymentTerms: null == paymentTerms ? _self._paymentTerms : paymentTerms // ignore: cast_nullable_to_non_nullable
+as Map<int, String?>,hasFees: null == hasFees ? _self._hasFees : hasFees // ignore: cast_nullable_to_non_nullable
+as Map<int, bool>,notes: null == notes ? _self._notes : notes // ignore: cast_nullable_to_non_nullable
+as Map<int, String?>,
   ));
 }
 
@@ -9103,6 +9438,10 @@ SupplierSearchState _$SupplierSearchStateFromJson(
           return SupplierSearchResult.fromJson(
             json
           );
+                case 'failure':
+          return SupplierSearchFailure.fromJson(
+            json
+          );
         
           default:
             throw CheckedFromJsonException(
@@ -9167,13 +9506,14 @@ extension SupplierSearchStatePatterns on SupplierSearchState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SupplierSearchIdle value)?  idle,TResult Function( SupplierSearchWaiting value)?  waiting,TResult Function( SupplierSearchResult value)?  result,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SupplierSearchIdle value)?  idle,TResult Function( SupplierSearchWaiting value)?  waiting,TResult Function( SupplierSearchResult value)?  result,TResult Function( SupplierSearchFailure value)?  failure,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case SupplierSearchIdle() when idle != null:
 return idle(_that);case SupplierSearchWaiting() when waiting != null:
 return waiting(_that);case SupplierSearchResult() when result != null:
-return result(_that);case _:
+return result(_that);case SupplierSearchFailure() when failure != null:
+return failure(_that);case _:
   return orElse();
 
 }
@@ -9191,13 +9531,14 @@ return result(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SupplierSearchIdle value)  idle,required TResult Function( SupplierSearchWaiting value)  waiting,required TResult Function( SupplierSearchResult value)  result,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SupplierSearchIdle value)  idle,required TResult Function( SupplierSearchWaiting value)  waiting,required TResult Function( SupplierSearchResult value)  result,required TResult Function( SupplierSearchFailure value)  failure,}){
 final _that = this;
 switch (_that) {
 case SupplierSearchIdle():
 return idle(_that);case SupplierSearchWaiting():
 return waiting(_that);case SupplierSearchResult():
-return result(_that);}
+return result(_that);case SupplierSearchFailure():
+return failure(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -9211,13 +9552,14 @@ return result(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SupplierSearchIdle value)?  idle,TResult? Function( SupplierSearchWaiting value)?  waiting,TResult? Function( SupplierSearchResult value)?  result,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SupplierSearchIdle value)?  idle,TResult? Function( SupplierSearchWaiting value)?  waiting,TResult? Function( SupplierSearchResult value)?  result,TResult? Function( SupplierSearchFailure value)?  failure,}){
 final _that = this;
 switch (_that) {
 case SupplierSearchIdle() when idle != null:
 return idle(_that);case SupplierSearchWaiting() when waiting != null:
 return waiting(_that);case SupplierSearchResult() when result != null:
-return result(_that);case _:
+return result(_that);case SupplierSearchFailure() when failure != null:
+return failure(_that);case _:
   return null;
 
 }
@@ -9234,12 +9576,13 @@ return result(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  idle,TResult Function( String search)?  waiting,TResult Function( String search,  List<Supplier> items,  int page,  int total,  bool hasReachEnd)?  result,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  idle,TResult Function( String search)?  waiting,TResult Function( String search,  List<Supplier> items,  int page,  int total,  bool hasReachEnd)?  result,TResult Function( String message)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SupplierSearchIdle() when idle != null:
 return idle();case SupplierSearchWaiting() when waiting != null:
 return waiting(_that.search);case SupplierSearchResult() when result != null:
-return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd);case SupplierSearchFailure() when failure != null:
+return failure(_that.message);case _:
   return orElse();
 
 }
@@ -9257,12 +9600,13 @@ return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd)
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  idle,required TResult Function( String search)  waiting,required TResult Function( String search,  List<Supplier> items,  int page,  int total,  bool hasReachEnd)  result,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  idle,required TResult Function( String search)  waiting,required TResult Function( String search,  List<Supplier> items,  int page,  int total,  bool hasReachEnd)  result,required TResult Function( String message)  failure,}) {final _that = this;
 switch (_that) {
 case SupplierSearchIdle():
 return idle();case SupplierSearchWaiting():
 return waiting(_that.search);case SupplierSearchResult():
-return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd);}
+return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd);case SupplierSearchFailure():
+return failure(_that.message);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -9276,12 +9620,13 @@ return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd)
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  idle,TResult? Function( String search)?  waiting,TResult? Function( String search,  List<Supplier> items,  int page,  int total,  bool hasReachEnd)?  result,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  idle,TResult? Function( String search)?  waiting,TResult? Function( String search,  List<Supplier> items,  int page,  int total,  bool hasReachEnd)?  result,TResult? Function( String message)?  failure,}) {final _that = this;
 switch (_that) {
 case SupplierSearchIdle() when idle != null:
 return idle();case SupplierSearchWaiting() when waiting != null:
 return waiting(_that.search);case SupplierSearchResult() when result != null:
-return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+return result(_that.search,_that.items,_that.page,_that.total,_that.hasReachEnd);case SupplierSearchFailure() when failure != null:
+return failure(_that.message);case _:
   return null;
 
 }
@@ -9507,6 +9852,85 @@ as bool,
 }
 
 /// @nodoc
+@JsonSerializable()
+
+class SupplierSearchFailure with DiagnosticableTreeMixin implements SupplierSearchState {
+   SupplierSearchFailure(this.message, {final  String? $type}): $type = $type ?? 'failure';
+  factory SupplierSearchFailure.fromJson(Map<String, dynamic> json) => _$SupplierSearchFailureFromJson(json);
+
+ final  String message;
+
+@JsonKey(name: 'runtimeType')
+final String $type;
+
+
+/// Create a copy of SupplierSearchState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SupplierSearchFailureCopyWith<SupplierSearchFailure> get copyWith => _$SupplierSearchFailureCopyWithImpl<SupplierSearchFailure>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SupplierSearchFailureToJson(this, );
+}
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'SupplierSearchState.failure'))
+    ..add(DiagnosticsProperty('message', message));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierSearchFailure&&(identical(other.message, message) || other.message == message));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'SupplierSearchState.failure(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SupplierSearchFailureCopyWith<$Res> implements $SupplierSearchStateCopyWith<$Res> {
+  factory $SupplierSearchFailureCopyWith(SupplierSearchFailure value, $Res Function(SupplierSearchFailure) _then) = _$SupplierSearchFailureCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$SupplierSearchFailureCopyWithImpl<$Res>
+    implements $SupplierSearchFailureCopyWith<$Res> {
+  _$SupplierSearchFailureCopyWithImpl(this._self, this._then);
+
+  final SupplierSearchFailure _self;
+  final $Res Function(SupplierSearchFailure) _then;
+
+/// Create a copy of SupplierSearchState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(SupplierSearchFailure(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$ReportFormState implements DiagnosticableTreeMixin {
 
  List<TripActualExpense> get expenses; List<TripRegulationRate> get rates; TripFuelExpense? get fuel; bool? get isDeducted; String? get content; List<ReportAttachment>? get attachments; List<XFile>? get files; Schedule? get schedule;
@@ -9644,7 +10068,10 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _ReportFormState():
-return $default(_that);}
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -9703,7 +10130,10 @@ return $default(_that.expenses,_that.rates,_that.fuel,_that.isDeducted,_that.con
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<TripActualExpense> expenses,  List<TripRegulationRate> rates,  TripFuelExpense? fuel,  bool? isDeducted,  String? content,  List<ReportAttachment>? attachments,  List<XFile>? files,  Schedule? schedule)  $default,) {final _that = this;
 switch (_that) {
 case _ReportFormState():
-return $default(_that.expenses,_that.rates,_that.fuel,_that.isDeducted,_that.content,_that.attachments,_that.files,_that.schedule);}
+return $default(_that.expenses,_that.rates,_that.fuel,_that.isDeducted,_that.content,_that.attachments,_that.files,_that.schedule);case _:
+  throw StateError('Unexpected subclass');
+
+}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -9731,8 +10161,8 @@ return $default(_that.expenses,_that.rates,_that.fuel,_that.isDeducted,_that.con
 /// @nodoc
 
 
-class _ReportFormState with DiagnosticableTreeMixin implements ReportFormState {
-   _ReportFormState({final  List<TripActualExpense> expenses = const [], final  List<TripRegulationRate> rates = const [], this.fuel, this.isDeducted, this.content, final  List<ReportAttachment>? attachments, final  List<XFile>? files, this.schedule}): _expenses = expenses,_rates = rates,_attachments = attachments,_files = files;
+class _ReportFormState extends ReportFormState with DiagnosticableTreeMixin {
+   _ReportFormState({final  List<TripActualExpense> expenses = const [], final  List<TripRegulationRate> rates = const [], this.fuel, this.isDeducted, this.content, final  List<ReportAttachment>? attachments, final  List<XFile>? files, this.schedule}): _expenses = expenses,_rates = rates,_attachments = attachments,_files = files,super._();
   
 
  final  List<TripActualExpense> _expenses;

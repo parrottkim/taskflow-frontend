@@ -28,13 +28,13 @@ abstract class ProjectService {
 
   @POST('project')
   Future<Project> createProject({
-    @Body() required CreateProjectRequest request,
+    @Body() required CreateProjectDto request,
   });
 
   @PATCH('project/{id}')
   Future<Project> updateProject({
     @Path('id') required int id,
-    @Body() required UpdateProjectRequest request,
+    @Body() required UpdateProjectDto request,
   });
 
   @DELETE('project/{id}')

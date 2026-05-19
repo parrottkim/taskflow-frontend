@@ -24,12 +24,12 @@ class ScheduleDataSource implements ScheduleRepository {
           projectId: projectId, search: search, start: start, end: end);
 
   @override
-  Future<Schedule> createSchedule({required ScheduleRequest request}) =>
+  Future<Schedule> createSchedule({required ScheduleDto request}) =>
       _service.createSchedule(request: request);
 
   @override
   Future<Schedule> updateSchedule(
-          {required int id, required ScheduleRequest request}) =>
+          {required int id, required ScheduleDto request}) =>
       _service.updateSchedule(id: id, request: request);
 
   @override

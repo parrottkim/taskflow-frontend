@@ -40,7 +40,7 @@ class LoginFormWidget extends HookConsumerWidget {
 
     login() async {
       TextInput.finishAutofillContext();
-      final login = LoginRequest(email: email.text, password: password.text);
+      final login = LoginDto(email: email.text, password: password.text);
       await ref.read(authControllerProvider.notifier).login(login: login);
     }
 

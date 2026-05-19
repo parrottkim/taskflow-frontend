@@ -11,7 +11,7 @@ env:
   IMAGE_DEV: dantechhjkim/frontend-dev
   IMAGE_PROD: dantechhjkim/frontend-prod
   COMPOSE_FILE: docker-compose.yml
-  REMOTE_DIR: 'D:/01-Projects/taskflow/frontend'
+  REMOTE_DIR: "D:/01-Projects/taskflow/frontend"
 
 jobs:
   build:
@@ -38,13 +38,13 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.38.5'
+          flutter-version: "3.38.5"
 
       - name: Set deployment environment and outputs
         id: set_env
         run: |
           BRANCH_NAME=${GITHUB_REF##*/}
-          
+
           if [[ "$BRANCH_NAME" == "develop" ]]; then
             echo "IMAGE_NAME=${IMAGE_DEV}" >> $GITHUB_ENV
             echo "env=dev" >> $GITHUB_OUTPUT
@@ -56,7 +56,7 @@ jobs:
             echo "service=frontend-prod" >> $GITHUB_OUTPUT
             echo "SENTRY_PROJECT=taskflow-prod" >> $GITHUB_ENV
           fi
-          
+
           echo "compose_file=docker-compose.yml" >> "$GITHUB_OUTPUT"
           echo "remote=${REMOTE_DIR}" >> "$GITHUB_OUTPUT"
         shell: bash
@@ -84,7 +84,12 @@ jobs:
           SENTRY_RELEASE: ${{ github.sha }}
         run: |
           sentry-cli releases new $SENTRY_RELEASE
-          sentry-cli sourcemaps upload --release=$SENTRY_RELEASE build/web --url-prefix '~/'
+          sentry-cli sourcemaps upload \
+            --release=$SENTRY_RELEASE \
+            --url-prefix '~/' \
+            --rewrite \
+            --validate \
+            build/web
           sentry-cli releases finalize $SENTRY_RELEASE
 
       - name: Build and push Docker image
@@ -134,4 +139,3 @@ jobs:
 
           Write-Host "Bringing up service..."
           docker compose -f $ComposeFile up -d $Service
-

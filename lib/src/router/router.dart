@@ -7,6 +7,7 @@ import 'package:taskflow/src/presentation/screen/download/download_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/forgot_password/forgot_password_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/issue_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_screen.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/procurement_request_form/procurement_request_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/project_detail_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_form/project_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/reset_password/reset_password_screen.dart';
@@ -54,6 +55,8 @@ class RouteNames {
   static const String issueNewChoose = 'issue_new_choose';
   static const String issueNew = 'issue_new';
   static const String issueEdit = 'issue_edit';
+  static const String issueProcurementRequest =
+      'issue_edit_procurement_request';
   static const String reportNewChoose = 'report_new_choose';
   static const String reportNew = 'report_new';
   static const String reportEdit = 'report_edit';
@@ -82,6 +85,7 @@ class Routes {
   static const String issueNewChoose = 'choose';
   static const String issueNew = 'new';
   static const String issueEdit = 'edit';
+  static const String issueProcurementRequest = 'procurement/request';
   static const String reportBase = 'report';
   static const String reportNewChoose = 'choose';
   static const String reportNew = 'new';
@@ -433,6 +437,48 @@ class AppRouter {
                                 child: IssueFormScreen(
                                   projectId: projectId,
                                   categoryId: categoryId,
+                                  issueId: issueId,
+                                ),
+                              );
+                            },
+                            onExit: (context, state) async {
+                              final error = ref.watch(errorControllerProvider);
+                              final submit = ref.watch(
+                                issueSubmitControllerProvider,
+                              );
+
+                              if (error is ErrorUnauthorized) {
+                                return true;
+                              }
+
+                              if (submit is! IssueSubmitSuccess &&
+                                  submit is! IssueSubmitDeleted) {
+                                final shouldNavigate = await showDialog<bool>(
+                                  context: context,
+                                  builder: (context) => const PopScopeDialog(),
+                                );
+                                return shouldNavigate ?? false;
+                              }
+                              return true;
+                            },
+                          ),
+                          GoRoute(
+                            name: RouteNames.issueProcurementRequest,
+                            path: ':issue_id/${Routes.issueProcurementRequest}',
+                            parentNavigatorKey: _projectKey,
+                            pageBuilder: (context, state) {
+                              final projectId = int.parse(
+                                state.pathParameters['project_id']!,
+                              );
+                              final issueId = int.parse(
+                                state.pathParameters['issue_id']!,
+                              );
+
+                              return NoTransitionPage(
+                                key: state.pageKey,
+                                name: state.name,
+                                child: ProcurementRequestFormScreen(
+                                  projectId: projectId,
                                   issueId: issueId,
                                 ),
                               );

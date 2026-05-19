@@ -6,8 +6,8 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ContractDisplayItem extends StatelessWidget {
   final Currency currency;
-  final List<ContractItem> contractItems;
-  final List<TransactionItem> transactionItems;
+  final List<ContractIssueItem> contractItems;
+  final List<TransactionIssueItem> transactionItems;
 
   const ContractDisplayItem({
     super.key,
@@ -293,7 +293,6 @@ class ContractDisplayItem extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 24.0),
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

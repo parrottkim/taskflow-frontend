@@ -253,20 +253,24 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ),
                         const Divider(),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CategoryWidget(
-                              padding: EdgeInsets.all(16.0),
-                              item: items[index].category,
-                            ),
-                            MarkdownWidget(item: items[index].content),
-                            if (items[index].attachments.isNotEmpty)
-                              AttachmentListWidget(
-                                attachments: items[index].attachments,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CategoryWidget(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                item: items[index].category,
                               ),
-                          ],
+                              SizedBox(height: 16.0),
+                              MarkdownWidget(item: items[index].content),
+                              if (items[index].attachments.isNotEmpty)
+                                AttachmentListWidget(
+                                  attachments: items[index].attachments,
+                                ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

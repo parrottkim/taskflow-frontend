@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -74,8 +73,8 @@ class _DesktopWidget extends HookConsumerWidget {
   final KickoffIssue? kickoff;
   final TransactionIssue? transaction;
   final PaymentIssue? payment;
-  final List<ContractItem> contractItems;
-  final List<TransactionItem> transactionItems;
+  final List<ContractIssueItem> contractItems;
+  final List<TransactionIssueItem> transactionItems;
 
   const _DesktopWidget({
     required this.projectId,
@@ -283,20 +282,28 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CategoryWidget(
-                                    padding: EdgeInsets.all(16.0),
-                                    item: payment!.category,
-                                  ),
-                                  MarkdownWidget(item: payment!.content),
-                                  if (payment!.attachments.isNotEmpty)
-                                    AttachmentListWidget<IssueAttachment>(
-                                      attachments: payment!.attachments,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CategoryWidget(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                      ),
+                                      item: payment!.category,
                                     ),
-                                ],
+                                    SizedBox(height: 16.0),
+                                    MarkdownWidget(item: payment!.content),
+                                    if (payment!.attachments.isNotEmpty)
+                                      AttachmentListWidget<IssueAttachment>(
+                                        attachments: payment!.attachments,
+                                      ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -388,24 +395,35 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CategoryWidget(
-                                    padding: EdgeInsets.all(16.0),
-                                    item: transaction!.category,
-                                  ),
-                                  TransactionDisplayItem(
-                                    currency: transaction!.currency,
-                                    items: transactionItems,
-                                  ),
-                                  MarkdownWidget(item: transaction!.content),
-                                  if (transaction!.attachments.isNotEmpty)
-                                    AttachmentListWidget<IssueAttachment>(
-                                      attachments: transaction!.attachments,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CategoryWidget(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                      ),
+                                      item: transaction!.category,
                                     ),
-                                ],
+                                    SizedBox(height: 8.0),
+                                    TransactionDisplayItem(
+                                      projectId: projectId,
+                                      currency: transaction!.currency,
+                                      items: transactionItems,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    MarkdownWidget(item: transaction!.content),
+                                    SizedBox(height: 16.0),
+                                    if (transaction!.attachments.isNotEmpty)
+                                      AttachmentListWidget<IssueAttachment>(
+                                        attachments: transaction!.attachments,
+                                      ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -495,23 +513,32 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CategoryWidget(
-                                    padding: EdgeInsets.all(16.0),
-                                    item: kickoff!.category,
-                                  ),
-                                  KickoffDisplayItem(
-                                    kickoffDate: kickoff!.kickoffDate,
-                                  ),
-                                  MarkdownWidget(item: kickoff!.content),
-                                  if (kickoff!.attachments.isNotEmpty)
-                                    AttachmentListWidget<IssueAttachment>(
-                                      attachments: kickoff!.attachments,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CategoryWidget(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                      ),
+                                      item: kickoff!.category,
                                     ),
-                                ],
+                                    SizedBox(height: 16.0),
+                                    KickoffDisplayItem(
+                                      kickoffDate: kickoff!.kickoffDate,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    MarkdownWidget(item: kickoff!.content),
+                                    if (kickoff!.attachments.isNotEmpty)
+                                      AttachmentListWidget<IssueAttachment>(
+                                        attachments: kickoff!.attachments,
+                                      ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -522,107 +549,121 @@ class _DesktopWidget extends HookConsumerWidget {
                 ),
               ),
             if (contract != null)
-              Row(
-                key: itemKeys[contract!.id],
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (Responsive.isDesktop(context))
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 8.0),
-                      child: Skeleton.unite(
-                        child: CircleAvatar(
-                          backgroundColor: Functions(
-                            context,
-                          ).generateColorFromId(contract!.user.id),
-                          radius: 16.0,
-                          child: Text(
-                            getInitials(contract!.user.username),
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  key: itemKeys[contract!.id],
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (Responsive.isDesktop(context))
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, right: 8.0),
+                        child: Skeleton.unite(
+                          child: CircleAvatar(
+                            backgroundColor: Functions(
+                              context,
+                            ).generateColorFromId(contract!.user.id),
+                            radius: 16.0,
+                            child: Text(
+                              getInitials(contract!.user.username),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  Expanded(
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16.0),
-                        border: Border.all(
-                          color: contract!.id == selected.value
-                              ? colorScheme.primary
-                              : Colors.transparent,
-                          width: 2.0,
+                    Expanded(
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                          border: Border.all(
+                            color: contract!.id == selected.value
+                                ? colorScheme.primary
+                                : Colors.transparent,
+                            width: 2.0,
+                          ),
+                        ),
+                        child: ContainerWidget(
+                          padding: EdgeInsets.zero,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 12.0,
+                                  top: 4.0,
+                                  bottom: 4.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(16.0),
+                                    topRight: Radius.circular(16.0),
+                                  ),
+                                  color:
+                                      auth is AuthAuthenticated &&
+                                          auth.user.id == contract!.user.id
+                                      ? colorScheme.primary.withValues(
+                                          alpha: 0.1,
+                                        )
+                                      : colorScheme.surfaceContainerLow,
+                                ),
+                                child: Row(
+                                  children: [
+                                    UserInformationWidget(item: contract!.user),
+                                    const Spacer(),
+                                    ToolbarWidget(
+                                      projectId: projectId,
+                                      issueId: contract!.id,
+                                      categoryId: contract!.category.id,
+                                      createdAt: contract!.createdAt,
+                                      updatedAt: contract!.updatedAt,
+                                      user: contract!.user,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Divider(),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0,
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CategoryWidget(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                      ),
+                                      item: contract!.category,
+                                    ),
+                                    SizedBox(height: 8.0),
+                                    ContractDisplayItem(
+                                      currency: contract!.currency,
+                                      contractItems: contractItems,
+                                      transactionItems: transactionItems,
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    MarkdownWidget(item: contract!.content),
+                                    if (contract!.attachments.isNotEmpty)
+                                      AttachmentListWidget<IssueAttachment>(
+                                        attachments: contract!.attachments,
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      child: ContainerWidget(
-                        padding: EdgeInsets.zero,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(
-                                left: 16.0,
-                                right: 12.0,
-                                top: 4.0,
-                                bottom: 4.0,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.0),
-                                  topRight: Radius.circular(16.0),
-                                ),
-                                color:
-                                    auth is AuthAuthenticated &&
-                                        auth.user.id == contract!.user.id
-                                    ? colorScheme.primary.withValues(alpha: 0.1)
-                                    : colorScheme.surfaceContainerLow,
-                              ),
-                              child: Row(
-                                children: [
-                                  UserInformationWidget(item: contract!.user),
-                                  const Spacer(),
-                                  ToolbarWidget(
-                                    projectId: projectId,
-                                    issueId: contract!.id,
-                                    categoryId: contract!.category.id,
-                                    createdAt: contract!.createdAt,
-                                    updatedAt: contract!.updatedAt,
-                                    user: contract!.user,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Divider(),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CategoryWidget(
-                                  padding: EdgeInsets.all(16.0),
-                                  item: contract!.category,
-                                ),
-                                ContractDisplayItem(
-                                  currency: contract!.currency,
-                                  contractItems: contractItems,
-                                  transactionItems: transactionItems,
-                                ),
-                                MarkdownWidget(item: contract!.content),
-                                if (contract!.attachments.isNotEmpty)
-                                  AttachmentListWidget<IssueAttachment>(
-                                    attachments: contract!.attachments,
-                                  ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
           ],
         ),

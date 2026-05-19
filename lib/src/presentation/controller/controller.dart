@@ -56,6 +56,8 @@ part 'issue/issue_list_controller.dart';
 part 'issue/issue_list_state.dart';
 part 'issue/issue_submit_controller.dart';
 part 'issue/issue_submit_state.dart';
+part 'issue/procurement_issue_form_controller.dart';
+part 'issue/procurement_issue_form_state.dart';
 
 part 'local/local_controller.dart';
 part 'local/local_state.dart';

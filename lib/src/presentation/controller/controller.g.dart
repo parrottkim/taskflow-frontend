@@ -52,6 +52,20 @@ Map<String, dynamic> _$SupplierSearchResultToJson(
   'runtimeType': instance.$type,
 };
 
+SupplierSearchFailure _$SupplierSearchFailureFromJson(
+  Map<String, dynamic> json,
+) => SupplierSearchFailure(
+  json['message'] as String,
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$SupplierSearchFailureToJson(
+  SupplierSearchFailure instance,
+) => <String, dynamic>{
+  'message': instance.message,
+  'runtimeType': instance.$type,
+};
+
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
@@ -91,7 +105,7 @@ final class AuthControllerProvider
   }
 }
 
-String _$authControllerHash() => r'dd14ea33b7e63ac8d1a44af4903b577635c107d9';
+String _$authControllerHash() => r'9868b959fd0fc015ddaae12d4b95bb8e0bf5d744';
 
 abstract class _$AuthController extends $Notifier<AuthState> {
   AuthState build();
@@ -689,7 +703,7 @@ final class IssueExportControllerProvider
 }
 
 String _$issueExportControllerHash() =>
-    r'19ee003d9fb7fe9f0271aa134d34aa10ab019350';
+    r'd40bda143132d4a9b8e39e73628fddc68af91679';
 
 abstract class _$IssueExportController extends $Notifier<IssueExportState> {
   IssueExportState build();
@@ -798,7 +812,7 @@ final class IssueFormControllerProvider
 }
 
 String _$issueFormControllerHash() =>
-    r'c4a53f7561adc0c900da2a084e23cb8289d692ea';
+    r'fce399d22e7b0838180c486302574dfb0b325cbe';
 
 final class IssueFormControllerFamily extends $Family
     with
@@ -908,7 +922,7 @@ final class IssueListControllerProvider
 }
 
 String _$issueListControllerHash() =>
-    r'0a4ee28345d8dcccbe7b379577ea95fcc04e8176';
+    r'0d353891aa0c986939ec6901f07f7d480e1f208f';
 
 final class IssueListControllerFamily extends $Family
     with
@@ -989,7 +1003,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'744fdb8c24798eb819ee999dfd0f64032cb6d980';
+    r'8e3abdde7d1a7d3d0f906f2cc28bb7384b1946a6';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -1006,6 +1020,111 @@ abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
               Object?
             >;
     element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(ProcurementIssueFormController)
+final procurementIssueFormControllerProvider =
+    ProcurementIssueFormControllerFamily._();
+
+final class ProcurementIssueFormControllerProvider
+    extends
+        $AsyncNotifierProvider<
+          ProcurementIssueFormController,
+          ProcurementIssueFormState
+        > {
+  ProcurementIssueFormControllerProvider._({
+    required ProcurementIssueFormControllerFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'procurementIssueFormControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$procurementIssueFormControllerHash();
+
+  @override
+  String toString() {
+    return r'procurementIssueFormControllerProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  ProcurementIssueFormController create() => ProcurementIssueFormController();
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProcurementIssueFormControllerProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$procurementIssueFormControllerHash() =>
+    r'6ddfdc994b5205756459153a6a0b06397aa8e2bf';
+
+final class ProcurementIssueFormControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          ProcurementIssueFormController,
+          AsyncValue<ProcurementIssueFormState>,
+          ProcurementIssueFormState,
+          FutureOr<ProcurementIssueFormState>,
+          int
+        > {
+  ProcurementIssueFormControllerFamily._()
+    : super(
+        retry: null,
+        name: r'procurementIssueFormControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ProcurementIssueFormControllerProvider call({required int issueId}) =>
+      ProcurementIssueFormControllerProvider._(argument: issueId, from: this);
+
+  @override
+  String toString() => r'procurementIssueFormControllerProvider';
+}
+
+abstract class _$ProcurementIssueFormController
+    extends $AsyncNotifier<ProcurementIssueFormState> {
+  late final _$args = ref.$arg as int;
+  int get issueId => _$args;
+
+  FutureOr<ProcurementIssueFormState> build({required int issueId});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<ProcurementIssueFormState>,
+              ProcurementIssueFormState
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<ProcurementIssueFormState>,
+                ProcurementIssueFormState
+              >,
+              AsyncValue<ProcurementIssueFormState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(issueId: _$args));
   }
 }
 
@@ -1426,7 +1545,7 @@ final class ProjectSubmitControllerProvider
 }
 
 String _$projectSubmitControllerHash() =>
-    r'30bf1d013931a584b4e0dda37fa3ae0b9e3c28dc';
+    r'58b83f0848323c8c65c95c01122ed966e7677683';
 
 abstract class _$ProjectSubmitController extends $Notifier<ProjectSubmitState> {
   ProjectSubmitState build();
@@ -1722,7 +1841,7 @@ final class ScheduleSubmitControllerProvider
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'78d143b8e324fed507d5c45da0608806b09a32e9';
+    r'2f9d4887d062ad76e6736752970f1a2549bd344d';
 
 abstract class _$ScheduleSubmitController
     extends $Notifier<ScheduleSubmitState> {
@@ -1824,7 +1943,7 @@ final class SupplierSearchControllerProvider
 }
 
 String _$supplierSearchControllerHash() =>
-    r'312b3883addff0121c4c865d7de98dc5f89152df';
+    r'872e376cd6e5cd7b17bc28ba3fa6853cadb75e2e';
 
 abstract class _$SupplierSearchController
     extends $Notifier<SupplierSearchState> {
@@ -1887,7 +2006,7 @@ final class ReportFormControllerProvider
 }
 
 String _$reportFormControllerHash() =>
-    r'5f374636fc147ea4e2ec0770901e497d75c4a509';
+    r'c5dcd91560c173253751e4bcc53336a87dc00cb9';
 
 final class ReportFormControllerFamily extends $Family
     with
@@ -2082,7 +2201,7 @@ final class ReportSubmitControllerProvider
 }
 
 String _$reportSubmitControllerHash() =>
-    r'7d8948ebb051a23ac186013ef4422b0dca440b95';
+    r'11a9dd48aca2bc1e8df00288b65dfb7f726d0c24';
 
 abstract class _$ReportSubmitController extends $Notifier<ReportSubmitState> {
   ReportSubmitState build();
