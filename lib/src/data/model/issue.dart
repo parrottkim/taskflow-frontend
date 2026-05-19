@@ -66,11 +66,12 @@ sealed class Issue with _$Issue {
     required User user,
     required String content,
     @Default([]) List<IssueAttachment> attachments,
-    @Default([]) List<ContractItem> contractItems,
-    @Default([]) List<TransactionItem> transactionItems,
-    @Default([]) List<ProcurementItem> procurementItems,
-    DateTime? kickoffDate,
     Currency? currency,
+    DateTime? kickoffDate,
+    @Default([]) List<ContractIssueItem> contractItems,
+    @Default([]) List<TransactionIssueItem> transactionItems,
+    @Default([]) List<ProcurementIssueItem> procurementItems,
+    @Default([]) List<ProcurementIssueRequest> requests,
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? deletedAt,
@@ -103,19 +104,22 @@ abstract class IssueAttachment with _$IssueAttachment {
 }
 
 @freezed
-abstract class ContractItem with _$ContractItem {
-  factory ContractItem({int? id, required String item, required String price}) =
-      _ContractItem;
+abstract class ContractIssueItem with _$ContractIssueItem {
+  factory ContractIssueItem({
+    int? id,
+    required String item,
+    required String price,
+  }) = _ContractIssueItem;
 
-  factory ContractItem.fromJson(Map<String, dynamic> json) =>
-      _$ContractItemFromJson(json);
+  factory ContractIssueItem.fromJson(Map<String, dynamic> json) =>
+      _$ContractIssueItemFromJson(json);
 
-  factory ContractItem.empty() => ContractItem(item: '', price: '');
+  factory ContractIssueItem.empty() => ContractIssueItem(item: '', price: '');
 }
 
 @freezed
-abstract class ProcurementItem with _$ProcurementItem {
-  factory ProcurementItem({
+abstract class ProcurementIssueItem with _$ProcurementIssueItem {
+  factory ProcurementIssueItem({
     int? id,
     required String item,
     required String spec,
@@ -125,12 +129,13 @@ abstract class ProcurementItem with _$ProcurementItem {
     @Default(false) bool isOnlinePurchase,
     String? purchaseUrl,
     Supplier? supplier,
-  }) = _ProcurementItem;
+    String? note,
+  }) = _ProcurementIssueItem;
 
-  factory ProcurementItem.fromJson(Map<String, dynamic> json) =>
-      _$ProcurementItemFromJson(json);
+  factory ProcurementIssueItem.fromJson(Map<String, dynamic> json) =>
+      _$ProcurementIssueItemFromJson(json);
 
-  factory ProcurementItem.empty() => ProcurementItem(
+  factory ProcurementIssueItem.empty() => ProcurementIssueItem(
     item: '',
     spec: '',
     quantity: '',
@@ -140,37 +145,66 @@ abstract class ProcurementItem with _$ProcurementItem {
 }
 
 @freezed
-abstract class TransactionItemCategory with _$TransactionItemCategory {
-  factory TransactionItemCategory({required int id, required String name}) =
-      _TransactionItemCategory;
+abstract class ProcurementIssueRequestItem with _$ProcurementIssueRequestItem {
+  factory ProcurementIssueRequestItem({
+    int? id,
+    required String item,
+    required String spec,
+    required String quantity,
+    required String unitPrice,
+    required String totalAmount,
+    @Default(false) bool isOnlinePurchase,
+    String? purchaseUrl,
+    String? note,
+  }) = _ProcurementIssueRequestItem;
 
-  factory TransactionItemCategory.fromJson(Map<String, dynamic> json) =>
-      _$TransactionItemCategoryFromJson(json);
+  factory ProcurementIssueRequestItem.fromJson(Map<String, dynamic> json) =>
+      _$ProcurementIssueRequestItemFromJson(json);
 
-  factory TransactionItemCategory.empty() =>
-      TransactionItemCategory(id: 0, name: '');
+  factory ProcurementIssueRequestItem.empty() => ProcurementIssueRequestItem(
+    item: '',
+    spec: '',
+    quantity: '',
+    unitPrice: '',
+    totalAmount: '',
+  );
 }
 
 @freezed
-abstract class TransactionItem with _$TransactionItem {
-  factory TransactionItem({
+abstract class TransactionIssueItemCategory
+    with _$TransactionIssueItemCategory {
+  factory TransactionIssueItemCategory({
+    required int id,
+    required String name,
+  }) = _TransactionIssueItemCategory;
+
+  factory TransactionIssueItemCategory.fromJson(Map<String, dynamic> json) =>
+      _$TransactionIssueItemCategoryFromJson(json);
+
+  factory TransactionIssueItemCategory.empty() =>
+      TransactionIssueItemCategory(id: 0, name: '');
+}
+
+@freezed
+abstract class TransactionIssueItem with _$TransactionIssueItem {
+  factory TransactionIssueItem({
     int? id,
-    TransactionItemCategory? category,
+    TransactionIssueItemCategory? category,
     required String price,
     required String ratio,
     @Default(false) bool isPaid,
     DateTime? paidAt,
     String? note,
-  }) = _TransactionItem;
+  }) = _TransactionIssueItem;
 
-  factory TransactionItem.fromJson(Map<String, dynamic> json) =>
-      _$TransactionItemFromJson(json);
+  factory TransactionIssueItem.fromJson(Map<String, dynamic> json) =>
+      _$TransactionIssueItemFromJson(json);
 
-  factory TransactionItem.empty() =>
-      TransactionItem(category: null, price: '', ratio: '', note: '');
+  factory TransactionIssueItem.empty() =>
+      TransactionIssueItem(category: null, price: '', ratio: '', note: '');
 
-  factory TransactionItem.dummy() => TransactionItem(
-    category: TransactionItemCategory.empty(),
+  factory TransactionIssueItem.dummy() => TransactionIssueItem(
+    category: TransactionIssueItemCategory.empty(),
     price: '',
     ratio: '',
   );
@@ -219,7 +253,8 @@ abstract class ProcurementIssue with _$ProcurementIssue {
     required IssueCategory category,
     required User user,
     required String content,
-    @Default([]) List<ProcurementItem> procurementItems,
+    @Default([]) List<ProcurementIssueItem> procurementItems,
+    @Default([]) List<ProcurementIssueRequest> requests,
     @Default([]) List<IssueAttachment> attachments,
     required DateTime createdAt,
     required DateTime updatedAt,
@@ -237,7 +272,7 @@ abstract class TransactionIssue with _$TransactionIssue {
     required IssueCategory category,
     required User user,
     required String content,
-    required Currency currency,
+    Currency? currency,
     @Default([]) List<IssueAttachment> attachments,
     required DateTime createdAt,
     required DateTime updatedAt,
@@ -280,4 +315,26 @@ abstract class ApprovalIssue with _$ApprovalIssue {
 
   factory ApprovalIssue.fromJson(Map<String, dynamic> json) =>
       _$ApprovalIssueFromJson(json);
+}
+
+@freezed
+abstract class ProcurementIssueRequest with _$ProcurementIssueRequest {
+  factory ProcurementIssueRequest({
+    required int id,
+    required User user,
+    required DateTime orderDate,
+    DateTime? deliveryDate,
+    String? paymentTerms,
+    required String serialNumber,
+    required bool hasFee,
+    required Supplier supplier,
+    String? note,
+    required List<ProcurementIssueRequestItem> items,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _ProcurementIssueRequest;
+
+  factory ProcurementIssueRequest.fromJson(Map<String, dynamic> json) =>
+      _$ProcurementIssueRequestFromJson(json);
 }

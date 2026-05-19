@@ -19,14 +19,14 @@ abstract class ReportRepository {
 
   Future<void> sendMail({
     required int id,
-    required SendReportMailRequest request,
+    required SendReportMailDto request,
   });
 
-  Future<Report> createReport({required CreateReportRequest request});
+  Future<Report> createReport({required CreateReportDto request});
 
   Future<Report> updateReport({
     required int id,
-    required UpdateReportRequest request,
+    required UpdateReportDto request,
   });
 
   Future<void> deleteReport({required int id});

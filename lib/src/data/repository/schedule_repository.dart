@@ -12,10 +12,10 @@ abstract class ScheduleRepository {
     DateTime? end,
   });
 
-  Future<Schedule> createSchedule({required ScheduleRequest request});
+  Future<Schedule> createSchedule({required ScheduleDto request});
 
   Future<Schedule> updateSchedule(
-      {required int id, required ScheduleRequest request});
+      {required int id, required ScheduleDto request});
 
   Future<void> deleteSchedule({required int id});
 }

@@ -43,7 +43,7 @@ class ReportSubmitController extends _$ReportSubmitController {
       }
 
       // 1. 공통 필드를 포함하는 최상위 요청 생성 (Base ReportFormState에서 접근 가능)
-      CreateReportRequest request = CreateReportRequest(
+      CreateReportDto request = CreateReportDto(
         scheduleId: value.schedule?.id,
         projectId: projectId,
         content: value.content ?? '',
@@ -53,21 +53,21 @@ class ReportSubmitController extends _$ReportSubmitController {
       // 3. 타입별로 분기하여 tripRequest 생성 (타입 프로모션 적용)
       if (value.schedule != null &&
           value.schedule!.category is ScheduleDomestic) {
-        CreateFuelExpenseRequest? fuelRequest;
+        CreateFuelExpenseDto? fuelRequest;
 
         if (value.fuel != null) {
-          fuelRequest = CreateFuelExpenseRequest(
+          fuelRequest = CreateFuelExpenseDto(
             rate: value.fuel!.rate!,
             mileage: value.fuel!.mileage!,
             distance: value.fuel!.distance!,
           );
         }
 
-        final item = CreateTripReportRequest(
+        final item = CreateTripReportDto(
           // value.expenses, value.rates에 안전하게 접근
           expenses: value.expenses
               .map(
-                (e) => CreateActualExpenseRequest(
+                (e) => CreateActualExpenseDto(
                   stepId: e.stepId,
                   price: e.price!,
                   details: e.details,
@@ -76,7 +76,7 @@ class ReportSubmitController extends _$ReportSubmitController {
               .toList(),
           rates: value.rates
               .map(
-                (e) => CreateRegulationRateRequest(
+                (e) => CreateRegulationRateDto(
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
@@ -91,10 +91,10 @@ class ReportSubmitController extends _$ReportSubmitController {
         request = request.copyWith(trip: item);
       } else if (value.schedule != null &&
           value.schedule!.category is ScheduleOverseas) {
-        final item = CreateTripReportRequest(
+        final item = CreateTripReportDto(
           expenses: value.expenses
               .map(
-                (e) => CreateActualExpenseRequest(
+                (e) => CreateActualExpenseDto(
                   stepId: e.stepId,
                   price: e.price!,
                   details: e.details,
@@ -103,7 +103,7 @@ class ReportSubmitController extends _$ReportSubmitController {
               .toList(),
           rates: value.rates
               .map(
-                (e) => CreateRegulationRateRequest(
+                (e) => CreateRegulationRateDto(
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
@@ -184,7 +184,7 @@ class ReportSubmitController extends _$ReportSubmitController {
         }
       }
 
-      UpdateReportRequest request = UpdateReportRequest(
+      UpdateReportDto request = UpdateReportDto(
         scheduleId: value.schedule?.id,
         projectId: projectId,
         content: value.content ?? '',
@@ -194,11 +194,11 @@ class ReportSubmitController extends _$ReportSubmitController {
       // 3. 타입별로 분기하여 tripRequest 생성 (타입 프로모션 적용)
       if (value.schedule != null &&
           value.schedule!.category is ScheduleDomestic) {
-        UpdateFuelExpenseRequest? fuelRequest;
+        UpdateFuelExpenseDto? fuelRequest;
 
         // value.fuel에 안전하게 접근
         if (value.fuel != null) {
-          fuelRequest = UpdateFuelExpenseRequest(
+          fuelRequest = UpdateFuelExpenseDto(
             id: value.fuel!.id,
             rate: value.fuel!.rate,
             mileage: value.fuel!.mileage,
@@ -206,11 +206,11 @@ class ReportSubmitController extends _$ReportSubmitController {
           );
         }
 
-        final item = UpdateTripReportRequest(
+        final item = UpdateTripReportDto(
           // value.expenses, value.rates에 안전하게 접근
           expenses: value.expenses
               .map(
-                (e) => UpdateActualExpenseRequest(
+                (e) => UpdateActualExpenseDto(
                   id: e.id,
                   stepId: e.stepId,
                   price: e.price!,
@@ -220,7 +220,7 @@ class ReportSubmitController extends _$ReportSubmitController {
               .toList(),
           rates: value.rates
               .map(
-                (e) => UpdateRegulationRateRequest(
+                (e) => UpdateRegulationRateDto(
                   id: e.id,
                   stepId: e.stepId,
                   days: e.days!,
@@ -236,10 +236,10 @@ class ReportSubmitController extends _$ReportSubmitController {
         request = request.copyWith(trip: item);
       } else if (value.schedule != null &&
           value.schedule!.category is ScheduleOverseas) {
-        final item = UpdateTripReportRequest(
+        final item = UpdateTripReportDto(
           expenses: value.expenses
               .map(
-                (e) => UpdateActualExpenseRequest(
+                (e) => UpdateActualExpenseDto(
                   id: e.id,
                   stepId: e.stepId,
                   price: e.price!,
@@ -249,7 +249,7 @@ class ReportSubmitController extends _$ReportSubmitController {
               .toList(),
           rates: value.rates
               .map(
-                (e) => UpdateRegulationRateRequest(
+                (e) => UpdateRegulationRateDto(
                   id: e.id,
                   stepId: e.stepId,
                   days: e.days!,
@@ -316,7 +316,7 @@ class ReportSubmitController extends _$ReportSubmitController {
   }) async {
     state = const ReportSubmitState.pending();
 
-    final request = SendReportMailRequest(
+    final request = SendReportMailDto(
       userIds: isAllSelected
           ? null
           : users.map((element) => element.id).toList(),

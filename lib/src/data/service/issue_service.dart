@@ -11,7 +11,7 @@ abstract class IssueService {
   Future<List<IssueCategory>> getAllCategories();
 
   @GET('issue/transaction/categories')
-  Future<List<TransactionItemCategory>> getAllTransactionCategories();
+  Future<List<TransactionIssueItemCategory>> getAllTransactionCategories();
 
   @GET('issue/latest')
   Future<Result<LatestIssue>> getLatestIssues({
@@ -19,17 +19,27 @@ abstract class IssueService {
     @Query('limit') int limit = 20,
   });
 
-  @GET('issue/procurement/export/{id}')
+  @GET('issue/procurement/request/export/{id}')
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> exportPurchaseRequest({
     @Path() required int id,
   });
 
+  @GET('issue/procurement/order/export/{id}')
+  @DioResponseType(ResponseType.bytes)
+  Future<HttpResponse<List<int>>> exportPurchaseOrder({
+    @Path() required int id,
+  });
+
   @GET('issue/contract/item/{id}')
-  Future<List<ContractItem>> getContractItems({@Path() required int id});
+  Future<List<ContractIssueItem>> getContractIssueItems({
+    @Path() required int id,
+  });
 
   @GET('issue/transaction/item/{id}')
-  Future<List<TransactionItem>> getTransactionItems({@Path() required int id});
+  Future<List<TransactionIssueItem>> getTransactionIssueItems({
+    @Path() required int id,
+  });
 
   @GET('issue/contract/{id}')
   Future<HttpResponse<ContractIssue?>> getContractIssue({
@@ -71,73 +81,79 @@ abstract class IssueService {
   @POST('issue/mail/{id}')
   Future<void> sendMail({
     @Path() required int id,
-    @Body() required SendIssueMailRequest request,
+    @Body() required SendIssueMailDto request,
   });
 
   @POST('issue/contract')
   Future<Issue> createContractIssue({
-    @Body() required CreateContractIssueRequest request,
+    @Body() required CreateContractIssueDto request,
   });
 
   @POST('issue/kickoff')
   Future<Issue> createKickoffIssue({
-    @Body() required CreateKickoffIssueRequest request,
+    @Body() required CreateKickoffIssueDto request,
   });
 
   @POST('issue/transaction')
   Future<Issue> createTransactionIssue({
-    @Body() required CreateTransactionIssueRequest request,
+    @Body() required CreateTransactionIssueDto request,
   });
 
   @POST('issue/approval')
   Future<Issue> createApprovalIssue({
-    @Body() required CreateApprovalIssueRequest request,
+    @Body() required CreateApprovalIssueDto request,
+  });
+
+  @PATCH('issue/{id}/procurement/request')
+  Future<Issue> createProcurementIssueRequest({
+    @Path() required int id,
+    @Body() required CreateProcurementIssueRequestDto request,
   });
 
   @POST('issue/procurement')
   Future<Issue> createProcurementIssue({
-    @Body() required CreateProcurementIssueRequest request,
+    @Body() required CreateProcurementIssueDto request,
   });
 
   @POST('issue/payment')
   Future<Issue> createPaymentIssue({
-    @Body() required CreatePaymentIssueRequest request,
+    @Body() required CreatePaymentIssueDto request,
   });
 
   @PATCH('issue/{id}/contract')
   Future<Issue> updateContractIssue({
     @Path() required int id,
-    @Body() required UpdateContractIssueRequest request,
+    @Body() required UpdateContractIssueDto request,
   });
 
   @PATCH('issue/{id}/kickoff')
   Future<Issue> updateKickoffIssue({
     @Path() required int id,
-    @Body() required UpdateKickoffIssueRequest request,
+    @Body() required UpdateKickoffIssueDto request,
   });
 
   @PATCH('issue/{id}/transaction')
   Future<Issue> updateTransactionIssue({
     @Path() required int id,
-    @Body() required UpdateTransactionIssueRequest request,
+    @Body() required UpdateTransactionIssueDto request,
   });
 
   @PATCH('issue/{id}/approval')
   Future<Issue> updateApprovalIssue({
     @Path() required int id,
-    @Body() required UpdateApprovalIssueRequest request,
+    @Body() required UpdateApprovalIssueDto request,
   });
 
   @PATCH('issue/{id}/procurement')
   Future<Issue> updateProcurementIssue({
     @Path() required int id,
-    @Body() required UpdateProcurementIssueRequest request,
+    @Body() required UpdateProcurementIssueDto request,
   });
 
   @PATCH('issue/{id}/payment')
   Future<Issue> updatePaymentIssue({
     @Path() required int id,
-    @Body() required UpdatePaymentIssueRequest request,
+    @Body() required UpdatePaymentIssueDto request,
   });
 
   @DELETE('issue/{id}')

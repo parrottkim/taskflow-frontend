@@ -37,11 +37,11 @@ class IssueFormController extends _$IssueFormController {
 
     final contractItems = await ref
         .read(issueRepositoryProvider)
-        .getContractItems(id: projectId);
+        .getContractIssueItems(id: projectId);
 
     final transactionItems = await ref
         .read(issueRepositoryProvider)
-        .getTransactionItems(id: projectId);
+        .getTransactionIssueItems(id: projectId);
 
     return IssueFormState(
       category: category,
@@ -67,19 +67,26 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(currency: currency));
   }
 
-  void addContractItem({ContractItem? item}) {
+  void addContractIssueItem({ContractIssueItem? item}) {
     final value = state.value;
 
     if (value == null) return;
 
     state = AsyncData(
       value.copyWith(
-        contractItems: [...value.contractItems, item ?? ContractItem.empty()],
+        contractItems: [
+          ...value.contractItems,
+          item ?? ContractIssueItem.empty(),
+        ],
       ),
     );
   }
 
-  void updateContractItem({required int index, String? item, String? price}) {
+  void updateContractIssueItem({
+    required int index,
+    String? item,
+    String? price,
+  }) {
     final value = state.value;
     if (value == null) return;
 
@@ -116,7 +123,7 @@ class IssueFormController extends _$IssueFormController {
     }
   }
 
-  void removeContractItem({required int index}) {
+  void removeContractIssueItem({required int index}) {
     final value = state.value;
 
     if (value == null) return;
@@ -135,7 +142,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(contractItems: newItems));
   }
 
-  void removeAllContractItem() {
+  void removeAllContractIssueItem() {
     final value = state.value;
 
     if (value == null) return;
@@ -151,7 +158,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(kickoffDate: date));
   }
 
-  void addProcurementItem({ProcurementItem? item}) {
+  void addProcurementIssueItem({ProcurementIssueItem? item}) {
     final value = state.value;
 
     if (value == null) return;
@@ -160,13 +167,13 @@ class IssueFormController extends _$IssueFormController {
       value.copyWith(
         procurementItems: [
           ...value.procurementItems,
-          item ?? ProcurementItem.empty(),
+          item ?? ProcurementIssueItem.empty(),
         ],
       ),
     );
   }
 
-  void updateProcurementItem({
+  void updateProcurementIssueItem({
     required int index,
     String? item,
     String? spec,
@@ -176,6 +183,7 @@ class IssueFormController extends _$IssueFormController {
     bool? isOnlinePurchase,
     String? purchaseUrl,
     Supplier? supplier,
+    String? note,
   }) {
     final value = state.value;
 
@@ -220,12 +228,13 @@ class IssueFormController extends _$IssueFormController {
         // 결정된 값 적용
         purchaseUrl: finalPurchaseUrl,
         supplier: finalSupplier,
+        note: note,
       );
       state = AsyncData(value.copyWith(procurementItems: newItems));
     }
   }
 
-  void removeProcurementItem({required int index}) {
+  void removeProcurementIssueItem({required int index}) {
     final value = state.value;
 
     if (value == null) return;
@@ -244,7 +253,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(procurementItems: newItems));
   }
 
-  void removeAllProcurementItem() {
+  void removeAllProcurementIssueItem() {
     final value = state.value;
 
     if (value == null) return;
@@ -252,7 +261,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(procurementItems: []));
   }
 
-  void addTransactionItem({TransactionItem? item}) {
+  void addTransactionIssueItem({TransactionIssueItem? item}) {
     final value = state.value;
 
     if (value == null) return;
@@ -261,15 +270,15 @@ class IssueFormController extends _$IssueFormController {
       value.copyWith(
         transactionItems: [
           ...value.transactionItems,
-          item ?? TransactionItem.empty(),
+          item ?? TransactionIssueItem.empty(),
         ],
       ),
     );
   }
 
-  void updateTransactionItem({
+  void updateTransactionIssueItem({
     required int index,
-    TransactionItemCategory? category,
+    TransactionIssueItemCategory? category,
     String? price,
     String? ratio,
     String? note,
@@ -293,7 +302,10 @@ class IssueFormController extends _$IssueFormController {
     }
   }
 
-  void toggleTransactionItemPaid({required int index, required bool isPaid}) {
+  void toggleTransactionIssueItemPaid({
+    required int index,
+    required bool isPaid,
+  }) {
     final value = state.value;
     if (value == null) return;
 
@@ -309,7 +321,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(transactionItems: items));
   }
 
-  void removeTransactionItem({required int index}) {
+  void removeTransactionIssueItem({required int index}) {
     final value = state.value;
 
     if (value == null) return;
@@ -328,7 +340,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(transactionItems: newItems));
   }
 
-  void removeAllTransactionItem() {
+  void removeAllTransactionIssueItem() {
     final value = state.value;
 
     if (value == null) return;

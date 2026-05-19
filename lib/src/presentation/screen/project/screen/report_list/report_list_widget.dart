@@ -245,23 +245,32 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                               ),
                               const Divider(),
-                              if (items[index].schedule != null)
-                                ScheduleWidget(
-                                  schedule: items[index].schedule!,
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 16.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (items[index].schedule != null)
+                                      ScheduleWidget(
+                                        schedule: items[index].schedule!,
+                                      ),
+                                    if (items[index].schedule != null)
+                                      TripCostWidget(item: items[index]),
+                                    MarkdownWidget(item: items[index].content),
+                                    if (items[index].schedule != null &&
+                                        (items[index].schedule!.category
+                                                is ScheduleDomestic ||
+                                            items[index].schedule!.category
+                                                is ScheduleOverseas))
+                                      TripExportWidget(item: items[index]),
+                                    if (items[index].attachments.isNotEmpty)
+                                      AttachmentListWidget<ReportAttachment>(
+                                        attachments: items[index].attachments,
+                                      ),
+                                  ],
                                 ),
-                              if (items[index].schedule != null)
-                                TripCostWidget(item: items[index]),
-                              MarkdownWidget(item: items[index].content),
-                              if (items[index].schedule != null &&
-                                  (items[index].schedule!.category
-                                          is ScheduleDomestic ||
-                                      items[index].schedule!.category
-                                          is ScheduleOverseas))
-                                TripExportWidget(item: items[index]),
-                              if (items[index].attachments.isNotEmpty)
-                                AttachmentListWidget<ReportAttachment>(
-                                  attachments: items[index].attachments,
-                                ),
+                              ),
                             ],
                           ),
                         ),

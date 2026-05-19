@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -10,6 +9,8 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_display_item.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_export_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_request_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/progress_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/toolbar_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -88,8 +89,6 @@ class _DesktopWidget extends HookConsumerWidget {
       return keys;
     }, [items]);
 
-    final controller = PrimaryScrollController.of(context);
-
     useEffect(() {
       selected.value = issueId;
 
@@ -101,20 +100,12 @@ class _DesktopWidget extends HookConsumerWidget {
           final ctx = itemKeys[selected.value]?.currentContext;
           if (ctx == null) return;
 
-          // ⭐️ ScrollController를 사용하는 로직으로 변경
-          if (controller.hasClients) {
-            final renderBox = ctx.findRenderObject() as RenderBox;
-            final viewport = context.findRenderObject() as RenderBox;
-            final targetOffset =
-                renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy -
-                60.0;
-
-            controller.animateTo(
-              targetOffset + controller.offset,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInQuad,
-            );
-          }
+          await Scrollable.ensureVisible(
+            ctx,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInQuad,
+            alignment: 0.1,
+          );
         });
       }
       return null;
@@ -255,24 +246,42 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ),
                         const Divider(),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CategoryWidget(
-                              padding: EdgeInsets.all(16.0),
-                              item: items[index].category,
-                            ),
-                            ProcurementDisplayItem(
-                              items: items[index].procurementItems,
-                            ),
-                            MarkdownWidget(item: items[index].content),
-                            ProcurementExportWidget(item: items[index]),
-                            if (items[index].attachments.isNotEmpty)
-                              AttachmentListWidget(
-                                attachments: items[index].attachments,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CategoryWidget(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                item: items[index].category,
                               ),
-                          ],
+                              SizedBox(height: 16.0),
+                              ProcurementDisplayItem(
+                                items: items[index].procurementItems,
+                                requests: items[index].requests,
+                              ),
+                              ProcurementExportWidget(
+                                item: items[index],
+                                requests: items[index].requests,
+                              ),
+                              ProcurementRequestItem(
+                                requests: items[index].requests,
+                              ),
+                              ProgressWidget(
+                                projectId: projectId,
+                                issueId: items[index].id,
+                                items: items[index].procurementItems,
+                                requests: items[index].requests,
+                              ),
+                              SizedBox(height: 16.0),
+                              MarkdownWidget(item: items[index].content),
+                              if (items[index].attachments.isNotEmpty)
+                                AttachmentListWidget(
+                                  attachments: items[index].attachments,
+                                ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

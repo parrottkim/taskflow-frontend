@@ -69,7 +69,7 @@ class SupplierListWidget extends HookConsumerWidget {
                     issueId: issueId,
                   ).notifier,
                 )
-                .updateProcurementItem(
+                .updateProcurementIssueItem(
                   index: itemIndex,
                   supplier: items[index],
                 );

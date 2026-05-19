@@ -94,17 +94,17 @@ class _DesktopWidget extends HookConsumerWidget {
 
     final isContentInvalid = useState(false);
 
-    final hasContractItems = useState(false);
-    final isContractItemEmpty = useState(false);
+    final hasContractIssueItems = useState(false);
+    final isContractIssueItemEmpty = useState(false);
 
-    final hasTransactionItems = useState(false);
-    final isTransactionItemEmpty = useState(false);
+    final hasTransactionIssueItems = useState(false);
+    final isTransactionIssueItemEmpty = useState(false);
     final isRatioInvalid = useState(false);
 
     final isKickoffDateEmpty = useState(false);
 
-    final hasProcurementItems = useState(false);
-    final isProcurementItemEmpty = useState(false);
+    final hasProcurementIssueItems = useState(false);
+    final isProcurementIssueItemEmpty = useState(false);
 
     final editorState = useMemoized(() {
       return value.content == null
@@ -264,10 +264,10 @@ class _DesktopWidget extends HookConsumerWidget {
                     issueId: issueId,
                     contractItems: value.contractItems,
                     transactionItems: value.transactionItems,
-                    hasContractItems: hasContractItems,
-                    isContractItemEmpty: isContractItemEmpty,
-                    hasTransactionItems: hasTransactionItems,
-                    isTransactionItemEmpty: isTransactionItemEmpty,
+                    hasContractIssueItems: hasContractIssueItems,
+                    isContractIssueItemEmpty: isContractIssueItemEmpty,
+                    hasTransactionIssueItems: hasTransactionIssueItems,
+                    isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
                     isRatioInvalid: isRatioInvalid,
                   ),
                   IssueKickoff() => KickoffFormItem(
@@ -281,9 +281,11 @@ class _DesktopWidget extends HookConsumerWidget {
                     projectId: projectId,
                     categoryId: categoryId,
                     issueId: issueId,
+                    isRequested: value.isRequested,
+                    isOrdered: value.isOrdered,
                     items: value.procurementItems,
-                    hasProcurementItems: hasProcurementItems,
-                    isProcurementItemEmpty: isProcurementItemEmpty,
+                    hasProcurementIssueItems: hasProcurementIssueItems,
+                    isProcurementIssueItemEmpty: isProcurementIssueItemEmpty,
                   ),
                   IssueTransaction() => TransactionFormItem(
                     projectId: projectId,
@@ -291,8 +293,8 @@ class _DesktopWidget extends HookConsumerWidget {
                     issueId: issueId,
                     currency: value.currency,
                     items: value.transactionItems,
-                    hasTransactionItems: hasTransactionItems,
-                    isTransactionItemEmpty: isTransactionItemEmpty,
+                    hasTransactionIssueItems: hasTransactionIssueItems,
+                    isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
                   ),
                   _ => SizedBox(),
                 },
@@ -360,17 +362,18 @@ class _DesktopWidget extends HookConsumerWidget {
                         final contractItems = value.contractItems;
                         final transactionItems = value.transactionItems;
 
-                        hasContractItems.value = contractItems.isEmpty;
+                        hasContractIssueItems.value = contractItems.isEmpty;
 
-                        isContractItemEmpty.value =
+                        isContractIssueItemEmpty.value =
                             contractItems.isNotEmpty &&
                             contractItems.any(
                               (item) => item.item.isEmpty || item.price.isEmpty,
                             );
 
-                        hasTransactionItems.value = transactionItems.isEmpty;
+                        hasTransactionIssueItems.value =
+                            transactionItems.isEmpty;
 
-                        isTransactionItemEmpty.value =
+                        isTransactionIssueItemEmpty.value =
                             transactionItems.isNotEmpty &&
                             transactionItems.any(
                               (item) =>
@@ -387,7 +390,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
                         isRatioInvalid.value =
                             transactionItems.isNotEmpty &&
-                            !isTransactionItemEmpty.value &&
+                            !isTransactionIssueItemEmpty.value &&
                             (totalRatio != 100);
                       }
 
@@ -400,9 +403,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       if (value.category is IssueProcurement) {
                         final items = value.procurementItems;
 
-                        hasProcurementItems.value = items.isEmpty;
+                        hasProcurementIssueItems.value = items.isEmpty;
 
-                        isProcurementItemEmpty.value =
+                        isProcurementIssueItemEmpty.value =
                             items.isNotEmpty &&
                             items.any(
                               (item) =>
@@ -425,9 +428,9 @@ class _DesktopWidget extends HookConsumerWidget {
                       if (value.category is IssueTransaction) {
                         final items = value.transactionItems;
 
-                        hasTransactionItems.value = items.isEmpty;
+                        hasTransactionIssueItems.value = items.isEmpty;
 
-                        isTransactionItemEmpty.value =
+                        isTransactionIssueItemEmpty.value =
                             items.isNotEmpty &&
                             items.any(
                               (item) =>
@@ -436,14 +439,14 @@ class _DesktopWidget extends HookConsumerWidget {
                       }
 
                       if (isContentInvalid.value ||
-                          hasContractItems.value ||
-                          isContractItemEmpty.value ||
-                          hasTransactionItems.value ||
-                          isTransactionItemEmpty.value ||
+                          hasContractIssueItems.value ||
+                          isContractIssueItemEmpty.value ||
+                          hasTransactionIssueItems.value ||
+                          isTransactionIssueItemEmpty.value ||
                           isRatioInvalid.value ||
                           isKickoffDateEmpty.value ||
-                          hasProcurementItems.value ||
-                          isProcurementItemEmpty.value) {
+                          hasProcurementIssueItems.value ||
+                          isProcurementIssueItemEmpty.value) {
                         return;
                       }
 

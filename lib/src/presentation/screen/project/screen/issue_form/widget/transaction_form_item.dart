@@ -15,9 +15,9 @@ class TransactionFormItem extends ConsumerWidget {
   final int categoryId;
   final int? issueId;
   final Currency? currency;
-  final List<TransactionItem> items;
-  final ValueNotifier<bool> hasTransactionItems;
-  final ValueNotifier<bool> isTransactionItemEmpty;
+  final List<TransactionIssueItem> items;
+  final ValueNotifier<bool> hasTransactionIssueItems;
+  final ValueNotifier<bool> isTransactionIssueItemEmpty;
 
   const TransactionFormItem({
     super.key,
@@ -26,8 +26,8 @@ class TransactionFormItem extends ConsumerWidget {
     this.issueId,
     this.currency,
     required this.items,
-    required this.hasTransactionItems,
-    required this.isTransactionItemEmpty,
+    required this.hasTransactionIssueItems,
+    required this.isTransactionIssueItemEmpty,
   });
 
   @override
@@ -43,8 +43,8 @@ class TransactionFormItem extends ConsumerWidget {
         categories: value.transactionCategories,
         currencies: value.currencies,
         items: items,
-        hasTransactionItems: hasTransactionItems,
-        isTransactionItemEmpty: isTransactionItemEmpty,
+        hasTransactionIssueItems: hasTransactionIssueItems,
+        isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
       ),
       AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
         error: error,
@@ -58,9 +58,9 @@ class TransactionFormItem extends ConsumerWidget {
           currency: Currency.empty(),
           categories: [],
           currencies: [],
-          items: List.filled(1, TransactionItem.dummy()),
-          hasTransactionItems: hasTransactionItems,
-          isTransactionItemEmpty: isTransactionItemEmpty,
+          items: List.filled(1, TransactionIssueItem.dummy()),
+          hasTransactionIssueItems: hasTransactionIssueItems,
+          isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
         ),
       ),
     };
@@ -72,11 +72,11 @@ class _DesktopWidget extends HookConsumerWidget {
   final int categoryId;
   final int? issueId;
   final Currency? currency;
-  final List<TransactionItemCategory> categories;
+  final List<TransactionIssueItemCategory> categories;
   final List<Currency> currencies;
-  final List<TransactionItem>? items;
-  final ValueNotifier<bool> hasTransactionItems;
-  final ValueNotifier<bool> isTransactionItemEmpty;
+  final List<TransactionIssueItem>? items;
+  final ValueNotifier<bool> hasTransactionIssueItems;
+  final ValueNotifier<bool> isTransactionIssueItemEmpty;
 
   const _DesktopWidget({
     required this.projectId,
@@ -86,8 +86,8 @@ class _DesktopWidget extends HookConsumerWidget {
     required this.categories,
     required this.currencies,
     this.items,
-    required this.hasTransactionItems,
-    required this.isTransactionItemEmpty,
+    required this.hasTransactionIssueItems,
+    required this.isTransactionIssueItemEmpty,
   });
 
   @override
@@ -314,7 +314,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   SizedBox(width: 4.0),
                                   Text(
-                                    Intl.message('issue_form_transaction_7'),
+                                    Intl.message('common_note'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: colorScheme.onSurface.withValues(
@@ -381,7 +381,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                               issueId: issueId,
                                             ).notifier,
                                           )
-                                          .toggleTransactionItemPaid(
+                                          .toggleTransactionIssueItemPaid(
                                             index: index,
                                             isPaid: value ?? false,
                                           );
@@ -425,7 +425,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       ),
                                     ),
                                     onChanged: (value) {
-                                      isTransactionItemEmpty.value = false;
+                                      isTransactionIssueItemEmpty.value = false;
                                       ref
                                           .read(
                                             issueFormControllerProvider(
@@ -434,7 +434,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                               issueId: issueId,
                                             ).notifier,
                                           )
-                                          .updateTransactionItem(
+                                          .updateTransactionIssueItem(
                                             index: index,
                                             note: value,
                                           );
@@ -508,11 +508,11 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ),
           InvalidWidget(
-            visible: hasTransactionItems.value,
+            visible: hasTransactionIssueItems.value,
             text: Intl.message('issue_form_transaction_item_invalid_1'),
           ),
           InvalidWidget(
-            visible: isTransactionItemEmpty.value,
+            visible: isTransactionIssueItemEmpty.value,
             text: Intl.message('issue_form_transaction_item_invalid_2'),
           ),
         ],

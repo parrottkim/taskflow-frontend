@@ -214,6 +214,11 @@ class S {
     return Intl.message('전체 발송', name: 'common_send_all', desc: '', args: []);
   }
 
+  /// `비고`
+  String get common_note {
+    return Intl.message('비고', name: 'common_note', desc: '', args: []);
+  }
+
   /// `텍스트 색상`
   String get text_color {
     return Intl.message('텍스트 색상', name: 'text_color', desc: '', args: []);
@@ -274,6 +279,16 @@ class S {
     return Intl.message(
       '확인 버튼을 누르면 이전 화면으로 돌아갑니다.',
       name: 'wrong_approach_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `알 수 없는 단계입니다`
+  String get unknown_step {
+    return Intl.message(
+      '알 수 없는 단계입니다',
+      name: 'unknown_step',
       desc: '',
       args: [],
     );
@@ -649,6 +664,16 @@ class S {
     return Intl.message(
       '환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.',
       name: 'exchange_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `발주 항목을 찾을 수 없습니다.`
+  String get request_not_found {
+    return Intl.message(
+      '발주 항목을 찾을 수 없습니다.',
+      name: 'request_not_found',
       desc: '',
       args: [],
     );
@@ -1352,6 +1377,16 @@ class S {
   /// `업무 수정`
   String get issue_edit {
     return Intl.message('업무 수정', name: 'issue_edit', desc: '', args: []);
+  }
+
+  /// `구매 조달 발주 처리`
+  String get issue_edit_procurement_request {
+    return Intl.message(
+      '구매 조달 발주 처리',
+      name: 'issue_edit_procurement_request',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `근무 일정 종류 선택`
@@ -3009,53 +3044,93 @@ class S {
     );
   }
 
-  /// `구매 요청서 여기에 놓기`
-  String get issue_form_procurement_drop {
+  /// `* 구매 처리된 구매 품목은 수정할 수 없습니다.`
+  String get issue_form_procurement_17 {
     return Intl.message(
-      '구매 요청서 여기에 놓기',
-      name: 'issue_form_procurement_drop',
+      '* 구매 처리된 구매 품목은 수정할 수 없습니다.',
+      name: 'issue_form_procurement_17',
       desc: '',
       args: [],
     );
   }
 
-  /// `구매 요청서 선택`
-  String get issue_form_procurement_upload {
+  /// `구매 요청서 출력하기`
+  String get issue_form_procurement_18 {
     return Intl.message(
-      '구매 요청서 선택',
-      name: 'issue_form_procurement_upload',
+      '구매 요청서 출력하기',
+      name: 'issue_form_procurement_18',
       desc: '',
       args: [],
     );
   }
 
-  /// `구매 요청서는 하나만 업로드할 수 있습니다. 여러 파일을 업로드하면 마지막 파일이 적용됩니다.`
-  String get issue_form_procurement_too_many {
+  /// `발주 목록`
+  String get issue_form_procurement_19 {
     return Intl.message(
-      '구매 요청서는 하나만 업로드할 수 있습니다. 여러 파일을 업로드하면 마지막 파일이 적용됩니다.',
-      name: 'issue_form_procurement_too_many',
+      '발주 목록',
+      name: 'issue_form_procurement_19',
       desc: '',
       args: [],
     );
   }
 
-  /// `구매 요청서 파일은 엑셀(.xlsx) 파일만 업로드 할 수 있습니다.`
-  String get issue_form_procurement_invalid {
+  /// `발주 담당`
+  String get issue_form_procurement_20 {
     return Intl.message(
-      '구매 요청서 파일은 엑셀(.xlsx) 파일만 업로드 할 수 있습니다.',
-      name: 'issue_form_procurement_invalid',
+      '발주 담당',
+      name: 'issue_form_procurement_20',
       desc: '',
       args: [],
     );
   }
 
-  /// `{file} 파일은 올바른 구매 요청서 양식이 아닙니다.`
-  String issue_form_procurement_format_invalid(Object file) {
+  /// `발주 일자`
+  String get issue_form_procurement_21 {
     return Intl.message(
-      '$file 파일은 올바른 구매 요청서 양식이 아닙니다.',
-      name: 'issue_form_procurement_format_invalid',
+      '발주 일자',
+      name: 'issue_form_procurement_21',
       desc: '',
-      args: [file],
+      args: [],
+    );
+  }
+
+  /// `납기 일자`
+  String get issue_form_procurement_22 {
+    return Intl.message(
+      '납기 일자',
+      name: 'issue_form_procurement_22',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `별도 협의`
+  String get issue_form_procurement_23 {
+    return Intl.message(
+      '별도 협의',
+      name: 'issue_form_procurement_23',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `지불 조건`
+  String get issue_form_procurement_24 {
+    return Intl.message(
+      '지불 조건',
+      name: 'issue_form_procurement_24',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `* 발주 처리는 관리자 권한인 사용자만 사용할 수 있습니다.`
+  String get issue_form_procurement_25 {
+    return Intl.message(
+      '* 발주 처리는 관리자 권한인 사용자만 사용할 수 있습니다.',
+      name: 'issue_form_procurement_25',
+      desc: '',
+      args: [],
     );
   }
 
@@ -3074,6 +3149,116 @@ class S {
     return Intl.message(
       '구매 품목을 빈 칸 없이 입력해 주세요',
       name: 'issue_form_procurement_item_invalid_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `발주 처리`
+  String get issue_form_procurement_idle {
+    return Intl.message(
+      '발주 처리',
+      name: 'issue_form_procurement_idle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `발주 완료`
+  String get issue_form_procurement_requested {
+    return Intl.message(
+      '발주 완료',
+      name: 'issue_form_procurement_requested',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `수수료 포함`
+  String get issue_form_procurement_requested_1 {
+    return Intl.message(
+      '수수료 포함',
+      name: 'issue_form_procurement_requested_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `납기 일자`
+  String get issue_form_procurement_requested_2 {
+    return Intl.message(
+      '납기 일자',
+      name: 'issue_form_procurement_requested_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `지불 조건`
+  String get issue_form_procurement_requested_3 {
+    return Intl.message(
+      '지불 조건',
+      name: 'issue_form_procurement_requested_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `금액`
+  String get issue_form_procurement_requested_4 {
+    return Intl.message(
+      '금액',
+      name: 'issue_form_procurement_requested_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `별도 협의`
+  String get issue_form_procurement_requested_5 {
+    return Intl.message(
+      '별도 협의',
+      name: 'issue_form_procurement_requested_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비고`
+  String get issue_form_procurement_requested_6 {
+    return Intl.message(
+      '비고',
+      name: 'issue_form_procurement_requested_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `최소 하나의 공급처를 선택해 주세요`
+  String get issue_form_procurement_requested_invalid_1 {
+    return Intl.message(
+      '최소 하나의 공급처를 선택해 주세요',
+      name: 'issue_form_procurement_requested_invalid_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `납기 일자를 선택해 주세요`
+  String get issue_form_procurement_requested_invalid_2 {
+    return Intl.message(
+      '납기 일자를 선택해 주세요',
+      name: 'issue_form_procurement_requested_invalid_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `지불 조건을 입력해 주세요`
+  String get issue_form_procurement_requested_invalid_3 {
+    return Intl.message(
+      '지불 조건을 입력해 주세요',
+      name: 'issue_form_procurement_requested_invalid_3',
       desc: '',
       args: [],
     );
@@ -3134,16 +3319,6 @@ class S {
     return Intl.message(
       '지급 여부',
       name: 'issue_form_transaction_6',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `비고`
-  String get issue_form_transaction_7 {
-    return Intl.message(
-      '비고',
-      name: 'issue_form_transaction_7',
       desc: '',
       args: [],
     );

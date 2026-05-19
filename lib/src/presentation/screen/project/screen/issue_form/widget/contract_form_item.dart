@@ -14,12 +14,12 @@ class ContractFormItem extends ConsumerWidget {
   final int categoryId;
   final int? issueId;
   final Currency? currency;
-  final List<ContractItem> contractItems;
-  final List<TransactionItem> transactionItems;
-  final ValueNotifier<bool> hasContractItems;
-  final ValueNotifier<bool> isContractItemEmpty;
-  final ValueNotifier<bool> hasTransactionItems;
-  final ValueNotifier<bool> isTransactionItemEmpty;
+  final List<ContractIssueItem> contractItems;
+  final List<TransactionIssueItem> transactionItems;
+  final ValueNotifier<bool> hasContractIssueItems;
+  final ValueNotifier<bool> isContractIssueItemEmpty;
+  final ValueNotifier<bool> hasTransactionIssueItems;
+  final ValueNotifier<bool> isTransactionIssueItemEmpty;
   final ValueNotifier<bool> isRatioInvalid;
 
   const ContractFormItem({
@@ -30,10 +30,10 @@ class ContractFormItem extends ConsumerWidget {
     this.currency,
     required this.contractItems,
     required this.transactionItems,
-    required this.hasContractItems,
-    required this.isContractItemEmpty,
-    required this.hasTransactionItems,
-    required this.isTransactionItemEmpty,
+    required this.hasContractIssueItems,
+    required this.isContractIssueItemEmpty,
+    required this.hasTransactionIssueItems,
+    required this.isTransactionIssueItemEmpty,
     required this.isRatioInvalid,
   });
 
@@ -50,10 +50,10 @@ class ContractFormItem extends ConsumerWidget {
         currencies: value.currencies,
         contractItems: contractItems,
         transactionItems: transactionItems,
-        hasContractItems: hasContractItems,
-        isContractItemEmpty: isContractItemEmpty,
-        hasTransactionItems: hasTransactionItems,
-        isTransactionItemEmpty: isTransactionItemEmpty,
+        hasContractIssueItems: hasContractIssueItems,
+        isContractIssueItemEmpty: isContractIssueItemEmpty,
+        hasTransactionIssueItems: hasTransactionIssueItems,
+        isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
         isRatioInvalid: isRatioInvalid,
         categories: value.transactionCategories,
       ),
@@ -70,10 +70,10 @@ class ContractFormItem extends ConsumerWidget {
           currencies: [],
           contractItems: [],
           transactionItems: [],
-          hasContractItems: hasContractItems,
-          isContractItemEmpty: isContractItemEmpty,
-          hasTransactionItems: hasTransactionItems,
-          isTransactionItemEmpty: isTransactionItemEmpty,
+          hasContractIssueItems: hasContractIssueItems,
+          isContractIssueItemEmpty: isContractIssueItemEmpty,
+          hasTransactionIssueItems: hasTransactionIssueItems,
+          isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
           isRatioInvalid: isRatioInvalid,
           categories: [],
         ),
@@ -88,14 +88,14 @@ class _DesktopWidget extends HookConsumerWidget {
   final int? issueId;
   final Currency? currency;
   final List<Currency> currencies;
-  final List<ContractItem> contractItems;
-  final List<TransactionItem> transactionItems;
-  final ValueNotifier<bool> hasContractItems;
-  final ValueNotifier<bool> isContractItemEmpty;
-  final ValueNotifier<bool> hasTransactionItems;
-  final ValueNotifier<bool> isTransactionItemEmpty;
+  final List<ContractIssueItem> contractItems;
+  final List<TransactionIssueItem> transactionItems;
+  final ValueNotifier<bool> hasContractIssueItems;
+  final ValueNotifier<bool> isContractIssueItemEmpty;
+  final ValueNotifier<bool> hasTransactionIssueItems;
+  final ValueNotifier<bool> isTransactionIssueItemEmpty;
   final ValueNotifier<bool> isRatioInvalid;
-  final List<TransactionItemCategory> categories;
+  final List<TransactionIssueItemCategory> categories;
 
   const _DesktopWidget({
     this.currency,
@@ -105,10 +105,10 @@ class _DesktopWidget extends HookConsumerWidget {
     required this.currencies,
     required this.contractItems,
     required this.transactionItems,
-    required this.hasContractItems,
-    required this.isContractItemEmpty,
-    required this.hasTransactionItems,
-    required this.isTransactionItemEmpty,
+    required this.hasContractIssueItems,
+    required this.isContractIssueItemEmpty,
+    required this.hasTransactionIssueItems,
+    required this.isTransactionIssueItemEmpty,
     required this.isRatioInvalid,
     required this.categories,
   });
@@ -245,8 +245,8 @@ class _DesktopWidget extends HookConsumerWidget {
           SizedBox(height: 8.0),
           TextButton.icon(
             onPressed: () {
-              hasContractItems.value = false;
-              isContractItemEmpty.value = false;
+              hasContractIssueItems.value = false;
+              isContractIssueItemEmpty.value = false;
 
               ref
                   .read(
@@ -266,7 +266,7 @@ class _DesktopWidget extends HookConsumerWidget {
                       issueId: issueId,
                     ).notifier,
                   )
-                  .addContractItem();
+                  .addContractIssueItem();
             },
             icon: Icon(Symbols.add_rounded),
             label: Text(Intl.message('issue_form_contract_5')),
@@ -441,7 +441,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       ),
                                     ),
                                     onChanged: (value) {
-                                      isContractItemEmpty.value = false;
+                                      isContractIssueItemEmpty.value = false;
 
                                       ref
                                           .read(
@@ -451,7 +451,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                               issueId: issueId,
                                             ).notifier,
                                           )
-                                          .updateContractItem(
+                                          .updateContractIssueItem(
                                             index: index,
                                             item: value,
                                           );
@@ -513,7 +513,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                                 selectedCurrency.value.symbol,
                                           ),
                                           onChanged: (value) {
-                                            isContractItemEmpty.value = false;
+                                            isContractIssueItemEmpty.value =
+                                                false;
 
                                             ref
                                                 .read(
@@ -523,7 +524,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                                     issueId: issueId,
                                                   ).notifier,
                                                 )
-                                                .updateContractItem(
+                                                .updateContractIssueItem(
                                                   index: index,
                                                   price: value,
                                                 );
@@ -536,8 +537,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                       child: ElevatedIconButton(
                                         onTap: () async {
                                           if (contractItems.length == 1) {
-                                            hasContractItems.value = false;
-                                            isContractItemEmpty.value = false;
+                                            hasContractIssueItems.value = false;
+                                            isContractIssueItemEmpty.value =
+                                                false;
 
                                             await contractOpacityController
                                                 .reverse();
@@ -553,7 +555,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                                   issueId: issueId,
                                                 ).notifier,
                                               )
-                                              .removeContractItem(index: index);
+                                              .removeContractIssueItem(
+                                                index: index,
+                                              );
                                         },
                                         padding: EdgeInsets.all(4.0),
                                         borderRadius: BorderRadius.circular(
@@ -607,11 +611,11 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ),
           InvalidWidget(
-            visible: hasContractItems.value,
+            visible: hasContractIssueItems.value,
             text: Intl.message('issue_form_contract_item_invalid_1'),
           ),
           InvalidWidget(
-            visible: isContractItemEmpty.value,
+            visible: isContractIssueItemEmpty.value,
             text: Intl.message('issue_form_contract_item_invalid_2'),
           ),
           SizedBox(height: 24.0),
@@ -622,8 +626,8 @@ class _DesktopWidget extends HookConsumerWidget {
           SizedBox(height: 8.0),
           TextButton.icon(
             onPressed: () {
-              hasTransactionItems.value = false;
-              isTransactionItemEmpty.value = false;
+              hasTransactionIssueItems.value = false;
+              isTransactionIssueItemEmpty.value = false;
 
               ref
                   .read(
@@ -633,7 +637,7 @@ class _DesktopWidget extends HookConsumerWidget {
                       issueId: issueId,
                     ).notifier,
                   )
-                  .addTransactionItem();
+                  .addTransactionIssueItem();
             },
             icon: Icon(Symbols.add_rounded),
             label: Text(Intl.message('issue_form_transaction_2')),
@@ -771,7 +775,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   width: double.infinity,
                                   child:
                                       ElevatedDropdownButton<
-                                        TransactionItemCategory
+                                        TransactionIssueItemCategory
                                       >(
                                         isExpanded: true,
                                         items: categories,
@@ -785,8 +789,10 @@ class _DesktopWidget extends HookConsumerWidget {
                                         itemBuilder: (category) =>
                                             Text(category.name),
                                         onChanged: (value) {
-                                          hasTransactionItems.value = false;
-                                          isTransactionItemEmpty.value = false;
+                                          hasTransactionIssueItems.value =
+                                              false;
+                                          isTransactionIssueItemEmpty.value =
+                                              false;
                                           isRatioInvalid.value = false;
                                           ref
                                               .read(
@@ -796,7 +802,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                                   issueId: issueId,
                                                 ).notifier,
                                               )
-                                              .updateTransactionItem(
+                                              .updateTransactionIssueItem(
                                                 index: index,
                                                 category: value,
                                               );
@@ -848,8 +854,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                       suffixText: '%',
                                     ),
                                     onChanged: (value) {
-                                      hasTransactionItems.value = false;
-                                      isTransactionItemEmpty.value = false;
+                                      hasTransactionIssueItems.value = false;
+                                      isTransactionIssueItemEmpty.value = false;
                                       isRatioInvalid.value = false;
 
                                       final ratio =
@@ -876,7 +882,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                               issueId: issueId,
                                             ).notifier,
                                           )
-                                          .updateTransactionItem(
+                                          .updateTransactionIssueItem(
                                             index: index,
                                             ratio: value,
                                             price: formattedPrice,
@@ -924,8 +930,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                       child: ElevatedIconButton(
                                         onTap: () async {
                                           if (transactionItems.length == 1) {
-                                            hasTransactionItems.value = false;
-                                            isTransactionItemEmpty.value =
+                                            hasTransactionIssueItems.value =
+                                                false;
+                                            isTransactionIssueItemEmpty.value =
                                                 false;
                                             isRatioInvalid.value = false;
 
@@ -943,7 +950,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                                   issueId: issueId,
                                                 ).notifier,
                                               )
-                                              .removeTransactionItem(
+                                              .removeTransactionIssueItem(
                                                 index: index,
                                               );
                                         },
@@ -968,11 +975,11 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ),
           InvalidWidget(
-            visible: hasTransactionItems.value,
+            visible: hasTransactionIssueItems.value,
             text: Intl.message('issue_form_transaction_item_invalid_1'),
           ),
           InvalidWidget(
-            visible: isTransactionItemEmpty.value,
+            visible: isTransactionIssueItemEmpty.value,
             text: Intl.message('issue_form_transaction_item_invalid_2'),
           ),
           InvalidWidget(

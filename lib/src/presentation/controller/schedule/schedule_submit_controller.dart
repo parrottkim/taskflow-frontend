@@ -19,7 +19,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     try {
       final clientUrl = ref.read(clientUrlProvider);
 
-      final request = ScheduleRequest(
+      final request = ScheduleDto(
         summary: value.summary!,
         description: value.description,
         url: join(clientUrl, Routes.project, value.projectId!.toString()),
@@ -63,7 +63,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     try {
       final clientUrl = ref.read(clientUrlProvider);
 
-      final request = ScheduleRequest(
+      final request = ScheduleDto(
         summary: value.summary!,
         description: value.description,
         url: join(clientUrl, Routes.project, value.projectId!.toString()),

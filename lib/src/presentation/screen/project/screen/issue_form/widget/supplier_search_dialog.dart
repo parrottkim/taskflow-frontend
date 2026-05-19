@@ -41,7 +41,9 @@ class SupplierSearchDialog extends HookConsumerWidget {
     );
 
     ref.listen(supplierSearchControllerProvider, (_, state) {
-      if (state is SupplierSearchWaiting || state is SupplierSearchResult) {
+      if (state is SupplierSearchWaiting ||
+          state is SupplierSearchResult ||
+          state is SupplierSearchFailure) {
         sizeController.forward().then((_) {
           opacityController.forward();
         });
@@ -150,6 +152,18 @@ class SupplierSearchDialog extends HookConsumerWidget {
                       issueId: issueId,
                       itemIndex: itemIndex,
                       items: items,
+                    ),
+                    SupplierSearchFailure(:final message) => Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          message,
+                          textAlign: TextAlign.center,
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.error,
+                          ),
+                        ),
+                      ),
                     ),
                     _ => SizedBox(),
                   },

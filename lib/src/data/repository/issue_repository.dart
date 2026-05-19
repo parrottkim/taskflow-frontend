@@ -5,15 +5,19 @@ abstract class IssueRepository {
 
   Future<List<IssueCategory>> getAllCategories();
 
-  Future<List<TransactionItemCategory>> getAllTransactionCategories();
+  Future<List<TransactionIssueItemCategory>> getAllTransactionCategories();
 
   Future<Result<LatestIssue>> getLatestIssues({int page = 1, int limit = 20});
 
   Future<HttpResponse<List<int>>> exportPurchaseRequest({required int id});
 
-  Future<List<ContractItem>> getContractItems({required int id});
+  Future<HttpResponse<List<int>>> exportPurchaseOrder({required int id});
 
-  Future<List<TransactionItem>> getTransactionItems({required int id});
+  Future<List<ContractIssueItem>> getContractIssueItems({required int id});
+
+  Future<List<TransactionIssueItem>> getTransactionIssueItems({
+    required int id,
+  });
 
   Future<HttpResponse<ContractIssue?>> getContractIssue({required int id});
 
@@ -41,61 +45,66 @@ abstract class IssueRepository {
 
   Future<void> sendMail({
     required int id,
-    required SendIssueMailRequest request,
+    required SendIssueMailDto request,
   });
 
   Future<Issue> createContractIssue({
-    required CreateContractIssueRequest request,
+    required CreateContractIssueDto request,
   });
 
   Future<Issue> createKickoffIssue({
-    required CreateKickoffIssueRequest request,
+    required CreateKickoffIssueDto request,
   });
 
   Future<Issue> createTransactionIssue({
-    required CreateTransactionIssueRequest request,
+    required CreateTransactionIssueDto request,
   });
 
   Future<Issue> createApprovalIssue({
-    required CreateApprovalIssueRequest request,
+    required CreateApprovalIssueDto request,
+  });
+
+  Future<Issue> createProcurementIssueRequest({
+    required int id,
+    required CreateProcurementIssueRequestDto request,
   });
 
   Future<Issue> createProcurementIssue({
-    required CreateProcurementIssueRequest request,
+    required CreateProcurementIssueDto request,
   });
 
   Future<Issue> createPaymentIssue({
-    required CreatePaymentIssueRequest request,
+    required CreatePaymentIssueDto request,
   });
 
   Future<Issue> updateContractIssue({
     required int id,
-    required UpdateContractIssueRequest request,
+    required UpdateContractIssueDto request,
   });
 
   Future<Issue> updateKickoffIssue({
     required int id,
-    required UpdateKickoffIssueRequest request,
+    required UpdateKickoffIssueDto request,
   });
 
   Future<Issue> updateTransactionIssue({
     required int id,
-    required UpdateTransactionIssueRequest request,
+    required UpdateTransactionIssueDto request,
   });
 
   Future<Issue> updateApprovalIssue({
     required int id,
-    required UpdateApprovalIssueRequest request,
+    required UpdateApprovalIssueDto request,
   });
 
   Future<Issue> updateProcurementIssue({
     required int id,
-    required UpdateProcurementIssueRequest request,
+    required UpdateProcurementIssueDto request,
   });
 
   Future<Issue> updatePaymentIssue({
     required int id,
-    required UpdatePaymentIssueRequest request,
+    required UpdatePaymentIssueDto request,
   });
 
   Future<Issue> deleteIssue({required int id});

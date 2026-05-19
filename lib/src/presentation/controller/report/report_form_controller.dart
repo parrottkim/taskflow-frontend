@@ -7,7 +7,7 @@ class ReportFormController extends _$ReportFormController {
     required int projectId,
     int? reportId,
     int? scheduleId,
-  }) async => await _init();
+  }) => _init();
 
   Future<ReportFormState> _init() async {
     // reportId가 있으면 기존 보고서 로드
