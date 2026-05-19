@@ -29,10 +29,10 @@ class IssueListController extends _$IssueListController {
 
     final contractItems = await ref
         .read(issueRepositoryProvider)
-        .getContractItems(id: projectId);
+        .getContractIssueItems(id: projectId);
     final transactionItems = await ref
         .read(issueRepositoryProvider)
-        .getTransactionItems(id: projectId);
+        .getTransactionIssueItems(id: projectId);
 
     return IssueListState(
       contract: contract.data,
@@ -121,6 +121,7 @@ class IssueListController extends _$IssueListController {
             user: item.user,
             content: item.content,
             procurementItems: item.procurementItems,
+            requests: item.requests,
             attachments: item.attachments,
             createdAt: item.createdAt,
             updatedAt: item.updatedAt,
@@ -296,6 +297,7 @@ class IssueListController extends _$IssueListController {
                       user: issue.user,
                       content: issue.content,
                       procurementItems: issue.procurementItems,
+                      requests: issue.requests,
                       attachments: issue.attachments,
                       createdAt: issue.createdAt,
                       updatedAt: issue.updatedAt,

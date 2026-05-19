@@ -44,7 +44,7 @@ class PasswordFormWidget extends HookConsumerWidget {
 
       countdown.value = 60;
 
-      final request = ForgotPasswordRequest(email: email.text);
+      final request = ForgotPasswordDto(email: email.text);
       await ref
           .read(authControllerProvider.notifier)
           .forgotPassword(request: request);

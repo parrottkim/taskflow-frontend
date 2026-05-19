@@ -82,20 +82,7 @@ class _DesktopWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    // trip이 있으면 6개, 없으면 1개 스텝
-    final steps =
-        value.schedule != null &&
-            (value.schedule!.category is ScheduleDomestic ||
-                value.schedule!.category is ScheduleOverseas)
-        ? [
-            'transportation',
-            'local_transportation',
-            'accommodation',
-            'daily_expense',
-            'other',
-            'description',
-          ]
-        : ['description'];
+    final steps = value.steps;
 
     final currentIndex = useState(0);
     final currentStep = steps[currentIndex.value];
@@ -270,9 +257,7 @@ class _DesktopWidget extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (value.schedule != null &&
-                    (value.schedule!.category is ScheduleDomestic ||
-                        value.schedule!.category is ScheduleOverseas))
+                if (value.hasTripSchedule)
                   ProgressWidget(
                     currentIndex: currentIndex.value,
                     steps: steps,

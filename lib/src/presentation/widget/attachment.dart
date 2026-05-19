@@ -179,12 +179,7 @@ class AttachmentListWidget<T> extends ConsumerWidget {
   const AttachmentListWidget({
     super.key,
     required this.attachments,
-    this.padding = const EdgeInsets.only(
-      left: 16.0,
-      right: 16.0,
-      top: 8.0,
-      bottom: 16.0,
-    ),
+    this.padding = const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
   });
 
   @override

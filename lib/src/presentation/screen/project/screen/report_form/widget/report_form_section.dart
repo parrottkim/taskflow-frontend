@@ -1,5 +1,6 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/accommodation_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/daily_expense_widget.dart';
@@ -75,7 +76,7 @@ class ReportFormSection extends StatelessWidget {
         attachments: value.attachments,
         files: value.files,
       ),
-      _ => const Center(child: Text('알 수 없는 단계입니다.')),
+      _ => Center(child: Text(Intl.message('unknown_step'))),
     };
   }
 }

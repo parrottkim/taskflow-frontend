@@ -30,16 +30,16 @@ abstract class ReportService {
   @POST('report/mail/{id}')
   Future<void> sendMail({
     @Path() required int id,
-    @Body() required SendReportMailRequest request,
+    @Body() required SendReportMailDto request,
   });
 
   @POST('report')
-  Future<Report> createReport({@Body() required CreateReportRequest request});
+  Future<Report> createReport({@Body() required CreateReportDto request});
 
   @PATCH('report/{id}')
   Future<Report> updateReport({
     @Path() required int id,
-    @Body() required UpdateReportRequest request,
+    @Body() required UpdateReportDto request,
   });
 
   @DELETE('report/{id}')

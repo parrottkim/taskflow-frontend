@@ -15,7 +15,7 @@ abstract class IssueListState with _$IssueListState {
     @Default(1) int procurementsPage,
     @Default(0) int procurementsTotal,
     @Default(false) bool procurementsHasReachEnd,
-    @Default([]) List<ContractItem> contractItems,
-    @Default([]) List<TransactionItem> transactionItems,
+    @Default([]) List<ContractIssueItem> contractItems,
+    @Default([]) List<TransactionIssueItem> transactionItems,
   }) = _IssueListState;
 }

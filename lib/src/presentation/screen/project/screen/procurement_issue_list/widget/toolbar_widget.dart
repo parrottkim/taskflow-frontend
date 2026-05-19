@@ -94,7 +94,7 @@ class ToolbarWidget extends HookConsumerWidget {
               port: Uri.base.hasPort ? Uri.base.port : null,
               path: path,
               queryParameters: {
-                'view': 'contract',
+                'view': 'procurement',
                 'issue': issueId.toString(),
               },
             );

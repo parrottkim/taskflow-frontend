@@ -204,7 +204,7 @@ enum ClientType {
   kia(
     id: 39,
     asset: 'assets/icons/kia.svg',
-    color: 0xFFC72028,
+    color: 0xFF05141F,
     labelKey: 'kia',
   ),
   labAndOther(

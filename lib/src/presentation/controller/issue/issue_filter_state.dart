@@ -4,7 +4,7 @@ part of '../controller.dart';
 abstract class IssueFilterState with _$IssueFilterState {
   factory IssueFilterState({
     @Default([]) List<IssueCategory> categories,
-    @Default([]) List<TransactionItemCategory> transactionCategories,
+    @Default([]) List<TransactionIssueItemCategory> transactionCategories,
     @Default([]) List<Currency> currencies,
   }) = _IssueFilterState;
 }

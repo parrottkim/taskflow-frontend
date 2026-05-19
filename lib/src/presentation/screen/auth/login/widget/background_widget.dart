@@ -26,7 +26,7 @@ class BackgroundWidget extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     Color(0xff304352),
-                    Color(0xffd7d2cc).withValues(alpha: 0.2)
+                    Color(0xffd7d2cc).withValues(alpha: 0.2),
                   ],
                   stops: [0, 1],
                   begin: Alignment.bottomLeft,
@@ -37,7 +37,9 @@ class BackgroundWidget extends StatelessWidget {
             Positioned.fill(
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 32.0, vertical: 24.0),
+                  horizontal: 32.0,
+                  vertical: 24.0,
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -65,7 +67,7 @@ class BackgroundWidget extends StatelessWidget {
                           ),
                           SizedBox(height: 12.0),
                           Text(
-                            'We are providing technologies and services that can max performance and ease of use in the vehicle diagnosis and inspection system & devices.',
+                            'We provide technologies and services that maximize performance and ease of use for vehicle diagnostic and inspection systems.',
                             style: textTheme.bodyLarge?.copyWith(
                               fontFamily: 'Archivo',
                               color: Colors.white,
