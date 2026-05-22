@@ -321,12 +321,16 @@ abstract class ApprovalIssue with _$ApprovalIssue {
 abstract class ProcurementIssueRequest with _$ProcurementIssueRequest {
   factory ProcurementIssueRequest({
     required int id,
-    required User user,
+    required User requestedBy,
     required DateTime orderDate,
     DateTime? deliveryDate,
     String? paymentTerms,
     required String serialNumber,
     required bool hasFee,
+    required bool requiresApproval,
+    required bool isApproved,
+    User? approvedBy,
+    DateTime? approvedAt,
     required Supplier supplier,
     String? note,
     required List<ProcurementIssueRequestItem> items,

@@ -57,16 +57,22 @@ class WidgetPreset {
     ),
     NavigationTitle(label: Intl.message('navigation_title_2'), isAdmin: true),
     NavigationButton(
+      icon: Symbols.database_rounded,
+      route: RouteNames.operation,
+      label: Intl.message('navigation_item_5'),
+      isAdmin: true,
+    ),
+    NavigationButton(
       icon: Symbols.finance_rounded,
       route: RouteNames.analytics,
-      label: Intl.message('navigation_item_5'),
+      label: Intl.message('navigation_item_6'),
       isAdmin: true,
     ),
     NavigationTitle(label: Intl.message('navigation_title_3')),
     NavigationButton(
       icon: Symbols.settings_rounded,
       route: RouteNames.setting,
-      label: Intl.message('navigation_item_6'),
+      label: Intl.message('navigation_item_7'),
     ),
   ];
 
@@ -327,6 +333,20 @@ enum WorkSegment {
     (e) => e.name == key,
     orElse: () => WorkSegment.schedule,
   );
+}
+
+enum OperationSegment {
+  user('operation_segment_1'),
+  data('operation_segment_2');
+
+  final String labelKey;
+
+  const OperationSegment(this.labelKey);
+
+  String get label => Intl.message(labelKey);
+
+  factory OperationSegment.fromKey(String key) => OperationSegment.values
+      .firstWhere((e) => e.name == key, orElse: () => OperationSegment.user);
 }
 
 enum SettingSegment {

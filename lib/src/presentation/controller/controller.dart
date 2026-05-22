@@ -62,6 +62,9 @@ part 'issue/procurement_issue_form_state.dart';
 part 'local/local_controller.dart';
 part 'local/local_state.dart';
 
+part 'operation/operation_filter_controller.dart';
+part 'operation/operation_filter_state.dart';
+
 part 'project/project_detail_controller.dart';
 part 'project/project_detail_state.dart';
 part 'project/project_detail_filter_controller.dart';
@@ -108,8 +111,12 @@ part 'trip/trip_step_state.dart';
 
 part 'user/user_filter_controller.dart';
 part 'user/user_filter_state.dart';
+part 'user/user_form_controller.dart';
+part 'user/user_form_state.dart';
 part 'user/user_list_controller.dart';
 part 'user/user_list_state.dart';
+part 'user/user_submit_controller.dart';
+part 'user/user_submit_state.dart';
 
 part 'work/work_filter_controller.dart';
 part 'work/work_filter_state.dart';

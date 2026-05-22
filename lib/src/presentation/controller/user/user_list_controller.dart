@@ -52,4 +52,35 @@ class UserListController extends _$UserListController {
       );
     });
   }
+
+  Future<void> addListItem({required User item}) async {
+    final value = state.value;
+    if (value == null) return;
+
+    final updatedUsers = [item, ...value.items];
+
+    state = AsyncValue.data(value.copyWith(items: updatedUsers));
+  }
+
+  Future<void> updateListItem({required User item}) async {
+    final value = state.value;
+    if (value == null) return;
+
+    final updatedUsers = value.items.map((issue) {
+      return issue.id == item.id ? item : issue;
+    }).toList();
+
+    state = AsyncValue.data(value.copyWith(items: updatedUsers));
+  }
+
+  Future<void> removeListItem({required int id}) async {
+    final value = state.value;
+    if (value == null) return;
+
+    final updatedUsers = value.items
+        .where((project) => project.id != id)
+        .toList();
+
+    state = AsyncValue.data(value.copyWith(items: updatedUsers));
+  }
 }

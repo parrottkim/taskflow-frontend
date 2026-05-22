@@ -316,7 +316,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                         Padding(
                                           padding: EdgeInsets.only(left: 4.0),
                                           child: Text(
-                                            '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.start)}',
+                                            '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.end)}',
                                             style: textTheme.bodySmall
                                                 ?.copyWith(
                                                   color: colorScheme.onSurface

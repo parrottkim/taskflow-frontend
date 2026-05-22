@@ -80,10 +80,8 @@ class IssueDataSource implements IssueRepository {
   Future<Issue> getIssue({required int id}) => _service.getIssue(id: id);
 
   @override
-  Future<void> sendMail({
-    required int id,
-    required SendIssueMailDto request,
-  }) => _service.sendMail(id: id, request: request);
+  Future<void> sendMail({required int id, required SendIssueMailDto request}) =>
+      _service.sendMail(id: id, request: request);
 
   @override
   Future<Issue> createContractIssue({
@@ -91,9 +89,8 @@ class IssueDataSource implements IssueRepository {
   }) => _service.createContractIssue(request: request);
 
   @override
-  Future<Issue> createKickoffIssue({
-    required CreateKickoffIssueDto request,
-  }) => _service.createKickoffIssue(request: request);
+  Future<Issue> createKickoffIssue({required CreateKickoffIssueDto request}) =>
+      _service.createKickoffIssue(request: request);
 
   @override
   Future<Issue> createTransactionIssue({
@@ -112,14 +109,17 @@ class IssueDataSource implements IssueRepository {
   }) => _service.createProcurementIssueRequest(id: id, request: request);
 
   @override
+  Future<void> approveProcurementIssueRequest({required int id}) =>
+      _service.approveProcurementIssueRequest(id: id);
+
+  @override
   Future<Issue> createProcurementIssue({
     required CreateProcurementIssueDto request,
   }) => _service.createProcurementIssue(request: request);
 
   @override
-  Future<Issue> createPaymentIssue({
-    required CreatePaymentIssueDto request,
-  }) => _service.createPaymentIssue(request: request);
+  Future<Issue> createPaymentIssue({required CreatePaymentIssueDto request}) =>
+      _service.createPaymentIssue(request: request);
 
   @override
   Future<Issue> updateContractIssue({
