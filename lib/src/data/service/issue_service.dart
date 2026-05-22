@@ -110,6 +110,9 @@ abstract class IssueService {
     @Body() required CreateProcurementIssueRequestDto request,
   });
 
+  @PATCH('issue/procurement/request/{id}/approve')
+  Future<void> approveProcurementIssueRequest({@Path() required int id});
+
   @POST('issue/procurement')
   Future<Issue> createProcurementIssue({
     @Body() required CreateProcurementIssueDto request,

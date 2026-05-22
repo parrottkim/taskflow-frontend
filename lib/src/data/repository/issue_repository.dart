@@ -43,39 +43,30 @@ abstract class IssueRepository {
 
   Future<Issue> getIssue({required int id});
 
-  Future<void> sendMail({
-    required int id,
-    required SendIssueMailDto request,
-  });
+  Future<void> sendMail({required int id, required SendIssueMailDto request});
 
-  Future<Issue> createContractIssue({
-    required CreateContractIssueDto request,
-  });
+  Future<Issue> createContractIssue({required CreateContractIssueDto request});
 
-  Future<Issue> createKickoffIssue({
-    required CreateKickoffIssueDto request,
-  });
+  Future<Issue> createKickoffIssue({required CreateKickoffIssueDto request});
 
   Future<Issue> createTransactionIssue({
     required CreateTransactionIssueDto request,
   });
 
-  Future<Issue> createApprovalIssue({
-    required CreateApprovalIssueDto request,
-  });
+  Future<Issue> createApprovalIssue({required CreateApprovalIssueDto request});
 
   Future<Issue> createProcurementIssueRequest({
     required int id,
     required CreateProcurementIssueRequestDto request,
   });
 
+  Future<void> approveProcurementIssueRequest({required int id});
+
   Future<Issue> createProcurementIssue({
     required CreateProcurementIssueDto request,
   });
 
-  Future<Issue> createPaymentIssue({
-    required CreatePaymentIssueDto request,
-  });
+  Future<Issue> createPaymentIssue({required CreatePaymentIssueDto request});
 
   Future<Issue> updateContractIssue({
     required int id,

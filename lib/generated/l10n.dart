@@ -679,6 +679,16 @@ class S {
     );
   }
 
+  /// `승인권자의 승인이 필요합니다.`
+  String get ceo_approval_required {
+    return Intl.message(
+      '승인권자의 승인이 필요합니다.',
+      name: 'ceo_approval_required',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `이 페이지에 접근할 권한이 없습니다.`
   String get no_permission {
     return Intl.message(
@@ -1274,11 +1284,6 @@ class S {
     );
   }
 
-  /// `대시보드`
-  String get navigation_item_1 {
-    return Intl.message('대시보드', name: 'navigation_item_1', desc: '', args: []);
-  }
-
   /// `WORKSPACES`
   String get navigation_title_1 {
     return Intl.message(
@@ -1287,6 +1292,31 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `ADMIN`
+  String get navigation_title_2 {
+    return Intl.message(
+      'ADMIN',
+      name: 'navigation_title_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OTHER`
+  String get navigation_title_3 {
+    return Intl.message(
+      'OTHER',
+      name: 'navigation_title_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `대시보드`
+  String get navigation_item_1 {
+    return Intl.message('대시보드', name: 'navigation_item_1', desc: '', args: []);
   }
 
   /// `프로젝트`
@@ -1304,34 +1334,19 @@ class S {
     return Intl.message('문서', name: 'navigation_item_4', desc: '', args: []);
   }
 
-  /// `ANALYTICIS`
-  String get navigation_title_2 {
-    return Intl.message(
-      'ANALYTICIS',
-      name: 'navigation_title_2',
-      desc: '',
-      args: [],
-    );
+  /// `운영 관리`
+  String get navigation_item_5 {
+    return Intl.message('운영 관리', name: 'navigation_item_5', desc: '', args: []);
   }
 
   /// `통계`
-  String get navigation_item_5 {
-    return Intl.message('통계', name: 'navigation_item_5', desc: '', args: []);
-  }
-
-  /// `OTHER`
-  String get navigation_title_3 {
-    return Intl.message(
-      'OTHER',
-      name: 'navigation_title_3',
-      desc: '',
-      args: [],
-    );
+  String get navigation_item_6 {
+    return Intl.message('통계', name: 'navigation_item_6', desc: '', args: []);
   }
 
   /// `설정`
-  String get navigation_item_6 {
-    return Intl.message('설정', name: 'navigation_item_6', desc: '', args: []);
+  String get navigation_item_7 {
+    return Intl.message('설정', name: 'navigation_item_7', desc: '', args: []);
   }
 
   /// `대시보드`
@@ -1437,6 +1452,16 @@ class S {
   /// `문서`
   String get document {
     return Intl.message('문서', name: 'document', desc: '', args: []);
+  }
+
+  /// `운영 관리`
+  String get operation {
+    return Intl.message('운영 관리', name: 'operation', desc: '', args: []);
+  }
+
+  /// `통계`
+  String get analytics {
+    return Intl.message('통계', name: 'analytics', desc: '', args: []);
   }
 
   /// `설정`
@@ -3134,6 +3159,26 @@ class S {
     );
   }
 
+  /// `승인권자 승인`
+  String get issue_form_procurement_26 {
+    return Intl.message(
+      '승인권자 승인',
+      name: 'issue_form_procurement_26',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `* 발주 금액 50만원 이상의 발주서의 출력은 승인권자의 승인이 필요합니다.`
+  String get issue_form_procurement_27 {
+    return Intl.message(
+      '* 발주 금액 50만원 이상의 발주서의 출력은 승인권자의 승인이 필요합니다.',
+      name: 'issue_form_procurement_27',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `구매 품목을 입력하거나, 견적서를 업로드해 주세요`
   String get issue_form_procurement_item_invalid_1 {
     return Intl.message(
@@ -3174,10 +3219,10 @@ class S {
     );
   }
 
-  /// `수수료 포함`
+  /// `부가세 포함 (10%)`
   String get issue_form_procurement_requested_1 {
     return Intl.message(
-      '수수료 포함',
+      '부가세 포함 (10%)',
       name: 'issue_form_procurement_requested_1',
       desc: '',
       args: [],
@@ -3219,16 +3264,6 @@ class S {
     return Intl.message(
       '별도 협의',
       name: 'issue_form_procurement_requested_5',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `비고`
-  String get issue_form_procurement_requested_6 {
-    return Intl.message(
-      '비고',
-      name: 'issue_form_procurement_requested_6',
       desc: '',
       args: [],
     );
@@ -4202,6 +4237,96 @@ class S {
   /// `주간 업무 보고`
   String get work_segment_2 {
     return Intl.message('주간 업무 보고', name: 'work_segment_2', desc: '', args: []);
+  }
+
+  /// `사용자`
+  String get operation_segment_1 {
+    return Intl.message('사용자', name: 'operation_segment_1', desc: '', args: []);
+  }
+
+  /// `고객사`
+  String get operation_segment_2 {
+    return Intl.message('고객사', name: 'operation_segment_2', desc: '', args: []);
+  }
+
+  /// `공급사`
+  String get operation_segment_3 {
+    return Intl.message('공급사', name: 'operation_segment_3', desc: '', args: []);
+  }
+
+  /// `통화`
+  String get operation_segment_4 {
+    return Intl.message('통화', name: 'operation_segment_4', desc: '', args: []);
+  }
+
+  /// `이름`
+  String get operation_user_column_1 {
+    return Intl.message(
+      '이름',
+      name: 'operation_user_column_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `직급`
+  String get operation_user_column_2 {
+    return Intl.message(
+      '직급',
+      name: 'operation_user_column_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `부서`
+  String get operation_user_column_3 {
+    return Intl.message(
+      '부서',
+      name: 'operation_user_column_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이메일`
+  String get operation_user_column_4 {
+    return Intl.message(
+      '이메일',
+      name: 'operation_user_column_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `관리자`
+  String get operation_user_column_5 {
+    return Intl.message(
+      '관리자',
+      name: 'operation_user_column_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용 승인`
+  String get operation_user_column_6 {
+    return Intl.message(
+      '사용 승인',
+      name: 'operation_user_column_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `작업`
+  String get operation_user_column_7 {
+    return Intl.message(
+      '작업',
+      name: 'operation_user_column_7',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `내 정보`

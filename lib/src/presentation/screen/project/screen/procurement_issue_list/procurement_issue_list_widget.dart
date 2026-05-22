@@ -80,13 +80,8 @@ class _DesktopWidget extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final selected = useState<int?>(issueId);
-    final itemKeys = useMemoized<Map<int, GlobalKey>>(() {
-      if (issueId == null) return {};
-      final Map<int, GlobalKey> keys = {};
-      for (final issue in items) {
-        keys[issue.id] = GlobalKey();
-      }
-      return keys;
+    final itemKeys = useMemoized<List<GlobalKey>>(() {
+      return List.generate(items.length, (_) => GlobalKey());
     }, [items]);
 
     useEffect(() {
@@ -97,7 +92,10 @@ class _DesktopWidget extends HookConsumerWidget {
           // ⭐️ 렌더링 완료를 확실히 기다립니다.
           await WidgetsBinding.instance.endOfFrame;
 
-          final ctx = itemKeys[selected.value]?.currentContext;
+          final selectedIndex = items.indexWhere((i) => i.id == selected.value);
+          if (selectedIndex < 0 || selectedIndex >= itemKeys.length) return;
+
+          final ctx = itemKeys[selectedIndex].currentContext;
           if (ctx == null) return;
 
           await Scrollable.ensureVisible(
@@ -173,7 +171,7 @@ class _DesktopWidget extends HookConsumerWidget {
           padding: EdgeInsets.all(Responsive.isDesktop(context) ? 16.0 : 8.0),
           itemCount: items.length,
           itemBuilder: (context, index) => Row(
-            key: itemKeys[items[index].id],
+            key: itemKeys[index],
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (Responsive.isDesktop(context))
@@ -265,15 +263,20 @@ class _DesktopWidget extends HookConsumerWidget {
                                 item: items[index],
                                 requests: items[index].requests,
                               ),
-                              ProcurementRequestItem(
-                                requests: items[index].requests,
-                              ),
-                              ProgressWidget(
-                                projectId: projectId,
-                                issueId: items[index].id,
-                                items: items[index].procurementItems,
-                                requests: items[index].requests,
-                              ),
+                              if (items[index].requests.isNotEmpty)
+                                ProcurementRequestItem(
+                                  projectId: projectId,
+                                  requests: items[index].requests,
+                                ),
+                              if (auth is AuthAuthenticated &&
+                                  (auth.user.isAdmin ||
+                                      auth.user.department?.id == 1))
+                                ProgressWidget(
+                                  projectId: projectId,
+                                  issueId: items[index].id,
+                                  items: items[index].procurementItems,
+                                  requests: items[index].requests,
+                                ),
                               SizedBox(height: 16.0),
                               MarkdownWidget(item: items[index].content),
                               if (items[index].attachments.isNotEmpty)

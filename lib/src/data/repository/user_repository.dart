@@ -16,4 +16,6 @@ abstract class UserRepository {
     int? positionId,
     String? search,
   });
+
+  Future<User> updateUser({required int id, required UpdateUserDto request});
 }

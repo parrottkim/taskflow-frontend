@@ -5720,7 +5720,7 @@ $UserCopyWith<$Res> get user {
 /// @nodoc
 mixin _$ProcurementIssueRequest {
 
- int get id; User get user; DateTime get orderDate; DateTime? get deliveryDate; String? get paymentTerms; String get serialNumber; bool get hasFee; Supplier get supplier; String? get note; List<ProcurementIssueRequestItem> get items; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+ int get id; User get requestedBy; DateTime get orderDate; DateTime? get deliveryDate; String? get paymentTerms; String get serialNumber; bool get hasFee; bool get requiresApproval; bool get isApproved; User? get approvedBy; DateTime? get approvedAt; Supplier get supplier; String? get note; List<ProcurementIssueRequestItem> get items; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
 /// Create a copy of ProcurementIssueRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -5733,16 +5733,16 @@ $ProcurementIssueRequestCopyWith<ProcurementIssueRequest> get copyWith => _$Proc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcurementIssueRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.user, user) || other.user == user)&&(identical(other.orderDate, orderDate) || other.orderDate == orderDate)&&(identical(other.deliveryDate, deliveryDate) || other.deliveryDate == deliveryDate)&&(identical(other.paymentTerms, paymentTerms) || other.paymentTerms == paymentTerms)&&(identical(other.serialNumber, serialNumber) || other.serialNumber == serialNumber)&&(identical(other.hasFee, hasFee) || other.hasFee == hasFee)&&(identical(other.supplier, supplier) || other.supplier == supplier)&&(identical(other.note, note) || other.note == note)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcurementIssueRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.requestedBy, requestedBy) || other.requestedBy == requestedBy)&&(identical(other.orderDate, orderDate) || other.orderDate == orderDate)&&(identical(other.deliveryDate, deliveryDate) || other.deliveryDate == deliveryDate)&&(identical(other.paymentTerms, paymentTerms) || other.paymentTerms == paymentTerms)&&(identical(other.serialNumber, serialNumber) || other.serialNumber == serialNumber)&&(identical(other.hasFee, hasFee) || other.hasFee == hasFee)&&(identical(other.requiresApproval, requiresApproval) || other.requiresApproval == requiresApproval)&&(identical(other.isApproved, isApproved) || other.isApproved == isApproved)&&(identical(other.approvedBy, approvedBy) || other.approvedBy == approvedBy)&&(identical(other.approvedAt, approvedAt) || other.approvedAt == approvedAt)&&(identical(other.supplier, supplier) || other.supplier == supplier)&&(identical(other.note, note) || other.note == note)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,user,orderDate,deliveryDate,paymentTerms,serialNumber,hasFee,supplier,note,const DeepCollectionEquality().hash(items),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,requestedBy,orderDate,deliveryDate,paymentTerms,serialNumber,hasFee,requiresApproval,isApproved,approvedBy,approvedAt,supplier,note,const DeepCollectionEquality().hash(items),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'ProcurementIssueRequest(id: $id, user: $user, orderDate: $orderDate, deliveryDate: $deliveryDate, paymentTerms: $paymentTerms, serialNumber: $serialNumber, hasFee: $hasFee, supplier: $supplier, note: $note, items: $items, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'ProcurementIssueRequest(id: $id, requestedBy: $requestedBy, orderDate: $orderDate, deliveryDate: $deliveryDate, paymentTerms: $paymentTerms, serialNumber: $serialNumber, hasFee: $hasFee, requiresApproval: $requiresApproval, isApproved: $isApproved, approvedBy: $approvedBy, approvedAt: $approvedAt, supplier: $supplier, note: $note, items: $items, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -5753,11 +5753,11 @@ abstract mixin class $ProcurementIssueRequestCopyWith<$Res>  {
   factory $ProcurementIssueRequestCopyWith(ProcurementIssueRequest value, $Res Function(ProcurementIssueRequest) _then) = _$ProcurementIssueRequestCopyWithImpl;
 @useResult
 $Res call({
- int id, User user, DateTime orderDate, DateTime? deliveryDate, String? paymentTerms, String serialNumber, bool hasFee, Supplier supplier, String? note, List<ProcurementIssueRequestItem> items, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, User requestedBy, DateTime orderDate, DateTime? deliveryDate, String? paymentTerms, String serialNumber, bool hasFee, bool requiresApproval, bool isApproved, User? approvedBy, DateTime? approvedAt, Supplier supplier, String? note, List<ProcurementIssueRequestItem> items, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
-$UserCopyWith<$Res> get user;$SupplierCopyWith<$Res> get supplier;
+$UserCopyWith<$Res> get requestedBy;$UserCopyWith<$Res>? get approvedBy;$SupplierCopyWith<$Res> get supplier;
 
 }
 /// @nodoc
@@ -5770,16 +5770,20 @@ class _$ProcurementIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of ProcurementIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? user = null,Object? orderDate = null,Object? deliveryDate = freezed,Object? paymentTerms = freezed,Object? serialNumber = null,Object? hasFee = null,Object? supplier = null,Object? note = freezed,Object? items = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? requestedBy = null,Object? orderDate = null,Object? deliveryDate = freezed,Object? paymentTerms = freezed,Object? serialNumber = null,Object? hasFee = null,Object? requiresApproval = null,Object? isApproved = null,Object? approvedBy = freezed,Object? approvedAt = freezed,Object? supplier = null,Object? note = freezed,Object? items = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as int,requestedBy: null == requestedBy ? _self.requestedBy : requestedBy // ignore: cast_nullable_to_non_nullable
 as User,orderDate: null == orderDate ? _self.orderDate : orderDate // ignore: cast_nullable_to_non_nullable
 as DateTime,deliveryDate: freezed == deliveryDate ? _self.deliveryDate : deliveryDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,paymentTerms: freezed == paymentTerms ? _self.paymentTerms : paymentTerms // ignore: cast_nullable_to_non_nullable
 as String?,serialNumber: null == serialNumber ? _self.serialNumber : serialNumber // ignore: cast_nullable_to_non_nullable
 as String,hasFee: null == hasFee ? _self.hasFee : hasFee // ignore: cast_nullable_to_non_nullable
-as bool,supplier: null == supplier ? _self.supplier : supplier // ignore: cast_nullable_to_non_nullable
+as bool,requiresApproval: null == requiresApproval ? _self.requiresApproval : requiresApproval // ignore: cast_nullable_to_non_nullable
+as bool,isApproved: null == isApproved ? _self.isApproved : isApproved // ignore: cast_nullable_to_non_nullable
+as bool,approvedBy: freezed == approvedBy ? _self.approvedBy : approvedBy // ignore: cast_nullable_to_non_nullable
+as User?,approvedAt: freezed == approvedAt ? _self.approvedAt : approvedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,supplier: null == supplier ? _self.supplier : supplier // ignore: cast_nullable_to_non_nullable
 as Supplier,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
 as String?,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequestItem>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -5792,10 +5796,22 @@ as DateTime?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$UserCopyWith<$Res> get user {
+$UserCopyWith<$Res> get requestedBy {
   
-  return $UserCopyWith<$Res>(_self.user, (value) {
-    return _then(_self.copyWith(user: value));
+  return $UserCopyWith<$Res>(_self.requestedBy, (value) {
+    return _then(_self.copyWith(requestedBy: value));
+  });
+}/// Create a copy of ProcurementIssueRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get approvedBy {
+    if (_self.approvedBy == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.approvedBy!, (value) {
+    return _then(_self.copyWith(approvedBy: value));
   });
 }/// Create a copy of ProcurementIssueRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -5888,10 +5904,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  User user,  DateTime orderDate,  DateTime? deliveryDate,  String? paymentTerms,  String serialNumber,  bool hasFee,  Supplier supplier,  String? note,  List<ProcurementIssueRequestItem> items,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  User requestedBy,  DateTime orderDate,  DateTime? deliveryDate,  String? paymentTerms,  String serialNumber,  bool hasFee,  bool requiresApproval,  bool isApproved,  User? approvedBy,  DateTime? approvedAt,  Supplier supplier,  String? note,  List<ProcurementIssueRequestItem> items,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProcurementIssueRequest() when $default != null:
-return $default(_that.id,_that.user,_that.orderDate,_that.deliveryDate,_that.paymentTerms,_that.serialNumber,_that.hasFee,_that.supplier,_that.note,_that.items,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.requestedBy,_that.orderDate,_that.deliveryDate,_that.paymentTerms,_that.serialNumber,_that.hasFee,_that.requiresApproval,_that.isApproved,_that.approvedBy,_that.approvedAt,_that.supplier,_that.note,_that.items,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -5909,10 +5925,10 @@ return $default(_that.id,_that.user,_that.orderDate,_that.deliveryDate,_that.pay
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  User user,  DateTime orderDate,  DateTime? deliveryDate,  String? paymentTerms,  String serialNumber,  bool hasFee,  Supplier supplier,  String? note,  List<ProcurementIssueRequestItem> items,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  User requestedBy,  DateTime orderDate,  DateTime? deliveryDate,  String? paymentTerms,  String serialNumber,  bool hasFee,  bool requiresApproval,  bool isApproved,  User? approvedBy,  DateTime? approvedAt,  Supplier supplier,  String? note,  List<ProcurementIssueRequestItem> items,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ProcurementIssueRequest():
-return $default(_that.id,_that.user,_that.orderDate,_that.deliveryDate,_that.paymentTerms,_that.serialNumber,_that.hasFee,_that.supplier,_that.note,_that.items,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.requestedBy,_that.orderDate,_that.deliveryDate,_that.paymentTerms,_that.serialNumber,_that.hasFee,_that.requiresApproval,_that.isApproved,_that.approvedBy,_that.approvedAt,_that.supplier,_that.note,_that.items,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -5929,10 +5945,10 @@ return $default(_that.id,_that.user,_that.orderDate,_that.deliveryDate,_that.pay
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  User user,  DateTime orderDate,  DateTime? deliveryDate,  String? paymentTerms,  String serialNumber,  bool hasFee,  Supplier supplier,  String? note,  List<ProcurementIssueRequestItem> items,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  User requestedBy,  DateTime orderDate,  DateTime? deliveryDate,  String? paymentTerms,  String serialNumber,  bool hasFee,  bool requiresApproval,  bool isApproved,  User? approvedBy,  DateTime? approvedAt,  Supplier supplier,  String? note,  List<ProcurementIssueRequestItem> items,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ProcurementIssueRequest() when $default != null:
-return $default(_that.id,_that.user,_that.orderDate,_that.deliveryDate,_that.paymentTerms,_that.serialNumber,_that.hasFee,_that.supplier,_that.note,_that.items,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.requestedBy,_that.orderDate,_that.deliveryDate,_that.paymentTerms,_that.serialNumber,_that.hasFee,_that.requiresApproval,_that.isApproved,_that.approvedBy,_that.approvedAt,_that.supplier,_that.note,_that.items,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -5944,16 +5960,20 @@ return $default(_that.id,_that.user,_that.orderDate,_that.deliveryDate,_that.pay
 @JsonSerializable()
 
 class _ProcurementIssueRequest implements ProcurementIssueRequest {
-   _ProcurementIssueRequest({required this.id, required this.user, required this.orderDate, this.deliveryDate, this.paymentTerms, required this.serialNumber, required this.hasFee, required this.supplier, this.note, required final  List<ProcurementIssueRequestItem> items, required this.createdAt, required this.updatedAt, this.deletedAt}): _items = items;
+   _ProcurementIssueRequest({required this.id, required this.requestedBy, required this.orderDate, this.deliveryDate, this.paymentTerms, required this.serialNumber, required this.hasFee, required this.requiresApproval, required this.isApproved, this.approvedBy, this.approvedAt, required this.supplier, this.note, required final  List<ProcurementIssueRequestItem> items, required this.createdAt, required this.updatedAt, this.deletedAt}): _items = items;
   factory _ProcurementIssueRequest.fromJson(Map<String, dynamic> json) => _$ProcurementIssueRequestFromJson(json);
 
 @override final  int id;
-@override final  User user;
+@override final  User requestedBy;
 @override final  DateTime orderDate;
 @override final  DateTime? deliveryDate;
 @override final  String? paymentTerms;
 @override final  String serialNumber;
 @override final  bool hasFee;
+@override final  bool requiresApproval;
+@override final  bool isApproved;
+@override final  User? approvedBy;
+@override final  DateTime? approvedAt;
 @override final  Supplier supplier;
 @override final  String? note;
  final  List<ProcurementIssueRequestItem> _items;
@@ -5980,16 +6000,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcurementIssueRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.user, user) || other.user == user)&&(identical(other.orderDate, orderDate) || other.orderDate == orderDate)&&(identical(other.deliveryDate, deliveryDate) || other.deliveryDate == deliveryDate)&&(identical(other.paymentTerms, paymentTerms) || other.paymentTerms == paymentTerms)&&(identical(other.serialNumber, serialNumber) || other.serialNumber == serialNumber)&&(identical(other.hasFee, hasFee) || other.hasFee == hasFee)&&(identical(other.supplier, supplier) || other.supplier == supplier)&&(identical(other.note, note) || other.note == note)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcurementIssueRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.requestedBy, requestedBy) || other.requestedBy == requestedBy)&&(identical(other.orderDate, orderDate) || other.orderDate == orderDate)&&(identical(other.deliveryDate, deliveryDate) || other.deliveryDate == deliveryDate)&&(identical(other.paymentTerms, paymentTerms) || other.paymentTerms == paymentTerms)&&(identical(other.serialNumber, serialNumber) || other.serialNumber == serialNumber)&&(identical(other.hasFee, hasFee) || other.hasFee == hasFee)&&(identical(other.requiresApproval, requiresApproval) || other.requiresApproval == requiresApproval)&&(identical(other.isApproved, isApproved) || other.isApproved == isApproved)&&(identical(other.approvedBy, approvedBy) || other.approvedBy == approvedBy)&&(identical(other.approvedAt, approvedAt) || other.approvedAt == approvedAt)&&(identical(other.supplier, supplier) || other.supplier == supplier)&&(identical(other.note, note) || other.note == note)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,user,orderDate,deliveryDate,paymentTerms,serialNumber,hasFee,supplier,note,const DeepCollectionEquality().hash(_items),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,requestedBy,orderDate,deliveryDate,paymentTerms,serialNumber,hasFee,requiresApproval,isApproved,approvedBy,approvedAt,supplier,note,const DeepCollectionEquality().hash(_items),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'ProcurementIssueRequest(id: $id, user: $user, orderDate: $orderDate, deliveryDate: $deliveryDate, paymentTerms: $paymentTerms, serialNumber: $serialNumber, hasFee: $hasFee, supplier: $supplier, note: $note, items: $items, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'ProcurementIssueRequest(id: $id, requestedBy: $requestedBy, orderDate: $orderDate, deliveryDate: $deliveryDate, paymentTerms: $paymentTerms, serialNumber: $serialNumber, hasFee: $hasFee, requiresApproval: $requiresApproval, isApproved: $isApproved, approvedBy: $approvedBy, approvedAt: $approvedAt, supplier: $supplier, note: $note, items: $items, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -6000,11 +6020,11 @@ abstract mixin class _$ProcurementIssueRequestCopyWith<$Res> implements $Procure
   factory _$ProcurementIssueRequestCopyWith(_ProcurementIssueRequest value, $Res Function(_ProcurementIssueRequest) _then) = __$ProcurementIssueRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int id, User user, DateTime orderDate, DateTime? deliveryDate, String? paymentTerms, String serialNumber, bool hasFee, Supplier supplier, String? note, List<ProcurementIssueRequestItem> items, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, User requestedBy, DateTime orderDate, DateTime? deliveryDate, String? paymentTerms, String serialNumber, bool hasFee, bool requiresApproval, bool isApproved, User? approvedBy, DateTime? approvedAt, Supplier supplier, String? note, List<ProcurementIssueRequestItem> items, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
-@override $UserCopyWith<$Res> get user;@override $SupplierCopyWith<$Res> get supplier;
+@override $UserCopyWith<$Res> get requestedBy;@override $UserCopyWith<$Res>? get approvedBy;@override $SupplierCopyWith<$Res> get supplier;
 
 }
 /// @nodoc
@@ -6017,16 +6037,20 @@ class __$ProcurementIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of ProcurementIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? user = null,Object? orderDate = null,Object? deliveryDate = freezed,Object? paymentTerms = freezed,Object? serialNumber = null,Object? hasFee = null,Object? supplier = null,Object? note = freezed,Object? items = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? requestedBy = null,Object? orderDate = null,Object? deliveryDate = freezed,Object? paymentTerms = freezed,Object? serialNumber = null,Object? hasFee = null,Object? requiresApproval = null,Object? isApproved = null,Object? approvedBy = freezed,Object? approvedAt = freezed,Object? supplier = null,Object? note = freezed,Object? items = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_ProcurementIssueRequest(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as int,requestedBy: null == requestedBy ? _self.requestedBy : requestedBy // ignore: cast_nullable_to_non_nullable
 as User,orderDate: null == orderDate ? _self.orderDate : orderDate // ignore: cast_nullable_to_non_nullable
 as DateTime,deliveryDate: freezed == deliveryDate ? _self.deliveryDate : deliveryDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,paymentTerms: freezed == paymentTerms ? _self.paymentTerms : paymentTerms // ignore: cast_nullable_to_non_nullable
 as String?,serialNumber: null == serialNumber ? _self.serialNumber : serialNumber // ignore: cast_nullable_to_non_nullable
 as String,hasFee: null == hasFee ? _self.hasFee : hasFee // ignore: cast_nullable_to_non_nullable
-as bool,supplier: null == supplier ? _self.supplier : supplier // ignore: cast_nullable_to_non_nullable
+as bool,requiresApproval: null == requiresApproval ? _self.requiresApproval : requiresApproval // ignore: cast_nullable_to_non_nullable
+as bool,isApproved: null == isApproved ? _self.isApproved : isApproved // ignore: cast_nullable_to_non_nullable
+as bool,approvedBy: freezed == approvedBy ? _self.approvedBy : approvedBy // ignore: cast_nullable_to_non_nullable
+as User?,approvedAt: freezed == approvedAt ? _self.approvedAt : approvedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,supplier: null == supplier ? _self.supplier : supplier // ignore: cast_nullable_to_non_nullable
 as Supplier,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
 as String?,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequestItem>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -6040,10 +6064,22 @@ as DateTime?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$UserCopyWith<$Res> get user {
+$UserCopyWith<$Res> get requestedBy {
   
-  return $UserCopyWith<$Res>(_self.user, (value) {
-    return _then(_self.copyWith(user: value));
+  return $UserCopyWith<$Res>(_self.requestedBy, (value) {
+    return _then(_self.copyWith(requestedBy: value));
+  });
+}/// Create a copy of ProcurementIssueRequest
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get approvedBy {
+    if (_self.approvedBy == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.approvedBy!, (value) {
+    return _then(_self.copyWith(approvedBy: value));
   });
 }/// Create a copy of ProcurementIssueRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -8867,6 +8903,278 @@ class __$ResetPasswordDtoCopyWithImpl<$Res>
 token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String,newPassword: null == newPassword ? _self.newPassword : newPassword // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$UpdateUserDto {
+
+ bool? get isAdmin; bool? get isAuthorized; int? get positionId; int? get departmentId;
+/// Create a copy of UpdateUserDto
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateUserDtoCopyWith<UpdateUserDto> get copyWith => _$UpdateUserDtoCopyWithImpl<UpdateUserDto>(this as UpdateUserDto, _$identity);
+
+  /// Serializes this UpdateUserDto to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateUserDto&&(identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin)&&(identical(other.isAuthorized, isAuthorized) || other.isAuthorized == isAuthorized)&&(identical(other.positionId, positionId) || other.positionId == positionId)&&(identical(other.departmentId, departmentId) || other.departmentId == departmentId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,isAdmin,isAuthorized,positionId,departmentId);
+
+@override
+String toString() {
+  return 'UpdateUserDto(isAdmin: $isAdmin, isAuthorized: $isAuthorized, positionId: $positionId, departmentId: $departmentId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateUserDtoCopyWith<$Res>  {
+  factory $UpdateUserDtoCopyWith(UpdateUserDto value, $Res Function(UpdateUserDto) _then) = _$UpdateUserDtoCopyWithImpl;
+@useResult
+$Res call({
+ bool? isAdmin, bool? isAuthorized, int? positionId, int? departmentId
+});
+
+
+
+
+}
+/// @nodoc
+class _$UpdateUserDtoCopyWithImpl<$Res>
+    implements $UpdateUserDtoCopyWith<$Res> {
+  _$UpdateUserDtoCopyWithImpl(this._self, this._then);
+
+  final UpdateUserDto _self;
+  final $Res Function(UpdateUserDto) _then;
+
+/// Create a copy of UpdateUserDto
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? isAdmin = freezed,Object? isAuthorized = freezed,Object? positionId = freezed,Object? departmentId = freezed,}) {
+  return _then(_self.copyWith(
+isAdmin: freezed == isAdmin ? _self.isAdmin : isAdmin // ignore: cast_nullable_to_non_nullable
+as bool?,isAuthorized: freezed == isAuthorized ? _self.isAuthorized : isAuthorized // ignore: cast_nullable_to_non_nullable
+as bool?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
+as int?,departmentId: freezed == departmentId ? _self.departmentId : departmentId // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UpdateUserDto].
+extension UpdateUserDtoPatterns on UpdateUserDto {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UpdateUserDto value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UpdateUserDto() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UpdateUserDto value)  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateUserDto():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UpdateUserDto value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateUserDto() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? isAdmin,  bool? isAuthorized,  int? positionId,  int? departmentId)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UpdateUserDto() when $default != null:
+return $default(_that.isAdmin,_that.isAuthorized,_that.positionId,_that.departmentId);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? isAdmin,  bool? isAuthorized,  int? positionId,  int? departmentId)  $default,) {final _that = this;
+switch (_that) {
+case _UpdateUserDto():
+return $default(_that.isAdmin,_that.isAuthorized,_that.positionId,_that.departmentId);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? isAdmin,  bool? isAuthorized,  int? positionId,  int? departmentId)?  $default,) {final _that = this;
+switch (_that) {
+case _UpdateUserDto() when $default != null:
+return $default(_that.isAdmin,_that.isAuthorized,_that.positionId,_that.departmentId);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UpdateUserDto implements UpdateUserDto {
+   _UpdateUserDto({this.isAdmin, this.isAuthorized, this.positionId, this.departmentId});
+  factory _UpdateUserDto.fromJson(Map<String, dynamic> json) => _$UpdateUserDtoFromJson(json);
+
+@override final  bool? isAdmin;
+@override final  bool? isAuthorized;
+@override final  int? positionId;
+@override final  int? departmentId;
+
+/// Create a copy of UpdateUserDto
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpdateUserDtoCopyWith<_UpdateUserDto> get copyWith => __$UpdateUserDtoCopyWithImpl<_UpdateUserDto>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UpdateUserDtoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateUserDto&&(identical(other.isAdmin, isAdmin) || other.isAdmin == isAdmin)&&(identical(other.isAuthorized, isAuthorized) || other.isAuthorized == isAuthorized)&&(identical(other.positionId, positionId) || other.positionId == positionId)&&(identical(other.departmentId, departmentId) || other.departmentId == departmentId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,isAdmin,isAuthorized,positionId,departmentId);
+
+@override
+String toString() {
+  return 'UpdateUserDto(isAdmin: $isAdmin, isAuthorized: $isAuthorized, positionId: $positionId, departmentId: $departmentId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpdateUserDtoCopyWith<$Res> implements $UpdateUserDtoCopyWith<$Res> {
+  factory _$UpdateUserDtoCopyWith(_UpdateUserDto value, $Res Function(_UpdateUserDto) _then) = __$UpdateUserDtoCopyWithImpl;
+@override @useResult
+$Res call({
+ bool? isAdmin, bool? isAuthorized, int? positionId, int? departmentId
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpdateUserDtoCopyWithImpl<$Res>
+    implements _$UpdateUserDtoCopyWith<$Res> {
+  __$UpdateUserDtoCopyWithImpl(this._self, this._then);
+
+  final _UpdateUserDto _self;
+  final $Res Function(_UpdateUserDto) _then;
+
+/// Create a copy of UpdateUserDto
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? isAdmin = freezed,Object? isAuthorized = freezed,Object? positionId = freezed,Object? departmentId = freezed,}) {
+  return _then(_UpdateUserDto(
+isAdmin: freezed == isAdmin ? _self.isAdmin : isAdmin // ignore: cast_nullable_to_non_nullable
+as bool?,isAuthorized: freezed == isAuthorized ? _self.isAuthorized : isAuthorized // ignore: cast_nullable_to_non_nullable
+as bool?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
+as int?,departmentId: freezed == departmentId ? _self.departmentId : departmentId // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

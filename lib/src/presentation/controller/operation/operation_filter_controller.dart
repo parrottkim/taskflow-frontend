@@ -1,12 +1,12 @@
 part of '../controller.dart';
 
 @riverpod
-class WorkFilterController extends _$WorkFilterController {
+class OperationFilterController extends _$OperationFilterController {
   @override
-  FutureOr<WorkFilterState> build() => _init();
+  FutureOr<OperationFilterState> build() => _init();
 
-  Future<WorkFilterState> _init() async {
-    return WorkFilterState();
+  Future<OperationFilterState> _init() async {
+    return OperationFilterState();
   }
 
   Future<void> init({String? view}) async {

@@ -549,7 +549,7 @@ _ProcurementIssueRequest _$ProcurementIssueRequestFromJson(
   Map<String, dynamic> json,
 ) => _ProcurementIssueRequest(
   id: (json['id'] as num).toInt(),
-  user: User.fromJson(json['user'] as Map<String, dynamic>),
+  requestedBy: User.fromJson(json['requestedBy'] as Map<String, dynamic>),
   orderDate: DateTime.parse(json['orderDate'] as String),
   deliveryDate: json['deliveryDate'] == null
       ? null
@@ -557,6 +557,14 @@ _ProcurementIssueRequest _$ProcurementIssueRequestFromJson(
   paymentTerms: json['paymentTerms'] as String?,
   serialNumber: json['serialNumber'] as String,
   hasFee: json['hasFee'] as bool,
+  requiresApproval: json['requiresApproval'] as bool,
+  isApproved: json['isApproved'] as bool,
+  approvedBy: json['approvedBy'] == null
+      ? null
+      : User.fromJson(json['approvedBy'] as Map<String, dynamic>),
+  approvedAt: json['approvedAt'] == null
+      ? null
+      : DateTime.parse(json['approvedAt'] as String),
   supplier: Supplier.fromJson(json['supplier'] as Map<String, dynamic>),
   note: json['note'] as String?,
   items: (json['items'] as List<dynamic>)
@@ -575,12 +583,16 @@ Map<String, dynamic> _$ProcurementIssueRequestToJson(
   _ProcurementIssueRequest instance,
 ) => <String, dynamic>{
   'id': instance.id,
-  'user': instance.user,
+  'requestedBy': instance.requestedBy,
   'orderDate': instance.orderDate.toIso8601String(),
   'deliveryDate': instance.deliveryDate?.toIso8601String(),
   'paymentTerms': instance.paymentTerms,
   'serialNumber': instance.serialNumber,
   'hasFee': instance.hasFee,
+  'requiresApproval': instance.requiresApproval,
+  'isApproved': instance.isApproved,
+  'approvedBy': instance.approvedBy,
+  'approvedAt': instance.approvedAt?.toIso8601String(),
   'supplier': instance.supplier,
   'note': instance.note,
   'items': instance.items,
@@ -743,6 +755,22 @@ Map<String, dynamic> _$ResetPasswordDtoToJson(_ResetPasswordDto instance) =>
     <String, dynamic>{
       'token': instance.token,
       'newPassword': instance.newPassword,
+    };
+
+_UpdateUserDto _$UpdateUserDtoFromJson(Map<String, dynamic> json) =>
+    _UpdateUserDto(
+      isAdmin: json['isAdmin'] as bool?,
+      isAuthorized: json['isAuthorized'] as bool?,
+      positionId: (json['positionId'] as num?)?.toInt(),
+      departmentId: (json['departmentId'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$UpdateUserDtoToJson(_UpdateUserDto instance) =>
+    <String, dynamic>{
+      'isAdmin': instance.isAdmin,
+      'isAuthorized': instance.isAuthorized,
+      'positionId': instance.positionId,
+      'departmentId': instance.departmentId,
     };
 
 _CreateProjectDto _$CreateProjectDtoFromJson(Map<String, dynamic> json) =>
@@ -3345,6 +3373,25 @@ class _IssueService implements IssueService {
   }
 
   @override
+  Future<void> approveProcurementIssueRequest({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/procurement/request/${id}/approve',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
   Future<Issue> createProcurementIssue({
     required CreateProcurementIssueDto request,
   }) async {
@@ -4892,6 +4939,36 @@ class _UserService implements UserService {
         _result.data!,
         (json) => User.fromJson(json as Map<String, dynamic>),
       );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<User> updateUser({
+    required int id,
+    required UpdateUserDto request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<User>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'user/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late User _value;
+    try {
+      _value = User.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

@@ -45,76 +45,61 @@ class ProgressWidget extends ConsumerWidget {
         targetSupplierIds.isNotEmpty &&
         targetSupplierIds.difference(requestedSupplierIds).isEmpty;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (!isAllRequested)
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Skeleton.unite(
-                  child: ElevatedButton.icon(
-                    onPressed: auth is AuthAuthenticated && auth.user.isAdmin
-                        ? () {
-                            context.goNamed(
-                              RouteNames.issueProcurementRequest,
-                              pathParameters: {
-                                'project_id': projectId.toString(),
-                                'issue_id': issueId.toString(),
-                              },
-                            );
-                          }
-                        : null,
-                    icon: Icon(Symbols.shopping_cart_rounded),
-                    label: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(Intl.message('issue_form_procurement_idle')),
-                        SizedBox(width: 8.0),
-                        Icon(Symbols.chevron_right_rounded),
-                      ],
-                    ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (!isAllRequested)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Skeleton.unite(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    context.goNamed(
+                      RouteNames.issueProcurementRequest,
+                      pathParameters: {
+                        'project_id': projectId.toString(),
+                        'issue_id': issueId.toString(),
+                      },
+                    );
+                  },
+                  icon: Icon(Symbols.shopping_cart_rounded),
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(Intl.message('issue_form_procurement_idle')),
+                      SizedBox(width: 8.0),
+                      Icon(Symbols.chevron_right_rounded),
+                    ],
                   ),
                 ),
-                if (auth is AuthAuthenticated && !auth.user.isAdmin)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      Intl.message('issue_form_procurement_25'),
-                      style: textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.error,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        if (isAllRequested)
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: ContainerWidget(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              borderRadius: BorderRadius.circular(8.0),
-              borderColor: colorScheme.outline.withValues(alpha: 0.2),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Symbols.assignment_turned_in_rounded,
-                    size: 18.0,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                  SizedBox(width: 8.0),
-                  Text(Intl.message('issue_form_procurement_requested')),
-                ],
               ),
             ),
-          ),
-      ],
+          if (isAllRequested)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: ContainerWidget(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                borderRadius: BorderRadius.circular(8.0),
+                borderColor: colorScheme.outline.withValues(alpha: 0.2),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Symbols.assignment_turned_in_rounded,
+                      size: 18.0,
+                      color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
+                    SizedBox(width: 8.0),
+                    Text(Intl.message('issue_form_procurement_requested')),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

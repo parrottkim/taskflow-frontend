@@ -53,12 +53,12 @@ class ReportListController extends _$ReportListController {
         .increaseReportsCount();
   }
 
-  Future<void> updateListItem(Report updatedItem) async {
+  Future<void> updateListItem({required Report item}) async {
     final value = state.value;
     if (value == null) return;
 
     final updatedReports = value.items.map((issue) {
-      return issue.id == updatedItem.id ? updatedItem : issue;
+      return issue.id == item.id ? item : issue;
     }).toList();
 
     state = AsyncValue.data(value.copyWith(items: updatedReports));
