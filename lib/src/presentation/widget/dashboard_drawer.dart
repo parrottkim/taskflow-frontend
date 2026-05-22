@@ -121,8 +121,9 @@ class NavigationRailHeader extends StatelessWidget {
             child: AnimatedContainer(
               duration: duration,
               curve: curve,
-              alignment:
-                  expanded.value ? Alignment.centerRight : Alignment.center,
+              alignment: expanded.value
+                  ? Alignment.centerRight
+                  : Alignment.center,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -165,10 +166,8 @@ class NavigationRailSearch extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return InkWell(
-      onTap: () => showDialog(
-        context: context,
-        builder: (_) => const SearchDialog(),
-      ),
+      onTap: () =>
+          showDialog(context: context, builder: (_) => const SearchDialog()),
       child: Material(
         color: Colors.transparent,
         child: IgnorePointer(
@@ -180,9 +179,7 @@ class NavigationRailSearch extends StatelessWidget {
                 duration: duration,
                 curve: curve,
                 opacity: expanded.value ? 1.0 : 0.0,
-                child: Text(
-                  Intl.message('navigation_search'),
-                ),
+                child: Text(Intl.message('navigation_search')),
               ),
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 13.0, right: 2.0),
@@ -243,23 +240,23 @@ class NavigationRailList extends ConsumerWidget {
         itemCount: filteredItems.length,
         itemBuilder: (context, index) => switch (filteredItems[index]) {
           NavigationTitle() => NavigationRailTitle(
-              item: filteredItems[index] as NavigationTitle,
-              expanded: expanded.value,
-              duration: duration,
-              curve: curve,
-            ),
+            item: filteredItems[index] as NavigationTitle,
+            expanded: expanded.value,
+            duration: duration,
+            curve: curve,
+          ),
           NavigationButton() => NavigationRailButton(
-              item: filteredItems[index] as NavigationButton,
-              currentIndex: index,
-              isSelected: navigationShell.currentIndex ==
-                  filteredItems
-                      .whereType<NavigationButton>()
-                      .toList()
-                      .indexWhere((element) => element == filteredItems[index]),
-              expanded: expanded.value,
-              duration: duration,
-              curve: curve,
-            ),
+            item: filteredItems[index] as NavigationButton,
+            currentIndex: index,
+            isSelected:
+                navigationShell.currentIndex ==
+                filteredItems.whereType<NavigationButton>().toList().indexWhere(
+                  (element) => element == filteredItems[index],
+                ),
+            expanded: expanded.value,
+            duration: duration,
+            curve: curve,
+          ),
           NavigationSpace() => const SizedBox(height: 16.0),
         },
         separatorBuilder: (context, index) => SizedBox(height: 4.0),
@@ -335,8 +332,9 @@ class NavigationRailButton extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: isSelected ? 1.0 : 0.0,
       borderRadius: BorderRadius.circular(8.0),
-      color:
-          isSelected ? colorScheme.surfaceBright : colorScheme.surfaceContainer,
+      color: isSelected
+          ? colorScheme.surfaceBright
+          : colorScheme.surfaceContainer,
       child: InkWell(
         onTap: () {
           context.goNamed(item.route);
@@ -349,9 +347,10 @@ class NavigationRailButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(
-                color: isSelected
-                    ? colorScheme.outline.withValues(alpha: 0.2)
-                    : Colors.transparent),
+              color: isSelected
+                  ? colorScheme.outline.withValues(alpha: 0.2)
+                  : Colors.transparent,
+            ),
           ),
           child: Row(
             children: [
@@ -375,8 +374,9 @@ class NavigationRailButton extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.fade,
                       style: textTheme.bodyLarge?.copyWith(
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.w500,
+                        fontWeight: isSelected
+                            ? FontWeight.w600
+                            : FontWeight.w500,
                         color: isSelected
                             ? colorScheme.onSurface
                             : colorScheme.onSurface.withValues(alpha: 0.7),
@@ -419,14 +419,13 @@ class UserWidget extends StatelessWidget {
         children: [
           Skeleton.unite(
             child: CircleAvatar(
-              backgroundColor: Functions(context)
-                  .generateColorFromId(user.username.hashCode),
+              backgroundColor: Functions(
+                context,
+              ).generateColorFromId(user.username.hashCode),
               radius: 16.0,
               child: Text(
                 getInitials(user.username),
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),

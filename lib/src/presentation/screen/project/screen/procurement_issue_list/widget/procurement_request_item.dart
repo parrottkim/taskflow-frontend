@@ -9,21 +9,27 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProcurementRequestItem extends ConsumerWidget {
+  final int projectId;
   final List<ProcurementIssueRequest> requests;
 
-  const ProcurementRequestItem({super.key, required this.requests});
+  const ProcurementRequestItem({
+    super.key,
+    required this.projectId,
+    required this.requests,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final auth = ref.watch(authControllerProvider);
 
     if (requests.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(top: 16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +129,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 120.0,
+                                width: 160.0,
                                 child: Row(
                                   children: [
                                     Icon(
@@ -145,7 +151,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                   ],
                                 ),
                               ),
-                              UserInformation.compact(user: request.user),
+                              UserInformation.compact(
+                                user: request.requestedBy,
+                              ),
                             ],
                           ),
                           SizedBox(height: 8.0),
@@ -153,7 +161,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 120.0,
+                                width: 160.0,
                                 child: Row(
                                   children: [
                                     Icon(
@@ -187,7 +195,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 120.0,
+                                width: 160.0,
                                 child: Row(
                                   children: [
                                     Icon(
@@ -223,7 +231,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 120.0,
+                                width: 160.0,
                                 child: Row(
                                   children: [
                                     Icon(
@@ -257,7 +265,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 120.0,
+                                width: 160.0,
                                 child: Row(
                                   children: [
                                     Icon(
@@ -294,7 +302,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                width: 120.0,
+                                width: 160.0,
                                 child: Row(
                                   children: [
                                     Icon(
@@ -317,9 +325,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                (request.note?.trim().isNotEmpty ?? false)
-                                    ? request.note!
-                                    : Intl.message('issue_form_procurement_23'),
+                                request.note ?? '',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -329,16 +335,91 @@ class ProcurementRequestItem extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: TextButton.icon(
-                      onPressed: () async => await ref
-                          .read(issueExportControllerProvider.notifier)
-                          .exportPurchaseOrder(requestId: request.id),
-                      icon: Icon(Symbols.print_rounded),
-                      label: Text(Intl.message('common_print')),
+                  SizedBox(height: 8.0),
+                  if (auth is AuthAuthenticated &&
+                      (auth.user.isAdmin || auth.user.department?.id == 1))
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextButton.icon(
+                                onPressed:
+                                    (request.requiresApproval &&
+                                            request.isApproved) ||
+                                        !request.requiresApproval
+                                    ? () async => await ref
+                                          .read(
+                                            issueExportControllerProvider
+                                                .notifier,
+                                          )
+                                          .exportPurchaseOrder(
+                                            requestId: request.id,
+                                          )
+                                    : null,
+                                icon: Icon(Symbols.print_rounded),
+                                label: Text(Intl.message('common_print')),
+                              ),
+                              if (request.requiresApproval)
+                                Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CustomToggleButton(
+                                        value: request.isApproved,
+                                        onChanged:
+                                            auth.user.position?.id == 1 &&
+                                                !request.isApproved
+                                            ? (value) async {
+                                                if (value != true) return;
+
+                                                await ref
+                                                    .read(
+                                                      issueListControllerProvider(
+                                                        projectId: projectId,
+                                                      ).notifier,
+                                                    )
+                                                    .approveProcurementRequest(
+                                                      requestId: request.id,
+                                                    );
+                                              }
+                                            : null,
+                                      ),
+                                      SizedBox(width: 8.0),
+                                      Text(
+                                        Intl.message(
+                                          'issue_form_procurement_26',
+                                        ),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                            ],
+                          ),
+                          if (request.requiresApproval)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
+                              child: Text(
+                                Intl.message('issue_form_procurement_27'),
+                                style: textTheme.bodySmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: colorScheme.error,
+                                ),
+                              ),
+                            ),
+                          SizedBox(height: 8.0),
+                        ],
+                      ),
                     ),
-                  ),
                   SizedBox(
                     width: double.infinity,
                     child: Responsive.isDesktop(context)

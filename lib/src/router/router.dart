@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taskflow/src/presentation/controller/analytics/analytics_screen.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/dashboard_layout.dart';
-import 'package:taskflow/src/presentation/screen/analytics/analytics_screen.dart';
+import 'package:taskflow/src/presentation/screen/operation/operation_screen.dart';
 import 'package:taskflow/src/presentation/screen/download/download_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/forgot_password/forgot_password_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/issue_category_screen.dart';
@@ -37,6 +38,7 @@ final _dashboardKey = GlobalKey<NavigatorState>();
 final _projectKey = GlobalKey<NavigatorState>();
 final _workKey = GlobalKey<NavigatorState>();
 final _documentKey = GlobalKey<NavigatorState>();
+final _operationKey = GlobalKey<NavigatorState>();
 final _analyticsKey = GlobalKey<NavigatorState>();
 final _setttingKey = GlobalKey<NavigatorState>();
 
@@ -67,6 +69,7 @@ class RouteNames {
   static const String work = 'work';
   static const String document = 'document';
   static const String analytics = 'analytics';
+  static const String operation = 'operation';
   static const String setting = 'setting';
 }
 
@@ -98,6 +101,7 @@ class Routes {
   static const String work = '/work';
   static const String document = '/document';
   static const String analytics = '/analytics';
+  static const String operation = '/operation';
   static const String setting = '/setting';
 }
 
@@ -118,6 +122,22 @@ class AppRouter {
   final String initialLocation;
 
   AppRouter(this.ref, this.notifier, this.interceptor, this.initialLocation);
+
+  Future<String?> _showWrongApproachAndGoDashboard(BuildContext context) async {
+    final navigatorContext = _key.currentContext;
+
+    if (navigatorContext == null) {
+      return Routes.dashboard;
+    }
+
+    await showDialog(
+      context: navigatorContext,
+      barrierDismissible: false,
+      builder: (_) => const WrongApproachDialog(),
+    );
+
+    return Routes.dashboard;
+  }
 
   late final GoRouter config = GoRouter(
     navigatorKey: _key,
@@ -794,11 +814,43 @@ class AppRouter {
             ],
           ),
           StatefulShellBranch(
+            navigatorKey: _operationKey,
+            routes: [
+              GoRoute(
+                name: RouteNames.operation,
+                path: Routes.operation,
+                redirect: (context, state) async {
+                  final auth = ref.read(authControllerProvider);
+                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
+                    return _showWrongApproachAndGoDashboard(context);
+                  }
+                  return null;
+                },
+                pageBuilder: (context, state) {
+                  final view = state.uri.queryParameters['view'];
+
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    name: state.name,
+                    child: OperationScreen(view: view),
+                  );
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
             navigatorKey: _analyticsKey,
             routes: [
               GoRoute(
                 name: RouteNames.analytics,
                 path: Routes.analytics,
+                redirect: (context, state) async {
+                  final auth = ref.read(authControllerProvider);
+                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
+                    return _showWrongApproachAndGoDashboard(context);
+                  }
+                  return null;
+                },
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
                   name: state.name,

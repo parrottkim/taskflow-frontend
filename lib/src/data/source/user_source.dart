@@ -25,14 +25,17 @@ class UserDataSource implements UserRepository {
     int? departmentId,
     int? positionId,
     String? search,
-  }) =>
-      _service.getUsers(
-        page: page,
-        limit: limit,
-        departmentId: departmentId,
-        positionId: positionId,
-        search: search,
-      );
+  }) => _service.getUsers(
+    page: page,
+    limit: limit,
+    departmentId: departmentId,
+    positionId: positionId,
+    search: search,
+  );
+
+  @override
+  Future<User> updateUser({required int id, required UpdateUserDto request}) =>
+      _service.updateUser(id: id, request: request);
 }
 
 @riverpod

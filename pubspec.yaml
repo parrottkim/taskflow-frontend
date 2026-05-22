@@ -1,13 +1,13 @@
 name: taskflow
 description: "A new Flutter project."
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
   sdk: ^3.9.2
-  
+
 dependencies:
   flutter:
     sdk: flutter
@@ -84,11 +84,11 @@ dependencies:
   material_symbols_icons: ^4.2815.1
   skeletonizer: ^2.0.1
   flutter_sticky_header: ^0.8.0
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-    
+
   # lints
   flutter_lints: ^6.0.0
   custom_lint: ^0.8.1
@@ -112,7 +112,6 @@ flutter:
     - assets/fonts/
     - assets/icons/
     - assets/images/
-    - assets/scripts/
 
   fonts:
     - family: Pretendard

@@ -94,6 +94,39 @@ class IssueListController extends _$IssueListController {
     });
   }
 
+  Future<void> approveProcurementRequest({required int requestId}) async {
+    final value = state.value;
+    if (value == null) return;
+
+    await ref
+        .read(issueRepositoryProvider)
+        .approveProcurementIssueRequest(id: requestId);
+
+    state = AsyncValue.data(
+      value.copyWith(
+        procurements: value.procurements.map((procurement) {
+          final hasTargetRequest = procurement.requests.any(
+            (request) => request.id == requestId,
+          );
+
+          if (!hasTargetRequest) {
+            return procurement;
+          }
+
+          return procurement.copyWith(
+            requests: procurement.requests.map((request) {
+              if (request.id != requestId) {
+                return request;
+              }
+
+              return request.copyWith(isApproved: true);
+            }).toList(),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   void addListItem({required Issue item}) {
     final value = state.value;
     if (value == null) return;

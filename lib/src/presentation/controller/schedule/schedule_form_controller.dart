@@ -6,9 +6,7 @@ class ScheduleFormController extends _$ScheduleFormController {
   FutureOr<ScheduleFormState> build({
     required int categoryId,
     int? scheduleId,
-  }) async {
-    return await _init();
-  }
+  }) => _init();
 
   Future<ScheduleFormState> _init() async {
     if (scheduleId == null) {

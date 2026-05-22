@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "analytics": MessageLookupByLibrary.simpleMessage("통계"),
     "bad_certificate": MessageLookupByLibrary.simpleMessage(
       "보안 인증서가 유효하지 않습니다. 서버를 확인하세요.",
     ),
@@ -56,6 +57,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "bookmark_exists": MessageLookupByLibrary.simpleMessage("이미 북마크한 프로젝트입니다."),
     "bookmark_not_found": MessageLookupByLibrary.simpleMessage(
       "북마크를 찾을 수 없습니다.",
+    ),
+    "ceo_approval_required": MessageLookupByLibrary.simpleMessage(
+      "승인권자의 승인이 필요합니다.",
     ),
     "common_apply": MessageLookupByLibrary.simpleMessage("적용"),
     "common_bookmark": MessageLookupByLibrary.simpleMessage("북마크"),
@@ -290,6 +294,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_procurement_25": MessageLookupByLibrary.simpleMessage(
       "* 발주 처리는 관리자 권한인 사용자만 사용할 수 있습니다.",
     ),
+    "issue_form_procurement_26": MessageLookupByLibrary.simpleMessage(
+      "승인권자 승인",
+    ),
+    "issue_form_procurement_27": MessageLookupByLibrary.simpleMessage(
+      "* 발주 금액 50만원 이상의 발주서의 출력은 승인권자의 승인이 필요합니다.",
+    ),
     "issue_form_procurement_3": MessageLookupByLibrary.simpleMessage("사양"),
     "issue_form_procurement_4": MessageLookupByLibrary.simpleMessage("수량"),
     "issue_form_procurement_5": MessageLookupByLibrary.simpleMessage("단가"),
@@ -308,7 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "발주 완료",
     ),
     "issue_form_procurement_requested_1": MessageLookupByLibrary.simpleMessage(
-      "수수료 포함",
+      "부가세 포함 (10%)",
     ),
     "issue_form_procurement_requested_2": MessageLookupByLibrary.simpleMessage(
       "납기 일자",
@@ -321,9 +331,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "issue_form_procurement_requested_5": MessageLookupByLibrary.simpleMessage(
       "별도 협의",
-    ),
-    "issue_form_procurement_requested_6": MessageLookupByLibrary.simpleMessage(
-      "비고",
     ),
     "issue_form_procurement_requested_invalid_1":
         MessageLookupByLibrary.simpleMessage("최소 하나의 공급처를 선택해 주세요"),
@@ -441,8 +448,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "navigation_item_2": MessageLookupByLibrary.simpleMessage("프로젝트"),
     "navigation_item_3": MessageLookupByLibrary.simpleMessage("업무"),
     "navigation_item_4": MessageLookupByLibrary.simpleMessage("문서"),
-    "navigation_item_5": MessageLookupByLibrary.simpleMessage("통계"),
-    "navigation_item_6": MessageLookupByLibrary.simpleMessage("설정"),
+    "navigation_item_5": MessageLookupByLibrary.simpleMessage("운영 관리"),
+    "navigation_item_6": MessageLookupByLibrary.simpleMessage("통계"),
+    "navigation_item_7": MessageLookupByLibrary.simpleMessage("설정"),
     "navigation_search": MessageLookupByLibrary.simpleMessage("검색"),
     "navigation_search_keyword": MessageLookupByLibrary.simpleMessage("최근 검색어"),
     "navigation_search_keyword_empty": MessageLookupByLibrary.simpleMessage(
@@ -455,11 +463,23 @@ class MessageLookup extends MessageLookupByLibrary {
       "Taskflow에서 검색",
     ),
     "navigation_title_1": MessageLookupByLibrary.simpleMessage("WORKSPACES"),
-    "navigation_title_2": MessageLookupByLibrary.simpleMessage("ANALYTICIS"),
+    "navigation_title_2": MessageLookupByLibrary.simpleMessage("ADMIN"),
     "navigation_title_3": MessageLookupByLibrary.simpleMessage("OTHER"),
     "no_permission": MessageLookupByLibrary.simpleMessage(
       "이 페이지에 접근할 권한이 없습니다.",
     ),
+    "operation": MessageLookupByLibrary.simpleMessage("운영 관리"),
+    "operation_segment_1": MessageLookupByLibrary.simpleMessage("사용자"),
+    "operation_segment_2": MessageLookupByLibrary.simpleMessage("고객사"),
+    "operation_segment_3": MessageLookupByLibrary.simpleMessage("공급사"),
+    "operation_segment_4": MessageLookupByLibrary.simpleMessage("통화"),
+    "operation_user_column_1": MessageLookupByLibrary.simpleMessage("이름"),
+    "operation_user_column_2": MessageLookupByLibrary.simpleMessage("직급"),
+    "operation_user_column_3": MessageLookupByLibrary.simpleMessage("부서"),
+    "operation_user_column_4": MessageLookupByLibrary.simpleMessage("이메일"),
+    "operation_user_column_5": MessageLookupByLibrary.simpleMessage("관리자"),
+    "operation_user_column_6": MessageLookupByLibrary.simpleMessage("사용 승인"),
+    "operation_user_column_7": MessageLookupByLibrary.simpleMessage("작업"),
     "payment_issue_exists": MessageLookupByLibrary.simpleMessage(
       "이미 생성된 지급 청구 업무가 있습니다.",
     ),

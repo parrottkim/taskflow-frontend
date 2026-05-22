@@ -24,4 +24,10 @@ abstract class UserService {
     @Query('positionId') int? positionId,
     @Query('search') String? search,
   });
+
+  @PATCH('user/{id}')
+  Future<User> updateUser({
+    @Path('id') required int id,
+    @Body() required UpdateUserDto request,
+  });
 }

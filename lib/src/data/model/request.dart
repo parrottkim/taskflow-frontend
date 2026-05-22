@@ -41,6 +41,19 @@ abstract class ResetPasswordDto with _$ResetPasswordDto {
 }
 
 @freezed
+abstract class UpdateUserDto with _$UpdateUserDto {
+  factory UpdateUserDto({
+    bool? isAdmin,
+    bool? isAuthorized,
+    int? positionId,
+    int? departmentId,
+  }) = _UpdateUserDto;
+
+  factory UpdateUserDto.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserDtoFromJson(json);
+}
+
+@freezed
 abstract class CreateProjectDto with _$CreateProjectDto {
   factory CreateProjectDto({
     int? managerId,
