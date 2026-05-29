@@ -5288,7 +5288,7 @@ as String,
 /// @nodoc
 mixin _$ProcurementIssueFormState implements DiagnosticableTreeMixin {
 
- List<ProcurementIssueItem> get items; List<ProcurementIssueRequest> get requests; Set<int> get selectedSupplierIds; Map<int, DateTime?> get deliveryDates; Map<int, String?> get paymentTerms; Map<int, bool> get hasFees; Map<int, String?> get notes;
+ List<ProcurementIssueItem> get items; List<ProcurementIssueRequest> get requests; Set<int> get selectedSupplierIds; Map<int, String> get titles; Map<int, DateTime?> get deliveryDates; Map<int, String?> get paymentTerms; Map<int, bool> get hasFees; Map<int, String?> get notes;
 /// Create a copy of ProcurementIssueFormState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -5300,21 +5300,21 @@ $ProcurementIssueFormStateCopyWith<ProcurementIssueFormState> get copyWith => _$
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ProcurementIssueFormState'))
-    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('requests', requests))..add(DiagnosticsProperty('selectedSupplierIds', selectedSupplierIds))..add(DiagnosticsProperty('deliveryDates', deliveryDates))..add(DiagnosticsProperty('paymentTerms', paymentTerms))..add(DiagnosticsProperty('hasFees', hasFees))..add(DiagnosticsProperty('notes', notes));
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('requests', requests))..add(DiagnosticsProperty('selectedSupplierIds', selectedSupplierIds))..add(DiagnosticsProperty('titles', titles))..add(DiagnosticsProperty('deliveryDates', deliveryDates))..add(DiagnosticsProperty('paymentTerms', paymentTerms))..add(DiagnosticsProperty('hasFees', hasFees))..add(DiagnosticsProperty('notes', notes));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcurementIssueFormState&&const DeepCollectionEquality().equals(other.items, items)&&const DeepCollectionEquality().equals(other.requests, requests)&&const DeepCollectionEquality().equals(other.selectedSupplierIds, selectedSupplierIds)&&const DeepCollectionEquality().equals(other.deliveryDates, deliveryDates)&&const DeepCollectionEquality().equals(other.paymentTerms, paymentTerms)&&const DeepCollectionEquality().equals(other.hasFees, hasFees)&&const DeepCollectionEquality().equals(other.notes, notes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcurementIssueFormState&&const DeepCollectionEquality().equals(other.items, items)&&const DeepCollectionEquality().equals(other.requests, requests)&&const DeepCollectionEquality().equals(other.selectedSupplierIds, selectedSupplierIds)&&const DeepCollectionEquality().equals(other.titles, titles)&&const DeepCollectionEquality().equals(other.deliveryDates, deliveryDates)&&const DeepCollectionEquality().equals(other.paymentTerms, paymentTerms)&&const DeepCollectionEquality().equals(other.hasFees, hasFees)&&const DeepCollectionEquality().equals(other.notes, notes));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),const DeepCollectionEquality().hash(requests),const DeepCollectionEquality().hash(selectedSupplierIds),const DeepCollectionEquality().hash(deliveryDates),const DeepCollectionEquality().hash(paymentTerms),const DeepCollectionEquality().hash(hasFees),const DeepCollectionEquality().hash(notes));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),const DeepCollectionEquality().hash(requests),const DeepCollectionEquality().hash(selectedSupplierIds),const DeepCollectionEquality().hash(titles),const DeepCollectionEquality().hash(deliveryDates),const DeepCollectionEquality().hash(paymentTerms),const DeepCollectionEquality().hash(hasFees),const DeepCollectionEquality().hash(notes));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ProcurementIssueFormState(items: $items, requests: $requests, selectedSupplierIds: $selectedSupplierIds, deliveryDates: $deliveryDates, paymentTerms: $paymentTerms, hasFees: $hasFees, notes: $notes)';
+  return 'ProcurementIssueFormState(items: $items, requests: $requests, selectedSupplierIds: $selectedSupplierIds, titles: $titles, deliveryDates: $deliveryDates, paymentTerms: $paymentTerms, hasFees: $hasFees, notes: $notes)';
 }
 
 
@@ -5325,7 +5325,7 @@ abstract mixin class $ProcurementIssueFormStateCopyWith<$Res>  {
   factory $ProcurementIssueFormStateCopyWith(ProcurementIssueFormState value, $Res Function(ProcurementIssueFormState) _then) = _$ProcurementIssueFormStateCopyWithImpl;
 @useResult
 $Res call({
- List<ProcurementIssueItem> items, List<ProcurementIssueRequest> requests, Set<int> selectedSupplierIds, Map<int, DateTime?> deliveryDates, Map<int, String?> paymentTerms, Map<int, bool> hasFees, Map<int, String?> notes
+ List<ProcurementIssueItem> items, List<ProcurementIssueRequest> requests, Set<int> selectedSupplierIds, Map<int, String> titles, Map<int, DateTime?> deliveryDates, Map<int, String?> paymentTerms, Map<int, bool> hasFees, Map<int, String?> notes
 });
 
 
@@ -5342,12 +5342,13 @@ class _$ProcurementIssueFormStateCopyWithImpl<$Res>
 
 /// Create a copy of ProcurementIssueFormState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? requests = null,Object? selectedSupplierIds = null,Object? deliveryDates = null,Object? paymentTerms = null,Object? hasFees = null,Object? notes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? requests = null,Object? selectedSupplierIds = null,Object? titles = null,Object? deliveryDates = null,Object? paymentTerms = null,Object? hasFees = null,Object? notes = null,}) {
   return _then(_self.copyWith(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueItem>,requests: null == requests ? _self.requests : requests // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequest>,selectedSupplierIds: null == selectedSupplierIds ? _self.selectedSupplierIds : selectedSupplierIds // ignore: cast_nullable_to_non_nullable
-as Set<int>,deliveryDates: null == deliveryDates ? _self.deliveryDates : deliveryDates // ignore: cast_nullable_to_non_nullable
+as Set<int>,titles: null == titles ? _self.titles : titles // ignore: cast_nullable_to_non_nullable
+as Map<int, String>,deliveryDates: null == deliveryDates ? _self.deliveryDates : deliveryDates // ignore: cast_nullable_to_non_nullable
 as Map<int, DateTime?>,paymentTerms: null == paymentTerms ? _self.paymentTerms : paymentTerms // ignore: cast_nullable_to_non_nullable
 as Map<int, String?>,hasFees: null == hasFees ? _self.hasFees : hasFees // ignore: cast_nullable_to_non_nullable
 as Map<int, bool>,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
@@ -5436,10 +5437,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, String> titles,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProcurementIssueFormState() when $default != null:
-return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
+return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.titles,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
   return orElse();
 
 }
@@ -5457,10 +5458,10 @@ return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliv
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, String> titles,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)  $default,) {final _that = this;
 switch (_that) {
 case _ProcurementIssueFormState():
-return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
+return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.titles,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -5477,10 +5478,10 @@ return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliv
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ProcurementIssueItem> items,  List<ProcurementIssueRequest> requests,  Set<int> selectedSupplierIds,  Map<int, String> titles,  Map<int, DateTime?> deliveryDates,  Map<int, String?> paymentTerms,  Map<int, bool> hasFees,  Map<int, String?> notes)?  $default,) {final _that = this;
 switch (_that) {
 case _ProcurementIssueFormState() when $default != null:
-return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
+return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.titles,_that.deliveryDates,_that.paymentTerms,_that.hasFees,_that.notes);case _:
   return null;
 
 }
@@ -5492,7 +5493,7 @@ return $default(_that.items,_that.requests,_that.selectedSupplierIds,_that.deliv
 
 
 class _ProcurementIssueFormState extends ProcurementIssueFormState with DiagnosticableTreeMixin {
-   _ProcurementIssueFormState({final  List<ProcurementIssueItem> items = const [], final  List<ProcurementIssueRequest> requests = const [], final  Set<int> selectedSupplierIds = const <int>{}, final  Map<int, DateTime?> deliveryDates = const {}, final  Map<int, String?> paymentTerms = const {}, final  Map<int, bool> hasFees = const {}, final  Map<int, String?> notes = const {}}): _items = items,_requests = requests,_selectedSupplierIds = selectedSupplierIds,_deliveryDates = deliveryDates,_paymentTerms = paymentTerms,_hasFees = hasFees,_notes = notes,super._();
+   _ProcurementIssueFormState({final  List<ProcurementIssueItem> items = const [], final  List<ProcurementIssueRequest> requests = const [], final  Set<int> selectedSupplierIds = const <int>{}, final  Map<int, String> titles = const {}, final  Map<int, DateTime?> deliveryDates = const {}, final  Map<int, String?> paymentTerms = const {}, final  Map<int, bool> hasFees = const {}, final  Map<int, String?> notes = const {}}): _items = items,_requests = requests,_selectedSupplierIds = selectedSupplierIds,_titles = titles,_deliveryDates = deliveryDates,_paymentTerms = paymentTerms,_hasFees = hasFees,_notes = notes,super._();
   
 
  final  List<ProcurementIssueItem> _items;
@@ -5514,6 +5515,13 @@ class _ProcurementIssueFormState extends ProcurementIssueFormState with Diagnost
   if (_selectedSupplierIds is EqualUnmodifiableSetView) return _selectedSupplierIds;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableSetView(_selectedSupplierIds);
+}
+
+ final  Map<int, String> _titles;
+@override@JsonKey() Map<int, String> get titles {
+  if (_titles is EqualUnmodifiableMapView) return _titles;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_titles);
 }
 
  final  Map<int, DateTime?> _deliveryDates;
@@ -5556,21 +5564,21 @@ _$ProcurementIssueFormStateCopyWith<_ProcurementIssueFormState> get copyWith => 
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ProcurementIssueFormState'))
-    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('requests', requests))..add(DiagnosticsProperty('selectedSupplierIds', selectedSupplierIds))..add(DiagnosticsProperty('deliveryDates', deliveryDates))..add(DiagnosticsProperty('paymentTerms', paymentTerms))..add(DiagnosticsProperty('hasFees', hasFees))..add(DiagnosticsProperty('notes', notes));
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('requests', requests))..add(DiagnosticsProperty('selectedSupplierIds', selectedSupplierIds))..add(DiagnosticsProperty('titles', titles))..add(DiagnosticsProperty('deliveryDates', deliveryDates))..add(DiagnosticsProperty('paymentTerms', paymentTerms))..add(DiagnosticsProperty('hasFees', hasFees))..add(DiagnosticsProperty('notes', notes));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcurementIssueFormState&&const DeepCollectionEquality().equals(other._items, _items)&&const DeepCollectionEquality().equals(other._requests, _requests)&&const DeepCollectionEquality().equals(other._selectedSupplierIds, _selectedSupplierIds)&&const DeepCollectionEquality().equals(other._deliveryDates, _deliveryDates)&&const DeepCollectionEquality().equals(other._paymentTerms, _paymentTerms)&&const DeepCollectionEquality().equals(other._hasFees, _hasFees)&&const DeepCollectionEquality().equals(other._notes, _notes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcurementIssueFormState&&const DeepCollectionEquality().equals(other._items, _items)&&const DeepCollectionEquality().equals(other._requests, _requests)&&const DeepCollectionEquality().equals(other._selectedSupplierIds, _selectedSupplierIds)&&const DeepCollectionEquality().equals(other._titles, _titles)&&const DeepCollectionEquality().equals(other._deliveryDates, _deliveryDates)&&const DeepCollectionEquality().equals(other._paymentTerms, _paymentTerms)&&const DeepCollectionEquality().equals(other._hasFees, _hasFees)&&const DeepCollectionEquality().equals(other._notes, _notes));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),const DeepCollectionEquality().hash(_requests),const DeepCollectionEquality().hash(_selectedSupplierIds),const DeepCollectionEquality().hash(_deliveryDates),const DeepCollectionEquality().hash(_paymentTerms),const DeepCollectionEquality().hash(_hasFees),const DeepCollectionEquality().hash(_notes));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),const DeepCollectionEquality().hash(_requests),const DeepCollectionEquality().hash(_selectedSupplierIds),const DeepCollectionEquality().hash(_titles),const DeepCollectionEquality().hash(_deliveryDates),const DeepCollectionEquality().hash(_paymentTerms),const DeepCollectionEquality().hash(_hasFees),const DeepCollectionEquality().hash(_notes));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ProcurementIssueFormState(items: $items, requests: $requests, selectedSupplierIds: $selectedSupplierIds, deliveryDates: $deliveryDates, paymentTerms: $paymentTerms, hasFees: $hasFees, notes: $notes)';
+  return 'ProcurementIssueFormState(items: $items, requests: $requests, selectedSupplierIds: $selectedSupplierIds, titles: $titles, deliveryDates: $deliveryDates, paymentTerms: $paymentTerms, hasFees: $hasFees, notes: $notes)';
 }
 
 
@@ -5581,7 +5589,7 @@ abstract mixin class _$ProcurementIssueFormStateCopyWith<$Res> implements $Procu
   factory _$ProcurementIssueFormStateCopyWith(_ProcurementIssueFormState value, $Res Function(_ProcurementIssueFormState) _then) = __$ProcurementIssueFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<ProcurementIssueItem> items, List<ProcurementIssueRequest> requests, Set<int> selectedSupplierIds, Map<int, DateTime?> deliveryDates, Map<int, String?> paymentTerms, Map<int, bool> hasFees, Map<int, String?> notes
+ List<ProcurementIssueItem> items, List<ProcurementIssueRequest> requests, Set<int> selectedSupplierIds, Map<int, String> titles, Map<int, DateTime?> deliveryDates, Map<int, String?> paymentTerms, Map<int, bool> hasFees, Map<int, String?> notes
 });
 
 
@@ -5598,12 +5606,13 @@ class __$ProcurementIssueFormStateCopyWithImpl<$Res>
 
 /// Create a copy of ProcurementIssueFormState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? requests = null,Object? selectedSupplierIds = null,Object? deliveryDates = null,Object? paymentTerms = null,Object? hasFees = null,Object? notes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? requests = null,Object? selectedSupplierIds = null,Object? titles = null,Object? deliveryDates = null,Object? paymentTerms = null,Object? hasFees = null,Object? notes = null,}) {
   return _then(_ProcurementIssueFormState(
 items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueItem>,requests: null == requests ? _self._requests : requests // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequest>,selectedSupplierIds: null == selectedSupplierIds ? _self._selectedSupplierIds : selectedSupplierIds // ignore: cast_nullable_to_non_nullable
-as Set<int>,deliveryDates: null == deliveryDates ? _self._deliveryDates : deliveryDates // ignore: cast_nullable_to_non_nullable
+as Set<int>,titles: null == titles ? _self._titles : titles // ignore: cast_nullable_to_non_nullable
+as Map<int, String>,deliveryDates: null == deliveryDates ? _self._deliveryDates : deliveryDates // ignore: cast_nullable_to_non_nullable
 as Map<int, DateTime?>,paymentTerms: null == paymentTerms ? _self._paymentTerms : paymentTerms // ignore: cast_nullable_to_non_nullable
 as Map<int, String?>,hasFees: null == hasFees ? _self._hasFees : hasFees // ignore: cast_nullable_to_non_nullable
 as Map<int, bool>,notes: null == notes ? _self._notes : notes // ignore: cast_nullable_to_non_nullable
@@ -9684,6 +9693,275 @@ class __$SettingFilterStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? view = freezed,}) {
   return _then(_SettingFilterState(
 view: freezed == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$SupplierFilterState implements DiagnosticableTreeMixin {
+
+ String? get search;
+/// Create a copy of SupplierFilterState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SupplierFilterStateCopyWith<SupplierFilterState> get copyWith => _$SupplierFilterStateCopyWithImpl<SupplierFilterState>(this as SupplierFilterState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'SupplierFilterState'))
+    ..add(DiagnosticsProperty('search', search));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierFilterState&&(identical(other.search, search) || other.search == search));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,search);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'SupplierFilterState(search: $search)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SupplierFilterStateCopyWith<$Res>  {
+  factory $SupplierFilterStateCopyWith(SupplierFilterState value, $Res Function(SupplierFilterState) _then) = _$SupplierFilterStateCopyWithImpl;
+@useResult
+$Res call({
+ String? search
+});
+
+
+
+
+}
+/// @nodoc
+class _$SupplierFilterStateCopyWithImpl<$Res>
+    implements $SupplierFilterStateCopyWith<$Res> {
+  _$SupplierFilterStateCopyWithImpl(this._self, this._then);
+
+  final SupplierFilterState _self;
+  final $Res Function(SupplierFilterState) _then;
+
+/// Create a copy of SupplierFilterState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? search = freezed,}) {
+  return _then(_self.copyWith(
+search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SupplierFilterState].
+extension SupplierFilterStatePatterns on SupplierFilterState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SupplierFilterState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SupplierFilterState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SupplierFilterState value)  $default,){
+final _that = this;
+switch (_that) {
+case _SupplierFilterState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SupplierFilterState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SupplierFilterState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? search)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SupplierFilterState() when $default != null:
+return $default(_that.search);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? search)  $default,) {final _that = this;
+switch (_that) {
+case _SupplierFilterState():
+return $default(_that.search);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? search)?  $default,) {final _that = this;
+switch (_that) {
+case _SupplierFilterState() when $default != null:
+return $default(_that.search);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _SupplierFilterState with DiagnosticableTreeMixin implements SupplierFilterState {
+   _SupplierFilterState({this.search});
+  
+
+@override final  String? search;
+
+/// Create a copy of SupplierFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SupplierFilterStateCopyWith<_SupplierFilterState> get copyWith => __$SupplierFilterStateCopyWithImpl<_SupplierFilterState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'SupplierFilterState'))
+    ..add(DiagnosticsProperty('search', search));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierFilterState&&(identical(other.search, search) || other.search == search));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,search);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'SupplierFilterState(search: $search)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SupplierFilterStateCopyWith<$Res> implements $SupplierFilterStateCopyWith<$Res> {
+  factory _$SupplierFilterStateCopyWith(_SupplierFilterState value, $Res Function(_SupplierFilterState) _then) = __$SupplierFilterStateCopyWithImpl;
+@override @useResult
+$Res call({
+ String? search
+});
+
+
+
+
+}
+/// @nodoc
+class __$SupplierFilterStateCopyWithImpl<$Res>
+    implements _$SupplierFilterStateCopyWith<$Res> {
+  __$SupplierFilterStateCopyWithImpl(this._self, this._then);
+
+  final _SupplierFilterState _self;
+  final $Res Function(_SupplierFilterState) _then;
+
+/// Create a copy of SupplierFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? search = freezed,}) {
+  return _then(_SupplierFilterState(
+search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
