@@ -36,27 +36,31 @@ class ProjectListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final list = ref.watch(projectListControllerProvider);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: ContainerWidget(
-        padding: EdgeInsets.zero,
-        borderRadius: BorderRadius.circular(8.0),
-        child: switch (list) {
-          AsyncData(:final value) => Responsive(
-            desktop: _DesktopWidget(items: value.items),
-            mobile: _MobileWidget(items: value.items),
-          ),
-          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
-            error: error,
-            stackTrace: stackTrace,
-          ),
-          _ => Skeletonizer(
-            child: Responsive(
-              desktop: _DesktopWidget(items: List.filled(20, Project.dummy())),
-              mobile: _MobileWidget(items: List.filled(20, Project.dummy())),
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: ContainerWidget(
+          padding: EdgeInsets.zero,
+          borderRadius: BorderRadius.circular(8.0),
+          child: switch (list) {
+            AsyncData(:final value) => Responsive(
+              desktop: _DesktopWidget(items: value.items),
+              mobile: _MobileWidget(items: value.items),
             ),
-          ),
-        },
+            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+              error: error,
+              stackTrace: stackTrace,
+            ),
+            _ => Skeletonizer(
+              child: Responsive(
+                desktop: _DesktopWidget(
+                  items: List.filled(20, Project.dummy()),
+                ),
+                mobile: _MobileWidget(items: List.filled(20, Project.dummy())),
+              ),
+            ),
+          },
+        ),
       ),
     );
   }

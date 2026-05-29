@@ -6,54 +6,78 @@ class UserSubmitController extends _$UserSubmitController {
   UserSubmitState build() => UserSubmitState.idle();
 
   Future<void> toggleAdmin({required int userId, required bool flag}) async {
-    final value = ref.read(userFormControllerProvider(userId: userId)).value;
+    state = UserSubmitState.pending();
 
-    if (value == null) return;
+    final request = UpdateUserPermissionDto(isAdmin: flag);
 
-    final request = UpdateUserDto(isAdmin: flag);
+    try {
+      final user = await ref
+          .read(userRepositoryProvider)
+          .updateUserPermission(id: userId, request: request);
 
-    await ref
-        .read(userRepositoryProvider)
-        .updateUser(id: userId, request: request);
+      ref.read(userListControllerProvider.notifier).updateListItem(item: user);
+
+      state = UserSubmitState.success(user);
+    } catch (e) {
+      state = UserSubmitState.failure(e.toString());
+    }
   }
 
   Future<void> toggleAuthorized({
     required int userId,
     required bool flag,
   }) async {
-    final value = ref.read(userFormControllerProvider(userId: userId)).value;
-
-    if (value == null) return;
-
-    final request = UpdateUserDto(isAuthorized: flag);
-
-    await ref
-        .read(userRepositoryProvider)
-        .updateUser(id: userId, request: request);
-  }
-
-  Future<void> updateUser({required int userId}) async {
-    final value = ref.read(userFormControllerProvider(userId: userId)).value;
-
-    if (value == null) return;
-
     state = UserSubmitState.pending();
 
-    final request = UpdateUserDto(
-      isAdmin: value.isAdmin,
-      isAuthorized: value.isAuthorized,
-      positionId: value.positionId,
-      departmentId: value.departmentId,
+    final request = UpdateUserPermissionDto(isAuthorized: flag);
+
+    try {
+      final user = await ref
+          .read(userRepositoryProvider)
+          .updateUserPermission(id: userId, request: request);
+
+      ref.read(userListControllerProvider.notifier).updateListItem(item: user);
+
+      state = UserSubmitState.success(user);
+    } catch (e) {
+      state = UserSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> updateUser({
+    required int userId,
+    int? positionId,
+    int? departmentId,
+  }) async {
+    state = UserSubmitState.pending();
+
+    final request = UpdateUserPermissionDto(
+      positionId: positionId,
+      departmentId: departmentId,
     );
 
     try {
       final user = await ref
           .read(userRepositoryProvider)
-          .updateUser(id: userId, request: request);
+          .updateUserPermission(id: userId, request: request);
 
       ref.read(userListControllerProvider.notifier).updateListItem(item: user);
 
       state = UserSubmitState.success(user);
+    } catch (e) {
+      state = UserSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> deleteUser({required int userId}) async {
+    state = UserSubmitState.pending();
+
+    try {
+      await ref.read(userRepositoryProvider).deleteUser(id: userId);
+
+      ref.read(userListControllerProvider.notifier).removeListItem(id: userId);
+
+      state = UserSubmitState.deleted();
     } catch (e) {
       state = UserSubmitState.failure(e.toString());
     }

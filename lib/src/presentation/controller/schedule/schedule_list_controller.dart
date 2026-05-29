@@ -146,4 +146,116 @@ class ScheduleListController extends _$ScheduleListController {
       ),
     );
   }
+
+  /// 1. 새로운 스케줄 아이템 추가
+  Future<void> addScheduleItem({required Schedule item}) async {
+    final value = state.value;
+    if (value == null) return;
+
+    // 추가하려는 아이템의 날짜 키 생성 (연, 월, 일만 추출)
+    final targetDate = DateTime(
+      item.start.year,
+      item.start.month,
+      item.start.day,
+    );
+
+    List<ScheduleGroup> updatedGroups = List.from(value.items);
+
+    // 해당 날짜의 그룹이 이미 존재하는지 확인
+    final groupIndex = updatedGroups.indexWhere(
+      (group) =>
+          group.date.year == targetDate.year &&
+          group.date.month == targetDate.month &&
+          group.date.day == targetDate.day,
+    );
+
+    if (groupIndex != -1) {
+      // 이미 존재하는 그룹이라면 내부에 아이템 추가 후 ID 정렬 및 중복 제거
+      final existingGroup = updatedGroups[groupIndex];
+      final allItems = [...existingGroup.items, item];
+
+      // Freezed 모델이므로 Set 기반 중복 제거가 정확히 동작합니다.
+      final uniqueItems = allItems.toSet().toList()
+        ..sort((a, b) => a.id.compareTo(b.id));
+
+      updatedGroups[groupIndex] = existingGroup.copyWith(items: uniqueItems);
+    } else {
+      // 존재하지 않는 그룹이라면 새로운 그룹을 생성하여 추가
+      final newGroup = ScheduleGroup(date: targetDate, items: [item]);
+      updatedGroups.add(newGroup);
+    }
+
+    // 새 그룹이 추가되었을 수 있으므로 날짜순 재정렬
+    updatedGroups.sort((a, b) => a.date.compareTo(b.date));
+
+    state = AsyncValue.data(value.copyWith(items: updatedGroups));
+  }
+
+  /// 2. 기존 스케줄 아이템 수정
+  Future<void> updateScheduleItem({required Schedule item}) async {
+    final value = state.value;
+    if (value == null) return;
+
+    // 1. 기존에 이 아이템이 어디에 있었는지 찾거나, 안전하게 기존 아이템을 리스트 전체에서 먼저 제거합니다.
+    // (삭제 로직을 재활용하면 코드가 매우 단순해집니다)
+    final updatedGroups = value.items
+        .map((group) {
+          final filteredItems = group.items
+              .where((e) => e.id != item.id)
+              .toList();
+          return group.copyWith(items: filteredItems);
+        })
+        .where((group) => group.items.isNotEmpty)
+        .toList();
+
+    // 2. 제거된 상태의 그룹 리스트에 '새로운 아이템 추가' 로직을 적용합니다.
+    final targetDate = DateTime(
+      item.start.year,
+      item.start.month,
+      item.start.day,
+    );
+    final groupIndex = updatedGroups.indexWhere(
+      (group) =>
+          group.date.year == targetDate.year &&
+          group.date.month == targetDate.month &&
+          group.date.day == targetDate.day,
+    );
+
+    if (groupIndex != -1) {
+      final existingGroup = updatedGroups[groupIndex];
+      final allItems = [...existingGroup.items, item];
+      final uniqueItems = allItems.toSet().toList()
+        ..sort((a, b) => a.id.compareTo(b.id));
+
+      updatedGroups[groupIndex] = existingGroup.copyWith(items: uniqueItems);
+    } else {
+      final newGroup = ScheduleGroup(date: targetDate, items: [item]);
+      updatedGroups.add(newGroup);
+    }
+
+    // 3. 날짜순 재정렬
+    updatedGroups.sort((a, b) => a.date.compareTo(b.date));
+
+    state = AsyncValue.data(value.copyWith(items: updatedGroups));
+  }
+
+  /// 3. 특정 스케줄 아이템 삭제 (id 기준)
+  Future<void> removeScheduleItem({required int id}) async {
+    final value = state.value;
+    if (value == null) return;
+
+    final updatedGroups = value.items
+        .map((group) {
+          // 해당 ID를 제외하고 필터링
+          final filteredItems = group.items
+              .where((item) => item.id != id)
+              .toList();
+          return group.copyWith(items: filteredItems);
+        })
+        // ⚠️ 중요: 아이템을 지웠을 때 내부 items가 텅 빈 그룹(Empty Group)이 생기면 리스트에서 제거
+        .where((group) => group.items.isNotEmpty)
+        .toList();
+
+    state = AsyncValue.data(value.copyWith(items: updatedGroups));
+  }
 }

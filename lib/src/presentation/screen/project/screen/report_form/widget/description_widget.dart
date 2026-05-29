@@ -68,8 +68,8 @@ class DescriptionWidget extends HookConsumerWidget {
                   )
                   .removeFile(index);
             },
-            onRemoveAttachment: (attachmentId) {
-              ref
+            onRemoveAttachment: (attachmentId) async {
+              await ref
                   .read(
                     reportFormControllerProvider(
                       projectId: projectId,

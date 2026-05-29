@@ -1999,6 +1999,16 @@ class S {
     );
   }
 
+  /// `부서`
+  String get project_form_user_department {
+    return Intl.message(
+      '부서',
+      name: 'project_form_user_department',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `전체`
   String get project_form_user_department_all {
     return Intl.message(
@@ -3179,6 +3189,16 @@ class S {
     );
   }
 
+  /// `제목`
+  String get issue_form_procurement_28 {
+    return Intl.message(
+      '제목',
+      name: 'issue_form_procurement_28',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `구매 품목을 입력하거나, 견적서를 업로드해 주세요`
   String get issue_form_procurement_item_invalid_1 {
     return Intl.message(
@@ -3269,6 +3289,16 @@ class S {
     );
   }
 
+  /// `제목`
+  String get issue_form_procurement_requested_6 {
+    return Intl.message(
+      '제목',
+      name: 'issue_form_procurement_requested_6',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `최소 하나의 공급처를 선택해 주세요`
   String get issue_form_procurement_requested_invalid_1 {
     return Intl.message(
@@ -3294,6 +3324,16 @@ class S {
     return Intl.message(
       '지불 조건을 입력해 주세요',
       name: 'issue_form_procurement_requested_invalid_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `제목을 입력해 주세요`
+  String get issue_form_procurement_requested_invalid_4 {
+    return Intl.message(
+      '제목을 입력해 주세요',
+      name: 'issue_form_procurement_requested_invalid_4',
       desc: '',
       args: [],
     );
@@ -4244,19 +4284,9 @@ class S {
     return Intl.message('사용자', name: 'operation_segment_1', desc: '', args: []);
   }
 
-  /// `고객사`
-  String get operation_segment_2 {
-    return Intl.message('고객사', name: 'operation_segment_2', desc: '', args: []);
-  }
-
   /// `공급사`
-  String get operation_segment_3 {
-    return Intl.message('공급사', name: 'operation_segment_3', desc: '', args: []);
-  }
-
-  /// `통화`
-  String get operation_segment_4 {
-    return Intl.message('통화', name: 'operation_segment_4', desc: '', args: []);
+  String get operation_segment_2 {
+    return Intl.message('공급사', name: 'operation_segment_2', desc: '', args: []);
   }
 
   /// `이름`
@@ -4269,30 +4299,30 @@ class S {
     );
   }
 
-  /// `직급`
+  /// `이메일`
   String get operation_user_column_2 {
     return Intl.message(
-      '직급',
+      '이메일',
       name: 'operation_user_column_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `부서`
+  /// `직급`
   String get operation_user_column_3 {
     return Intl.message(
-      '부서',
+      '직급',
       name: 'operation_user_column_3',
       desc: '',
       args: [],
     );
   }
 
-  /// `이메일`
+  /// `부서`
   String get operation_user_column_4 {
     return Intl.message(
-      '이메일',
+      '부서',
       name: 'operation_user_column_4',
       desc: '',
       args: [],
@@ -4324,6 +4354,126 @@ class S {
     return Intl.message(
       '작업',
       name: 'operation_user_column_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `관리자 권한을 변경하시겠습니까?`
+  String get operation_user_admin_dialog_1 {
+    return Intl.message(
+      '관리자 권한을 변경하시겠습니까?',
+      name: 'operation_user_admin_dialog_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `최고 관리자 권한을 부여하거나 해제합니다.\n계속하시겠습니까?`
+  String get operation_user_admin_dialog_2 {
+    return Intl.message(
+      '최고 관리자 권한을 부여하거나 해제합니다.\n계속하시겠습니까?',
+      name: 'operation_user_admin_dialog_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `로그인 사용 승인을 변경하시겠습니까?`
+  String get operation_user_approve_dialog_1 {
+    return Intl.message(
+      '로그인 사용 승인을 변경하시겠습니까?',
+      name: 'operation_user_approve_dialog_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비활성화 시 이 계정의 시스템 접속이 즉시 차단됩니다.\n계속하시겠습니까?`
+  String get operation_user_approve_dialog_2 {
+    return Intl.message(
+      '비활성화 시 이 계정의 시스템 접속이 즉시 차단됩니다.\n계속하시겠습니까?',
+      name: 'operation_user_approve_dialog_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용자를 삭제하시겠습니까?`
+  String get operation_user_delete_dialog_1 {
+    return Intl.message(
+      '사용자를 삭제하시겠습니까?',
+      name: 'operation_user_delete_dialog_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용자를 삭제하면 다시 복구할 수 없습니다.`
+  String get operation_user_delete_dialog_2 {
+    return Intl.message(
+      '사용자를 삭제하면 다시 복구할 수 없습니다.',
+      name: 'operation_user_delete_dialog_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용자 정보가 정상적으로 변경되었습니다.`
+  String get operation_user_success {
+    return Intl.message(
+      '사용자 정보가 정상적으로 변경되었습니다.',
+      name: 'operation_user_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용자가 삭제되었습니다.`
+  String get operation_user_delete {
+    return Intl.message(
+      '사용자가 삭제되었습니다.',
+      name: 'operation_user_delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이름`
+  String get operation_supplier_column_1 {
+    return Intl.message(
+      '이름',
+      name: 'operation_supplier_column_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사업자등록번호`
+  String get operation_supplier_column_2 {
+    return Intl.message(
+      '사업자등록번호',
+      name: 'operation_supplier_column_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `주소`
+  String get operation_supplier_column_3 {
+    return Intl.message(
+      '주소',
+      name: 'operation_supplier_column_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `전화번호`
+  String get operation_supplier_column_4 {
+    return Intl.message(
+      '전화번호',
+      name: 'operation_supplier_column_4',
       desc: '',
       args: [],
     );

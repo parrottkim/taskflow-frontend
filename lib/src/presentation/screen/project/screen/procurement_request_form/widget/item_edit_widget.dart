@@ -9,16 +9,19 @@ import 'package:taskflow/src/shared/tool/formatter.dart';
 class ItemEditWidget extends HookWidget {
   final List<ProcurementIssueItem> items;
   final Set<int> selectedSupplierIds;
+  final Map<int, String> titles;
   final Map<int, DateTime?> deliveryDates;
   final Map<int, String?> paymentTerms;
   final Map<int, bool> hasFees;
   final Map<int, String?> notes;
+  final ValueNotifier<Set<int>> invalidTitleSupplierIds;
   final ValueNotifier<Set<int>> nullableDeliverySupplierIds;
   final ValueNotifier<Set<int>> nullablePaymentTermsSupplierIds;
   final ValueNotifier<Set<int>> invalidDeliverySupplierIds;
   final ValueNotifier<Set<int>> invalidPaymentTermsSupplierIds;
   final ValueNotifier<Set<int>> hasProcurementIssueItems;
   final ValueNotifier<Set<int>> isProcurementIssueItemEmpty;
+  final void Function({required int supplierId, String? value}) onTitleChanged;
   final void Function({required int supplierId, DateTime? date})
   onDeliveryDateChanged;
   final void Function({required int supplierId, String? value})
@@ -41,16 +44,19 @@ class ItemEditWidget extends HookWidget {
     super.key,
     required this.items,
     required this.selectedSupplierIds,
+    required this.titles,
     required this.deliveryDates,
     required this.paymentTerms,
     required this.hasFees,
     required this.notes,
+    required this.invalidTitleSupplierIds,
     required this.nullableDeliverySupplierIds,
     required this.nullablePaymentTermsSupplierIds,
     required this.invalidDeliverySupplierIds,
     required this.invalidPaymentTermsSupplierIds,
     required this.hasProcurementIssueItems,
     required this.isProcurementIssueItemEmpty,
+    required this.onTitleChanged,
     required this.onDeliveryDateChanged,
     required this.onPaymentTermsChanged,
     required this.onHasFeeChanged,
@@ -189,6 +195,25 @@ class ItemEditWidget extends HookWidget {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(height: 24.0),
+                  Text(
+                    Intl.message('issue_form_procurement_requested_6'),
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  TextField(
+                    onChanged: (value) {
+                      onTitleChanged(supplierId: supplierId, value: value);
+                    },
+                  ),
+                  InvalidWidget(
+                    visible: invalidTitleSupplierIds.value.contains(supplierId),
+                    text: Intl.message(
+                      'issue_form_procurement_requested_invalid_4',
+                    ),
                   ),
                   SizedBox(height: 24.0),
                   Text(
