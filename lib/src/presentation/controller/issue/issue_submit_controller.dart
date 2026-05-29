@@ -32,12 +32,14 @@ class IssueSubmitController extends _$IssueSubmitController {
           continue;
         }
 
+        final title = value.titles[supplierId]!;
         final deliveryDate = value.deliveryDates[supplierId];
         final paymentTerms = value.paymentTerms[supplierId]?.trim();
         final hasFee = value.hasFees[supplierId] ?? false;
         final note = value.notes[supplierId]?.trim();
 
         final request = CreateProcurementIssueRequestDto(
+          title: title,
           deliveryDate: deliveryDate,
           paymentTerms: (paymentTerms?.isEmpty ?? true) ? null : paymentTerms,
           hasFee: hasFee,

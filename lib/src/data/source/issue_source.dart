@@ -5,55 +5,19 @@ class IssueDataSource implements IssueRepository {
 
   IssueDataSource({required IssueService service}) : _service = service;
 
-  @override
-  Future<IssueCategory> getCategory({required int id}) =>
-      _service.getCategory(id: id);
-
+  // --- 공통 & 글로벌 마스터 (최상단 고정 주소 매핑) ---
   @override
   Future<List<IssueCategory>> getAllCategories() => _service.getAllCategories();
-
-  @override
-  Future<List<TransactionIssueItemCategory>> getAllTransactionCategories() =>
-      _service.getAllTransactionCategories();
 
   @override
   Future<Result<LatestIssue>> getLatestIssues({int page = 1, int limit = 20}) =>
       _service.getLatestIssues(page: page, limit: limit);
 
   @override
-  Future<HttpResponse<List<int>>> exportPurchaseRequest({required int id}) =>
-      _service.exportPurchaseRequest(id: id);
+  Future<List<TransactionIssueItemCategory>> getAllTransactionCategories() =>
+      _service.getAllTransactionCategories();
 
-  @override
-  Future<HttpResponse<List<int>>> exportPurchaseOrder({required int id}) =>
-      _service.exportPurchaseOrder(id: id);
-
-  @override
-  Future<List<ContractIssueItem>> getContractIssueItems({required int id}) =>
-      _service.getContractIssueItems(id: id);
-
-  @override
-  Future<List<TransactionIssueItem>> getTransactionIssueItems({
-    required int id,
-  }) => _service.getTransactionIssueItems(id: id);
-
-  @override
-  Future<HttpResponse<ContractIssue?>> getContractIssue({required int id}) =>
-      _service.getContractIssue(id: id);
-
-  @override
-  Future<HttpResponse<KickoffIssue?>> getKickoffIssue({required int id}) =>
-      _service.getKickoffIssue(id: id);
-
-  @override
-  Future<HttpResponse<TransactionIssue?>> getTransactionIssue({
-    required int id,
-  }) => _service.getTransactionIssue(id: id);
-
-  @override
-  Future<HttpResponse<PaymentIssue?>> getPaymentIssue({required int id}) =>
-      _service.getPaymentIssue(id: id);
-
+  // --- 도메인별 목록 조회 API ---
   @override
   Future<Result<ApprovalIssue>> getApprovalIssues({
     int page = 1,
@@ -76,31 +40,18 @@ class IssueDataSource implements IssueRepository {
     projectId: projectId,
   );
 
+  // --- 도메인별 세부 액션 및 하위 조회 API (/:id/하위주소) ---
   @override
-  Future<Issue> getIssue({required int id}) => _service.getIssue(id: id);
+  Future<List<ContractIssueItem>> getContractIssueItems({required int id}) =>
+      _service.getContractIssueItems(id: id);
 
   @override
-  Future<void> sendMail({required int id, required SendIssueMailDto request}) =>
-      _service.sendMail(id: id, request: request);
+  Future<HttpResponse<List<int>>> exportPurchaseRequest({required int id}) =>
+      _service.exportPurchaseRequest(id: id);
 
   @override
-  Future<Issue> createContractIssue({
-    required CreateContractIssueDto request,
-  }) => _service.createContractIssue(request: request);
-
-  @override
-  Future<Issue> createKickoffIssue({required CreateKickoffIssueDto request}) =>
-      _service.createKickoffIssue(request: request);
-
-  @override
-  Future<Issue> createTransactionIssue({
-    required CreateTransactionIssueDto request,
-  }) => _service.createTransactionIssue(request: request);
-
-  @override
-  Future<Issue> createApprovalIssue({
-    required CreateApprovalIssueDto request,
-  }) => _service.createApprovalIssue(request: request);
+  Future<HttpResponse<List<int>>> exportPurchaseOrder({required int id}) =>
+      _service.exportPurchaseOrder(id: id);
 
   @override
   Future<Issue> createProcurementIssueRequest({
@@ -113,13 +64,20 @@ class IssueDataSource implements IssueRepository {
       _service.approveProcurementIssueRequest(id: id);
 
   @override
-  Future<Issue> createProcurementIssue({
-    required CreateProcurementIssueDto request,
-  }) => _service.createProcurementIssue(request: request);
+  Future<List<TransactionIssueItem>> getTransactionIssueItems({
+    required int id,
+  }) => _service.getTransactionIssueItems(id: id);
+
+  // --- 도메인별 단독 ID 및 CUD API ---
+  // CONTRACT
+  @override
+  Future<HttpResponse<ContractIssue?>> getContractIssue({required int id}) =>
+      _service.getContractIssue(id: id);
 
   @override
-  Future<Issue> createPaymentIssue({required CreatePaymentIssueDto request}) =>
-      _service.createPaymentIssue(request: request);
+  Future<Issue> createContractIssue({
+    required CreateContractIssueDto request,
+  }) => _service.createContractIssue(request: request);
 
   @override
   Future<Issue> updateContractIssue({
@@ -127,17 +85,26 @@ class IssueDataSource implements IssueRepository {
     required UpdateContractIssueDto request,
   }) => _service.updateContractIssue(id: id, request: request);
 
+  // KICKOFF
+  @override
+  Future<HttpResponse<KickoffIssue?>> getKickoffIssue({required int id}) =>
+      _service.getKickoffIssue(id: id);
+
+  @override
+  Future<Issue> createKickoffIssue({required CreateKickoffIssueDto request}) =>
+      _service.createKickoffIssue(request: request);
+
   @override
   Future<Issue> updateKickoffIssue({
     required int id,
     required UpdateKickoffIssueDto request,
   }) => _service.updateKickoffIssue(id: id, request: request);
 
+  // APPROVAL
   @override
-  Future<Issue> updateTransactionIssue({
-    required int id,
-    required UpdateTransactionIssueDto request,
-  }) => _service.updateTransactionIssue(id: id, request: request);
+  Future<Issue> createApprovalIssue({
+    required CreateApprovalIssueDto request,
+  }) => _service.createApprovalIssue(request: request);
 
   @override
   Future<Issue> updateApprovalIssue({
@@ -145,17 +112,61 @@ class IssueDataSource implements IssueRepository {
     required UpdateApprovalIssueDto request,
   }) => _service.updateApprovalIssue(id: id, request: request);
 
+  // PROCUREMENT
+  @override
+  Future<Issue> createProcurementIssue({
+    required CreateProcurementIssueDto request,
+  }) => _service.createProcurementIssue(request: request);
+
   @override
   Future<Issue> updateProcurementIssue({
     required int id,
     required UpdateProcurementIssueDto request,
   }) => _service.updateProcurementIssue(id: id, request: request);
 
+  // TRANSACTION
+  @override
+  Future<HttpResponse<TransactionIssue?>> getTransactionIssue({
+    required int id,
+  }) => _service.getTransactionIssue(id: id);
+
+  @override
+  Future<Issue> createTransactionIssue({
+    required CreateTransactionIssueDto request,
+  }) => _service.createTransactionIssue(request: request);
+
+  @override
+  Future<Issue> updateTransactionIssue({
+    required int id,
+    required UpdateTransactionIssueDto request,
+  }) => _service.updateTransactionIssue(id: id, request: request);
+
+  // PAYMENT
+  @override
+  Future<HttpResponse<PaymentIssue?>> getPaymentIssue({required int id}) =>
+      _service.getPaymentIssue(id: id);
+
+  @override
+  Future<Issue> createPaymentIssue({required CreatePaymentIssueDto request}) =>
+      _service.createPaymentIssue(request: request);
+
   @override
   Future<Issue> updatePaymentIssue({
     required int id,
     required UpdatePaymentIssueDto request,
   }) => _service.updatePaymentIssue(id: id, request: request);
+
+  // --- 글로벌 터미널 및 공통 ID 액션 (최하단 격리) ---
+  @override
+  Future<IssueCategory> getCategory({required int id}) =>
+      _service.getCategory(id: id);
+
+  @override
+  Future<void> sendMail({required int id, required SendIssueMailDto request}) =>
+      _service.sendMail(id: id, request: request);
+
+  @override
+  Future<Issue> getIssue({required int id}) => _service.getIssue(id: id);
 
   @override
   Future<Issue> deleteIssue({required int id}) => _service.deleteIssue(id: id);

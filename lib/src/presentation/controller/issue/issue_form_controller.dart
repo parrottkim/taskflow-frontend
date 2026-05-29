@@ -348,10 +348,15 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(transactionItems: []));
   }
 
-  void removeAttachment(IssueAttachment attachment) {
+  Future<void> removeAttachment(IssueAttachment attachment) async {
     final value = state.value;
 
     if (value == null) return;
+    if (issueId == null) return;
+
+    await ref
+        .read(issueRepositoryProvider)
+        .deleteAttachment(issueId: issueId!, fileId: attachment.id);
 
     state = AsyncData(
       value.copyWith(

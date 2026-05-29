@@ -300,6 +300,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_procurement_27": MessageLookupByLibrary.simpleMessage(
       "* 발주 금액 50만원 이상의 발주서의 출력은 승인권자의 승인이 필요합니다.",
     ),
+    "issue_form_procurement_28": MessageLookupByLibrary.simpleMessage("제목"),
     "issue_form_procurement_3": MessageLookupByLibrary.simpleMessage("사양"),
     "issue_form_procurement_4": MessageLookupByLibrary.simpleMessage("수량"),
     "issue_form_procurement_5": MessageLookupByLibrary.simpleMessage("단가"),
@@ -332,12 +333,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_procurement_requested_5": MessageLookupByLibrary.simpleMessage(
       "별도 협의",
     ),
+    "issue_form_procurement_requested_6": MessageLookupByLibrary.simpleMessage(
+      "제목",
+    ),
     "issue_form_procurement_requested_invalid_1":
         MessageLookupByLibrary.simpleMessage("최소 하나의 공급처를 선택해 주세요"),
     "issue_form_procurement_requested_invalid_2":
         MessageLookupByLibrary.simpleMessage("납기 일자를 선택해 주세요"),
     "issue_form_procurement_requested_invalid_3":
         MessageLookupByLibrary.simpleMessage("지불 조건을 입력해 주세요"),
+    "issue_form_procurement_requested_invalid_4":
+        MessageLookupByLibrary.simpleMessage("제목을 입력해 주세요"),
     "issue_form_transaction_1": MessageLookupByLibrary.simpleMessage("청구 목록"),
     "issue_form_transaction_2": MessageLookupByLibrary.simpleMessage("목록 추가"),
     "issue_form_transaction_3": MessageLookupByLibrary.simpleMessage("지급 단계"),
@@ -470,16 +476,44 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "operation": MessageLookupByLibrary.simpleMessage("운영 관리"),
     "operation_segment_1": MessageLookupByLibrary.simpleMessage("사용자"),
-    "operation_segment_2": MessageLookupByLibrary.simpleMessage("고객사"),
-    "operation_segment_3": MessageLookupByLibrary.simpleMessage("공급사"),
-    "operation_segment_4": MessageLookupByLibrary.simpleMessage("통화"),
+    "operation_segment_2": MessageLookupByLibrary.simpleMessage("공급사"),
+    "operation_supplier_column_1": MessageLookupByLibrary.simpleMessage("이름"),
+    "operation_supplier_column_2": MessageLookupByLibrary.simpleMessage(
+      "사업자등록번호",
+    ),
+    "operation_supplier_column_3": MessageLookupByLibrary.simpleMessage("주소"),
+    "operation_supplier_column_4": MessageLookupByLibrary.simpleMessage("전화번호"),
+    "operation_user_admin_dialog_1": MessageLookupByLibrary.simpleMessage(
+      "관리자 권한을 변경하시겠습니까?",
+    ),
+    "operation_user_admin_dialog_2": MessageLookupByLibrary.simpleMessage(
+      "최고 관리자 권한을 부여하거나 해제합니다.\n계속하시겠습니까?",
+    ),
+    "operation_user_approve_dialog_1": MessageLookupByLibrary.simpleMessage(
+      "로그인 사용 승인을 변경하시겠습니까?",
+    ),
+    "operation_user_approve_dialog_2": MessageLookupByLibrary.simpleMessage(
+      "비활성화 시 이 계정의 시스템 접속이 즉시 차단됩니다.\n계속하시겠습니까?",
+    ),
     "operation_user_column_1": MessageLookupByLibrary.simpleMessage("이름"),
-    "operation_user_column_2": MessageLookupByLibrary.simpleMessage("직급"),
-    "operation_user_column_3": MessageLookupByLibrary.simpleMessage("부서"),
-    "operation_user_column_4": MessageLookupByLibrary.simpleMessage("이메일"),
+    "operation_user_column_2": MessageLookupByLibrary.simpleMessage("이메일"),
+    "operation_user_column_3": MessageLookupByLibrary.simpleMessage("직급"),
+    "operation_user_column_4": MessageLookupByLibrary.simpleMessage("부서"),
     "operation_user_column_5": MessageLookupByLibrary.simpleMessage("관리자"),
     "operation_user_column_6": MessageLookupByLibrary.simpleMessage("사용 승인"),
     "operation_user_column_7": MessageLookupByLibrary.simpleMessage("작업"),
+    "operation_user_delete": MessageLookupByLibrary.simpleMessage(
+      "사용자가 삭제되었습니다.",
+    ),
+    "operation_user_delete_dialog_1": MessageLookupByLibrary.simpleMessage(
+      "사용자를 삭제하시겠습니까?",
+    ),
+    "operation_user_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
+      "사용자를 삭제하면 다시 복구할 수 없습니다.",
+    ),
+    "operation_user_success": MessageLookupByLibrary.simpleMessage(
+      "사용자 정보가 정상적으로 변경되었습니다.",
+    ),
     "payment_issue_exists": MessageLookupByLibrary.simpleMessage(
       "이미 생성된 지급 청구 업무가 있습니다.",
     ),
@@ -575,6 +609,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "선진행이란, 계약이나 발주가 확정되기 전에\n프로젝트를 미리 착수하는 것을 의미합니다.",
     ),
     "project_form_user": MessageLookupByLibrary.simpleMessage("PM"),
+    "project_form_user_department": MessageLookupByLibrary.simpleMessage("부서"),
     "project_form_user_department_all": MessageLookupByLibrary.simpleMessage(
       "전체",
     ),

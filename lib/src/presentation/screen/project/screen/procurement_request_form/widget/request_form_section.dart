@@ -12,16 +12,19 @@ class RequestFormSection extends StatelessWidget {
   final ValueNotifier<bool> isSelectedSupplierEmpty;
   final ValueChanged<(int supplierId, bool selected)>
   onSupplierSelectionChanged;
+  final Map<int, String> titles;
   final Map<int, DateTime?> deliveryDates;
   final Map<int, String?> paymentTerms;
   final Map<int, bool> hasFees;
   final Map<int, String?> notes;
+  final ValueNotifier<Set<int>> invalidTitleSupplierIds;
   final ValueNotifier<Set<int>> nullableDeliverySupplierIds;
   final ValueNotifier<Set<int>> nullablePaymentTermsSupplierIds;
   final ValueNotifier<Set<int>> invalidDeliverySupplierIds;
   final ValueNotifier<Set<int>> invalidPaymentTermsSupplierIds;
   final ValueNotifier<Set<int>> hasProcurementIssueItems;
   final ValueNotifier<Set<int>> isProcurementIssueItemEmpty;
+  final void Function({required int supplierId, String? value}) onTitleChanged;
   final void Function({required int supplierId, DateTime? date})
   onDeliveryDateChanged;
   final void Function({required int supplierId, String? value})
@@ -48,16 +51,19 @@ class RequestFormSection extends StatelessWidget {
     required this.selectedSupplierIds,
     required this.isSelectedSupplierEmpty,
     required this.onSupplierSelectionChanged,
+    required this.titles,
     required this.deliveryDates,
     required this.paymentTerms,
     required this.hasFees,
     required this.notes,
+    required this.invalidTitleSupplierIds,
     required this.nullableDeliverySupplierIds,
     required this.nullablePaymentTermsSupplierIds,
     required this.invalidDeliverySupplierIds,
     required this.invalidPaymentTermsSupplierIds,
     required this.hasProcurementIssueItems,
     required this.isProcurementIssueItemEmpty,
+    required this.onTitleChanged,
     required this.onDeliveryDateChanged,
     required this.onPaymentTermsChanged,
     required this.onHasFeeChanged,
@@ -78,16 +84,19 @@ class RequestFormSection extends StatelessWidget {
       'edit' => ItemEditWidget(
         items: items,
         selectedSupplierIds: selectedSupplierIds,
+        titles: titles,
         deliveryDates: deliveryDates,
         paymentTerms: paymentTerms,
         hasFees: hasFees,
         notes: notes,
+        invalidTitleSupplierIds: invalidTitleSupplierIds,
         nullableDeliverySupplierIds: nullableDeliverySupplierIds,
         nullablePaymentTermsSupplierIds: nullablePaymentTermsSupplierIds,
         invalidDeliverySupplierIds: invalidDeliverySupplierIds,
         invalidPaymentTermsSupplierIds: invalidPaymentTermsSupplierIds,
         hasProcurementIssueItems: hasProcurementIssueItems,
         isProcurementIssueItemEmpty: isProcurementIssueItemEmpty,
+        onTitleChanged: onTitleChanged,
         onDeliveryDateChanged: onDeliveryDateChanged,
         onPaymentTermsChanged: onPaymentTermsChanged,
         onHasFeeChanged: onHasFeeChanged,

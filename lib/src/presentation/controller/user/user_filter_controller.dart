@@ -23,6 +23,14 @@ class UserFilterController extends _$UserFilterController {
     );
   }
 
+  void setSearch({String? search}) {
+    final value = state.value;
+
+    if (value == null) return;
+
+    state = AsyncData(value.copyWith(search: search));
+  }
+
   void updateSearch({String? search}) {
     final value = state.value;
 

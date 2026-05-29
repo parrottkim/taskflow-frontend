@@ -325,8 +325,8 @@ class _DesktopWidget extends HookConsumerWidget {
                         )
                         .removeFile(file);
                   },
-                  onRemoveAttachment: (attachment) {
-                    ref
+                  onRemoveAttachment: (attachment) async {
+                    await ref
                         .read(
                           issueFormControllerProvider(
                             projectId: projectId,

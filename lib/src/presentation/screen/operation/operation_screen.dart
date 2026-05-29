@@ -17,7 +17,7 @@ class OperationScreen extends HookConsumerWidget {
     useEffect(() {
       final location = GoRouter.of(context).name;
 
-      if (location != RouteNames.work) return;
+      if (location != RouteNames.operation) return;
 
       Future.microtask(
         () => ref

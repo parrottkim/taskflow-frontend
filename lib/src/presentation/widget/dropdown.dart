@@ -4,7 +4,7 @@ class ElevatedDropdownButton<T> extends HookWidget {
   final List<T> items;
   final ValueNotifier<T?> selectedItem;
   final Widget label;
-  final Widget icon;
+  final Widget? icon;
   final Widget Function(T) itemBuilder;
   final ValueChanged<T?>? onChanged;
   final FocusNode? focus;
@@ -16,7 +16,7 @@ class ElevatedDropdownButton<T> extends HookWidget {
     required this.items,
     required this.selectedItem,
     required this.label,
-    required this.icon,
+    this.icon,
     required this.itemBuilder,
     this.onChanged,
     this.focus,

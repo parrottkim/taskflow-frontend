@@ -77,6 +77,7 @@ class _DesktopWidget extends HookConsumerWidget {
     final isLastStep = currentIndex.value == steps.length - 1;
 
     final isSelectedSupplierEmpty = useState(false);
+    final invalidTitleSupplierIds = useState<Set<int>>({});
     final nullableDeliverySupplierIds = useState<Set<int>>({});
     final nullablePaymentTermsSupplierIds = useState<Set<int>>({});
     final invalidDeliverySupplierIds = useState<Set<int>>({});
@@ -168,6 +169,9 @@ class _DesktopWidget extends HookConsumerWidget {
                   updated.remove(supplierId);
                 }
 
+                invalidTitleSupplierIds.value = invalidTitleSupplierIds.value
+                    .where((id) => updated.contains(id))
+                    .toSet();
                 invalidDeliverySupplierIds.value = invalidDeliverySupplierIds
                     .value
                     .where((id) => updated.contains(id))
@@ -200,16 +204,36 @@ class _DesktopWidget extends HookConsumerWidget {
                     )
                     .setSelectedSupplierIds(selectedSupplierIds: updated);
               },
+              titles: value.titles,
               deliveryDates: value.deliveryDates,
               paymentTerms: value.paymentTerms,
               hasFees: value.hasFees,
               notes: value.notes,
+              invalidTitleSupplierIds: invalidTitleSupplierIds,
               nullableDeliverySupplierIds: nullableDeliverySupplierIds,
               nullablePaymentTermsSupplierIds: nullablePaymentTermsSupplierIds,
               invalidDeliverySupplierIds: invalidDeliverySupplierIds,
               invalidPaymentTermsSupplierIds: invalidPaymentTermsSupplierIds,
               hasProcurementIssueItems: hasProcurementIssueItems,
               isProcurementIssueItemEmpty: isProcurementIssueItemEmpty,
+              onTitleChanged: ({required int supplierId, String? value}) {
+                // 💡 [수정] 사용자가 입력을 시작하면 에러 붉은 테두리를 지워줌
+                invalidTitleSupplierIds.value = {
+                  ...invalidTitleSupplierIds.value,
+                }..remove(supplierId);
+
+                // 💡 [추가] 노티파이어를 호출하여 상태를 실시간으로 변경하도록 반영
+                ref
+                    .read(
+                      procurementIssueFormControllerProvider(
+                        issueId: issueId,
+                      ).notifier,
+                    )
+                    .updateSupplierRequest(
+                      supplierId: supplierId,
+                      title: value,
+                    );
+              },
               onDeliveryDateChanged:
                   ({required int supplierId, DateTime? date}) {
                     invalidDeliverySupplierIds.value = {
@@ -378,6 +402,12 @@ class _DesktopWidget extends HookConsumerWidget {
                         isProcurementIssueItemEmpty.value =
                             invalidItemSuppliers;
 
+                        final invalidTitles = value.selectedSupplierIds
+                            .where(
+                              (id) =>
+                                  (value.titles[id]?.trim().isEmpty ?? true),
+                            )
+                            .toSet();
                         final invalidDelivery = value.selectedSupplierIds
                             .where(
                               (id) =>
@@ -397,11 +427,13 @@ class _DesktopWidget extends HookConsumerWidget {
                             )
                             .toSet();
 
+                        invalidTitleSupplierIds.value = invalidTitles;
                         invalidDeliverySupplierIds.value = invalidDelivery;
                         invalidPaymentTermsSupplierIds.value =
                             invalidPaymentTerms;
 
-                        if (invalidDelivery.isNotEmpty ||
+                        if (invalidTitles.isNotEmpty ||
+                            invalidDelivery.isNotEmpty ||
                             invalidPaymentTerms.isNotEmpty ||
                             emptyItemSuppliers.isNotEmpty ||
                             invalidItemSuppliers.isNotEmpty) {

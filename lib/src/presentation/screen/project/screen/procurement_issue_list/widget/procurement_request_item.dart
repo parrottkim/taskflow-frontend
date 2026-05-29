@@ -125,6 +125,11 @@ class ProcurementRequestItem extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            request.title,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(height: 8.0),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [

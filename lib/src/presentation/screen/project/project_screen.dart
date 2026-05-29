@@ -71,10 +71,10 @@ class _DesktopWidget extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SegmentWidget(),
-          SizedBox(height: 24.0),
+          SizedBox(height: 16.0),
           DesktopFilterBar(),
           SizedBox(height: 8.0),
-          Expanded(child: ProjectListWidget()),
+          ProjectListWidget(),
         ],
       ),
     );
@@ -92,10 +92,10 @@ class _MobileWidget extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SegmentWidget(),
-          SizedBox(height: 24.0),
+          SizedBox(height: 16.0),
           MobileFilterBar(),
           SizedBox(height: 16.0),
-          Expanded(child: ProjectListWidget()),
+          ProjectListWidget(),
         ],
       ),
     );

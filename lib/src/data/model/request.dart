@@ -42,15 +42,24 @@ abstract class ResetPasswordDto with _$ResetPasswordDto {
 
 @freezed
 abstract class UpdateUserDto with _$UpdateUserDto {
-  factory UpdateUserDto({
+  factory UpdateUserDto({String? username, String? email, String? password}) =
+      _UpdateUserDto;
+
+  factory UpdateUserDto.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserDtoFromJson(json);
+}
+
+@freezed
+abstract class UpdateUserPermissionDto with _$UpdateUserPermissionDto {
+  factory UpdateUserPermissionDto({
     bool? isAdmin,
     bool? isAuthorized,
     int? positionId,
     int? departmentId,
-  }) = _UpdateUserDto;
+  }) = _UpdateUserPermissionDto;
 
-  factory UpdateUserDto.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserDtoFromJson(json);
+  factory UpdateUserPermissionDto.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserPermissionDtoFromJson(json);
 }
 
 @freezed
@@ -138,6 +147,7 @@ abstract class CreateApprovalIssueDto with _$CreateApprovalIssueDto {
 abstract class CreateProcurementIssueRequestDto
     with _$CreateProcurementIssueRequestDto {
   factory CreateProcurementIssueRequestDto({
+    required String title,
     DateTime? deliveryDate,
     String? paymentTerms,
     @Default(false) bool hasFee,
