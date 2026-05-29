@@ -351,7 +351,7 @@ enum OperationSegment {
 
 enum SettingSegment {
   user('setting_segment_1'),
-  data('setting_segment_2');
+  supplier('setting_segment_2');
 
   final String labelKey;
 

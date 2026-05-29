@@ -322,6 +322,7 @@ abstract class ProcurementIssueRequest with _$ProcurementIssueRequest {
   factory ProcurementIssueRequest({
     required int id,
     required User requestedBy,
+    required String title,
     required DateTime orderDate,
     DateTime? deliveryDate,
     String? paymentTerms,

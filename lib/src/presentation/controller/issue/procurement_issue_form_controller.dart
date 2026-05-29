@@ -19,12 +19,14 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
 
     if (value == null) return;
 
+    final nextTitles = <int, String>{};
     final nextDeliveryDates = <int, DateTime?>{};
     final nextPaymentTerms = <int, String>{};
     final nextHasFees = <int, bool>{};
     final nextNotes = <int, String>{};
 
     for (final supplierId in selectedSupplierIds) {
+      nextTitles[supplierId] = value.titles[supplierId] ?? '';
       nextDeliveryDates[supplierId] = value.deliveryDates[supplierId];
       nextPaymentTerms[supplierId] = value.paymentTerms[supplierId] ?? '';
       nextHasFees[supplierId] = value.hasFees[supplierId] ?? false;
@@ -34,6 +36,7 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
     state = AsyncData(
       value.copyWith(
         selectedSupplierIds: selectedSupplierIds,
+        titles: nextTitles,
         deliveryDates: nextDeliveryDates,
         paymentTerms: nextPaymentTerms,
         hasFees: nextHasFees,
@@ -44,6 +47,7 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
 
   void updateSupplierRequest({
     required int supplierId,
+    String? title,
     DateTime? deliveryDate,
     String? paymentTerms,
     bool? hasFee,
@@ -53,13 +57,17 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
     bool updateNote = false,
   }) {
     final value = state.value;
-
     if (value == null) return;
 
+    final nextTitles = {...value.titles};
     final nextDeliveryDates = {...value.deliveryDates};
     final nextPaymentTerms = {...value.paymentTerms};
     final nextHasFees = {...value.hasFees};
     final nextNotes = {...value.notes};
+
+    if (title != null) {
+      nextTitles[supplierId] = title;
+    }
 
     if (updateDeliveryDate) {
       nextDeliveryDates[supplierId] = deliveryDate;
@@ -76,6 +84,7 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
 
     state = AsyncData(
       value.copyWith(
+        titles: nextTitles,
         deliveryDates: nextDeliveryDates,
         paymentTerms: nextPaymentTerms,
         hasFees: nextHasFees,

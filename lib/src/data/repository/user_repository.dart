@@ -17,5 +17,12 @@ abstract class UserRepository {
     String? search,
   });
 
+  Future<User> updateUserPermission({
+    required int id,
+    required UpdateUserPermissionDto request,
+  });
+
   Future<User> updateUser({required int id, required UpdateUserDto request});
+
+  Future<void> deleteUser({required int id});
 }

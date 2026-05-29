@@ -25,9 +25,18 @@ abstract class UserService {
     @Query('search') String? search,
   });
 
+  @PATCH('user/{id}/permission')
+  Future<User> updateUserPermission({
+    @Path('id') required int id,
+    @Body() required UpdateUserPermissionDto request,
+  });
+
   @PATCH('user/{id}')
   Future<User> updateUser({
     @Path('id') required int id,
     @Body() required UpdateUserDto request,
   });
+
+  @DELETE('user/{id}')
+  Future<void> deleteUser({@Path('id') required int id});
 }

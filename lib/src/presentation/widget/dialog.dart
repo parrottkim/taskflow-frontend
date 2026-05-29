@@ -1,7 +1,23 @@
 part of 'widget.dart';
 
-class LoginForbiddenDialog extends StatelessWidget {
-  const LoginForbiddenDialog({super.key});
+// ==========================================
+// 0. 공통 기반 다이얼로그 (BaseDialog)
+// ==========================================
+class BaseDialog extends StatelessWidget {
+  final String title;
+  final Widget content;
+  final List<Widget> actions;
+  final double maxWidth;
+  final bool showDivider;
+
+  const BaseDialog({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.actions,
+    this.maxWidth = 430.0,
+    this.showDivider = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -10,46 +26,79 @@ class LoginForbiddenDialog extends StatelessWidget {
     return Dialog(
       child: ContainerWidget(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
-        constraints: const BoxConstraints(maxWidth: 430.0),
+        constraints: BoxConstraints(maxWidth: maxWidth),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                Intl.message('login_forbidden_1'),
+                title,
                 style: textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w800,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
+            if (showDivider)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Divider(),
+              )
+            else
+              const SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(Intl.message('login_forbidden_2')),
+              child: content,
             ),
+            if (showDivider)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Divider(),
+              )
+            else
+              const SizedBox(height: 16.0),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Container(
-              width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton(
-                onPressed: () => context.pop(),
-                child: Text(
-                  Intl.message('common_ok'),
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
+              child: Row(
+                children: actions.map((action) {
+                  final isLast = action == actions.last;
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: isLast ? 0.0 : 4.0),
+                      child: action,
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+// ==========================================
+// 1. BaseDialog를 상속/활용한 알림창들
+// ==========================================
+class LoginForbiddenDialog extends StatelessWidget {
+  const LoginForbiddenDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseDialog(
+      title: Intl.message('login_forbidden_1'),
+      content: Text(Intl.message('login_forbidden_2')),
+      actions: [
+        ElevatedButton(
+          onPressed: () => context.pop(),
+          child: Text(
+            Intl.message('common_ok'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -59,55 +108,123 @@ class LoginRequestDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Dialog(
-      child: ContainerWidget(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        constraints: const BoxConstraints(maxWidth: 430.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                Intl.message('login_request_1'),
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(Intl.message('login_request_2')),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton(
-                onPressed: () => context.pop(),
-                child: Text(
-                  Intl.message('common_ok'),
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-          ],
+    return BaseDialog(
+      title: Intl.message('login_request_1'),
+      content: Text(Intl.message('login_request_2')),
+      actions: [
+        ElevatedButton(
+          onPressed: () => context.pop(),
+          child: Text(
+            Intl.message('common_ok'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
 
+class WrongApproachDialog extends StatelessWidget {
+  const WrongApproachDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return BaseDialog(
+      title: Intl.message('wrong_approach_title'),
+      content: Text(Intl.message('wrong_approach_content')),
+      actions: [
+        ElevatedButton(
+          onPressed: () => context.pop(),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: colorScheme.onPrimary,
+            backgroundColor: colorScheme.primary,
+          ),
+          child: Text(
+            Intl.message('common_ok'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PopScopeDialog extends StatelessWidget {
+  const PopScopeDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return BaseDialog(
+      title: Intl.message('pop_scope_title'),
+      content: Text(Intl.message('pop_scope_content')),
+      actions: [
+        ElevatedButton(
+          onPressed: () => context.pop(false),
+          child: Text(
+            Intl.message('common_stay'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () => context.pop(true),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: colorScheme.onPrimary,
+            backgroundColor: colorScheme.primary,
+          ),
+          child: Text(
+            Intl.message('common_leave'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DeleteDialog extends StatelessWidget {
+  final String title;
+  final String content;
+
+  const DeleteDialog({super.key, required this.title, required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return BaseDialog(
+      title: title,
+      content: Text(content),
+      actions: [
+        ElevatedButton(
+          onPressed: () => context.pop(false),
+          child: Text(
+            Intl.message('common_cancel'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () => context.pop(true),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: colorScheme.onPrimary,
+            backgroundColor: colorScheme.primary,
+          ),
+          child: Text(
+            Intl.message('common_delete'),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ==========================================
+// 2. 고유 레이아웃을 가진 특수 목적 다이얼로그들
+// ==========================================
 class SearchDialog extends HookConsumerWidget {
   const SearchDialog({super.key});
 
@@ -125,7 +242,7 @@ class SearchDialog extends HookConsumerWidget {
       child: ContainerWidget(
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
-        constraints: BoxConstraints(maxWidth: 600.0, maxHeight: 600.0),
+        constraints: const BoxConstraints(maxWidth: 600.0, maxHeight: 600.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,19 +272,19 @@ class SearchDialog extends HookConsumerWidget {
                     semanticsLabel: 'Search Icon',
                   ),
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(8.0),
                   ),
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(8.0),
                   ),
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(8.0),
                   ),
@@ -175,7 +292,7 @@ class SearchDialog extends HookConsumerWidget {
                 ),
               ),
             ),
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Column(
@@ -222,7 +339,7 @@ class SearchDialog extends HookConsumerWidget {
                                 Intl.message('navigation_search_keyword_empty'),
                               ),
                             ),
-                    _ => SizedBox(),
+                    _ => const SizedBox(),
                   },
                 ],
               ),
@@ -264,8 +381,8 @@ class DatePickerDialog extends HookWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Divider(),
             ),
             Padding(
@@ -280,8 +397,8 @@ class DatePickerDialog extends HookWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Divider(),
             ),
             Padding(
@@ -293,11 +410,11 @@ class DatePickerDialog extends HookWidget {
                       onPressed: () => context.pop(),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
-                  SizedBox(width: 4.0),
+                  const SizedBox(width: 4.0),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: selectedDate.value != null
@@ -311,7 +428,7 @@ class DatePickerDialog extends HookWidget {
                       ),
                       child: Text(
                         Intl.message('common_ok'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -362,8 +479,8 @@ class DateRangePickerDialog extends HookConsumerWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Divider(),
             ),
             Padding(
@@ -378,8 +495,8 @@ class DateRangePickerDialog extends HookConsumerWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Divider(),
             ),
             Padding(
@@ -391,11 +508,11 @@ class DateRangePickerDialog extends HookConsumerWidget {
                       onPressed: () => context.pop(),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
-                  SizedBox(width: 4.0),
+                  const SizedBox(width: 4.0),
                   Expanded(
                     child: ElevatedButton(
                       onPressed:
@@ -414,7 +531,7 @@ class DateRangePickerDialog extends HookConsumerWidget {
                       ),
                       child: Text(
                         Intl.message('common_ok'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -456,8 +573,8 @@ class ErrorDialog extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
-            Divider(),
+            const SizedBox(height: 16.0),
+            const Divider(),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
@@ -478,8 +595,8 @@ class ErrorDialog extends ConsumerWidget {
                 ),
               ),
             ),
-            Divider(),
-            SizedBox(height: 16.0),
+            const Divider(),
+            const SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
@@ -502,11 +619,11 @@ class ErrorDialog extends ConsumerWidget {
                       },
                       child: Text(
                         Intl.message('error_dialog_2'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
-                  SizedBox(width: 4.0),
+                  const SizedBox(width: 4.0),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => context.pop(),
@@ -516,7 +633,7 @@ class ErrorDialog extends ConsumerWidget {
                       ),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
@@ -530,245 +647,37 @@ class ErrorDialog extends ConsumerWidget {
   }
 }
 
-class PopScopeDialog extends StatelessWidget {
-  const PopScopeDialog({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Dialog(
-      child: ContainerWidget(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        constraints: const BoxConstraints(maxWidth: 430.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                Intl.message('pop_scope_title'),
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(Intl.message('pop_scope_content')),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => context.pop(false),
-                      child: Text(
-                        Intl.message('common_stay'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 4.0),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => context.pop(true),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: colorScheme.onPrimary,
-                        backgroundColor: colorScheme.primary,
-                      ),
-                      child: Text(
-                        Intl.message('common_leave'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class WrongApproachDialog extends StatelessWidget {
-  const WrongApproachDialog({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Dialog(
-      child: ContainerWidget(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        constraints: const BoxConstraints(maxWidth: 430.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                Intl.message('wrong_approach_title'),
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(Intl.message('wrong_approach_content')),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton(
-                onPressed: () => context.pop(),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: colorScheme.onPrimary,
-                  backgroundColor: colorScheme.primary,
-                ),
-                child: Text(
-                  Intl.message('common_ok'),
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DeleteDialog extends StatelessWidget {
-  final String title;
-  final String content;
-
-  const DeleteDialog({super.key, required this.title, required this.content});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Dialog(
-      child: ContainerWidget(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        constraints: const BoxConstraints(maxWidth: 430.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                title,
-                style: textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(content),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Divider(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => context.pop(false),
-                      child: Text(
-                        Intl.message('common_cancel'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 4.0),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => context.pop(true),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: colorScheme.onPrimary,
-                        backgroundColor: colorScheme.primary,
-                      ),
-                      child: Text(
-                        Intl.message('common_delete'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class UserDepartmentFilterWidget extends HookConsumerWidget {
+class UserDepartmentSegmentWidget extends HookConsumerWidget {
+  final UserDepartment? department;
   final List<UserDepartment> departmentItems;
 
-  const UserDepartmentFilterWidget({super.key, required this.departmentItems});
+  const UserDepartmentSegmentWidget({
+    super.key,
+    required this.department,
+    required this.departmentItems,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = [null, ...departmentItems];
-
-    final selectedItem = useState<UserDepartment?>(items.first);
-
+    final selectedItem = useState<UserDepartment?>(department ?? items.first);
     final controller = useTabController(initialLength: items.length);
 
     return TabBar(
       controller: controller,
       onTap: (index) async {
         selectedItem.value = items[index];
-
         ref
             .read(userFilterControllerProvider.notifier)
             .updateDepartment(department: selectedItem.value);
       },
       tabAlignment: TabAlignment.start,
       isScrollable: true,
-      labelPadding: EdgeInsets.symmetric(horizontal: 16.0),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 16.0),
       tabs: List.generate(
         items.length,
         (index) => Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             items[index]?.name ??
                 Intl.message('project_form_user_department_all'),
@@ -779,15 +688,49 @@ class UserDepartmentFilterWidget extends HookConsumerWidget {
   }
 }
 
-class UserPositionFilterWidget extends HookConsumerWidget {
-  final List<UserPosition> positionItems;
+class UserDepartmentFilterWidget extends ConsumerWidget {
+  final UserDepartment? department;
+  final List<UserDepartment> departmentItems;
 
-  const UserPositionFilterWidget({super.key, required this.positionItems});
+  const UserDepartmentFilterWidget({
+    super.key,
+    required this.department,
+    required this.departmentItems,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItem = useState<UserPosition?>(null);
+    return ElevatedDropdownButton(
+      onChanged: (value) {
+        ref
+            .read(userFilterControllerProvider.notifier)
+            .updateDepartment(department: value);
+      },
+      items: departmentItems,
+      selectedItem: ValueNotifier(department),
+      icon: const Icon(Symbols.category_rounded),
+      label: Text(
+        department == null
+            ? Intl.message('project_form_user_department')
+            : department!.name,
+      ),
+      itemBuilder: (value) => Text(value.name),
+    );
+  }
+}
 
+class UserPositionFilterWidget extends ConsumerWidget {
+  final UserPosition? position;
+  final List<UserPosition> positionItems;
+
+  const UserPositionFilterWidget({
+    super.key,
+    required this.position,
+    required this.positionItems,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedDropdownButton(
       onChanged: (value) {
         ref
@@ -795,13 +738,19 @@ class UserPositionFilterWidget extends HookConsumerWidget {
             .updatePosition(position: value);
       },
       items: positionItems,
-      selectedItem: selectedItem,
-      icon: Icon(Symbols.chair_rounded),
-      label: Text(Intl.message('project_form_user_position')),
+      selectedItem: ValueNotifier(position),
+      icon: const Icon(Symbols.chair_rounded),
+      label: Text(
+        position == null
+            ? Intl.message('project_form_user_position')
+            : position!.name,
+      ),
       itemBuilder: (value) => Text(value.name),
     );
   }
 }
+
+enum UserSelectionType { single, multiple }
 
 class UserSelectorDialog extends HookConsumerWidget {
   final UserSelectionType selectionType;
@@ -887,7 +836,7 @@ class UserSelectorDialog extends HookConsumerWidget {
       child: ContainerWidget(
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
-        constraints: BoxConstraints(maxWidth: 430.0, maxHeight: 600.0),
+        constraints: const BoxConstraints(maxWidth: 430.0, maxHeight: 600.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -897,7 +846,12 @@ class UserSelectorDialog extends HookConsumerWidget {
               autofocus: true,
               decoration: InputDecoration(
                 hintText: Intl.message('project_form_user_search'),
-                contentPadding: EdgeInsets.fromLTRB(12.0, 18.0, 12.0, 14.0),
+                contentPadding: const EdgeInsets.fromLTRB(
+                  12.0,
+                  18.0,
+                  12.0,
+                  14.0,
+                ),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(left: 13.0, right: 2.0),
                   child: SvgPicture.asset(
@@ -911,19 +865,19 @@ class UserSelectorDialog extends HookConsumerWidget {
                     semanticsLabel: 'Search Icon',
                   ),
                 ),
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(8.0),
                   ),
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(8.0),
                   ),
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(8.0),
                   ),
@@ -937,10 +891,11 @@ class UserSelectorDialog extends HookConsumerWidget {
             switch (filter) {
               AsyncData(:final value) => Column(
                 children: [
-                  UserDepartmentFilterWidget(
+                  UserDepartmentSegmentWidget(
+                    department: value.department,
                     departmentItems: value.departmentItems,
                   ),
-                  Divider(),
+                  const Divider(),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16.0,
@@ -949,9 +904,10 @@ class UserSelectorDialog extends HookConsumerWidget {
                     child: Row(
                       children: [
                         UserPositionFilterWidget(
+                          position: value.position,
                           positionItems: value.positionItems,
                         ),
-                        if (isSelectableMode) Spacer(),
+                        if (isSelectableMode) const Spacer(),
                         if (isSelectableMode)
                           TextButton(
                             onPressed: visibleItems.isEmpty
@@ -973,10 +929,11 @@ class UserSelectorDialog extends HookConsumerWidget {
               _ => Skeletonizer(
                 child: Column(
                   children: [
-                    UserDepartmentFilterWidget(
+                    UserDepartmentSegmentWidget(
+                      department: null,
                       departmentItems: List.filled(4, UserDepartment.dummy()),
                     ),
-                    Divider(),
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
@@ -985,9 +942,10 @@ class UserSelectorDialog extends HookConsumerWidget {
                       child: Row(
                         children: [
                           UserPositionFilterWidget(
+                            position: null,
                             positionItems: List.filled(4, UserPosition.dummy()),
                           ),
-                          if (isSelectableMode) Spacer(),
+                          if (isSelectableMode) const Spacer(),
                           if (isSelectableMode)
                             TextButton(
                               onPressed: visibleItems.isEmpty
@@ -1008,13 +966,13 @@ class UserSelectorDialog extends HookConsumerWidget {
             },
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.vertical(
                     bottom: Radius.circular(16.0),
                   ),
                 ),
                 child: switch (user) {
-                  AsyncData(:final value) => UserListWidget(
+                  AsyncData(:final value) => UserListDialogWidget(
                     items: value.items,
                     selectionType: selectionType,
                     selectable: selectable,
@@ -1028,7 +986,7 @@ class UserSelectorDialog extends HookConsumerWidget {
                   AsyncError(:final error, :final stackTrace) =>
                     ErrorContainerWidget(error: error, stackTrace: stackTrace),
                   _ => Skeletonizer(
-                    child: UserListWidget(
+                    child: UserListDialogWidget(
                       items: List.filled(5, User.dummy()),
                       selectionType: selectionType,
                       selectable: selectable,
@@ -1039,20 +997,20 @@ class UserSelectorDialog extends HookConsumerWidget {
               ),
             ),
             if (isSelectableMode) ...[
-              Divider(height: 1.0),
+              const Divider(height: 1.0),
               Padding(
-                padding: EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 12.0),
+                padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 12.0),
                 child: Row(
                   children: [
                     Text(
                       '${selectedUsers.value.length} ${Intl.message('filter_suffix')}',
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text(Intl.message('common_cancel')),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     ElevatedButton(
                       onPressed: selectedUsers.value.isNotEmpty
                           ? () {
@@ -1077,9 +1035,7 @@ class UserSelectorDialog extends HookConsumerWidget {
   }
 }
 
-enum UserSelectionType { single, multiple }
-
-class UserListWidget extends HookConsumerWidget {
+class UserListDialogWidget extends HookConsumerWidget {
   final List<User> items;
   final UserSelectionType selectionType;
   final bool selectable;
@@ -1087,7 +1043,7 @@ class UserListWidget extends HookConsumerWidget {
   final ValueChanged<User>? onSelected;
   final ValueChanged<User>? onToggled;
 
-  const UserListWidget({
+  const UserListDialogWidget({
     super.key,
     required this.items,
     this.selectionType = UserSelectionType.single,
@@ -1145,7 +1101,6 @@ class UserListWidget extends HookConsumerWidget {
                 onToggled?.call(item);
                 return;
               }
-
               onSelected?.call(item);
             },
             leading: isSelectableMode
@@ -1198,28 +1153,27 @@ class SendEmailDialog extends HookConsumerWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Divider(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(Intl.message('project_mail_select_1')),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: CustomToggleButton(
                 value: isAllSelected.value,
                 onChanged: (value) {
                   isAllSelected.value = value ?? false;
-
                   if (isAllSelected.value) selectedUsers.value = [];
                 },
                 child: Text(Intl.message('common_send_all')),
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ElevatedButton.icon(
@@ -1230,7 +1184,6 @@ class SendEmailDialog extends HookConsumerWidget {
                     initialSelectedUsers: selectedUsers.value,
                     onMultiSelected: (users) {
                       selectedUsers.value = users;
-
                       if (selectedUsers.value.isNotEmpty)
                         isAllSelected.value = false;
                     },
@@ -1248,8 +1201,8 @@ class SendEmailDialog extends HookConsumerWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Divider(),
             ),
             Padding(
@@ -1261,11 +1214,11 @@ class SendEmailDialog extends HookConsumerWidget {
                       onPressed: () => context.pop(),
                       child: Text(
                         Intl.message('common_close'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),
-                  SizedBox(width: 4.0),
+                  const SizedBox(width: 4.0),
                   Expanded(
                     child: ElevatedButton(
                       onPressed:
@@ -1308,7 +1261,7 @@ class SendEmailDialog extends HookConsumerWidget {
                       ),
                       child: Text(
                         Intl.message('common_ok'),
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),

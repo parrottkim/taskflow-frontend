@@ -14,7 +14,29 @@ abstract class Result<T> with _$Result<T> {
   factory Result.fromJson(
     Map<String, dynamic> json,
     T Function(Object?) fromJsonT,
-  ) => _$ResultFromJson(json, fromJsonT);
+  ) {
+    final parsedItems = <T>[];
+    final rawItems = json['items'];
+
+    // Skip malformed entries so a single bad item does not crash the whole list.
+    if (rawItems is List) {
+      for (final raw in rawItems) {
+        try {
+          parsedItems.add(fromJsonT(raw));
+        } catch (_) {
+          continue;
+        }
+      }
+    }
+
+    return Result<T>(
+      items: parsedItems,
+      page: (json['page'] as num?)?.toInt() ?? 0,
+      total: (json['total'] as num?)?.toInt() ?? 0,
+      hasNext: json['hasNext'] as bool? ?? false,
+      hasPrevious: json['hasPrevious'] as bool? ?? false,
+    );
+  }
 }
 
 enum ImageExtension {

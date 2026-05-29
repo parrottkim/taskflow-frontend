@@ -34,8 +34,17 @@ class UserDataSource implements UserRepository {
   );
 
   @override
+  Future<User> updateUserPermission({
+    required int id,
+    required UpdateUserPermissionDto request,
+  }) => _service.updateUserPermission(id: id, request: request);
+
+  @override
   Future<User> updateUser({required int id, required UpdateUserDto request}) =>
       _service.updateUser(id: id, request: request);
+
+  @override
+  Future<void> deleteUser({required int id}) => _service.deleteUser(id: id);
 }
 
 @riverpod

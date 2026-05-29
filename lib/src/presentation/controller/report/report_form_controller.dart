@@ -224,10 +224,15 @@ class ReportFormController extends _$ReportFormController {
         .setContentValid(markdown.trimRight().isEmpty);
   }
 
-  void removeAttachment(ReportAttachment attachment) {
+  Future<void> removeAttachment(ReportAttachment attachment) async {
     final value = state.value;
 
     if (value == null) return;
+    if (reportId == null) return;
+
+    await ref
+        .read(reportRepositoryProvider)
+        .deleteAttachment(reportId: reportId!, fileId: attachment.id);
 
     state = AsyncData(
       value.copyWith(

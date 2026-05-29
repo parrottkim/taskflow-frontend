@@ -4,28 +4,43 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/operation/screen/user/widget/department_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/operation/screen/user/widget/position_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/operation/screen/user/widget/user_admin_toggle_dialog.dart';
+import 'package:taskflow/src/presentation/screen/operation/screen/user/widget/user_approve_toggle_dialog.dart';
+import 'package:taskflow/src/presentation/screen/operation/screen/user/widget/user_delete_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
-class UserListScreen extends ConsumerWidget {
-  const UserListScreen({super.key});
+class UserListWidget extends ConsumerWidget {
+  const UserListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userListControllerProvider);
+    final list = ref.watch(userListControllerProvider);
 
-    return switch (user) {
-      AsyncData(:final value) => _DesktopWidget(items: value.items),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
-        error: error,
-        stackTrace: stackTrace,
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: ContainerWidget(
+          padding: EdgeInsets.zero,
+          borderRadius: BorderRadius.circular(8.0),
+          child: switch (list) {
+            AsyncData(:final value) => _DesktopWidget(items: value.items),
+            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+              error: error,
+              stackTrace: stackTrace,
+            ),
+            _ => Skeletonizer(
+              child: _DesktopWidget(items: List.filled(30, User.dummy())),
+            ),
+          },
+        ),
       ),
-      _ => Skeletonizer(
-        child: _DesktopWidget(items: List.filled(30, User.dummy())),
-      ),
-    };
+    );
   }
 }
 
@@ -38,6 +53,36 @@ class _DesktopWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    ref.listen(userSubmitControllerProvider, (_, state) {
+      if (state is UserSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is UserSubmitSuccess) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message('operation_user_success'),
+                ),
+              );
+        }
+
+        if (state is UserSubmitDeleted) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('operation_user_delete'),
+                ),
+              );
+        }
+      }
+    });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -220,28 +265,6 @@ class _DesktopWidget extends ConsumerWidget {
                         ),
                         DataCell(
                           Text(
-                            items[index].position?.name ??
-                                Intl.message('unspecified'),
-                            style: TextStyle(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            items[index].department?.name ??
-                                Intl.message('unspecified'),
-                            style: TextStyle(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
                             items[index].email,
                             style: TextStyle(
                               color: colorScheme.onSurface.withValues(
@@ -250,18 +273,65 @@ class _DesktopWidget extends ConsumerWidget {
                             ),
                           ),
                         ),
+                        DataCell(PositionSelectWidget(user: items[index])),
+                        DataCell(DepartmentSelectWidget(user: items[index])),
                         DataCell(
-                          CustomToggleButton(value: items[index].isAdmin),
+                          CustomToggleButton(
+                            value: items[index].isAdmin,
+                            onChanged: (value) async {
+                              final result = await showDialog(
+                                context: context,
+                                builder: (_) => UserAdminToggleDialog(),
+                              );
+
+                              if (result) {
+                                await ref
+                                    .read(userSubmitControllerProvider.notifier)
+                                    .toggleAdmin(
+                                      userId: items[index].id,
+                                      flag: value ?? false,
+                                    );
+                              }
+                            },
+                          ),
                         ),
                         DataCell(
-                          CustomToggleButton(value: items[index].isAuthorized),
+                          CustomToggleButton(
+                            value: items[index].isAuthorized,
+                            onChanged: (value) async {
+                              final result = await showDialog(
+                                context: context,
+                                builder: (_) => UserApproveToggleDialog(),
+                              );
+
+                              if (result) {
+                                await ref
+                                    .read(userSubmitControllerProvider.notifier)
+                                    .toggleAuthorized(
+                                      userId: items[index].id,
+                                      flag: value ?? false,
+                                    );
+                              }
+                            },
+                          ),
                         ),
                         DataCell(
                           ElevatedIconButton(
-                            onTap: () {},
+                            onTap: () async {
+                              final result = await showDialog(
+                                context: context,
+                                builder: (_) => UserDeleteDialog(),
+                              );
+
+                              if (result) {
+                                await ref
+                                    .read(userSubmitControllerProvider.notifier)
+                                    .deleteUser(userId: items[index].id);
+                              }
+                            },
                             padding: EdgeInsets.all(4.0),
                             borderRadius: BorderRadius.circular(4.0),
-                            icon: Symbols.edit_square_rounded,
+                            icon: Symbols.delete_rounded,
                             size: 20.0,
                           ),
                         ),

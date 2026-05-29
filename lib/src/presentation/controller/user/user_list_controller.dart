@@ -66,8 +66,8 @@ class UserListController extends _$UserListController {
     final value = state.value;
     if (value == null) return;
 
-    final updatedUsers = value.items.map((issue) {
-      return issue.id == item.id ? item : issue;
+    final updatedUsers = value.items.map((user) {
+      return user.id == item.id ? item : user;
     }).toList();
 
     state = AsyncValue.data(value.copyWith(items: updatedUsers));
@@ -77,9 +77,7 @@ class UserListController extends _$UserListController {
     final value = state.value;
     if (value == null) return;
 
-    final updatedUsers = value.items
-        .where((project) => project.id != id)
-        .toList();
+    final updatedUsers = value.items.where((user) => user.id != id).toList();
 
     state = AsyncValue.data(value.copyWith(items: updatedUsers));
   }

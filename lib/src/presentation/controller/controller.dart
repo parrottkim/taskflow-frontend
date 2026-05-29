@@ -90,6 +90,8 @@ part 'schedule/schedule_submit_state.dart';
 part 'setting/setting_filter_controller.dart';
 part 'setting/setting_filter_state.dart';
 
+part 'supplier/supplier_filter_controller.dart';
+part 'supplier/supplier_filter_state.dart';
 part 'supplier/supplier_search_controller.dart';
 part 'supplier/supplier_search_state.dart';
 
