@@ -25747,7 +25747,7 @@ as String,
 /// @nodoc
 mixin _$UserDepartment {
 
- int get id; String get name;
+ int get id; String get name; int? get root;
 /// Create a copy of UserDepartment
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25760,16 +25760,16 @@ $UserDepartmentCopyWith<UserDepartment> get copyWith => _$UserDepartmentCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserDepartment&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserDepartment&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.root, root) || other.root == root));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode => Object.hash(runtimeType,id,name,root);
 
 @override
 String toString() {
-  return 'UserDepartment(id: $id, name: $name)';
+  return 'UserDepartment(id: $id, name: $name, root: $root)';
 }
 
 
@@ -25780,7 +25780,7 @@ abstract mixin class $UserDepartmentCopyWith<$Res>  {
   factory $UserDepartmentCopyWith(UserDepartment value, $Res Function(UserDepartment) _then) = _$UserDepartmentCopyWithImpl;
 @useResult
 $Res call({
- int id, String name
+ int id, String name, int? root
 });
 
 
@@ -25797,11 +25797,12 @@ class _$UserDepartmentCopyWithImpl<$Res>
 
 /// Create a copy of UserDepartment
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? root = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,root: freezed == root ? _self.root : root // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -25886,10 +25887,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  int? root)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserDepartment() when $default != null:
-return $default(_that.id,_that.name);case _:
+return $default(_that.id,_that.name,_that.root);case _:
   return orElse();
 
 }
@@ -25907,10 +25908,10 @@ return $default(_that.id,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  int? root)  $default,) {final _that = this;
 switch (_that) {
 case _UserDepartment():
-return $default(_that.id,_that.name);case _:
+return $default(_that.id,_that.name,_that.root);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -25927,10 +25928,10 @@ return $default(_that.id,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  int? root)?  $default,) {final _that = this;
 switch (_that) {
 case _UserDepartment() when $default != null:
-return $default(_that.id,_that.name);case _:
+return $default(_that.id,_that.name,_that.root);case _:
   return null;
 
 }
@@ -25942,11 +25943,12 @@ return $default(_that.id,_that.name);case _:
 @JsonSerializable()
 
 class _UserDepartment implements UserDepartment {
-  const _UserDepartment({required this.id, required this.name});
+  const _UserDepartment({required this.id, required this.name, this.root});
   factory _UserDepartment.fromJson(Map<String, dynamic> json) => _$UserDepartmentFromJson(json);
 
 @override final  int id;
 @override final  String name;
+@override final  int? root;
 
 /// Create a copy of UserDepartment
 /// with the given fields replaced by the non-null parameter values.
@@ -25961,16 +25963,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserDepartment&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserDepartment&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.root, root) || other.root == root));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name);
+int get hashCode => Object.hash(runtimeType,id,name,root);
 
 @override
 String toString() {
-  return 'UserDepartment(id: $id, name: $name)';
+  return 'UserDepartment(id: $id, name: $name, root: $root)';
 }
 
 
@@ -25981,7 +25983,7 @@ abstract mixin class _$UserDepartmentCopyWith<$Res> implements $UserDepartmentCo
   factory _$UserDepartmentCopyWith(_UserDepartment value, $Res Function(_UserDepartment) _then) = __$UserDepartmentCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name
+ int id, String name, int? root
 });
 
 
@@ -25998,11 +26000,12 @@ class __$UserDepartmentCopyWithImpl<$Res>
 
 /// Create a copy of UserDepartment
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? root = freezed,}) {
   return _then(_UserDepartment(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
+as String,root: freezed == root ? _self.root : root // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
