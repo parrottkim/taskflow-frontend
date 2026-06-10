@@ -1975,10 +1975,15 @@ _UserDepartment _$UserDepartmentFromJson(Map<String, dynamic> json) =>
     _UserDepartment(
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
+      root: (json['root'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$UserDepartmentToJson(_UserDepartment instance) =>
-    <String, dynamic>{'id': instance.id, 'name': instance.name};
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'root': instance.root,
+    };
 
 _Keyword _$KeywordFromJson(Map<String, dynamic> json) => _Keyword(
   keyword: json['keyword'] as String,
