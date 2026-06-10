@@ -15,20 +15,18 @@ abstract class User with _$User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   factory User.dummy() => User(
-        id: 0,
-        email: 'gdhong@dan-tech.com',
-        username: '홍길동',
-        position: UserPosition.dummy(),
-        department: UserDepartment.dummy(),
-      );
+    id: 0,
+    email: 'gdhong@dan-tech.com',
+    username: '홍길동',
+    position: UserPosition.dummy(),
+    department: UserDepartment.dummy(),
+  );
 }
 
 @freezed
 abstract class UserPosition with _$UserPosition {
-  const factory UserPosition({
-    required int id,
-    required String name,
-  }) = _UserPosition;
+  const factory UserPosition({required int id, required String name}) =
+      _UserPosition;
 
   factory UserPosition.fromJson(Map<String, dynamic> json) =>
       _$UserPositionFromJson(json);
@@ -41,6 +39,7 @@ abstract class UserDepartment with _$UserDepartment {
   const factory UserDepartment({
     required int id,
     required String name,
+    int? root,
   }) = _UserDepartment;
 
   factory UserDepartment.fromJson(Map<String, dynamic> json) =>
