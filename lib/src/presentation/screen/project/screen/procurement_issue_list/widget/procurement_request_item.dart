@@ -342,8 +342,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                   ),
                   SizedBox(height: 8.0),
                   if (auth is AuthAuthenticated &&
-                      (auth.user.department?.root == 1 ||
-                          auth.user.department?.root == 3))
+                      (auth.user.department?.id == 1 ||
+                          auth.user.department?.id == 3))
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Column(

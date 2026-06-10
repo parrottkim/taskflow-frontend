@@ -269,8 +269,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                   requests: items[index].requests,
                                 ),
                               if (auth is AuthAuthenticated &&
-                                  (auth.user.department?.root == 1 ||
-                                      auth.user.department?.root == 3))
+                                  (auth.user.department?.id == 1 ||
+                                      auth.user.department?.id == 3))
                                 ProgressWidget(
                                   projectId: projectId,
                                   issueId: items[index].id,
