@@ -72,7 +72,13 @@ class _DialogWidget extends HookConsumerWidget {
 
     // 2. 화면 표시용 컨트롤러 1개 (결합값)
     final combinedAddressController = useTextEditingController(
-      text: '${value.roadAddress} (${value.roadAddressReference})',
+      text: [
+        if (value.roadAddress != null && value.roadAddress!.isNotEmpty)
+          value.roadAddress,
+        if (value.roadAddressReference != null &&
+            value.roadAddressReference!.isNotEmpty)
+          '(${value.roadAddressReference})',
+      ].join(' '),
     );
     final detailAddressController = useTextEditingController(
       text: value.detailAddress,
