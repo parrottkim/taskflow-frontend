@@ -17,7 +17,7 @@ class UserSubmitController extends _$UserSubmitController {
 
       ref.read(userListControllerProvider.notifier).updateListItem(item: user);
 
-      state = UserSubmitState.success(user);
+      state = UserSubmitState.edited(user);
     } catch (e) {
       state = UserSubmitState.failure(e.toString());
     }
@@ -38,7 +38,7 @@ class UserSubmitController extends _$UserSubmitController {
 
       ref.read(userListControllerProvider.notifier).updateListItem(item: user);
 
-      state = UserSubmitState.success(user);
+      state = UserSubmitState.edited(user);
     } catch (e) {
       state = UserSubmitState.failure(e.toString());
     }
@@ -63,7 +63,7 @@ class UserSubmitController extends _$UserSubmitController {
 
       ref.read(userListControllerProvider.notifier).updateListItem(item: user);
 
-      state = UserSubmitState.success(user);
+      state = UserSubmitState.edited(user);
     } catch (e) {
       state = UserSubmitState.failure(e.toString());
     }

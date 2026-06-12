@@ -26,7 +26,10 @@ class SupplierSearchDialog extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final search = ref.watch(supplierSearchControllerProvider);
+    final list = ref.watch(supplierListControllerProvider);
+    final filter = ref.watch(supplierFilterControllerProvider);
+    final keyword = filter.value?.search?.trim() ?? '';
+    final hasKeyword = keyword.isNotEmpty;
 
     final controller = useTextEditingController();
 
@@ -40,10 +43,8 @@ class SupplierSearchDialog extends HookConsumerWidget {
       duration: const Duration(milliseconds: 150),
     );
 
-    ref.listen(supplierSearchControllerProvider, (_, state) {
-      if (state is SupplierSearchWaiting ||
-          state is SupplierSearchResult ||
-          state is SupplierSearchFailure) {
+    ref.listen(supplierListControllerProvider, (_, state) {
+      if (hasKeyword && (state.isLoading || state.hasValue || state.hasError)) {
         sizeController.forward().then((_) {
           opacityController.forward();
         });
@@ -103,8 +104,8 @@ class SupplierSearchDialog extends HookConsumerWidget {
                 ),
               ),
               onChanged: (value) => ref
-                  .read(supplierSearchControllerProvider.notifier)
-                  .search(search: value),
+                  .read(supplierFilterControllerProvider.notifier)
+                  .updateSearch(search: value),
             ),
             Divider(),
             SizeTransition(
@@ -113,8 +114,8 @@ class SupplierSearchDialog extends HookConsumerWidget {
                 opacity: opacityController,
                 child: AspectRatio(
                   aspectRatio: 1.0,
-                  child: switch (search) {
-                    SupplierSearchWaiting(:final search) => Center(
+                  child: switch (list) {
+                    AsyncLoading() => Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -131,7 +132,7 @@ class SupplierSearchDialog extends HookConsumerWidget {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: search,
+                                  text: keyword,
                                   style: TextStyle(fontWeight: FontWeight.w600),
                                 ),
                                 TextSpan(text: ' '),
@@ -146,18 +147,18 @@ class SupplierSearchDialog extends HookConsumerWidget {
                         ],
                       ),
                     ),
-                    SupplierSearchResult(:final items) => SupplierListWidget(
+                    AsyncData(:final value) => SupplierListWidget(
                       projectId: projectId,
                       categoryId: categoryId,
                       issueId: issueId,
                       itemIndex: itemIndex,
-                      items: items,
+                      items: value.items,
                     ),
-                    SupplierSearchFailure(:final message) => Center(
+                    AsyncError(:final error) => Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Text(
-                          message,
+                          error.toString(),
                           textAlign: TextAlign.center,
                           style: textTheme.bodyMedium?.copyWith(
                             color: colorScheme.error,
@@ -165,7 +166,6 @@ class SupplierSearchDialog extends HookConsumerWidget {
                         ),
                       ),
                     ),
-                    _ => SizedBox(),
                   },
                 ),
               ),

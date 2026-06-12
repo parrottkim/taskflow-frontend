@@ -60,54 +60,51 @@ class ProcurementDisplayItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8.0),
-        IgnorePointer(
-          ignoring: requests.isNotEmpty,
-          child: Opacity(
-            opacity: requests.isNotEmpty ? 0.4 : 1.0,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: Responsive.isDesktop(context)
-                        ? _DesktopWidget(items: items)
-                        : _MobileWidget(items: items),
+        Opacity(
+          opacity: requests.isNotEmpty ? 0.4 : 1.0,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: Responsive.isDesktop(context)
+                      ? _DesktopWidget(items: items)
+                      : _MobileWidget(items: items),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12.0,
+                    vertical: 8.0,
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 8.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.2),
-                          width: 1.0,
-                        ),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: colorScheme.outline.withValues(alpha: 0.2),
+                        width: 1.0,
                       ),
-                      color: colorScheme.surfaceContainer,
                     ),
-                    child: Row(
-                      children: [
-                        Text(
-                          Intl.message('issue_form_procurement_15'),
+                    color: colorScheme.surfaceContainer,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        Intl.message('issue_form_procurement_15'),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${NumberFormat('#,###').format(total)} ₩',
+                          textAlign: TextAlign.end,
                           style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
-                        Expanded(
-                          child: Text(
-                            '${NumberFormat('#,###').format(total)} ₩',
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

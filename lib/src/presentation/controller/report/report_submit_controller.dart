@@ -23,25 +23,6 @@ class ReportSubmitController extends _$ReportSubmitController {
     try {
       late Report report;
 
-      List<MultipartFile> files = [];
-
-      if (value.files != null) {
-        for (final file in value.files!) {
-          final bytes = await file.readAsBytes();
-
-          final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
-
-          files.add(
-            MultipartFile.fromBytes(
-              bytes,
-              filename: file.name,
-              contentType: MediaType.parse(mimeType),
-            ),
-          );
-        }
-      }
-
       // 1. 공통 필드를 포함하는 최상위 요청 생성 (Base ReportFormState에서 접근 가능)
       CreateReportDto request = CreateReportDto(
         scheduleId: value.schedule?.id,
@@ -122,7 +103,21 @@ class ReportSubmitController extends _$ReportSubmitController {
           .read(reportRepositoryProvider)
           .createReport(request: request);
 
-      if (files.isNotEmpty) {
+      if (value.files != null && value.files!.isNotEmpty) {
+        List<MultipartFile> files = [];
+        for (final file in value.files!) {
+          final bytes = await file.readAsBytes();
+          final mimeType =
+              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+          files.add(
+            MultipartFile.fromBytes(
+              bytes,
+              filename: file.name,
+              contentType: MediaType.parse(mimeType),
+            ),
+          );
+        }
+
         final newAttachments = await ref
             .read(reportRepositoryProvider)
             .uploadAttachments(reportId: report.id, files: files);
@@ -136,7 +131,7 @@ class ReportSubmitController extends _$ReportSubmitController {
           .read(reportListControllerProvider(projectId: projectId).notifier)
           .addListItem(item: report);
 
-      state = ReportSubmitState.success(report);
+      state = ReportSubmitState.created(report);
     } catch (e) {
       state = ReportSubmitState.failure(e.toString());
     }
@@ -164,25 +159,6 @@ class ReportSubmitController extends _$ReportSubmitController {
 
     try {
       late Report report;
-
-      List<MultipartFile> files = [];
-
-      if (value.files != null) {
-        for (final file in value.files!) {
-          final bytes = await file.readAsBytes();
-
-          final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
-
-          files.add(
-            MultipartFile.fromBytes(
-              bytes,
-              filename: file.name,
-              contentType: MediaType.parse(mimeType),
-            ),
-          );
-        }
-      }
 
       UpdateReportDto request = UpdateReportDto(
         scheduleId: value.schedule?.id,
@@ -269,7 +245,21 @@ class ReportSubmitController extends _$ReportSubmitController {
           .read(reportRepositoryProvider)
           .updateReport(id: reportId, request: request);
 
-      if (files.isNotEmpty) {
+      if (value.files != null && value.files!.isNotEmpty) {
+        List<MultipartFile> files = [];
+        for (final file in value.files!) {
+          final bytes = await file.readAsBytes();
+          final mimeType =
+              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+          files.add(
+            MultipartFile.fromBytes(
+              bytes,
+              filename: file.name,
+              contentType: MediaType.parse(mimeType),
+            ),
+          );
+        }
+
         final newAttachments = await ref
             .read(reportRepositoryProvider)
             .uploadAttachments(reportId: report.id, files: files);
@@ -283,7 +273,7 @@ class ReportSubmitController extends _$ReportSubmitController {
           .read(reportListControllerProvider(projectId: projectId).notifier)
           .updateListItem(item: report);
 
-      state = ReportSubmitState.success(report);
+      state = ReportSubmitState.edited(report);
     } catch (e) {
       state = ReportSubmitState.failure(e.toString());
     }

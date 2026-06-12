@@ -87,11 +87,9 @@ class _DesktopWidget extends HookConsumerWidget {
                   ),
                   CustomTextButton(
                     onPressed: () {
-                      final path = GoRouter.of(context).location();
-
                       context.pushNamed(
                         RouteNames.scheduleNewChoose,
-                        queryParameters: {'redirect_to': path},
+                        queryParameters: {'project_id': projectId.toString()},
                       );
                     },
                     text: Intl.message('report_form_schedule_add'),
@@ -99,7 +97,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   SizedBox(height: 8.0),
                   CustomTextButton(
                     onPressed: () {
-                      context.goNamed(
+                      context.pushNamed(
                         RouteNames.reportNew,
                         pathParameters: {'project_id': projectId.toString()},
                       );
@@ -128,7 +126,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
                     if (isScheduleInvalid.value) return;
 
-                    context.goNamed(
+                    context.pushNamed(
                       RouteNames.reportNew,
                       pathParameters: {
                         'project_id': projectId.toString(),

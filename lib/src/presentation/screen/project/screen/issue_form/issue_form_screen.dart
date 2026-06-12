@@ -113,12 +113,31 @@ class _DesktopWidget extends HookConsumerWidget {
     }, []);
 
     ref.listen(issueSubmitControllerProvider, (_, submitState) {
+      // 1. 로딩 상태 분기
       if (submitState is IssueSubmitPending) {
         LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
+        return;
+      }
 
-        if (submitState is IssueSubmitSuccess) {
+      LoadingOverlay.hide();
+
+      // 2. Sealed class 상태별 흐름 제어
+      switch (submitState) {
+        case IssueSubmitCreated(:final issue) ||
+            IssueSubmitEdited(:final issue):
+          final isCreated = submitState is IssueSubmitCreated;
+
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message(
+                    isCreated ? 'issue_form_created' : 'issue_form_edited',
+                  ),
+                ),
+              );
+
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {'project_id': projectId.toString()},
@@ -128,25 +147,27 @@ class _DesktopWidget extends HookConsumerWidget {
                 IssueApproval() => 'approval',
                 _ => 'contract',
               },
-              'issue': submitState.issue.id.toString(),
+              'issue': issue.id.toString(),
             },
           );
-        }
 
-        if (submitState is IssueSubmitDeleted) {
+        case IssueSubmitDeleted():
           ref
               .read(toastProvider)
               .showToast(
                 child: Toast(
                   type: ToastType.standard,
-                  message: Intl.message('issue_form_delete'),
+                  message: Intl.message('issue_form_deleted'),
                 ),
               );
+
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {'project_id': projectId.toString()},
           );
-        }
+
+        default:
+          break;
       }
     });
 
@@ -281,9 +302,8 @@ class _DesktopWidget extends HookConsumerWidget {
                     projectId: projectId,
                     categoryId: categoryId,
                     issueId: issueId,
-                    isRequested: value.isRequested,
-                    isOrdered: value.isOrdered,
                     items: value.procurementItems,
+                    requests: value.requests,
                     hasProcurementIssueItems: hasProcurementIssueItems,
                     isProcurementIssueItemEmpty: isProcurementIssueItemEmpty,
                   ),
@@ -312,7 +332,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             issueId: issueId,
                           ).notifier,
                         )
-                        .addFile(file);
+                        .addFile(file: file);
                   },
                   onRemoveFile: (file) {
                     ref
@@ -323,7 +343,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             issueId: issueId,
                           ).notifier,
                         )
-                        .removeFile(file);
+                        .removeFile(file: file);
                   },
                   onRemoveAttachment: (attachment) async {
                     await ref
@@ -334,7 +354,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             issueId: issueId,
                           ).notifier,
                         )
-                        .removeAttachment(attachment);
+                        .removeAttachment(attachment: attachment);
                   },
                 ),
               ],

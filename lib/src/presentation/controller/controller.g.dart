@@ -3,75 +3,103 @@
 part of 'controller.dart';
 
 // **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-SupplierSearchIdle _$SupplierSearchIdleFromJson(Map<String, dynamic> json) =>
-    SupplierSearchIdle($type: json['runtimeType'] as String?);
-
-Map<String, dynamic> _$SupplierSearchIdleToJson(SupplierSearchIdle instance) =>
-    <String, dynamic>{'runtimeType': instance.$type};
-
-SupplierSearchWaiting _$SupplierSearchWaitingFromJson(
-  Map<String, dynamic> json,
-) => SupplierSearchWaiting(
-  search: json['search'] as String? ?? '',
-  $type: json['runtimeType'] as String?,
-);
-
-Map<String, dynamic> _$SupplierSearchWaitingToJson(
-  SupplierSearchWaiting instance,
-) => <String, dynamic>{
-  'search': instance.search,
-  'runtimeType': instance.$type,
-};
-
-SupplierSearchResult _$SupplierSearchResultFromJson(
-  Map<String, dynamic> json,
-) => SupplierSearchResult(
-  search: json['search'] as String? ?? '',
-  items:
-      (json['items'] as List<dynamic>?)
-          ?.map((e) => Supplier.fromJson(e as Map<String, dynamic>))
-          .toList() ??
-      const [],
-  page: (json['page'] as num?)?.toInt() ?? 0,
-  total: (json['total'] as num?)?.toInt() ?? 0,
-  hasReachEnd: json['hasReachEnd'] as bool? ?? false,
-  $type: json['runtimeType'] as String?,
-);
-
-Map<String, dynamic> _$SupplierSearchResultToJson(
-  SupplierSearchResult instance,
-) => <String, dynamic>{
-  'search': instance.search,
-  'items': instance.items,
-  'page': instance.page,
-  'total': instance.total,
-  'hasReachEnd': instance.hasReachEnd,
-  'runtimeType': instance.$type,
-};
-
-SupplierSearchFailure _$SupplierSearchFailureFromJson(
-  Map<String, dynamic> json,
-) => SupplierSearchFailure(
-  json['message'] as String,
-  $type: json['runtimeType'] as String?,
-);
-
-Map<String, dynamic> _$SupplierSearchFailureToJson(
-  SupplierSearchFailure instance,
-) => <String, dynamic>{
-  'message': instance.message,
-  'runtimeType': instance.$type,
-};
-
-// **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
+
+@ProviderFor(AccountFilterController)
+final accountFilterControllerProvider = AccountFilterControllerProvider._();
+
+final class AccountFilterControllerProvider
+    extends
+        $AsyncNotifierProvider<AccountFilterController, AccountFilterState> {
+  AccountFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'accountFilterControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$accountFilterControllerHash();
+
+  @$internal
+  @override
+  AccountFilterController create() => AccountFilterController();
+}
+
+String _$accountFilterControllerHash() =>
+    r'e4d2b64368957f5902661f8f7b43cd8040dee21f';
+
+abstract class _$AccountFilterController
+    extends $AsyncNotifier<AccountFilterState> {
+  FutureOr<AccountFilterState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<AccountFilterState>, AccountFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<AccountFilterState>, AccountFilterState>,
+              AsyncValue<AccountFilterState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(AddressController)
+final addressControllerProvider = AddressControllerProvider._();
+
+final class AddressControllerProvider
+    extends $AsyncNotifierProvider<AddressController, AddressState> {
+  AddressControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'addressControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$addressControllerHash();
+
+  @$internal
+  @override
+  AddressController create() => AddressController();
+}
+
+String _$addressControllerHash() => r'bbea3165a3c1a36a946995cd1ff12cb580adc158';
+
+abstract class _$AddressController extends $AsyncNotifier<AddressState> {
+  FutureOr<AddressState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<AddressState>, AddressState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<AddressState>, AddressState>,
+              AsyncValue<AddressState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
 
 @ProviderFor(AuthController)
 final authControllerProvider = AuthControllerProvider._();
@@ -812,7 +840,7 @@ final class IssueFormControllerProvider
 }
 
 String _$issueFormControllerHash() =>
-    r'6a2935ebb94c25b48fee75825b870073240539d6';
+    r'92cdc681c4fd1439b1a7748b361786d0f19ab7f1';
 
 final class IssueFormControllerFamily extends $Family
     with
@@ -1003,7 +1031,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'030abcc7ced86c327fc9bf7a12869be84d07f818';
+    r'01ad932d78303d3c765b15f776308f7f6e956c9d';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -1165,61 +1193,6 @@ abstract class _$LocalController extends $AsyncNotifier<LocalState> {
             as $ClassProviderElement<
               AnyNotifier<AsyncValue<LocalState>, LocalState>,
               AsyncValue<LocalState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(OperationFilterController)
-final operationFilterControllerProvider = OperationFilterControllerProvider._();
-
-final class OperationFilterControllerProvider
-    extends
-        $AsyncNotifierProvider<
-          OperationFilterController,
-          OperationFilterState
-        > {
-  OperationFilterControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'operationFilterControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$operationFilterControllerHash();
-
-  @$internal
-  @override
-  OperationFilterController create() => OperationFilterController();
-}
-
-String _$operationFilterControllerHash() =>
-    r'19e4fb9f3e3baf43b2aa484fe6ccb1005cf6a487';
-
-abstract class _$OperationFilterController
-    extends $AsyncNotifier<OperationFilterState> {
-  FutureOr<OperationFilterState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref
-            as $Ref<AsyncValue<OperationFilterState>, OperationFilterState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<OperationFilterState>,
-                OperationFilterState
-              >,
-              AsyncValue<OperationFilterState>,
               Object?,
               Object?
             >;
@@ -1600,7 +1573,7 @@ final class ProjectSubmitControllerProvider
 }
 
 String _$projectSubmitControllerHash() =>
-    r'58b83f0848323c8c65c95c01122ed966e7677683';
+    r'927f9d59f6bef4c5fbc3d20339adcaa82134b7e9';
 
 abstract class _$ProjectSubmitController extends $Notifier<ProjectSubmitState> {
   ProjectSubmitState build();
@@ -1896,7 +1869,7 @@ final class ScheduleSubmitControllerProvider
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'018170fde6d74160ed0d0f98e59677f62b6298fc';
+    r'5ce32678a6df44e1a80021af1100e85fa61eb346';
 
 abstract class _$ScheduleSubmitController
     extends $Notifier<ScheduleSubmitState> {
@@ -1910,6 +1883,248 @@ abstract class _$ScheduleSubmitController
             as $ClassProviderElement<
               AnyNotifier<ScheduleSubmitState, ScheduleSubmitState>,
               ScheduleSubmitState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(SupplierFilterController)
+final supplierFilterControllerProvider = SupplierFilterControllerProvider._();
+
+final class SupplierFilterControllerProvider
+    extends
+        $AsyncNotifierProvider<SupplierFilterController, SupplierFilterState> {
+  SupplierFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'supplierFilterControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$supplierFilterControllerHash();
+
+  @$internal
+  @override
+  SupplierFilterController create() => SupplierFilterController();
+}
+
+String _$supplierFilterControllerHash() =>
+    r'baf344c47c3a297300fd24fd78c176d4e0dcd33f';
+
+abstract class _$SupplierFilterController
+    extends $AsyncNotifier<SupplierFilterState> {
+  FutureOr<SupplierFilterState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<SupplierFilterState>, SupplierFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<SupplierFilterState>, SupplierFilterState>,
+              AsyncValue<SupplierFilterState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(SupplierFormController)
+final supplierFormControllerProvider = SupplierFormControllerFamily._();
+
+final class SupplierFormControllerProvider
+    extends $AsyncNotifierProvider<SupplierFormController, SupplierFormState> {
+  SupplierFormControllerProvider._({
+    required SupplierFormControllerFamily super.from,
+    required int? super.argument,
+  }) : super(
+         retry: null,
+         name: r'supplierFormControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$supplierFormControllerHash();
+
+  @override
+  String toString() {
+    return r'supplierFormControllerProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  SupplierFormController create() => SupplierFormController();
+
+  @override
+  bool operator ==(Object other) {
+    return other is SupplierFormControllerProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$supplierFormControllerHash() =>
+    r'2c2b763768ef0e2da11dc39510bb642918a7de6d';
+
+final class SupplierFormControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          SupplierFormController,
+          AsyncValue<SupplierFormState>,
+          SupplierFormState,
+          FutureOr<SupplierFormState>,
+          int?
+        > {
+  SupplierFormControllerFamily._()
+    : super(
+        retry: null,
+        name: r'supplierFormControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SupplierFormControllerProvider call({int? supplierId}) =>
+      SupplierFormControllerProvider._(argument: supplierId, from: this);
+
+  @override
+  String toString() => r'supplierFormControllerProvider';
+}
+
+abstract class _$SupplierFormController
+    extends $AsyncNotifier<SupplierFormState> {
+  late final _$args = ref.$arg as int?;
+  int? get supplierId => _$args;
+
+  FutureOr<SupplierFormState> build({int? supplierId});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<SupplierFormState>, SupplierFormState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<SupplierFormState>, SupplierFormState>,
+              AsyncValue<SupplierFormState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(supplierId: _$args));
+  }
+}
+
+@ProviderFor(SupplierListController)
+final supplierListControllerProvider = SupplierListControllerProvider._();
+
+final class SupplierListControllerProvider
+    extends $AsyncNotifierProvider<SupplierListController, SupplierListState> {
+  SupplierListControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'supplierListControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$supplierListControllerHash();
+
+  @$internal
+  @override
+  SupplierListController create() => SupplierListController();
+}
+
+String _$supplierListControllerHash() =>
+    r'a3f5d192e13b724a5cf61d31c024c7cea39b4099';
+
+abstract class _$SupplierListController
+    extends $AsyncNotifier<SupplierListState> {
+  FutureOr<SupplierListState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<SupplierListState>, SupplierListState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<SupplierListState>, SupplierListState>,
+              AsyncValue<SupplierListState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(SupplierSubmitController)
+final supplierSubmitControllerProvider = SupplierSubmitControllerProvider._();
+
+final class SupplierSubmitControllerProvider
+    extends $NotifierProvider<SupplierSubmitController, SupplierSubmitState> {
+  SupplierSubmitControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'supplierSubmitControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$supplierSubmitControllerHash();
+
+  @$internal
+  @override
+  SupplierSubmitController create() => SupplierSubmitController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SupplierSubmitState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SupplierSubmitState>(value),
+    );
+  }
+}
+
+String _$supplierSubmitControllerHash() =>
+    r'a1c5a84b25ff7969d746cd0976d295f8517fafcb';
+
+abstract class _$SupplierSubmitController
+    extends $Notifier<SupplierSubmitState> {
+  SupplierSubmitState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<SupplierSubmitState, SupplierSubmitState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SupplierSubmitState, SupplierSubmitState>,
+              SupplierSubmitState,
               Object?,
               Object?
             >;
@@ -1965,60 +2180,6 @@ abstract class _$SettingFilterController
   }
 }
 
-@ProviderFor(SupplierSearchController)
-final supplierSearchControllerProvider = SupplierSearchControllerProvider._();
-
-final class SupplierSearchControllerProvider
-    extends $NotifierProvider<SupplierSearchController, SupplierSearchState> {
-  SupplierSearchControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'supplierSearchControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$supplierSearchControllerHash();
-
-  @$internal
-  @override
-  SupplierSearchController create() => SupplierSearchController();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(SupplierSearchState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<SupplierSearchState>(value),
-    );
-  }
-}
-
-String _$supplierSearchControllerHash() =>
-    r'872e376cd6e5cd7b17bc28ba3fa6853cadb75e2e';
-
-abstract class _$SupplierSearchController
-    extends $Notifier<SupplierSearchState> {
-  SupplierSearchState build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<SupplierSearchState, SupplierSearchState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<SupplierSearchState, SupplierSearchState>,
-              SupplierSearchState,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
 @ProviderFor(ReportFormController)
 final reportFormControllerProvider = ReportFormControllerFamily._();
 
@@ -2061,7 +2222,7 @@ final class ReportFormControllerProvider
 }
 
 String _$reportFormControllerHash() =>
-    r'884cfd4f07aeb54a44ea031420f0acf6608c2775';
+    r'4129698c8e066af1ead3fd5ba82bd2bcb230a1f8';
 
 final class ReportFormControllerFamily extends $Family
     with
@@ -2256,7 +2417,7 @@ final class ReportSubmitControllerProvider
 }
 
 String _$reportSubmitControllerHash() =>
-    r'730d062b7b48061a2cf0fe08f722d18dc1c7d200';
+    r'05bf1bf703e97d4665edfdff8f8a002a76d23ab3';
 
 abstract class _$ReportSubmitController extends $Notifier<ReportSubmitState> {
   ReportSubmitState build();
@@ -2455,7 +2616,7 @@ final class TripExportControllerProvider
 }
 
 String _$tripExportControllerHash() =>
-    r'3ce00fe0116790e3974d54c4433f2acbaee31616';
+    r'1bf0d24f38fe771904aa171727eeabb6acbfc1a1';
 
 abstract class _$TripExportController extends $Notifier<TripExportState> {
   TripExportState build();
@@ -2741,7 +2902,7 @@ final class UserSubmitControllerProvider
 }
 
 String _$userSubmitControllerHash() =>
-    r'68d1d5e0216fdccabc686edd614088d77b387479';
+    r'edac99f0a38e79e74aaed51949f235180e13c9df';
 
 abstract class _$UserSubmitController extends $Notifier<UserSubmitState> {
   UserSubmitState build();

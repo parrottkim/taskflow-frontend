@@ -88,45 +88,52 @@ class _DesktopWidget extends HookConsumerWidget {
     ref.listen(issueSubmitControllerProvider, (_, submitState) {
       if (submitState is IssueSubmitPending) {
         LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
+        return;
+      }
 
-        if (submitState is IssueSubmitSuccess) {
+      LoadingOverlay.hide();
+
+      switch (submitState) {
+        case IssueSubmitCreated(:final issue):
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message(
+                    'issue_form_procurement_requested_created',
+                  ),
+                ),
+              );
+
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {'project_id': projectId.toString()},
             queryParameters: {
               'view': 'procurement',
-              'issue': submitState.issue.id.toString(),
+              'issue': issue.id.toString(),
             },
           );
-        }
 
-        if (submitState is IssueSubmitDeleted) {
+        case IssueSubmitDeleted():
           ref
               .read(toastProvider)
               .showToast(
                 child: Toast(
                   type: ToastType.standard,
-                  message: Intl.message('issue_form_delete'),
+                  message: Intl.message(
+                    'issue_form_procurement_requested_deleted',
+                  ),
                 ),
               );
+
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {'project_id': projectId.toString()},
           );
-        }
 
-        if (submitState is IssueSubmitFailure) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.error,
-                  message: submitState.message,
-                ),
-              );
-        }
+        default:
+          break;
       }
     });
 

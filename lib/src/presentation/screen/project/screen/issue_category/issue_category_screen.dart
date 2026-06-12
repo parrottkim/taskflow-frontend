@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
@@ -56,13 +57,23 @@ class _DesktopWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
+    // 프로젝트 종결 시 작동
     ref.listen(projectSubmitControllerProvider, (_, state) {
       if (state is ProjectSubmitPending) {
         LoadingOverlay.show(context);
       } else {
         LoadingOverlay.hide();
 
-        if (state is ProjectSubmitSuccess) {
+        if (state is ProjectSubmitCreated) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message('issue_new_choose_7_created'),
+                ),
+              );
+
           context.pop();
           context.goNamed(
             RouteNames.projectDetail,

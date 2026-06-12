@@ -18,6 +18,42 @@ Map<String, dynamic> _$BookmarkToJson(_Bookmark instance) => <String, dynamic>{
   'createdAt': instance.createdAt.toIso8601String(),
 };
 
+_AddressSearchResult _$AddressSearchResultFromJson(Map<String, dynamic> json) =>
+    _AddressSearchResult(
+      totalCount: (json['totalCount'] as num?)?.toInt() ?? 0,
+      items:
+          (json['items'] as List<dynamic>?)
+              ?.map((e) => AddressItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <AddressItem>[],
+    );
+
+Map<String, dynamic> _$AddressSearchResultToJson(
+  _AddressSearchResult instance,
+) => <String, dynamic>{
+  'totalCount': instance.totalCount,
+  'items': instance.items,
+};
+
+_AddressItem _$AddressItemFromJson(Map<String, dynamic> json) => _AddressItem(
+  zipNo: json['zipNo'] as String? ?? '',
+  roadAddr: json['roadAddr'] as String? ?? '',
+  roadAddrPart1: json['roadAddrPart1'] as String? ?? '',
+  emdNm: json['emdNm'] as String? ?? '',
+  bdNm: json['bdNm'] as String? ?? '',
+  jibunAddr: json['jibunAddr'] as String? ?? '',
+);
+
+Map<String, dynamic> _$AddressItemToJson(_AddressItem instance) =>
+    <String, dynamic>{
+      'zipNo': instance.zipNo,
+      'roadAddr': instance.roadAddr,
+      'roadAddrPart1': instance.roadAddrPart1,
+      'emdNm': instance.emdNm,
+      'bdNm': instance.bdNm,
+      'jibunAddr': instance.jibunAddr,
+    };
+
 _Currency _$CurrencyFromJson(Map<String, dynamic> json) => _Currency(
   id: (json['id'] as num).toInt(),
   code: json['code'] as String,
@@ -1309,21 +1345,30 @@ Map<String, dynamic> _$UpdateTransactionIssueItemDtoToJson(
   'note': instance.note,
 };
 
-_SupplierDto _$SupplierDtoFromJson(Map<String, dynamic> json) => _SupplierDto(
-  businessNumber: json['businessNumber'] as String,
-  name: json['name'] as String,
-  phone: json['phone'] as String?,
-  address: json['address'] as String?,
-  favicon: json['favicon'] as String?,
-);
+_CreateSupplierDto _$CreateSupplierDtoFromJson(Map<String, dynamic> json) =>
+    _CreateSupplierDto(
+      name: json['name'] as String,
+      number: json['number'] as String,
+      zipcode: json['zipcode'] as String?,
+      roadAddress: json['roadAddress'] as String?,
+      roadAddressReference: json['roadAddressReference'] as String?,
+      detailAddress: json['detailAddress'] as String?,
+      phone: json['phone'] as String?,
+      email: json['email'] as String?,
+      logo: json['logo'] as String?,
+    );
 
-Map<String, dynamic> _$SupplierDtoToJson(_SupplierDto instance) =>
+Map<String, dynamic> _$CreateSupplierDtoToJson(_CreateSupplierDto instance) =>
     <String, dynamic>{
-      'businessNumber': instance.businessNumber,
       'name': instance.name,
+      'number': instance.number,
+      'zipcode': instance.zipcode,
+      'roadAddress': instance.roadAddress,
+      'roadAddressReference': instance.roadAddressReference,
+      'detailAddress': instance.detailAddress,
       'phone': instance.phone,
-      'address': instance.address,
-      'favicon': instance.favicon,
+      'email': instance.email,
+      'logo': instance.logo,
     };
 
 _CreateScheduleDto _$CreateScheduleDtoFromJson(Map<String, dynamic> json) =>
@@ -1720,7 +1765,11 @@ _Supplier _$SupplierFromJson(Map<String, dynamic> json) => _Supplier(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
   number: json['number'] as String,
+  zipcode: json['zipcode'] as String?,
   address: json['address'] as String?,
+  roadAddress: json['roadAddress'] as String?,
+  roadAddressReference: json['roadAddressReference'] as String?,
+  detailAddress: json['detailAddress'] as String?,
   phone: json['phone'] as String?,
   email: json['email'] as String?,
   logo: json['logo'] as String?,
@@ -1730,7 +1779,11 @@ Map<String, dynamic> _$SupplierToJson(_Supplier instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
   'number': instance.number,
+  'zipcode': instance.zipcode,
   'address': instance.address,
+  'roadAddress': instance.roadAddress,
+  'roadAddressReference': instance.roadAddressReference,
+  'detailAddress': instance.detailAddress,
   'phone': instance.phone,
   'email': instance.email,
   'logo': instance.logo,
@@ -1744,6 +1797,36 @@ _SupplierKeyword _$SupplierKeywordFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SupplierKeywordToJson(_SupplierKeyword instance) =>
     <String, dynamic>{'id': instance.id, 'name': instance.name};
+
+_SupplierAddress _$SupplierAddressFromJson(Map<String, dynamic> json) =>
+    _SupplierAddress(
+      zipcode: json['zipcode'] as String? ?? '',
+      roadAddress: json['roadAddress'] as String? ?? '',
+      roadAddressReference: json['roadAddressReference'] as String? ?? '',
+      detailAddress: json['detailAddress'] as String?,
+    );
+
+Map<String, dynamic> _$SupplierAddressToJson(_SupplierAddress instance) =>
+    <String, dynamic>{
+      'zipcode': instance.zipcode,
+      'roadAddress': instance.roadAddress,
+      'roadAddressReference': instance.roadAddressReference,
+      'detailAddress': instance.detailAddress,
+    };
+
+_SupplierLogo _$SupplierLogoFromJson(Map<String, dynamic> json) =>
+    _SupplierLogo(
+      filename: json['filename'] as String,
+      size: (json['size'] as num).toInt(),
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$SupplierLogoToJson(_SupplierLogo instance) =>
+    <String, dynamic>{
+      'filename': instance.filename,
+      'size': instance.size,
+      'url': instance.url,
+    };
 
 _Token _$TokenFromJson(Map<String, dynamic> json) => _Token(
   accessToken: json['accessToken'] as String,
@@ -2137,6 +2220,82 @@ class _AuthService implements AuthService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
+
+  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
+  }
+}
+
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+
+class _AddressService implements AddressService {
+  _AddressService(this._dio, {this.baseUrl, this.errorLogger});
+
+  final Dio _dio;
+
+  String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<dynamic> searchAddresses({
+    required int currentPage,
+    int countPerPage = 10,
+    required String keyword,
+    String resultType = 'json',
+    String hstryYn = 'N',
+    String firstSort = 'road',
+    String addInfoYn = 'Y',
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'currentPage': currentPage,
+      r'countPerPage': countPerPage,
+      r'keyword': keyword,
+      r'resultType': resultType,
+      r'hstryYn': hstryYn,
+      r'firstSort': firstSort,
+      r'addInfoYn': addInfoYn,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/addrlink/addrLinkApi.do',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -4229,6 +4388,39 @@ class _SftpService implements SftpService {
   }
 
   @override
+  Future<SupplierLogo> uploadSupplierLogo({required MultipartFile file}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.add(MapEntry('file', file));
+    final _options = _setStreamType<SupplierLogo>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            'files/supplier-logo',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SupplierLogo _value;
+    try {
+      _value = SupplierLogo.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<HttpResponse<List<int>>> downloadFile({required String path}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'path': path};
@@ -4301,10 +4493,37 @@ class _SupplierService implements SupplierService {
   final ParseErrorLogger? errorLogger;
 
   @override
+  Future<Supplier> getSupplier({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Supplier>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'supplier/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Supplier _value;
+    try {
+      _value = Supplier.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<Result<Supplier>> getSuppliers({
     int page = 1,
     int limit = 100,
-    required String search,
+    String? search,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -4312,6 +4531,7 @@ class _SupplierService implements SupplierService {
       r'limit': limit,
       r'search': search,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<Result<Supplier>>(
@@ -4339,16 +4559,46 @@ class _SupplierService implements SupplierService {
   }
 
   @override
-  Future<Supplier> createSupplier({required Supplier supplier}) async {
+  Future<Supplier> createSupplier({required CreateSupplierDto request}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = supplier;
+    final _data = request;
     final _options = _setStreamType<Supplier>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
             'supplier',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Supplier _value;
+    try {
+      _value = Supplier.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Supplier> updateSupplier({
+    required int id,
+    required CreateSupplierDto request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Supplier>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'supplier/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -5105,6 +5355,53 @@ final class AuthRepositoryProvider
 }
 
 String _$authRepositoryHash() => r'e81ff156707f6071b8b56dc0a5301f19bc455884';
+
+@ProviderFor(addressRepository)
+final addressRepositoryProvider = AddressRepositoryProvider._();
+
+final class AddressRepositoryProvider
+    extends
+        $FunctionalProvider<
+          AddressRepository,
+          AddressRepository,
+          AddressRepository
+        >
+    with $Provider<AddressRepository> {
+  AddressRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'addressRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$addressRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<AddressRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  AddressRepository create(Ref ref) {
+    return addressRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AddressRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AddressRepository>(value),
+    );
+  }
+}
+
+String _$addressRepositoryHash() => r'0c7d413f7f4cd3f3cf77dfcfba5d9a63099e6fb4';
 
 @ProviderFor(bookmarkRepository)
 final bookmarkRepositoryProvider = BookmarkRepositoryProvider._();
