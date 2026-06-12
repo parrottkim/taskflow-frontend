@@ -4,24 +4,23 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
-import 'package:taskflow/src/presentation/screen/setting/widget/overview_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/widget/overview_widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
-class SettingScreen extends HookConsumerWidget {
+class DataScreen extends HookConsumerWidget {
   final String? view;
 
-  const SettingScreen({super.key, this.view});
+  const DataScreen({super.key, this.view});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
       final location = GoRouter.of(context).name;
 
-      if (location != RouteNames.setting) return;
+      if (location != RouteNames.data) return;
 
       Future.microtask(
-        () =>
-            ref.read(settingFilterControllerProvider.notifier).init(view: view),
+        () => ref.read(dataFilterControllerProvider.notifier).init(view: view),
       );
 
       return null;

@@ -11,8 +11,8 @@ class UserAdminToggleDialog extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return BaseDialog(
-      title: Intl.message('setting_user_admin_dialog_1'),
-      content: Text(Intl.message('setting_user_admin_dialog_2')),
+      title: Intl.message('data_user_admin_dialog_1'),
+      content: Text(Intl.message('data_user_admin_dialog_2')),
       actions: [
         ElevatedButton(
           onPressed: () => context.pop(false),

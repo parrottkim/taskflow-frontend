@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/search_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/search_widget.dart';
 
 class SupplierFilterWidget extends StatelessWidget {
   const SupplierFilterWidget({super.key});

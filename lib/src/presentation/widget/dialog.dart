@@ -213,7 +213,26 @@ class DeleteDialog extends StatelessWidget {
 
     return BaseDialog(
       title: title,
-      content: Text(content),
+      content: ContainerWidget(
+        borderRadius: BorderRadius.circular(8.0),
+        color: colorScheme.errorContainer,
+        borderColor: colorScheme.error,
+        child: Row(
+          children: [
+            Icon(Symbols.warning_rounded, size: 20.0, color: colorScheme.error),
+            SizedBox(width: 8.0),
+            Expanded(
+              child: Text(
+                content,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.error,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       actions: [
         ElevatedButton(
           onPressed: () => context.pop(false),

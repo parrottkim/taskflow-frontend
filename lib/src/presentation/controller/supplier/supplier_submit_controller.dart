@@ -129,5 +129,19 @@ class SupplierSubmitController extends _$SupplierSubmitController {
     }
   }
 
-  Future<void> deleteSupplier({required int supplierId}) async {}
+  Future<void> deleteSupplier({required int supplierId}) async {
+    state = SupplierSubmitState.pending();
+
+    try {
+      await ref.read(supplierRepositoryProvider).deleteSupplier(id: supplierId);
+
+      ref
+          .read(supplierListControllerProvider.notifier)
+          .removeListItem(id: supplierId);
+
+      state = SupplierSubmitState.deleted();
+    } catch (e) {
+      state = SupplierSubmitState.failure(e.toString());
+    }
+  }
 }

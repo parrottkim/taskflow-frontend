@@ -1,6 +1,5 @@
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +10,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/supplier_address_dialog.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_address_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
@@ -87,32 +86,6 @@ class _DialogWidget extends HookConsumerWidget {
 
     final isHovered = useState(false);
 
-    ref.listen(supplierSubmitControllerProvider, (_, state) {
-      if (state is SupplierSubmitPending) {
-        LoadingOverlay.show(context);
-        return;
-      }
-
-      LoadingOverlay.hide();
-
-      if (state is SupplierSubmitCreated || state is SupplierSubmitEdited)
-        context.pop();
-
-      ref
-          .read(toastProvider)
-          .showToast(
-            child: Toast(
-              type: ToastType.verified,
-              message: Intl.message(switch (state) {
-                SupplierSubmitCreated() => 'setting_supplier_created',
-                SupplierSubmitEdited() => 'setting_supplier_edited',
-                SupplierSubmitDeleted() => 'setting_supplier_deleted',
-                _ => '',
-              }),
-            ),
-          );
-    });
-
     // 2. 이전에 만든 SupplierAddressDialog 호출 및 파싱부 연동
     void onSearchAddress() async {
       final SupplierAddress? picked = await showDialog<SupplierAddress>(
@@ -185,15 +158,15 @@ class _DialogWidget extends HookConsumerWidget {
       maxHeight: 520.0,
       contentPadding: EdgeInsets.zero,
       title: supplierId != null && value.name != null
-          ? Intl.message('setting_supplier_edit_title', args: [value.name!])
-          : Intl.message('setting_supplier_add'),
+          ? Intl.message('data_supplier_edit_title', args: [value.name!])
+          : Intl.message('data_supplier_add'),
       content: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              Intl.message('setting_supplier_logo'),
+              Intl.message('data_supplier_logo'),
               style: textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -297,7 +270,7 @@ class _DialogWidget extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  Intl.message('setting_supplier_column_1'),
+                  Intl.message('data_supplier_column_1'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -308,7 +281,7 @@ class _DialogWidget extends HookConsumerWidget {
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                hintText: Intl.message('setting_supplier_name'),
+                hintText: Intl.message('data_supplier_name'),
               ),
               onChanged: (value) {
                 isNameEmpty.value = false;
@@ -324,7 +297,7 @@ class _DialogWidget extends HookConsumerWidget {
             ),
             InvalidWidget(
               visible: isNameEmpty.value,
-              text: Intl.message('setting_supplier_name_empty'),
+              text: Intl.message('data_supplier_name_empty'),
             ),
             const SizedBox(height: 24.0),
 
@@ -333,7 +306,7 @@ class _DialogWidget extends HookConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  Intl.message('setting_supplier_column_2'),
+                  Intl.message('data_supplier_column_2'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -349,7 +322,7 @@ class _DialogWidget extends HookConsumerWidget {
                 BusinessNumberFormatter(),
               ],
               decoration: InputDecoration(
-                hintText: Intl.message('setting_supplier_number'),
+                hintText: Intl.message('data_supplier_number'),
               ),
               onChanged: (value) {
                 isNumberEmpty.value = false;
@@ -366,17 +339,17 @@ class _DialogWidget extends HookConsumerWidget {
             ),
             InvalidWidget(
               visible: isNumberEmpty.value,
-              text: Intl.message('setting_supplier_number_empty'),
+              text: Intl.message('data_supplier_number_empty'),
             ),
             InvalidWidget(
               visible: isNumberInvalid.value,
-              text: Intl.message('setting_supplier_number_invalid'),
+              text: Intl.message('data_supplier_number_invalid'),
             ),
             const SizedBox(height: 24.0),
 
             // 주소 섹션 (우편번호 + 검색 버튼 / 도로명 / 상세주소 3단 구성)
             Text(
-              Intl.message('setting_supplier_column_3'),
+              Intl.message('data_supplier_column_3'),
               style: textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -390,7 +363,7 @@ class _DialogWidget extends HookConsumerWidget {
                     controller: zipcodeController,
                     readOnly: true,
                     decoration: InputDecoration(
-                      hintText: Intl.message('setting_supplier_zipcode'),
+                      hintText: Intl.message('data_supplier_zipcode'),
                     ),
                   ),
                 ),
@@ -421,7 +394,7 @@ class _DialogWidget extends HookConsumerWidget {
               controller: combinedAddressController,
               readOnly: true,
               decoration: InputDecoration(
-                hintText: Intl.message('setting_supplier_address'),
+                hintText: Intl.message('data_supplier_address'),
               ),
             ),
             const SizedBox(height: 8.0),
@@ -429,21 +402,21 @@ class _DialogWidget extends HookConsumerWidget {
               controller: detailAddressController,
               readOnly: true,
               decoration: InputDecoration(
-                hintText: Intl.message('setting_supplier_detail_address'),
+                hintText: Intl.message('data_supplier_detail_address'),
               ),
             ),
             const SizedBox(height: 24.0),
 
             // 전화번호
             Text(
-              Intl.message('setting_supplier_column_4'),
+              Intl.message('data_supplier_column_4'),
               style: textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
             ),
             SizedBox(height: 4.0),
             Text(
-              Intl.message('setting_supplier_phone_number_only'),
+              Intl.message('data_supplier_phone_number_only'),
               style: textTheme.bodySmall?.copyWith(
                 color: colorScheme.onSurface.withValues(alpha: 0.7),
               ),
@@ -452,7 +425,7 @@ class _DialogWidget extends HookConsumerWidget {
             TextField(
               controller: phoneController,
               decoration: InputDecoration(
-                hintText: Intl.message('setting_supplier_phone'),
+                hintText: Intl.message('data_supplier_phone'),
               ),
               inputFormatters: [PhoneNumberFormatter()],
               onChanged: (value) {
@@ -469,7 +442,7 @@ class _DialogWidget extends HookConsumerWidget {
 
             // 이메일
             Text(
-              Intl.message('setting_supplier_column_5'),
+              Intl.message('data_supplier_column_5'),
               style: textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -478,7 +451,7 @@ class _DialogWidget extends HookConsumerWidget {
             TextField(
               controller: emailController,
               decoration: InputDecoration(
-                hintText: Intl.message('setting_supplier_email'),
+                hintText: Intl.message('data_supplier_email'),
               ),
               onChanged: (value) {
                 ref
