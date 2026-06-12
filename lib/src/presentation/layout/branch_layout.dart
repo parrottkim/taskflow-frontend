@@ -6,7 +6,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/project_action_button.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/new_project_button.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/supplier_add_button.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_add_button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
@@ -101,7 +101,7 @@ class BranchLayout extends ConsumerWidget {
                       NewProjectButton(),
                     if (currentRouteName == RouteNames.projectDetail)
                       ProjectActionButton(),
-                    if (currentRouteName == RouteNames.setting &&
+                    if (currentRouteName == RouteNames.data &&
                         routerState.uri.queryParameters['view'] == 'supplier')
                       SupplierAddButton(),
                   ],

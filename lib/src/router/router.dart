@@ -14,7 +14,7 @@ import 'package:taskflow/src/presentation/screen/project/screen/project_form/pro
 import 'package:taskflow/src/presentation/screen/auth/reset_password/reset_password_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_category/report_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/report_form_screen.dart';
-import 'package:taskflow/src/presentation/screen/setting/setting_screen.dart';
+import 'package:taskflow/src/presentation/screen/data/data_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_category/schedule_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/schedule_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/work_screen.dart';
@@ -39,7 +39,7 @@ final _dashboardKey = GlobalKey<NavigatorState>();
 final _projectKey = GlobalKey<NavigatorState>();
 final _workKey = GlobalKey<NavigatorState>();
 final _documentKey = GlobalKey<NavigatorState>();
-final _settingKey = GlobalKey<NavigatorState>();
+final _dataKey = GlobalKey<NavigatorState>();
 final _analyticsKey = GlobalKey<NavigatorState>();
 final _accountKey = GlobalKey<NavigatorState>();
 
@@ -70,8 +70,8 @@ class RouteNames {
   static const String scheduleEdit = 'schedule_edit';
   static const String work = 'work';
   static const String document = 'document';
+  static const String data = 'data';
   static const String analytics = 'analytics';
-  static const String setting = 'setting';
   static const String account = 'account';
 }
 
@@ -103,8 +103,8 @@ class Routes {
   static const String scheduleEdit = 'edit';
   static const String work = '/work';
   static const String document = '/document';
+  static const String data = '/data';
   static const String analytics = '/analytics';
-  static const String setting = '/setting';
   static const String account = '/account';
 }
 
@@ -850,6 +850,31 @@ class AppRouter {
             ],
           ),
           StatefulShellBranch(
+            navigatorKey: _dataKey,
+            routes: [
+              GoRoute(
+                name: RouteNames.data,
+                path: Routes.data,
+                redirect: (context, state) async {
+                  final auth = ref.read(authControllerProvider);
+                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
+                    return _showWrongApproachAndGoDashboard(context);
+                  }
+                  return null;
+                },
+                pageBuilder: (context, state) {
+                  final view = state.uri.queryParameters['view'];
+
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    name: state.name,
+                    child: DataScreen(view: view),
+                  );
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
             navigatorKey: _analyticsKey,
             routes: [
               GoRoute(
@@ -867,31 +892,6 @@ class AppRouter {
                   name: state.name,
                   child: AnalyticsScreen(),
                 ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _settingKey,
-            routes: [
-              GoRoute(
-                name: RouteNames.setting,
-                path: Routes.setting,
-                redirect: (context, state) async {
-                  final auth = ref.read(authControllerProvider);
-                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
-                    return _showWrongApproachAndGoDashboard(context);
-                  }
-                  return null;
-                },
-                pageBuilder: (context, state) {
-                  final view = state.uri.queryParameters['view'];
-
-                  return NoTransitionPage(
-                    key: state.pageKey,
-                    name: state.name,
-                    child: SettingScreen(view: view),
-                  );
-                },
               ),
             ],
           ),

@@ -20,31 +20,31 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ko_KR';
 
-  static String m0(seconds) => "${seconds}초 후 재시도 가능";
+  static String m0(supplier) => "${supplier} 수정";
 
-  static String m1(file) => "${file} 파일은 올바른 현대/기아 견적서 양식이 아닙니다.";
+  static String m1(seconds) => "${seconds}초 후 재시도 가능";
 
-  static String m2(file, limit) => "${file} 파일은 크기 제한을 초과했습니다. (최대 ${limit}MB)";
+  static String m2(file) => "${file} 파일은 올바른 현대/기아 견적서 양식이 아닙니다.";
 
-  static String m3(file) => "${file} 파일은 유효한 이미지 파일이 아닙니다.";
+  static String m3(file, limit) => "${file} 파일은 크기 제한을 초과했습니다. (최대 ${limit}MB)";
 
-  static String m4(days) => "${days}일 전";
+  static String m4(file) => "${file} 파일은 유효한 이미지 파일이 아닙니다.";
 
-  static String m5(hours) => "${hours}시간 전";
+  static String m5(days) => "${days}일 전";
 
-  static String m6(minutes) => "${minutes}분 전";
+  static String m6(hours) => "${hours}시간 전";
 
-  static String m7(month) => "${month}달 전";
+  static String m7(minutes) => "${minutes}분 전";
 
-  static String m8(weeks) => "${weeks}주 전";
+  static String m8(month) => "${month}달 전";
 
-  static String m9(years) => "${years}년 전";
+  static String m9(weeks) => "${weeks}주 전";
 
-  static String m10(step) => "${step} 금액을 빈 칸 없이 입력해 주세요";
+  static String m10(years) => "${years}년 전";
 
-  static String m11(step) => "${step} 일 수를 입력해 주세요";
+  static String m11(step) => "${step} 금액을 빈 칸 없이 입력해 주세요";
 
-  static String m12(supplier) => "${supplier} 수정";
+  static String m12(step) => "${step} 일 수를 입력해 주세요";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -145,6 +145,107 @@ class MessageLookup extends MessageLookupByLibrary {
     "dashboard_world_map_1_1": MessageLookupByLibrary.simpleMessage("개 지점"),
     "dashboard_world_map_2": MessageLookupByLibrary.simpleMessage("함께하는 공장"),
     "dashboard_world_map_2_1": MessageLookupByLibrary.simpleMessage("개 공장"),
+    "data": MessageLookupByLibrary.simpleMessage("데이터 관리"),
+    "data_address_detail_content": MessageLookupByLibrary.simpleMessage(
+      "상세 주소",
+    ),
+    "data_address_detail_not_required": MessageLookupByLibrary.simpleMessage(
+      "상세 주소 없음",
+    ),
+    "data_address_detail_title": MessageLookupByLibrary.simpleMessage(
+      "상세 주소 입력",
+    ),
+    "data_address_more": MessageLookupByLibrary.simpleMessage("더 보기"),
+    "data_address_search": MessageLookupByLibrary.simpleMessage("주소로 검색"),
+    "data_address_search_empty": MessageLookupByLibrary.simpleMessage(
+      "검색 결과가 없습니다.",
+    ),
+    "data_address_search_idle": MessageLookupByLibrary.simpleMessage(
+      "도로명, 건물명 또는 지번을 입력해 주세요.",
+    ),
+    "data_segment_1": MessageLookupByLibrary.simpleMessage("사용자"),
+    "data_segment_2": MessageLookupByLibrary.simpleMessage("협력업체"),
+    "data_supplier_add": MessageLookupByLibrary.simpleMessage("협력업체 추가"),
+    "data_supplier_address": MessageLookupByLibrary.simpleMessage(
+      "주소 검색 버튼을 눌러주세요",
+    ),
+    "data_supplier_column_1": MessageLookupByLibrary.simpleMessage("이름"),
+    "data_supplier_column_2": MessageLookupByLibrary.simpleMessage("사업자등록번호"),
+    "data_supplier_column_3": MessageLookupByLibrary.simpleMessage("주소"),
+    "data_supplier_column_4": MessageLookupByLibrary.simpleMessage("전화번호"),
+    "data_supplier_column_5": MessageLookupByLibrary.simpleMessage("이메일"),
+    "data_supplier_column_6": MessageLookupByLibrary.simpleMessage("작업"),
+    "data_supplier_created": MessageLookupByLibrary.simpleMessage(
+      "협력업체 정보가 정상적으로 등록되었습니다.",
+    ),
+    "data_supplier_delete_dialog_1": MessageLookupByLibrary.simpleMessage(
+      "협력업체를 삭제하시겠습니까?",
+    ),
+    "data_supplier_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
+      "협력업체를 삭제하면 다시 복구할 수 없습니다.",
+    ),
+    "data_supplier_deleted": MessageLookupByLibrary.simpleMessage(
+      "협력업체가 삭제되었습니다.",
+    ),
+    "data_supplier_detail_address": MessageLookupByLibrary.simpleMessage(
+      "상세주소",
+    ),
+    "data_supplier_edit_title": m0,
+    "data_supplier_edited": MessageLookupByLibrary.simpleMessage(
+      "협력업체 정보가 정상적으로 변경되었습니다.",
+    ),
+    "data_supplier_email": MessageLookupByLibrary.simpleMessage("이메일 입력"),
+    "data_supplier_logo": MessageLookupByLibrary.simpleMessage("로고"),
+    "data_supplier_name": MessageLookupByLibrary.simpleMessage("이름 입력"),
+    "data_supplier_name_empty": MessageLookupByLibrary.simpleMessage(
+      "이름을 입력해 주세요",
+    ),
+    "data_supplier_no_item": MessageLookupByLibrary.simpleMessage(
+      "협력업체를 찾을 수 없습니다",
+    ),
+    "data_supplier_number": MessageLookupByLibrary.simpleMessage("사업자등록번호 입력"),
+    "data_supplier_number_empty": MessageLookupByLibrary.simpleMessage(
+      "사업자등록번호를 입력해 주세요",
+    ),
+    "data_supplier_number_invalid": MessageLookupByLibrary.simpleMessage(
+      "사업자등록번호 형식이 올바르지 않습니다",
+    ),
+    "data_supplier_phone": MessageLookupByLibrary.simpleMessage("전화번호 입력"),
+    "data_supplier_phone_number_only": MessageLookupByLibrary.simpleMessage(
+      "숫자만 입력해 주세요",
+    ),
+    "data_supplier_road_address": MessageLookupByLibrary.simpleMessage("주소"),
+    "data_supplier_zipcode": MessageLookupByLibrary.simpleMessage("우편번호"),
+    "data_user_admin_dialog_1": MessageLookupByLibrary.simpleMessage(
+      "관리자 권한을 변경하시겠습니까?",
+    ),
+    "data_user_admin_dialog_2": MessageLookupByLibrary.simpleMessage(
+      "최고 관리자 권한을 부여하거나 해제합니다.\n계속하시겠습니까?",
+    ),
+    "data_user_approve_dialog_1": MessageLookupByLibrary.simpleMessage(
+      "로그인 사용 승인을 변경하시겠습니까?",
+    ),
+    "data_user_approve_dialog_2": MessageLookupByLibrary.simpleMessage(
+      "비활성화 시 이 계정의 시스템 접속이 즉시 차단됩니다.\n계속하시겠습니까?",
+    ),
+    "data_user_column_1": MessageLookupByLibrary.simpleMessage("이름"),
+    "data_user_column_2": MessageLookupByLibrary.simpleMessage("이메일"),
+    "data_user_column_3": MessageLookupByLibrary.simpleMessage("직급"),
+    "data_user_column_4": MessageLookupByLibrary.simpleMessage("부서"),
+    "data_user_column_5": MessageLookupByLibrary.simpleMessage("관리자"),
+    "data_user_column_6": MessageLookupByLibrary.simpleMessage("사용 승인"),
+    "data_user_column_7": MessageLookupByLibrary.simpleMessage("작업"),
+    "data_user_delete_dialog_1": MessageLookupByLibrary.simpleMessage(
+      "사용자를 삭제하시겠습니까?",
+    ),
+    "data_user_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
+      "사용자를 삭제하면 다시 복구할 수 없습니다.",
+    ),
+    "data_user_deleted": MessageLookupByLibrary.simpleMessage("사용자가 삭제되었습니다."),
+    "data_user_edited": MessageLookupByLibrary.simpleMessage(
+      "사용자 정보가 정상적으로 변경되었습니다.",
+    ),
+    "data_user_no_item": MessageLookupByLibrary.simpleMessage("사용자를 찾을 수 없습니다"),
     "date_range_title": MessageLookupByLibrary.simpleMessage("날짜 범위 선택"),
     "date_title": MessageLookupByLibrary.simpleMessage("날짜 선택"),
     "document": MessageLookupByLibrary.simpleMessage("문서"),
@@ -176,7 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "filter_suffix": MessageLookupByLibrary.simpleMessage("선택됨"),
     "filter_unselect_all": MessageLookupByLibrary.simpleMessage("모두 선택 해제"),
     "forgot_password_button": MessageLookupByLibrary.simpleMessage("요청하기"),
-    "forgot_password_delay": m0,
+    "forgot_password_delay": m1,
     "forgot_password_email": MessageLookupByLibrary.simpleMessage("이메일"),
     "forgot_password_headline": MessageLookupByLibrary.simpleMessage(
       "비밀번호 재설정하기",
@@ -222,7 +323,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_contract_drop": MessageLookupByLibrary.simpleMessage(
       "견적서 여기에 놓기",
     ),
-    "issue_form_contract_format_invalid": m1,
+    "issue_form_contract_format_invalid": m2,
     "issue_form_contract_invalid": MessageLookupByLibrary.simpleMessage(
       "견적서 파일은 엑셀(.xlsx) 파일만 업로드 할 수 있습니다.",
     ),
@@ -245,13 +346,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "업무를 삭제하시겠습니까?",
     ),
     "issue_form_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "업무를 삭제하면 모든 내용과 첨부 파일이 함께 삭제됩니다.\n계속하시겠습니까?",
+      "업무를 삭제하면 모든 내용과 첨부 파일이 함께 삭제됩니다.",
     ),
     "issue_form_deleted": MessageLookupByLibrary.simpleMessage("업무가 삭제되었습니다."),
     "issue_form_edited": MessageLookupByLibrary.simpleMessage(
       "업무 내용이 정상적으로 변경되었습니다.",
     ),
-    "issue_form_file_size_limit": m2,
+    "issue_form_file_size_limit": m3,
     "issue_form_image_1": MessageLookupByLibrary.simpleMessage("새 이미지 업로드"),
     "issue_form_image_2": MessageLookupByLibrary.simpleMessage("이미지 선택"),
     "issue_form_image_dialog_1": MessageLookupByLibrary.simpleMessage(
@@ -263,7 +364,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_image_drop": MessageLookupByLibrary.simpleMessage(
       "이미지를 여기에 놓기",
     ),
-    "issue_form_image_invalid": m3,
+    "issue_form_image_invalid": m4,
     "issue_form_image_upload": MessageLookupByLibrary.simpleMessage("이미지 선택"),
     "issue_form_invalid_1": MessageLookupByLibrary.simpleMessage("내용을 입력해 주세요"),
     "issue_form_kickoff_1": MessageLookupByLibrary.simpleMessage("프로젝트 착수일"),
@@ -469,12 +570,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "login_title": MessageLookupByLibrary.simpleMessage("이메일과 비밀번호를 입력해주세요"),
     "logout": MessageLookupByLibrary.simpleMessage("로그아웃"),
-    "navigation_item_1": MessageLookupByLibrary.simpleMessage("대시보드"),
-    "navigation_item_2": MessageLookupByLibrary.simpleMessage("프로젝트"),
-    "navigation_item_3": MessageLookupByLibrary.simpleMessage("업무"),
-    "navigation_item_4": MessageLookupByLibrary.simpleMessage("문서"),
-    "navigation_item_5": MessageLookupByLibrary.simpleMessage("통계"),
-    "navigation_item_6": MessageLookupByLibrary.simpleMessage("설정"),
     "navigation_search": MessageLookupByLibrary.simpleMessage("검색"),
     "navigation_search_keyword": MessageLookupByLibrary.simpleMessage("최근 검색어"),
     "navigation_search_keyword_empty": MessageLookupByLibrary.simpleMessage(
@@ -578,7 +673,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "프로젝트를 삭제하시겠습니까?",
     ),
     "project_form_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "프로젝트를 삭제하면 모든 내용과 업무가 함께 삭제됩니다.\n계속하시겠습니까?",
+      "프로젝트를 삭제하면 모든 내용과 업무가 함께 삭제됩니다.",
     ),
     "project_form_deleted": MessageLookupByLibrary.simpleMessage(
       "프로젝트가 삭제되었습니다.",
@@ -671,17 +766,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "계정은 관리자의 승인 후 사용할 수 있습니다",
     ),
     "register_username": MessageLookupByLibrary.simpleMessage("본명"),
-    "relative_data_days_ago": m4,
+    "relative_data_days_ago": m5,
     "relative_data_hour_ago": MessageLookupByLibrary.simpleMessage("한 시간 전"),
-    "relative_data_hours_ago": m5,
+    "relative_data_hours_ago": m6,
     "relative_data_just_now": MessageLookupByLibrary.simpleMessage("방금"),
     "relative_data_minute_ago": MessageLookupByLibrary.simpleMessage("1분 전"),
-    "relative_data_minutes_ago": m6,
-    "relative_data_month_ago": m7,
+    "relative_data_minutes_ago": m7,
+    "relative_data_month_ago": m8,
     "relative_data_week_ago": MessageLookupByLibrary.simpleMessage("한 주 전"),
-    "relative_data_weeks_ago": m8,
+    "relative_data_weeks_ago": m9,
     "relative_data_year_ago": MessageLookupByLibrary.simpleMessage("1년 전"),
-    "relative_data_years_ago": m9,
+    "relative_data_years_ago": m10,
     "relative_data_yesterday": MessageLookupByLibrary.simpleMessage("어제"),
     "report_edit": MessageLookupByLibrary.simpleMessage("보고서 수정"),
     "report_exists": MessageLookupByLibrary.simpleMessage(
@@ -720,7 +815,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "출장 명령서를 삭제하시겠습니까?",
     ),
     "report_form_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서를 삭제하면 모든 내용이 삭제됩니다.\n계속하시겠습니까?",
+      "출장 명령서를 삭제하면 모든 내용이 삭제됩니다.",
     ),
     "report_form_description": MessageLookupByLibrary.simpleMessage(
       "설명 및 첨부파일",
@@ -733,8 +828,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "report_form_invalid_1": MessageLookupByLibrary.simpleMessage(
       "일정을 선택해 주세요",
     ),
-    "report_form_invalid_2": m10,
-    "report_form_invalid_3": m11,
+    "report_form_invalid_2": m11,
+    "report_form_invalid_3": m12,
     "report_form_invalid_4": MessageLookupByLibrary.simpleMessage(
       "모든 내용을 빠짐없이 입력해 주세요",
     ),
@@ -829,7 +924,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "일정을 삭제하시겠습니까?",
     ),
     "schedule_form_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "일정을 삭제하면 모든 내용과 구글 캘린더의 일정이 함께 삭제됩니다.\n계속하시겠습니까?",
+      "일정을 삭제하면 모든 내용과 구글 캘린더의 일정이 함께 삭제됩니다.",
     ),
     "schedule_form_deleted": MessageLookupByLibrary.simpleMessage(
       "일정이 삭제되었습니다.",
@@ -887,109 +982,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "send_timeout": MessageLookupByLibrary.simpleMessage(
       "요청을 보내는 도중 시간이 초과되었습니다.",
-    ),
-    "setting": MessageLookupByLibrary.simpleMessage("설정"),
-    "setting_address_detail_content": MessageLookupByLibrary.simpleMessage(
-      "상세 주소",
-    ),
-    "setting_address_detail_not_required": MessageLookupByLibrary.simpleMessage(
-      "상세 주소 없음",
-    ),
-    "setting_address_detail_title": MessageLookupByLibrary.simpleMessage(
-      "상세 주소 입력",
-    ),
-    "setting_address_more": MessageLookupByLibrary.simpleMessage("더 보기"),
-    "setting_address_search": MessageLookupByLibrary.simpleMessage("주소로 검색"),
-    "setting_address_search_empty": MessageLookupByLibrary.simpleMessage(
-      "검색 결과가 없습니다.",
-    ),
-    "setting_address_search_idle": MessageLookupByLibrary.simpleMessage(
-      "도로명, 건물명 또는 지번을 입력해 주세요.",
-    ),
-    "setting_segment_1": MessageLookupByLibrary.simpleMessage("사용자"),
-    "setting_segment_2": MessageLookupByLibrary.simpleMessage("협력업체"),
-    "setting_supplier_add": MessageLookupByLibrary.simpleMessage("협력업체 추가"),
-    "setting_supplier_address": MessageLookupByLibrary.simpleMessage(
-      "주소 검색 버튼을 눌러주세요",
-    ),
-    "setting_supplier_column_1": MessageLookupByLibrary.simpleMessage("이름"),
-    "setting_supplier_column_2": MessageLookupByLibrary.simpleMessage(
-      "사업자등록번호",
-    ),
-    "setting_supplier_column_3": MessageLookupByLibrary.simpleMessage("주소"),
-    "setting_supplier_column_4": MessageLookupByLibrary.simpleMessage("전화번호"),
-    "setting_supplier_column_5": MessageLookupByLibrary.simpleMessage("이메일"),
-    "setting_supplier_column_6": MessageLookupByLibrary.simpleMessage("작업"),
-    "setting_supplier_created": MessageLookupByLibrary.simpleMessage(
-      "협력업체 정보가 정상적으로 등록되었습니다.",
-    ),
-    "setting_supplier_deleted": MessageLookupByLibrary.simpleMessage(
-      "협력업체가 삭제되었습니다.",
-    ),
-    "setting_supplier_detail_address": MessageLookupByLibrary.simpleMessage(
-      "상세주소",
-    ),
-    "setting_supplier_edit_title": m12,
-    "setting_supplier_edited": MessageLookupByLibrary.simpleMessage(
-      "협력업체 정보가 정상적으로 변경되었습니다.",
-    ),
-    "setting_supplier_email": MessageLookupByLibrary.simpleMessage("이메일 입력"),
-    "setting_supplier_logo": MessageLookupByLibrary.simpleMessage("로고"),
-    "setting_supplier_name": MessageLookupByLibrary.simpleMessage("이름 입력"),
-    "setting_supplier_name_empty": MessageLookupByLibrary.simpleMessage(
-      "이름을 입력해 주세요",
-    ),
-    "setting_supplier_no_item": MessageLookupByLibrary.simpleMessage(
-      "협력업체를 찾을 수 없습니다",
-    ),
-    "setting_supplier_number": MessageLookupByLibrary.simpleMessage(
-      "사업자등록번호 입력",
-    ),
-    "setting_supplier_number_empty": MessageLookupByLibrary.simpleMessage(
-      "사업자등록번호를 입력해 주세요",
-    ),
-    "setting_supplier_number_invalid": MessageLookupByLibrary.simpleMessage(
-      "사업자등록번호 형식이 올바르지 않습니다",
-    ),
-    "setting_supplier_phone": MessageLookupByLibrary.simpleMessage("전화번호 입력"),
-    "setting_supplier_phone_number_only": MessageLookupByLibrary.simpleMessage(
-      "숫자만 입력해 주세요",
-    ),
-    "setting_supplier_road_address": MessageLookupByLibrary.simpleMessage("주소"),
-    "setting_supplier_zipcode": MessageLookupByLibrary.simpleMessage("우편번호"),
-    "setting_user_admin_dialog_1": MessageLookupByLibrary.simpleMessage(
-      "관리자 권한을 변경하시겠습니까?",
-    ),
-    "setting_user_admin_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "최고 관리자 권한을 부여하거나 해제합니다.\n계속하시겠습니까?",
-    ),
-    "setting_user_approve_dialog_1": MessageLookupByLibrary.simpleMessage(
-      "로그인 사용 승인을 변경하시겠습니까?",
-    ),
-    "setting_user_approve_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "비활성화 시 이 계정의 시스템 접속이 즉시 차단됩니다.\n계속하시겠습니까?",
-    ),
-    "setting_user_column_1": MessageLookupByLibrary.simpleMessage("이름"),
-    "setting_user_column_2": MessageLookupByLibrary.simpleMessage("이메일"),
-    "setting_user_column_3": MessageLookupByLibrary.simpleMessage("직급"),
-    "setting_user_column_4": MessageLookupByLibrary.simpleMessage("부서"),
-    "setting_user_column_5": MessageLookupByLibrary.simpleMessage("관리자"),
-    "setting_user_column_6": MessageLookupByLibrary.simpleMessage("사용 승인"),
-    "setting_user_column_7": MessageLookupByLibrary.simpleMessage("작업"),
-    "setting_user_delete_dialog_1": MessageLookupByLibrary.simpleMessage(
-      "사용자를 삭제하시겠습니까?",
-    ),
-    "setting_user_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "사용자를 삭제하면 다시 복구할 수 없습니다.",
-    ),
-    "setting_user_deleted": MessageLookupByLibrary.simpleMessage(
-      "사용자가 삭제되었습니다.",
-    ),
-    "setting_user_edited": MessageLookupByLibrary.simpleMessage(
-      "사용자 정보가 정상적으로 변경되었습니다.",
-    ),
-    "setting_user_no_item": MessageLookupByLibrary.simpleMessage(
-      "사용자를 찾을 수 없습니다",
     ),
     "supplier_exists": MessageLookupByLibrary.simpleMessage(
       "이미 생성된 협력업체가 있습니다.",

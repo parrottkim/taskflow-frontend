@@ -4,9 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/supplier_edit_dialog.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_edit_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class SupplierListWidget extends ConsumerWidget {
@@ -48,6 +49,46 @@ class _DesktopWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
+    ref.listen(supplierSubmitControllerProvider, (_, state) {
+      if (state is SupplierSubmitPending) {
+        LoadingOverlay.show(context);
+        return;
+      }
+
+      LoadingOverlay.hide();
+
+      switch (state) {
+        case SupplierSubmitCreated() || SupplierSubmitEdited():
+          final isCreated = state is IssueSubmitCreated;
+
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message(
+                    isCreated
+                        ? 'data_supplier_created'
+                        : 'data_supplier_edited',
+                  ),
+                ),
+              );
+
+        case SupplierSubmitDeleted():
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('data_supplier_deleted'),
+                ),
+              );
+
+        default:
+          break;
+      }
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -59,7 +100,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(1.5),
                 label: Text(
-                  Intl.message('setting_supplier_column_1'),
+                  Intl.message('data_supplier_column_1'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -69,7 +110,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(),
                 label: Text(
-                  Intl.message('setting_supplier_column_2'),
+                  Intl.message('data_supplier_column_2'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -79,7 +120,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(2.5),
                 label: Text(
-                  Intl.message('setting_supplier_column_3'),
+                  Intl.message('data_supplier_column_3'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -89,7 +130,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(),
                 label: Text(
-                  Intl.message('setting_supplier_column_4'),
+                  Intl.message('data_supplier_column_4'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -99,7 +140,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(),
                 label: Text(
-                  Intl.message('setting_supplier_column_5'),
+                  Intl.message('data_supplier_column_5'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -109,7 +150,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FixedColumnWidth(92.0),
                 label: Text(
-                  Intl.message('setting_supplier_column_6'),
+                  Intl.message('data_supplier_column_6'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -137,7 +178,7 @@ class _DesktopWidget extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  Text(Intl.message('setting_supplier_no_item')),
+                  Text(Intl.message('data_supplier_no_item')),
                 ],
               ),
             ),
@@ -159,28 +200,28 @@ class _DesktopWidget extends ConsumerWidget {
                   columns: [
                     DataColumn(
                       columnWidth: FlexColumnWidth(1.5),
-                      label: Text(Intl.message('setting_supplier_column_1')),
+                      label: Text(Intl.message('data_supplier_column_1')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('setting_supplier_column_2')),
+                      label: Text(Intl.message('data_supplier_column_2')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(2.5),
-                      label: Text(Intl.message('setting_supplier_column_3')),
+                      label: Text(Intl.message('data_supplier_column_3')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('setting_supplier_column_4')),
+                      label: Text(Intl.message('data_supplier_column_4')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('setting_supplier_column_5')),
+                      label: Text(Intl.message('data_supplier_column_5')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(92.0),
                       label: Text(
-                        Intl.message('setting_supplier_column_6'),
+                        Intl.message('data_supplier_column_6'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -259,16 +300,28 @@ class _DesktopWidget extends ConsumerWidget {
                               SizedBox(width: 8.0),
                               ElevatedIconButton(
                                 onTap: () async {
-                                  // final result = await showDialog(
-                                  //   context: context,
-                                  //   builder: (_) => UserDeleteDialog(),
-                                  // );
+                                  final result = await showDialog(
+                                    context: context,
+                                    builder: (_) => DeleteDialog(
+                                      title: Intl.message(
+                                        'data_supplier_delete_dialog_1',
+                                      ),
+                                      content: Intl.message(
+                                        'data_supplier_delete_dialog_2',
+                                      ),
+                                    ),
+                                  );
 
-                                  // if (result) {
-                                  //   await ref
-                                  //       .read(userSubmitControllerProvider.notifier)
-                                  //       .deleteUser(userId: items[index].id);
-                                  // }
+                                  if (result) {
+                                    await ref
+                                        .read(
+                                          supplierSubmitControllerProvider
+                                              .notifier,
+                                        )
+                                        .deleteSupplier(
+                                          supplierId: items[index].id,
+                                        );
+                                  }
                                 },
                                 padding: EdgeInsets.all(4.0),
                                 borderRadius: BorderRadius.circular(4.0),

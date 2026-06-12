@@ -1,14 +1,14 @@
 part of '../controller.dart';
 
 @riverpod
-class SettingFilterController extends _$SettingFilterController {
+class DataFilterController extends _$DataFilterController {
   @override
-  FutureOr<SettingFilterState> build() async {
+  FutureOr<DataFilterState> build() async {
     return await _init();
   }
 
-  Future<SettingFilterState> _init() async {
-    return SettingFilterState();
+  Future<DataFilterState> _init() async {
+    return DataFilterState();
   }
 
   Future<void> init({String? view}) async {

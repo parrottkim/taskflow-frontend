@@ -46,6 +46,9 @@ part 'dashboard/summary_state.dart';
 part 'dashboard/world_map_controller.dart';
 part 'dashboard/world_map_state.dart';
 
+part 'data/data_filter_controller.dart';
+part 'data/data_filter_state.dart';
+
 part 'download/download_controller.dart';
 part 'download/download_state.dart';
 
@@ -98,9 +101,6 @@ part 'supplier/supplier_list_controller.dart';
 part 'supplier/supplier_list_state.dart';
 part 'supplier/supplier_submit_controller.dart';
 part 'supplier/supplier_submit_state.dart';
-
-part 'setting/setting_filter_controller.dart';
-part 'setting/setting_filter_state.dart';
 
 part 'report/report_form_controller.dart';
 part 'report/report_form_state.dart';

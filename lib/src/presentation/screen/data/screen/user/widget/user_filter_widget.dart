@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/search_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/search_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class UserFilterWidget extends ConsumerWidget {

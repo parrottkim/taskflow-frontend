@@ -22,4 +22,7 @@ abstract class SupplierService {
     @Path() required int id,
     @Body() required CreateSupplierDto request,
   });
+
+  @DELETE('supplier/{id}')
+  Future<void> deleteSupplier({@Path() required int id});
 }

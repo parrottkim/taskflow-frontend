@@ -549,6 +549,51 @@ abstract class _$WorldMapController extends $AsyncNotifier<WorldMapState> {
   }
 }
 
+@ProviderFor(DataFilterController)
+final dataFilterControllerProvider = DataFilterControllerProvider._();
+
+final class DataFilterControllerProvider
+    extends $AsyncNotifierProvider<DataFilterController, DataFilterState> {
+  DataFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'dataFilterControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$dataFilterControllerHash();
+
+  @$internal
+  @override
+  DataFilterController create() => DataFilterController();
+}
+
+String _$dataFilterControllerHash() =>
+    r'0e999bb1f12a9b9f1919938757e1ddcb7eededbf';
+
+abstract class _$DataFilterController extends $AsyncNotifier<DataFilterState> {
+  FutureOr<DataFilterState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<DataFilterState>, DataFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<DataFilterState>, DataFilterState>,
+              AsyncValue<DataFilterState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(DownloadController)
 final downloadControllerProvider = DownloadControllerFamily._();
 
@@ -2111,7 +2156,7 @@ final class SupplierSubmitControllerProvider
 }
 
 String _$supplierSubmitControllerHash() =>
-    r'a1c5a84b25ff7969d746cd0976d295f8517fafcb';
+    r'122fb197bf81120580f7d343197947c5ba07b79e';
 
 abstract class _$SupplierSubmitController
     extends $Notifier<SupplierSubmitState> {
@@ -2125,54 +2170,6 @@ abstract class _$SupplierSubmitController
             as $ClassProviderElement<
               AnyNotifier<SupplierSubmitState, SupplierSubmitState>,
               SupplierSubmitState,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(SettingFilterController)
-final settingFilterControllerProvider = SettingFilterControllerProvider._();
-
-final class SettingFilterControllerProvider
-    extends
-        $AsyncNotifierProvider<SettingFilterController, SettingFilterState> {
-  SettingFilterControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'settingFilterControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$settingFilterControllerHash();
-
-  @$internal
-  @override
-  SettingFilterController create() => SettingFilterController();
-}
-
-String _$settingFilterControllerHash() =>
-    r'a7957f6695dcbb949a0cd4d045fbce073a2d2aaf';
-
-abstract class _$SettingFilterController
-    extends $AsyncNotifier<SettingFilterState> {
-  FutureOr<SettingFilterState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<SettingFilterState>, SettingFilterState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<SettingFilterState>, SettingFilterState>,
-              AsyncValue<SettingFilterState>,
               Object?,
               Object?
             >;
