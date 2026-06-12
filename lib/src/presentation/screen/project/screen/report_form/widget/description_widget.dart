@@ -55,9 +55,9 @@ class DescriptionWidget extends HookConsumerWidget {
                       scheduleId: scheduleId,
                     ).notifier,
                   )
-                  .addFile(file);
+                  .addFile(file: file);
             },
-            onRemoveFile: (index) {
+            onRemoveFile: (file) {
               ref
                   .read(
                     reportFormControllerProvider(
@@ -66,9 +66,9 @@ class DescriptionWidget extends HookConsumerWidget {
                       scheduleId: scheduleId,
                     ).notifier,
                   )
-                  .removeFile(index);
+                  .removeFile(file: file);
             },
-            onRemoveAttachment: (attachmentId) async {
+            onRemoveAttachment: (attachment) async {
               await ref
                   .read(
                     reportFormControllerProvider(
@@ -77,7 +77,7 @@ class DescriptionWidget extends HookConsumerWidget {
                       scheduleId: scheduleId,
                     ).notifier,
                   )
-                  .removeAttachment(attachmentId);
+                  .removeAttachment(attachment: attachment);
             },
           ),
         ],

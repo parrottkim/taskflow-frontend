@@ -57,23 +57,17 @@ class WidgetPreset {
     ),
     NavigationTitle(label: Intl.message('navigation_title_2'), isAdmin: true),
     NavigationButton(
-      icon: Symbols.database_rounded,
-      route: RouteNames.operation,
+      icon: Symbols.finance_rounded,
+      route: RouteNames.analytics,
       label: Intl.message('navigation_item_5'),
       isAdmin: true,
     ),
     NavigationButton(
-      icon: Symbols.finance_rounded,
-      route: RouteNames.analytics,
-      label: Intl.message('navigation_item_6'),
-      isAdmin: true,
-    ),
-    NavigationTitle(label: Intl.message('navigation_title_3')),
-    NavigationButton(
       icon: Symbols.settings_rounded,
       route: RouteNames.setting,
-      label: Intl.message('navigation_item_7'),
+      label: Intl.message('navigation_item_6'),
     ),
+    // NavigationTitle(label: Intl.message('navigation_title_3')),
   ];
 
   List<ClientCount> get dummyClientCount => [
@@ -166,14 +160,14 @@ class WidgetPreset {
       icon: Symbols.today_rounded,
       label: Intl.message('dashboard_functions_1'),
       onPressed: () {
-        context.goNamed(RouteNames.scheduleNewChoose);
+        context.pushNamed(RouteNames.scheduleNewChoose);
       },
     ),
     MenuOption(
       icon: Symbols.description_rounded,
       label: Intl.message('dashboard_functions_2'),
       onPressed: () {
-        context.goNamed(RouteNames.projectNew);
+        context.pushNamed(RouteNames.projectNew);
       },
     ),
   ];
@@ -335,20 +329,6 @@ enum WorkSegment {
   );
 }
 
-enum OperationSegment {
-  user('operation_segment_1'),
-  data('operation_segment_2');
-
-  final String labelKey;
-
-  const OperationSegment(this.labelKey);
-
-  String get label => Intl.message(labelKey);
-
-  factory OperationSegment.fromKey(String key) => OperationSegment.values
-      .firstWhere((e) => e.name == key, orElse: () => OperationSegment.user);
-}
-
 enum SettingSegment {
   user('setting_segment_1'),
   supplier('setting_segment_2');
@@ -361,4 +341,17 @@ enum SettingSegment {
 
   factory SettingSegment.fromKey(String key) => SettingSegment.values
       .firstWhere((e) => e.name == key, orElse: () => SettingSegment.user);
+}
+
+enum AccountSegment {
+  user('account_segment_1');
+
+  final String labelKey;
+
+  const AccountSegment(this.labelKey);
+
+  String get label => Intl.message(labelKey);
+
+  factory AccountSegment.fromKey(String key) => AccountSegment.values
+      .firstWhere((e) => e.name == key, orElse: () => AccountSegment.user);
 }

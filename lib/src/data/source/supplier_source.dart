@@ -6,13 +6,25 @@ class SupplierDataSource implements SupplierRepository {
   SupplierDataSource({required SupplierService service}) : _service = service;
 
   @override
-  Future<Result<Supplier>> getSuppliers(
-          {int page = 1, int limit = 100, required String search}) =>
-      _service.getSuppliers(page: page, limit: limit, search: search);
+  Future<Supplier> getSupplier({required int id}) =>
+      _service.getSupplier(id: id);
 
   @override
-  Future<Supplier> createSupplier({required Supplier supplier}) =>
-      _service.createSupplier(supplier: supplier);
+  Future<Result<Supplier>> getSuppliers({
+    int page = 1,
+    int limit = 100,
+    String? search,
+  }) => _service.getSuppliers(page: page, limit: limit, search: search);
+
+  @override
+  Future<Supplier> createSupplier({required CreateSupplierDto request}) =>
+      _service.createSupplier(request: request);
+
+  @override
+  Future<Supplier> updateSupplier({
+    required int id,
+    required CreateSupplierDto request,
+  }) => _service.updateSupplier(id: id, request: request);
 }
 
 @riverpod

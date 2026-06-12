@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/setting/screen/supplier/supplier_screen.dart';
 import 'package:taskflow/src/presentation/screen/setting/screen/user/user_screen.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
@@ -17,9 +18,7 @@ class OverviewWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(view: value.view),
-      _ => Skeletonizer(
-          child: _DesktopWidget(),
-        ),
+      _ => Skeletonizer(child: _DesktopWidget()),
     };
   }
 }
@@ -31,11 +30,12 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItem =
-        useState<SettingSegment>(SettingSegment.values.firstWhere(
-      (e) => e.name == view,
-      orElse: () => SettingSegment.values.first,
-    ));
+    final selectedItem = useState<SettingSegment>(
+      SettingSegment.values.firstWhere(
+        (e) => e.name == view,
+        orElse: () => SettingSegment.values.first,
+      ),
+    );
 
     final controller = useTabController(
       initialLength: SettingSegment.values.length,
@@ -71,8 +71,10 @@ class _DesktopWidget extends HookConsumerWidget {
                 .read(settingFilterControllerProvider.notifier)
                 .toQueryParameters();
 
-            context.goNamed(RouteNames.setting,
-                queryParameters: queryParameters);
+            context.goNamed(
+              RouteNames.setting,
+              queryParameters: queryParameters,
+            );
 
             controller.animateTo(index);
           },
@@ -83,21 +85,16 @@ class _DesktopWidget extends HookConsumerWidget {
             SettingSegment.values.length,
             (index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                SettingSegment.values[index].label,
-              ),
+              child: Text(SettingSegment.values[index].label),
             ),
           ),
         ),
         Expanded(
           child: TabBarView(
             controller: controller,
-            children: [
-              UserScreen(),
-              Center(),
-            ],
+            children: [UserScreen(), SupplierScreen()],
           ),
-        )
+        ),
       ],
     );
   }

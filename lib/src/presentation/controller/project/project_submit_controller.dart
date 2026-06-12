@@ -32,7 +32,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);
 
-      state = ProjectSubmitState.success(project);
+      state = ProjectSubmitState.created(project);
     } catch (e) {
       state = ProjectSubmitState.failure(e.toString());
     }
@@ -67,7 +67,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);
 
-      state = ProjectSubmitState.success(project);
+      state = ProjectSubmitState.edited(project);
     } catch (e) {
       state = ProjectSubmitState.failure(e.toString());
     }
@@ -96,7 +96,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);
 
-      state = ProjectSubmitState.success(project);
+      state = ProjectSubmitState.created(project);
     } catch (e) {
       state = ProjectSubmitState.failure(e.toString());
     }

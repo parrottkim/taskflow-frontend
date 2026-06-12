@@ -12,8 +12,9 @@ import 'package:taskflow/src/router/router.dart';
 
 class ScheduleCategoryScreen extends ConsumerWidget {
   final String? path;
+  final int? projectId;
 
-  const ScheduleCategoryScreen({super.key, this.path});
+  const ScheduleCategoryScreen({super.key, this.path, this.projectId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,6 +26,7 @@ class ScheduleCategoryScreen extends ConsumerWidget {
         child: switch (filter) {
           AsyncData(:final value) => _DesktopWidget(
             path: path,
+            projectId: projectId,
             items: value.categoryItems,
           ),
           AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
@@ -44,9 +46,10 @@ class ScheduleCategoryScreen extends ConsumerWidget {
 
 class _DesktopWidget extends StatelessWidget {
   final String? path;
+  final int? projectId;
   final List<ScheduleCategory> items;
 
-  const _DesktopWidget({this.path, required this.items});
+  const _DesktopWidget({this.path, this.projectId, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +66,11 @@ class _DesktopWidget extends StatelessWidget {
           itemCount: items.length,
           itemBuilder: (context, index) => InkWell(
             onTap: () {
-              context.goNamed(
+              context.pushNamed(
                 RouteNames.scheduleNew,
                 queryParameters: {
                   if (path != null) 'redirect_to': path,
+                  if (projectId != null) 'project_id': projectId.toString(),
                   'category': items[index].id.toString(),
                 },
               );

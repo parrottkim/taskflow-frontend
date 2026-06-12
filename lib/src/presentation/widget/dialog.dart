@@ -8,7 +8,10 @@ class BaseDialog extends StatelessWidget {
   final Widget content;
   final List<Widget> actions;
   final double maxWidth;
+  final double? maxHeight;
   final bool showDivider;
+  // ⭐️ content를 감싸는 기본 패딩 속성 추가
+  final EdgeInsetsGeometry contentPadding;
 
   const BaseDialog({
     super.key,
@@ -16,7 +19,10 @@ class BaseDialog extends StatelessWidget {
     required this.content,
     required this.actions,
     this.maxWidth = 430.0,
+    this.maxHeight,
     this.showDivider = true,
+    // 기본값으로 좌우 16.0 패딩 지정
+    this.contentPadding = const EdgeInsets.all(16.0),
   });
 
   @override
@@ -26,11 +32,15 @@ class BaseDialog extends StatelessWidget {
     return Dialog(
       child: ContainerWidget(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
-        constraints: BoxConstraints(maxWidth: maxWidth),
+        constraints: BoxConstraints(
+          maxWidth: maxWidth,
+          maxHeight: maxHeight ?? double.infinity,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Title
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
@@ -40,24 +50,30 @@ class BaseDialog extends StatelessWidget {
                 ),
               ),
             ),
+
             if (showDivider)
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                padding: EdgeInsets.only(top: 16.0),
                 child: Divider(),
               )
             else
               const SizedBox(height: 16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: content,
+
+            // ⭐️ Content 영역
+            // contentPadding 속성을 부여하여 외부 패딩 유연하게 제어
+            Flexible(
+              child: Padding(padding: contentPadding, child: content),
             ),
+
             if (showDivider)
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16.0),
+                padding: EdgeInsets.only(bottom: 16.0),
                 child: Divider(),
               )
             else
               const SizedBox(height: 16.0),
+
+            // Actions
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(

@@ -3,17 +3,18 @@ import 'package:go_router/go_router.dart';
 import 'package:taskflow/src/presentation/controller/analytics/analytics_screen.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/dashboard_layout.dart';
-import 'package:taskflow/src/presentation/screen/operation/operation_screen.dart';
 import 'package:taskflow/src/presentation/screen/download/download_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/forgot_password/forgot_password_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/issue_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_request_form/procurement_request_form_screen.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_action/project_action_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/project_detail_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_form/project_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/reset_password/reset_password_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_category/report_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/report_form_screen.dart';
+import 'package:taskflow/src/presentation/screen/setting/setting_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_category/schedule_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/schedule_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/work_screen.dart';
@@ -22,7 +23,7 @@ import 'package:taskflow/src/presentation/screen/dashboard/dashboard_screen.dart
 import 'package:taskflow/src/presentation/screen/auth/login/login_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/project_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/register/register_screen.dart';
-import 'package:taskflow/src/presentation/screen/setting/setting_screen.dart';
+import 'package:taskflow/src/presentation/screen/account/account_screen.dart';
 import 'package:taskflow/src/presentation/screen/splash/splash_screen.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/transition.dart';
@@ -38,9 +39,9 @@ final _dashboardKey = GlobalKey<NavigatorState>();
 final _projectKey = GlobalKey<NavigatorState>();
 final _workKey = GlobalKey<NavigatorState>();
 final _documentKey = GlobalKey<NavigatorState>();
-final _operationKey = GlobalKey<NavigatorState>();
+final _settingKey = GlobalKey<NavigatorState>();
 final _analyticsKey = GlobalKey<NavigatorState>();
-final _setttingKey = GlobalKey<NavigatorState>();
+final _accountKey = GlobalKey<NavigatorState>();
 
 class RouteNames {
   static const String splash = 'splash';
@@ -52,6 +53,7 @@ class RouteNames {
   static const String dashboard = 'dashboard';
   static const String project = 'project';
   static const String projectDetail = 'project_detail';
+  static const String projectAction = 'project_action';
   static const String projectNew = 'project_new';
   static const String projectEdit = 'project_edit';
   static const String issueNewChoose = 'issue_new_choose';
@@ -69,8 +71,8 @@ class RouteNames {
   static const String work = 'work';
   static const String document = 'document';
   static const String analytics = 'analytics';
-  static const String operation = 'operation';
   static const String setting = 'setting';
+  static const String account = 'account';
 }
 
 class Routes {
@@ -84,6 +86,7 @@ class Routes {
   static const String project = '/project';
   static const String projectNew = 'new';
   static const String projectEdit = 'edit';
+  static const String projectAction = 'action';
   static const String issueBase = 'issue';
   static const String issueNewChoose = 'choose';
   static const String issueNew = 'new';
@@ -101,8 +104,8 @@ class Routes {
   static const String work = '/work';
   static const String document = '/document';
   static const String analytics = '/analytics';
-  static const String operation = '/operation';
   static const String setting = '/setting';
+  static const String account = '/account';
 }
 
 @riverpod
@@ -286,7 +289,8 @@ class AppRouter {
                         return true;
                       }
 
-                      if (submit is! ProjectSubmitSuccess &&
+                      if (submit is! ProjectSubmitCreated &&
+                          submit is! ProjectSubmitEdited &&
                           submit is! ProjectSubmitDeleted) {
                         final shouldNavigate = await showDialog<bool>(
                           context: context,
@@ -320,7 +324,8 @@ class AppRouter {
                         return true;
                       }
 
-                      if (submit is! ProjectSubmitSuccess &&
+                      if (submit is! ProjectSubmitCreated &&
+                          submit is! ProjectSubmitEdited &&
                           submit is! ProjectSubmitDeleted) {
                         final shouldNavigate = await showDialog<bool>(
                           context: context,
@@ -359,6 +364,22 @@ class AppRouter {
                       );
                     },
                     routes: [
+                      GoRoute(
+                        name: RouteNames.projectAction,
+                        path: Routes.projectAction,
+                        parentNavigatorKey: _projectKey,
+                        pageBuilder: (context, state) {
+                          final projectId = int.parse(
+                            state.pathParameters['project_id']!,
+                          );
+
+                          return NoTransitionPage(
+                            key: state.pageKey,
+                            name: state.name,
+                            child: ProjectActionScreen(projectId: projectId),
+                          );
+                        },
+                      ),
                       GoRoute(
                         path: Routes.issueBase,
                         redirect: (context, state) {
@@ -421,7 +442,8 @@ class AppRouter {
                                     return true;
                                   }
 
-                                  if (submit is! IssueSubmitSuccess &&
+                                  if (submit is! IssueSubmitCreated &&
+                                      submit is! IssueSubmitEdited &&
                                       submit is! IssueSubmitDeleted) {
                                     final shouldNavigate =
                                         await showDialog<bool>(
@@ -471,7 +493,8 @@ class AppRouter {
                                 return true;
                               }
 
-                              if (submit is! IssueSubmitSuccess &&
+                              if (submit is! IssueSubmitCreated &&
+                                  submit is! IssueSubmitEdited &&
                                   submit is! IssueSubmitDeleted) {
                                 final shouldNavigate = await showDialog<bool>(
                                   context: context,
@@ -513,7 +536,8 @@ class AppRouter {
                                 return true;
                               }
 
-                              if (submit is! IssueSubmitSuccess &&
+                              if (submit is! IssueSubmitCreated &&
+                                  submit is! IssueSubmitEdited &&
                                   submit is! IssueSubmitDeleted) {
                                 final shouldNavigate = await showDialog<bool>(
                                   context: context,
@@ -596,7 +620,8 @@ class AppRouter {
                                     return true;
                                   }
 
-                                  if (submit is! ReportSubmitSuccess &&
+                                  if (submit is! ReportSubmitCreated &&
+                                      submit is! ReportSubmitEdited &&
                                       submit is! ReportSubmitDeleted) {
                                     final shouldNavigate =
                                         await showDialog<bool>(
@@ -646,7 +671,8 @@ class AppRouter {
                                 return true;
                               }
 
-                              if (submit is! ReportSubmitSuccess &&
+                              if (submit is! ReportSubmitCreated &&
+                                  submit is! ReportSubmitEdited &&
                                   submit is! ReportSubmitDeleted) {
                                 final shouldNavigate = await showDialog<bool>(
                                   context: context,
@@ -696,11 +722,17 @@ class AppRouter {
                         parentNavigatorKey: _workKey,
                         pageBuilder: (context, state) {
                           final path = state.uri.queryParameters['redirect_to'];
+                          final projectId = int.tryParse(
+                            state.uri.queryParameters['project_id'] ?? '',
+                          );
 
                           return NoTransitionPage(
                             key: state.pageKey,
                             name: state.name,
-                            child: ScheduleCategoryScreen(path: path),
+                            child: ScheduleCategoryScreen(
+                              path: path,
+                              projectId: projectId,
+                            ),
                           );
                         },
                         routes: [
@@ -710,6 +742,9 @@ class AppRouter {
                             pageBuilder: (context, state) {
                               final path =
                                   state.uri.queryParameters['redirect_to'];
+                              final projectId = int.tryParse(
+                                state.uri.queryParameters['project_id'] ?? '',
+                              );
                               final categoryId = int.parse(
                                 state.uri.queryParameters['category']!,
                               );
@@ -722,6 +757,7 @@ class AppRouter {
                                 name: state.name,
                                 child: ScheduleFormScreen(
                                   path: path,
+                                  projectId: projectId,
                                   categoryId: categoryId,
                                   scheduleId: scheduleId,
                                 ),
@@ -737,7 +773,8 @@ class AppRouter {
                                 return true;
                               }
 
-                              if (submit is! ScheduleSubmitSuccess &&
+                              if (submit is! ScheduleSubmitCreated &&
+                                  submit is! ScheduleSubmitEdited &&
                                   submit is! ScheduleSubmitDeleted) {
                                 final shouldNavigate = await showDialog<bool>(
                                   context: context,
@@ -754,7 +791,6 @@ class AppRouter {
                         name: RouteNames.scheduleEdit,
                         path: ':schedule_id/${Routes.scheduleEdit}',
                         pageBuilder: (context, state) {
-                          final path = state.uri.queryParameters['redirect_to'];
                           final categoryId = int.parse(
                             state.uri.queryParameters['category']!,
                           );
@@ -766,7 +802,6 @@ class AppRouter {
                             key: state.pageKey,
                             name: state.name,
                             child: ScheduleFormScreen(
-                              path: path,
                               categoryId: categoryId,
                               scheduleId: scheduleId,
                             ),
@@ -782,7 +817,8 @@ class AppRouter {
                             return true;
                           }
 
-                          if (submit is! ScheduleSubmitSuccess &&
+                          if (submit is! ScheduleSubmitCreated &&
+                              submit is! ScheduleSubmitEdited &&
                               submit is! ScheduleSubmitDeleted) {
                             final shouldNavigate = await showDialog<bool>(
                               context: context,
@@ -814,31 +850,6 @@ class AppRouter {
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _operationKey,
-            routes: [
-              GoRoute(
-                name: RouteNames.operation,
-                path: Routes.operation,
-                redirect: (context, state) async {
-                  final auth = ref.read(authControllerProvider);
-                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
-                    return _showWrongApproachAndGoDashboard(context);
-                  }
-                  return null;
-                },
-                pageBuilder: (context, state) {
-                  final view = state.uri.queryParameters['view'];
-
-                  return NoTransitionPage(
-                    key: state.pageKey,
-                    name: state.name,
-                    child: OperationScreen(view: view),
-                  );
-                },
-              ),
-            ],
-          ),
-          StatefulShellBranch(
             navigatorKey: _analyticsKey,
             routes: [
               GoRoute(
@@ -860,11 +871,18 @@ class AppRouter {
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _setttingKey,
+            navigatorKey: _settingKey,
             routes: [
               GoRoute(
                 name: RouteNames.setting,
                 path: Routes.setting,
+                redirect: (context, state) async {
+                  final auth = ref.read(authControllerProvider);
+                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
+                    return _showWrongApproachAndGoDashboard(context);
+                  }
+                  return null;
+                },
                 pageBuilder: (context, state) {
                   final view = state.uri.queryParameters['view'];
 
@@ -872,6 +890,24 @@ class AppRouter {
                     key: state.pageKey,
                     name: state.name,
                     child: SettingScreen(view: view),
+                  );
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _accountKey,
+            routes: [
+              GoRoute(
+                name: RouteNames.account,
+                path: Routes.account,
+                pageBuilder: (context, state) {
+                  final view = state.uri.queryParameters['view'];
+
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    name: state.name,
+                    child: AccountScreen(view: view),
                   );
                 },
               ),

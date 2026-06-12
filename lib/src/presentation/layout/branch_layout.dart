@@ -4,9 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/project_action_button.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/new_project_button.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_report_button.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_issue_button.dart';
+import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/supplier_add_button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
@@ -24,7 +24,7 @@ class BranchLayout extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final dateSelection = ref.watch(dateSelectionControllerProvider);
-    final routerState = GoRouterState.of(context);
+    final routerState = GoRouter.of(context).state;
     final currentRouteName = routerState.name ?? '';
 
     return LayoutBuilder(
@@ -100,13 +100,10 @@ class BranchLayout extends ConsumerWidget {
                     if (currentRouteName == RouteNames.project)
                       NewProjectButton(),
                     if (currentRouteName == RouteNames.projectDetail)
-                      Row(
-                        children: [
-                          NewReportButton(),
-                          SizedBox(width: 8.0),
-                          NewIssueButton(),
-                        ],
-                      ),
+                      ProjectActionButton(),
+                    if (currentRouteName == RouteNames.setting &&
+                        routerState.uri.queryParameters['view'] == 'supplier')
+                      SupplierAddButton(),
                   ],
                 ),
               ),

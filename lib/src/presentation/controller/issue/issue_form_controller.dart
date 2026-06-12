@@ -24,6 +24,7 @@ class IssueFormController extends _$IssueFormController {
         contractItems: result.contractItems,
         transactionItems: result.transactionItems,
         procurementItems: result.procurementItems,
+        requests: result.requests,
       );
     }
 
@@ -348,7 +349,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(transactionItems: []));
   }
 
-  Future<void> removeAttachment(IssueAttachment attachment) async {
+  Future<void> removeAttachment({required IssueAttachment attachment}) async {
     final value = state.value;
 
     if (value == null) return;
@@ -367,7 +368,7 @@ class IssueFormController extends _$IssueFormController {
     );
   }
 
-  void addFile(XFile file) {
+  void addFile({required XFile file}) {
     final value = state.value;
 
     if (value == null) return;
@@ -375,7 +376,7 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(files: [...?value.files, file]));
   }
 
-  void removeFile(XFile file) {
+  void removeFile({required XFile file}) {
     final value = state.value;
 
     if (value == null) return;

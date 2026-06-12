@@ -382,17 +382,21 @@ abstract class UpdateTransactionIssueItemDto
 }
 
 @freezed
-abstract class SupplierDto with _$SupplierDto {
-  factory SupplierDto({
-    required String businessNumber,
+abstract class CreateSupplierDto with _$CreateSupplierDto {
+  factory CreateSupplierDto({
     required String name,
+    required String number,
+    String? zipcode,
+    String? roadAddress,
+    String? roadAddressReference,
+    String? detailAddress,
     String? phone,
-    String? address,
-    String? favicon,
-  }) = _SupplierDto;
+    String? email,
+    String? logo,
+  }) = _CreateSupplierDto;
 
-  factory SupplierDto.fromJson(Map<String, dynamic> json) =>
-      _$SupplierDtoFromJson(json);
+  factory CreateSupplierDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateSupplierDtoFromJson(json);
 }
 
 @freezed

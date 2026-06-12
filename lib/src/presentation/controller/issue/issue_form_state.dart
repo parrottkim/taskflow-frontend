@@ -9,10 +9,9 @@ abstract class IssueFormState with _$IssueFormState {
     List<XFile>? files,
     Currency? currency,
     DateTime? kickoffDate,
-    @Default(false) bool isRequested,
-    @Default(false) bool isOrdered,
     @Default([]) List<ContractIssueItem> contractItems,
     @Default([]) List<TransactionIssueItem> transactionItems,
     @Default([]) List<ProcurementIssueItem> procurementItems,
+    @Default([]) List<ProcurementIssueRequest> requests,
   }) = _IssueFormState;
 }

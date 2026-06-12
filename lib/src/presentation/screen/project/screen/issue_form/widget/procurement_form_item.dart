@@ -13,9 +13,8 @@ class ProcurementFormItem extends HookConsumerWidget {
   final int projectId;
   final int categoryId;
   final int? issueId;
-  final bool isRequested;
-  final bool isOrdered;
   final List<ProcurementIssueItem> items;
+  final List<ProcurementIssueRequest> requests;
   final ValueNotifier<bool> hasProcurementIssueItems;
   final ValueNotifier<bool> isProcurementIssueItemEmpty;
 
@@ -24,9 +23,8 @@ class ProcurementFormItem extends HookConsumerWidget {
     required this.projectId,
     required this.categoryId,
     this.issueId,
-    required this.isRequested,
-    required this.isOrdered,
     required this.items,
+    required this.requests,
     required this.hasProcurementIssueItems,
     required this.isProcurementIssueItemEmpty,
   });
@@ -162,11 +160,11 @@ class ProcurementFormItem extends HookConsumerWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    if (isRequested)
+                    if (requests.isNotEmpty)
                       Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
-                          Intl.message('issue_form_procurement_16'),
+                          Intl.message('issue_form_procurement_17'),
                           style: textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w600,
                             color: colorScheme.error,
@@ -176,7 +174,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                   ],
                 ),
                 SizedBox(height: 8.0),
-                if (!isRequested)
+                if (requests.isEmpty)
                   TextButton.icon(
                     onPressed: () {
                       hasProcurementIssueItems.value = false;
@@ -200,9 +198,9 @@ class ProcurementFormItem extends HookConsumerWidget {
           ),
           if (items.isNotEmpty)
             IgnorePointer(
-              ignoring: isRequested,
+              ignoring: requests.isNotEmpty,
               child: Opacity(
-                opacity: isRequested ? 0.4 : 1.0,
+                opacity: requests.isNotEmpty ? 0.4 : 1.0,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: SizeTransition(
@@ -1314,7 +1312,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       vertical: 8.0,
                                     ),
                                     child: Text(
-                                      Intl.message('issue_form_procurement_14'),
+                                      Intl.message('issue_form_procurement_15'),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                       ),

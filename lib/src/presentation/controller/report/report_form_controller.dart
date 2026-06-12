@@ -224,7 +224,7 @@ class ReportFormController extends _$ReportFormController {
         .setContentValid(markdown.trimRight().isEmpty);
   }
 
-  Future<void> removeAttachment(ReportAttachment attachment) async {
+  Future<void> removeAttachment({required ReportAttachment attachment}) async {
     final value = state.value;
 
     if (value == null) return;
@@ -243,7 +243,7 @@ class ReportFormController extends _$ReportFormController {
     );
   }
 
-  void addFile(XFile file) {
+  void addFile({required XFile file}) {
     final value = state.value;
 
     if (value == null) return;
@@ -251,7 +251,7 @@ class ReportFormController extends _$ReportFormController {
     state = AsyncData(value.copyWith(files: [...?value.files, file]));
   }
 
-  void removeFile(XFile file) {
+  void removeFile({required XFile file}) {
     final value = state.value;
 
     if (value == null) return;

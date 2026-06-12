@@ -17,6 +17,7 @@ part 'data.g.dart';
 part 'data.freezed.dart';
 
 part 'model/bookmark.dart';
+part 'model/address.dart';
 part 'model/currency.dart';
 part 'model/issue.dart';
 part 'model/project.dart';
@@ -32,6 +33,10 @@ part 'model/widget.dart';
 part 'repository/auth_repository.dart';
 part 'service/auth_service.dart';
 part 'source/auth_source.dart';
+
+part 'repository/address_repository.dart';
+part 'service/address_service.dart';
+part 'source/address_source.dart';
 
 part 'repository/bookmark_repository.dart';
 part 'service/bookmark_service.dart';

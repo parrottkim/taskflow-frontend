@@ -282,6 +282,556 @@ as DateTime,
 
 
 /// @nodoc
+mixin _$AddressSearchResult {
+
+ int get totalCount; List<AddressItem> get items;
+/// Create a copy of AddressSearchResult
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AddressSearchResultCopyWith<AddressSearchResult> get copyWith => _$AddressSearchResultCopyWithImpl<AddressSearchResult>(this as AddressSearchResult, _$identity);
+
+  /// Serializes this AddressSearchResult to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressSearchResult&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&const DeepCollectionEquality().equals(other.items, items));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,totalCount,const DeepCollectionEquality().hash(items));
+
+@override
+String toString() {
+  return 'AddressSearchResult(totalCount: $totalCount, items: $items)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AddressSearchResultCopyWith<$Res>  {
+  factory $AddressSearchResultCopyWith(AddressSearchResult value, $Res Function(AddressSearchResult) _then) = _$AddressSearchResultCopyWithImpl;
+@useResult
+$Res call({
+ int totalCount, List<AddressItem> items
+});
+
+
+
+
+}
+/// @nodoc
+class _$AddressSearchResultCopyWithImpl<$Res>
+    implements $AddressSearchResultCopyWith<$Res> {
+  _$AddressSearchResultCopyWithImpl(this._self, this._then);
+
+  final AddressSearchResult _self;
+  final $Res Function(AddressSearchResult) _then;
+
+/// Create a copy of AddressSearchResult
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? totalCount = null,Object? items = null,}) {
+  return _then(_self.copyWith(
+totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as List<AddressItem>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AddressSearchResult].
+extension AddressSearchResultPatterns on AddressSearchResult {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AddressSearchResult value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AddressSearchResult() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AddressSearchResult value)  $default,){
+final _that = this;
+switch (_that) {
+case _AddressSearchResult():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AddressSearchResult value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AddressSearchResult() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int totalCount,  List<AddressItem> items)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AddressSearchResult() when $default != null:
+return $default(_that.totalCount,_that.items);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int totalCount,  List<AddressItem> items)  $default,) {final _that = this;
+switch (_that) {
+case _AddressSearchResult():
+return $default(_that.totalCount,_that.items);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int totalCount,  List<AddressItem> items)?  $default,) {final _that = this;
+switch (_that) {
+case _AddressSearchResult() when $default != null:
+return $default(_that.totalCount,_that.items);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AddressSearchResult implements AddressSearchResult {
+   _AddressSearchResult({this.totalCount = 0, final  List<AddressItem> items = const <AddressItem>[]}): _items = items;
+  factory _AddressSearchResult.fromJson(Map<String, dynamic> json) => _$AddressSearchResultFromJson(json);
+
+@override@JsonKey() final  int totalCount;
+ final  List<AddressItem> _items;
+@override@JsonKey() List<AddressItem> get items {
+  if (_items is EqualUnmodifiableListView) return _items;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_items);
+}
+
+
+/// Create a copy of AddressSearchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AddressSearchResultCopyWith<_AddressSearchResult> get copyWith => __$AddressSearchResultCopyWithImpl<_AddressSearchResult>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AddressSearchResultToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressSearchResult&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&const DeepCollectionEquality().equals(other._items, _items));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,totalCount,const DeepCollectionEquality().hash(_items));
+
+@override
+String toString() {
+  return 'AddressSearchResult(totalCount: $totalCount, items: $items)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AddressSearchResultCopyWith<$Res> implements $AddressSearchResultCopyWith<$Res> {
+  factory _$AddressSearchResultCopyWith(_AddressSearchResult value, $Res Function(_AddressSearchResult) _then) = __$AddressSearchResultCopyWithImpl;
+@override @useResult
+$Res call({
+ int totalCount, List<AddressItem> items
+});
+
+
+
+
+}
+/// @nodoc
+class __$AddressSearchResultCopyWithImpl<$Res>
+    implements _$AddressSearchResultCopyWith<$Res> {
+  __$AddressSearchResultCopyWithImpl(this._self, this._then);
+
+  final _AddressSearchResult _self;
+  final $Res Function(_AddressSearchResult) _then;
+
+/// Create a copy of AddressSearchResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? totalCount = null,Object? items = null,}) {
+  return _then(_AddressSearchResult(
+totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as List<AddressItem>,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$AddressItem {
+
+ String get zipNo; String get roadAddr; String get roadAddrPart1; String get emdNm; String get bdNm; String get jibunAddr;
+/// Create a copy of AddressItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AddressItemCopyWith<AddressItem> get copyWith => _$AddressItemCopyWithImpl<AddressItem>(this as AddressItem, _$identity);
+
+  /// Serializes this AddressItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressItem&&(identical(other.zipNo, zipNo) || other.zipNo == zipNo)&&(identical(other.roadAddr, roadAddr) || other.roadAddr == roadAddr)&&(identical(other.roadAddrPart1, roadAddrPart1) || other.roadAddrPart1 == roadAddrPart1)&&(identical(other.emdNm, emdNm) || other.emdNm == emdNm)&&(identical(other.bdNm, bdNm) || other.bdNm == bdNm)&&(identical(other.jibunAddr, jibunAddr) || other.jibunAddr == jibunAddr));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,zipNo,roadAddr,roadAddrPart1,emdNm,bdNm,jibunAddr);
+
+@override
+String toString() {
+  return 'AddressItem(zipNo: $zipNo, roadAddr: $roadAddr, roadAddrPart1: $roadAddrPart1, emdNm: $emdNm, bdNm: $bdNm, jibunAddr: $jibunAddr)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AddressItemCopyWith<$Res>  {
+  factory $AddressItemCopyWith(AddressItem value, $Res Function(AddressItem) _then) = _$AddressItemCopyWithImpl;
+@useResult
+$Res call({
+ String zipNo, String roadAddr, String roadAddrPart1, String emdNm, String bdNm, String jibunAddr
+});
+
+
+
+
+}
+/// @nodoc
+class _$AddressItemCopyWithImpl<$Res>
+    implements $AddressItemCopyWith<$Res> {
+  _$AddressItemCopyWithImpl(this._self, this._then);
+
+  final AddressItem _self;
+  final $Res Function(AddressItem) _then;
+
+/// Create a copy of AddressItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? zipNo = null,Object? roadAddr = null,Object? roadAddrPart1 = null,Object? emdNm = null,Object? bdNm = null,Object? jibunAddr = null,}) {
+  return _then(_self.copyWith(
+zipNo: null == zipNo ? _self.zipNo : zipNo // ignore: cast_nullable_to_non_nullable
+as String,roadAddr: null == roadAddr ? _self.roadAddr : roadAddr // ignore: cast_nullable_to_non_nullable
+as String,roadAddrPart1: null == roadAddrPart1 ? _self.roadAddrPart1 : roadAddrPart1 // ignore: cast_nullable_to_non_nullable
+as String,emdNm: null == emdNm ? _self.emdNm : emdNm // ignore: cast_nullable_to_non_nullable
+as String,bdNm: null == bdNm ? _self.bdNm : bdNm // ignore: cast_nullable_to_non_nullable
+as String,jibunAddr: null == jibunAddr ? _self.jibunAddr : jibunAddr // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [AddressItem].
+extension AddressItemPatterns on AddressItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AddressItem value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AddressItem() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AddressItem value)  $default,){
+final _that = this;
+switch (_that) {
+case _AddressItem():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AddressItem value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AddressItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String zipNo,  String roadAddr,  String roadAddrPart1,  String emdNm,  String bdNm,  String jibunAddr)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AddressItem() when $default != null:
+return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that.bdNm,_that.jibunAddr);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String zipNo,  String roadAddr,  String roadAddrPart1,  String emdNm,  String bdNm,  String jibunAddr)  $default,) {final _that = this;
+switch (_that) {
+case _AddressItem():
+return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that.bdNm,_that.jibunAddr);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String zipNo,  String roadAddr,  String roadAddrPart1,  String emdNm,  String bdNm,  String jibunAddr)?  $default,) {final _that = this;
+switch (_that) {
+case _AddressItem() when $default != null:
+return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that.bdNm,_that.jibunAddr);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _AddressItem implements AddressItem {
+   _AddressItem({this.zipNo = '', this.roadAddr = '', this.roadAddrPart1 = '', this.emdNm = '', this.bdNm = '', this.jibunAddr = ''});
+  factory _AddressItem.fromJson(Map<String, dynamic> json) => _$AddressItemFromJson(json);
+
+@override@JsonKey() final  String zipNo;
+@override@JsonKey() final  String roadAddr;
+@override@JsonKey() final  String roadAddrPart1;
+@override@JsonKey() final  String emdNm;
+@override@JsonKey() final  String bdNm;
+@override@JsonKey() final  String jibunAddr;
+
+/// Create a copy of AddressItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AddressItemCopyWith<_AddressItem> get copyWith => __$AddressItemCopyWithImpl<_AddressItem>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AddressItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressItem&&(identical(other.zipNo, zipNo) || other.zipNo == zipNo)&&(identical(other.roadAddr, roadAddr) || other.roadAddr == roadAddr)&&(identical(other.roadAddrPart1, roadAddrPart1) || other.roadAddrPart1 == roadAddrPart1)&&(identical(other.emdNm, emdNm) || other.emdNm == emdNm)&&(identical(other.bdNm, bdNm) || other.bdNm == bdNm)&&(identical(other.jibunAddr, jibunAddr) || other.jibunAddr == jibunAddr));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,zipNo,roadAddr,roadAddrPart1,emdNm,bdNm,jibunAddr);
+
+@override
+String toString() {
+  return 'AddressItem(zipNo: $zipNo, roadAddr: $roadAddr, roadAddrPart1: $roadAddrPart1, emdNm: $emdNm, bdNm: $bdNm, jibunAddr: $jibunAddr)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AddressItemCopyWith<$Res> implements $AddressItemCopyWith<$Res> {
+  factory _$AddressItemCopyWith(_AddressItem value, $Res Function(_AddressItem) _then) = __$AddressItemCopyWithImpl;
+@override @useResult
+$Res call({
+ String zipNo, String roadAddr, String roadAddrPart1, String emdNm, String bdNm, String jibunAddr
+});
+
+
+
+
+}
+/// @nodoc
+class __$AddressItemCopyWithImpl<$Res>
+    implements _$AddressItemCopyWith<$Res> {
+  __$AddressItemCopyWithImpl(this._self, this._then);
+
+  final _AddressItem _self;
+  final $Res Function(_AddressItem) _then;
+
+/// Create a copy of AddressItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? zipNo = null,Object? roadAddr = null,Object? roadAddrPart1 = null,Object? emdNm = null,Object? bdNm = null,Object? jibunAddr = null,}) {
+  return _then(_AddressItem(
+zipNo: null == zipNo ? _self.zipNo : zipNo // ignore: cast_nullable_to_non_nullable
+as String,roadAddr: null == roadAddr ? _self.roadAddr : roadAddr // ignore: cast_nullable_to_non_nullable
+as String,roadAddrPart1: null == roadAddrPart1 ? _self.roadAddrPart1 : roadAddrPart1 // ignore: cast_nullable_to_non_nullable
+as String,emdNm: null == emdNm ? _self.emdNm : emdNm // ignore: cast_nullable_to_non_nullable
+as String,bdNm: null == bdNm ? _self.bdNm : bdNm // ignore: cast_nullable_to_non_nullable
+as String,jibunAddr: null == jibunAddr ? _self.jibunAddr : jibunAddr // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$Currency {
 
  int get id; String get code; String get symbol;
@@ -15660,42 +16210,42 @@ as String?,
 
 
 /// @nodoc
-mixin _$SupplierDto {
+mixin _$CreateSupplierDto {
 
- String get businessNumber; String get name; String? get phone; String? get address; String? get favicon;
-/// Create a copy of SupplierDto
+ String get name; String get number; String? get zipcode; String? get roadAddress; String? get roadAddressReference; String? get detailAddress; String? get phone; String? get email; String? get logo;
+/// Create a copy of CreateSupplierDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$SupplierDtoCopyWith<SupplierDto> get copyWith => _$SupplierDtoCopyWithImpl<SupplierDto>(this as SupplierDto, _$identity);
+$CreateSupplierDtoCopyWith<CreateSupplierDto> get copyWith => _$CreateSupplierDtoCopyWithImpl<CreateSupplierDto>(this as CreateSupplierDto, _$identity);
 
-  /// Serializes this SupplierDto to a JSON map.
+  /// Serializes this CreateSupplierDto to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierDto&&(identical(other.businessNumber, businessNumber) || other.businessNumber == businessNumber)&&(identical(other.name, name) || other.name == name)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.address, address) || other.address == address)&&(identical(other.favicon, favicon) || other.favicon == favicon));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateSupplierDto&&(identical(other.name, name) || other.name == name)&&(identical(other.number, number) || other.number == number)&&(identical(other.zipcode, zipcode) || other.zipcode == zipcode)&&(identical(other.roadAddress, roadAddress) || other.roadAddress == roadAddress)&&(identical(other.roadAddressReference, roadAddressReference) || other.roadAddressReference == roadAddressReference)&&(identical(other.detailAddress, detailAddress) || other.detailAddress == detailAddress)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.logo, logo) || other.logo == logo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,businessNumber,name,phone,address,favicon);
+int get hashCode => Object.hash(runtimeType,name,number,zipcode,roadAddress,roadAddressReference,detailAddress,phone,email,logo);
 
 @override
 String toString() {
-  return 'SupplierDto(businessNumber: $businessNumber, name: $name, phone: $phone, address: $address, favicon: $favicon)';
+  return 'CreateSupplierDto(name: $name, number: $number, zipcode: $zipcode, roadAddress: $roadAddress, roadAddressReference: $roadAddressReference, detailAddress: $detailAddress, phone: $phone, email: $email, logo: $logo)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $SupplierDtoCopyWith<$Res>  {
-  factory $SupplierDtoCopyWith(SupplierDto value, $Res Function(SupplierDto) _then) = _$SupplierDtoCopyWithImpl;
+abstract mixin class $CreateSupplierDtoCopyWith<$Res>  {
+  factory $CreateSupplierDtoCopyWith(CreateSupplierDto value, $Res Function(CreateSupplierDto) _then) = _$CreateSupplierDtoCopyWithImpl;
 @useResult
 $Res call({
- String businessNumber, String name, String? phone, String? address, String? favicon
+ String name, String number, String? zipcode, String? roadAddress, String? roadAddressReference, String? detailAddress, String? phone, String? email, String? logo
 });
 
 
@@ -15703,22 +16253,26 @@ $Res call({
 
 }
 /// @nodoc
-class _$SupplierDtoCopyWithImpl<$Res>
-    implements $SupplierDtoCopyWith<$Res> {
-  _$SupplierDtoCopyWithImpl(this._self, this._then);
+class _$CreateSupplierDtoCopyWithImpl<$Res>
+    implements $CreateSupplierDtoCopyWith<$Res> {
+  _$CreateSupplierDtoCopyWithImpl(this._self, this._then);
 
-  final SupplierDto _self;
-  final $Res Function(SupplierDto) _then;
+  final CreateSupplierDto _self;
+  final $Res Function(CreateSupplierDto) _then;
 
-/// Create a copy of SupplierDto
+/// Create a copy of CreateSupplierDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? businessNumber = null,Object? name = null,Object? phone = freezed,Object? address = freezed,Object? favicon = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? number = null,Object? zipcode = freezed,Object? roadAddress = freezed,Object? roadAddressReference = freezed,Object? detailAddress = freezed,Object? phone = freezed,Object? email = freezed,Object? logo = freezed,}) {
   return _then(_self.copyWith(
-businessNumber: null == businessNumber ? _self.businessNumber : businessNumber // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String?,favicon: freezed == favicon ? _self.favicon : favicon // ignore: cast_nullable_to_non_nullable
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
+as String,zipcode: freezed == zipcode ? _self.zipcode : zipcode // ignore: cast_nullable_to_non_nullable
+as String?,roadAddress: freezed == roadAddress ? _self.roadAddress : roadAddress // ignore: cast_nullable_to_non_nullable
+as String?,roadAddressReference: freezed == roadAddressReference ? _self.roadAddressReference : roadAddressReference // ignore: cast_nullable_to_non_nullable
+as String?,detailAddress: freezed == detailAddress ? _self.detailAddress : detailAddress // ignore: cast_nullable_to_non_nullable
+as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,logo: freezed == logo ? _self.logo : logo // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -15726,8 +16280,8 @@ as String?,
 }
 
 
-/// Adds pattern-matching-related methods to [SupplierDto].
-extension SupplierDtoPatterns on SupplierDto {
+/// Adds pattern-matching-related methods to [CreateSupplierDto].
+extension CreateSupplierDtoPatterns on CreateSupplierDto {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -15740,10 +16294,10 @@ extension SupplierDtoPatterns on SupplierDto {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SupplierDto value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CreateSupplierDto value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _SupplierDto() when $default != null:
+case _CreateSupplierDto() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -15762,10 +16316,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SupplierDto value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CreateSupplierDto value)  $default,){
 final _that = this;
 switch (_that) {
-case _SupplierDto():
+case _CreateSupplierDto():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -15783,10 +16337,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SupplierDto value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CreateSupplierDto value)?  $default,){
 final _that = this;
 switch (_that) {
-case _SupplierDto() when $default != null:
+case _CreateSupplierDto() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -15804,10 +16358,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String businessNumber,  String name,  String? phone,  String? address,  String? favicon)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String number,  String? zipcode,  String? roadAddress,  String? roadAddressReference,  String? detailAddress,  String? phone,  String? email,  String? logo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _SupplierDto() when $default != null:
-return $default(_that.businessNumber,_that.name,_that.phone,_that.address,_that.favicon);case _:
+case _CreateSupplierDto() when $default != null:
+return $default(_that.name,_that.number,_that.zipcode,_that.roadAddress,_that.roadAddressReference,_that.detailAddress,_that.phone,_that.email,_that.logo);case _:
   return orElse();
 
 }
@@ -15825,10 +16379,10 @@ return $default(_that.businessNumber,_that.name,_that.phone,_that.address,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String businessNumber,  String name,  String? phone,  String? address,  String? favicon)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String number,  String? zipcode,  String? roadAddress,  String? roadAddressReference,  String? detailAddress,  String? phone,  String? email,  String? logo)  $default,) {final _that = this;
 switch (_that) {
-case _SupplierDto():
-return $default(_that.businessNumber,_that.name,_that.phone,_that.address,_that.favicon);case _:
+case _CreateSupplierDto():
+return $default(_that.name,_that.number,_that.zipcode,_that.roadAddress,_that.roadAddressReference,_that.detailAddress,_that.phone,_that.email,_that.logo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -15845,10 +16399,10 @@ return $default(_that.businessNumber,_that.name,_that.phone,_that.address,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String businessNumber,  String name,  String? phone,  String? address,  String? favicon)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String number,  String? zipcode,  String? roadAddress,  String? roadAddressReference,  String? detailAddress,  String? phone,  String? email,  String? logo)?  $default,) {final _that = this;
 switch (_that) {
-case _SupplierDto() when $default != null:
-return $default(_that.businessNumber,_that.name,_that.phone,_that.address,_that.favicon);case _:
+case _CreateSupplierDto() when $default != null:
+return $default(_that.name,_that.number,_that.zipcode,_that.roadAddress,_that.roadAddressReference,_that.detailAddress,_that.phone,_that.email,_that.logo);case _:
   return null;
 
 }
@@ -15859,50 +16413,54 @@ return $default(_that.businessNumber,_that.name,_that.phone,_that.address,_that.
 /// @nodoc
 @JsonSerializable()
 
-class _SupplierDto implements SupplierDto {
-   _SupplierDto({required this.businessNumber, required this.name, this.phone, this.address, this.favicon});
-  factory _SupplierDto.fromJson(Map<String, dynamic> json) => _$SupplierDtoFromJson(json);
+class _CreateSupplierDto implements CreateSupplierDto {
+   _CreateSupplierDto({required this.name, required this.number, this.zipcode, this.roadAddress, this.roadAddressReference, this.detailAddress, this.phone, this.email, this.logo});
+  factory _CreateSupplierDto.fromJson(Map<String, dynamic> json) => _$CreateSupplierDtoFromJson(json);
 
-@override final  String businessNumber;
 @override final  String name;
+@override final  String number;
+@override final  String? zipcode;
+@override final  String? roadAddress;
+@override final  String? roadAddressReference;
+@override final  String? detailAddress;
 @override final  String? phone;
-@override final  String? address;
-@override final  String? favicon;
+@override final  String? email;
+@override final  String? logo;
 
-/// Create a copy of SupplierDto
+/// Create a copy of CreateSupplierDto
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$SupplierDtoCopyWith<_SupplierDto> get copyWith => __$SupplierDtoCopyWithImpl<_SupplierDto>(this, _$identity);
+_$CreateSupplierDtoCopyWith<_CreateSupplierDto> get copyWith => __$CreateSupplierDtoCopyWithImpl<_CreateSupplierDto>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$SupplierDtoToJson(this, );
+  return _$CreateSupplierDtoToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierDto&&(identical(other.businessNumber, businessNumber) || other.businessNumber == businessNumber)&&(identical(other.name, name) || other.name == name)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.address, address) || other.address == address)&&(identical(other.favicon, favicon) || other.favicon == favicon));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateSupplierDto&&(identical(other.name, name) || other.name == name)&&(identical(other.number, number) || other.number == number)&&(identical(other.zipcode, zipcode) || other.zipcode == zipcode)&&(identical(other.roadAddress, roadAddress) || other.roadAddress == roadAddress)&&(identical(other.roadAddressReference, roadAddressReference) || other.roadAddressReference == roadAddressReference)&&(identical(other.detailAddress, detailAddress) || other.detailAddress == detailAddress)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.logo, logo) || other.logo == logo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,businessNumber,name,phone,address,favicon);
+int get hashCode => Object.hash(runtimeType,name,number,zipcode,roadAddress,roadAddressReference,detailAddress,phone,email,logo);
 
 @override
 String toString() {
-  return 'SupplierDto(businessNumber: $businessNumber, name: $name, phone: $phone, address: $address, favicon: $favicon)';
+  return 'CreateSupplierDto(name: $name, number: $number, zipcode: $zipcode, roadAddress: $roadAddress, roadAddressReference: $roadAddressReference, detailAddress: $detailAddress, phone: $phone, email: $email, logo: $logo)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$SupplierDtoCopyWith<$Res> implements $SupplierDtoCopyWith<$Res> {
-  factory _$SupplierDtoCopyWith(_SupplierDto value, $Res Function(_SupplierDto) _then) = __$SupplierDtoCopyWithImpl;
+abstract mixin class _$CreateSupplierDtoCopyWith<$Res> implements $CreateSupplierDtoCopyWith<$Res> {
+  factory _$CreateSupplierDtoCopyWith(_CreateSupplierDto value, $Res Function(_CreateSupplierDto) _then) = __$CreateSupplierDtoCopyWithImpl;
 @override @useResult
 $Res call({
- String businessNumber, String name, String? phone, String? address, String? favicon
+ String name, String number, String? zipcode, String? roadAddress, String? roadAddressReference, String? detailAddress, String? phone, String? email, String? logo
 });
 
 
@@ -15910,22 +16468,26 @@ $Res call({
 
 }
 /// @nodoc
-class __$SupplierDtoCopyWithImpl<$Res>
-    implements _$SupplierDtoCopyWith<$Res> {
-  __$SupplierDtoCopyWithImpl(this._self, this._then);
+class __$CreateSupplierDtoCopyWithImpl<$Res>
+    implements _$CreateSupplierDtoCopyWith<$Res> {
+  __$CreateSupplierDtoCopyWithImpl(this._self, this._then);
 
-  final _SupplierDto _self;
-  final $Res Function(_SupplierDto) _then;
+  final _CreateSupplierDto _self;
+  final $Res Function(_CreateSupplierDto) _then;
 
-/// Create a copy of SupplierDto
+/// Create a copy of CreateSupplierDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? businessNumber = null,Object? name = null,Object? phone = freezed,Object? address = freezed,Object? favicon = freezed,}) {
-  return _then(_SupplierDto(
-businessNumber: null == businessNumber ? _self.businessNumber : businessNumber // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String?,favicon: freezed == favicon ? _self.favicon : favicon // ignore: cast_nullable_to_non_nullable
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? number = null,Object? zipcode = freezed,Object? roadAddress = freezed,Object? roadAddressReference = freezed,Object? detailAddress = freezed,Object? phone = freezed,Object? email = freezed,Object? logo = freezed,}) {
+  return _then(_CreateSupplierDto(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
+as String,zipcode: freezed == zipcode ? _self.zipcode : zipcode // ignore: cast_nullable_to_non_nullable
+as String?,roadAddress: freezed == roadAddress ? _self.roadAddress : roadAddress // ignore: cast_nullable_to_non_nullable
+as String?,roadAddressReference: freezed == roadAddressReference ? _self.roadAddressReference : roadAddressReference // ignore: cast_nullable_to_non_nullable
+as String?,detailAddress: freezed == detailAddress ? _self.detailAddress : detailAddress // ignore: cast_nullable_to_non_nullable
+as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,logo: freezed == logo ? _self.logo : logo // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -21469,7 +22031,7 @@ $UserCopyWith<$Res> get user {
 /// @nodoc
 mixin _$Supplier {
 
- int get id; String get name; String get number; String? get address; String? get phone; String? get email; String? get logo;
+ int get id; String get name; String get number; String? get zipcode; String? get address; String? get roadAddress; String? get roadAddressReference; String? get detailAddress; String? get phone; String? get email; String? get logo;
 /// Create a copy of Supplier
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -21482,16 +22044,16 @@ $SupplierCopyWith<Supplier> get copyWith => _$SupplierCopyWithImpl<Supplier>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Supplier&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.number, number) || other.number == number)&&(identical(other.address, address) || other.address == address)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.logo, logo) || other.logo == logo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Supplier&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.number, number) || other.number == number)&&(identical(other.zipcode, zipcode) || other.zipcode == zipcode)&&(identical(other.address, address) || other.address == address)&&(identical(other.roadAddress, roadAddress) || other.roadAddress == roadAddress)&&(identical(other.roadAddressReference, roadAddressReference) || other.roadAddressReference == roadAddressReference)&&(identical(other.detailAddress, detailAddress) || other.detailAddress == detailAddress)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.logo, logo) || other.logo == logo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,number,address,phone,email,logo);
+int get hashCode => Object.hash(runtimeType,id,name,number,zipcode,address,roadAddress,roadAddressReference,detailAddress,phone,email,logo);
 
 @override
 String toString() {
-  return 'Supplier(id: $id, name: $name, number: $number, address: $address, phone: $phone, email: $email, logo: $logo)';
+  return 'Supplier(id: $id, name: $name, number: $number, zipcode: $zipcode, address: $address, roadAddress: $roadAddress, roadAddressReference: $roadAddressReference, detailAddress: $detailAddress, phone: $phone, email: $email, logo: $logo)';
 }
 
 
@@ -21502,7 +22064,7 @@ abstract mixin class $SupplierCopyWith<$Res>  {
   factory $SupplierCopyWith(Supplier value, $Res Function(Supplier) _then) = _$SupplierCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String number, String? address, String? phone, String? email, String? logo
+ int id, String name, String number, String? zipcode, String? address, String? roadAddress, String? roadAddressReference, String? detailAddress, String? phone, String? email, String? logo
 });
 
 
@@ -21519,12 +22081,16 @@ class _$SupplierCopyWithImpl<$Res>
 
 /// Create a copy of Supplier
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? number = null,Object? address = freezed,Object? phone = freezed,Object? email = freezed,Object? logo = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? number = null,Object? zipcode = freezed,Object? address = freezed,Object? roadAddress = freezed,Object? roadAddressReference = freezed,Object? detailAddress = freezed,Object? phone = freezed,Object? email = freezed,Object? logo = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
-as String,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as String,zipcode: freezed == zipcode ? _self.zipcode : zipcode // ignore: cast_nullable_to_non_nullable
+as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as String?,roadAddress: freezed == roadAddress ? _self.roadAddress : roadAddress // ignore: cast_nullable_to_non_nullable
+as String?,roadAddressReference: freezed == roadAddressReference ? _self.roadAddressReference : roadAddressReference // ignore: cast_nullable_to_non_nullable
+as String?,detailAddress: freezed == detailAddress ? _self.detailAddress : detailAddress // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,logo: freezed == logo ? _self.logo : logo // ignore: cast_nullable_to_non_nullable
@@ -21613,10 +22179,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String number,  String? address,  String? phone,  String? email,  String? logo)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String number,  String? zipcode,  String? address,  String? roadAddress,  String? roadAddressReference,  String? detailAddress,  String? phone,  String? email,  String? logo)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Supplier() when $default != null:
-return $default(_that.id,_that.name,_that.number,_that.address,_that.phone,_that.email,_that.logo);case _:
+return $default(_that.id,_that.name,_that.number,_that.zipcode,_that.address,_that.roadAddress,_that.roadAddressReference,_that.detailAddress,_that.phone,_that.email,_that.logo);case _:
   return orElse();
 
 }
@@ -21634,10 +22200,10 @@ return $default(_that.id,_that.name,_that.number,_that.address,_that.phone,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String number,  String? address,  String? phone,  String? email,  String? logo)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String number,  String? zipcode,  String? address,  String? roadAddress,  String? roadAddressReference,  String? detailAddress,  String? phone,  String? email,  String? logo)  $default,) {final _that = this;
 switch (_that) {
 case _Supplier():
-return $default(_that.id,_that.name,_that.number,_that.address,_that.phone,_that.email,_that.logo);case _:
+return $default(_that.id,_that.name,_that.number,_that.zipcode,_that.address,_that.roadAddress,_that.roadAddressReference,_that.detailAddress,_that.phone,_that.email,_that.logo);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -21654,10 +22220,10 @@ return $default(_that.id,_that.name,_that.number,_that.address,_that.phone,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String number,  String? address,  String? phone,  String? email,  String? logo)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String number,  String? zipcode,  String? address,  String? roadAddress,  String? roadAddressReference,  String? detailAddress,  String? phone,  String? email,  String? logo)?  $default,) {final _that = this;
 switch (_that) {
 case _Supplier() when $default != null:
-return $default(_that.id,_that.name,_that.number,_that.address,_that.phone,_that.email,_that.logo);case _:
+return $default(_that.id,_that.name,_that.number,_that.zipcode,_that.address,_that.roadAddress,_that.roadAddressReference,_that.detailAddress,_that.phone,_that.email,_that.logo);case _:
   return null;
 
 }
@@ -21669,13 +22235,17 @@ return $default(_that.id,_that.name,_that.number,_that.address,_that.phone,_that
 @JsonSerializable()
 
 class _Supplier implements Supplier {
-   _Supplier({required this.id, required this.name, required this.number, this.address, this.phone, this.email, this.logo});
+   _Supplier({required this.id, required this.name, required this.number, this.zipcode, this.address, this.roadAddress, this.roadAddressReference, this.detailAddress, this.phone, this.email, this.logo});
   factory _Supplier.fromJson(Map<String, dynamic> json) => _$SupplierFromJson(json);
 
 @override final  int id;
 @override final  String name;
 @override final  String number;
+@override final  String? zipcode;
 @override final  String? address;
+@override final  String? roadAddress;
+@override final  String? roadAddressReference;
+@override final  String? detailAddress;
 @override final  String? phone;
 @override final  String? email;
 @override final  String? logo;
@@ -21693,16 +22263,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Supplier&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.number, number) || other.number == number)&&(identical(other.address, address) || other.address == address)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.logo, logo) || other.logo == logo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Supplier&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.number, number) || other.number == number)&&(identical(other.zipcode, zipcode) || other.zipcode == zipcode)&&(identical(other.address, address) || other.address == address)&&(identical(other.roadAddress, roadAddress) || other.roadAddress == roadAddress)&&(identical(other.roadAddressReference, roadAddressReference) || other.roadAddressReference == roadAddressReference)&&(identical(other.detailAddress, detailAddress) || other.detailAddress == detailAddress)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email)&&(identical(other.logo, logo) || other.logo == logo));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,number,address,phone,email,logo);
+int get hashCode => Object.hash(runtimeType,id,name,number,zipcode,address,roadAddress,roadAddressReference,detailAddress,phone,email,logo);
 
 @override
 String toString() {
-  return 'Supplier(id: $id, name: $name, number: $number, address: $address, phone: $phone, email: $email, logo: $logo)';
+  return 'Supplier(id: $id, name: $name, number: $number, zipcode: $zipcode, address: $address, roadAddress: $roadAddress, roadAddressReference: $roadAddressReference, detailAddress: $detailAddress, phone: $phone, email: $email, logo: $logo)';
 }
 
 
@@ -21713,7 +22283,7 @@ abstract mixin class _$SupplierCopyWith<$Res> implements $SupplierCopyWith<$Res>
   factory _$SupplierCopyWith(_Supplier value, $Res Function(_Supplier) _then) = __$SupplierCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String number, String? address, String? phone, String? email, String? logo
+ int id, String name, String number, String? zipcode, String? address, String? roadAddress, String? roadAddressReference, String? detailAddress, String? phone, String? email, String? logo
 });
 
 
@@ -21730,12 +22300,16 @@ class __$SupplierCopyWithImpl<$Res>
 
 /// Create a copy of Supplier
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? number = null,Object? address = freezed,Object? phone = freezed,Object? email = freezed,Object? logo = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? number = null,Object? zipcode = freezed,Object? address = freezed,Object? roadAddress = freezed,Object? roadAddressReference = freezed,Object? detailAddress = freezed,Object? phone = freezed,Object? email = freezed,Object? logo = freezed,}) {
   return _then(_Supplier(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
-as String,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as String,zipcode: freezed == zipcode ? _self.zipcode : zipcode // ignore: cast_nullable_to_non_nullable
+as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as String?,roadAddress: freezed == roadAddress ? _self.roadAddress : roadAddress // ignore: cast_nullable_to_non_nullable
+as String?,roadAddressReference: freezed == roadAddressReference ? _self.roadAddressReference : roadAddressReference // ignore: cast_nullable_to_non_nullable
+as String?,detailAddress: freezed == detailAddress ? _self.detailAddress : detailAddress // ignore: cast_nullable_to_non_nullable
 as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String?,logo: freezed == logo ? _self.logo : logo // ignore: cast_nullable_to_non_nullable
@@ -22005,6 +22579,547 @@ class __$SupplierKeywordCopyWithImpl<$Res>
   return _then(_SupplierKeyword(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$SupplierAddress {
+
+ String get zipcode; String get roadAddress; String get roadAddressReference; String? get detailAddress;
+/// Create a copy of SupplierAddress
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SupplierAddressCopyWith<SupplierAddress> get copyWith => _$SupplierAddressCopyWithImpl<SupplierAddress>(this as SupplierAddress, _$identity);
+
+  /// Serializes this SupplierAddress to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierAddress&&(identical(other.zipcode, zipcode) || other.zipcode == zipcode)&&(identical(other.roadAddress, roadAddress) || other.roadAddress == roadAddress)&&(identical(other.roadAddressReference, roadAddressReference) || other.roadAddressReference == roadAddressReference)&&(identical(other.detailAddress, detailAddress) || other.detailAddress == detailAddress));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,zipcode,roadAddress,roadAddressReference,detailAddress);
+
+@override
+String toString() {
+  return 'SupplierAddress(zipcode: $zipcode, roadAddress: $roadAddress, roadAddressReference: $roadAddressReference, detailAddress: $detailAddress)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SupplierAddressCopyWith<$Res>  {
+  factory $SupplierAddressCopyWith(SupplierAddress value, $Res Function(SupplierAddress) _then) = _$SupplierAddressCopyWithImpl;
+@useResult
+$Res call({
+ String zipcode, String roadAddress, String roadAddressReference, String? detailAddress
+});
+
+
+
+
+}
+/// @nodoc
+class _$SupplierAddressCopyWithImpl<$Res>
+    implements $SupplierAddressCopyWith<$Res> {
+  _$SupplierAddressCopyWithImpl(this._self, this._then);
+
+  final SupplierAddress _self;
+  final $Res Function(SupplierAddress) _then;
+
+/// Create a copy of SupplierAddress
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? zipcode = null,Object? roadAddress = null,Object? roadAddressReference = null,Object? detailAddress = freezed,}) {
+  return _then(_self.copyWith(
+zipcode: null == zipcode ? _self.zipcode : zipcode // ignore: cast_nullable_to_non_nullable
+as String,roadAddress: null == roadAddress ? _self.roadAddress : roadAddress // ignore: cast_nullable_to_non_nullable
+as String,roadAddressReference: null == roadAddressReference ? _self.roadAddressReference : roadAddressReference // ignore: cast_nullable_to_non_nullable
+as String,detailAddress: freezed == detailAddress ? _self.detailAddress : detailAddress // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SupplierAddress].
+extension SupplierAddressPatterns on SupplierAddress {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SupplierAddress value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SupplierAddress() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SupplierAddress value)  $default,){
+final _that = this;
+switch (_that) {
+case _SupplierAddress():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SupplierAddress value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SupplierAddress() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String zipcode,  String roadAddress,  String roadAddressReference,  String? detailAddress)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SupplierAddress() when $default != null:
+return $default(_that.zipcode,_that.roadAddress,_that.roadAddressReference,_that.detailAddress);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String zipcode,  String roadAddress,  String roadAddressReference,  String? detailAddress)  $default,) {final _that = this;
+switch (_that) {
+case _SupplierAddress():
+return $default(_that.zipcode,_that.roadAddress,_that.roadAddressReference,_that.detailAddress);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String zipcode,  String roadAddress,  String roadAddressReference,  String? detailAddress)?  $default,) {final _that = this;
+switch (_that) {
+case _SupplierAddress() when $default != null:
+return $default(_that.zipcode,_that.roadAddress,_that.roadAddressReference,_that.detailAddress);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _SupplierAddress implements SupplierAddress {
+  const _SupplierAddress({this.zipcode = '', this.roadAddress = '', this.roadAddressReference = '', this.detailAddress});
+  factory _SupplierAddress.fromJson(Map<String, dynamic> json) => _$SupplierAddressFromJson(json);
+
+@override@JsonKey() final  String zipcode;
+@override@JsonKey() final  String roadAddress;
+@override@JsonKey() final  String roadAddressReference;
+@override final  String? detailAddress;
+
+/// Create a copy of SupplierAddress
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SupplierAddressCopyWith<_SupplierAddress> get copyWith => __$SupplierAddressCopyWithImpl<_SupplierAddress>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SupplierAddressToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierAddress&&(identical(other.zipcode, zipcode) || other.zipcode == zipcode)&&(identical(other.roadAddress, roadAddress) || other.roadAddress == roadAddress)&&(identical(other.roadAddressReference, roadAddressReference) || other.roadAddressReference == roadAddressReference)&&(identical(other.detailAddress, detailAddress) || other.detailAddress == detailAddress));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,zipcode,roadAddress,roadAddressReference,detailAddress);
+
+@override
+String toString() {
+  return 'SupplierAddress(zipcode: $zipcode, roadAddress: $roadAddress, roadAddressReference: $roadAddressReference, detailAddress: $detailAddress)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SupplierAddressCopyWith<$Res> implements $SupplierAddressCopyWith<$Res> {
+  factory _$SupplierAddressCopyWith(_SupplierAddress value, $Res Function(_SupplierAddress) _then) = __$SupplierAddressCopyWithImpl;
+@override @useResult
+$Res call({
+ String zipcode, String roadAddress, String roadAddressReference, String? detailAddress
+});
+
+
+
+
+}
+/// @nodoc
+class __$SupplierAddressCopyWithImpl<$Res>
+    implements _$SupplierAddressCopyWith<$Res> {
+  __$SupplierAddressCopyWithImpl(this._self, this._then);
+
+  final _SupplierAddress _self;
+  final $Res Function(_SupplierAddress) _then;
+
+/// Create a copy of SupplierAddress
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? zipcode = null,Object? roadAddress = null,Object? roadAddressReference = null,Object? detailAddress = freezed,}) {
+  return _then(_SupplierAddress(
+zipcode: null == zipcode ? _self.zipcode : zipcode // ignore: cast_nullable_to_non_nullable
+as String,roadAddress: null == roadAddress ? _self.roadAddress : roadAddress // ignore: cast_nullable_to_non_nullable
+as String,roadAddressReference: null == roadAddressReference ? _self.roadAddressReference : roadAddressReference // ignore: cast_nullable_to_non_nullable
+as String,detailAddress: freezed == detailAddress ? _self.detailAddress : detailAddress // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$SupplierLogo {
+
+ String get filename; int get size; String get url;
+/// Create a copy of SupplierLogo
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SupplierLogoCopyWith<SupplierLogo> get copyWith => _$SupplierLogoCopyWithImpl<SupplierLogo>(this as SupplierLogo, _$identity);
+
+  /// Serializes this SupplierLogo to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupplierLogo&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.size, size) || other.size == size)&&(identical(other.url, url) || other.url == url));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,filename,size,url);
+
+@override
+String toString() {
+  return 'SupplierLogo(filename: $filename, size: $size, url: $url)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SupplierLogoCopyWith<$Res>  {
+  factory $SupplierLogoCopyWith(SupplierLogo value, $Res Function(SupplierLogo) _then) = _$SupplierLogoCopyWithImpl;
+@useResult
+$Res call({
+ String filename, int size, String url
+});
+
+
+
+
+}
+/// @nodoc
+class _$SupplierLogoCopyWithImpl<$Res>
+    implements $SupplierLogoCopyWith<$Res> {
+  _$SupplierLogoCopyWithImpl(this._self, this._then);
+
+  final SupplierLogo _self;
+  final $Res Function(SupplierLogo) _then;
+
+/// Create a copy of SupplierLogo
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? filename = null,Object? size = null,Object? url = null,}) {
+  return _then(_self.copyWith(
+filename: null == filename ? _self.filename : filename // ignore: cast_nullable_to_non_nullable
+as String,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as int,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SupplierLogo].
+extension SupplierLogoPatterns on SupplierLogo {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SupplierLogo value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SupplierLogo() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SupplierLogo value)  $default,){
+final _that = this;
+switch (_that) {
+case _SupplierLogo():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SupplierLogo value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SupplierLogo() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String filename,  int size,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SupplierLogo() when $default != null:
+return $default(_that.filename,_that.size,_that.url);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String filename,  int size,  String url)  $default,) {final _that = this;
+switch (_that) {
+case _SupplierLogo():
+return $default(_that.filename,_that.size,_that.url);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String filename,  int size,  String url)?  $default,) {final _that = this;
+switch (_that) {
+case _SupplierLogo() when $default != null:
+return $default(_that.filename,_that.size,_that.url);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _SupplierLogo implements SupplierLogo {
+   _SupplierLogo({required this.filename, required this.size, required this.url});
+  factory _SupplierLogo.fromJson(Map<String, dynamic> json) => _$SupplierLogoFromJson(json);
+
+@override final  String filename;
+@override final  int size;
+@override final  String url;
+
+/// Create a copy of SupplierLogo
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SupplierLogoCopyWith<_SupplierLogo> get copyWith => __$SupplierLogoCopyWithImpl<_SupplierLogo>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SupplierLogoToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupplierLogo&&(identical(other.filename, filename) || other.filename == filename)&&(identical(other.size, size) || other.size == size)&&(identical(other.url, url) || other.url == url));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,filename,size,url);
+
+@override
+String toString() {
+  return 'SupplierLogo(filename: $filename, size: $size, url: $url)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SupplierLogoCopyWith<$Res> implements $SupplierLogoCopyWith<$Res> {
+  factory _$SupplierLogoCopyWith(_SupplierLogo value, $Res Function(_SupplierLogo) _then) = __$SupplierLogoCopyWithImpl;
+@override @useResult
+$Res call({
+ String filename, int size, String url
+});
+
+
+
+
+}
+/// @nodoc
+class __$SupplierLogoCopyWithImpl<$Res>
+    implements _$SupplierLogoCopyWith<$Res> {
+  __$SupplierLogoCopyWithImpl(this._self, this._then);
+
+  final _SupplierLogo _self;
+  final $Res Function(_SupplierLogo) _then;
+
+/// Create a copy of SupplierLogo
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? filename = null,Object? size = null,Object? url = null,}) {
+  return _then(_SupplierLogo(
+filename: null == filename ? _self.filename : filename // ignore: cast_nullable_to_non_nullable
+as String,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as int,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

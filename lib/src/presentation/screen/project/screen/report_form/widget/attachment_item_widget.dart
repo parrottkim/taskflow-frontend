@@ -86,7 +86,7 @@ class AttachmentItemWidget extends HookConsumerWidget {
                       scheduleId: scheduleId,
                     ).notifier,
                   )
-                  .removeAttachment(attachment);
+                  .removeAttachment(attachment: attachment);
             },
             icon: Icon(Symbols.delete_rounded, size: 20.0),
           ),
