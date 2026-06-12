@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/supplier_filter_widget.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/supplier_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_filter_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_list_widget.dart';
 
 class SupplierScreen extends StatelessWidget {
   const SupplierScreen({super.key});

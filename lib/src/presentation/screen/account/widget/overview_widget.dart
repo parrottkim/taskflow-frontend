@@ -13,7 +13,7 @@ class OverviewWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(settingFilterControllerProvider);
+    final filter = ref.watch(dataFilterControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(view: value.view),
@@ -63,11 +63,11 @@ class _DesktopWidget extends HookConsumerWidget {
             selectedItem.value = AccountSegment.values[index];
 
             ref
-                .read(settingFilterControllerProvider.notifier)
+                .read(dataFilterControllerProvider.notifier)
                 .setView(view: selectedItem.value.name);
 
             final queryParameters = ref
-                .read(settingFilterControllerProvider.notifier)
+                .read(dataFilterControllerProvider.notifier)
                 .toQueryParameters();
 
             context.goNamed(

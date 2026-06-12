@@ -37,35 +37,36 @@ class WidgetPreset {
     NavigationButton(
       icon: Symbols.space_dashboard_rounded,
       route: RouteNames.dashboard,
-      label: Intl.message('navigation_item_1'),
+      label: Intl.message('dashboard'),
     ),
     NavigationTitle(label: Intl.message('navigation_title_1')),
     NavigationButton(
       icon: Symbols.work_rounded,
       route: RouteNames.project,
-      label: Intl.message('navigation_item_2'),
+      label: Intl.message('project'),
     ),
     NavigationButton(
       icon: Symbols.laptop_windows_rounded,
       route: RouteNames.work,
-      label: Intl.message('navigation_item_3'),
+      label: Intl.message('work'),
     ),
     NavigationButton(
       icon: Symbols.newsstand_rounded,
       route: RouteNames.document,
-      label: Intl.message('navigation_item_4'),
+      label: Intl.message('document'),
     ),
     NavigationTitle(label: Intl.message('navigation_title_2'), isAdmin: true),
     NavigationButton(
-      icon: Symbols.finance_rounded,
-      route: RouteNames.analytics,
-      label: Intl.message('navigation_item_5'),
+      icon: Symbols.data_table_rounded,
+      route: RouteNames.data,
+      label: Intl.message('data'),
       isAdmin: true,
     ),
     NavigationButton(
-      icon: Symbols.settings_rounded,
-      route: RouteNames.setting,
-      label: Intl.message('navigation_item_6'),
+      icon: Symbols.finance_rounded,
+      route: RouteNames.analytics,
+      label: Intl.message('analytics'),
+      isAdmin: true,
     ),
     // NavigationTitle(label: Intl.message('navigation_title_3')),
   ];
@@ -329,18 +330,20 @@ enum WorkSegment {
   );
 }
 
-enum SettingSegment {
-  user('setting_segment_1'),
-  supplier('setting_segment_2');
+enum DataSegment {
+  user('data_segment_1'),
+  supplier('data_segment_2');
 
   final String labelKey;
 
-  const SettingSegment(this.labelKey);
+  const DataSegment(this.labelKey);
 
   String get label => Intl.message(labelKey);
 
-  factory SettingSegment.fromKey(String key) => SettingSegment.values
-      .firstWhere((e) => e.name == key, orElse: () => SettingSegment.user);
+  factory DataSegment.fromKey(String key) => DataSegment.values.firstWhere(
+    (e) => e.name == key,
+    orElse: () => DataSegment.user,
+  );
 }
 
 enum AccountSegment {

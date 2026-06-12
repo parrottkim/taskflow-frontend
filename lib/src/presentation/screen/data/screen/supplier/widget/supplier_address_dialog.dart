@@ -111,7 +111,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
             ),
             const SizedBox(height: 16.0),
             Text(
-              Intl.message('setting_address_detail_content'),
+              Intl.message('data_address_detail_content'),
               style: textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -122,7 +122,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
               autofocus: !isDetailNotRequired.value,
               enabled: !isDetailNotRequired.value,
               decoration: InputDecoration(
-                hintText: Intl.message('setting_address_detail_title'),
+                hintText: Intl.message('data_address_detail_title'),
               ),
               onSubmitted: (_) => onConfirm(),
             ),
@@ -136,7 +136,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
                 }
               },
               child: Text(
-                Intl.message('setting_address_detail_not_required'),
+                Intl.message('data_address_detail_not_required'),
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
             ),
@@ -181,7 +181,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
               autofocus: true,
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
-                hintText: Intl.message('setting_address_search'),
+                hintText: Intl.message('data_address_search'),
                 contentPadding: const EdgeInsets.fromLTRB(
                   12.0,
                   18.0,
@@ -250,7 +250,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        Intl.message('setting_address_searching'),
+                        Intl.message('data_address_searching'),
                         style: textTheme.bodyMedium,
                       ),
                     ],
@@ -290,7 +290,7 @@ class _AddressListView extends StatelessWidget {
     if (keyword.isEmpty) {
       return Center(
         child: Text(
-          Intl.message('setting_address_search_idle'),
+          Intl.message('data_address_search_idle'),
           style: textTheme.bodyMedium?.copyWith(
             color: colorScheme.onSurface.withValues(alpha: 0.7),
           ),
@@ -301,7 +301,7 @@ class _AddressListView extends StatelessWidget {
     if (items.isEmpty) {
       return Center(
         child: Text(
-          Intl.message('setting_address_search_empty'),
+          Intl.message('data_address_search_empty'),
           style: textTheme.bodyMedium?.copyWith(
             color: colorScheme.onSurface.withValues(alpha: 0.7),
           ),
@@ -327,7 +327,7 @@ class _AddressListView extends StatelessWidget {
                       height: 16.0,
                       child: CircularProgressIndicator(strokeWidth: 2.0),
                     )
-                  : Text(Intl.message('setting_address_more')),
+                  : Text(Intl.message('data_address_more')),
             ),
           );
         }

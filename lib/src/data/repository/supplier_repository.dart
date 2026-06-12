@@ -15,4 +15,6 @@ abstract class SupplierRepository {
     required int id,
     required CreateSupplierDto request,
   });
+
+  Future<void> deleteSupplier({required int id});
 }

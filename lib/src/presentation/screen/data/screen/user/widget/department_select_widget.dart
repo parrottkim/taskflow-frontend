@@ -6,10 +6,10 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
-class PositionSelectWidget extends ConsumerWidget {
+class DepartmentSelectWidget extends ConsumerWidget {
   final User user;
 
-  const PositionSelectWidget({super.key, required this.user});
+  const DepartmentSelectWidget({super.key, required this.user});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +18,7 @@ class PositionSelectWidget extends ConsumerWidget {
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
         user: user,
-        items: value.positionItems,
+        items: value.departmentItems,
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(user: user, items: []),
@@ -29,7 +29,7 @@ class PositionSelectWidget extends ConsumerWidget {
 
 class _DesktopWidget extends ConsumerWidget {
   final User user;
-  final List<UserPosition> items;
+  final List<UserDepartment> items;
 
   const _DesktopWidget({required this.user, required this.items});
 
@@ -37,17 +37,17 @@ class _DesktopWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       width: 160.0,
-      child: ElevatedDropdownButton<UserPosition>(
+      child: ElevatedDropdownButton<UserDepartment>(
         isExpanded: true,
         showClose: false,
         items: items,
-        selectedItem: ValueNotifier(user.position),
-        label: Text(Intl.message('setting_user_column_3')),
+        selectedItem: ValueNotifier(user.department),
+        label: Text(Intl.message('data_user_column_3')),
         itemBuilder: (value) => Text(value.name),
         onChanged: (value) async {
-          await ref
+          ref
               .read(userSubmitControllerProvider.notifier)
-              .updateUser(userId: user.id, positionId: value?.id);
+              .updateUser(userId: user.id, departmentId: value?.id);
         },
       ),
     );

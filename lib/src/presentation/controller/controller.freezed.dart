@@ -2872,6 +2872,275 @@ as List<ClientCount>,
 }
 
 /// @nodoc
+mixin _$DataFilterState implements DiagnosticableTreeMixin {
+
+ String? get view;
+/// Create a copy of DataFilterState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DataFilterStateCopyWith<DataFilterState> get copyWith => _$DataFilterStateCopyWithImpl<DataFilterState>(this as DataFilterState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'DataFilterState'))
+    ..add(DiagnosticsProperty('view', view));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DataFilterState&&(identical(other.view, view) || other.view == view));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,view);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'DataFilterState(view: $view)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DataFilterStateCopyWith<$Res>  {
+  factory $DataFilterStateCopyWith(DataFilterState value, $Res Function(DataFilterState) _then) = _$DataFilterStateCopyWithImpl;
+@useResult
+$Res call({
+ String? view
+});
+
+
+
+
+}
+/// @nodoc
+class _$DataFilterStateCopyWithImpl<$Res>
+    implements $DataFilterStateCopyWith<$Res> {
+  _$DataFilterStateCopyWithImpl(this._self, this._then);
+
+  final DataFilterState _self;
+  final $Res Function(DataFilterState) _then;
+
+/// Create a copy of DataFilterState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? view = freezed,}) {
+  return _then(_self.copyWith(
+view: freezed == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DataFilterState].
+extension DataFilterStatePatterns on DataFilterState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DataFilterState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DataFilterState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DataFilterState value)  $default,){
+final _that = this;
+switch (_that) {
+case _DataFilterState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DataFilterState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DataFilterState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? view)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DataFilterState() when $default != null:
+return $default(_that.view);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? view)  $default,) {final _that = this;
+switch (_that) {
+case _DataFilterState():
+return $default(_that.view);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? view)?  $default,) {final _that = this;
+switch (_that) {
+case _DataFilterState() when $default != null:
+return $default(_that.view);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _DataFilterState with DiagnosticableTreeMixin implements DataFilterState {
+   _DataFilterState({this.view});
+  
+
+@override final  String? view;
+
+/// Create a copy of DataFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DataFilterStateCopyWith<_DataFilterState> get copyWith => __$DataFilterStateCopyWithImpl<_DataFilterState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'DataFilterState'))
+    ..add(DiagnosticsProperty('view', view));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DataFilterState&&(identical(other.view, view) || other.view == view));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,view);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'DataFilterState(view: $view)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DataFilterStateCopyWith<$Res> implements $DataFilterStateCopyWith<$Res> {
+  factory _$DataFilterStateCopyWith(_DataFilterState value, $Res Function(_DataFilterState) _then) = __$DataFilterStateCopyWithImpl;
+@override @useResult
+$Res call({
+ String? view
+});
+
+
+
+
+}
+/// @nodoc
+class __$DataFilterStateCopyWithImpl<$Res>
+    implements _$DataFilterStateCopyWith<$Res> {
+  __$DataFilterStateCopyWithImpl(this._self, this._then);
+
+  final _DataFilterState _self;
+  final $Res Function(_DataFilterState) _then;
+
+/// Create a copy of DataFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? view = freezed,}) {
+  return _then(_DataFilterState(
+view: freezed == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$DownloadState implements DiagnosticableTreeMixin {
 
 
@@ -11375,275 +11644,6 @@ class _$SupplierSubmitFailureCopyWithImpl<$Res>
   return _then(SupplierSubmitFailure(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
-  ));
-}
-
-
-}
-
-/// @nodoc
-mixin _$SettingFilterState implements DiagnosticableTreeMixin {
-
- String? get view;
-/// Create a copy of SettingFilterState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$SettingFilterStateCopyWith<SettingFilterState> get copyWith => _$SettingFilterStateCopyWithImpl<SettingFilterState>(this as SettingFilterState, _$identity);
-
-
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'SettingFilterState'))
-    ..add(DiagnosticsProperty('view', view));
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingFilterState&&(identical(other.view, view) || other.view == view));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,view);
-
-@override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SettingFilterState(view: $view)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $SettingFilterStateCopyWith<$Res>  {
-  factory $SettingFilterStateCopyWith(SettingFilterState value, $Res Function(SettingFilterState) _then) = _$SettingFilterStateCopyWithImpl;
-@useResult
-$Res call({
- String? view
-});
-
-
-
-
-}
-/// @nodoc
-class _$SettingFilterStateCopyWithImpl<$Res>
-    implements $SettingFilterStateCopyWith<$Res> {
-  _$SettingFilterStateCopyWithImpl(this._self, this._then);
-
-  final SettingFilterState _self;
-  final $Res Function(SettingFilterState) _then;
-
-/// Create a copy of SettingFilterState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? view = freezed,}) {
-  return _then(_self.copyWith(
-view: freezed == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [SettingFilterState].
-extension SettingFilterStatePatterns on SettingFilterState {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SettingFilterState value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _SettingFilterState() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SettingFilterState value)  $default,){
-final _that = this;
-switch (_that) {
-case _SettingFilterState():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SettingFilterState value)?  $default,){
-final _that = this;
-switch (_that) {
-case _SettingFilterState() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? view)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _SettingFilterState() when $default != null:
-return $default(_that.view);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? view)  $default,) {final _that = this;
-switch (_that) {
-case _SettingFilterState():
-return $default(_that.view);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? view)?  $default,) {final _that = this;
-switch (_that) {
-case _SettingFilterState() when $default != null:
-return $default(_that.view);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-
-
-class _SettingFilterState with DiagnosticableTreeMixin implements SettingFilterState {
-   _SettingFilterState({this.view});
-  
-
-@override final  String? view;
-
-/// Create a copy of SettingFilterState
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$SettingFilterStateCopyWith<_SettingFilterState> get copyWith => __$SettingFilterStateCopyWithImpl<_SettingFilterState>(this, _$identity);
-
-
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'SettingFilterState'))
-    ..add(DiagnosticsProperty('view', view));
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingFilterState&&(identical(other.view, view) || other.view == view));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,view);
-
-@override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SettingFilterState(view: $view)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$SettingFilterStateCopyWith<$Res> implements $SettingFilterStateCopyWith<$Res> {
-  factory _$SettingFilterStateCopyWith(_SettingFilterState value, $Res Function(_SettingFilterState) _then) = __$SettingFilterStateCopyWithImpl;
-@override @useResult
-$Res call({
- String? view
-});
-
-
-
-
-}
-/// @nodoc
-class __$SettingFilterStateCopyWithImpl<$Res>
-    implements _$SettingFilterStateCopyWith<$Res> {
-  __$SettingFilterStateCopyWithImpl(this._self, this._then);
-
-  final _SettingFilterState _self;
-  final $Res Function(_SettingFilterState) _then;
-
-/// Create a copy of SettingFilterState
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? view = freezed,}) {
-  return _then(_SettingFilterState(
-view: freezed == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
-as String?,
   ));
 }
 

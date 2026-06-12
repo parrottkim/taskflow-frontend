@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/supplier/widget/supplier_edit_dialog.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_edit_dialog.dart';
 
 class SupplierAddButton extends ConsumerWidget {
   const SupplierAddButton({super.key});
@@ -14,7 +14,7 @@ class SupplierAddButton extends ConsumerWidget {
         showDialog(context: context, builder: (_) => SupplierEditDialog());
       },
       icon: Icon(Symbols.add_rounded),
-      label: Text(Intl.message('setting_supplier_add')),
+      label: Text(Intl.message('data_supplier_add')),
     );
   }
 }

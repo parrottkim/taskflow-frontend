@@ -7,11 +7,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/department_select_widget.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/position_select_widget.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/user_admin_toggle_dialog.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/user_approve_toggle_dialog.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/user_delete_dialog.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/department_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/position_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/user_admin_toggle_dialog.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/user_approve_toggle_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
@@ -62,18 +61,30 @@ class _DesktopWidget extends ConsumerWidget {
 
       LoadingOverlay.hide();
 
-      ref
-          .read(toastProvider)
-          .showToast(
-            child: Toast(
-              type: ToastType.verified,
-              message: Intl.message(switch (state) {
-                UserSubmitEdited() => 'setting_user_success',
-                UserSubmitDeleted() => 'setting_user_deleted',
-                _ => '',
-              }),
-            ),
-          );
+      switch (state) {
+        case UserSubmitEdited():
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message('data_user_edited'),
+                ),
+              );
+
+        case UserSubmitDeleted():
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('data_user_deleted'),
+                ),
+              );
+
+        default:
+          break;
+      }
     });
 
     return Column(
@@ -87,7 +98,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(),
                 label: Text(
-                  Intl.message('setting_user_column_1'),
+                  Intl.message('data_user_column_1'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -97,7 +108,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(),
                 label: Text(
-                  Intl.message('setting_user_column_2'),
+                  Intl.message('data_user_column_2'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -107,7 +118,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(),
                 label: Text(
-                  Intl.message('setting_user_column_3'),
+                  Intl.message('data_user_column_3'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -117,7 +128,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FlexColumnWidth(),
                 label: Text(
-                  Intl.message('setting_user_column_4'),
+                  Intl.message('data_user_column_4'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -127,7 +138,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FixedColumnWidth(100.0),
                 label: Text(
-                  Intl.message('setting_user_column_5'),
+                  Intl.message('data_user_column_5'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -137,7 +148,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FixedColumnWidth(100.0),
                 label: Text(
-                  Intl.message('setting_user_column_6'),
+                  Intl.message('data_user_column_6'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -147,7 +158,7 @@ class _DesktopWidget extends ConsumerWidget {
               DataColumn(
                 columnWidth: FixedColumnWidth(80.0),
                 label: Text(
-                  Intl.message('setting_user_column_7'),
+                  Intl.message('data_user_column_7'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -175,7 +186,7 @@ class _DesktopWidget extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  Text(Intl.message('setting_user_no_item')),
+                  Text(Intl.message('data_user_no_item')),
                 ],
               ),
             ),
@@ -197,31 +208,31 @@ class _DesktopWidget extends ConsumerWidget {
                   columns: [
                     DataColumn(
                       columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('setting_user_column_1')),
+                      label: Text(Intl.message('data_user_column_1')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('setting_user_column_2')),
+                      label: Text(Intl.message('data_user_column_2')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('setting_user_column_3')),
+                      label: Text(Intl.message('data_user_column_3')),
                     ),
                     DataColumn(
                       columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('setting_user_column_4')),
+                      label: Text(Intl.message('data_user_column_4')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(100.0),
-                      label: Text(Intl.message('setting_user_column_5')),
+                      label: Text(Intl.message('data_user_column_5')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(100.0),
-                      label: Text(Intl.message('setting_user_column_6')),
+                      label: Text(Intl.message('data_user_column_6')),
                     ),
                     DataColumn(
                       columnWidth: FixedColumnWidth(80.0),
-                      label: Text(Intl.message('setting_user_column_7')),
+                      label: Text(Intl.message('data_user_column_7')),
                     ),
                   ],
                   rows: List.generate(
@@ -303,7 +314,14 @@ class _DesktopWidget extends ConsumerWidget {
                             onTap: () async {
                               final result = await showDialog(
                                 context: context,
-                                builder: (_) => UserDeleteDialog(),
+                                builder: (_) => DeleteDialog(
+                                  title: Intl.message(
+                                    'data_user_delete_dialog_1',
+                                  ),
+                                  content: Intl.message(
+                                    'data_user_delete_dialog_2',
+                                  ),
+                                ),
                               );
 
                               if (result) {

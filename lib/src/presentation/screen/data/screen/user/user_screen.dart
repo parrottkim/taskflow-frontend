@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/user_filter_widget.dart';
-import 'package:taskflow/src/presentation/screen/setting/screen/user/widget/user_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/user_filter_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/user_list_widget.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});

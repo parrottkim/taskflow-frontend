@@ -25,6 +25,10 @@ class SupplierDataSource implements SupplierRepository {
     required int id,
     required CreateSupplierDto request,
   }) => _service.updateSupplier(id: id, request: request);
+
+  @override
+  Future<void> deleteSupplier({required int id}) =>
+      _service.deleteSupplier(id: id);
 }
 
 @riverpod
