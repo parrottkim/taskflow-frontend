@@ -579,10 +579,10 @@ class S {
     );
   }
 
-  /// `이미 생성된 공급처가 있습니다.`
+  /// `이미 생성된 협력업체가 있습니다.`
   String get supplier_exists {
     return Intl.message(
-      '이미 생성된 공급처가 있습니다.',
+      '이미 생성된 협력업체가 있습니다.',
       name: 'supplier_exists',
       desc: '',
       args: [],
@@ -3069,20 +3069,20 @@ class S {
     );
   }
 
-  /// `공급처`
+  /// `협력업체`
   String get issue_form_procurement_9 {
     return Intl.message(
-      '공급처',
+      '협력업체',
       name: 'issue_form_procurement_9',
       desc: '',
       args: [],
     );
   }
 
-  /// `공급처 선택`
+  /// `협력업체 선택`
   String get issue_form_procurement_10 {
     return Intl.message(
-      '공급처 선택',
+      '협력업체 선택',
       name: 'issue_form_procurement_10',
       desc: '',
       args: [],
@@ -3109,10 +3109,10 @@ class S {
     );
   }
 
-  /// `등록할 공급처의 기업명을 입력해 주세요`
+  /// `등록할 협력업체의 기업명을 입력해 주세요`
   String get issue_form_procurement_13 {
     return Intl.message(
-      '등록할 공급처의 기업명을 입력해 주세요',
+      '등록할 협력업체의 기업명을 입력해 주세요',
       name: 'issue_form_procurement_13',
       desc: '',
       args: [],
@@ -3369,10 +3369,10 @@ class S {
     );
   }
 
-  /// `최소 하나의 공급처를 선택해 주세요`
+  /// `최소 하나의 협력업체를 선택해 주세요`
   String get issue_form_procurement_requested_invalid_1 {
     return Intl.message(
-      '최소 하나의 공급처를 선택해 주세요',
+      '최소 하나의 협력업체를 선택해 주세요',
       name: 'issue_form_procurement_requested_invalid_1',
       desc: '',
       args: [],
@@ -4424,9 +4424,9 @@ class S {
     return Intl.message('사용자', name: 'setting_segment_1', desc: '', args: []);
   }
 
-  /// `공급사`
+  /// `협력업체`
   String get setting_segment_2 {
-    return Intl.message('공급사', name: 'setting_segment_2', desc: '', args: []);
+    return Intl.message('협력업체', name: 'setting_segment_2', desc: '', args: []);
   }
 
   /// `이름`
@@ -4659,10 +4659,10 @@ class S {
     );
   }
 
-  /// `공급처 추가`
+  /// `협력업체 추가`
   String get setting_supplier_add {
     return Intl.message(
-      '공급처 추가',
+      '협력업체 추가',
       name: 'setting_supplier_add',
       desc: '',
       args: [],
@@ -4769,40 +4769,40 @@ class S {
     );
   }
 
-  /// `공급처 정보가 정상적으로 등록되었습니다.`
+  /// `협력업체 정보가 정상적으로 등록되었습니다.`
   String get setting_supplier_created {
     return Intl.message(
-      '공급처 정보가 정상적으로 등록되었습니다.',
+      '협력업체 정보가 정상적으로 등록되었습니다.',
       name: 'setting_supplier_created',
       desc: '',
       args: [],
     );
   }
 
-  /// `공급처 정보가 정상적으로 변경되었습니다.`
+  /// `협력업체 정보가 정상적으로 변경되었습니다.`
   String get setting_supplier_edited {
     return Intl.message(
-      '공급처 정보가 정상적으로 변경되었습니다.',
+      '협력업체 정보가 정상적으로 변경되었습니다.',
       name: 'setting_supplier_edited',
       desc: '',
       args: [],
     );
   }
 
-  /// `공급처가 삭제되었습니다.`
+  /// `협력업체가 삭제되었습니다.`
   String get setting_supplier_deleted {
     return Intl.message(
-      '공급처가 삭제되었습니다.',
+      '협력업체가 삭제되었습니다.',
       name: 'setting_supplier_deleted',
       desc: '',
       args: [],
     );
   }
 
-  /// `공급처를 찾을 수 없습니다`
+  /// `협력업체를 찾을 수 없습니다`
   String get setting_supplier_no_item {
     return Intl.message(
-      '공급처를 찾을 수 없습니다',
+      '협력업체를 찾을 수 없습니다',
       name: 'setting_supplier_no_item',
       desc: '',
       args: [],
