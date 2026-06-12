@@ -97,7 +97,7 @@ class FileItemWidget extends HookConsumerWidget {
                       issueId: issueId,
                     ).notifier,
                   )
-                  .removeFile(file);
+                  .removeFile(file: file);
             },
             icon: Icon(Symbols.delete_rounded, size: 20.0),
           ),

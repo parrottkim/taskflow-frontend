@@ -37,7 +37,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
           .read(scheduleListControllerProvider().notifier)
           .addScheduleItem(item: schedule);
 
-      state = ScheduleSubmitState.success(schedule);
+      state = ScheduleSubmitState.created(schedule);
     } catch (e) {
       state = ScheduleSubmitState.failure(e.toString());
     }
@@ -83,7 +83,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
           .read(scheduleListControllerProvider().notifier)
           .updateScheduleItem(item: schedule);
 
-      state = ScheduleSubmitState.success(schedule);
+      state = ScheduleSubmitState.edited(schedule);
     } catch (e) {
       state = ScheduleSubmitState.failure(e.toString());
     }

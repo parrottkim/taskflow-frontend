@@ -64,9 +64,9 @@ class S {
     return Intl.message('확인', name: 'common_ok', desc: '', args: []);
   }
 
-  /// `적용`
+  /// `적용하기`
   String get common_apply {
-    return Intl.message('적용', name: 'common_apply', desc: '', args: []);
+    return Intl.message('적용하기', name: 'common_apply', desc: '', args: []);
   }
 
   /// `취소`
@@ -529,10 +529,10 @@ class S {
     );
   }
 
-  /// `이미 해당 근무 일정으로 작성된 실무 결과가 있습니다.`
+  /// `이미 해당 근무 일정으로 작성된 보고서가 있습니다.`
   String get report_exists {
     return Intl.message(
-      '이미 해당 근무 일정으로 작성된 실무 결과가 있습니다.',
+      '이미 해당 근무 일정으로 작성된 보고서가 있습니다.',
       name: 'report_exists',
       desc: '',
       args: [],
@@ -574,6 +574,16 @@ class S {
     return Intl.message(
       '이미 생성된 지급 청구 업무가 있습니다.',
       name: 'payment_issue_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 공급처가 있습니다.`
+  String get supplier_exists {
+    return Intl.message(
+      '이미 생성된 공급처가 있습니다.',
+      name: 'supplier_exists',
       desc: '',
       args: [],
     );
@@ -1334,19 +1344,14 @@ class S {
     return Intl.message('문서', name: 'navigation_item_4', desc: '', args: []);
   }
 
-  /// `운영 관리`
-  String get navigation_item_5 {
-    return Intl.message('운영 관리', name: 'navigation_item_5', desc: '', args: []);
-  }
-
   /// `통계`
-  String get navigation_item_6 {
-    return Intl.message('통계', name: 'navigation_item_6', desc: '', args: []);
+  String get navigation_item_5 {
+    return Intl.message('통계', name: 'navigation_item_5', desc: '', args: []);
   }
 
   /// `설정`
-  String get navigation_item_7 {
-    return Intl.message('설정', name: 'navigation_item_7', desc: '', args: []);
+  String get navigation_item_6 {
+    return Intl.message('설정', name: 'navigation_item_6', desc: '', args: []);
   }
 
   /// `대시보드`
@@ -1372,6 +1377,11 @@ class S {
   /// `프로젝트 수정`
   String get project_edit {
     return Intl.message('프로젝트 수정', name: 'project_edit', desc: '', args: []);
+  }
+
+  /// `프로젝트 작업`
+  String get project_action {
+    return Intl.message('프로젝트 작업', name: 'project_action', desc: '', args: []);
   }
 
   /// `업무 종류 선택`
@@ -1424,24 +1434,24 @@ class S {
     return Intl.message('근무 일정 수정', name: 'schedule_edit', desc: '', args: []);
   }
 
-  /// `실무 결과 보고`
+  /// `보고서 등록`
   String get report_new_choose {
     return Intl.message(
-      '실무 결과 보고',
+      '보고서 등록',
       name: 'report_new_choose',
       desc: '',
       args: [],
     );
   }
 
-  /// `실무 결과 보고`
+  /// `보고서 등록`
   String get report_new {
-    return Intl.message('실무 결과 보고', name: 'report_new', desc: '', args: []);
+    return Intl.message('보고서 등록', name: 'report_new', desc: '', args: []);
   }
 
-  /// `실무 결과 수정`
+  /// `보고서 수정`
   String get report_edit {
-    return Intl.message('실무 결과 수정', name: 'report_edit', desc: '', args: []);
+    return Intl.message('보고서 수정', name: 'report_edit', desc: '', args: []);
   }
 
   /// `업무`
@@ -1454,11 +1464,6 @@ class S {
     return Intl.message('문서', name: 'document', desc: '', args: []);
   }
 
-  /// `운영 관리`
-  String get operation {
-    return Intl.message('운영 관리', name: 'operation', desc: '', args: []);
-  }
-
   /// `통계`
   String get analytics {
     return Intl.message('통계', name: 'analytics', desc: '', args: []);
@@ -1467,6 +1472,11 @@ class S {
   /// `설정`
   String get setting {
     return Intl.message('설정', name: 'setting', desc: '', args: []);
+  }
+
+  /// `계정`
+  String get account {
+    return Intl.message('계정', name: 'account', desc: '', args: []);
   }
 
   /// `함께하는 지점`
@@ -2069,11 +2079,31 @@ class S {
     );
   }
 
+  /// `프로젝트가 정상적으로 등록되었습니다.`
+  String get project_form_created {
+    return Intl.message(
+      '프로젝트가 정상적으로 등록되었습니다.',
+      name: 'project_form_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 정보가 정상적으로 변경되었습니다.`
+  String get project_form_updated {
+    return Intl.message(
+      '프로젝트 정보가 정상적으로 변경되었습니다.',
+      name: 'project_form_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `프로젝트가 삭제되었습니다.`
-  String get project_form_delete {
+  String get project_form_deleted {
     return Intl.message(
       '프로젝트가 삭제되었습니다.',
-      name: 'project_form_delete',
+      name: 'project_form_deleted',
       desc: '',
       args: [],
     );
@@ -2244,10 +2274,10 @@ class S {
     );
   }
 
-  /// `작성된 실무 결과가 없습니다`
+  /// `작성된 보고서가 없습니다`
   String get project_detail_no_report {
     return Intl.message(
-      '작성된 실무 결과가 없습니다',
+      '작성된 보고서가 없습니다',
       name: 'project_detail_no_report',
       desc: '',
       args: [],
@@ -2304,10 +2334,10 @@ class S {
     );
   }
 
-  /// `실무 결과 공유`
+  /// `보고서 공유`
   String get project_report_mail {
     return Intl.message(
-      '실무 결과 공유',
+      '보고서 공유',
       name: 'project_report_mail',
       desc: '',
       args: [],
@@ -2339,6 +2369,36 @@ class S {
     return Intl.message(
       '메일 전송이 실패했습니다',
       name: 'project_mail_send_fail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무 등록`
+  String get project_action_1 {
+    return Intl.message('업무 등록', name: 'project_action_1', desc: '', args: []);
+  }
+
+  /// `프로젝트 계약 이행 및 각 수행 단계별 관리`
+  String get project_action_1_1 {
+    return Intl.message(
+      '프로젝트 계약 이행 및 각 수행 단계별 관리',
+      name: 'project_action_1_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `보고서 등록`
+  String get project_action_2 {
+    return Intl.message('보고서 등록', name: 'project_action_2', desc: '', args: []);
+  }
+
+  /// `출장 명령 또는 업무 수행 결과를 기록 및 보고`
+  String get project_action_2_1 {
+    return Intl.message(
+      '출장 명령 또는 업무 수행 결과를 기록 및 보고',
+      name: 'project_action_2_1',
       desc: '',
       args: [],
     );
@@ -2524,10 +2584,10 @@ class S {
     );
   }
 
-  /// `이후 실무 결과 등록을 제외한 모든 기능이 제한됩니다.`
+  /// `이후 보고서 등록을 제외한 모든 기능이 제한됩니다.`
   String get issue_new_choose_7_3 {
     return Intl.message(
-      '이후 실무 결과 등록을 제외한 모든 기능이 제한됩니다.',
+      '이후 보고서 등록을 제외한 모든 기능이 제한됩니다.',
       name: 'issue_new_choose_7_3',
       desc: '',
       args: [],
@@ -2579,6 +2639,16 @@ class S {
     return Intl.message(
       '이 프로젝트를 종결하겠습니다',
       name: 'issue_new_choose_7_8',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트가 정상적으로 종결되었습니다.`
+  String get issue_new_choose_7_created {
+    return Intl.message(
+      '프로젝트가 정상적으로 종결되었습니다.',
+      name: 'issue_new_choose_7_created',
       desc: '',
       args: [],
     );
@@ -3469,11 +3539,51 @@ class S {
     );
   }
 
+  /// `업무가 정상적으로 등록되었습니다.`
+  String get issue_form_created {
+    return Intl.message(
+      '업무가 정상적으로 등록되었습니다.',
+      name: 'issue_form_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무 내용이 정상적으로 변경되었습니다.`
+  String get issue_form_edited {
+    return Intl.message(
+      '업무 내용이 정상적으로 변경되었습니다.',
+      name: 'issue_form_edited',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `업무가 삭제되었습니다.`
-  String get issue_form_delete {
+  String get issue_form_deleted {
     return Intl.message(
       '업무가 삭제되었습니다.',
-      name: 'issue_form_delete',
+      name: 'issue_form_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `발주 요청이 정상적으로 등록되었습니다.`
+  String get issue_form_procurement_requested_created {
+    return Intl.message(
+      '발주 요청이 정상적으로 등록되었습니다.',
+      name: 'issue_form_procurement_requested_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `발주 요청이 삭제되었습니다`
+  String get issue_form_procurement_requested_deleted {
+    return Intl.message(
+      '발주 요청이 삭제되었습니다',
+      name: 'issue_form_procurement_requested_deleted',
       desc: '',
       args: [],
     );
@@ -3754,30 +3864,40 @@ class S {
     );
   }
 
-  /// `일정을 등록했습니다`
-  String get schedule_form_success {
+  /// `일정이 정상적으로 등록되었습니다.`
+  String get schedule_form_created {
     return Intl.message(
-      '일정을 등록했습니다',
-      name: 'schedule_form_success',
+      '일정이 정상적으로 등록되었습니다.',
+      name: 'schedule_form_created',
       desc: '',
       args: [],
     );
   }
 
-  /// `업무가 삭제되었습니다.`
-  String get schedule_form_delete {
+  /// `일정 정보가 정상적으로 변경되었습니다.`
+  String get schedule_form_edited {
     return Intl.message(
-      '업무가 삭제되었습니다.',
-      name: 'schedule_form_delete',
+      '일정 정보가 정상적으로 변경되었습니다.',
+      name: 'schedule_form_edited',
       desc: '',
       args: [],
     );
   }
 
-  /// `실무 결과 보고`
+  /// `일정이 삭제되었습니다.`
+  String get schedule_form_deleted {
+    return Intl.message(
+      '일정이 삭제되었습니다.',
+      name: 'schedule_form_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `보고서 보고`
   String get report_form_title {
     return Intl.message(
-      '실무 결과 보고',
+      '보고서 보고',
       name: 'report_form_title',
       desc: '',
       args: [],
@@ -4179,6 +4299,26 @@ class S {
     );
   }
 
+  /// `출장 명령서가 정상적으로 등록되었습니다.`
+  String get report_form_created {
+    return Intl.message(
+      '출장 명령서가 정상적으로 등록되었습니다.',
+      name: 'report_form_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 명령서 정보가 정상적으로 변경되었습니다.`
+  String get report_form_edited {
+    return Intl.message(
+      '출장 명령서 정보가 정상적으로 변경되었습니다.',
+      name: 'report_form_edited',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `출장 명령서가 삭제되었습니다.`
   String get report_form_delete {
     return Intl.message(
@@ -4280,213 +4420,498 @@ class S {
   }
 
   /// `사용자`
-  String get operation_segment_1 {
-    return Intl.message('사용자', name: 'operation_segment_1', desc: '', args: []);
+  String get setting_segment_1 {
+    return Intl.message('사용자', name: 'setting_segment_1', desc: '', args: []);
   }
 
   /// `공급사`
-  String get operation_segment_2 {
-    return Intl.message('공급사', name: 'operation_segment_2', desc: '', args: []);
+  String get setting_segment_2 {
+    return Intl.message('공급사', name: 'setting_segment_2', desc: '', args: []);
   }
 
   /// `이름`
-  String get operation_user_column_1 {
+  String get setting_user_column_1 {
     return Intl.message(
       '이름',
-      name: 'operation_user_column_1',
+      name: 'setting_user_column_1',
       desc: '',
       args: [],
     );
   }
 
   /// `이메일`
-  String get operation_user_column_2 {
+  String get setting_user_column_2 {
     return Intl.message(
       '이메일',
-      name: 'operation_user_column_2',
+      name: 'setting_user_column_2',
       desc: '',
       args: [],
     );
   }
 
   /// `직급`
-  String get operation_user_column_3 {
+  String get setting_user_column_3 {
     return Intl.message(
       '직급',
-      name: 'operation_user_column_3',
+      name: 'setting_user_column_3',
       desc: '',
       args: [],
     );
   }
 
   /// `부서`
-  String get operation_user_column_4 {
+  String get setting_user_column_4 {
     return Intl.message(
       '부서',
-      name: 'operation_user_column_4',
+      name: 'setting_user_column_4',
       desc: '',
       args: [],
     );
   }
 
   /// `관리자`
-  String get operation_user_column_5 {
+  String get setting_user_column_5 {
     return Intl.message(
       '관리자',
-      name: 'operation_user_column_5',
+      name: 'setting_user_column_5',
       desc: '',
       args: [],
     );
   }
 
   /// `사용 승인`
-  String get operation_user_column_6 {
+  String get setting_user_column_6 {
     return Intl.message(
       '사용 승인',
-      name: 'operation_user_column_6',
+      name: 'setting_user_column_6',
       desc: '',
       args: [],
     );
   }
 
   /// `작업`
-  String get operation_user_column_7 {
+  String get setting_user_column_7 {
     return Intl.message(
       '작업',
-      name: 'operation_user_column_7',
+      name: 'setting_user_column_7',
       desc: '',
       args: [],
     );
   }
 
   /// `관리자 권한을 변경하시겠습니까?`
-  String get operation_user_admin_dialog_1 {
+  String get setting_user_admin_dialog_1 {
     return Intl.message(
       '관리자 권한을 변경하시겠습니까?',
-      name: 'operation_user_admin_dialog_1',
+      name: 'setting_user_admin_dialog_1',
       desc: '',
       args: [],
     );
   }
 
   /// `최고 관리자 권한을 부여하거나 해제합니다.\n계속하시겠습니까?`
-  String get operation_user_admin_dialog_2 {
+  String get setting_user_admin_dialog_2 {
     return Intl.message(
       '최고 관리자 권한을 부여하거나 해제합니다.\n계속하시겠습니까?',
-      name: 'operation_user_admin_dialog_2',
+      name: 'setting_user_admin_dialog_2',
       desc: '',
       args: [],
     );
   }
 
   /// `로그인 사용 승인을 변경하시겠습니까?`
-  String get operation_user_approve_dialog_1 {
+  String get setting_user_approve_dialog_1 {
     return Intl.message(
       '로그인 사용 승인을 변경하시겠습니까?',
-      name: 'operation_user_approve_dialog_1',
+      name: 'setting_user_approve_dialog_1',
       desc: '',
       args: [],
     );
   }
 
   /// `비활성화 시 이 계정의 시스템 접속이 즉시 차단됩니다.\n계속하시겠습니까?`
-  String get operation_user_approve_dialog_2 {
+  String get setting_user_approve_dialog_2 {
     return Intl.message(
       '비활성화 시 이 계정의 시스템 접속이 즉시 차단됩니다.\n계속하시겠습니까?',
-      name: 'operation_user_approve_dialog_2',
+      name: 'setting_user_approve_dialog_2',
       desc: '',
       args: [],
     );
   }
 
   /// `사용자를 삭제하시겠습니까?`
-  String get operation_user_delete_dialog_1 {
+  String get setting_user_delete_dialog_1 {
     return Intl.message(
       '사용자를 삭제하시겠습니까?',
-      name: 'operation_user_delete_dialog_1',
+      name: 'setting_user_delete_dialog_1',
       desc: '',
       args: [],
     );
   }
 
   /// `사용자를 삭제하면 다시 복구할 수 없습니다.`
-  String get operation_user_delete_dialog_2 {
+  String get setting_user_delete_dialog_2 {
     return Intl.message(
       '사용자를 삭제하면 다시 복구할 수 없습니다.',
-      name: 'operation_user_delete_dialog_2',
+      name: 'setting_user_delete_dialog_2',
       desc: '',
       args: [],
     );
   }
 
   /// `사용자 정보가 정상적으로 변경되었습니다.`
-  String get operation_user_success {
+  String get setting_user_edited {
     return Intl.message(
       '사용자 정보가 정상적으로 변경되었습니다.',
-      name: 'operation_user_success',
+      name: 'setting_user_edited',
       desc: '',
       args: [],
     );
   }
 
   /// `사용자가 삭제되었습니다.`
-  String get operation_user_delete {
+  String get setting_user_deleted {
     return Intl.message(
       '사용자가 삭제되었습니다.',
-      name: 'operation_user_delete',
+      name: 'setting_user_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용자를 찾을 수 없습니다`
+  String get setting_user_no_item {
+    return Intl.message(
+      '사용자를 찾을 수 없습니다',
+      name: 'setting_user_no_item',
       desc: '',
       args: [],
     );
   }
 
   /// `이름`
-  String get operation_supplier_column_1 {
+  String get setting_supplier_column_1 {
     return Intl.message(
       '이름',
-      name: 'operation_supplier_column_1',
+      name: 'setting_supplier_column_1',
       desc: '',
       args: [],
     );
   }
 
   /// `사업자등록번호`
-  String get operation_supplier_column_2 {
+  String get setting_supplier_column_2 {
     return Intl.message(
       '사업자등록번호',
-      name: 'operation_supplier_column_2',
+      name: 'setting_supplier_column_2',
       desc: '',
       args: [],
     );
   }
 
   /// `주소`
-  String get operation_supplier_column_3 {
+  String get setting_supplier_column_3 {
     return Intl.message(
       '주소',
-      name: 'operation_supplier_column_3',
+      name: 'setting_supplier_column_3',
       desc: '',
       args: [],
     );
   }
 
   /// `전화번호`
-  String get operation_supplier_column_4 {
+  String get setting_supplier_column_4 {
     return Intl.message(
       '전화번호',
-      name: 'operation_supplier_column_4',
+      name: 'setting_supplier_column_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이메일`
+  String get setting_supplier_column_5 {
+    return Intl.message(
+      '이메일',
+      name: 'setting_supplier_column_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `작업`
+  String get setting_supplier_column_6 {
+    return Intl.message(
+      '작업',
+      name: 'setting_supplier_column_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{supplier} 수정`
+  String setting_supplier_edit_title(Object supplier) {
+    return Intl.message(
+      '$supplier 수정',
+      name: 'setting_supplier_edit_title',
+      desc: '',
+      args: [supplier],
+    );
+  }
+
+  /// `공급처 추가`
+  String get setting_supplier_add {
+    return Intl.message(
+      '공급처 추가',
+      name: 'setting_supplier_add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이름 입력`
+  String get setting_supplier_name {
+    return Intl.message(
+      '이름 입력',
+      name: 'setting_supplier_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사업자등록번호 입력`
+  String get setting_supplier_number {
+    return Intl.message(
+      '사업자등록번호 입력',
+      name: 'setting_supplier_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `우편번호`
+  String get setting_supplier_zipcode {
+    return Intl.message(
+      '우편번호',
+      name: 'setting_supplier_zipcode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `주소`
+  String get setting_supplier_road_address {
+    return Intl.message(
+      '주소',
+      name: 'setting_supplier_road_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상세주소`
+  String get setting_supplier_detail_address {
+    return Intl.message(
+      '상세주소',
+      name: 'setting_supplier_detail_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `주소 검색 버튼을 눌러주세요`
+  String get setting_supplier_address {
+    return Intl.message(
+      '주소 검색 버튼을 눌러주세요',
+      name: 'setting_supplier_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `전화번호 입력`
+  String get setting_supplier_phone {
+    return Intl.message(
+      '전화번호 입력',
+      name: 'setting_supplier_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `숫자만 입력해 주세요`
+  String get setting_supplier_phone_number_only {
+    return Intl.message(
+      '숫자만 입력해 주세요',
+      name: 'setting_supplier_phone_number_only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이메일 입력`
+  String get setting_supplier_email {
+    return Intl.message(
+      '이메일 입력',
+      name: 'setting_supplier_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `로고`
+  String get setting_supplier_logo {
+    return Intl.message(
+      '로고',
+      name: 'setting_supplier_logo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공급처 정보가 정상적으로 등록되었습니다.`
+  String get setting_supplier_created {
+    return Intl.message(
+      '공급처 정보가 정상적으로 등록되었습니다.',
+      name: 'setting_supplier_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공급처 정보가 정상적으로 변경되었습니다.`
+  String get setting_supplier_edited {
+    return Intl.message(
+      '공급처 정보가 정상적으로 변경되었습니다.',
+      name: 'setting_supplier_edited',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공급처가 삭제되었습니다.`
+  String get setting_supplier_deleted {
+    return Intl.message(
+      '공급처가 삭제되었습니다.',
+      name: 'setting_supplier_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공급처를 찾을 수 없습니다`
+  String get setting_supplier_no_item {
+    return Intl.message(
+      '공급처를 찾을 수 없습니다',
+      name: 'setting_supplier_no_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이름을 입력해 주세요`
+  String get setting_supplier_name_empty {
+    return Intl.message(
+      '이름을 입력해 주세요',
+      name: 'setting_supplier_name_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사업자등록번호를 입력해 주세요`
+  String get setting_supplier_number_empty {
+    return Intl.message(
+      '사업자등록번호를 입력해 주세요',
+      name: 'setting_supplier_number_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사업자등록번호 형식이 올바르지 않습니다`
+  String get setting_supplier_number_invalid {
+    return Intl.message(
+      '사업자등록번호 형식이 올바르지 않습니다',
+      name: 'setting_supplier_number_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `주소로 검색`
+  String get setting_address_search {
+    return Intl.message(
+      '주소로 검색',
+      name: 'setting_address_search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `도로명, 건물명 또는 지번을 입력해 주세요.`
+  String get setting_address_search_idle {
+    return Intl.message(
+      '도로명, 건물명 또는 지번을 입력해 주세요.',
+      name: 'setting_address_search_idle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `검색 결과가 없습니다.`
+  String get setting_address_search_empty {
+    return Intl.message(
+      '검색 결과가 없습니다.',
+      name: 'setting_address_search_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상세 주소 입력`
+  String get setting_address_detail_title {
+    return Intl.message(
+      '상세 주소 입력',
+      name: 'setting_address_detail_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상세 주소`
+  String get setting_address_detail_content {
+    return Intl.message(
+      '상세 주소',
+      name: 'setting_address_detail_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상세 주소 없음`
+  String get setting_address_detail_not_required {
+    return Intl.message(
+      '상세 주소 없음',
+      name: 'setting_address_detail_not_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `더 보기`
+  String get setting_address_more {
+    return Intl.message(
+      '더 보기',
+      name: 'setting_address_more',
       desc: '',
       args: [],
     );
   }
 
   /// `내 정보`
-  String get setting_segment_1 {
-    return Intl.message('내 정보', name: 'setting_segment_1', desc: '', args: []);
-  }
-
-  /// `데이터`
-  String get setting_segment_2 {
-    return Intl.message('데이터', name: 'setting_segment_2', desc: '', args: []);
+  String get account_segment_1 {
+    return Intl.message('내 정보', name: 'account_segment_1', desc: '', args: []);
   }
 }
 

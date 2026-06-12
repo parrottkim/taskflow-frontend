@@ -97,34 +97,49 @@ class _DesktopWidget extends HookConsumerWidget {
     ref.listen(reportSubmitControllerProvider, (_, state) {
       if (state is ReportSubmitPending) {
         LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
+        return;
+      }
 
-        if (state is ReportSubmitSuccess) {
+      LoadingOverlay.hide();
+
+      switch (state) {
+        case ReportSubmitCreated(:final report) ||
+            ReportSubmitEdited(:final report):
+          final isCreated = state is ReportSubmitCreated;
+
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message(
+                    isCreated ? 'report_form_created' : 'report_form_edited',
+                  ),
+                ),
+              );
+
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {'project_id': projectId.toString()},
-            queryParameters: {
-              'view': 'report',
-              'report': state.report.id.toString(),
-            },
+            queryParameters: {'view': 'report', 'report': report.id.toString()},
           );
-        }
 
-        if (state is ReportSubmitDeleted) {
+        case ReportSubmitDeleted():
           ref
               .read(toastProvider)
               .showToast(
                 child: Toast(
                   type: ToastType.standard,
-                  message: Intl.message('report_form_delete'),
+                  message: Intl.message('report_form_deleted'),
                 ),
               );
           context.goNamed(
             RouteNames.projectDetail,
             pathParameters: {'project_id': projectId.toString()},
           );
-        }
+
+        default:
+          break;
       }
     });
 

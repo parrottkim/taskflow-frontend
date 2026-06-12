@@ -77,7 +77,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .updateListItem(issue);
 
-      state = IssueSubmitState.success(issue);
+      state = IssueSubmitState.created(issue);
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
     }
@@ -101,26 +101,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     state = const IssueSubmitState.pending();
 
     try {
-      List<MultipartFile> files = [];
-
       late Issue issue;
-
-      if (value.files != null) {
-        for (final file in value.files!) {
-          final bytes = await file.readAsBytes();
-
-          final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
-
-          files.add(
-            MultipartFile.fromBytes(
-              bytes,
-              filename: file.name,
-              contentType: MediaType.parse(mimeType),
-            ),
-          );
-        }
-      }
 
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
@@ -247,7 +228,21 @@ class IssueSubmitController extends _$IssueSubmitController {
 
       if (!ref.mounted) return;
 
-      if (files.isNotEmpty) {
+      if (value.files != null && value.files!.isNotEmpty) {
+        List<MultipartFile> files = [];
+        for (final file in value.files!) {
+          final bytes = await file.readAsBytes();
+          final mimeType =
+              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+          files.add(
+            MultipartFile.fromBytes(
+              bytes,
+              filename: file.name,
+              contentType: MediaType.parse(mimeType),
+            ),
+          );
+        }
+
         final newAttachments = await ref
             .read(issueRepositoryProvider)
             .uploadAttachments(issueId: issue.id, files: files);
@@ -273,7 +268,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .addListItem(item: issue);
 
-      state = IssueSubmitState.success(issue);
+      state = IssueSubmitState.created(issue);
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
     }
@@ -300,25 +295,6 @@ class IssueSubmitController extends _$IssueSubmitController {
 
     try {
       late Issue issue;
-
-      List<MultipartFile> files = [];
-
-      if (value.files != null) {
-        for (final file in value.files!) {
-          final bytes = await file.readAsBytes();
-
-          final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
-
-          files.add(
-            MultipartFile.fromBytes(
-              bytes,
-              filename: file.name,
-              contentType: MediaType.parse(mimeType),
-            ),
-          );
-        }
-      }
 
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
@@ -451,7 +427,21 @@ class IssueSubmitController extends _$IssueSubmitController {
         throw Exception('Unknown issue category');
       }
 
-      if (files.isNotEmpty) {
+      if (value.files != null && value.files!.isNotEmpty) {
+        List<MultipartFile> files = [];
+        for (final file in value.files!) {
+          final bytes = await file.readAsBytes();
+          final mimeType =
+              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+          files.add(
+            MultipartFile.fromBytes(
+              bytes,
+              filename: file.name,
+              contentType: MediaType.parse(mimeType),
+            ),
+          );
+        }
+
         final newAttachments = await ref
             .read(issueRepositoryProvider)
             .uploadAttachments(issueId: issue.id, files: files);
@@ -474,7 +464,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .updateListItem(issue);
 
-      state = IssueSubmitState.success(issue);
+      state = IssueSubmitState.edited(issue);
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
     }

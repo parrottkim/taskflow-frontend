@@ -4,8 +4,10 @@ part of '../controller.dart';
 sealed class ProjectSubmitState with _$ProjectSubmitState {
   const factory ProjectSubmitState.idle() = ProjectSubmitIdle;
   const factory ProjectSubmitState.pending() = ProjectSubmitPending;
-  const factory ProjectSubmitState.success(Project project) =
-      ProjectSubmitSuccess;
+  const factory ProjectSubmitState.created(Project project) =
+      ProjectSubmitCreated;
+  const factory ProjectSubmitState.edited(Project project) =
+      ProjectSubmitEdited;
   const factory ProjectSubmitState.deleted() = ProjectSubmitDeleted;
   const factory ProjectSubmitState.failure(String message) =
       ProjectSubmitFailure;

@@ -32,19 +32,6 @@ Future<void> main() async {
     defaultValue: 'prod',
   );
 
-  if (environment == 'local') {
-    WidgetsFlutterBinding.ensureInitialized();
-    return runApp(
-      ProviderScope(
-        overrides: [
-          flutterSecureStorageProvider.overrideWithValue(secure),
-          sharedPreferencesAsyncProvider.overrideWithValue(prefs),
-          toastProvider.overrideWithValue(ftoast),
-        ],
-        child: App(),
-      ),
-    );
-  }
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
@@ -63,14 +50,15 @@ Future<void> main() async {
       );
       await remoteConfig.fetchAndActivate();
 
-      final jsonValue = json.decode(remoteConfig.getString('sentry'));
+      final sentryJson = json.decode(remoteConfig.getString('sentry'));
+      final addressKey = remoteConfig.getString('address');
 
       GoRouter.optionURLReflectsImperativeAPIs = true;
 
       // 비동기 작업 완료 후 Sentry 초기화
       await SentryFlutter.init(
         (options) {
-          options.dsn = jsonValue[environment]['dsn'];
+          options.dsn = sentryJson[environment]['dsn'];
           options.sendDefaultPii = true;
 
           options.release = const String.fromEnvironment('SENTRY_RELEASE');
@@ -81,6 +69,7 @@ Future<void> main() async {
               flutterSecureStorageProvider.overrideWithValue(secure),
               sharedPreferencesAsyncProvider.overrideWithValue(prefs),
               toastProvider.overrideWithValue(ftoast),
+              addressConfmKeyProvider.overrideWithValue(addressKey),
             ],
             child: App(),
           ),

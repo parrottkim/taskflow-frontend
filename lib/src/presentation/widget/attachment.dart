@@ -126,7 +126,7 @@ class AttachmentUploadWidget<T> extends HookConsumerWidget {
                   Skeleton.unite(
                     child: ElevatedButton(
                       onPressed: () async {
-                        final result = await openFiles(acceptedTypeGroups: []);
+                        final result = await openFiles();
                         processFile(result);
                       },
                       child: Text(Intl.message('issue_form_attachment_upload')),

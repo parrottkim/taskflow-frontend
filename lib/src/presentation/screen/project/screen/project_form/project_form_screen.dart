@@ -71,18 +71,46 @@ class _DesktopWidget extends HookConsumerWidget {
     ref.listen(projectSubmitControllerProvider, (_, state) {
       if (state is ProjectSubmitPending) {
         LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
+        return;
+      }
 
-        if (state is ProjectSubmitSuccess) {
+      LoadingOverlay.hide();
+
+      switch (state) {
+        case ProjectSubmitCreated(:final project) ||
+            ProjectSubmitEdited(:final project):
+          final isCreated = state is ProjectSubmitCreated;
+
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message(
+                    isCreated ? 'project_form_created' : 'project_form_updated',
+                  ),
+                ),
+              );
+
           context.goNamed(
             RouteNames.projectDetail,
-            pathParameters: {'project_id': state.project.id.toString()},
+            pathParameters: {'project_id': project.id.toString()},
           );
-        }
-        if (state is ProjectSubmitDeleted) {
+
+        case ProjectSubmitDeleted():
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('project_form_deleted'),
+                ),
+              );
+
           context.goNamed(RouteNames.project);
-        }
+
+        default:
+          break;
       }
     });
 
@@ -239,11 +267,10 @@ class _DesktopWidget extends HookConsumerWidget {
                                           );
                                     }
                                   : null,
-                            ),
-                            SizedBox(width: 8.0),
-                            Text(
-                              Intl.message('project_form_preexecuted'),
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                              child: Text(
+                                Intl.message('project_form_preexecuted'),
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
                             ),
                             SizedBox(width: 4.0),
                             TooltipOverlay(

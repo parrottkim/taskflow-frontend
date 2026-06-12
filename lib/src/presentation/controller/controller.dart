@@ -24,6 +24,12 @@ import 'package:collection/collection.dart';
 part 'controller.g.dart';
 part 'controller.freezed.dart';
 
+part 'account/account_filter_controller.dart';
+part 'account/account_filter_state.dart';
+
+part 'address/address_controller.dart';
+part 'address/address_state.dart';
+
 part 'auth/auth_controller.dart';
 part 'auth/auth_state.dart';
 
@@ -62,9 +68,6 @@ part 'issue/procurement_issue_form_state.dart';
 part 'local/local_controller.dart';
 part 'local/local_state.dart';
 
-part 'operation/operation_filter_controller.dart';
-part 'operation/operation_filter_state.dart';
-
 part 'project/project_detail_controller.dart';
 part 'project/project_detail_state.dart';
 part 'project/project_detail_filter_controller.dart';
@@ -87,13 +90,17 @@ part 'schedule/schedule_list_state.dart';
 part 'schedule/schedule_submit_controller.dart';
 part 'schedule/schedule_submit_state.dart';
 
-part 'setting/setting_filter_controller.dart';
-part 'setting/setting_filter_state.dart';
-
 part 'supplier/supplier_filter_controller.dart';
 part 'supplier/supplier_filter_state.dart';
-part 'supplier/supplier_search_controller.dart';
-part 'supplier/supplier_search_state.dart';
+part 'supplier/supplier_form_controller.dart';
+part 'supplier/supplier_form_state.dart';
+part 'supplier/supplier_list_controller.dart';
+part 'supplier/supplier_list_state.dart';
+part 'supplier/supplier_submit_controller.dart';
+part 'supplier/supplier_submit_state.dart';
+
+part 'setting/setting_filter_controller.dart';
+part 'setting/setting_filter_state.dart';
 
 part 'report/report_form_controller.dart';
 part 'report/report_form_state.dart';

@@ -88,7 +88,7 @@ class _DesktopWidget extends HookConsumerWidget {
     }, [expanded.value]);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(top: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

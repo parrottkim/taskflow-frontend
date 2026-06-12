@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/date_selector_widget.dart';
@@ -15,12 +16,14 @@ import 'package:taskflow/src/core/core.dart';
 
 class ScheduleFormScreen extends ConsumerWidget {
   final String? path;
+  final int? projectId;
   final int categoryId;
   final int? scheduleId;
 
   const ScheduleFormScreen({
     super.key,
     this.path,
+    this.projectId,
     required this.categoryId,
     this.scheduleId,
   });
@@ -38,6 +41,7 @@ class ScheduleFormScreen extends ConsumerWidget {
       child: switch (form) {
         AsyncData(:final value) => _DesktopWidget(
           path: path,
+          projectId: projectId,
           categoryId: categoryId,
           scheduleId: scheduleId,
           value: value,
@@ -50,6 +54,7 @@ class ScheduleFormScreen extends ConsumerWidget {
           ignoreContainers: true,
           child: _DesktopWidget(
             path: path,
+            projectId: projectId,
             categoryId: categoryId,
             scheduleId: scheduleId,
             value: ScheduleFormState(),
@@ -62,12 +67,14 @@ class ScheduleFormScreen extends ConsumerWidget {
 
 class _DesktopWidget extends HookConsumerWidget {
   final String? path;
+  final int? projectId;
   final int categoryId;
   final int? scheduleId;
   final ScheduleFormState value;
 
   const _DesktopWidget({
     this.path,
+    this.projectId,
     required this.categoryId,
     this.scheduleId,
     required this.value,
@@ -88,8 +95,8 @@ class _DesktopWidget extends HookConsumerWidget {
 
     final isProjectSelected = useState(false);
     final isDateSelected = useState(false);
-    final isSummaryNotEmpty = useState(false);
-    final isDescriptionNotEmpty = useState(false);
+    final isSummaryEmpty = useState(false);
+    final isDescriptionEmpty = useState(false);
 
     useEffect(() {
       Future.microtask(
@@ -98,21 +105,56 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, []);
 
+    useEffect(() {
+      if (projectId == null || scheduleId != null || value.projectId != null) {
+        return null;
+      }
+
+      Future.microtask(() async {
+        final project = await ref
+            .read(projectRepositoryProvider)
+            .getProject(id: projectId!);
+
+        if (!context.mounted) return;
+
+        ref
+            .read(
+              scheduleFormControllerProvider(
+                categoryId: categoryId,
+                scheduleId: scheduleId,
+              ).notifier,
+            )
+            .setProject(project: project);
+      });
+
+      return null;
+    }, [projectId, scheduleId, value.projectId]);
+
     ref.listen(scheduleSubmitControllerProvider, (_, state) {
       if (state is ScheduleSubmitPending) {
         LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
+        return;
+      }
 
-        if (state is ScheduleSubmitSuccess) {
+      LoadingOverlay.hide();
+
+      switch (state) {
+        case ScheduleSubmitCreated() || ScheduleSubmitEdited():
+          final isCreated = state is ScheduleSubmitCreated;
+
           ref
               .read(toastProvider)
               .showToast(
                 child: Toast(
                   type: ToastType.verified,
-                  message: Intl.message('schedule_form_success'),
+                  message: Intl.message(
+                    isCreated
+                        ? 'schedule_form_created'
+                        : 'schedule_form_edited',
+                  ),
                 ),
               );
+
           if (path == null) {
             context.pop();
             context.goNamed(
@@ -122,14 +164,24 @@ class _DesktopWidget extends HookConsumerWidget {
           } else {
             context.go(path!);
           }
-        }
 
-        if (state is ScheduleSubmitDeleted) {
+        case ScheduleSubmitDeleted():
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('schedule_form_deleted'),
+                ),
+              );
+
           context.goNamed(
             RouteNames.work,
             queryParameters: {'view': 'schedule'},
           );
-        }
+
+        default:
+          break;
       }
     });
 
@@ -216,7 +268,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           focusNode: summaryFocus,
                           controller: summaryController,
                           onChanged: (value) {
-                            isSummaryNotEmpty.value = false;
+                            isSummaryEmpty.value = false;
 
                             ref
                                 .read(
@@ -235,7 +287,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       InvalidWidget(
-                        visible: isSummaryNotEmpty.value,
+                        visible: isSummaryEmpty.value,
                         text: Intl.message('schedule_form_invalid_3'),
                       ),
                       SizedBox(height: 24.0),
@@ -266,7 +318,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       InvalidWidget(
-                        visible: isDescriptionNotEmpty.value,
+                        visible: isDescriptionEmpty.value,
                         text: Intl.message('schedule_form_invalid_3'),
                       ),
                     ],
@@ -293,15 +345,15 @@ class _DesktopWidget extends HookConsumerWidget {
                     isProjectSelected.value = value.projectId == null;
                     isDateSelected.value =
                         value.start == null || value.end == null;
-                    isSummaryNotEmpty.value =
+                    isSummaryEmpty.value =
                         value.summary == null || value.summary!.isEmpty;
-                    isDescriptionNotEmpty.value =
+                    isDescriptionEmpty.value =
                         value.description == null || value.description!.isEmpty;
 
                     if (isProjectSelected.value ||
                         isDateSelected.value ||
-                        isSummaryNotEmpty.value ||
-                        isDescriptionNotEmpty.value) {
+                        isSummaryEmpty.value ||
+                        isDescriptionEmpty.value) {
                       LoadingOverlay.hide();
                       return;
                     }
