@@ -275,13 +275,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_link_2": MessageLookupByLibrary.simpleMessage("링크 제목"),
     "issue_form_link_3": MessageLookupByLibrary.simpleMessage("웹 페이지 링크"),
     "issue_form_procurement_1": MessageLookupByLibrary.simpleMessage("구매 품목"),
-    "issue_form_procurement_10": MessageLookupByLibrary.simpleMessage("공급처 선택"),
+    "issue_form_procurement_10": MessageLookupByLibrary.simpleMessage(
+      "협력업체 선택",
+    ),
     "issue_form_procurement_11": MessageLookupByLibrary.simpleMessage("품목 추가"),
     "issue_form_procurement_12": MessageLookupByLibrary.simpleMessage(
       "기업명으로 검색",
     ),
     "issue_form_procurement_13": MessageLookupByLibrary.simpleMessage(
-      "등록할 공급처의 기업명을 입력해 주세요",
+      "등록할 협력업체의 기업명을 입력해 주세요",
     ),
     "issue_form_procurement_14": MessageLookupByLibrary.simpleMessage(
       "기업을 찾을 수 없습니다",
@@ -317,7 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_procurement_6": MessageLookupByLibrary.simpleMessage("품목 금액"),
     "issue_form_procurement_7": MessageLookupByLibrary.simpleMessage("온라인 구매"),
     "issue_form_procurement_8": MessageLookupByLibrary.simpleMessage("구매 링크"),
-    "issue_form_procurement_9": MessageLookupByLibrary.simpleMessage("공급처"),
+    "issue_form_procurement_9": MessageLookupByLibrary.simpleMessage("협력업체"),
     "issue_form_procurement_idle": MessageLookupByLibrary.simpleMessage(
       "발주 처리",
     ),
@@ -351,7 +353,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_procurement_requested_deleted":
         MessageLookupByLibrary.simpleMessage("발주 요청이 삭제되었습니다"),
     "issue_form_procurement_requested_invalid_1":
-        MessageLookupByLibrary.simpleMessage("최소 하나의 공급처를 선택해 주세요"),
+        MessageLookupByLibrary.simpleMessage("최소 하나의 협력업체를 선택해 주세요"),
     "issue_form_procurement_requested_invalid_2":
         MessageLookupByLibrary.simpleMessage("납기 일자를 선택해 주세요"),
     "issue_form_procurement_requested_invalid_3":
@@ -905,8 +907,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "도로명, 건물명 또는 지번을 입력해 주세요.",
     ),
     "setting_segment_1": MessageLookupByLibrary.simpleMessage("사용자"),
-    "setting_segment_2": MessageLookupByLibrary.simpleMessage("공급사"),
-    "setting_supplier_add": MessageLookupByLibrary.simpleMessage("공급처 추가"),
+    "setting_segment_2": MessageLookupByLibrary.simpleMessage("협력업체"),
+    "setting_supplier_add": MessageLookupByLibrary.simpleMessage("협력업체 추가"),
     "setting_supplier_address": MessageLookupByLibrary.simpleMessage(
       "주소 검색 버튼을 눌러주세요",
     ),
@@ -919,17 +921,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "setting_supplier_column_5": MessageLookupByLibrary.simpleMessage("이메일"),
     "setting_supplier_column_6": MessageLookupByLibrary.simpleMessage("작업"),
     "setting_supplier_created": MessageLookupByLibrary.simpleMessage(
-      "공급처 정보가 정상적으로 등록되었습니다.",
+      "협력업체 정보가 정상적으로 등록되었습니다.",
     ),
     "setting_supplier_deleted": MessageLookupByLibrary.simpleMessage(
-      "공급처가 삭제되었습니다.",
+      "협력업체가 삭제되었습니다.",
     ),
     "setting_supplier_detail_address": MessageLookupByLibrary.simpleMessage(
       "상세주소",
     ),
     "setting_supplier_edit_title": m12,
     "setting_supplier_edited": MessageLookupByLibrary.simpleMessage(
-      "공급처 정보가 정상적으로 변경되었습니다.",
+      "협력업체 정보가 정상적으로 변경되었습니다.",
     ),
     "setting_supplier_email": MessageLookupByLibrary.simpleMessage("이메일 입력"),
     "setting_supplier_logo": MessageLookupByLibrary.simpleMessage("로고"),
@@ -938,7 +940,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "이름을 입력해 주세요",
     ),
     "setting_supplier_no_item": MessageLookupByLibrary.simpleMessage(
-      "공급처를 찾을 수 없습니다",
+      "협력업체를 찾을 수 없습니다",
     ),
     "setting_supplier_number": MessageLookupByLibrary.simpleMessage(
       "사업자등록번호 입력",
@@ -990,7 +992,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "사용자를 찾을 수 없습니다",
     ),
     "supplier_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 생성된 공급처가 있습니다.",
+      "이미 생성된 협력업체가 있습니다.",
     ),
     "text_color": MessageLookupByLibrary.simpleMessage("텍스트 색상"),
     "too_many_forgot_password_requests": MessageLookupByLibrary.simpleMessage(
