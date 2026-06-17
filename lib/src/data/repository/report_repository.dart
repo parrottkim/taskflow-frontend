@@ -9,6 +9,8 @@ abstract class ReportRepository {
 
   Future<HttpResponse<List<int>>> exportTrip({required int id});
 
+  Future<Report> getReportForEdit({required int id});
+
   Future<Report> getReport({required int id});
 
   Future<Result<Report>> getReports({

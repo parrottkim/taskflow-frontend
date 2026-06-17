@@ -87,19 +87,13 @@ class ProjectClientFilterWidget extends HookConsumerWidget {
                   padding: EdgeInsets.all(4.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4.0),
-                    color: Color(
-                      ClientType.values
-                          .singleWhere((client) => client.id == item.id)
-                          .color,
-                    ),
+                    color: Color(ClientType.fromKey(item.id).color),
                   ),
                   child: SizedBox(
                     width: 12.0,
                     height: 12.0,
                     child: SvgPicture.asset(
-                      ClientType.values
-                          .singleWhere((client) => client.id == item.id)
-                          .asset,
+                      ClientType.fromKey(item.id).asset,
                       colorFilter: ColorFilter.mode(
                         Colors.white,
                         BlendMode.srcIn,

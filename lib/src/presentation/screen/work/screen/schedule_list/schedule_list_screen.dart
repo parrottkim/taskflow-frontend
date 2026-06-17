@@ -135,7 +135,7 @@ class _DesktopWidget extends HookConsumerWidget {
               .showToast(
                 child: Toast(
                   type: ToastType.standard,
-                  message: Intl.message('schedule_form_delete'),
+                  message: Intl.message('schedule_form_deleted'),
                 ),
               );
         }

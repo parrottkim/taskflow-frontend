@@ -10,6 +10,10 @@ class ScheduleDataSource implements ScheduleRepository {
       _service.getAllCategories();
 
   @override
+  Future<Schedule> getScheduleForEdit({required int id}) =>
+      _service.getScheduleForEdit(id: id);
+
+  @override
   Future<Schedule> getSchedule({required int id}) =>
       _service.getSchedule(id: id);
 
@@ -19,18 +23,22 @@ class ScheduleDataSource implements ScheduleRepository {
     String? search,
     DateTime? start,
     DateTime? end,
-  }) =>
-      _service.getSchedules(
-          projectId: projectId, search: search, start: start, end: end);
+  }) => _service.getSchedules(
+    projectId: projectId,
+    search: search,
+    start: start,
+    end: end,
+  );
 
   @override
   Future<Schedule> createSchedule({required ScheduleDto request}) =>
       _service.createSchedule(request: request);
 
   @override
-  Future<Schedule> updateSchedule(
-          {required int id, required ScheduleDto request}) =>
-      _service.updateSchedule(id: id, request: request);
+  Future<Schedule> updateSchedule({
+    required int id,
+    required ScheduleDto request,
+  }) => _service.updateSchedule(id: id, request: request);
 
   @override
   Future<void> deleteSchedule({required int id}) =>

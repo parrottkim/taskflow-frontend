@@ -245,26 +245,18 @@ class _DesktopWidget extends HookConsumerWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: Color(
-                                      ClientType.values
-                                          .singleWhere(
-                                            (client) =>
-                                                client.id ==
-                                                items[index].clients.first.id,
-                                          )
-                                          .color,
+                                      ClientType.fromKey(
+                                        items[index].clients.first.id,
+                                      ).color,
                                     ),
                                   ),
                                   child: SizedBox(
                                     width: 16.0,
                                     height: 16.0,
                                     child: SvgPicture.asset(
-                                      ClientType.values
-                                          .singleWhere(
-                                            (client) =>
-                                                client.id ==
-                                                items[index].clients.first.id,
-                                          )
-                                          .asset,
+                                      ClientType.fromKey(
+                                        items[index].clients.first.id,
+                                      ).asset,
                                       colorFilter: ColorFilter.mode(
                                         Colors.white,
                                         BlendMode.srcIn,
@@ -493,16 +485,20 @@ class _MobileWidget extends HookConsumerWidget {
                       size: 20.0,
                       fill: items[index].isBookmarked ? 1.0 : 0.0,
                     ),
-                    if (auth is AuthAuthenticated && auth.user.isAdmin)
+                    if (auth is AuthAuthenticated && auth.user.isAdmin ||
+                        auth is AuthAuthenticated &&
+                            auth.user.id == items[index].user.id)
                       Padding(
                         padding: EdgeInsets.only(left: 4.0),
                         child: ElevatedIconButton(
-                          onTap: () => context.goNamed(
-                            RouteNames.projectEdit,
-                            pathParameters: {
-                              'project_id': items[index].id.toString(),
-                            },
-                          ),
+                          onTap: !items[index].isClosed
+                              ? () => context.goNamed(
+                                  RouteNames.projectEdit,
+                                  pathParameters: {
+                                    'project_id': items[index].id.toString(),
+                                  },
+                                )
+                              : null,
                           padding: EdgeInsets.all(4.0),
                           borderRadius: BorderRadius.circular(4.0),
                           icon: Symbols.edit_square_rounded,
@@ -587,26 +583,18 @@ class _MobileWidget extends HookConsumerWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               color: Color(
-                                ClientType.values
-                                    .singleWhere(
-                                      (client) =>
-                                          client.id ==
-                                          items[index].clients.first.id,
-                                    )
-                                    .color,
+                                ClientType.fromKey(
+                                  items[index].clients.first.id,
+                                ).color,
                               ),
                             ),
                             child: SizedBox(
                               width: 16.0,
                               height: 16.0,
                               child: SvgPicture.asset(
-                                ClientType.values
-                                    .singleWhere(
-                                      (client) =>
-                                          client.id ==
-                                          items[index].clients.first.id,
-                                    )
-                                    .asset,
+                                ClientType.fromKey(
+                                  items[index].clients.first.id,
+                                ).asset,
                                 colorFilter: ColorFilter.mode(
                                   Colors.white,
                                   BlendMode.srcIn,

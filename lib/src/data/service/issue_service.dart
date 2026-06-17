@@ -182,6 +182,12 @@ abstract class IssueService {
     @Body() required SendIssueMailDto request,
   });
 
+  @GET('issue/{id}/procurement/request')
+  Future<Issue> getIssueForProcurementRequest({@Path('id') required int id});
+
+  @GET('issue/{id}/edit')
+  Future<Issue> getIssueForEdit({@Path('id') required int id});
+
   @GET('issue/{id}')
   Future<Issue> getIssue({@Path('id') required int id});
 

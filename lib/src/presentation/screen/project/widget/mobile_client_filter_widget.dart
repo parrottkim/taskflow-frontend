@@ -47,8 +47,9 @@ class MobileClientFilterWidget extends ConsumerWidget {
             }
 
             final bool isSelected = selectedClients.value.length > depth;
-            final parentId =
-                depth == 0 ? null : selectedClients.value[depth - 1];
+            final parentId = depth == 0
+                ? null
+                : selectedClients.value[depth - 1];
 
             final group = clientItems.firstWhere(
               (g) => g.depth == depth && g.parentId == parentId,
@@ -76,21 +77,23 @@ class MobileClientFilterWidget extends ConsumerWidget {
                           padding: const EdgeInsets.all(3.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            color: Color(ClientType.values
-                                .firstWhere((ct) =>
-                                    ct.id == selectedClients.value[depth])
-                                .color),
+                            color: Color(
+                              ClientType.fromKey(
+                                selectedClients.value[depth],
+                              ).color,
+                            ),
                           ),
                           child: SizedBox(
                             width: 13.0,
                             height: 13.0,
                             child: SvgPicture.asset(
-                              ClientType.values
-                                  .firstWhere((ct) =>
-                                      ct.id == selectedClients.value[depth])
-                                  .asset,
+                              ClientType.fromKey(
+                                selectedClients.value[depth],
+                              ).asset,
                               colorFilter: const ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn),
+                                Colors.white,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
                         ),
@@ -98,16 +101,20 @@ class MobileClientFilterWidget extends ConsumerWidget {
                         !isSelected
                             ? Intl.message('project_filter_${depth + 1}')
                             : group.items
-                                .firstWhere(
-                                    (c) => c.id == selectedClients.value[depth])
-                                .name,
-                        style: textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w500),
+                                  .firstWhere(
+                                    (c) => c.id == selectedClients.value[depth],
+                                  )
+                                  .name,
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
-                  trailing:
-                      const Icon(Symbols.chevron_right_rounded, size: 18.0),
+                  trailing: const Icon(
+                    Symbols.chevron_right_rounded,
+                    size: 18.0,
+                  ),
                 ),
                 if (isSelected) const Divider(),
               ],

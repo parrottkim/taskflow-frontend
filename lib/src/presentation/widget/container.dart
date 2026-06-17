@@ -75,7 +75,7 @@ class ErrorContainerWidget extends StatelessWidget {
         Intl.message('connection_timeout'),
       DioException e when e.response?.data is Map =>
         switch (e.response?.data['message']) {
-          String msg => msg,
+          String msg => Intl.message(msg),
           List msgList => msgList.join('\n'),
           _ => Intl.message('error_unexpected'),
         },

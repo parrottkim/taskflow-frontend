@@ -58,8 +58,8 @@ class _DesktopWidget extends HookConsumerWidget {
 
     final auth = ref.watch(authControllerProvider);
 
-    final codeController = useTextEditingController(text: value.code);
-    final nameController = useTextEditingController(text: value.name);
+    final codeController = useTextEditingController();
+    final nameController = useTextEditingController();
 
     final code = useValueListenable(codeController);
     final name = useValueListenable(nameController);
