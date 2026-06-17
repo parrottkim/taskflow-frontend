@@ -109,9 +109,7 @@ class RouterInterceptor implements RouterInterceptorInterface {
 
           // 그 외, 일반적인 로그인된 상태에서의 리다이렉트 처리
           // 리다이렉트 경로가 있고, 그 경로가 인증 관련 경로가 아니면 리다이렉트
-          if (redirect != null &&
-              !matchedLocation.startsWith(Routes.login) &&
-              !matchedLocation.startsWith(Routes.work)) {
+          if (redirect != null && !matchedLocation.startsWith(Routes.login)) {
             return redirect;
           }
           break; // 현재 경로는 접근 허용 (로그인된 상태에서 인증 관련 페이지가 아님)

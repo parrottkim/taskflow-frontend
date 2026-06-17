@@ -28,9 +28,6 @@ class ProjectSubmitController extends _$ProjectSubmitController {
       ref
           .read(projectListControllerProvider.notifier)
           .addListItem(item: project);
-      ref
-          .read(projectDetailControllerProvider(projectId: project.id).notifier)
-          .updateProject(project: project);
 
       state = ProjectSubmitState.created(project);
     } catch (e) {

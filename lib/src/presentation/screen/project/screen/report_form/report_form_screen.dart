@@ -49,9 +49,8 @@ class ReportFormScreen extends HookConsumerWidget {
         scheduleId: scheduleId,
         value: value,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
-        error: error,
-        stackTrace: stackTrace,
+      AsyncError(:final error, :final stackTrace) => BranchLayout(
+        child: ErrorContainerWidget(error: error, stackTrace: stackTrace),
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(

@@ -342,4 +342,19 @@ abstract class ProcurementIssueRequest with _$ProcurementIssueRequest {
 
   factory ProcurementIssueRequest.fromJson(Map<String, dynamic> json) =>
       _$ProcurementIssueRequestFromJson(json);
+
+  factory ProcurementIssueRequest.empty() => ProcurementIssueRequest(
+    id: 0,
+    requestedBy: User.dummy(),
+    title: 'title',
+    orderDate: DateTime.now(),
+    serialNumber: 'serialNumber',
+    hasFee: true,
+    requiresApproval: true,
+    isApproved: true,
+    supplier: Supplier.dummy(),
+    items: List.filled(3, ProcurementIssueRequestItem.empty()),
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
 }

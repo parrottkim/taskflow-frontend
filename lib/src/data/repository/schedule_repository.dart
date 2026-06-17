@@ -3,6 +3,8 @@ part of '../data.dart';
 abstract class ScheduleRepository {
   Future<List<ScheduleCategory>> getAllCategories();
 
+  Future<Schedule> getScheduleForEdit({required int id});
+
   Future<Schedule> getSchedule({required int id});
 
   Future<Result<ScheduleGroup>> getSchedules({
@@ -14,8 +16,10 @@ abstract class ScheduleRepository {
 
   Future<Schedule> createSchedule({required ScheduleDto request});
 
-  Future<Schedule> updateSchedule(
-      {required int id, required ScheduleDto request});
+  Future<Schedule> updateSchedule({
+    required int id,
+    required ScheduleDto request,
+  });
 
   Future<void> deleteSchedule({required int id});
 }

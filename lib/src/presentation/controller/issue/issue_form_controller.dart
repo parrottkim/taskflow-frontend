@@ -13,7 +13,7 @@ class IssueFormController extends _$IssueFormController {
     if (issueId != null) {
       final result = await ref
           .read(issueRepositoryProvider)
-          .getIssue(id: issueId!);
+          .getIssueForEdit(id: issueId!);
 
       return IssueFormState(
         category: result.category,

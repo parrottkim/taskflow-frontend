@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/core/core.dart';
+import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_request_form/widget/request_form_section.dart';
@@ -37,16 +38,17 @@ class ProcurementRequestFormScreen extends ConsumerWidget {
         requestId: requestId,
         value: value,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
-        error: error,
-        stackTrace: stackTrace,
+      AsyncError(:final error, :final stackTrace) => BranchLayout(
+        child: ErrorContainerWidget(error: error, stackTrace: stackTrace),
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
           projectId: projectId,
           issueId: issueId,
           requestId: requestId,
-          value: ProcurementIssueFormState(),
+          value: ProcurementIssueFormState(
+            requests: List.filled(2, ProcurementIssueRequest.empty()),
+          ),
         ),
       ),
     };

@@ -14,7 +14,7 @@ class ReportFormController extends _$ReportFormController {
     if (reportId != null) {
       final result = await ref
           .read(reportRepositoryProvider)
-          .getReport(id: reportId!);
+          .getReportForEdit(id: reportId!);
 
       return ReportFormState(
         expenses: result.trip?.expenses ?? [],

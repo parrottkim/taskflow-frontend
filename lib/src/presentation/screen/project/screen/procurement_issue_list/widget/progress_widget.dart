@@ -26,9 +26,6 @@ class ProgressWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    final auth = ref.watch(authControllerProvider);
 
     final targetSupplierIds = items
         .map((item) => item.supplier)
@@ -41,9 +38,9 @@ class ProgressWidget extends ConsumerWidget {
         .map((request) => request.supplier.id)
         .toSet();
 
-    final isAllRequested =
-        targetSupplierIds.isNotEmpty &&
-        targetSupplierIds.difference(requestedSupplierIds).isEmpty;
+    final isAllRequested = targetSupplierIds
+        .difference(requestedSupplierIds)
+        .isEmpty;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),

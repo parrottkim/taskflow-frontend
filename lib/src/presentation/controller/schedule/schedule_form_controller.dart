@@ -15,7 +15,7 @@ class ScheduleFormController extends _$ScheduleFormController {
 
     final result = await ref
         .read(scheduleRepositoryProvider)
-        .getSchedule(id: scheduleId!);
+        .getScheduleForEdit(id: scheduleId!);
 
     return ScheduleFormState(
       projectId: result.projectId,

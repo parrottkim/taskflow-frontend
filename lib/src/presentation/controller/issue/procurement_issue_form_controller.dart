@@ -6,7 +6,9 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
   FutureOr<ProcurementIssueFormState> build({required int issueId}) => _init();
 
   Future<ProcurementIssueFormState> _init() async {
-    final issue = await ref.read(issueRepositoryProvider).getIssue(id: issueId);
+    final issue = await ref
+        .read(issueRepositoryProvider)
+        .getIssueForProcurementRequest(id: issueId);
 
     return ProcurementIssueFormState(
       items: issue.procurementItems,

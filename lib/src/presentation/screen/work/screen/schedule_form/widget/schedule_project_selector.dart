@@ -85,24 +85,14 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       color: Color(
-                        ClientType.values
-                            .singleWhere(
-                              (client) =>
-                                  client.id == items[index].clients.first.id,
-                            )
-                            .color,
+                        ClientType.fromKey(items[index].clients.first.id).color,
                       ),
                     ),
                     child: SizedBox(
                       width: 12.0,
                       height: 12.0,
                       child: SvgPicture.asset(
-                        ClientType.values
-                            .singleWhere(
-                              (client) =>
-                                  client.id == items[index].clients.first.id,
-                            )
-                            .asset,
+                        ClientType.fromKey(items[index].clients.first.id).asset,
                         colorFilter: ColorFilter.mode(
                           Colors.white,
                           BlendMode.srcIn,

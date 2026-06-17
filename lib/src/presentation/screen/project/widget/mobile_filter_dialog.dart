@@ -307,19 +307,13 @@ class ClientFilterPage extends StatelessWidget {
                         padding: const EdgeInsets.all(3.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
-                          color: Color(
-                            ClientType.values
-                                .firstWhere((c) => c.id == client.id)
-                                .color,
-                          ),
+                          color: Color(ClientType.fromKey(client.id).color),
                         ),
                         child: SizedBox(
                           width: 13.0,
                           height: 13.0,
                           child: SvgPicture.asset(
-                            ClientType.values
-                                .firstWhere((c) => c.id == client.id)
-                                .asset,
+                            ClientType.fromKey(client.id).asset,
                             colorFilter: const ColorFilter.mode(
                               Colors.white,
                               BlendMode.srcIn,

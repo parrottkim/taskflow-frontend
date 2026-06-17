@@ -3,9 +3,7 @@ part of '../controller.dart';
 @riverpod
 class ProjectFormController extends _$ProjectFormController {
   @override
-  FutureOr<ProjectFormState> build({int? projectId}) async {
-    return await _init();
-  }
+  FutureOr<ProjectFormState> build({int? projectId}) async => await _init();
 
   Future<ProjectFormState> _init() async {
     if (projectId == null) {
