@@ -125,26 +125,18 @@ class _DesktopWidget extends HookWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: Color(
-                              ClientType.values
-                                  .singleWhere(
-                                    (client) =>
-                                        client.id ==
-                                        items[index].clients.first.id,
-                                  )
-                                  .color,
+                              ClientType.fromKey(
+                                items[index].clients.first.id,
+                              ).color,
                             ),
                           ),
                           child: SizedBox(
                             width: 16.0,
                             height: 16.0,
                             child: SvgPicture.asset(
-                              ClientType.values
-                                  .singleWhere(
-                                    (client) =>
-                                        client.id ==
-                                        items[index].clients.first.id,
-                                  )
-                                  .asset,
+                              ClientType.fromKey(
+                                items[index].clients.first.id,
+                              ).asset,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,

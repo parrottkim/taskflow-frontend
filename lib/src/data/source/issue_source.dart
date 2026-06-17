@@ -166,6 +166,14 @@ class IssueDataSource implements IssueRepository {
       _service.sendMail(id: id, request: request);
 
   @override
+  Future<Issue> getIssueForProcurementRequest({required int id}) =>
+      _service.getIssueForProcurementRequest(id: id);
+
+  @override
+  Future<Issue> getIssueForEdit({required int id}) =>
+      _service.getIssueForEdit(id: id);
+
+  @override
   Future<Issue> getIssue({required int id}) => _service.getIssue(id: id);
 
   @override

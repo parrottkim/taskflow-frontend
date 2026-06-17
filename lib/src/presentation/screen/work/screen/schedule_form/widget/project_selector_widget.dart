@@ -90,19 +90,13 @@ class _DesktopWidget extends ConsumerWidget {
               padding: EdgeInsets.all(4.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
-                color: Color(
-                  ClientType.values
-                      .singleWhere((client) => client.id == projectClientId)
-                      .color,
-                ),
+                color: Color(ClientType.fromKey(projectClientId!).color),
               ),
               child: SizedBox(
                 width: 12.0,
                 height: 12.0,
                 child: SvgPicture.asset(
-                  ClientType.values
-                      .singleWhere((client) => client.id == projectClientId)
-                      .asset,
+                  ClientType.fromKey(projectClientId!).asset,
                   colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ),

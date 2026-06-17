@@ -10,10 +10,7 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 class InfoWidget extends StatelessWidget {
   final Project project;
 
-  const InfoWidget({
-    super.key,
-    required this.project,
-  });
+  const InfoWidget({super.key, required this.project});
 
   @override
   Widget build(BuildContext context) {
@@ -59,22 +56,18 @@ class InfoWidget extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4.0),
                               color: Color(
-                                ClientType.values
-                                    .singleWhere((client) =>
-                                        client.id == project.clients[0].id)
-                                    .color,
+                                ClientType.fromKey(project.clients[0].id).color,
                               ),
                             ),
                             child: SizedBox(
                               width: 12.0,
                               height: 12.0,
                               child: SvgPicture.asset(
-                                ClientType.values
-                                    .singleWhere((client) =>
-                                        client.id == project.clients[0].id)
-                                    .asset,
+                                ClientType.fromKey(project.clients[0].id).asset,
                                 colorFilter: ColorFilter.mode(
-                                    Colors.white, BlendMode.srcIn),
+                                  Colors.white,
+                                  BlendMode.srcIn,
+                                ),
                               ),
                             ),
                           ),
@@ -82,9 +75,7 @@ class InfoWidget extends StatelessWidget {
                         SizedBox(width: 8.0),
                         Text(
                           project.clients.last.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -122,22 +113,21 @@ class InfoWidget extends StatelessWidget {
               project.manager != null
                   ? Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: UserInformation.compact(
-                        user: project.manager!,
-                      ),
+                      child: UserInformation.compact(user: project.manager!),
                     )
                   : InkWell(
                       onTap: () {},
                       borderRadius: BorderRadius.circular(4.0),
                       child: Padding(
                         padding: EdgeInsets.only(
-                            left: 4.0, right: 8.0, top: 4.0, bottom: 4.0),
+                          left: 4.0,
+                          right: 8.0,
+                          top: 4.0,
+                          bottom: 4.0,
+                        ),
                         child: Row(
                           children: [
-                            Icon(
-                              Symbols.person_search_rounded,
-                              size: 20.0,
-                            ),
+                            Icon(Symbols.person_search_rounded, size: 20.0),
                             SizedBox(width: 8.0),
                             Text(
                               Intl.message('project_detail_pm_empty'),
@@ -182,8 +172,10 @@ class InfoWidget extends StatelessWidget {
                 Flexible(
                   child: Skeleton.leaf(
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 4.0,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
                         color: colorScheme.error.withValues(alpha: 0.6),
@@ -202,8 +194,10 @@ class InfoWidget extends StatelessWidget {
                 Flexible(
                   child: Skeleton.leaf(
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 4.0,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
                         color: colorScheme.onSurface.withValues(alpha: 0.6),
@@ -222,8 +216,10 @@ class InfoWidget extends StatelessWidget {
                 Flexible(
                   child: Skeleton.leaf(
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 4.0,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
                         color: colorScheme.primary.withValues(alpha: 0.6),

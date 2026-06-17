@@ -22,6 +22,10 @@ class ReportDataSource implements ReportRepository {
       _service.exportTrip(id: id);
 
   @override
+  Future<Report> getReportForEdit({required int id}) =>
+      _service.getReportForEdit(id: id);
+
+  @override
   Future<Report> getReport({required int id}) => _service.getReport(id: id);
 
   @override

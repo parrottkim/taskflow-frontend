@@ -7,10 +7,11 @@ abstract class ScheduleService {
   @GET('schedule/categories')
   Future<List<ScheduleCategory>> getAllCategories();
 
+  @GET('schedule/{id}/edit')
+  Future<Schedule> getScheduleForEdit({@Path() required int id});
+
   @GET('schedule/{id}')
-  Future<Schedule> getSchedule({
-    @Path() required int id,
-  });
+  Future<Schedule> getSchedule({@Path() required int id});
 
   @GET('schedule')
   Future<Result<ScheduleGroup>> getSchedules({
@@ -21,9 +22,7 @@ abstract class ScheduleService {
   });
 
   @POST('schedule')
-  Future<Schedule> createSchedule({
-    @Body() required ScheduleDto request,
-  });
+  Future<Schedule> createSchedule({@Body() required ScheduleDto request});
 
   @PATCH('schedule/{id}')
   Future<Schedule> updateSchedule({
@@ -32,7 +31,5 @@ abstract class ScheduleService {
   });
 
   @DELETE('schedule/{id}')
-  Future<void> deleteSchedule({
-    @Path('id') required int id,
-  });
+  Future<void> deleteSchedule({@Path('id') required int id});
 }

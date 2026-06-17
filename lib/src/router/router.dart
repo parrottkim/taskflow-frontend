@@ -282,23 +282,25 @@ class AppRouter {
                       );
                     },
                     onExit: (context, state) async {
-                      final error = ref.watch(errorControllerProvider);
-                      final submit = ref.watch(projectSubmitControllerProvider);
+                      final error = ref.read(errorControllerProvider);
+                      final submit = ref.read(projectSubmitControllerProvider);
 
-                      if (error is ErrorUnauthorized) {
+                      // 1. 이미 에러가 있거나, 제출이 완료된 상태면 즉시 통과
+                      if (error is ErrorUnauthorized ||
+                          submit is ProjectSubmitCreated ||
+                          submit is ProjectSubmitEdited ||
+                          submit is ProjectSubmitDeleted) {
                         return true;
                       }
 
-                      if (submit is! ProjectSubmitCreated &&
-                          submit is! ProjectSubmitEdited &&
-                          submit is! ProjectSubmitDeleted) {
-                        final shouldNavigate = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => const PopScopeDialog(),
-                        );
-                        return shouldNavigate ?? false;
-                      }
-                      return true;
+                      // 3. 위 조건에 해당하지 않을 때만 다이얼로그 노출
+                      final shouldNavigate = await showDialog<bool>(
+                        context: context,
+                        barrierDismissible: false, // 실수 클릭 방지
+                        builder: (context) => const PopScopeDialog(),
+                      );
+
+                      return shouldNavigate ?? false;
                     },
                   ),
                   GoRoute(
@@ -320,20 +322,21 @@ class AppRouter {
                       final error = ref.watch(errorControllerProvider);
                       final submit = ref.watch(projectSubmitControllerProvider);
 
-                      if (error is ErrorUnauthorized) {
+                      if (error is ErrorUnauthorized ||
+                          submit is ProjectSubmitCreated ||
+                          submit is ProjectSubmitEdited ||
+                          submit is ProjectSubmitDeleted) {
                         return true;
                       }
 
-                      if (submit is! ProjectSubmitCreated &&
-                          submit is! ProjectSubmitEdited &&
-                          submit is! ProjectSubmitDeleted) {
-                        final shouldNavigate = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => const PopScopeDialog(),
-                        );
-                        return shouldNavigate ?? false;
-                      }
-                      return true;
+                      // 3. 위 조건에 해당하지 않을 때만 다이얼로그 노출
+                      final shouldNavigate = await showDialog<bool>(
+                        context: context,
+                        barrierDismissible: false, // 실수 클릭 방지
+                        builder: (context) => const PopScopeDialog(),
+                      );
+
+                      return shouldNavigate ?? false;
                     },
                   ),
                   GoRoute(
@@ -438,22 +441,19 @@ class AppRouter {
                                     issueSubmitControllerProvider,
                                   );
 
-                                  if (error is ErrorUnauthorized) {
+                                  if (error is ErrorUnauthorized ||
+                                      submit is IssueSubmitCreated ||
+                                      submit is IssueSubmitEdited ||
+                                      submit is IssueSubmitDeleted) {
                                     return true;
                                   }
 
-                                  if (submit is! IssueSubmitCreated &&
-                                      submit is! IssueSubmitEdited &&
-                                      submit is! IssueSubmitDeleted) {
-                                    final shouldNavigate =
-                                        await showDialog<bool>(
-                                          context: context,
-                                          builder: (context) =>
-                                              const PopScopeDialog(),
-                                        );
-                                    return shouldNavigate ?? false;
-                                  }
-                                  return true;
+                                  final shouldNavigate = await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) =>
+                                        const PopScopeDialog(),
+                                  );
+                                  return shouldNavigate ?? false;
                                 },
                               ),
                             ],
@@ -489,20 +489,18 @@ class AppRouter {
                                 issueSubmitControllerProvider,
                               );
 
-                              if (error is ErrorUnauthorized) {
+                              if (error is ErrorUnauthorized ||
+                                  submit is IssueSubmitCreated ||
+                                  submit is IssueSubmitEdited ||
+                                  submit is IssueSubmitDeleted) {
                                 return true;
                               }
 
-                              if (submit is! IssueSubmitCreated &&
-                                  submit is! IssueSubmitEdited &&
-                                  submit is! IssueSubmitDeleted) {
-                                final shouldNavigate = await showDialog<bool>(
-                                  context: context,
-                                  builder: (context) => const PopScopeDialog(),
-                                );
-                                return shouldNavigate ?? false;
-                              }
-                              return true;
+                              final shouldNavigate = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => const PopScopeDialog(),
+                              );
+                              return shouldNavigate ?? false;
                             },
                           ),
                           GoRoute(
@@ -532,20 +530,18 @@ class AppRouter {
                                 issueSubmitControllerProvider,
                               );
 
-                              if (error is ErrorUnauthorized) {
+                              if (error is ErrorUnauthorized ||
+                                  submit is IssueSubmitCreated ||
+                                  submit is IssueSubmitEdited ||
+                                  submit is IssueSubmitDeleted) {
                                 return true;
                               }
 
-                              if (submit is! IssueSubmitCreated &&
-                                  submit is! IssueSubmitEdited &&
-                                  submit is! IssueSubmitDeleted) {
-                                final shouldNavigate = await showDialog<bool>(
-                                  context: context,
-                                  builder: (context) => const PopScopeDialog(),
-                                );
-                                return shouldNavigate ?? false;
-                              }
-                              return true;
+                              final shouldNavigate = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => const PopScopeDialog(),
+                              );
+                              return shouldNavigate ?? false;
                             },
                           ),
                         ],
@@ -616,22 +612,19 @@ class AppRouter {
                                     reportSubmitControllerProvider,
                                   );
 
-                                  if (error is ErrorUnauthorized) {
+                                  if (error is ErrorUnauthorized ||
+                                      submit is ReportSubmitCreated ||
+                                      submit is ReportSubmitEdited ||
+                                      submit is ReportSubmitDeleted) {
                                     return true;
                                   }
 
-                                  if (submit is! ReportSubmitCreated &&
-                                      submit is! ReportSubmitEdited &&
-                                      submit is! ReportSubmitDeleted) {
-                                    final shouldNavigate =
-                                        await showDialog<bool>(
-                                          context: context,
-                                          builder: (context) =>
-                                              const PopScopeDialog(),
-                                        );
-                                    return shouldNavigate ?? false;
-                                  }
-                                  return true;
+                                  final shouldNavigate = await showDialog<bool>(
+                                    context: context,
+                                    builder: (context) =>
+                                        const PopScopeDialog(),
+                                  );
+                                  return shouldNavigate ?? false;
                                 },
                               ),
                             ],
@@ -667,20 +660,18 @@ class AppRouter {
                                 reportSubmitControllerProvider,
                               );
 
-                              if (error is ErrorUnauthorized) {
+                              if (error is ErrorUnauthorized ||
+                                  submit is ReportSubmitCreated ||
+                                  submit is ReportSubmitEdited ||
+                                  submit is ReportSubmitDeleted) {
                                 return true;
                               }
 
-                              if (submit is! ReportSubmitCreated &&
-                                  submit is! ReportSubmitEdited &&
-                                  submit is! ReportSubmitDeleted) {
-                                final shouldNavigate = await showDialog<bool>(
-                                  context: context,
-                                  builder: (context) => const PopScopeDialog(),
-                                );
-                                return shouldNavigate ?? false;
-                              }
-                              return true;
+                              final shouldNavigate = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => const PopScopeDialog(),
+                              );
+                              return shouldNavigate ?? false;
                             },
                           ),
                         ],
@@ -740,8 +731,6 @@ class AppRouter {
                             name: RouteNames.scheduleNew,
                             path: Routes.scheduleNew,
                             pageBuilder: (context, state) {
-                              final path =
-                                  state.uri.queryParameters['redirect_to'];
                               final projectId = int.tryParse(
                                 state.uri.queryParameters['project_id'] ?? '',
                               );
@@ -756,7 +745,6 @@ class AppRouter {
                                 key: state.pageKey,
                                 name: state.name,
                                 child: ScheduleFormScreen(
-                                  path: path,
                                   projectId: projectId,
                                   categoryId: categoryId,
                                   scheduleId: scheduleId,
@@ -769,20 +757,18 @@ class AppRouter {
                                 scheduleSubmitControllerProvider,
                               );
 
-                              if (error is ErrorUnauthorized) {
+                              if (error is ErrorUnauthorized ||
+                                  submit is ScheduleSubmitCreated ||
+                                  submit is ScheduleSubmitEdited ||
+                                  submit is ScheduleSubmitDeleted) {
                                 return true;
                               }
 
-                              if (submit is! ScheduleSubmitCreated &&
-                                  submit is! ScheduleSubmitEdited &&
-                                  submit is! ScheduleSubmitDeleted) {
-                                final shouldNavigate = await showDialog<bool>(
-                                  context: context,
-                                  builder: (context) => const PopScopeDialog(),
-                                );
-                                return shouldNavigate ?? false;
-                              }
-                              return true;
+                              final shouldNavigate = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => const PopScopeDialog(),
+                              );
+                              return shouldNavigate ?? false;
                             },
                           ),
                         ],
@@ -813,20 +799,18 @@ class AppRouter {
                             scheduleSubmitControllerProvider,
                           );
 
-                          if (error is ErrorUnauthorized) {
+                          if (error is ErrorUnauthorized ||
+                              submit is ScheduleSubmitCreated ||
+                              submit is ScheduleSubmitEdited ||
+                              submit is ScheduleSubmitDeleted) {
                             return true;
                           }
 
-                          if (submit is! ScheduleSubmitCreated &&
-                              submit is! ScheduleSubmitEdited &&
-                              submit is! ScheduleSubmitDeleted) {
-                            final shouldNavigate = await showDialog<bool>(
-                              context: context,
-                              builder: (context) => const PopScopeDialog(),
-                            );
-                            return shouldNavigate ?? false;
-                          }
-                          return true;
+                          final shouldNavigate = await showDialog<bool>(
+                            context: context,
+                            builder: (context) => const PopScopeDialog(),
+                          );
+                          return shouldNavigate ?? false;
                         },
                       ),
                     ],

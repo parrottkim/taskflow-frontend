@@ -161,32 +161,24 @@ class WorldMapWidget extends HookConsumerWidget {
                                                         4.0,
                                                       ),
                                                   color: Color(
-                                                    ClientType.values
-                                                        .singleWhere(
-                                                          (client) =>
-                                                              client.id ==
-                                                              marker
-                                                                  .items[index]
-                                                                  .type
-                                                                  .id,
-                                                        )
-                                                        .color,
+                                                    ClientType.fromKey(
+                                                      marker
+                                                          .items[index]
+                                                          .type
+                                                          .id,
+                                                    ).color,
                                                   ),
                                                 ),
                                                 child: SizedBox(
                                                   width: 12.0,
                                                   height: 12.0,
                                                   child: SvgPicture.asset(
-                                                    ClientType.values
-                                                        .singleWhere(
-                                                          (client) =>
-                                                              client.id ==
-                                                              marker
-                                                                  .items[index]
-                                                                  .type
-                                                                  .id,
-                                                        )
-                                                        .asset,
+                                                    ClientType.fromKey(
+                                                      marker
+                                                          .items[index]
+                                                          .type
+                                                          .id,
+                                                    ).asset,
                                                     colorFilter:
                                                         ColorFilter.mode(
                                                           Colors.white,

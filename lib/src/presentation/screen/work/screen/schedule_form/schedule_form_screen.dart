@@ -15,14 +15,12 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 
 class ScheduleFormScreen extends ConsumerWidget {
-  final String? path;
   final int? projectId;
   final int categoryId;
   final int? scheduleId;
 
   const ScheduleFormScreen({
     super.key,
-    this.path,
     this.projectId,
     required this.categoryId,
     this.scheduleId,
@@ -40,7 +38,6 @@ class ScheduleFormScreen extends ConsumerWidget {
     return BranchLayout(
       child: switch (form) {
         AsyncData(:final value) => _DesktopWidget(
-          path: path,
           projectId: projectId,
           categoryId: categoryId,
           scheduleId: scheduleId,
@@ -53,7 +50,6 @@ class ScheduleFormScreen extends ConsumerWidget {
         _ => Skeletonizer(
           ignoreContainers: true,
           child: _DesktopWidget(
-            path: path,
             projectId: projectId,
             categoryId: categoryId,
             scheduleId: scheduleId,
@@ -66,14 +62,12 @@ class ScheduleFormScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final String? path;
   final int? projectId;
   final int categoryId;
   final int? scheduleId;
   final ScheduleFormState value;
 
   const _DesktopWidget({
-    this.path,
     this.projectId,
     required this.categoryId,
     this.scheduleId,
@@ -139,7 +133,8 @@ class _DesktopWidget extends HookConsumerWidget {
       LoadingOverlay.hide();
 
       switch (state) {
-        case ScheduleSubmitCreated() || ScheduleSubmitEdited():
+        case ScheduleSubmitCreated(:final schedule) ||
+            ScheduleSubmitEdited(:final schedule):
           final isCreated = state is ScheduleSubmitCreated;
 
           ref
@@ -155,14 +150,22 @@ class _DesktopWidget extends HookConsumerWidget {
                 ),
               );
 
-          if (path == null) {
-            context.pop();
+          if (projectId == null) {
             context.goNamed(
               RouteNames.work,
               queryParameters: {'view': 'schedule'},
             );
           } else {
-            context.go(path!);
+            context.goNamed(
+              RouteNames.reportNewChoose,
+              pathParameters: {
+                'project_id': projectId.toString(), // 주소창의 :project_id 영역으로 주입됨
+              },
+              queryParameters: {
+                'schedule_id': schedule.id
+                    .toString(), // 주소창 뒤의 ?schedule_id=288 영역으로 주입됨
+              },
+            );
           }
 
         case ScheduleSubmitDeleted():
