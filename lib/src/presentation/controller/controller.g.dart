@@ -723,7 +723,7 @@ final class ErrorControllerProvider
   }
 }
 
-String _$errorControllerHash() => r'9197bb805cb6936dde4c24d83222c888069ef0e3';
+String _$errorControllerHash() => r'23c6bc19607ea19a5d6624d8ed50371e46c0fbbd';
 
 abstract class _$ErrorController extends $Notifier<ErrorState> {
   ErrorState build();
