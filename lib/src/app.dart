@@ -20,6 +20,8 @@ class App extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     ref.listen(errorControllerProvider, (_, state) {
+      ref.read(toastProvider).removeQueuedCustomToasts();
+
       switch (state) {
         case ErrorInitial():
           return;
