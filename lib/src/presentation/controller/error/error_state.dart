@@ -7,6 +7,8 @@ sealed class ErrorState with _$ErrorState {
       ErrorBadRequest;
   const factory ErrorState.unauthorized({required String message}) =
       ErrorUnauthorized;
+  const factory ErrorState.tokenExpired({required String message}) =
+      ErrorTokenExpired;
   const factory ErrorState.forbidden({required String message}) =
       ErrorForbidden;
   const factory ErrorState.notFound({required String message}) = ErrorNotFound;

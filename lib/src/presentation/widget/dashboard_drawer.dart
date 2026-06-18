@@ -43,11 +43,13 @@ class DashboardDrawer extends HookConsumerWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: Responsive.isDesktop(context)
+              padding: EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                top: Responsive.isDesktop(context)
                     ? 36.0
                     : MediaQuery.of(context).padding.top + 16.0,
+                bottom: 12.0,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,56 +414,70 @@ class UserWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Skeleton.unite(
-            child: CircleAvatar(
-              backgroundColor: Functions(
-                context,
-              ).generateColorFromId(user.username.hashCode),
-              radius: 16.0,
-              child: Text(
-                getInitials(user.username),
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-          Flexible(
-            child: AnimatedOpacity(
-              duration: duration ?? Duration(milliseconds: 300),
-              curve: curve ?? Curves.easeInQuad,
-              opacity: expanded ? 1.0 : 0.0,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      user.username,
-                      maxLines: 1,
-                      overflow: TextOverflow.fade,
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Material(
+        clipBehavior: Clip.hardEdge,
+        borderRadius: BorderRadius.circular(8.0),
+        color: colorScheme.surfaceContainer,
+        child: InkWell(
+          onTap: () {
+            context.goNamed(RouteNames.account);
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
+            child: Row(
+              children: [
+                Skeleton.unite(
+                  child: CircleAvatar(
+                    backgroundColor: Functions(
+                      context,
+                    ).generateColorFromId(user.username.hashCode),
+                    radius: 16.0,
+                    child: Text(
+                      getInitials(user.username),
+                      style: const TextStyle(color: Colors.white),
                     ),
-                    Text(
-                      user.email,
-                      maxLines: 1,
-                      overflow: TextOverflow.fade,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                Flexible(
+                  child: AnimatedOpacity(
+                    duration: duration ?? Duration(milliseconds: 300),
+                    curve: curve ?? Curves.easeInQuad,
+                    opacity: expanded ? 1.0 : 0.0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            user.username,
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                            style: textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            user.email,
+                            maxLines: 1,
+                            overflow: TextOverflow.fade,
+                            style: textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.7,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

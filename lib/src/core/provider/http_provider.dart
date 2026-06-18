@@ -103,9 +103,9 @@ class HttpInterceptor extends Interceptor {
     }
 
     // 401이 아니거나 갱신 실패 후 최종 오류 처리
-    await container
+    container
         .read(errorControllerProvider.notifier)
-        .onError(err, StackTrace.current);
+        .handleException(err, StackTrace.current);
     return handler.next(err);
   }
 
