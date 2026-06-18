@@ -3526,13 +3526,14 @@ extension ErrorStatePatterns on ErrorState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ErrorInitial value)?  initial,TResult Function( ErrorBadRequest value)?  badRequest,TResult Function( ErrorUnauthorized value)?  unauthorized,TResult Function( ErrorForbidden value)?  forbidden,TResult Function( ErrorNotFound value)?  notFound,TResult Function( ErrorConflict value)?  conflict,TResult Function( ErrorNotDefined value)?  notDefined,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ErrorInitial value)?  initial,TResult Function( ErrorBadRequest value)?  badRequest,TResult Function( ErrorUnauthorized value)?  unauthorized,TResult Function( ErrorTokenExpired value)?  tokenExpired,TResult Function( ErrorForbidden value)?  forbidden,TResult Function( ErrorNotFound value)?  notFound,TResult Function( ErrorConflict value)?  conflict,TResult Function( ErrorNotDefined value)?  notDefined,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ErrorInitial() when initial != null:
 return initial(_that);case ErrorBadRequest() when badRequest != null:
 return badRequest(_that);case ErrorUnauthorized() when unauthorized != null:
-return unauthorized(_that);case ErrorForbidden() when forbidden != null:
+return unauthorized(_that);case ErrorTokenExpired() when tokenExpired != null:
+return tokenExpired(_that);case ErrorForbidden() when forbidden != null:
 return forbidden(_that);case ErrorNotFound() when notFound != null:
 return notFound(_that);case ErrorConflict() when conflict != null:
 return conflict(_that);case ErrorNotDefined() when notDefined != null:
@@ -3554,13 +3555,14 @@ return notDefined(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ErrorInitial value)  initial,required TResult Function( ErrorBadRequest value)  badRequest,required TResult Function( ErrorUnauthorized value)  unauthorized,required TResult Function( ErrorForbidden value)  forbidden,required TResult Function( ErrorNotFound value)  notFound,required TResult Function( ErrorConflict value)  conflict,required TResult Function( ErrorNotDefined value)  notDefined,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ErrorInitial value)  initial,required TResult Function( ErrorBadRequest value)  badRequest,required TResult Function( ErrorUnauthorized value)  unauthorized,required TResult Function( ErrorTokenExpired value)  tokenExpired,required TResult Function( ErrorForbidden value)  forbidden,required TResult Function( ErrorNotFound value)  notFound,required TResult Function( ErrorConflict value)  conflict,required TResult Function( ErrorNotDefined value)  notDefined,}){
 final _that = this;
 switch (_that) {
 case ErrorInitial():
 return initial(_that);case ErrorBadRequest():
 return badRequest(_that);case ErrorUnauthorized():
-return unauthorized(_that);case ErrorForbidden():
+return unauthorized(_that);case ErrorTokenExpired():
+return tokenExpired(_that);case ErrorForbidden():
 return forbidden(_that);case ErrorNotFound():
 return notFound(_that);case ErrorConflict():
 return conflict(_that);case ErrorNotDefined():
@@ -3578,13 +3580,14 @@ return notDefined(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ErrorInitial value)?  initial,TResult? Function( ErrorBadRequest value)?  badRequest,TResult? Function( ErrorUnauthorized value)?  unauthorized,TResult? Function( ErrorForbidden value)?  forbidden,TResult? Function( ErrorNotFound value)?  notFound,TResult? Function( ErrorConflict value)?  conflict,TResult? Function( ErrorNotDefined value)?  notDefined,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ErrorInitial value)?  initial,TResult? Function( ErrorBadRequest value)?  badRequest,TResult? Function( ErrorUnauthorized value)?  unauthorized,TResult? Function( ErrorTokenExpired value)?  tokenExpired,TResult? Function( ErrorForbidden value)?  forbidden,TResult? Function( ErrorNotFound value)?  notFound,TResult? Function( ErrorConflict value)?  conflict,TResult? Function( ErrorNotDefined value)?  notDefined,}){
 final _that = this;
 switch (_that) {
 case ErrorInitial() when initial != null:
 return initial(_that);case ErrorBadRequest() when badRequest != null:
 return badRequest(_that);case ErrorUnauthorized() when unauthorized != null:
-return unauthorized(_that);case ErrorForbidden() when forbidden != null:
+return unauthorized(_that);case ErrorTokenExpired() when tokenExpired != null:
+return tokenExpired(_that);case ErrorForbidden() when forbidden != null:
 return forbidden(_that);case ErrorNotFound() when notFound != null:
 return notFound(_that);case ErrorConflict() when conflict != null:
 return conflict(_that);case ErrorNotDefined() when notDefined != null:
@@ -3605,12 +3608,13 @@ return notDefined(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( String message)?  badRequest,TResult Function( String message)?  unauthorized,TResult Function( String message)?  forbidden,TResult Function( String message)?  notFound,TResult Function( String message)?  conflict,TResult Function( String message)?  notDefined,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( String message)?  badRequest,TResult Function( String message)?  unauthorized,TResult Function( String message)?  tokenExpired,TResult Function( String message)?  forbidden,TResult Function( String message)?  notFound,TResult Function( String message)?  conflict,TResult Function( String message)?  notDefined,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ErrorInitial() when initial != null:
 return initial();case ErrorBadRequest() when badRequest != null:
 return badRequest(_that.message);case ErrorUnauthorized() when unauthorized != null:
-return unauthorized(_that.message);case ErrorForbidden() when forbidden != null:
+return unauthorized(_that.message);case ErrorTokenExpired() when tokenExpired != null:
+return tokenExpired(_that.message);case ErrorForbidden() when forbidden != null:
 return forbidden(_that.message);case ErrorNotFound() when notFound != null:
 return notFound(_that.message);case ErrorConflict() when conflict != null:
 return conflict(_that.message);case ErrorNotDefined() when notDefined != null:
@@ -3632,12 +3636,13 @@ return notDefined(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( String message)  badRequest,required TResult Function( String message)  unauthorized,required TResult Function( String message)  forbidden,required TResult Function( String message)  notFound,required TResult Function( String message)  conflict,required TResult Function( String message)  notDefined,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( String message)  badRequest,required TResult Function( String message)  unauthorized,required TResult Function( String message)  tokenExpired,required TResult Function( String message)  forbidden,required TResult Function( String message)  notFound,required TResult Function( String message)  conflict,required TResult Function( String message)  notDefined,}) {final _that = this;
 switch (_that) {
 case ErrorInitial():
 return initial();case ErrorBadRequest():
 return badRequest(_that.message);case ErrorUnauthorized():
-return unauthorized(_that.message);case ErrorForbidden():
+return unauthorized(_that.message);case ErrorTokenExpired():
+return tokenExpired(_that.message);case ErrorForbidden():
 return forbidden(_that.message);case ErrorNotFound():
 return notFound(_that.message);case ErrorConflict():
 return conflict(_that.message);case ErrorNotDefined():
@@ -3655,12 +3660,13 @@ return notDefined(_that.message);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( String message)?  badRequest,TResult? Function( String message)?  unauthorized,TResult? Function( String message)?  forbidden,TResult? Function( String message)?  notFound,TResult? Function( String message)?  conflict,TResult? Function( String message)?  notDefined,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( String message)?  badRequest,TResult? Function( String message)?  unauthorized,TResult? Function( String message)?  tokenExpired,TResult? Function( String message)?  forbidden,TResult? Function( String message)?  notFound,TResult? Function( String message)?  conflict,TResult? Function( String message)?  notDefined,}) {final _that = this;
 switch (_that) {
 case ErrorInitial() when initial != null:
 return initial();case ErrorBadRequest() when badRequest != null:
 return badRequest(_that.message);case ErrorUnauthorized() when unauthorized != null:
-return unauthorized(_that.message);case ErrorForbidden() when forbidden != null:
+return unauthorized(_that.message);case ErrorTokenExpired() when tokenExpired != null:
+return tokenExpired(_that.message);case ErrorForbidden() when forbidden != null:
 return forbidden(_that.message);case ErrorNotFound() when notFound != null:
 return notFound(_that.message);case ErrorConflict() when conflict != null:
 return conflict(_that.message);case ErrorNotDefined() when notDefined != null:
@@ -3846,6 +3852,78 @@ class _$ErrorUnauthorizedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(ErrorUnauthorized(
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ErrorTokenExpired with DiagnosticableTreeMixin implements ErrorState {
+  const ErrorTokenExpired({required this.message});
+  
+
+ final  String message;
+
+/// Create a copy of ErrorState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ErrorTokenExpiredCopyWith<ErrorTokenExpired> get copyWith => _$ErrorTokenExpiredCopyWithImpl<ErrorTokenExpired>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ErrorState.tokenExpired'))
+    ..add(DiagnosticsProperty('message', message));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ErrorTokenExpired&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ErrorState.tokenExpired(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ErrorTokenExpiredCopyWith<$Res> implements $ErrorStateCopyWith<$Res> {
+  factory $ErrorTokenExpiredCopyWith(ErrorTokenExpired value, $Res Function(ErrorTokenExpired) _then) = _$ErrorTokenExpiredCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$ErrorTokenExpiredCopyWithImpl<$Res>
+    implements $ErrorTokenExpiredCopyWith<$Res> {
+  _$ErrorTokenExpiredCopyWithImpl(this._self, this._then);
+
+  final ErrorTokenExpired _self;
+  final $Res Function(ErrorTokenExpired) _then;
+
+/// Create a copy of ErrorState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(ErrorTokenExpired(
 message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
