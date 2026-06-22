@@ -423,6 +423,9 @@ class UserWidget extends StatelessWidget {
         child: InkWell(
           onTap: () {
             context.goNamed(RouteNames.account);
+            if (!Responsive.isDesktop(context)) {
+              context.pop();
+            }
           },
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
