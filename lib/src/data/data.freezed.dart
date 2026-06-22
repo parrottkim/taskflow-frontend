@@ -282,294 +282,22 @@ as DateTime,
 
 
 /// @nodoc
-mixin _$AddressSearchResult {
-
- int get totalCount; List<AddressItem> get items;
-/// Create a copy of AddressSearchResult
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$AddressSearchResultCopyWith<AddressSearchResult> get copyWith => _$AddressSearchResultCopyWithImpl<AddressSearchResult>(this as AddressSearchResult, _$identity);
-
-  /// Serializes this AddressSearchResult to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressSearchResult&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&const DeepCollectionEquality().equals(other.items, items));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,totalCount,const DeepCollectionEquality().hash(items));
-
-@override
-String toString() {
-  return 'AddressSearchResult(totalCount: $totalCount, items: $items)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $AddressSearchResultCopyWith<$Res>  {
-  factory $AddressSearchResultCopyWith(AddressSearchResult value, $Res Function(AddressSearchResult) _then) = _$AddressSearchResultCopyWithImpl;
-@useResult
-$Res call({
- int totalCount, List<AddressItem> items
-});
-
-
-
-
-}
-/// @nodoc
-class _$AddressSearchResultCopyWithImpl<$Res>
-    implements $AddressSearchResultCopyWith<$Res> {
-  _$AddressSearchResultCopyWithImpl(this._self, this._then);
-
-  final AddressSearchResult _self;
-  final $Res Function(AddressSearchResult) _then;
-
-/// Create a copy of AddressSearchResult
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? totalCount = null,Object? items = null,}) {
-  return _then(_self.copyWith(
-totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
-as int,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
-as List<AddressItem>,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [AddressSearchResult].
-extension AddressSearchResultPatterns on AddressSearchResult {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AddressSearchResult value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _AddressSearchResult() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AddressSearchResult value)  $default,){
-final _that = this;
-switch (_that) {
-case _AddressSearchResult():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AddressSearchResult value)?  $default,){
-final _that = this;
-switch (_that) {
-case _AddressSearchResult() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int totalCount,  List<AddressItem> items)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _AddressSearchResult() when $default != null:
-return $default(_that.totalCount,_that.items);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int totalCount,  List<AddressItem> items)  $default,) {final _that = this;
-switch (_that) {
-case _AddressSearchResult():
-return $default(_that.totalCount,_that.items);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int totalCount,  List<AddressItem> items)?  $default,) {final _that = this;
-switch (_that) {
-case _AddressSearchResult() when $default != null:
-return $default(_that.totalCount,_that.items);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _AddressSearchResult implements AddressSearchResult {
-   _AddressSearchResult({this.totalCount = 0, final  List<AddressItem> items = const <AddressItem>[]}): _items = items;
-  factory _AddressSearchResult.fromJson(Map<String, dynamic> json) => _$AddressSearchResultFromJson(json);
-
-@override@JsonKey() final  int totalCount;
- final  List<AddressItem> _items;
-@override@JsonKey() List<AddressItem> get items {
-  if (_items is EqualUnmodifiableListView) return _items;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_items);
-}
-
-
-/// Create a copy of AddressSearchResult
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$AddressSearchResultCopyWith<_AddressSearchResult> get copyWith => __$AddressSearchResultCopyWithImpl<_AddressSearchResult>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$AddressSearchResultToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressSearchResult&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&const DeepCollectionEquality().equals(other._items, _items));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,totalCount,const DeepCollectionEquality().hash(_items));
-
-@override
-String toString() {
-  return 'AddressSearchResult(totalCount: $totalCount, items: $items)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$AddressSearchResultCopyWith<$Res> implements $AddressSearchResultCopyWith<$Res> {
-  factory _$AddressSearchResultCopyWith(_AddressSearchResult value, $Res Function(_AddressSearchResult) _then) = __$AddressSearchResultCopyWithImpl;
-@override @useResult
-$Res call({
- int totalCount, List<AddressItem> items
-});
-
-
-
-
-}
-/// @nodoc
-class __$AddressSearchResultCopyWithImpl<$Res>
-    implements _$AddressSearchResultCopyWith<$Res> {
-  __$AddressSearchResultCopyWithImpl(this._self, this._then);
-
-  final _AddressSearchResult _self;
-  final $Res Function(_AddressSearchResult) _then;
-
-/// Create a copy of AddressSearchResult
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? totalCount = null,Object? items = null,}) {
-  return _then(_AddressSearchResult(
-totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
-as int,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
-as List<AddressItem>,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$AddressItem {
+mixin _$Address {
 
  String get zipNo; String get roadAddr; String get roadAddrPart1; String get emdNm; String get bdNm; String get jibunAddr;
-/// Create a copy of AddressItem
+/// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$AddressItemCopyWith<AddressItem> get copyWith => _$AddressItemCopyWithImpl<AddressItem>(this as AddressItem, _$identity);
+$AddressCopyWith<Address> get copyWith => _$AddressCopyWithImpl<Address>(this as Address, _$identity);
 
-  /// Serializes this AddressItem to a JSON map.
+  /// Serializes this Address to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressItem&&(identical(other.zipNo, zipNo) || other.zipNo == zipNo)&&(identical(other.roadAddr, roadAddr) || other.roadAddr == roadAddr)&&(identical(other.roadAddrPart1, roadAddrPart1) || other.roadAddrPart1 == roadAddrPart1)&&(identical(other.emdNm, emdNm) || other.emdNm == emdNm)&&(identical(other.bdNm, bdNm) || other.bdNm == bdNm)&&(identical(other.jibunAddr, jibunAddr) || other.jibunAddr == jibunAddr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Address&&(identical(other.zipNo, zipNo) || other.zipNo == zipNo)&&(identical(other.roadAddr, roadAddr) || other.roadAddr == roadAddr)&&(identical(other.roadAddrPart1, roadAddrPart1) || other.roadAddrPart1 == roadAddrPart1)&&(identical(other.emdNm, emdNm) || other.emdNm == emdNm)&&(identical(other.bdNm, bdNm) || other.bdNm == bdNm)&&(identical(other.jibunAddr, jibunAddr) || other.jibunAddr == jibunAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -578,15 +306,15 @@ int get hashCode => Object.hash(runtimeType,zipNo,roadAddr,roadAddrPart1,emdNm,b
 
 @override
 String toString() {
-  return 'AddressItem(zipNo: $zipNo, roadAddr: $roadAddr, roadAddrPart1: $roadAddrPart1, emdNm: $emdNm, bdNm: $bdNm, jibunAddr: $jibunAddr)';
+  return 'Address(zipNo: $zipNo, roadAddr: $roadAddr, roadAddrPart1: $roadAddrPart1, emdNm: $emdNm, bdNm: $bdNm, jibunAddr: $jibunAddr)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $AddressItemCopyWith<$Res>  {
-  factory $AddressItemCopyWith(AddressItem value, $Res Function(AddressItem) _then) = _$AddressItemCopyWithImpl;
+abstract mixin class $AddressCopyWith<$Res>  {
+  factory $AddressCopyWith(Address value, $Res Function(Address) _then) = _$AddressCopyWithImpl;
 @useResult
 $Res call({
  String zipNo, String roadAddr, String roadAddrPart1, String emdNm, String bdNm, String jibunAddr
@@ -597,14 +325,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$AddressItemCopyWithImpl<$Res>
-    implements $AddressItemCopyWith<$Res> {
-  _$AddressItemCopyWithImpl(this._self, this._then);
+class _$AddressCopyWithImpl<$Res>
+    implements $AddressCopyWith<$Res> {
+  _$AddressCopyWithImpl(this._self, this._then);
 
-  final AddressItem _self;
-  final $Res Function(AddressItem) _then;
+  final Address _self;
+  final $Res Function(Address) _then;
 
-/// Create a copy of AddressItem
+/// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? zipNo = null,Object? roadAddr = null,Object? roadAddrPart1 = null,Object? emdNm = null,Object? bdNm = null,Object? jibunAddr = null,}) {
   return _then(_self.copyWith(
@@ -621,8 +349,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [AddressItem].
-extension AddressItemPatterns on AddressItem {
+/// Adds pattern-matching-related methods to [Address].
+extension AddressPatterns on Address {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -635,10 +363,10 @@ extension AddressItemPatterns on AddressItem {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AddressItem value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Address value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _AddressItem() when $default != null:
+case _Address() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -657,10 +385,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AddressItem value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Address value)  $default,){
 final _that = this;
 switch (_that) {
-case _AddressItem():
+case _Address():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -678,10 +406,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AddressItem value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Address value)?  $default,){
 final _that = this;
 switch (_that) {
-case _AddressItem() when $default != null:
+case _Address() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -701,7 +429,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String zipNo,  String roadAddr,  String roadAddrPart1,  String emdNm,  String bdNm,  String jibunAddr)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _AddressItem() when $default != null:
+case _Address() when $default != null:
 return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that.bdNm,_that.jibunAddr);case _:
   return orElse();
 
@@ -722,7 +450,7 @@ return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String zipNo,  String roadAddr,  String roadAddrPart1,  String emdNm,  String bdNm,  String jibunAddr)  $default,) {final _that = this;
 switch (_that) {
-case _AddressItem():
+case _Address():
 return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that.bdNm,_that.jibunAddr);case _:
   throw StateError('Unexpected subclass');
 
@@ -742,7 +470,7 @@ return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String zipNo,  String roadAddr,  String roadAddrPart1,  String emdNm,  String bdNm,  String jibunAddr)?  $default,) {final _that = this;
 switch (_that) {
-case _AddressItem() when $default != null:
+case _Address() when $default != null:
 return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that.bdNm,_that.jibunAddr);case _:
   return null;
 
@@ -754,9 +482,9 @@ return $default(_that.zipNo,_that.roadAddr,_that.roadAddrPart1,_that.emdNm,_that
 /// @nodoc
 @JsonSerializable()
 
-class _AddressItem implements AddressItem {
-   _AddressItem({this.zipNo = '', this.roadAddr = '', this.roadAddrPart1 = '', this.emdNm = '', this.bdNm = '', this.jibunAddr = ''});
-  factory _AddressItem.fromJson(Map<String, dynamic> json) => _$AddressItemFromJson(json);
+class _Address implements Address {
+   _Address({this.zipNo = '', this.roadAddr = '', this.roadAddrPart1 = '', this.emdNm = '', this.bdNm = '', this.jibunAddr = ''});
+  factory _Address.fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
 
 @override@JsonKey() final  String zipNo;
 @override@JsonKey() final  String roadAddr;
@@ -765,20 +493,20 @@ class _AddressItem implements AddressItem {
 @override@JsonKey() final  String bdNm;
 @override@JsonKey() final  String jibunAddr;
 
-/// Create a copy of AddressItem
+/// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$AddressItemCopyWith<_AddressItem> get copyWith => __$AddressItemCopyWithImpl<_AddressItem>(this, _$identity);
+_$AddressCopyWith<_Address> get copyWith => __$AddressCopyWithImpl<_Address>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$AddressItemToJson(this, );
+  return _$AddressToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressItem&&(identical(other.zipNo, zipNo) || other.zipNo == zipNo)&&(identical(other.roadAddr, roadAddr) || other.roadAddr == roadAddr)&&(identical(other.roadAddrPart1, roadAddrPart1) || other.roadAddrPart1 == roadAddrPart1)&&(identical(other.emdNm, emdNm) || other.emdNm == emdNm)&&(identical(other.bdNm, bdNm) || other.bdNm == bdNm)&&(identical(other.jibunAddr, jibunAddr) || other.jibunAddr == jibunAddr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Address&&(identical(other.zipNo, zipNo) || other.zipNo == zipNo)&&(identical(other.roadAddr, roadAddr) || other.roadAddr == roadAddr)&&(identical(other.roadAddrPart1, roadAddrPart1) || other.roadAddrPart1 == roadAddrPart1)&&(identical(other.emdNm, emdNm) || other.emdNm == emdNm)&&(identical(other.bdNm, bdNm) || other.bdNm == bdNm)&&(identical(other.jibunAddr, jibunAddr) || other.jibunAddr == jibunAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -787,15 +515,15 @@ int get hashCode => Object.hash(runtimeType,zipNo,roadAddr,roadAddrPart1,emdNm,b
 
 @override
 String toString() {
-  return 'AddressItem(zipNo: $zipNo, roadAddr: $roadAddr, roadAddrPart1: $roadAddrPart1, emdNm: $emdNm, bdNm: $bdNm, jibunAddr: $jibunAddr)';
+  return 'Address(zipNo: $zipNo, roadAddr: $roadAddr, roadAddrPart1: $roadAddrPart1, emdNm: $emdNm, bdNm: $bdNm, jibunAddr: $jibunAddr)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$AddressItemCopyWith<$Res> implements $AddressItemCopyWith<$Res> {
-  factory _$AddressItemCopyWith(_AddressItem value, $Res Function(_AddressItem) _then) = __$AddressItemCopyWithImpl;
+abstract mixin class _$AddressCopyWith<$Res> implements $AddressCopyWith<$Res> {
+  factory _$AddressCopyWith(_Address value, $Res Function(_Address) _then) = __$AddressCopyWithImpl;
 @override @useResult
 $Res call({
  String zipNo, String roadAddr, String roadAddrPart1, String emdNm, String bdNm, String jibunAddr
@@ -806,17 +534,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$AddressItemCopyWithImpl<$Res>
-    implements _$AddressItemCopyWith<$Res> {
-  __$AddressItemCopyWithImpl(this._self, this._then);
+class __$AddressCopyWithImpl<$Res>
+    implements _$AddressCopyWith<$Res> {
+  __$AddressCopyWithImpl(this._self, this._then);
 
-  final _AddressItem _self;
-  final $Res Function(_AddressItem) _then;
+  final _Address _self;
+  final $Res Function(_Address) _then;
 
-/// Create a copy of AddressItem
+/// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? zipNo = null,Object? roadAddr = null,Object? roadAddrPart1 = null,Object? emdNm = null,Object? bdNm = null,Object? jibunAddr = null,}) {
-  return _then(_AddressItem(
+  return _then(_Address(
 zipNo: null == zipNo ? _self.zipNo : zipNo // ignore: cast_nullable_to_non_nullable
 as String,roadAddr: null == roadAddr ? _self.roadAddr : roadAddr // ignore: cast_nullable_to_non_nullable
 as String,roadAddrPart1: null == roadAddrPart1 ? _self.roadAddrPart1 : roadAddrPart1 // ignore: cast_nullable_to_non_nullable

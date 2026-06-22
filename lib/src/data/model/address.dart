@@ -1,27 +1,16 @@
 part of '../data.dart';
 
 @freezed
-abstract class AddressSearchResult with _$AddressSearchResult {
-  factory AddressSearchResult({
-    @Default(0) int totalCount,
-    @Default(<AddressItem>[]) List<AddressItem> items,
-  }) = _AddressSearchResult;
-
-  factory AddressSearchResult.fromJson(Map<String, dynamic> json) =>
-      _$AddressSearchResultFromJson(json);
-}
-
-@freezed
-abstract class AddressItem with _$AddressItem {
-  factory AddressItem({
+abstract class Address with _$Address {
+  factory Address({
     @Default('') String zipNo,
     @Default('') String roadAddr,
     @Default('') String roadAddrPart1,
     @Default('') String emdNm,
     @Default('') String bdNm,
     @Default('') String jibunAddr,
-  }) = _AddressItem;
+  }) = _Address;
 
-  factory AddressItem.fromJson(Map<String, dynamic> json) =>
-      _$AddressItemFromJson(json);
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 }
