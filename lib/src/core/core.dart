@@ -15,6 +15,5 @@ part 'core.g.dart';
 part 'provider/url_provider.dart';
 part 'provider/flutter_secure_storage_provider.dart';
 part 'provider/http_provider.dart';
-part 'provider/address_provider.dart';
 part 'provider/shared_preferences_async_provider.dart';
 part 'provider/toast_provider.dart';

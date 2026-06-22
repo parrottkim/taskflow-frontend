@@ -25,7 +25,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
     final isDetailNotRequired = useState<bool>(false);
 
     // 핵심 상태: 선택된 주소 아이템 (null이면 1단계 검색창, 값이 있으면 2단계 상세입력창)
-    final selectedItem = useState<AddressItem?>(null);
+    final selectedItem = useState<Address?>(null);
 
     // 2단계 완료 버튼 활성화 조건
     final isTextEmpty = useValueListenable(
@@ -221,42 +221,19 @@ class SupplierAddressDialog extends HookConsumerWidget {
               ),
               onSubmitted: (_) => ref
                   .read(addressControllerProvider.notifier)
-                  .search(keyword: searchController.text),
+                  .search(search: searchController.text),
             ),
             const Divider(height: 1.0),
             Expanded(
-              child: switch (address) {
-                AsyncData(:final value) => _AddressListView(
-                  keyword: value.keyword,
-                  items: value.items,
-                  totalCount: value.totalCount,
-                  isLoading: value.isLoading,
-                  onLoadMore: () =>
-                      ref.read(addressControllerProvider.notifier).load(),
-                  onSelected: (item) => selectedItem.value = item,
-                ),
-                AsyncError(:final error, :final stackTrace) => Center(
-                  child: ErrorContainerWidget(
-                    error: error,
-                    stackTrace: stackTrace,
-                  ),
-                ),
-                _ => Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const CircularProgressIndicator(
-                        strokeCap: StrokeCap.round,
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        Intl.message('data_address_searching'),
-                        style: textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                ),
-              },
+              child: _AddressListView(
+                search: address.search,
+                items: address.items,
+                total: address.total,
+                isLoading: address.isLoading,
+                onLoadMore: () =>
+                    ref.read(addressControllerProvider.notifier).load(),
+                onSelected: (item) => selectedItem.value = item,
+              ),
             ),
           ],
         ),
@@ -266,17 +243,17 @@ class SupplierAddressDialog extends HookConsumerWidget {
 }
 
 class _AddressListView extends StatelessWidget {
-  final String keyword;
-  final List<AddressItem> items;
-  final int totalCount;
+  final String search;
+  final List<Address> items;
+  final int total;
   final bool isLoading;
   final VoidCallback onLoadMore;
-  final ValueChanged<AddressItem> onSelected;
+  final ValueChanged<Address> onSelected;
 
   const _AddressListView({
-    required this.keyword,
+    required this.search,
     required this.items,
-    required this.totalCount,
+    required this.total,
     required this.isLoading,
     required this.onLoadMore,
     required this.onSelected,
@@ -287,7 +264,7 @@ class _AddressListView extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
-    if (keyword.isEmpty) {
+    if (search.isEmpty) {
       return Center(
         child: Text(
           Intl.message('data_address_search_idle'),
@@ -309,7 +286,7 @@ class _AddressListView extends StatelessWidget {
       );
     }
 
-    final hasMore = items.length < totalCount;
+    final hasMore = items.length < total;
 
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
