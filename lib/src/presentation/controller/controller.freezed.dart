@@ -283,7 +283,7 @@ as String?,
 /// @nodoc
 mixin _$AddressState implements DiagnosticableTreeMixin {
 
- String get keyword; int get page; int get totalCount; List<AddressItem> get items; bool get isLoading; bool get hasReachEnd;
+ String get search; int get page; int get total; List<Address> get items; bool get isLoading; bool get hasReachEnd;
 /// Create a copy of AddressState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -295,21 +295,21 @@ $AddressStateCopyWith<AddressState> get copyWith => _$AddressStateCopyWithImpl<A
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AddressState'))
-    ..add(DiagnosticsProperty('keyword', keyword))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('totalCount', totalCount))..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('isLoading', isLoading))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('isLoading', isLoading))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressState&&(identical(other.keyword, keyword) || other.keyword == keyword)&&(identical(other.page, page) || other.page == page)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AddressState&&(identical(other.search, search) || other.search == search)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,keyword,page,totalCount,const DeepCollectionEquality().hash(items),isLoading,hasReachEnd);
+int get hashCode => Object.hash(runtimeType,search,page,total,const DeepCollectionEquality().hash(items),isLoading,hasReachEnd);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AddressState(keyword: $keyword, page: $page, totalCount: $totalCount, items: $items, isLoading: $isLoading, hasReachEnd: $hasReachEnd)';
+  return 'AddressState(search: $search, page: $page, total: $total, items: $items, isLoading: $isLoading, hasReachEnd: $hasReachEnd)';
 }
 
 
@@ -320,7 +320,7 @@ abstract mixin class $AddressStateCopyWith<$Res>  {
   factory $AddressStateCopyWith(AddressState value, $Res Function(AddressState) _then) = _$AddressStateCopyWithImpl;
 @useResult
 $Res call({
- String keyword, int page, int totalCount, List<AddressItem> items, bool isLoading, bool hasReachEnd
+ String search, int page, int total, List<Address> items, bool isLoading, bool hasReachEnd
 });
 
 
@@ -337,13 +337,13 @@ class _$AddressStateCopyWithImpl<$Res>
 
 /// Create a copy of AddressState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? keyword = null,Object? page = null,Object? totalCount = null,Object? items = null,Object? isLoading = null,Object? hasReachEnd = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? search = null,Object? page = null,Object? total = null,Object? items = null,Object? isLoading = null,Object? hasReachEnd = null,}) {
   return _then(_self.copyWith(
-keyword: null == keyword ? _self.keyword : keyword // ignore: cast_nullable_to_non_nullable
+search: null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
-as int,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
-as List<AddressItem>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as List<Address>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -430,10 +430,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String keyword,  int page,  int totalCount,  List<AddressItem> items,  bool isLoading,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String search,  int page,  int total,  List<Address> items,  bool isLoading,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AddressState() when $default != null:
-return $default(_that.keyword,_that.page,_that.totalCount,_that.items,_that.isLoading,_that.hasReachEnd);case _:
+return $default(_that.search,_that.page,_that.total,_that.items,_that.isLoading,_that.hasReachEnd);case _:
   return orElse();
 
 }
@@ -451,10 +451,10 @@ return $default(_that.keyword,_that.page,_that.totalCount,_that.items,_that.isLo
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String keyword,  int page,  int totalCount,  List<AddressItem> items,  bool isLoading,  bool hasReachEnd)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String search,  int page,  int total,  List<Address> items,  bool isLoading,  bool hasReachEnd)  $default,) {final _that = this;
 switch (_that) {
 case _AddressState():
-return $default(_that.keyword,_that.page,_that.totalCount,_that.items,_that.isLoading,_that.hasReachEnd);case _:
+return $default(_that.search,_that.page,_that.total,_that.items,_that.isLoading,_that.hasReachEnd);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -471,10 +471,10 @@ return $default(_that.keyword,_that.page,_that.totalCount,_that.items,_that.isLo
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String keyword,  int page,  int totalCount,  List<AddressItem> items,  bool isLoading,  bool hasReachEnd)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String search,  int page,  int total,  List<Address> items,  bool isLoading,  bool hasReachEnd)?  $default,) {final _that = this;
 switch (_that) {
 case _AddressState() when $default != null:
-return $default(_that.keyword,_that.page,_that.totalCount,_that.items,_that.isLoading,_that.hasReachEnd);case _:
+return $default(_that.search,_that.page,_that.total,_that.items,_that.isLoading,_that.hasReachEnd);case _:
   return null;
 
 }
@@ -486,14 +486,14 @@ return $default(_that.keyword,_that.page,_that.totalCount,_that.items,_that.isLo
 
 
 class _AddressState with DiagnosticableTreeMixin implements AddressState {
-   _AddressState({this.keyword = '', this.page = 1, this.totalCount = 0, final  List<AddressItem> items = const <AddressItem>[], this.isLoading = false, this.hasReachEnd = false}): _items = items;
+   _AddressState({this.search = '', this.page = 1, this.total = 0, final  List<Address> items = const [], this.isLoading = false, this.hasReachEnd = false}): _items = items;
   
 
-@override@JsonKey() final  String keyword;
+@override@JsonKey() final  String search;
 @override@JsonKey() final  int page;
-@override@JsonKey() final  int totalCount;
- final  List<AddressItem> _items;
-@override@JsonKey() List<AddressItem> get items {
+@override@JsonKey() final  int total;
+ final  List<Address> _items;
+@override@JsonKey() List<Address> get items {
   if (_items is EqualUnmodifiableListView) return _items;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_items);
@@ -513,21 +513,21 @@ _$AddressStateCopyWith<_AddressState> get copyWith => __$AddressStateCopyWithImp
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'AddressState'))
-    ..add(DiagnosticsProperty('keyword', keyword))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('totalCount', totalCount))..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('isLoading', isLoading))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('isLoading', isLoading))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressState&&(identical(other.keyword, keyword) || other.keyword == keyword)&&(identical(other.page, page) || other.page == page)&&(identical(other.totalCount, totalCount) || other.totalCount == totalCount)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AddressState&&(identical(other.search, search) || other.search == search)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,keyword,page,totalCount,const DeepCollectionEquality().hash(_items),isLoading,hasReachEnd);
+int get hashCode => Object.hash(runtimeType,search,page,total,const DeepCollectionEquality().hash(_items),isLoading,hasReachEnd);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AddressState(keyword: $keyword, page: $page, totalCount: $totalCount, items: $items, isLoading: $isLoading, hasReachEnd: $hasReachEnd)';
+  return 'AddressState(search: $search, page: $page, total: $total, items: $items, isLoading: $isLoading, hasReachEnd: $hasReachEnd)';
 }
 
 
@@ -538,7 +538,7 @@ abstract mixin class _$AddressStateCopyWith<$Res> implements $AddressStateCopyWi
   factory _$AddressStateCopyWith(_AddressState value, $Res Function(_AddressState) _then) = __$AddressStateCopyWithImpl;
 @override @useResult
 $Res call({
- String keyword, int page, int totalCount, List<AddressItem> items, bool isLoading, bool hasReachEnd
+ String search, int page, int total, List<Address> items, bool isLoading, bool hasReachEnd
 });
 
 
@@ -555,13 +555,13 @@ class __$AddressStateCopyWithImpl<$Res>
 
 /// Create a copy of AddressState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? keyword = null,Object? page = null,Object? totalCount = null,Object? items = null,Object? isLoading = null,Object? hasReachEnd = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? search = null,Object? page = null,Object? total = null,Object? items = null,Object? isLoading = null,Object? hasReachEnd = null,}) {
   return _then(_AddressState(
-keyword: null == keyword ? _self.keyword : keyword // ignore: cast_nullable_to_non_nullable
+search: null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
-as int,totalCount: null == totalCount ? _self.totalCount : totalCount // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
-as List<AddressItem>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as List<Address>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,
   ));

@@ -1,8 +1,9 @@
 part of '../data.dart';
 
 abstract class AddressRepository {
-  Future<AddressSearchResult> searchAddresses({
-    required int currentPage,
-    required String keyword,
+  Future<Result<Address>> search({
+    required int page,
+    int limit = 10,
+    required String search,
   });
 }

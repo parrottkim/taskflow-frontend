@@ -61,7 +61,7 @@ abstract class _$AccountFilterController
 final addressControllerProvider = AddressControllerProvider._();
 
 final class AddressControllerProvider
-    extends $AsyncNotifierProvider<AddressController, AddressState> {
+    extends $NotifierProvider<AddressController, AddressState> {
   AddressControllerProvider._()
     : super(
         from: null,
@@ -79,21 +79,29 @@ final class AddressControllerProvider
   @$internal
   @override
   AddressController create() => AddressController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AddressState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AddressState>(value),
+    );
+  }
 }
 
-String _$addressControllerHash() => r'bbea3165a3c1a36a946995cd1ff12cb580adc158';
+String _$addressControllerHash() => r'a729cbf798651cb5b9fe9541766590eb0cc5c2b5';
 
-abstract class _$AddressController extends $AsyncNotifier<AddressState> {
-  FutureOr<AddressState> build();
+abstract class _$AddressController extends $Notifier<AddressState> {
+  AddressState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<AddressState>, AddressState>;
+    final ref = this.ref as $Ref<AddressState, AddressState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<AddressState>, AddressState>,
-              AsyncValue<AddressState>,
+              AnyNotifier<AddressState, AddressState>,
+              AddressState,
               Object?,
               Object?
             >;

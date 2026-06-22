@@ -18,24 +18,7 @@ Map<String, dynamic> _$BookmarkToJson(_Bookmark instance) => <String, dynamic>{
   'createdAt': instance.createdAt.toIso8601String(),
 };
 
-_AddressSearchResult _$AddressSearchResultFromJson(Map<String, dynamic> json) =>
-    _AddressSearchResult(
-      totalCount: (json['totalCount'] as num?)?.toInt() ?? 0,
-      items:
-          (json['items'] as List<dynamic>?)
-              ?.map((e) => AddressItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const <AddressItem>[],
-    );
-
-Map<String, dynamic> _$AddressSearchResultToJson(
-  _AddressSearchResult instance,
-) => <String, dynamic>{
-  'totalCount': instance.totalCount,
-  'items': instance.items,
-};
-
-_AddressItem _$AddressItemFromJson(Map<String, dynamic> json) => _AddressItem(
+_Address _$AddressFromJson(Map<String, dynamic> json) => _Address(
   zipNo: json['zipNo'] as String? ?? '',
   roadAddr: json['roadAddr'] as String? ?? '',
   roadAddrPart1: json['roadAddrPart1'] as String? ?? '',
@@ -44,15 +27,14 @@ _AddressItem _$AddressItemFromJson(Map<String, dynamic> json) => _AddressItem(
   jibunAddr: json['jibunAddr'] as String? ?? '',
 );
 
-Map<String, dynamic> _$AddressItemToJson(_AddressItem instance) =>
-    <String, dynamic>{
-      'zipNo': instance.zipNo,
-      'roadAddr': instance.roadAddr,
-      'roadAddrPart1': instance.roadAddrPart1,
-      'emdNm': instance.emdNm,
-      'bdNm': instance.bdNm,
-      'jibunAddr': instance.jibunAddr,
-    };
+Map<String, dynamic> _$AddressToJson(_Address instance) => <String, dynamic>{
+  'zipNo': instance.zipNo,
+  'roadAddr': instance.roadAddr,
+  'roadAddrPart1': instance.roadAddrPart1,
+  'emdNm': instance.emdNm,
+  'bdNm': instance.bdNm,
+  'jibunAddr': instance.jibunAddr,
+};
 
 _Currency _$CurrencyFromJson(Map<String, dynamic> json) => _Currency(
   id: (json['id'] as num).toInt(),
@@ -2262,10 +2244,10 @@ class _AddressService implements AddressService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<dynamic> searchAddresses({
-    required int currentPage,
-    int countPerPage = 10,
-    required String keyword,
+  Future<Result<Address>> search({
+    required int page,
+    int limit = 10,
+    required String search,
     String resultType = 'json',
     String hstryYn = 'N',
     String firstSort = 'road',
@@ -2273,9 +2255,9 @@ class _AddressService implements AddressService {
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'currentPage': currentPage,
-      r'countPerPage': countPerPage,
-      r'keyword': keyword,
+      r'currentPage': page,
+      r'countPerPage': limit,
+      r'keyword': search,
       r'resultType': resultType,
       r'hstryYn': hstryYn,
       r'firstSort': firstSort,
@@ -2283,18 +2265,27 @@ class _AddressService implements AddressService {
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<dynamic>(
+    final _options = _setStreamType<Result<Address>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/addrlink/addrLinkApi.do',
+            'address/search',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch(_options);
-    final _value = _result.data;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Result<Address> _value;
+    try {
+      _value = Result<Address>.fromJson(
+        _result.data!,
+        (json) => Address.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
     return _value;
   }
 
@@ -5528,7 +5519,7 @@ final class AddressRepositoryProvider
   }
 }
 
-String _$addressRepositoryHash() => r'0c7d413f7f4cd3f3cf77dfcfba5d9a63099e6fb4';
+String _$addressRepositoryHash() => r'89f90551e8eae75fee088696ce461990740faf10';
 
 @ProviderFor(bookmarkRepository)
 final bookmarkRepositoryProvider = BookmarkRepositoryProvider._();

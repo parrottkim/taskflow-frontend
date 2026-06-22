@@ -48,8 +48,6 @@ Future<void> main() async {
       );
       await remoteConfig.fetchAndActivate();
 
-      final addressKey = remoteConfig.getString('address');
-
       if (environment == 'local') {
         runApp(
           ProviderScope(
@@ -57,7 +55,6 @@ Future<void> main() async {
               flutterSecureStorageProvider.overrideWithValue(secure),
               sharedPreferencesAsyncProvider.overrideWithValue(prefs),
               toastProvider.overrideWithValue(ftoast),
-              addressConfmKeyProvider.overrideWithValue(addressKey),
             ],
             child: App(),
           ),
@@ -76,7 +73,6 @@ Future<void> main() async {
                 flutterSecureStorageProvider.overrideWithValue(secure),
                 sharedPreferencesAsyncProvider.overrideWithValue(prefs),
                 toastProvider.overrideWithValue(ftoast),
-                addressConfmKeyProvider.overrideWithValue(addressKey),
               ],
               child: App(),
             ),
