@@ -1854,9 +1854,9 @@ class S {
     return Intl.message('PM', name: 'project_column_5', desc: '', args: []);
   }
 
-  /// `등록일`
+  /// `작성일`
   String get project_column_6 {
-    return Intl.message('등록일', name: 'project_column_6', desc: '', args: []);
+    return Intl.message('작성일', name: 'project_column_6', desc: '', args: []);
   }
 
   /// `작업`
@@ -4384,9 +4384,9 @@ class S {
     return Intl.message('근무 일정', name: 'work_segment_1', desc: '', args: []);
   }
 
-  /// `주간 업무 보고`
+  /// `담당 프로젝트`
   String get work_segment_2 {
-    return Intl.message('주간 업무 보고', name: 'work_segment_2', desc: '', args: []);
+    return Intl.message('담당 프로젝트', name: 'work_segment_2', desc: '', args: []);
   }
 
   /// `사용자`

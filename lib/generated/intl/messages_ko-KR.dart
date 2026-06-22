@@ -610,7 +610,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "project_column_3": MessageLookupByLibrary.simpleMessage("프로젝트 이름"),
     "project_column_4": MessageLookupByLibrary.simpleMessage("카테고리"),
     "project_column_5": MessageLookupByLibrary.simpleMessage("PM"),
-    "project_column_6": MessageLookupByLibrary.simpleMessage("등록일"),
+    "project_column_6": MessageLookupByLibrary.simpleMessage("작성일"),
     "project_column_7": MessageLookupByLibrary.simpleMessage("작업"),
     "project_detail": MessageLookupByLibrary.simpleMessage("프로젝트 상세"),
     "project_detail_client": MessageLookupByLibrary.simpleMessage("고객사"),
@@ -1003,7 +1003,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "work": MessageLookupByLibrary.simpleMessage("업무"),
     "work_segment_1": MessageLookupByLibrary.simpleMessage("근무 일정"),
-    "work_segment_2": MessageLookupByLibrary.simpleMessage("주간 업무 보고"),
+    "work_segment_2": MessageLookupByLibrary.simpleMessage("담당 프로젝트"),
     "wrong_approach_content": MessageLookupByLibrary.simpleMessage(
       "확인 버튼을 누르면 이전 화면으로 돌아갑니다.",
     ),
