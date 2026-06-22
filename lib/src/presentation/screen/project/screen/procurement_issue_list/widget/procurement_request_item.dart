@@ -411,8 +411,10 @@ class ProcurementRequestItem extends ConsumerWidget {
                           ),
                           if (request.requiresApproval)
                             Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                                right: 8.0,
+                                top: 4.0,
                               ),
                               child: Text(
                                 Intl.message('issue_form_procurement_27'),

@@ -345,7 +345,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                         DataCell(
                           Text(
-                            formatRelativeDate(items[index].createdAt),
+                            items[index].createdAt == items[index].updatedAt
+                                ? '${formatRelativeDate(items[index].createdAt)} ${Intl.message('common_created_at')}'
+                                : '${formatRelativeDate(items[index].updatedAt)} ${Intl.message('common_updated_at')}',
                             style: TextStyle(
                               color: colorScheme.onSurface.withValues(
                                 alpha: 0.7,
@@ -638,7 +640,9 @@ class _MobileWidget extends HookConsumerWidget {
                         ),
                         SizedBox(width: 4.0),
                         Text(
-                          '${formatRelativeDate(items[index].createdAt)}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(items[index].createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(items[index].createdAt)}',
+                          items[index].createdAt == items[index].updatedAt
+                              ? '${formatRelativeDate(items[index].createdAt)} ${Intl.message('common_created_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(items[index].createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(items[index].createdAt)}'
+                              : '${formatRelativeDate(items[index].updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(items[index].updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(items[index].updatedAt)}',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: colorScheme.onSurface.withValues(alpha: 0.6),

@@ -5,9 +5,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_issue_button.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/new_report_button.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/overview_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/project_action_button.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/summary_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
@@ -165,14 +164,7 @@ class _MobileWidget extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
       child: Column(
         children: [
-          Row(
-            children: [
-              Spacer(),
-              NewReportButton(),
-              SizedBox(width: 8.0),
-              NewIssueButton(),
-            ],
-          ),
+          Row(children: [Spacer(), ProjectActionButton()]),
           SizedBox(height: 8.0),
           Expanded(
             child: OverviewWidget(

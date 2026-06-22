@@ -262,7 +262,7 @@
   "project_column_3": "프로젝트 이름",
   "project_column_4": "카테고리",
   "project_column_5": "PM",
-  "project_column_6": "등록일",
+  "project_column_6": "작성일",
   "project_column_7": "작업",
   "project_preexecuted": "선진행",
   "project_closed": "종결",
@@ -550,7 +550,7 @@
   
   "@_WORK": {},
   "work_segment_1": "근무 일정",
-  "work_segment_2": "주간 업무 보고",
+  "work_segment_2": "담당 프로젝트",
 
   "@_DATA": {},
   "data_segment_1": "사용자",
