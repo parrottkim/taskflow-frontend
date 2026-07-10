@@ -9,7 +9,7 @@ abstract class LatestIssue with _$LatestIssue {
     required String projectName,
     required IssueCategory category,
     required List<Client> clients,
-    required User user,
+    required User createdBy,
     required DateTime createdAt,
   }) = _LatestIssue;
 
@@ -23,7 +23,7 @@ abstract class LatestIssue with _$LatestIssue {
     projectName: 'Dummy Project Name',
     category: IssueCategory.dummy(),
     clients: [Client.dummy()],
-    user: User.dummy(),
+    createdBy: User.dummy(),
     createdAt: DateTime.now(),
   );
 }
@@ -63,7 +63,6 @@ sealed class Issue with _$Issue {
   factory Issue({
     required int id,
     required IssueCategory category,
-    required User user,
     required String content,
     @Default([]) List<IssueAttachment> attachments,
     Currency? currency,
@@ -72,6 +71,8 @@ sealed class Issue with _$Issue {
     @Default([]) List<TransactionIssueItem> transactionItems,
     @Default([]) List<ProcurementIssueItem> procurementItems,
     @Default([]) List<ProcurementIssueRequest> requests,
+    required User createdBy,
+    User? updatedBy,
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? deletedAt,
@@ -83,7 +84,7 @@ sealed class Issue with _$Issue {
     id: 0,
     content: '',
     category: IssueCategory.dummy(),
-    user: User.dummy(),
+    createdBy: User.dummy(),
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
   );
@@ -215,7 +216,8 @@ abstract class ContractIssue with _$ContractIssue {
   factory ContractIssue({
     required int id,
     required IssueCategory category,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     required String content,
     required Currency currency,
     @Default([]) List<IssueAttachment> attachments,
@@ -233,7 +235,8 @@ abstract class KickoffIssue with _$KickoffIssue {
   factory KickoffIssue({
     required int id,
     required IssueCategory category,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     required String content,
     required DateTime kickoffDate,
     @Default([]) List<IssueAttachment> attachments,
@@ -251,7 +254,8 @@ abstract class ProcurementIssue with _$ProcurementIssue {
   factory ProcurementIssue({
     required int id,
     required IssueCategory category,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     required String content,
     @Default([]) List<ProcurementIssueItem> procurementItems,
     @Default([]) List<ProcurementIssueRequest> requests,
@@ -270,7 +274,8 @@ abstract class TransactionIssue with _$TransactionIssue {
   factory TransactionIssue({
     required int id,
     required IssueCategory category,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     required String content,
     Currency? currency,
     @Default([]) List<IssueAttachment> attachments,
@@ -288,7 +293,8 @@ abstract class PaymentIssue with _$PaymentIssue {
   factory PaymentIssue({
     required int id,
     required IssueCategory category,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     required String content,
     @Default([]) List<IssueAttachment> attachments,
     required DateTime createdAt,
@@ -305,7 +311,8 @@ abstract class ApprovalIssue with _$ApprovalIssue {
   factory ApprovalIssue({
     required int id,
     required IssueCategory category,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     required String content,
     @Default([]) List<IssueAttachment> attachments,
     required DateTime createdAt,

@@ -273,7 +273,7 @@ class ReportSubmitController extends _$ReportSubmitController {
           .read(reportListControllerProvider(projectId: projectId).notifier)
           .updateListItem(item: report);
 
-      state = ReportSubmitState.edited(report);
+      state = ReportSubmitState.updated(report);
     } catch (e) {
       state = ReportSubmitState.failure(e.toString());
     }

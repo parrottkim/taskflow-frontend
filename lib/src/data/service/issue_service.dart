@@ -65,8 +65,17 @@ abstract class IssueService {
     @Body() required CreateProcurementIssueRequestDto request,
   });
 
+  @PATCH('issue/procurement/request/{id}')
+  Future<Issue> updateProcurementIssueRequest({
+    @Path('id') required int id,
+    @Body() required CreateProcurementIssueRequestDto request,
+  });
+
   @PATCH('issue/procurement/{id}/approve')
   Future<void> approveProcurementIssueRequest({@Path('id') required int id});
+
+  @DELETE('issue/procurement/request/{id}')
+  Future<void> deleteProcurementIssueRequest({@Path('id') required int id});
 
   // --- TRANSACTION ---
   @GET('issue/transaction/{id}/items')

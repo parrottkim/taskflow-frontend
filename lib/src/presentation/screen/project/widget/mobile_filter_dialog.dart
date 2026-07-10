@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:collection/collection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -14,6 +15,9 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class MobileFilterDialog extends HookWidget {
+  final String? view;
+  final String? search;
+  final bool? bookmark;
   final ProjectSort? sort;
   final Order? order;
   final List<int>? clients;
@@ -24,6 +28,9 @@ class MobileFilterDialog extends HookWidget {
 
   const MobileFilterDialog({
     super.key,
+    this.view,
+    this.search,
+    this.bookmark,
     this.sort,
     this.order,
     this.clients,
@@ -57,6 +64,9 @@ class MobileFilterDialog extends HookWidget {
             physics: NeverScrollableScrollPhysics(),
             children: [
               MainFilterPage(
+                view: view,
+                search: search,
+                bookmark: bookmark,
                 controller: controller,
                 clientItems: clientItems,
                 categoryItems: categoryItems,
@@ -74,14 +84,15 @@ class MobileFilterDialog extends HookWidget {
                 depth: currentDepth.value == 0
                     ? 0
                     : clientItems
-                          .firstWhere(
-                            (item) =>
-                                item.depth == currentDepth.value &&
-                                item.parentId ==
-                                    selectedClients.value[currentDepth.value -
-                                        1],
-                          )
-                          .depth,
+                              .firstWhereOrNull(
+                                (item) =>
+                                    item.depth == currentDepth.value &&
+                                    item.parentId ==
+                                        selectedClients
+                                            .value[currentDepth.value - 1],
+                              )
+                              ?.depth ??
+                          0,
               ),
             ],
           ),
@@ -92,6 +103,9 @@ class MobileFilterDialog extends HookWidget {
 }
 
 class MainFilterPage extends ConsumerWidget {
+  final String? view;
+  final String? search;
+  final bool? bookmark;
   final PageController controller;
   final List<ClientGroup> clientItems;
   final List<IssueCategory> categoryItems;
@@ -104,6 +118,9 @@ class MainFilterPage extends ConsumerWidget {
 
   const MainFilterPage({
     super.key,
+    this.view,
+    this.search,
+    this.bookmark,
     required this.controller,
     required this.clientItems,
     required this.categoryItems,
@@ -179,31 +196,55 @@ class MainFilterPage extends ConsumerWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     ref
-                        .read(projectFilterControllerProvider.notifier)
+                        .read(
+                          projectFilterControllerProvider(
+                            ProjectFilterScope.projectPage,
+                          ).notifier,
+                        )
                         .setSort(sort: selectedSort.value);
                     ref
-                        .read(projectFilterControllerProvider.notifier)
+                        .read(
+                          projectFilterControllerProvider(
+                            ProjectFilterScope.projectPage,
+                          ).notifier,
+                        )
                         .setOrder(order: selectedOrder.value);
-                    if (selectedClients.value.isNotEmpty) {
-                      ref
-                          .read(projectFilterControllerProvider.notifier)
-                          .setClients(clients: selectedClients.value);
-                    }
+                    final nextClients = selectedClients.value.isEmpty
+                        ? null
+                        : selectedClients.value;
                     ref
-                        .read(projectFilterControllerProvider.notifier)
-                        .setCategories(
-                          categories: selectedCategories.value.isEmpty
-                              ? null
-                              : selectedCategories.value,
-                        );
-
-                    final queryParameters = ref
-                        .read(projectFilterControllerProvider.notifier)
-                        .toQueryParameters();
+                        .read(
+                          projectFilterControllerProvider(
+                            ProjectFilterScope.projectPage,
+                          ).notifier,
+                        )
+                        .setClients(clients: nextClients);
+                    final nextCategories = selectedCategories.value.isEmpty
+                        ? null
+                        : selectedCategories.value;
+                    ref
+                        .read(
+                          projectFilterControllerProvider(
+                            ProjectFilterScope.projectPage,
+                          ).notifier,
+                        )
+                        .setCategories(categories: nextCategories);
 
                     context.goNamed(
                       RouteNames.project,
-                      queryParameters: queryParameters,
+                      queryParameters: {
+                        if (view != null) 'view': view,
+                        if (selectedSort.value != null)
+                          'sort': selectedSort.value?.key,
+                        if (selectedOrder.value != null)
+                          'order': selectedOrder.value?.key,
+                        if (search != null) 'search': search,
+                        if (bookmark != null) 'bookmark': bookmark.toString(),
+                        if (nextClients != null)
+                          'clients': nextClients.join(','),
+                        if (nextCategories != null)
+                          'categories': nextCategories.join(','),
+                      },
                     );
 
                     context.pop();
@@ -243,11 +284,11 @@ class ClientFilterPage extends StatelessWidget {
 
     final parentId = depth == 0 ? null : selectedClients.value[depth - 1];
 
-    final group = clientItems.firstWhere(
+    final group = clientItems.firstWhereOrNull(
       (item) => item.depth == depth && item.parentId == parentId,
     );
 
-    final items = group.items;
+    final items = group?.items ?? [];
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -331,7 +372,7 @@ class ClientFilterPage extends StatelessWidget {
               ),
             );
           },
-          separatorBuilder: (_, __) => const Divider(),
+          separatorBuilder: (_, _) => const Divider(),
         ),
       ],
     );

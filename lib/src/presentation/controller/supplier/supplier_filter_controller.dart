@@ -5,17 +5,13 @@ class SupplierFilterController extends _$SupplierFilterController {
   Timer? _debounce;
 
   @override
-  FutureOr<SupplierFilterState> build() {
+  FutureOr<SupplierFilterState> build(SupplierFilterScope scope) {
     ref.onDispose(() => _debounce?.cancel());
 
-    return _init();
-  }
-
-  Future<SupplierFilterState> _init() async {
     return SupplierFilterState();
   }
 
-  void setSearch({String? search}) {
+  void setSearch({required String search}) {
     final value = state.value;
 
     if (value == null) return;
@@ -23,7 +19,7 @@ class SupplierFilterController extends _$SupplierFilterController {
     state = AsyncData(value.copyWith(search: search));
   }
 
-  void updateSearch({String? search}) {
+  void debounceSearch({required String search}) {
     final value = state.value;
 
     if (value == null) return;

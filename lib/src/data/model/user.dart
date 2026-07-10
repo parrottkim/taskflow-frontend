@@ -47,3 +47,15 @@ abstract class UserDepartment with _$UserDepartment {
 
   factory UserDepartment.dummy() => UserDepartment(id: 0, name: 'Department');
 }
+
+@freezed
+abstract class UserDepartmentGroup with _$UserDepartmentGroup {
+  const factory UserDepartmentGroup({
+    required int depth,
+    int? parentId,
+    required List<UserDepartment> items,
+  }) = _UserDepartmentGroup;
+
+  factory UserDepartmentGroup.fromJson(Map<String, dynamic> json) =>
+      _$UserDepartmentGroupFromJson(json);
+}

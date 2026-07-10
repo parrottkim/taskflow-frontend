@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -623,7 +624,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           keyboardType: TextInputType.number,
                                           maxLines: 1,
                                           inputFormatters: [
-                                            DecimalInputFormatter(),
+                                            FilteringTextInputFormatter
+                                                .digitsOnly,
                                           ],
                                           textAlign: TextAlign.end,
                                           style: textTheme.bodyMedium,
@@ -659,7 +661,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                   .trim()
                                                   .replaceAll(',', '');
                                               final parsedQuantity =
-                                                  int.tryParse(quantity);
+                                                  double.tryParse(quantity);
 
                                               final unitPrice =
                                                   unitPriceControllers[index]
@@ -667,14 +669,16 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                       .trim()
                                                       .replaceAll(',', '');
                                               final parsedUnitPrice =
-                                                  int.tryParse(unitPrice);
+                                                  double.tryParse(unitPrice);
 
                                               if (parsedQuantity == null ||
                                                   parsedUnitPrice == null)
                                                 return;
 
                                               final totalAmount =
-                                                  NumberFormat('#,###').format(
+                                                  NumberFormat(
+                                                    '#,##0.##',
+                                                  ).format(
                                                     parsedQuantity *
                                                         parsedUnitPrice,
                                                   );
@@ -777,20 +781,22 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                       .trim()
                                                       .replaceAll(',', '');
                                               final parsedQuantity =
-                                                  int.tryParse(quantity);
+                                                  double.tryParse(quantity);
 
                                               final unitPrice = value
                                                   .trim()
                                                   .replaceAll(',', '');
                                               final parsedUnitPrice =
-                                                  int.tryParse(unitPrice);
+                                                  double.tryParse(unitPrice);
 
                                               if (parsedQuantity == null ||
                                                   parsedUnitPrice == null)
                                                 return;
 
                                               final totalAmount =
-                                                  NumberFormat('#,###').format(
+                                                  NumberFormat(
+                                                    '#,##0.##',
+                                                  ).format(
                                                     parsedQuantity *
                                                         parsedUnitPrice,
                                                   );
@@ -1327,7 +1333,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       vertical: 8.0,
                                     ),
                                     child: Text(
-                                      '${NumberFormat('#,###').format(total)} ₩',
+                                      '${NumberFormat('#,##0.##').format(total)} ₩',
                                       textAlign: TextAlign.end,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,

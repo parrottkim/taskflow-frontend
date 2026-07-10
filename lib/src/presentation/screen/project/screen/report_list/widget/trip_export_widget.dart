@@ -18,7 +18,7 @@ class TripExportWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(
-      tripFilterControllerProvider(categoryId: item.schedule?.category.id),
+      tripOptionsControllerProvider(categoryId: item.schedule?.category.id),
     );
 
     ref.listen(tripExportControllerProvider, (_, state) {
@@ -93,7 +93,7 @@ class _DesktopWidget extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (auth is AuthAuthenticated &&
-              auth.user.id == item.user.id &&
+              auth.user.id == item.createdBy.id &&
               item.schedule != null &&
               (item.schedule!.category is ScheduleDomestic ||
                   item.schedule!.category is ScheduleOverseas))

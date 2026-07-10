@@ -30,6 +30,25 @@ class ContractIssueListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
+    ref.listen(issueSubmitControllerProvider, (_, state) {
+      if (state is IssueSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is IssueSubmitDeleted) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('issue_form_deleted'),
+                ),
+              );
+        }
+      }
+    });
+
     return switch (issue) {
       AsyncData(:final value) => _DesktopWidget(
         projectId: projectId,
@@ -52,7 +71,7 @@ class ContractIssueListWidget extends ConsumerWidget {
           contract: ContractIssue(
             id: 0,
             category: IssueCategory.dummy(),
-            user: User.dummy(),
+            createdBy: User.dummy(),
             content: '',
             currency: Currency.empty(),
             createdAt: DateTime.now(),
@@ -150,25 +169,6 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, [issueId, orderedIds]);
 
-    ref.listen(issueSubmitControllerProvider, (_, state) {
-      if (state is IssueSubmitPending) {
-        LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
-
-        if (state is IssueSubmitDeleted) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.standard,
-                  message: Intl.message('issue_form_delete'),
-                ),
-              );
-        }
-      }
-    });
-
     if (contract == null &&
         kickoff == null &&
         transaction == null &&
@@ -216,10 +216,10 @@ class _DesktopWidget extends HookConsumerWidget {
                           child: CircleAvatar(
                             backgroundColor: Functions(
                               context,
-                            ).generateColorFromId(payment!.user.id),
+                            ).generateColorFromId(payment!.createdBy.id),
                             radius: 16.0,
                             child: Text(
-                              getInitials(payment!.user.username),
+                              getInitials(payment!.createdBy.username),
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -260,7 +260,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user.id == payment!.user.id
+                                          auth.user.id == payment!.createdBy.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -268,15 +268,18 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                                 child: Row(
                                   children: [
-                                    UserInformationWidget(item: payment!.user),
+                                    UserInformationWidget(
+                                      item: payment!.createdBy,
+                                    ),
                                     const Spacer(),
                                     ToolbarWidget(
                                       projectId: projectId,
                                       issueId: payment!.id,
-                                      categoryId: payment!.category.id,
+                                      category: payment!.category,
                                       createdAt: payment!.createdAt,
                                       updatedAt: payment!.updatedAt,
-                                      user: payment!.user,
+                                      createdBy: payment!.createdBy,
+                                      updatedBy: payment!.updatedBy,
                                     ),
                                   ],
                                 ),
@@ -327,10 +330,10 @@ class _DesktopWidget extends HookConsumerWidget {
                           child: CircleAvatar(
                             backgroundColor: Functions(
                               context,
-                            ).generateColorFromId(transaction!.user.id),
+                            ).generateColorFromId(transaction!.createdBy.id),
                             radius: 16.0,
                             child: Text(
-                              getInitials(transaction!.user.username),
+                              getInitials(transaction!.createdBy.username),
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -371,7 +374,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user.id == transaction!.user.id
+                                          auth.user.id ==
+                                              transaction!.createdBy.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -380,16 +384,17 @@ class _DesktopWidget extends HookConsumerWidget {
                                 child: Row(
                                   children: [
                                     UserInformationWidget(
-                                      item: transaction!.user,
+                                      item: transaction!.createdBy,
                                     ),
                                     const Spacer(),
                                     ToolbarWidget(
                                       projectId: projectId,
                                       issueId: transaction!.id,
-                                      categoryId: transaction!.category.id,
+                                      category: transaction!.category,
                                       createdAt: transaction!.createdAt,
                                       updatedAt: transaction!.updatedAt,
-                                      user: transaction!.user,
+                                      createdBy: transaction!.createdBy,
+                                      updatedBy: transaction!.updatedBy,
                                     ),
                                   ],
                                 ),
@@ -447,10 +452,10 @@ class _DesktopWidget extends HookConsumerWidget {
                           child: CircleAvatar(
                             backgroundColor: Functions(
                               context,
-                            ).generateColorFromId(kickoff!.user.id),
+                            ).generateColorFromId(kickoff!.createdBy.id),
                             radius: 16.0,
                             child: Text(
-                              getInitials(kickoff!.user.username),
+                              getInitials(kickoff!.createdBy.username),
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -491,7 +496,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user.id == kickoff!.user.id
+                                          auth.user.id == kickoff!.createdBy.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -499,15 +504,18 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                                 child: Row(
                                   children: [
-                                    UserInformationWidget(item: kickoff!.user),
+                                    UserInformationWidget(
+                                      item: kickoff!.createdBy,
+                                    ),
                                     const Spacer(),
                                     ToolbarWidget(
                                       projectId: projectId,
                                       issueId: kickoff!.id,
-                                      categoryId: kickoff!.category.id,
+                                      category: kickoff!.category,
                                       createdAt: kickoff!.createdAt,
                                       updatedAt: kickoff!.updatedAt,
-                                      user: kickoff!.user,
+                                      createdBy: kickoff!.createdBy,
+                                      updatedBy: kickoff!.updatedBy,
                                     ),
                                   ],
                                 ),
@@ -562,10 +570,10 @@ class _DesktopWidget extends HookConsumerWidget {
                           child: CircleAvatar(
                             backgroundColor: Functions(
                               context,
-                            ).generateColorFromId(contract!.user.id),
+                            ).generateColorFromId(contract!.createdBy.id),
                             radius: 16.0,
                             child: Text(
-                              getInitials(contract!.user.username),
+                              getInitials(contract!.createdBy.username),
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -606,7 +614,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user.id == contract!.user.id
+                                          auth.user.id == contract!.createdBy.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -614,15 +622,18 @@ class _DesktopWidget extends HookConsumerWidget {
                                 ),
                                 child: Row(
                                   children: [
-                                    UserInformationWidget(item: contract!.user),
+                                    UserInformationWidget(
+                                      item: contract!.createdBy,
+                                    ),
                                     const Spacer(),
                                     ToolbarWidget(
                                       projectId: projectId,
                                       issueId: contract!.id,
-                                      categoryId: contract!.category.id,
+                                      category: contract!.category,
                                       createdAt: contract!.createdAt,
                                       updatedAt: contract!.updatedAt,
-                                      user: contract!.user,
+                                      createdBy: contract!.createdBy,
+                                      updatedBy: contract!.updatedBy,
                                     ),
                                   ],
                                 ),

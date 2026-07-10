@@ -28,7 +28,7 @@ class LocalTransportationWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final filter = ref.watch(
-      tripFilterControllerProvider(categoryId: schedule.category.id),
+      tripOptionsControllerProvider(categoryId: schedule.category.id),
     );
 
     return SingleChildScrollView(

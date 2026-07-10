@@ -40,7 +40,7 @@ class ReportValidationController extends _$ReportValidationController {
 
     // TripStep ID 목록을 가져옵니다.
     final allSteps = ref.read(
-      tripFilterControllerProvider(categoryId: value.schedule!.category.id),
+      tripOptionsControllerProvider(categoryId: value.schedule!.category.id),
     );
     final stepIds = allSteps.value?.steps.map((s) => s.id).toList() ?? [];
 

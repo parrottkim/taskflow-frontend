@@ -17,9 +17,7 @@ class OverviewWidget extends ConsumerWidget {
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(view: value.view),
-      _ => Skeletonizer(
-          child: _DesktopWidget(),
-        ),
+      _ => Skeletonizer(child: _DesktopWidget()),
     };
   }
 }
@@ -31,10 +29,12 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItem = useState<WorkSegment>(WorkSegment.values.firstWhere(
-      (e) => e.name == view,
-      orElse: () => WorkSegment.values.first,
-    ));
+    final selectedItem = useState<WorkSegment>(
+      WorkSegment.values.firstWhere(
+        (e) => e.name == view,
+        orElse: () => WorkSegment.values.first,
+      ),
+    );
 
     final controller = useTabController(
       initialLength: WorkSegment.values.length,
@@ -66,11 +66,10 @@ class _DesktopWidget extends HookConsumerWidget {
                 .read(workFilterControllerProvider.notifier)
                 .setView(view: selectedItem.value.name);
 
-            final queryParameters = ref
-                .read(workFilterControllerProvider.notifier)
-                .toQueryParameters();
-
-            context.goNamed(RouteNames.work, queryParameters: queryParameters);
+            context.goNamed(
+              RouteNames.work,
+              queryParameters: {'view': selectedItem.value.name},
+            );
 
             controller.animateTo(index);
           },
@@ -81,21 +80,16 @@ class _DesktopWidget extends HookConsumerWidget {
             WorkSegment.values.length,
             (index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                WorkSegment.values[index].label,
-              ),
+              child: Text(WorkSegment.values[index].label),
             ),
           ),
         ),
         Expanded(
           child: TabBarView(
             controller: controller,
-            children: [
-              ScheduleListScreen(),
-              Center(),
-            ],
+            children: [ScheduleListScreen(), Center()],
           ),
-        )
+        ),
       ],
     );
   }

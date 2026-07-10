@@ -20,29 +20,35 @@ class App extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     ref.listen(errorControllerProvider, (_, state) {
-      ref.read(toastProvider).removeQueuedCustomToasts();
-
       switch (state) {
         case ErrorInitial():
           return;
         case ErrorUnauthorized() || ErrorForbidden():
           return ref.invalidate(errorControllerProvider);
         case ErrorTokenExpired(:final message):
+          toast.removeQueuedCustomToasts();
           toast.showToast(
             child: Toast(type: ToastType.standard, message: message),
           );
           return ref.invalidate(errorControllerProvider);
-        default:
-          final String errorMessage = switch (state) {
-            ErrorBadRequest(:final message) => message,
-            ErrorNotFound(:final message) => message,
-            ErrorConflict(:final message) => message,
-            ErrorNotDefined(:final message) => message,
-            _ => Intl.message('error_unexpected'),
-          };
-
+        case ErrorBadRequest(:final message) ||
+            ErrorNotFound(:final message) ||
+            ErrorConflict(:final message) ||
+            ErrorConnectionError(:final message) ||
+            ErrorConnectionTimeout(:final message) ||
+            ErrorNotFound(:final message):
+          toast.removeQueuedCustomToasts();
           toast.showToast(
-            child: Toast(type: ToastType.error, message: errorMessage),
+            child: Toast(type: ToastType.error, message: message),
+          );
+          return ref.invalidate(errorControllerProvider);
+        default:
+          toast.removeQueuedCustomToasts();
+          toast.showToast(
+            child: Toast(
+              type: ToastType.error,
+              message: Intl.message('error_unexpected'),
+            ),
           );
           return ref.invalidate(errorControllerProvider);
       }
@@ -55,7 +61,7 @@ class App extends ConsumerWidget {
           if (child != null) ...[
             OverlayEntry(
               builder: (context) => Consumer(
-                builder: (_, ref, __) {
+                builder: (_, ref, _) {
                   toast.init(context);
                   return child;
                 },

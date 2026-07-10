@@ -7,9 +7,11 @@ abstract class Project with _$Project {
     required String code,
     required String name,
     required int views,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     User? manager,
     required IssueCategory? latestCategory,
+    required List<Client> clients,
     required bool isPreexecuted,
     required bool isContracted,
     required bool isClosed,
@@ -17,8 +19,7 @@ abstract class Project with _$Project {
     required bool isBookmarked,
     required DateTime createdAt,
     required DateTime updatedAt,
-    required DateTime? deletedAt,
-    required List<Client> clients,
+    DateTime? deletedAt,
   }) = _Project;
 
   factory Project.dummy() => Project(
@@ -26,8 +27,9 @@ abstract class Project with _$Project {
     code: 'Dummy Project Code',
     name: 'Dummy Project Name',
     views: 0,
-    user: User.dummy(),
+    createdBy: User.dummy(),
     latestCategory: null,
+    clients: [Client.dummy()],
     isPreexecuted: false,
     isContracted: false,
     isClosed: false,
@@ -35,7 +37,6 @@ abstract class Project with _$Project {
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
     deletedAt: null,
-    clients: [Client.dummy()],
   );
 
   factory Project.fromJson(Map<String, dynamic> json) =>

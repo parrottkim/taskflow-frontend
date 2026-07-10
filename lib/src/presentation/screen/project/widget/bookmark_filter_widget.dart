@@ -12,37 +12,51 @@ class BookmarkFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
 
     return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(bookmark: value.bookmark),
-      _ => Skeletonizer(child: _DesktopWidget()),
+      AsyncData(:final value) => _DesktopWidget(filter: value),
+      _ => Skeletonizer(child: _DesktopWidget(filter: ProjectFilterState())),
     };
   }
 }
 
 class _DesktopWidget extends ConsumerWidget {
-  final bool? bookmark;
+  final ProjectFilterState filter;
 
-  const _DesktopWidget({this.bookmark});
+  const _DesktopWidget({required this.filter});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedIconButton(
       onTap: () {
-        final updatedBookmark = !(bookmark ?? false);
+        final updatedBookmark = !(filter.bookmark ?? false);
         ref
-            .read(projectFilterControllerProvider.notifier)
+            .read(
+              projectFilterControllerProvider(
+                ProjectFilterScope.projectPage,
+              ).notifier,
+            )
             .setBookmark(bookmark: updatedBookmark);
 
-        final queryParameters = ref
-            .read(projectFilterControllerProvider.notifier)
-            .toQueryParameters();
-
-        context.goNamed(RouteNames.project, queryParameters: queryParameters);
+        context.goNamed(
+          RouteNames.project,
+          queryParameters: {
+            if (filter.view != null) 'view': filter.view,
+            if (filter.sort != null) 'sort': filter.sort?.key,
+            if (filter.order != null) 'order': filter.order?.key,
+            if (filter.search != null) 'search': filter.search,
+            'bookmark': updatedBookmark.toString(),
+            if (filter.clients != null) 'clients': filter.clients?.join(','),
+            if (filter.categories != null)
+              'categories': filter.categories?.join(','),
+          },
+        );
       },
       icon: Symbols.bookmark_rounded,
-      fill: bookmark ?? false ? 1.0 : 0.0,
+      fill: filter.bookmark ?? false ? 1.0 : 0.0,
     );
   }
 }

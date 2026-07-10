@@ -3,12 +3,14 @@ part of '../controller.dart';
 @riverpod
 class SupplierListController extends _$SupplierListController {
   @override
-  FutureOr<SupplierListState> build() async {
+  FutureOr<SupplierListState> build(SupplierFilterScope scope) async {
     return _init();
   }
 
   Future<SupplierListState> _init() async {
-    final filter = await ref.watch(supplierFilterControllerProvider.future);
+    final filter = await ref.watch(
+      supplierFilterControllerProvider(scope).future,
+    );
 
     final result = await ref
         .read(supplierRepositoryProvider)
@@ -23,10 +25,12 @@ class SupplierListController extends _$SupplierListController {
   }
 
   Future<void> load() async {
-    final filter = await ref.watch(supplierFilterControllerProvider.future);
-    final keyword = filter.search?.trim();
+    final filter = await ref.watch(
+      supplierFilterControllerProvider(scope).future,
+    );
+    final keyword = filter.search.trim();
 
-    if (keyword == null || keyword.isEmpty) return;
+    if (keyword.isEmpty) return;
 
     final value = state.value;
     if (value == null) return;

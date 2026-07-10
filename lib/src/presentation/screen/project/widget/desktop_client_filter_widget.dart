@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:collection/collection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -16,26 +17,41 @@ class DesktopClientFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
+    final options = ref.watch(projectOptionsControllerProvider);
 
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-        clients: value.clients,
-        items: value.clientItems,
-      ),
+    return switch ((filter, options)) {
+      (AsyncData(value: final filter), AsyncData(value: final options)) =>
+        _DesktopWidget(
+          filter: filter,
+          clients: filter.clients,
+          items: options.clientItems,
+        ),
+      (AsyncError(:final error, :final stackTrace), _) ||
+      (
+        _,
+        AsyncError(:final error, :final stackTrace),
+      ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
       _ => Skeletonizer(
         ignoreContainers: true,
-        child: _DesktopWidget(items: []),
+        child: _DesktopWidget(filter: ProjectFilterState(), items: []),
       ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final ProjectFilterState filter;
   final List<int>? clients;
   final List<ClientGroup> items;
 
-  const _DesktopWidget({this.clients, required this.items});
+  const _DesktopWidget({
+    required this.filter,
+    this.clients,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,21 +101,21 @@ class _DesktopWidget extends HookConsumerWidget {
       return null; // No parent in the path (it's the first item or not in path)
     }
 
-    final selectedPath = useState<List<Client>>(
-      clients
-              ?.map((id) => allClients.firstWhere((item) => item.id == id))
-              .toList() ??
-          [],
-    );
+    List<Client> getSelectedPath(List<int>? clients) {
+      if (clients == null || clients.isEmpty) return [];
+
+      return clients
+          .map((id) => allClients.firstWhereOrNull((item) => item.id == id))
+          .nonNulls
+          .toList();
+    }
+
+    final selectedPath = useState<List<Client>>(getSelectedPath(clients));
 
     useEffect(() {
-      selectedPath.value =
-          clients
-              ?.map((id) => allClients.firstWhere((item) => item.id == id))
-              .toList() ??
-          [];
+      selectedPath.value = getSelectedPath(clients);
       return null;
-    }, [clients]);
+    }, [clients, items]);
 
     return BreadcrumbDropdownButton<Client>(
       items: allClients,
@@ -108,8 +124,10 @@ class _DesktopWidget extends HookConsumerWidget {
       icon: const Icon(Symbols.factory_rounded),
       itemBuilder: (item) {
         final itemDepth = items
-            .firstWhere((group) => group.items.any((c) => c.id == item.id))
-            .depth;
+            .firstWhereOrNull(
+              (group) => group.items.any((c) => c.id == item.id),
+            )
+            ?.depth;
 
         return Row(
           children: [
@@ -147,19 +165,31 @@ class _DesktopWidget extends HookConsumerWidget {
         selectedItem,
       ), // Pass items (ClientGroup list)
       onChanged: (newPath) {
+        final nextClients = newPath.isEmpty
+            ? null
+            : newPath.map((e) => e.id).toList();
+
         ref
-            .read(projectFilterControllerProvider.notifier)
-            .setClients(
-              clients: newPath.isEmpty
-                  ? null
-                  : newPath.map((e) => e.id).toList(),
-            );
+            .read(
+              projectFilterControllerProvider(
+                ProjectFilterScope.projectPage,
+              ).notifier,
+            )
+            .setClients(clients: nextClients);
 
-        final queryParameters = ref
-            .read(projectFilterControllerProvider.notifier)
-            .toQueryParameters();
-
-        context.goNamed(RouteNames.project, queryParameters: queryParameters);
+        context.goNamed(
+          RouteNames.project,
+          queryParameters: {
+            if (filter.view != null) 'view': filter.view,
+            if (filter.sort != null) 'sort': filter.sort?.key,
+            if (filter.order != null) 'order': filter.order?.key,
+            if (filter.search != null) 'search': filter.search,
+            if (filter.bookmark != null) 'bookmark': filter.bookmark.toString(),
+            if (nextClients != null) 'clients': nextClients.join(','),
+            if (filter.categories != null)
+              'categories': filter.categories?.join(','),
+          },
+        );
       },
     );
   }

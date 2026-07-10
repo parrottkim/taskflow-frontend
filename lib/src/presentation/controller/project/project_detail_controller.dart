@@ -42,7 +42,11 @@ class ProjectDetailController extends _$ProjectDetailController {
     state = AsyncValue.data(value.copyWith(project: updatedItem));
 
     ref
-        .read(projectListControllerProvider.notifier)
+        .read(
+          projectListControllerProvider(
+            ProjectFilterScope.projectPage,
+          ).notifier,
+        )
         .updateListItem(item: updatedItem);
 
     final repository = ref.read(bookmarkRepositoryProvider);
@@ -60,7 +64,11 @@ class ProjectDetailController extends _$ProjectDetailController {
 
     await ref.read(projectRepositoryProvider).deleteProject(id: projectId);
     ref
-        .read(projectListControllerProvider.notifier)
+        .read(
+          projectListControllerProvider(
+            ProjectFilterScope.projectPage,
+          ).notifier,
+        )
         .removeListItem(id: projectId);
   }
 

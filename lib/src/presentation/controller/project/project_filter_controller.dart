@@ -3,24 +3,8 @@ part of '../controller.dart';
 @riverpod
 class ProjectFilterController extends _$ProjectFilterController {
   @override
-  FutureOr<ProjectFilterState> build() async {
-    return await _init();
-  }
-
-  Future<ProjectFilterState> _init() async {
-    final categories = await ref
-        .read(issueRepositoryProvider)
-        .getAllCategories();
-
-    final clients = await ref
-        .read(projectClientRepositoryProvider)
-        .getAllClients();
-
-    return ProjectFilterState(
-      categoryItems: categories,
-      clientItems: clients,
-      maxClientDepth: clients.map((e) => e.depth).toSet().length,
-    );
+  FutureOr<ProjectFilterState> build(ProjectFilterScope scope) async {
+    return ProjectFilterState();
   }
 
   Future<void> init({
@@ -33,28 +17,32 @@ class ProjectFilterController extends _$ProjectFilterController {
     String? categories,
   }) async {
     final value = await future;
+    final options = await ref.read(projectOptionsControllerProvider.future);
 
     final isValid = ProjectSegment.values.map((e) => e.name).contains(view);
-
-    state = AsyncData(
-      value.copyWith(
-        view: isValid ? view : null,
-        sort: ProjectSort.values.firstWhereOrNull((e) => e.key == sort),
-        order: Order.values.firstWhereOrNull((e) => e.key == order),
-        search: search,
-        bookmark: bookmark == null ? null : bookmark == 'true',
-        clients: clients
-            ?.split(',')
-            .where((e) => e.isNotEmpty)
-            .map(int.parse)
-            .toList(),
-        categories: categories
-            ?.split(',')
-            .where((e) => e.isNotEmpty)
-            .map(int.parse)
-            .toList(),
-      ),
+    final nextClients = _findClientPath(
+      groups: options.clientItems,
+      clients: clients,
+      currentClients: value.clients,
     );
+
+    final nextValue = value.copyWith(
+      view: isValid ? view : null,
+      sort: sort != null ? ProjectSort.fromKey(sort) : null,
+      order: order != null ? Order.fromKey(order) : null,
+      search: search,
+      bookmark: bookmark == null ? null : bookmark == 'true',
+      clients: nextClients,
+      categories: categories
+          ?.split(',')
+          .where((e) => e.isNotEmpty)
+          .map(int.parse)
+          .toList(),
+    );
+
+    if (nextValue == value) return;
+
+    state = AsyncData(nextValue);
   }
 
   void setView({String? view}) {
@@ -113,39 +101,73 @@ class ProjectFilterController extends _$ProjectFilterController {
     state = AsyncData(value.copyWith(categories: categories));
   }
 
-  void reset() {
-    final value = state.value;
+  List<int>? _findClientPath({
+    required List<ClientGroup> groups,
+    required String? clients,
+    required List<int>? currentClients,
+  }) {
+    final parsedClients = clients
+        ?.split(',')
+        .map((value) => int.tryParse(value))
+        .nonNulls
+        .toList();
 
-    if (value == null) return;
+    if (parsedClients == null || parsedClients.isEmpty) return null;
 
-    state = AsyncData(
-      value.copyWith(
-        view: null,
-        sort: null,
-        order: null,
-        search: null,
-        bookmark: null,
-        clients: null,
-        categories: null,
-      ),
-    );
+    final path = <int>[];
+
+    for (final clientId in parsedClients) {
+      final depth = path.length;
+      final parentId = path.isEmpty ? null : path.last;
+      final group = groups.firstWhereOrNull(
+        (group) => group.depth == depth && group.parentId == parentId,
+      );
+
+      if (group == null) break;
+      if (!group.items.any((item) => item.id == clientId)) break;
+
+      path.add(clientId);
+    }
+
+    if (path.isNotEmpty) return path;
+    if (parsedClients.length == 1) {
+      final leafPath = _findClientPathByLeaf(
+        groups: groups,
+        clientId: parsedClients.first,
+      );
+
+      if (leafPath != null) return leafPath;
+    }
+
+    return const ListEquality<int>().equals(parsedClients, currentClients)
+        ? currentClients
+        : null;
   }
 
-  Map<String, String?> toQueryParameters() {
-    final value = state.value;
-
-    if (value == null) return {};
-
-    final queryParameters = {
-      if (value.view != null) 'view': value.view,
-      if (value.sort != null) 'sort': value.sort?.key,
-      if (value.order != null) 'order': value.order?.key,
-      if (value.search != null) 'search': value.search,
-      if (value.bookmark != null) 'bookmark': value.bookmark.toString(),
-      if (value.clients != null) 'clients': value.clients?.join(','),
-      if (value.categories != null) 'categories': value.categories?.join(','),
+  List<int>? _findClientPathByLeaf({
+    required List<ClientGroup> groups,
+    required int clientId,
+  }) {
+    final clientsById = {
+      for (final group in groups)
+        for (final item in group.items) item.id: item,
     };
+    final path = <int>[];
+    var current = clientsById[clientId];
 
-    return queryParameters;
+    if (current == null) return null;
+
+    while (current != null) {
+      path.insert(0, current.id);
+
+      final parentId = groups
+          .firstWhereOrNull(
+            (group) => group.items.any((item) => item.id == current!.id),
+          )
+          ?.parentId;
+      current = parentId == null ? null : clientsById[parentId];
+    }
+
+    return path;
   }
 }

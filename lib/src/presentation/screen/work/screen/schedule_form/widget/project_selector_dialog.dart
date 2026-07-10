@@ -26,7 +26,9 @@ class ProjectSelectorDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final project = ref.watch(projectListControllerProvider);
+    final project = ref.watch(
+      projectListControllerProvider(ProjectFilterScope.scheduleProjectSelector),
+    );
 
     final searchController = useTextEditingController();
 
@@ -78,7 +80,11 @@ class ProjectSelectorDialog extends HookConsumerWidget {
                 ),
               ),
               onChanged: (value) => ref
-                  .read(projectFilterControllerProvider.notifier)
+                  .read(
+                    projectFilterControllerProvider(
+                      ProjectFilterScope.scheduleProjectSelector,
+                    ).notifier,
+                  )
                   .setSearch(search: value),
             ),
             Divider(),

@@ -3,17 +3,25 @@ part of '../controller.dart';
 @riverpod
 class ScheduleListController extends _$ScheduleListController {
   @override
-  FutureOr<ScheduleListState> build({int? projectId}) async {
+  FutureOr<ScheduleListState> build({
+    ScheduleFilterScope scope = ScheduleFilterScope.schedulePage,
+    int? projectId,
+    int? userId,
+  }) async {
     return _init();
   }
 
   Future<ScheduleListState> _init() async {
-    final filter = await ref.read(scheduleFilterControllerProvider.future);
+    final filter = await ref.watch(
+      scheduleFilterControllerProvider(scope).future,
+    );
 
     final result = await ref
         .read(scheduleRepositoryProvider)
         .getSchedules(
           projectId: projectId,
+          userId: userId,
+          departmentId: filter.departments?.lastOrNull,
           search: filter.search,
           start: filter.start,
           end: filter.end,
@@ -73,9 +81,11 @@ class ScheduleListController extends _$ScheduleListController {
   Future<void> loadPrevious() async {
     final value = state.value;
 
-    if (value == null || value.hasPrevious != true) return;
+    if (value == null) return;
 
-    final filter = await ref.read(scheduleFilterControllerProvider.future);
+    final filter = await ref.read(
+      scheduleFilterControllerProvider(scope).future,
+    );
 
     final newEnd = value.start; // 현재 시작일 직전까지의 데이터를 요청해야 하므로, end를 현재 start로 설정
     final newStart = value.start.subtract(
@@ -87,6 +97,8 @@ class ScheduleListController extends _$ScheduleListController {
         .read(scheduleRepositoryProvider)
         .getSchedules(
           projectId: projectId,
+          userId: userId,
+          departmentId: filter.departments?.lastOrNull,
           search: filter.search,
           // start는 null을 전달하여 DTO 기본값(일주일 전)이 사용되거나,
           // 서버에서 start 날짜를 무시하고 end 기준으로 이전 페이지를 가져오는 로직이 작동해야 합니다.
@@ -105,7 +117,7 @@ class ScheduleListController extends _$ScheduleListController {
         hasPrevious: result.hasPrevious,
         // 시작 기준일 업데이트
         start: newStart,
-        end: newEnd,
+        end: value.end,
       ),
     );
   }
@@ -114,9 +126,11 @@ class ScheduleListController extends _$ScheduleListController {
   Future<void> loadNext() async {
     final value = state.value;
 
-    if (value == null || value.hasNext != true) return;
+    if (value == null) return;
 
-    final filter = await ref.read(scheduleFilterControllerProvider.future);
+    final filter = await ref.read(
+      scheduleFilterControllerProvider(scope).future,
+    );
 
     final newStart = value.end;
     final newEnd = value.end.add(const Duration(days: 28));
@@ -126,6 +140,8 @@ class ScheduleListController extends _$ScheduleListController {
         .read(scheduleRepositoryProvider)
         .getSchedules(
           projectId: projectId,
+          userId: userId,
+          departmentId: filter.departments?.lastOrNull,
           search: filter.search,
           start: newStart,
           end: newEnd,
@@ -141,7 +157,7 @@ class ScheduleListController extends _$ScheduleListController {
         items: mergedItems,
         hasNext: result.hasNext,
         // 종료 기준일 업데이트
-        start: newStart,
+        start: value.start,
         end: newEnd,
       ),
     );

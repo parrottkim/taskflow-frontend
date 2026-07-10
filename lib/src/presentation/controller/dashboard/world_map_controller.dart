@@ -8,8 +8,9 @@ class WorldMapController extends _$WorldMapController {
   }
 
   Future<WorldMapState> init() async {
-    final result =
-        await ref.watch(projectClientRepositoryProvider).getAllClientCount();
+    final result = await ref
+        .watch(projectClientRepositoryProvider)
+        .getAllClientCount();
 
     return WorldMapState(items: result);
   }

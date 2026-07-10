@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_edit_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 
 class SupplierListWidget extends ConsumerWidget {
   const SupplierListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(supplierListControllerProvider);
+    final list = ref.watch(
+      supplierListControllerProvider(SupplierFilterScope.dataPage),
+    );
 
     return Expanded(
       child: Padding(
@@ -48,46 +50,6 @@ class _DesktopWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-
-    ref.listen(supplierSubmitControllerProvider, (_, state) {
-      if (state is SupplierSubmitPending) {
-        LoadingOverlay.show(context);
-        return;
-      }
-
-      LoadingOverlay.hide();
-
-      switch (state) {
-        case SupplierSubmitCreated() || SupplierSubmitEdited():
-          final isCreated = state is IssueSubmitCreated;
-
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.verified,
-                  message: Intl.message(
-                    isCreated
-                        ? 'data_supplier_created'
-                        : 'data_supplier_edited',
-                  ),
-                ),
-              );
-
-        case SupplierSubmitDeleted():
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.standard,
-                  message: Intl.message('data_supplier_deleted'),
-                ),
-              );
-
-        default:
-          break;
-      }
-    });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -189,7 +151,13 @@ class _DesktopWidget extends ConsumerWidget {
               onNotification: (notification) {
                 if (notification.metrics.pixels >=
                     notification.metrics.maxScrollExtent - 20.0) {
-                  ref.read(supplierListControllerProvider.notifier).load();
+                  ref
+                      .read(
+                        supplierListControllerProvider(
+                          SupplierFilterScope.dataPage,
+                        ).notifier,
+                      )
+                      .load();
                 }
                 return false;
               },
@@ -285,11 +253,17 @@ class _DesktopWidget extends ConsumerWidget {
                             children: [
                               ElevatedIconButton(
                                 onTap: () async {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) => SupplierEditDialog(
-                                      supplierId: items[index].id,
-                                    ),
+                                  context.pushNamed(
+                                    RouteNames.supplierEdit,
+                                    pathParameters: {
+                                      'supplier_id': items[index].id.toString(),
+                                    },
+                                    queryParameters: {
+                                      ...GoRouterState.of(
+                                        context,
+                                      ).uri.queryParameters,
+                                      'view': 'supplier',
+                                    },
                                   );
                                 },
                                 padding: EdgeInsets.all(4.0),

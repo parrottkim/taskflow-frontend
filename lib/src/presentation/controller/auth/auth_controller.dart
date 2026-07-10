@@ -9,10 +9,12 @@ class AuthController extends _$AuthController {
 
   Future<void> init() async {
     try {
-      final accessToken =
-          await ref.read(localRepositoryProvider).getAccessToken();
-      final persistLogin =
-          await ref.read(localRepositoryProvider).getPersistLogin();
+      final accessToken = await ref
+          .read(localRepositoryProvider)
+          .getAccessToken();
+      final persistLogin = await ref
+          .read(localRepositoryProvider)
+          .getPersistLogin();
 
       if (accessToken != null && persistLogin) {
         final decodedToken = decodeJwt(accessToken);
@@ -68,10 +70,9 @@ class AuthController extends _$AuthController {
   Future<void> register({required RegisterDto request}) async {
     state = const AuthPending();
     try {
-      await ref
-          .read(authRepositoryProvider)
-          .register(request: request)
-          .then((value) async {
+      await ref.read(authRepositoryProvider).register(request: request).then((
+        value,
+      ) async {
         state = const AuthRequest();
       });
     } catch (e) {

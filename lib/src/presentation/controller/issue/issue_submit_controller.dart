@@ -5,84 +5,6 @@ class IssueSubmitController extends _$IssueSubmitController {
   @override
   IssueSubmitState build() => IssueSubmitState.idle();
 
-  Future<void> createProcurementRequests({
-    required int projectId,
-    required int issueId,
-  }) async {
-    final value = ref
-        .read(procurementIssueFormControllerProvider(issueId: issueId))
-        .value;
-
-    if (value == null) return;
-    if (value.selectedSupplierIds.isEmpty) return;
-
-    state = const IssueSubmitState.pending();
-
-    try {
-      Issue? issue;
-
-      final supplierIds = value.selectedSupplierIds.toList()..sort();
-
-      for (final supplierId in supplierIds) {
-        final supplierItems = value.items
-            .where((item) => item.supplier?.id == supplierId)
-            .toList();
-
-        if (supplierItems.isEmpty) {
-          continue;
-        }
-
-        final title = value.titles[supplierId]!;
-        final deliveryDate = value.deliveryDates[supplierId];
-        final paymentTerms = value.paymentTerms[supplierId]?.trim();
-        final hasFee = value.hasFees[supplierId] ?? false;
-        final note = value.notes[supplierId]?.trim();
-
-        final request = CreateProcurementIssueRequestDto(
-          title: title,
-          deliveryDate: deliveryDate,
-          paymentTerms: (paymentTerms?.isEmpty ?? true) ? null : paymentTerms,
-          hasFee: hasFee,
-          note: (note?.isEmpty ?? true) ? null : note,
-          supplierId: supplierId,
-          items: supplierItems
-              .map(
-                (e) => CreateProcurementIssueItemDto(
-                  item: e.item,
-                  spec: e.spec,
-                  quantity: e.quantity,
-                  unitPrice: e.unitPrice,
-                  totalAmount: e.totalAmount,
-                  isOnlinePurchase: e.isOnlinePurchase,
-                  purchaseUrl: e.purchaseUrl,
-                  supplierId: e.supplier?.id,
-                ),
-              )
-              .toList(),
-        );
-
-        issue = await ref
-            .read(issueRepositoryProvider)
-            .createProcurementIssueRequest(id: issueId, request: request);
-        ref
-            .read(issueListControllerProvider(projectId: projectId).notifier)
-            .updateListItem(issue);
-      }
-
-      if (issue == null) {
-        throw Exception('No procurement request to submit');
-      }
-
-      ref
-          .read(issueListControllerProvider(projectId: projectId).notifier)
-          .updateListItem(issue);
-
-      state = IssueSubmitState.created(issue);
-    } catch (e) {
-      state = IssueSubmitState.failure(e.toString());
-    }
-  }
-
   Future<void> createIssue({
     required int projectId,
     required int categoryId,
@@ -256,13 +178,21 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(projectRepositoryProvider)
           .getProject(id: projectId);
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .updateListItem(item: project);
       ref
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
           .updateProject(project: project);
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .updateListItem(item: project);
       ref
           .read(issueListControllerProvider(projectId: projectId).notifier)
@@ -455,7 +385,11 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(projectRepositoryProvider)
           .getProject(id: projectId);
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .updateListItem(item: project);
       ref
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
@@ -464,7 +398,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .updateListItem(issue);
 
-      state = IssueSubmitState.edited(issue);
+      state = IssueSubmitState.updated(issue);
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
     }
@@ -480,9 +414,10 @@ class IssueSubmitController extends _$IssueSubmitController {
       final issue = await ref
           .read(issueRepositoryProvider)
           .deleteIssue(id: issueId);
+
       ref
           .read(issueListControllerProvider(projectId: projectId).notifier)
-          .removeListItem(item: issue);
+          .removeListItem(id: issueId, category: issue.category);
 
       state = IssueSubmitState.deleted();
     } catch (e) {
@@ -509,6 +444,171 @@ class IssueSubmitController extends _$IssueSubmitController {
           .sendMail(id: issueId, request: request);
 
       state = IssueSubmitState.mailed();
+    } catch (e) {
+      state = IssueSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> createProcurementRequests({
+    required int projectId,
+    required int issueId,
+  }) async {
+    final value = ref
+        .read(procurementIssueFormControllerProvider(issueId: issueId))
+        .value;
+
+    if (value == null) return;
+
+    state = const IssueSubmitState.pending();
+
+    try {
+      late Issue issue;
+
+      for (final supplierId in value.selectedSupplierIds) {
+        final items = value.items
+            .where((item) => item.supplier?.id == supplierId)
+            .map(
+              (item) => CreateProcurementIssueItemDto(
+                item: item.item,
+                spec: item.spec,
+                quantity: item.quantity,
+                unitPrice: item.unitPrice,
+                totalAmount: item.totalAmount,
+                isOnlinePurchase: item.isOnlinePurchase,
+                purchaseUrl: item.purchaseUrl,
+                supplierId: supplierId,
+                note: item.note,
+              ),
+            )
+            .toList();
+
+        final request = CreateProcurementIssueRequestDto(
+          title: value.titles[supplierId]!,
+          deliveryDate: value.deliveryDates[supplierId],
+          paymentTerms: value.paymentTerms[supplierId],
+          hasFee: value.hasFees[supplierId] ?? false,
+          note: value.notes[supplierId],
+          supplierId: supplierId,
+          items: items,
+        );
+
+        issue = await ref
+            .read(issueRepositoryProvider)
+            .createProcurementIssueRequest(id: issueId, request: request);
+      }
+
+      final project = await ref
+          .read(projectRepositoryProvider)
+          .getProject(id: projectId);
+      ref
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
+          .updateListItem(item: project);
+      ref
+          .read(projectDetailControllerProvider(projectId: projectId).notifier)
+          .updateProject(project: project);
+      ref
+          .read(issueListControllerProvider(projectId: projectId).notifier)
+          .updateListItem(issue);
+
+      state = IssueSubmitState.created(issue);
+    } catch (e) {
+      state = IssueSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> updateProcurementRequest({
+    required int projectId,
+    required int issueId,
+    required int requestId,
+  }) async {
+    final value = ref
+        .read(
+          procurementIssueFormControllerProvider(
+            issueId: issueId,
+            requestId: requestId,
+          ),
+        )
+        .value;
+
+    if (value == null || value.selectedSupplierIds.isEmpty) return;
+
+    state = const IssueSubmitState.pending();
+
+    try {
+      final supplierId = value.selectedSupplierIds.first;
+      final items = value.items
+          .where((item) => item.supplier?.id == supplierId)
+          .map(
+            (item) => CreateProcurementIssueItemDto(
+              item: item.item,
+              spec: item.spec,
+              quantity: item.quantity,
+              unitPrice: item.unitPrice,
+              totalAmount: item.totalAmount,
+              isOnlinePurchase: item.isOnlinePurchase,
+              purchaseUrl: item.purchaseUrl,
+              supplierId: supplierId,
+              note: item.note,
+            ),
+          )
+          .toList();
+
+      final request = CreateProcurementIssueRequestDto(
+        title: value.titles[supplierId]!,
+        deliveryDate: value.deliveryDates[supplierId],
+        paymentTerms: value.paymentTerms[supplierId],
+        hasFee: value.hasFees[supplierId] ?? false,
+        note: value.notes[supplierId],
+        supplierId: supplierId,
+        items: items,
+      );
+
+      final issue = await ref
+          .read(issueRepositoryProvider)
+          .updateProcurementIssueRequest(id: requestId, request: request);
+
+      final project = await ref
+          .read(projectRepositoryProvider)
+          .getProject(id: projectId);
+      ref
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
+          .updateListItem(item: project);
+      ref
+          .read(projectDetailControllerProvider(projectId: projectId).notifier)
+          .updateProject(project: project);
+      ref
+          .read(issueListControllerProvider(projectId: projectId).notifier)
+          .updateListItem(issue);
+
+      state = IssueSubmitState.updated(issue);
+    } catch (e) {
+      state = IssueSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> deleteProcurementRequest({
+    required int projectId,
+    required int requestId,
+  }) async {
+    state = const IssueSubmitState.pending();
+
+    try {
+      await ref
+          .read(issueRepositoryProvider)
+          .deleteProcurementIssueRequest(id: requestId);
+      ref
+          .read(issueListControllerProvider(projectId: projectId).notifier)
+          .removeProcurementRequest(requestId: requestId);
+
+      state = IssueSubmitState.deleted();
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
     }

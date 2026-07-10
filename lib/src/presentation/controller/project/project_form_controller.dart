@@ -81,7 +81,11 @@ class ProjectFormController extends _$ProjectFormController {
     if (projectId != null) {
       await ref.read(projectRepositoryProvider).deleteProject(id: projectId!);
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .removeListItem(id: projectId!);
     }
   }

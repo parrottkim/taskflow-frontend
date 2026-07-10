@@ -15,9 +15,11 @@ class UserSubmitController extends _$UserSubmitController {
           .read(userRepositoryProvider)
           .updateUserPermission(id: userId, request: request);
 
-      ref.read(userListControllerProvider.notifier).updateListItem(item: user);
+      ref
+          .read(userListControllerProvider(UserFilterScope.dataPage).notifier)
+          .updateListItem(item: user);
 
-      state = UserSubmitState.edited(user);
+      state = UserSubmitState.updated(user);
     } catch (e) {
       state = UserSubmitState.failure(e.toString());
     }
@@ -36,9 +38,11 @@ class UserSubmitController extends _$UserSubmitController {
           .read(userRepositoryProvider)
           .updateUserPermission(id: userId, request: request);
 
-      ref.read(userListControllerProvider.notifier).updateListItem(item: user);
+      ref
+          .read(userListControllerProvider(UserFilterScope.dataPage).notifier)
+          .updateListItem(item: user);
 
-      state = UserSubmitState.edited(user);
+      state = UserSubmitState.updated(user);
     } catch (e) {
       state = UserSubmitState.failure(e.toString());
     }
@@ -61,9 +65,11 @@ class UserSubmitController extends _$UserSubmitController {
           .read(userRepositoryProvider)
           .updateUserPermission(id: userId, request: request);
 
-      ref.read(userListControllerProvider.notifier).updateListItem(item: user);
+      ref
+          .read(userListControllerProvider(UserFilterScope.dataPage).notifier)
+          .updateListItem(item: user);
 
-      state = UserSubmitState.edited(user);
+      state = UserSubmitState.updated(user);
     } catch (e) {
       state = UserSubmitState.failure(e.toString());
     }
@@ -75,7 +81,9 @@ class UserSubmitController extends _$UserSubmitController {
     try {
       await ref.read(userRepositoryProvider).deleteUser(id: userId);
 
-      ref.read(userListControllerProvider.notifier).removeListItem(id: userId);
+      ref
+          .read(userListControllerProvider(UserFilterScope.dataPage).notifier)
+          .removeListItem(id: userId);
 
       state = UserSubmitState.deleted();
     } catch (e) {

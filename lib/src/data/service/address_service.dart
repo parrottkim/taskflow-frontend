@@ -6,12 +6,8 @@ abstract class AddressService {
 
   @GET('address/search')
   Future<Result<Address>> search({
-    @Query('currentPage') required int page,
-    @Query('countPerPage') int limit = 10,
-    @Query('keyword') required String search,
-    @Query('resultType') String resultType = 'json',
-    @Query('hstryYn') String hstryYn = 'N',
-    @Query('firstSort') String firstSort = 'road',
-    @Query('addInfoYn') String addInfoYn = 'Y',
+    @Query('page') required int page,
+    @Query('limit') int limit = 10,
+    @Query('search') required String search,
   });
 }

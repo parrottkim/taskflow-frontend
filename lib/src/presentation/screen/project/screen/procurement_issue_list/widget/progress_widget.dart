@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
@@ -55,7 +54,7 @@ class ProgressWidget extends ConsumerWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     context.goNamed(
-                      RouteNames.issueProcurementRequest,
+                      RouteNames.issueProcurementRequestNew,
                       pathParameters: {
                         'project_id': projectId.toString(),
                         'issue_id': issueId.toString(),

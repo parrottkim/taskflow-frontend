@@ -5,7 +5,7 @@ abstract class UserService {
   factory UserService(Dio dio, {String baseUrl}) = _UserService;
 
   @GET('user/department')
-  Future<List<UserDepartment>> getAllDepartments();
+  Future<List<UserDepartmentGroup>> getAllDepartments();
 
   @GET('user/position')
   Future<List<UserPosition>> getAllPositions();
@@ -20,8 +20,8 @@ abstract class UserService {
   Future<Result<User>> getUsers({
     @Query('page') int page = 1,
     @Query('limit') int limit = 20,
-    @Query('departmentId') int? departmentId,
-    @Query('positionId') int? positionId,
+    @Query('department_id') int? departmentId,
+    @Query('position_id') int? positionId,
     @Query('search') String? search,
   });
 

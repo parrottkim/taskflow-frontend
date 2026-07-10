@@ -37,24 +37,25 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             Intl.message('project_filter_4'),
-            style: textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         SizedBox(height: 8.0),
         InkWell(
           onTap: () {
             if (selectedCategories.value.isEmpty) {
-              selectedCategories.value =
-                  categoryItems.map((e) => e.id).toList();
+              selectedCategories.value = categoryItems
+                  .map((e) => e.id)
+                  .toList();
             } else {
               selectedCategories.value = [];
             }
           },
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
             child: IgnorePointer(
               child: CustomToggleButton(
                 padding: 12.0,
@@ -80,8 +81,9 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
           physics: NeverScrollableScrollPhysics(),
           itemCount: categoryItems.length,
           itemBuilder: (context, index) {
-            final isSelected =
-                selectedCategories.value.contains(categoryItems[index].id);
+            final isSelected = selectedCategories.value.contains(
+              categoryItems[index].id,
+            );
 
             return Material(
               color: Colors.transparent,
@@ -90,8 +92,9 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
                   if (isSelected) {
                     // 이 항목을 선택 해제
                     selectedCategories.value = [
-                      ...selectedCategories.value
-                          .where((e) => e != categoryItems[index].id)
+                      ...selectedCategories.value.where(
+                        (e) => e != categoryItems[index].id,
+                      ),
                     ];
                   }
                   if (!isSelected) {
@@ -106,7 +109,9 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 12.0),
+                    horizontal: 16.0,
+                    vertical: 12.0,
+                  ),
                   child: IgnorePointer(
                     child: CustomToggleButton(
                       padding: 12.0,
@@ -120,8 +125,9 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
                             height: 10.0,
                             decoration: ShapeDecoration(
                               shape: CircleBorder(),
-                              color: Functions(context)
-                                  .generateColorFromId(categoryItems[index].id),
+                              color: Functions(
+                                context,
+                              ).generateColorFromId(categoryItems[index].id),
                             ),
                           ),
                           SizedBox(width: 8.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -39,7 +40,7 @@ class ContractFormItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(issueFilterControllerProvider);
+    final filter = ref.watch(issueOptionsControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
@@ -181,7 +182,7 @@ class _DesktopWidget extends HookConsumerWidget {
             ) ??
             0.0;
         final calculatedPrice = (total) * (ratio / 100);
-        final formattedPrice = NumberFormat('#,###.##').format(calculatedPrice);
+        final formattedPrice = NumberFormat('#,##0.##').format(calculatedPrice);
         transactionPriceControllers[i].text = formattedPrice;
       }
       return null;
@@ -597,7 +598,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                             Expanded(
                               child: Text(
-                                '${NumberFormat('#,###').format(total)} ${selectedCurrency.value.code}',
+                                '${NumberFormat('#,##0.##').format(total)} ${selectedCurrency.value.code}',
                                 textAlign: TextAlign.end,
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
@@ -824,11 +825,11 @@ class _DesktopWidget extends HookConsumerWidget {
                                     controller:
                                         transactionRatioControllers[index],
                                     focusNode: transactionRatioFocuses[index],
-                                    keyboardType: TextInputType.number,
+                                    keyboardType:
+                                        TextInputType.number, // 숫자 키보드 표시
                                     inputFormatters: [DecimalInputFormatter()],
                                     textAlign: TextAlign.end,
                                     style: textTheme.bodyMedium,
-                                    maxLength: 3,
                                     maxLines: 1,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
@@ -858,35 +859,40 @@ class _DesktopWidget extends HookConsumerWidget {
                                       isTransactionIssueItemEmpty.value = false;
                                       isRatioInvalid.value = false;
 
-                                      final ratio =
-                                          double.tryParse(
-                                            value.replaceAll(',', ''),
-                                          ) ??
-                                          0.0;
+                                      try {
+                                        final ratio =
+                                            double.tryParse(
+                                              value.replaceAll(',', ''),
+                                            ) ??
+                                            0.0;
 
-                                      final calculatedPrice =
-                                          (total) * (ratio / 100);
+                                        final calculatedPrice =
+                                            (total) * (ratio / 100);
 
-                                      final formattedPrice = NumberFormat(
-                                        '#,###.##',
-                                      ).format(calculatedPrice);
+                                        final formattedPrice = NumberFormat(
+                                          '#,##0.##',
+                                        ).format(calculatedPrice);
 
-                                      transactionPriceControllers[index].text =
-                                          formattedPrice;
+                                        transactionPriceControllers[index]
+                                                .text =
+                                            formattedPrice;
 
-                                      ref
-                                          .read(
-                                            issueFormControllerProvider(
-                                              projectId: projectId,
-                                              categoryId: categoryId,
-                                              issueId: issueId,
-                                            ).notifier,
-                                          )
-                                          .updateTransactionIssueItem(
-                                            index: index,
-                                            ratio: value,
-                                            price: formattedPrice,
-                                          );
+                                        ref
+                                            .read(
+                                              issueFormControllerProvider(
+                                                projectId: projectId,
+                                                categoryId: categoryId,
+                                                issueId: issueId,
+                                              ).notifier,
+                                            )
+                                            .updateTransactionIssueItem(
+                                              index: index,
+                                              ratio: value,
+                                              price: formattedPrice,
+                                            );
+                                      } catch (e) {
+                                        print(e);
+                                      }
                                     },
                                   ),
                                 ),

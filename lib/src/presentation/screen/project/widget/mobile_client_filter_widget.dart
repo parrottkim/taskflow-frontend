@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:collection/collection.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -101,10 +102,13 @@ class MobileClientFilterWidget extends ConsumerWidget {
                         !isSelected
                             ? Intl.message('project_filter_${depth + 1}')
                             : group.items
-                                  .firstWhere(
-                                    (c) => c.id == selectedClients.value[depth],
-                                  )
-                                  .name,
+                                      .firstWhereOrNull(
+                                        (c) =>
+                                            c.id ==
+                                            selectedClients.value[depth],
+                                      )
+                                      ?.name ??
+                                  Intl.message('project_filter_${depth + 1}'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
                         ),

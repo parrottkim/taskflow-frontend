@@ -7,10 +7,7 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 class UserInformationWidget extends StatelessWidget {
   final User item;
 
-  const UserInformationWidget({
-    super.key,
-    required this.item,
-  });
+  const UserInformationWidget({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +21,13 @@ class UserInformationWidget extends StatelessWidget {
             padding: const EdgeInsets.only(right: 6.0),
             child: Skeleton.unite(
               child: CircleAvatar(
-                backgroundColor:
-                    Functions(context).generateColorFromId(item.id),
+                backgroundColor: Functions(
+                  context,
+                ).generateColorFromId(item.id),
                 radius: 10.0,
                 child: Text(
                   getInitials(item.username),
-                  style: const TextStyle(
-                    fontSize: 10.0,
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(fontSize: 10.0, color: Colors.white),
                 ),
               ),
             ),
@@ -51,7 +46,7 @@ class UserInformationWidget extends StatelessWidget {
               children: [
                 TextSpan(text: item.email),
                 if (item.department != null)
-                  TextSpan(text: ' • ${item.department!.name}')
+                  TextSpan(text: ' • ${item.department!.name}'),
               ],
             ),
           ),

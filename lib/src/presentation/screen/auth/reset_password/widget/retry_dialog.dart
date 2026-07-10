@@ -37,13 +37,9 @@ class RetryDialog extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    Intl.message('reset_password_retry_2'),
-                  ),
+                  Text(Intl.message('reset_password_retry_2')),
                   SizedBox(height: 8.0),
-                  Text(
-                    Intl.message('reset_password_retry_3'),
-                  ),
+                  Text(Intl.message('reset_password_retry_3')),
                 ],
               ),
             ),
@@ -61,9 +57,7 @@ class RetryDialog extends StatelessWidget {
                 },
                 child: Text(
                   Intl.message('reset_password_retry_4'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
             ),

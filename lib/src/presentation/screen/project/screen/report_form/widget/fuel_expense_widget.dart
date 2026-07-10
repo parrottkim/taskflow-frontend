@@ -39,26 +39,32 @@ class FuelExpenseWidget extends HookConsumerWidget {
     useListenable(mileageFocus);
     useListenable(distanceFocus);
 
+    final rateText = fuel?.rate;
+    final mileageText = fuel?.mileage;
+    final distanceText = fuel?.distance;
+
+    double parseAmount(String? value) {
+      return double.tryParse(value?.replaceAll(',', '').trim() ?? '') ?? 0.0;
+    }
+
     final total = useMemoized(() {
-      if (fuel?.rate == null ||
-          fuel!.rate!.isEmpty ||
-          fuel?.mileage == null ||
-          fuel!.mileage!.isEmpty ||
-          fuel?.distance == null ||
-          fuel!.distance!.isEmpty) {
+      if (rateText == null ||
+          rateText.isEmpty ||
+          mileageText == null ||
+          mileageText.isEmpty ||
+          distanceText == null ||
+          distanceText.isEmpty) {
         return 0.0;
       }
 
-      final cleanedRate = fuel?.rate?.replaceAll(',', '') ?? '0';
-      final cleanedMileage = fuel?.mileage?.replaceAll(',', '') ?? '0';
-      final cleanedDistance = fuel?.distance?.replaceAll(',', '') ?? '0';
+      final rate = parseAmount(rateText);
+      final mileage = parseAmount(mileageText);
+      final distance = parseAmount(distanceText);
 
-      final rate = double.tryParse(cleanedRate) ?? 0.0;
-      final mileage = double.tryParse(cleanedMileage) ?? 0.0;
-      final distance = double.tryParse(cleanedDistance) ?? 0.0;
+      if (mileage == 0) return 0.0;
 
       return rate * (distance / mileage);
-    }, [fuel]);
+    }, [rateText, mileageText, distanceText]);
 
     final validation = ref.watch(reportValidationControllerProvider);
     final isFuelInvalid = validation.fuelInvalid;

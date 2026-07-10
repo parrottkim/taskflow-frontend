@@ -48,6 +48,84 @@ Map<String, dynamic> _$CurrencyToJson(_Currency instance) => <String, dynamic>{
   'symbol': instance.symbol,
 };
 
+_Document _$DocumentFromJson(Map<String, dynamic> json) => _Document(
+  id: (json['id'] as num).toInt(),
+  title: json['title'] as String,
+  content: json['content'] as String,
+  folderId: (json['folderId'] as num).toInt(),
+  fixed: json['fixed'] as bool,
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  updatedBy: json['updatedBy'] == null
+      ? null
+      : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
+  attachments:
+      (json['attachments'] as List<dynamic>?)
+          ?.map((e) => DocumentAttachment.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  deletedAt: json['deletedAt'] == null
+      ? null
+      : DateTime.parse(json['deletedAt'] as String),
+);
+
+Map<String, dynamic> _$DocumentToJson(_Document instance) => <String, dynamic>{
+  'id': instance.id,
+  'title': instance.title,
+  'content': instance.content,
+  'folderId': instance.folderId,
+  'fixed': instance.fixed,
+  'createdBy': instance.createdBy,
+  'updatedBy': instance.updatedBy,
+  'attachments': instance.attachments,
+  'createdAt': instance.createdAt.toIso8601String(),
+  'updatedAt': instance.updatedAt.toIso8601String(),
+  'deletedAt': instance.deletedAt?.toIso8601String(),
+};
+
+_DocumentFolder _$DocumentFolderFromJson(Map<String, dynamic> json) =>
+    _DocumentFolder(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      parentId: (json['parentId'] as num?)?.toInt(),
+      sort: (json['sort'] as num?)?.toInt() ?? 0,
+      fixed: json['fixed'] as bool? ?? false,
+      children:
+          (json['children'] as List<dynamic>?)
+              ?.map((e) => DocumentFolder.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <DocumentFolder>[],
+    );
+
+Map<String, dynamic> _$DocumentFolderToJson(_DocumentFolder instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'parentId': instance.parentId,
+      'sort': instance.sort,
+      'fixed': instance.fixed,
+      'children': instance.children,
+    };
+
+_DocumentAttachment _$DocumentAttachmentFromJson(Map<String, dynamic> json) =>
+    _DocumentAttachment(
+      id: (json['id'] as num).toInt(),
+      filename: json['filename'] as String,
+      size: (json['size'] as num).toInt(),
+      path: json['path'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$DocumentAttachmentToJson(_DocumentAttachment instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'filename': instance.filename,
+      'size': instance.size,
+      'path': instance.path,
+      'createdAt': instance.createdAt.toIso8601String(),
+    };
+
 _LatestIssue _$LatestIssueFromJson(Map<String, dynamic> json) => _LatestIssue(
   id: (json['id'] as num).toInt(),
   projectId: (json['projectId'] as num).toInt(),
@@ -57,7 +135,7 @@ _LatestIssue _$LatestIssueFromJson(Map<String, dynamic> json) => _LatestIssue(
   clients: (json['clients'] as List<dynamic>)
       .map((e) => Client.fromJson(e as Map<String, dynamic>))
       .toList(),
-  user: User.fromJson(json['user'] as Map<String, dynamic>),
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
   createdAt: DateTime.parse(json['createdAt'] as String),
 );
 
@@ -69,7 +147,7 @@ Map<String, dynamic> _$LatestIssueToJson(_LatestIssue instance) =>
       'projectName': instance.projectName,
       'category': instance.category,
       'clients': instance.clients,
-      'user': instance.user,
+      'createdBy': instance.createdBy,
       'createdAt': instance.createdAt.toIso8601String(),
     };
 
@@ -158,7 +236,6 @@ Map<String, dynamic> _$IssueProcurementToJson(IssueProcurement instance) =>
 _Issue _$IssueFromJson(Map<String, dynamic> json) => _Issue(
   id: (json['id'] as num).toInt(),
   category: IssueCategory.fromJson(json['category'] as Map<String, dynamic>),
-  user: User.fromJson(json['user'] as Map<String, dynamic>),
   content: json['content'] as String,
   attachments:
       (json['attachments'] as List<dynamic>?)
@@ -193,6 +270,10 @@ _Issue _$IssueFromJson(Map<String, dynamic> json) => _Issue(
           )
           .toList() ??
       const [],
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  updatedBy: json['updatedBy'] == null
+      ? null
+      : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
   deletedAt: json['deletedAt'] == null
@@ -203,7 +284,6 @@ _Issue _$IssueFromJson(Map<String, dynamic> json) => _Issue(
 Map<String, dynamic> _$IssueToJson(_Issue instance) => <String, dynamic>{
   'id': instance.id,
   'category': instance.category,
-  'user': instance.user,
   'content': instance.content,
   'attachments': instance.attachments,
   'currency': instance.currency,
@@ -212,6 +292,8 @@ Map<String, dynamic> _$IssueToJson(_Issue instance) => <String, dynamic>{
   'transactionItems': instance.transactionItems,
   'procurementItems': instance.procurementItems,
   'requests': instance.requests,
+  'createdBy': instance.createdBy,
+  'updatedBy': instance.updatedBy,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
   'deletedAt': instance.deletedAt?.toIso8601String(),
@@ -356,7 +438,10 @@ _ContractIssue _$ContractIssueFromJson(Map<String, dynamic> json) =>
       category: IssueCategory.fromJson(
         json['category'] as Map<String, dynamic>,
       ),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      updatedBy: json['updatedBy'] == null
+          ? null
+          : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
       content: json['content'] as String,
       currency: Currency.fromJson(json['currency'] as Map<String, dynamic>),
       attachments:
@@ -375,7 +460,8 @@ Map<String, dynamic> _$ContractIssueToJson(_ContractIssue instance) =>
     <String, dynamic>{
       'id': instance.id,
       'category': instance.category,
-      'user': instance.user,
+      'createdBy': instance.createdBy,
+      'updatedBy': instance.updatedBy,
       'content': instance.content,
       'currency': instance.currency,
       'attachments': instance.attachments,
@@ -390,7 +476,10 @@ _KickoffIssue _$KickoffIssueFromJson(Map<String, dynamic> json) =>
       category: IssueCategory.fromJson(
         json['category'] as Map<String, dynamic>,
       ),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      updatedBy: json['updatedBy'] == null
+          ? null
+          : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
       content: json['content'] as String,
       kickoffDate: DateTime.parse(json['kickoffDate'] as String),
       attachments:
@@ -409,7 +498,8 @@ Map<String, dynamic> _$KickoffIssueToJson(_KickoffIssue instance) =>
     <String, dynamic>{
       'id': instance.id,
       'category': instance.category,
-      'user': instance.user,
+      'createdBy': instance.createdBy,
+      'updatedBy': instance.updatedBy,
       'content': instance.content,
       'kickoffDate': instance.kickoffDate.toIso8601String(),
       'attachments': instance.attachments,
@@ -423,7 +513,10 @@ _ProcurementIssue _$ProcurementIssueFromJson(
 ) => _ProcurementIssue(
   id: (json['id'] as num).toInt(),
   category: IssueCategory.fromJson(json['category'] as Map<String, dynamic>),
-  user: User.fromJson(json['user'] as Map<String, dynamic>),
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  updatedBy: json['updatedBy'] == null
+      ? null
+      : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
   content: json['content'] as String,
   procurementItems:
       (json['procurementItems'] as List<dynamic>?)
@@ -453,7 +546,8 @@ Map<String, dynamic> _$ProcurementIssueToJson(_ProcurementIssue instance) =>
     <String, dynamic>{
       'id': instance.id,
       'category': instance.category,
-      'user': instance.user,
+      'createdBy': instance.createdBy,
+      'updatedBy': instance.updatedBy,
       'content': instance.content,
       'procurementItems': instance.procurementItems,
       'requests': instance.requests,
@@ -469,7 +563,10 @@ _TransactionIssue _$TransactionIssueFromJson(Map<String, dynamic> json) =>
       category: IssueCategory.fromJson(
         json['category'] as Map<String, dynamic>,
       ),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      updatedBy: json['updatedBy'] == null
+          ? null
+          : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
       content: json['content'] as String,
       currency: json['currency'] == null
           ? null
@@ -490,7 +587,8 @@ Map<String, dynamic> _$TransactionIssueToJson(_TransactionIssue instance) =>
     <String, dynamic>{
       'id': instance.id,
       'category': instance.category,
-      'user': instance.user,
+      'createdBy': instance.createdBy,
+      'updatedBy': instance.updatedBy,
       'content': instance.content,
       'currency': instance.currency,
       'attachments': instance.attachments,
@@ -505,7 +603,10 @@ _PaymentIssue _$PaymentIssueFromJson(Map<String, dynamic> json) =>
       category: IssueCategory.fromJson(
         json['category'] as Map<String, dynamic>,
       ),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      updatedBy: json['updatedBy'] == null
+          ? null
+          : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
       content: json['content'] as String,
       attachments:
           (json['attachments'] as List<dynamic>?)
@@ -523,7 +624,8 @@ Map<String, dynamic> _$PaymentIssueToJson(_PaymentIssue instance) =>
     <String, dynamic>{
       'id': instance.id,
       'category': instance.category,
-      'user': instance.user,
+      'createdBy': instance.createdBy,
+      'updatedBy': instance.updatedBy,
       'content': instance.content,
       'attachments': instance.attachments,
       'createdAt': instance.createdAt.toIso8601String(),
@@ -537,7 +639,10 @@ _ApprovalIssue _$ApprovalIssueFromJson(Map<String, dynamic> json) =>
       category: IssueCategory.fromJson(
         json['category'] as Map<String, dynamic>,
       ),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      updatedBy: json['updatedBy'] == null
+          ? null
+          : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
       content: json['content'] as String,
       attachments:
           (json['attachments'] as List<dynamic>?)
@@ -555,7 +660,8 @@ Map<String, dynamic> _$ApprovalIssueToJson(_ApprovalIssue instance) =>
     <String, dynamic>{
       'id': instance.id,
       'category': instance.category,
-      'user': instance.user,
+      'createdBy': instance.createdBy,
+      'updatedBy': instance.updatedBy,
       'content': instance.content,
       'attachments': instance.attachments,
       'createdAt': instance.createdAt.toIso8601String(),
@@ -626,13 +732,19 @@ _Project _$ProjectFromJson(Map<String, dynamic> json) => _Project(
   code: json['code'] as String,
   name: json['name'] as String,
   views: (json['views'] as num).toInt(),
-  user: User.fromJson(json['user'] as Map<String, dynamic>),
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  updatedBy: json['updatedBy'] == null
+      ? null
+      : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
   manager: json['manager'] == null
       ? null
       : User.fromJson(json['manager'] as Map<String, dynamic>),
   latestCategory: json['latestCategory'] == null
       ? null
       : IssueCategory.fromJson(json['latestCategory'] as Map<String, dynamic>),
+  clients: (json['clients'] as List<dynamic>)
+      .map((e) => Client.fromJson(e as Map<String, dynamic>))
+      .toList(),
   isPreexecuted: json['isPreexecuted'] as bool,
   isContracted: json['isContracted'] as bool,
   isClosed: json['isClosed'] as bool,
@@ -643,9 +755,6 @@ _Project _$ProjectFromJson(Map<String, dynamic> json) => _Project(
   deletedAt: json['deletedAt'] == null
       ? null
       : DateTime.parse(json['deletedAt'] as String),
-  clients: (json['clients'] as List<dynamic>)
-      .map((e) => Client.fromJson(e as Map<String, dynamic>))
-      .toList(),
 );
 
 Map<String, dynamic> _$ProjectToJson(_Project instance) => <String, dynamic>{
@@ -653,9 +762,11 @@ Map<String, dynamic> _$ProjectToJson(_Project instance) => <String, dynamic>{
   'code': instance.code,
   'name': instance.name,
   'views': instance.views,
-  'user': instance.user,
+  'createdBy': instance.createdBy,
+  'updatedBy': instance.updatedBy,
   'manager': instance.manager,
   'latestCategory': instance.latestCategory,
+  'clients': instance.clients,
   'isPreexecuted': instance.isPreexecuted,
   'isContracted': instance.isContracted,
   'isClosed': instance.isClosed,
@@ -664,7 +775,6 @@ Map<String, dynamic> _$ProjectToJson(_Project instance) => <String, dynamic>{
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
   'deletedAt': instance.deletedAt?.toIso8601String(),
-  'clients': instance.clients,
 };
 
 _ProjectSummary _$ProjectSummaryFromJson(Map<String, dynamic> json) =>
@@ -1583,6 +1693,66 @@ Map<String, dynamic> _$UpdateRegulationRateDtoToJson(
   'details': instance.details,
 };
 
+_SyncDocumentFolderDto _$SyncDocumentFolderDtoFromJson(
+  Map<String, dynamic> json,
+) => _SyncDocumentFolderDto(
+  id: (json['id'] as num?)?.toInt(),
+  name: json['name'] as String,
+  parentId: (json['parentId'] as num?)?.toInt(),
+  sort: (json['sort'] as num?)?.toInt() ?? 0,
+  fixed: json['fixed'] as bool? ?? false,
+  children:
+      (json['children'] as List<dynamic>?)
+          ?.map(
+            (e) => SyncDocumentFolderDto.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
+);
+
+Map<String, dynamic> _$SyncDocumentFolderDtoToJson(
+  _SyncDocumentFolderDto instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'parentId': instance.parentId,
+  'sort': instance.sort,
+  'fixed': instance.fixed,
+  'children': instance.children,
+};
+
+_SyncDocumentFoldersDto _$SyncDocumentFoldersDtoFromJson(
+  Map<String, dynamic> json,
+) => _SyncDocumentFoldersDto(
+  items: (json['items'] as List<dynamic>)
+      .map((e) => SyncDocumentFolderDto.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$SyncDocumentFoldersDtoToJson(
+  _SyncDocumentFoldersDto instance,
+) => <String, dynamic>{'items': instance.items};
+
+_CreateDocumentDto _$CreateDocumentDtoFromJson(Map<String, dynamic> json) =>
+    _CreateDocumentDto(
+      title: json['title'] as String,
+      content: json['content'] as String,
+      folderId: (json['folderId'] as num).toInt(),
+      fixed: json['fixed'] as bool? ?? false,
+      attachments: (json['attachments'] as List<dynamic>)
+          .map((e) => DocumentAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CreateDocumentDtoToJson(_CreateDocumentDto instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'content': instance.content,
+      'folderId': instance.folderId,
+      'fixed': instance.fixed,
+      'attachments': instance.attachments,
+    };
+
 _File _$FileFromJson(Map<String, dynamic> json) =>
     _File(path: json['path'] as String, url: json['url'] as String);
 
@@ -1825,7 +1995,10 @@ _Report _$ReportFromJson(Map<String, dynamic> json) => _Report(
   schedule: json['schedule'] == null
       ? null
       : Schedule.fromJson(json['schedule'] as Map<String, dynamic>),
-  user: User.fromJson(json['user'] as Map<String, dynamic>),
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  updatedBy: json['updatedBy'] == null
+      ? null
+      : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
   trip: json['trip'] == null
       ? null
       : TripReport.fromJson(json['trip'] as Map<String, dynamic>),
@@ -1843,7 +2016,8 @@ _Report _$ReportFromJson(Map<String, dynamic> json) => _Report(
 Map<String, dynamic> _$ReportToJson(_Report instance) => <String, dynamic>{
   'id': instance.id,
   'schedule': instance.schedule,
-  'user': instance.user,
+  'createdBy': instance.createdBy,
+  'updatedBy': instance.updatedBy,
   'trip': instance.trip,
   'content': instance.content,
   'attachments': instance.attachments,
@@ -2050,6 +2224,23 @@ Map<String, dynamic> _$UserDepartmentToJson(_UserDepartment instance) =>
       'root': instance.root,
     };
 
+_UserDepartmentGroup _$UserDepartmentGroupFromJson(Map<String, dynamic> json) =>
+    _UserDepartmentGroup(
+      depth: (json['depth'] as num).toInt(),
+      parentId: (json['parentId'] as num?)?.toInt(),
+      items: (json['items'] as List<dynamic>)
+          .map((e) => UserDepartment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$UserDepartmentGroupToJson(
+  _UserDepartmentGroup instance,
+) => <String, dynamic>{
+  'depth': instance.depth,
+  'parentId': instance.parentId,
+  'items': instance.items,
+};
+
 _Keyword _$KeywordFromJson(Map<String, dynamic> json) => _Keyword(
   keyword: json['keyword'] as String,
   date: DateTime.parse(json['date'] as String),
@@ -2248,20 +2439,12 @@ class _AddressService implements AddressService {
     required int page,
     int limit = 10,
     required String search,
-    String resultType = 'json',
-    String hstryYn = 'N',
-    String firstSort = 'road',
-    String addInfoYn = 'Y',
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'currentPage': page,
-      r'countPerPage': limit,
-      r'keyword': search,
-      r'resultType': resultType,
-      r'hstryYn': hstryYn,
-      r'firstSort': firstSort,
-      r'addInfoYn': addInfoYn,
+      r'page': page,
+      r'limit': limit,
+      r'search': search,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -2648,6 +2831,359 @@ class _DashboardService implements DashboardService {
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
 
+class _DocumentFolderService implements DocumentFolderService {
+  _DocumentFolderService(this._dio, {this.baseUrl, this.errorLogger});
+
+  final Dio _dio;
+
+  String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<List<DocumentFolder>> getAllFolders() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<DocumentFolder>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document-folder',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<DocumentFolder> _value;
+    try {
+      _value = _result.data!
+          .map(
+            (dynamic i) => DocumentFolder.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<DocumentFolder>> syncFolders({
+    required SyncDocumentFoldersDto body,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = body;
+    final _options = _setStreamType<List<DocumentFolder>>(
+      Options(method: 'PUT', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document-folder',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<DocumentFolder> _value;
+    try {
+      _value = _result.data!
+          .map(
+            (dynamic i) => DocumentFolder.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
+
+  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
+  }
+}
+
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+
+class _DocumentService implements DocumentService {
+  _DocumentService(this._dio, {this.baseUrl, this.errorLogger});
+
+  final Dio _dio;
+
+  String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<Document> getDocumentForEdit({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Document>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document/${id}/edit',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Document _value;
+    try {
+      _value = Document.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<Document>> getDocuments({
+    int page = 1,
+    int limit = 20,
+    required int folderId,
+    String? sort,
+    String? order,
+    String? search,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'limit': limit,
+      r'folder_id': folderId,
+      r'sort': sort,
+      r'order': order,
+      r'search': search,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<Document>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Result<Document> _value;
+    try {
+      _value = Result<Document>.fromJson(
+        _result.data!,
+        (json) => Document.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Document> createDocument({required CreateDocumentDto request}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Document>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Document _value;
+    try {
+      _value = Document.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Document> updateDocument({
+    required int id,
+    required CreateDocumentDto request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Document>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Document _value;
+    try {
+      _value = Document.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<void> deleteDocument({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<List<DocumentAttachment>> uploadAttachments({
+    required int documentId,
+    required List<MultipartFile> files,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.addAll(files.map((i) => MapEntry('files', i)));
+    final _options = _setStreamType<List<DocumentAttachment>>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            'document/${documentId}/attachments',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<DocumentAttachment> _value;
+    try {
+      _value = _result.data!
+          .map(
+            (dynamic i) =>
+                DocumentAttachment.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<void> deleteAttachment({
+    required int documentId,
+    required int fileId,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'document/${documentId}/attachments/${fileId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
+
+  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
+  }
+}
+
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+
 class _ScheduleService implements ScheduleService {
   _ScheduleService(this._dio, {this.baseUrl, this.errorLogger});
 
@@ -2745,6 +3281,8 @@ class _ScheduleService implements ScheduleService {
   @override
   Future<Result<ScheduleGroup>> getSchedules({
     int? projectId,
+    int? userId,
+    int? departmentId,
     String? search,
     DateTime? start,
     DateTime? end,
@@ -2752,6 +3290,8 @@ class _ScheduleService implements ScheduleService {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'project_id': projectId,
+      r'user_id': userId,
+      r'department_id': departmentId,
       r'search': search,
       r'start': start?.toIso8601String(),
       r'end': end?.toIso8601String(),
@@ -3203,6 +3743,36 @@ class _IssueService implements IssueService {
   }
 
   @override
+  Future<Issue> updateProcurementIssueRequest({
+    required int id,
+    required CreateProcurementIssueRequestDto request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Issue>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/procurement/request/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Issue _value;
+    try {
+      _value = Issue.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<void> approveProcurementIssueRequest({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -3213,6 +3783,25 @@ class _IssueService implements IssueService {
           .compose(
             _dio.options,
             'issue/procurement/${id}/approve',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> deleteProcurementIssueRequest({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'issue/procurement/request/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -5159,12 +5748,12 @@ class _UserService implements UserService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<UserDepartment>> getAllDepartments() async {
+  Future<List<UserDepartmentGroup>> getAllDepartments() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<UserDepartment>>(
+    final _options = _setStreamType<List<UserDepartmentGroup>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -5175,11 +5764,12 @@ class _UserService implements UserService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<UserDepartment> _value;
+    late List<UserDepartmentGroup> _value;
     try {
       _value = _result.data!
           .map(
-            (dynamic i) => UserDepartment.fromJson(i as Map<String, dynamic>),
+            (dynamic i) =>
+                UserDepartmentGroup.fromJson(i as Map<String, dynamic>),
           )
           .toList();
     } on Object catch (e, s) {
@@ -5286,8 +5876,8 @@ class _UserService implements UserService {
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'limit': limit,
-      r'departmentId': departmentId,
-      r'positionId': positionId,
+      r'department_id': departmentId,
+      r'position_id': positionId,
       r'search': search,
     };
     queryParameters.removeWhere((k, v) => v == null);
@@ -5664,6 +6254,102 @@ final class DashboardRepositoryProvider
 
 String _$dashboardRepositoryHash() =>
     r'8e60582c634eb74d3558ae420f53ef657b6fc43a';
+
+@ProviderFor(documentFolderRepository)
+final documentFolderRepositoryProvider = DocumentFolderRepositoryProvider._();
+
+final class DocumentFolderRepositoryProvider
+    extends
+        $FunctionalProvider<
+          DocumentFolderRepository,
+          DocumentFolderRepository,
+          DocumentFolderRepository
+        >
+    with $Provider<DocumentFolderRepository> {
+  DocumentFolderRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'documentFolderRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$documentFolderRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<DocumentFolderRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DocumentFolderRepository create(Ref ref) {
+    return documentFolderRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DocumentFolderRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DocumentFolderRepository>(value),
+    );
+  }
+}
+
+String _$documentFolderRepositoryHash() =>
+    r'acb0f33ab6acea08b14d2ae16df1e47a2bbe563d';
+
+@ProviderFor(documentRepository)
+final documentRepositoryProvider = DocumentRepositoryProvider._();
+
+final class DocumentRepositoryProvider
+    extends
+        $FunctionalProvider<
+          DocumentRepository,
+          DocumentRepository,
+          DocumentRepository
+        >
+    with $Provider<DocumentRepository> {
+  DocumentRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'documentRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$documentRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<DocumentRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  DocumentRepository create(Ref ref) {
+    return documentRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DocumentRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DocumentRepository>(value),
+    );
+  }
+}
+
+String _$documentRepositoryHash() =>
+    r'df1efbbdba883c322c7fec9c7e3dd296be8fcbb5';
 
 @ProviderFor(scheduleRepository)
 final scheduleRepositoryProvider = ScheduleRepositoryProvider._();

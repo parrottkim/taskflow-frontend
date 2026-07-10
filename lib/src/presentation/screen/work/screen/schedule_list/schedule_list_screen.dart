@@ -21,10 +21,36 @@ class ScheduleListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final schedule = ref.watch(scheduleListControllerProvider());
+    final auth = ref.watch(authControllerProvider) as AuthAuthenticated;
+    final schedule = ref.watch(
+      scheduleListControllerProvider(
+        scope: ScheduleFilterScope.userScheduleList,
+        userId: auth.user.id,
+      ),
+    );
+
+    ref.listen(scheduleSubmitControllerProvider, (_, state) {
+      if (state is ScheduleSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is ScheduleSubmitDeleted) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('schedule_form_deleted'),
+                ),
+              );
+        }
+      }
+    });
 
     return switch (schedule) {
       AsyncData(:final value) => _DesktopWidget(
+        userId: auth.user.id,
         items: value.items,
         hasNext: value.hasNext,
         hasPrevious: value.hasPrevious,
@@ -41,11 +67,13 @@ class ScheduleListScreen extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final int? userId;
   final List<ScheduleGroup> items;
   final bool hasNext;
   final bool hasPrevious;
 
   const _DesktopWidget({
+    this.userId,
     required this.items,
     this.hasNext = false,
     this.hasPrevious = false,
@@ -96,6 +124,7 @@ class _DesktopWidget extends HookConsumerWidget {
         }
 
         if (items.isEmpty || initialIndex >= items.length) return;
+        if (!context.mounted) return;
 
         final key = headerKeys[initialIndex];
 
@@ -122,25 +151,6 @@ class _DesktopWidget extends HookConsumerWidget {
 
       return null;
     }, [items]);
-
-    ref.listen(scheduleSubmitControllerProvider, (_, state) {
-      if (state is ScheduleSubmitPending) {
-        LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
-
-        if (state is ScheduleSubmitDeleted) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.standard,
-                  message: Intl.message('schedule_form_deleted'),
-                ),
-              );
-        }
-      }
-    });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +188,12 @@ class _DesktopWidget extends HookConsumerWidget {
                     hasPrevious &&
                     canLoad()) {
                   ref
-                      .read(scheduleListControllerProvider().notifier)
+                      .read(
+                        scheduleListControllerProvider(
+                          scope: ScheduleFilterScope.userScheduleList,
+                          userId: userId,
+                        ).notifier,
+                      )
                       .loadPrevious();
                 }
                 // 하단 로드
@@ -186,7 +201,12 @@ class _DesktopWidget extends HookConsumerWidget {
                     hasNext &&
                     canLoad()) {
                   ref
-                      .read(scheduleListControllerProvider().notifier)
+                      .read(
+                        scheduleListControllerProvider(
+                          scope: ScheduleFilterScope.userScheduleList,
+                          userId: userId,
+                        ).notifier,
+                      )
                       .loadNext();
                 }
 

@@ -13,6 +13,10 @@ sealed class ErrorState with _$ErrorState {
       ErrorForbidden;
   const factory ErrorState.notFound({required String message}) = ErrorNotFound;
   const factory ErrorState.conflict({required String message}) = ErrorConflict;
+  const factory ErrorState.connectionError({required String message}) =
+      ErrorConnectionError;
+  const factory ErrorState.connectionTimeout({required String message}) =
+      ErrorConnectionTimeout;
   const factory ErrorState.notDefined({required String message}) =
       ErrorNotDefined;
 }

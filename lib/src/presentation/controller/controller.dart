@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:js_interop';
 
-import 'package:web/web.dart' hide ResponseType, Client, Report;
+import 'package:web/web.dart' hide ResponseType, Client, Report, Document;
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -49,6 +49,17 @@ part 'dashboard/world_map_state.dart';
 part 'data/data_filter_controller.dart';
 part 'data/data_filter_state.dart';
 
+part 'document/document_filter_controller.dart';
+part 'document/document_filter_state.dart';
+part 'document/document_form_controller.dart';
+part 'document/document_form_state.dart';
+part 'document/document_list_controller.dart';
+part 'document/document_list_state.dart';
+part 'document/document_options_controller.dart';
+part 'document/document_options_state.dart';
+part 'document/document_submit_controller.dart';
+part 'document/document_submit_state.dart';
+
 part 'download/download_controller.dart';
 part 'download/download_state.dart';
 
@@ -57,12 +68,12 @@ part 'error/error_state.dart';
 
 part 'issue/issue_export_controller.dart';
 part 'issue/issue_export_state.dart';
-part 'issue/issue_filter_controller.dart';
-part 'issue/issue_filter_state.dart';
 part 'issue/issue_form_controller.dart';
 part 'issue/issue_form_state.dart';
 part 'issue/issue_list_controller.dart';
 part 'issue/issue_list_state.dart';
+part 'issue/issue_options_controller.dart';
+part 'issue/issue_options_state.dart';
 part 'issue/issue_submit_controller.dart';
 part 'issue/issue_submit_state.dart';
 part 'issue/procurement_issue_form_controller.dart';
@@ -70,6 +81,14 @@ part 'issue/procurement_issue_form_state.dart';
 
 part 'local/local_controller.dart';
 part 'local/local_state.dart';
+
+part 'navigation/navigation_filter_controller.dart';
+part 'navigation/navigation_filter_state.dart';
+part 'navigation/navigation_search_controller.dart';
+part 'navigation/navigation_search_state.dart';
+
+part 'organization/organization_controller.dart';
+part 'organization/organization_state.dart';
 
 part 'project/project_detail_controller.dart';
 part 'project/project_detail_state.dart';
@@ -81,6 +100,8 @@ part 'project/project_form_controller.dart';
 part 'project/project_form_state.dart';
 part 'project/project_list_controller.dart';
 part 'project/project_list_state.dart';
+part 'project/project_options_controller.dart';
+part 'project/project_options_state.dart';
 part 'project/project_submit_controller.dart';
 part 'project/project_submit_state.dart';
 
@@ -90,6 +111,8 @@ part 'schedule/schedule_form_controller.dart';
 part 'schedule/schedule_form_state.dart';
 part 'schedule/schedule_list_controller.dart';
 part 'schedule/schedule_list_state.dart';
+part 'schedule/schedule_options_controller.dart';
+part 'schedule/schedule_options_state.dart';
 part 'schedule/schedule_submit_controller.dart';
 part 'schedule/schedule_submit_state.dart';
 
@@ -111,10 +134,10 @@ part 'report/report_submit_state.dart';
 part 'report/report_validation_controller.dart';
 part 'report/report_validation_state.dart';
 
-part 'trip/trip_filter_controller.dart';
-part 'trip/trip_filter_state.dart';
 part 'trip/trip_export_controller.dart';
 part 'trip/trip_export_state.dart';
+part 'trip/trip_options_controller.dart';
+part 'trip/trip_options_state.dart';
 part 'trip/trip_step_controller.dart';
 part 'trip/trip_step_state.dart';
 
@@ -124,8 +147,23 @@ part 'user/user_form_controller.dart';
 part 'user/user_form_state.dart';
 part 'user/user_list_controller.dart';
 part 'user/user_list_state.dart';
+part 'user/user_options_controller.dart';
+part 'user/user_options_state.dart';
 part 'user/user_submit_controller.dart';
 part 'user/user_submit_state.dart';
 
 part 'work/work_filter_controller.dart';
 part 'work/work_filter_state.dart';
+
+enum ProjectFilterScope { projectPage, scheduleProjectSelector }
+
+enum ScheduleFilterScope {
+  schedulePage,
+  userScheduleList,
+  projectReportCategory,
+  scheduleSelectorDialog,
+}
+
+enum SupplierFilterScope { dataPage, issueSupplierDialog }
+
+enum UserFilterScope { dataPage, scheduleTimeline, userSelectorDialog }

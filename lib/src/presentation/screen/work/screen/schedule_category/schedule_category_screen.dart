@@ -18,12 +18,12 @@ class ScheduleCategoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(scheduleFilterControllerProvider);
+    final options = ref.watch(scheduleOptionsControllerProvider);
 
     return BranchLayout(
       child: Container(
         constraints: BoxConstraints(maxWidth: 430.0),
-        child: switch (filter) {
+        child: switch (options) {
           AsyncData(:final value) => _DesktopWidget(
             path: path,
             projectId: projectId,

@@ -94,7 +94,13 @@ class _DesktopWidget extends HookConsumerWidget {
 
     useEffect(() {
       Future.microtask(
-        () => ref.read(projectFilterControllerProvider.notifier).init(),
+        () => ref
+            .read(
+              projectFilterControllerProvider(
+                ProjectFilterScope.scheduleProjectSelector,
+              ).notifier,
+            )
+            .init(),
       );
       return null;
     }, []);
@@ -134,7 +140,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
       switch (state) {
         case ScheduleSubmitCreated(:final schedule) ||
-            ScheduleSubmitEdited(:final schedule):
+            ScheduleSubmitUpdated(:final schedule):
           final isCreated = state is ScheduleSubmitCreated;
 
           ref
@@ -145,7 +151,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   message: Intl.message(
                     isCreated
                         ? 'schedule_form_created'
-                        : 'schedule_form_edited',
+                        : 'schedule_form_updated',
                   ),
                 ),
               );

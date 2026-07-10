@@ -26,6 +26,25 @@ class ReportListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final trip = ref.watch(reportListControllerProvider(projectId: projectId));
 
+    ref.listen(reportSubmitControllerProvider, (_, state) {
+      if (state is ReportSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is ReportSubmitDeleted) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('report_form_delete'),
+                ),
+              );
+        }
+      }
+    });
+
     return switch (trip) {
       AsyncData(:final value) => _DesktopWidget(
         projectId: projectId,
@@ -104,25 +123,6 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, [reportId, items]);
 
-    ref.listen(reportSubmitControllerProvider, (_, state) {
-      if (state is ReportSubmitPending) {
-        LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
-
-        if (state is ReportSubmitDeleted) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.standard,
-                  message: Intl.message('report_form_delete'),
-                ),
-              );
-        }
-      }
-    });
-
     if (items.isEmpty) {
       return Center(
         child: Column(
@@ -181,10 +181,10 @@ class _DesktopWidget extends HookConsumerWidget {
                           child: CircleAvatar(
                             backgroundColor: Functions(
                               context,
-                            ).generateColorFromId(items[index].user.id),
+                            ).generateColorFromId(items[index].createdBy.id),
                             radius: 16.0,
                             child: Text(
-                              getInitials(items[index].user.username),
+                              getInitials(items[index].createdBy.username),
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -225,7 +225,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                   ),
                                   color:
                                       auth is AuthAuthenticated &&
-                                          auth.user.id == items[index].user.id
+                                          auth.user.id ==
+                                              items[index].createdBy.id
                                       ? colorScheme.primary.withValues(
                                           alpha: 0.1,
                                         )
@@ -234,7 +235,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 child: Row(
                                   children: [
                                     UserInformationWidget(
-                                      item: items[index].user,
+                                      item: items[index].createdBy,
                                     ),
                                     const Spacer(),
                                     ToolbarWidget(
