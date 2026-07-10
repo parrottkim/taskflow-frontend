@@ -11,7 +11,9 @@ class SearchWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(supplierFilterControllerProvider);
+    final filter = ref.watch(
+      supplierFilterControllerProvider(SupplierFilterScope.dataPage),
+    );
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(search: value.search),
@@ -47,7 +49,11 @@ class _DesktopWidget extends HookConsumerWidget {
         onSubmitted: (_) {
           if (keyword.text.isNotEmpty) {
             ref
-                .read(supplierFilterControllerProvider.notifier)
+                .read(
+                  supplierFilterControllerProvider(
+                    SupplierFilterScope.dataPage,
+                  ).notifier,
+                )
                 .setSearch(search: keyword.text);
           }
         },

@@ -9,9 +9,14 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ProjectClientFilterWidget extends HookConsumerWidget {
+  final ProjectFilterScope scope;
   final List<ClientGroup> clientItems;
 
-  const ProjectClientFilterWidget({super.key, required this.clientItems});
+  const ProjectClientFilterWidget({
+    super.key,
+    this.scope = ProjectFilterScope.scheduleProjectSelector,
+    required this.clientItems,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -111,7 +116,7 @@ class ProjectClientFilterWidget extends HookConsumerWidget {
             getParentItem(currentPath, clientItems, selectedItem),
         onChanged: (newPath) {
           ref
-              .read(projectFilterControllerProvider.notifier)
+              .read(projectFilterControllerProvider(scope).notifier)
               .setClients(
                 clients: newPath.isEmpty
                     ? null

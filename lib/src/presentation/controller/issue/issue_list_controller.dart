@@ -127,6 +127,31 @@ class IssueListController extends _$IssueListController {
     );
   }
 
+  void removeProcurementRequest({required int requestId}) {
+    final value = state.value;
+    if (value == null) return;
+
+    state = AsyncValue.data(
+      value.copyWith(
+        procurements: value.procurements.map((procurement) {
+          final hasTargetRequest = procurement.requests.any(
+            (request) => request.id == requestId,
+          );
+
+          if (!hasTargetRequest) {
+            return procurement;
+          }
+
+          return procurement.copyWith(
+            requests: procurement.requests
+                .where((request) => request.id != requestId)
+                .toList(),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   void addListItem({required Issue item}) {
     final value = state.value;
     if (value == null) return;
@@ -137,7 +162,7 @@ class IssueListController extends _$IssueListController {
           ApprovalIssue(
             id: item.id,
             category: item.category,
-            user: item.user,
+            createdBy: item.createdBy,
             content: item.content,
             attachments: item.attachments,
             createdAt: item.createdAt,
@@ -151,7 +176,7 @@ class IssueListController extends _$IssueListController {
           ProcurementIssue(
             id: item.id,
             category: item.category,
-            user: item.user,
+            createdBy: item.createdBy,
             content: item.content,
             procurementItems: item.procurementItems,
             requests: item.requests,
@@ -166,7 +191,7 @@ class IssueListController extends _$IssueListController {
         contract: ContractIssue(
           id: item.id,
           category: item.category,
-          user: item.user,
+          createdBy: item.createdBy,
           content: item.content,
           attachments: item.attachments,
           currency: item.currency!,
@@ -180,7 +205,7 @@ class IssueListController extends _$IssueListController {
         kickoff: KickoffIssue(
           id: item.id,
           category: item.category,
-          user: item.user,
+          createdBy: item.createdBy,
           content: item.content,
           kickoffDate: item.kickoffDate!,
           attachments: item.attachments,
@@ -192,7 +217,7 @@ class IssueListController extends _$IssueListController {
         transaction: TransactionIssue(
           id: item.id,
           category: item.category,
-          user: item.user,
+          createdBy: item.createdBy,
           content: item.content,
           attachments: item.attachments,
           currency: item.currency!,
@@ -206,7 +231,7 @@ class IssueListController extends _$IssueListController {
         payment: PaymentIssue(
           id: item.id,
           category: item.category,
-          user: item.user,
+          createdBy: item.createdBy,
           content: item.content,
           attachments: item.attachments,
           createdAt: item.createdAt,
@@ -256,7 +281,8 @@ class IssueListController extends _$IssueListController {
         contract: ContractIssue(
           id: issue.id,
           category: issue.category,
-          user: issue.user,
+          createdBy: issue.createdBy,
+          updatedBy: issue.updatedBy,
           content: issue.content,
           attachments: issue.attachments,
           currency: issue.currency!,
@@ -270,7 +296,8 @@ class IssueListController extends _$IssueListController {
         transaction: TransactionIssue(
           id: issue.id,
           category: issue.category,
-          user: issue.user,
+          createdBy: issue.createdBy,
+          updatedBy: issue.updatedBy,
           content: issue.content,
           attachments: issue.attachments,
           currency: issue.currency!,
@@ -284,7 +311,8 @@ class IssueListController extends _$IssueListController {
         kickoff: KickoffIssue(
           id: issue.id,
           category: issue.category,
-          user: issue.user,
+          createdBy: issue.createdBy,
+          updatedBy: issue.updatedBy,
           content: issue.content,
           kickoffDate: issue.kickoffDate!,
           attachments: issue.attachments,
@@ -296,7 +324,8 @@ class IssueListController extends _$IssueListController {
         payment: PaymentIssue(
           id: issue.id,
           category: issue.category,
-          user: issue.user,
+          createdBy: issue.createdBy,
+          updatedBy: issue.updatedBy,
           content: issue.content,
           attachments: issue.attachments,
           createdAt: issue.createdAt,
@@ -310,7 +339,8 @@ class IssueListController extends _$IssueListController {
                   ? ApprovalIssue(
                       id: issue.id,
                       category: issue.category,
-                      user: issue.user,
+                      createdBy: issue.createdBy,
+                      updatedBy: issue.updatedBy,
                       content: issue.content,
                       attachments: issue.attachments,
                       createdAt: issue.createdAt,
@@ -327,7 +357,8 @@ class IssueListController extends _$IssueListController {
                   ? ProcurementIssue(
                       id: issue.id,
                       category: issue.category,
-                      user: issue.user,
+                      createdBy: issue.createdBy,
+                      updatedBy: issue.updatedBy,
                       content: issue.content,
                       procurementItems: issue.procurementItems,
                       requests: issue.requests,
@@ -343,52 +374,52 @@ class IssueListController extends _$IssueListController {
     });
   }
 
-  void removeListItem({required Issue item}) {
+  void removeListItem({required int id, IssueCategory? category}) {
     final value = state.value;
     if (value == null) return;
 
-    state = AsyncValue.data(switch (item.category) {
-      IssueApproval() => value.copyWith(
-        approvals: value.approvals.where((d) => d.id != item.id).toList(),
+    final isApproval =
+        category is IssueApproval ||
+        value.approvals.any((approval) => approval.id == id);
+    final isProcurement =
+        category is IssueProcurement ||
+        value.procurements.any((procurement) => procurement.id == id);
+    final isContract = category is IssueContract || value.contract?.id == id;
+    final isKickoff = category is IssueKickoff || value.kickoff?.id == id;
+    final isTransaction =
+        category is IssueTransaction || value.transaction?.id == id;
+    final isPayment = category is IssuePayment || value.payment?.id == id;
+
+    state = AsyncValue.data(
+      value.copyWith(
+        approvals: isApproval
+            ? value.approvals.where((approval) => approval.id != id).toList()
+            : value.approvals,
+        procurements: isProcurement
+            ? value.procurements
+                  .where((procurement) => procurement.id != id)
+                  .toList()
+            : value.procurements,
+        contract: isContract ? null : value.contract,
+        kickoff: isKickoff ? null : value.kickoff,
+        transaction: isTransaction ? null : value.transaction,
+        payment: isPayment ? null : value.payment,
       ),
-      IssueProcurement() => value.copyWith(
-        procurements: value.procurements.where((p) => p.id != item.id).toList(),
-      ),
-      IssueContract() => value.copyWith(contract: null),
-      IssueKickoff() => value.copyWith(kickoff: null),
-      IssueTransaction() => value.copyWith(transaction: null),
-      IssuePayment() => value.copyWith(payment: null),
-      _ => value,
-    });
+    );
 
     // 카운트 감소
-    switch (item.category) {
-      case IssueApproval():
-        ref
-            .read(
-              projectDetailControllerProvider(projectId: projectId).notifier,
-            )
-            .decreaseApprovalsCount();
-        break;
-      case IssueProcurement():
-        ref
-            .read(
-              projectDetailControllerProvider(projectId: projectId).notifier,
-            )
-            .decreaseProcurementsCount();
-        break;
-      case IssueContract() ||
-          IssueKickoff() ||
-          IssueTransaction() ||
-          IssuePayment():
-        ref
-            .read(
-              projectDetailControllerProvider(projectId: projectId).notifier,
-            )
-            .decreaseContractsCount();
-        break;
-      default:
-        break;
+    if (isApproval) {
+      ref
+          .read(projectDetailControllerProvider(projectId: projectId).notifier)
+          .decreaseApprovalsCount();
+    } else if (isProcurement) {
+      ref
+          .read(projectDetailControllerProvider(projectId: projectId).notifier)
+          .decreaseProcurementsCount();
+    } else if (isContract || isKickoff || isTransaction || isPayment) {
+      ref
+          .read(projectDetailControllerProvider(projectId: projectId).notifier)
+          .decreaseContractsCount();
     }
   }
 }

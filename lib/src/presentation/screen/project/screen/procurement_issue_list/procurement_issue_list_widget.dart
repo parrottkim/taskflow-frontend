@@ -8,7 +8,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_display_item.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_export_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_request_export_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_request_item.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/progress_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/toolbar_widget.dart';
@@ -31,6 +31,25 @@ class ProcurementIssueListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
+    ref.listen(issueSubmitControllerProvider, (_, state) {
+      if (state is IssueSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is IssueSubmitDeleted) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('issue_form_deleted'),
+                ),
+              );
+        }
+      }
+    });
+
     return switch (issue) {
       AsyncData(:final value) => _DesktopWidget(
         projectId: projectId,
@@ -50,7 +69,7 @@ class ProcurementIssueListWidget extends ConsumerWidget {
             ProcurementIssue(
               id: 0,
               category: IssueCategory.dummy(),
-              user: User.dummy(),
+              createdBy: User.dummy(),
               content: '',
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
@@ -109,25 +128,6 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, [issueId, items]);
 
-    ref.listen(issueSubmitControllerProvider, (_, state) {
-      if (state is IssueSubmitPending) {
-        LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
-
-        if (state is IssueSubmitDeleted) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.standard,
-                  message: Intl.message('issue_form_delete'),
-                ),
-              );
-        }
-      }
-    });
-
     if (items.isEmpty) {
       return Center(
         child: Column(
@@ -181,10 +181,10 @@ class _DesktopWidget extends HookConsumerWidget {
                     child: CircleAvatar(
                       backgroundColor: Functions(
                         context,
-                      ).generateColorFromId(items[index].user.id),
+                      ).generateColorFromId(items[index].createdBy.id),
                       radius: 16.0,
                       child: Text(
-                        getInitials(items[index].user.username),
+                        getInitials(items[index].createdBy.username),
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
@@ -225,20 +225,23 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                             color:
                                 auth is AuthAuthenticated &&
-                                    auth.user.id == items[index].user.id
+                                    auth.user.id == items[index].createdBy.id
                                 ? colorScheme.primary.withValues(alpha: 0.1)
                                 : colorScheme.surfaceContainerLow,
                           ),
                           child: Row(
                             children: [
-                              UserInformationWidget(item: items[index].user),
+                              UserInformationWidget(
+                                item: items[index].createdBy,
+                              ),
                               const Spacer(),
                               ToolbarWidget(
                                 issueId: items[index].id,
-                                categoryId: items[index].category.id,
+                                category: items[index].category,
                                 createdAt: items[index].createdAt,
                                 updatedAt: items[index].updatedAt,
-                                user: items[index].user,
+                                createdBy: items[index].createdBy,
+                                updatedBy: items[index].updatedBy,
                               ),
                             ],
                           ),
@@ -259,13 +262,14 @@ class _DesktopWidget extends HookConsumerWidget {
                                 items: items[index].procurementItems,
                                 requests: items[index].requests,
                               ),
-                              ProcurementExportWidget(
+                              ProcurementRequestExportWidget(
                                 item: items[index],
                                 requests: items[index].requests,
                               ),
                               if (items[index].requests.isNotEmpty)
                                 ProcurementRequestItem(
                                   projectId: projectId,
+                                  issueId: items[index].id,
                                   requests: items[index].requests,
                                 ),
                               if (auth is AuthAuthenticated &&

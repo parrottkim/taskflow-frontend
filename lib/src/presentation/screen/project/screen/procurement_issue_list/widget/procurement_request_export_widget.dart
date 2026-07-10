@@ -6,11 +6,11 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
-class ProcurementExportWidget extends ConsumerWidget {
+class ProcurementRequestExportWidget extends ConsumerWidget {
   final ProcurementIssue item;
   final List<ProcurementIssueRequest> requests;
 
-  const ProcurementExportWidget({
+  const ProcurementRequestExportWidget({
     super.key,
     required this.item,
     required this.requests,
@@ -33,20 +33,15 @@ class ProcurementExportWidget extends ConsumerWidget {
       ignoring: requests.isNotEmpty,
       child: Opacity(
         opacity: requests.isNotEmpty ? 0.4 : 1.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: TextButton.icon(
-                onPressed: () async => await ref
-                    .read(issueExportControllerProvider.notifier)
-                    .exportPurchaseRequest(issueId: item.id),
-                icon: Icon(Symbols.print_rounded),
-                label: Text(Intl.message('issue_form_procurement_18')),
-              ),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: TextButton.icon(
+            onPressed: () async => await ref
+                .read(issueExportControllerProvider.notifier)
+                .exportPurchaseRequest(issueId: item.id),
+            icon: Icon(Symbols.print_rounded),
+            label: Text(Intl.message('issue_form_procurement_18')),
+          ),
         ),
       ),
     );

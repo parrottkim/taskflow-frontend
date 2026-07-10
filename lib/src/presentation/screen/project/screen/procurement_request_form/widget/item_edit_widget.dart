@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide DatePickerDialog;
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -204,7 +205,9 @@ class ItemEditWidget extends HookWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  TextField(
+                  TextFormField(
+                    key: ValueKey('request-title-$supplierId'),
+                    initialValue: titles[supplierId] ?? '',
                     onChanged: (value) {
                       onTitleChanged(supplierId: supplierId, value: value);
                     },
@@ -279,38 +282,32 @@ class ItemEditWidget extends HookWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      CustomToggleButton(
-                        value: isDeliveryNullable,
-                        onChanged: (value) {
-                          final checked = value ?? false;
-                          nullableDeliverySupplierIds.value = {
-                            ...nullableDeliverySupplierIds.value,
-                          };
+                  CustomToggleButton(
+                    value: isDeliveryNullable,
+                    onChanged: (value) {
+                      final checked = value ?? false;
+                      nullableDeliverySupplierIds.value = {
+                        ...nullableDeliverySupplierIds.value,
+                      };
 
-                          if (checked) {
-                            nullableDeliverySupplierIds.value = {
-                              ...nullableDeliverySupplierIds.value,
-                              supplierId,
-                            };
-                            onDeliveryDateChanged(
-                              supplierId: supplierId,
-                              date: null,
-                            );
-                          } else {
-                            nullableDeliverySupplierIds.value = {
-                              ...nullableDeliverySupplierIds.value,
-                            }..remove(supplierId);
-                          }
-                        },
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        Intl.message('issue_form_procurement_requested_5'),
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ],
+                      if (checked) {
+                        nullableDeliverySupplierIds.value = {
+                          ...nullableDeliverySupplierIds.value,
+                          supplierId,
+                        };
+                        onDeliveryDateChanged(
+                          supplierId: supplierId,
+                          date: null,
+                        );
+                      } else {
+                        nullableDeliverySupplierIds.value = {
+                          ...nullableDeliverySupplierIds.value,
+                        }..remove(supplierId);
+                      }
+                    },
+                    child: Text(
+                      Intl.message('issue_form_procurement_requested_5'),
+                    ),
                   ),
                   InvalidWidget(
                     visible:
@@ -332,7 +329,9 @@ class ItemEditWidget extends HookWidget {
                     ignoring: isPaymentTermsNullable,
                     child: Opacity(
                       opacity: isPaymentTermsNullable ? 0.4 : 1.0,
-                      child: TextField(
+                      child: TextFormField(
+                        key: ValueKey('request-payment-terms-$supplierId'),
+                        initialValue: paymentTerms[supplierId] ?? '',
                         onChanged: (value) {
                           onPaymentTermsChanged(
                             supplierId: supplierId,
@@ -343,35 +342,29 @@ class ItemEditWidget extends HookWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      CustomToggleButton(
-                        value: isPaymentTermsNullable,
-                        onChanged: (value) {
-                          final checked = value ?? false;
+                  CustomToggleButton(
+                    value: isPaymentTermsNullable,
+                    onChanged: (value) {
+                      final checked = value ?? false;
 
-                          if (checked) {
-                            nullablePaymentTermsSupplierIds.value = {
-                              ...nullablePaymentTermsSupplierIds.value,
-                              supplierId,
-                            };
-                            onPaymentTermsChanged(
-                              supplierId: supplierId,
-                              value: null,
-                            );
-                          } else {
-                            nullablePaymentTermsSupplierIds.value = {
-                              ...nullablePaymentTermsSupplierIds.value,
-                            }..remove(supplierId);
-                          }
-                        },
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        Intl.message('issue_form_procurement_requested_5'),
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ],
+                      if (checked) {
+                        nullablePaymentTermsSupplierIds.value = {
+                          ...nullablePaymentTermsSupplierIds.value,
+                          supplierId,
+                        };
+                        onPaymentTermsChanged(
+                          supplierId: supplierId,
+                          value: null,
+                        );
+                      } else {
+                        nullablePaymentTermsSupplierIds.value = {
+                          ...nullablePaymentTermsSupplierIds.value,
+                        }..remove(supplierId);
+                      }
+                    },
+                    child: Text(
+                      Intl.message('issue_form_procurement_requested_5'),
+                    ),
                   ),
                   InvalidWidget(
                     visible:
@@ -398,23 +391,17 @@ class ItemEditWidget extends HookWidget {
                   else
                     Text('${NumberFormat('#,###').format(total)} ₩'),
                   SizedBox(height: 8.0),
-                  Row(
-                    children: [
-                      CustomToggleButton(
-                        value: hasFees[supplierId],
-                        onChanged: (value) {
-                          onHasFeeChanged(
-                            supplierId: supplierId,
-                            hasFee: value ?? false,
-                          );
-                        },
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        Intl.message('issue_form_procurement_requested_1'),
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ],
+                  CustomToggleButton(
+                    value: hasFees[supplierId],
+                    onChanged: (value) {
+                      onHasFeeChanged(
+                        supplierId: supplierId,
+                        hasFee: value ?? false,
+                      );
+                    },
+                    child: Text(
+                      Intl.message('issue_form_procurement_requested_1'),
+                    ),
                   ),
                   SizedBox(height: 24.0),
                   Text(
@@ -725,55 +712,49 @@ class ItemEditWidget extends HookWidget {
                       DataCell(
                         SizedBox(
                           width: 90.0,
-                          child: ListenableBuilder(
-                            listenable: quantityFocuses[globalIndex],
-                            builder: (_, _) => Material(
-                              elevation: quantityFocuses[globalIndex].hasFocus
-                                  ? 1.0
-                                  : 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: quantityFocuses[globalIndex].hasFocus
-                                  ? colorScheme.surfaceBright
-                                  : colorScheme.surfaceContainerLow,
-                              child: TextField(
-                                controller: quantityControllers[globalIndex],
-                                focusNode: quantityFocuses[globalIndex],
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [DecimalInputFormatter()],
-                                maxLines: 1,
-                                textAlign: TextAlign.end,
-                                style: textTheme.bodyMedium,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: BorderSide(
-                                      width: 2.0,
-                                      color: colorScheme.primary,
-                                    ),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: colorScheme.surfaceContainerLow,
+                            child: TextField(
+                              controller: quantityControllers[globalIndex],
+                              focusNode: quantityFocuses[globalIndex],
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              style: textTheme.bodyMedium,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
                                   ),
                                 ),
-                                onChanged: (value) {
-                                  updateTotalAmountFromInputs();
-                                  onItemChanged(
-                                    supplierId: supplierId,
-                                    index: itemIndex,
-                                    quantity: value,
-                                  );
-                                },
-                                onSubmitted: (_) => FocusScope.of(
-                                  context,
-                                ).requestFocus(unitPriceFocuses[globalIndex]),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: BorderSide(
+                                    width: 2.0,
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
                               ),
+                              onChanged: (value) {
+                                updateTotalAmountFromInputs();
+                                onItemChanged(
+                                  supplierId: supplierId,
+                                  index: itemIndex,
+                                  quantity: value,
+                                );
+                              },
+                              onSubmitted: (_) => FocusScope.of(
+                                context,
+                              ).requestFocus(unitPriceFocuses[globalIndex]),
                             ),
                           ),
                         ),
@@ -781,53 +762,45 @@ class ItemEditWidget extends HookWidget {
                       DataCell(
                         SizedBox(
                           width: 150.0,
-                          child: ListenableBuilder(
-                            listenable: unitPriceFocuses[globalIndex],
-                            builder: (_, _) => Material(
-                              elevation: unitPriceFocuses[globalIndex].hasFocus
-                                  ? 1.0
-                                  : 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: unitPriceFocuses[globalIndex].hasFocus
-                                  ? colorScheme.surfaceBright
-                                  : colorScheme.surfaceContainerLow,
-                              child: TextField(
-                                controller: unitPriceControllers[globalIndex],
-                                focusNode: unitPriceFocuses[globalIndex],
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [DecimalInputFormatter()],
-                                maxLines: 1,
-                                textAlign: TextAlign.end,
-                                style: textTheme.bodyMedium,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                    ),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: colorScheme.surfaceContainerLow,
+                            child: TextField(
+                              controller: unitPriceControllers[globalIndex],
+                              focusNode: unitPriceFocuses[globalIndex],
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [DecimalInputFormatter()],
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              style: textTheme.bodyMedium,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    borderSide: BorderSide(
-                                      width: 2.0,
-                                      color: colorScheme.primary,
-                                    ),
-                                  ),
-                                  suffixText: '₩',
                                 ),
-                                onChanged: (value) {
-                                  updateTotalAmountFromInputs();
-                                  onItemChanged(
-                                    supplierId: supplierId,
-                                    index: itemIndex,
-                                    unitPrice: value,
-                                  );
-                                },
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: BorderSide(
+                                    width: 2.0,
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                                suffixText: '₩',
                               ),
+                              onChanged: (value) {
+                                updateTotalAmountFromInputs();
+                                onItemChanged(
+                                  supplierId: supplierId,
+                                  index: itemIndex,
+                                  unitPrice: value,
+                                );
+                              },
                             ),
                           ),
                         ),

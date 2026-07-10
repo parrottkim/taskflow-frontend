@@ -260,18 +260,94 @@ class DeleteDialog extends StatelessWidget {
 // ==========================================
 // 2. 고유 레이아웃을 가진 특수 목적 다이얼로그들
 // ==========================================
-class SearchDialog extends HookConsumerWidget {
-  const SearchDialog({super.key});
+class NavigationSearchDialog extends HookConsumerWidget {
+  const NavigationSearchDialog({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
+    final auth = ref.watch(authControllerProvider);
     final local = ref.watch(localControllerProvider);
 
     final controller = useTextEditingController();
     final keyword = useValueListenable(controller);
+    final search = keyword.text.trim().isEmpty
+        ? null
+        : ref.watch(navigationSearchControllerProvider);
+
+    void setSearchText(String value) {
+      controller.value = TextEditingValue(
+        text: value,
+        selection: TextSelection.collapsed(offset: value.length),
+        composing: TextRange.empty,
+      );
+    }
+
+    final isAdmin = auth is AuthAuthenticated && auth.user.isAdmin;
+    final menus = WidgetPreset(
+      context,
+    ).navigationItems.whereType<NavigationButton>();
+    final filteredMenus = menus.where((item) {
+      if (!item.isAdmin || isAdmin) {
+        if (keyword.text.isEmpty) return true;
+        return item.label.toLowerCase().contains(keyword.text.toLowerCase()) ||
+            item.route.toLowerCase().contains(keyword.text.toLowerCase());
+      }
+      return false;
+    }).toList();
+
+    void moveToMenu(NavigationButton item) {
+      final router = GoRouter.of(context);
+
+      ref.read(localControllerProvider.notifier).addKeywords(text: item.label);
+      context.pop();
+      router.goNamed(item.route);
+    }
+
+    void moveToProject(Project project) {
+      final router = GoRouter.of(context);
+
+      ref
+          .read(localControllerProvider.notifier)
+          .addKeywords(text: keyword.text);
+      context.pop();
+      router.goNamed(
+        RouteNames.projectDetail,
+        pathParameters: {'project_id': project.id.toString()},
+      );
+    }
+
+    void moveToProjectSearch(String value) {
+      final nextSearch = value.trim();
+      if (nextSearch.isEmpty) return;
+
+      final router = GoRouter.of(context);
+
+      ref.read(localControllerProvider.notifier).addKeywords(text: nextSearch);
+      context.pop();
+      router.goNamed(
+        RouteNames.project,
+        queryParameters: {'search': nextSearch},
+      );
+    }
+
+    void submitSearch() {
+      final nextSearch = keyword.text.trim();
+      if (nextSearch.isEmpty) return;
+
+      if (filteredMenus.isNotEmpty) {
+        moveToMenu(filteredMenus.first);
+        return;
+      }
+
+      switch (search) {
+        case AsyncData(:final value) when value.projects.isNotEmpty:
+          moveToProject(value.projects.first);
+        default:
+          moveToProjectSearch(nextSearch);
+      }
+    }
 
     return Dialog(
       child: ContainerWidget(
@@ -285,13 +361,11 @@ class SearchDialog extends HookConsumerWidget {
             TextField(
               controller: controller,
               autofocus: true,
-              onSubmitted: keyword.text.isNotEmpty
-                  ? (_) {
-                      ref
-                          .read(localControllerProvider.notifier)
-                          .addKeywords(text: keyword.text);
-                    }
-                  : null,
+              textInputAction: TextInputAction.search,
+              onSubmitted: (_) => submitSearch(),
+              onChanged: (value) => ref
+                  .read(navigationFilterControllerProvider.notifier)
+                  .debounceSearch(search: value),
               decoration: InputDecoration(
                 hintText: Intl.message('navigation_search_title'),
                 prefixIcon: Padding(
@@ -305,6 +379,26 @@ class SearchDialog extends HookConsumerWidget {
                       BlendMode.srcIn,
                     ),
                     semanticsLabel: 'Search Icon',
+                  ),
+                ),
+                suffixIcon: IconButton(
+                  tooltip: keyword.text.isEmpty
+                      ? Intl.message('common_close')
+                      : Intl.message('common_cancel'),
+                  onPressed: keyword.text.isEmpty
+                      ? () => context.pop()
+                      : () {
+                          setSearchText('');
+                          ref
+                              .read(navigationFilterControllerProvider.notifier)
+                              .setSearch(search: '');
+                        },
+                  icon: Icon(
+                    keyword.text.isEmpty
+                        ? Symbols.close_rounded
+                        : Symbols.cancel_rounded,
+                    size: 20.0,
+                    color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
                 ),
                 border: const OutlineInputBorder(
@@ -328,60 +422,323 @@ class SearchDialog extends HookConsumerWidget {
               ),
             ),
             const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            SizedBox(
+              height: 420.0,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 120),
+                switchInCurve: Curves.easeOut,
+                switchOutCurve: Curves.easeOut,
+                child: keyword.text.isEmpty
+                    ? _SearchIdleContent(
+                        key: const ValueKey('idle'),
+                        local: local,
+                        navigationItems: filteredMenus,
+                        onKeywordTap: (value) {
+                          setSearchText(value);
+                          ref
+                              .read(navigationFilterControllerProvider.notifier)
+                              .setSearch(search: value);
+                        },
+                        onKeywordRemove: () => ref
+                            .read(localControllerProvider.notifier)
+                            .removeKeywords(),
+                        onMenuTap: moveToMenu,
+                      )
+                    : _SearchActiveContent(
+                        key: const ValueKey('active'),
+                        keyword: keyword.text,
+                        projectSearch: search!,
+                        menuResults: filteredMenus,
+                        onMenuTap: moveToMenu,
+                        onProjectTap: moveToProject,
+                        onSearchTap: moveToProjectSearch,
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchIdleContent extends StatelessWidget {
+  final AsyncValue<LocalState> local;
+  final List<NavigationButton> navigationItems;
+  final ValueChanged<String> onKeywordTap;
+  final VoidCallback onKeywordRemove;
+  final ValueChanged<NavigationButton> onMenuTap;
+
+  const _SearchIdleContent({
+    super.key,
+    required this.local,
+    required this.navigationItems,
+    required this.onKeywordTap,
+    required this.onKeywordRemove,
+    required this.onMenuTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      children: [
+        _SearchSectionHeader(
+          title: Intl.message('navigation_search_keyword'),
+          action: switch (local) {
+            AsyncData(:final value) when value.keywords.isNotEmpty =>
+              CustomTextButton(
+                onPressed: onKeywordRemove,
+                text: Intl.message('navigation_search_keyword_erase'),
+              ),
+            _ => null,
+          },
+        ),
+        ...switch (local) {
+          AsyncData(:final value) =>
+            value.keywords.isNotEmpty
+                ? value.keywords
+                      .map(
+                        (keyword) => _SearchTile(
+                          icon: Symbols.history_rounded,
+                          title: keyword.keyword,
+                          onTap: () => onKeywordTap(keyword.keyword),
+                        ),
+                      )
+                      .toList()
+                : [
+                    _SearchEmptyText(
+                      text: Intl.message('navigation_search_keyword_empty'),
+                    ),
+                  ],
+          _ => [
+            Skeletonizer(
+              child: Column(
+                children: List.generate(
+                  3,
+                  (_) => _SearchTile(
+                    icon: Symbols.history_rounded,
+                    title: '최근 검색어',
+                    onTap: () {},
+                  ),
+                ),
+              ),
+            ),
+          ],
+        },
+        const SizedBox(height: 12.0),
+        _SearchSectionHeader(title: Intl.message('navigation_search_menu')),
+        ...navigationItems.map(
+          (item) => _SearchTile(
+            icon: item.icon,
+            title: item.label,
+            onTap: () => onMenuTap(item),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SearchActiveContent extends StatelessWidget {
+  final String keyword;
+  final AsyncValue<NavigationSearchState> projectSearch;
+  final List<NavigationButton> menuResults;
+  final ValueChanged<NavigationButton> onMenuTap;
+  final ValueChanged<Project> onProjectTap;
+  final ValueChanged<String> onSearchTap;
+
+  const _SearchActiveContent({
+    super.key,
+    required this.keyword,
+    required this.projectSearch,
+    required this.menuResults,
+    required this.onMenuTap,
+    required this.onProjectTap,
+    required this.onSearchTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      children: [
+        if (menuResults.isNotEmpty) ...[
+          _SearchSectionHeader(title: Intl.message('navigation_search_menu')),
+          ...menuResults.map(
+            (item) => _SearchTile(
+              icon: item.icon,
+              title: item.label,
+              onTap: () => onMenuTap(item),
+            ),
+          ),
+          const SizedBox(height: 12.0),
+        ],
+        switch (projectSearch) {
+          AsyncData(:final value) => _SearchProjectSection(
+            keyword: keyword,
+            projectResults: value.projects,
+            onProjectTap: onProjectTap,
+            onSearchTap: onSearchTap,
+          ),
+          AsyncError(:final error, :final stackTrace) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ErrorContainerWidget(error: error, stackTrace: stackTrace),
+          ),
+          _ => Skeletonizer(
+            child: _SearchProjectSection(
+              keyword: keyword,
+              projectResults: List.filled(3, Project.dummy()),
+              onProjectTap: (_) {},
+              onSearchTap: (_) {},
+            ),
+          ),
+        },
+      ],
+    );
+  }
+}
+
+class _SearchProjectSection extends StatelessWidget {
+  final String keyword;
+  final List<Project> projectResults;
+  final ValueChanged<Project> onProjectTap;
+  final ValueChanged<String> onSearchTap;
+
+  const _SearchProjectSection({
+    required this.keyword,
+    required this.projectResults,
+    required this.onProjectTap,
+    required this.onSearchTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _SearchSectionHeader(title: Intl.message('project')),
+        if (projectResults.isNotEmpty)
+          ...projectResults.map(
+            (project) => _SearchTile(
+              icon: Symbols.work_rounded,
+              title: project.name,
+              subtitle: project.code,
+              onTap: () => onProjectTap(project),
+            ),
+          ),
+        _SearchTile(
+          icon: Symbols.search_rounded,
+          title: Intl.message('navigation_search_project_all'),
+          subtitle: keyword,
+          onTap: () => onSearchTap(keyword),
+        ),
+        if (projectResults.isEmpty)
+          _SearchEmptyText(
+            text: Intl.message('navigation_search_result_empty'),
+          ),
+      ],
+    );
+  }
+}
+
+class _SearchSectionHeader extends StatelessWidget {
+  final String title;
+  final Widget? action;
+
+  const _SearchSectionHeader({required this.title, this.action});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 8.0),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const Spacer(),
+          ?action,
+        ],
+      ),
+    );
+  }
+}
+
+class _SearchTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback onTap;
+
+  const _SearchTile({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 20.0,
+              color: colorScheme.outline.withValues(alpha: 0.7),
+            ),
+            const SizedBox(width: 10.0),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      children: [
-                        Text(
-                          Intl.message('navigation_search_keyword'),
-                          style: textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const Spacer(),
-                        CustomTextButton(
-                          onPressed: () => ref
-                              .read(localControllerProvider.notifier)
-                              .removeKeywords(),
-                          text: Intl.message('navigation_search_keyword_erase'),
-                        ),
-                      ],
-                    ),
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.bodyMedium,
                   ),
-                  switch (local) {
-                    AsyncData(:final value) =>
-                      value.keywords.isNotEmpty
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              itemCount: value.keywords.length,
-                              itemBuilder: (context, index) => ListTile(
-                                onTap: () {},
-                                title: Text(value.keywords[index].keyword),
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0,
-                                vertical: 12.0,
-                              ),
-                              child: Text(
-                                Intl.message('navigation_search_keyword_empty'),
-                              ),
-                            ),
-                    _ => const SizedBox(),
-                  },
+                  if (subtitle != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: Text(
+                        subtitle!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurface.withValues(alpha: 0.55),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _SearchEmptyText extends StatelessWidget {
+  final String text;
+
+  const _SearchEmptyText({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      child: Text(text),
     );
   }
 }
@@ -683,11 +1040,13 @@ class ErrorDialog extends ConsumerWidget {
 }
 
 class UserDepartmentSegmentWidget extends HookConsumerWidget {
+  final UserFilterScope scope;
   final UserDepartment? department;
   final List<UserDepartment> departmentItems;
 
   const UserDepartmentSegmentWidget({
     super.key,
+    this.scope = UserFilterScope.userSelectorDialog,
     required this.department,
     required this.departmentItems,
   });
@@ -703,8 +1062,8 @@ class UserDepartmentSegmentWidget extends HookConsumerWidget {
       onTap: (index) async {
         selectedItem.value = items[index];
         ref
-            .read(userFilterControllerProvider.notifier)
-            .updateDepartment(department: selectedItem.value);
+            .read(userFilterControllerProvider(scope).notifier)
+            .setDepartment(department: selectedItem.value);
       },
       tabAlignment: TabAlignment.start,
       isScrollable: true,
@@ -723,55 +1082,121 @@ class UserDepartmentSegmentWidget extends HookConsumerWidget {
   }
 }
 
-class UserDepartmentFilterWidget extends ConsumerWidget {
+class UserDepartmentFilterWidget extends HookWidget {
   final UserDepartment? department;
+  final List<UserDepartmentGroup> departmentGroups;
   final List<UserDepartment> departmentItems;
+  final ValueChanged<UserDepartment?>? onChanged;
+  final ValueChanged<List<UserDepartment>>? onPathChanged;
 
   const UserDepartmentFilterWidget({
     super.key,
     required this.department,
+    required this.departmentGroups,
     required this.departmentItems,
+    this.onChanged,
+    this.onPathChanged,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ElevatedDropdownButton(
-      onChanged: (value) {
-        ref
-            .read(userFilterControllerProvider.notifier)
-            .updateDepartment(department: value);
-      },
-      items: departmentItems,
-      selectedItem: ValueNotifier(department),
-      icon: const Icon(Symbols.category_rounded),
-      label: Text(
-        department == null
-            ? Intl.message('project_form_user_department')
-            : department!.name,
-      ),
-      itemBuilder: (value) => Text(value.name),
+  Widget build(BuildContext context) {
+    final selectedPath = useState<List<UserDepartment>>(
+      _getSelectedPath(department),
     );
+
+    useEffect(() {
+      selectedPath.value = _getSelectedPath(department);
+      return null;
+    }, [department, departmentGroups, departmentItems]);
+
+    return BreadcrumbDropdownButton<UserDepartment>(
+      items: departmentItems,
+      selectedPath: selectedPath,
+      icon: const Icon(Symbols.category_rounded),
+      label: Intl.message('project_form_user_department'),
+      itemBuilder: (value) => Text(value.name),
+      getNextLevelItems: (currentPath, allItems) =>
+          _getNextLevelItems(currentPath),
+      getParentItem: (currentPath, allItems, selectedItem) =>
+          _getParentItem(currentPath, selectedItem),
+      onChanged: (newPath) {
+        onPathChanged?.call(newPath);
+        onChanged?.call(newPath.isEmpty ? null : newPath.last);
+      },
+    );
+  }
+
+  List<UserDepartment> _getSelectedPath(UserDepartment? selectedDepartment) {
+    if (selectedDepartment == null || departmentGroups.isEmpty) return [];
+
+    final departmentsById = {for (final item in departmentItems) item.id: item};
+    final path = <UserDepartment>[];
+    var current = departmentsById[selectedDepartment.id];
+
+    while (current != null) {
+      path.insert(0, current);
+
+      final parentId = _getParentId(current);
+      current = parentId == null ? null : departmentsById[parentId];
+    }
+
+    return path;
+  }
+
+  List<UserDepartment> _getNextLevelItems(List<UserDepartment> currentPath) {
+    if (departmentGroups.isEmpty) return departmentItems;
+
+    final depth = currentPath.length;
+    final parentId = currentPath.isEmpty ? null : currentPath.last.id;
+
+    return departmentGroups
+        .where((group) => group.depth == depth && group.parentId == parentId)
+        .expand((group) => group.items)
+        .toList();
+  }
+
+  UserDepartment? _getParentItem(
+    List<UserDepartment> currentPath,
+    UserDepartment selectedItem,
+  ) {
+    final index = currentPath.indexWhere((item) => item.id == selectedItem.id);
+    if (index > 0) return currentPath[index - 1];
+
+    final parentId = _getParentId(selectedItem);
+    if (parentId == null) return null;
+
+    return departmentItems.where((item) => item.id == parentId).firstOrNull;
+  }
+
+  int? _getParentId(UserDepartment item) {
+    final itemGroup = departmentGroups
+        .where(
+          (group) => group.items.any((department) => department.id == item.id),
+        )
+        .firstOrNull;
+
+    if (itemGroup == null || itemGroup.depth == 0) return null;
+
+    return item.root ?? itemGroup.parentId;
   }
 }
 
-class UserPositionFilterWidget extends ConsumerWidget {
+class UserPositionFilterWidget extends StatelessWidget {
   final UserPosition? position;
   final List<UserPosition> positionItems;
+  final ValueChanged<UserPosition?> onChanged;
 
   const UserPositionFilterWidget({
     super.key,
     required this.position,
     required this.positionItems,
+    required this.onChanged,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return ElevatedDropdownButton(
-      onChanged: (value) {
-        ref
-            .read(userFilterControllerProvider.notifier)
-            .updatePosition(position: value);
-      },
+      onChanged: onChanged,
       items: positionItems,
       selectedItem: ValueNotifier(position),
       icon: const Icon(Symbols.chair_rounded),
@@ -786,6 +1211,32 @@ class UserPositionFilterWidget extends ConsumerWidget {
 }
 
 enum UserSelectionType { single, multiple }
+
+UserDepartment? _findUserDepartment({
+  required List<UserDepartment> items,
+  required int? departmentId,
+}) {
+  if (departmentId == null) return null;
+
+  for (final item in items) {
+    if (item.id == departmentId) return item;
+  }
+
+  return null;
+}
+
+UserPosition? _findUserPosition({
+  required List<UserPosition> items,
+  required int? positionId,
+}) {
+  if (positionId == null) return null;
+
+  for (final item in items) {
+    if (item.id == positionId) return item;
+  }
+
+  return null;
+}
 
 class UserSelectorDialog extends HookConsumerWidget {
   final UserSelectionType selectionType;
@@ -807,8 +1258,13 @@ class UserSelectorDialog extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final filter = ref.watch(userFilterControllerProvider);
-    final user = ref.watch(userListControllerProvider);
+    final filter = ref.watch(
+      userFilterControllerProvider(UserFilterScope.userSelectorDialog),
+    );
+    final options = ref.watch(userOptionsControllerProvider);
+    final user = ref.watch(
+      userListControllerProvider(UserFilterScope.userSelectorDialog),
+    );
 
     final searchController = useTextEditingController();
     final selectedUsers = useState<List<User>>(initialSelectedUsers);
@@ -920,53 +1376,26 @@ class UserSelectorDialog extends HookConsumerWidget {
                 ),
               ),
               onChanged: (value) => ref
-                  .read(userFilterControllerProvider.notifier)
-                  .updateSearch(search: value),
+                  .read(
+                    userFilterControllerProvider(
+                      UserFilterScope.userSelectorDialog,
+                    ).notifier,
+                  )
+                  .debounceSearch(search: value),
             ),
-            switch (filter) {
-              AsyncData(:final value) => Column(
-                children: [
-                  UserDepartmentSegmentWidget(
-                    department: value.department,
-                    departmentItems: value.departmentItems,
-                  ),
-                  const Divider(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 12.0,
-                    ),
-                    child: Row(
-                      children: [
-                        UserPositionFilterWidget(
-                          position: value.position,
-                          positionItems: value.positionItems,
-                        ),
-                        if (isSelectableMode) const Spacer(),
-                        if (isSelectableMode)
-                          TextButton(
-                            onPressed: visibleItems.isEmpty
-                                ? null
-                                : () => toggleSelectAll(visibleItems),
-                            child: Text(
-                              allVisibleSelected
-                                  ? Intl.message('filter_unselect_all')
-                                  : Intl.message('filter_select_all'),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              AsyncError(:final error, :final stackTrace) =>
-                ErrorContainerWidget(error: error, stackTrace: stackTrace),
-              _ => Skeletonizer(
-                child: Column(
+            switch ((filter, options)) {
+              (
+                AsyncData(value: final filter),
+                AsyncData(value: final options),
+              ) =>
+                Column(
                   children: [
                     UserDepartmentSegmentWidget(
-                      department: null,
-                      departmentItems: List.filled(4, UserDepartment.dummy()),
+                      department: _findUserDepartment(
+                        items: options.departmentItems,
+                        departmentId: filter.departments?.lastOrNull,
+                      ),
+                      departmentItems: options.departmentItems,
                     ),
                     const Divider(),
                     Padding(
@@ -977,8 +1406,67 @@ class UserSelectorDialog extends HookConsumerWidget {
                       child: Row(
                         children: [
                           UserPositionFilterWidget(
-                            position: null,
-                            positionItems: List.filled(4, UserPosition.dummy()),
+                            position: _findUserPosition(
+                              items: options.positionItems,
+                              positionId: filter.positionId,
+                            ),
+                            positionItems: options.positionItems,
+                            onChanged: (value) => ref
+                                .read(
+                                  userFilterControllerProvider(
+                                    UserFilterScope.userSelectorDialog,
+                                  ).notifier,
+                                )
+                                .setPosition(position: value),
+                          ),
+                          if (isSelectableMode) const Spacer(),
+                          if (isSelectableMode)
+                            TextButton(
+                              onPressed: visibleItems.isEmpty
+                                  ? null
+                                  : () => toggleSelectAll(visibleItems),
+                              child: Text(
+                                allVisibleSelected
+                                    ? Intl.message('filter_unselect_all')
+                                    : Intl.message('filter_select_all'),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              (AsyncError(:final error, :final stackTrace), _) ||
+              (
+                _,
+                AsyncError(:final error, :final stackTrace),
+              ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
+              _ => Skeletonizer(
+                child: Column(
+                  children: [
+                    UserDepartmentSegmentWidget(
+                      department: null,
+                      departmentItems: List.filled(4, UserDepartment.dummy()),
+                      scope: UserFilterScope.userSelectorDialog,
+                    ),
+                    const Divider(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12.0,
+                      ),
+                      child: Row(
+                        children: [
+                          Skeletonizer(
+                            ignoreContainers: true,
+                            child: UserPositionFilterWidget(
+                              position: null,
+                              positionItems: List.filled(
+                                4,
+                                UserPosition.dummy(),
+                              ),
+                              onChanged: (_) {},
+                            ),
                           ),
                           if (isSelectableMode) const Spacer(),
                           if (isSelectableMode)
@@ -1119,7 +1607,13 @@ class UserListDialogWidget extends HookConsumerWidget {
       onNotification: (notification) {
         if (notification.metrics.pixels >=
             notification.metrics.maxScrollExtent - 20.0) {
-          ref.read(userListControllerProvider.notifier).load();
+          ref
+              .read(
+                userListControllerProvider(
+                  UserFilterScope.userSelectorDialog,
+                ).notifier,
+              )
+              .load();
         }
         return false;
       },
@@ -1219,8 +1713,9 @@ class SendEmailDialog extends HookConsumerWidget {
                     initialSelectedUsers: selectedUsers.value,
                     onMultiSelected: (users) {
                       selectedUsers.value = users;
-                      if (selectedUsers.value.isNotEmpty)
+                      if (selectedUsers.value.isNotEmpty) {
                         isAllSelected.value = false;
+                      }
                     },
                   ),
                 ),
@@ -1275,6 +1770,7 @@ class SendEmailDialog extends HookConsumerWidget {
                                         ),
                                       ),
                                     );
+                                if (!context.mounted) return;
                                 context.pop();
                               } catch (e) {
                                 ref

@@ -43,7 +43,8 @@ class TripDetailsWidget extends StatelessWidget {
           double.tryParse(rate.rate?.replaceAll(',', '') ?? '0') ?? 0.0;
       final daysValue =
           double.tryParse(rate.days?.replaceAll(',', '') ?? '0') ?? 0.0;
-      final discountRate = schedule.category is ScheduleOverseas &&
+      final discountRate =
+          schedule.category is ScheduleOverseas &&
               category.id == 4 &&
               isDeducted
           ? 0.1
@@ -52,14 +53,16 @@ class TripDetailsWidget extends StatelessWidget {
       return sum + (rateValue * daysValue * (1 - discountRate));
     });
 
-    final total = expenses.where((expense) {
-      return steps.any((step) => step.id == expense.stepId);
-    }).fold<double>(0.0, (sum, expense) {
-      final priceString = (expense.price ?? '0').replaceAll(',', '');
-      final priceValue = double.tryParse(priceString) ?? 0.0;
+    final total = expenses
+        .where((expense) {
+          return steps.any((step) => step.id == expense.stepId);
+        })
+        .fold<double>(0.0, (sum, expense) {
+          final priceString = (expense.price ?? '0').replaceAll(',', '');
+          final priceValue = double.tryParse(priceString) ?? 0.0;
 
-      return sum + priceValue;
-    });
+          return sum + priceValue;
+        });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -70,17 +73,13 @@ class TripDetailsWidget extends StatelessWidget {
           horizontalMargin: 12.0,
           dataRowMinHeight: 34.0,
           dataRowMaxHeight: double.infinity,
-          headingRowColor: WidgetStatePropertyAll(
-            colorScheme.surfaceContainer,
-          ),
+          headingRowColor: WidgetStatePropertyAll(colorScheme.surfaceContainer),
           columns: [
             DataColumn(
               columnWidth: FlexColumnWidth(1.0),
               label: Text(
                 Intl.message('report_form_${category.id}'),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
             DataColumn(
@@ -111,101 +110,106 @@ class TripDetailsWidget extends StatelessWidget {
               ),
             ),
           ],
-          rows: List.generate(
-            steps.length,
-            (index) {
-              final step = steps[index];
-              final int length =
-                  expenses.where((e) => e.stepId == step.id).length;
-              final double height = max(34.0, 34.0 * length);
+          rows: List.generate(steps.length, (index) {
+            final step = steps[index];
+            final int length = expenses
+                .where((e) => e.stepId == step.id)
+                .length;
+            final double height = max(34.0, 34.0 * length);
 
-              return DataRow(
-                cells: [
-                  DataCell(
-                    SizedBox(
-                      height: height,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            step.name,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+            return DataRow(
+              cells: [
+                DataCell(
+                  SizedBox(
+                    height: height,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          step.name,
+                          style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
                   ),
-                  DataCell(
-                    SizedBox(
-                      height: height,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(regulations.firstWhereOrNull(
-                                          (e) => e.stepId == step.id) !=
+                ),
+                DataCell(
+                  SizedBox(
+                    height: height,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          regulations.firstWhereOrNull(
+                                        (e) => e.stepId == step.id,
+                                      ) !=
                                       null &&
                                   rates.firstWhereOrNull(
-                                          (e) => e.stepId == step.id) !=
+                                        (e) => e.stepId == step.id,
+                                      ) !=
                                       null
                               ? '${regulations.firstWhereOrNull((e) => e.stepId == step.id)!.rate} ${schedule.category is ScheduleDomestic ? '₩' : '\$'} × ${rates.firstWhereOrNull((e) => e.stepId == step.id)!.days} 일'
-                              : ''),
+                              : '',
                         ),
                       ),
                     ),
                   ),
-                  DataCell(
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: expenses
-                          .where((element) => element.stepId == step.id)
-                          .toList()
-                          .length,
-                      itemBuilder: (context, itemIndex) => SizedBox(
-                        height: 34.0,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                              '${expenses.where((element) => element.stepId == step.id).toList()[itemIndex].price ?? 0} ₩'),
+                ),
+                DataCell(
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: expenses
+                        .where((element) => element.stepId == step.id)
+                        .toList()
+                        .length,
+                    itemBuilder: (context, itemIndex) => SizedBox(
+                      height: 34.0,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${expenses.where((element) => element.stepId == step.id).toList()[itemIndex].price ?? 0} ₩',
                         ),
                       ),
                     ),
                   ),
-                  DataCell(
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: expenses
-                          .where((element) => element.stepId == step.id)
-                          .toList()
-                          .length,
-                      itemBuilder: (context, itemIndex) => SizedBox(
-                        height: 34.0,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(expenses
+                ),
+                DataCell(
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: expenses
+                        .where((element) => element.stepId == step.id)
+                        .toList()
+                        .length,
+                    itemBuilder: (context, itemIndex) => SizedBox(
+                      height: 34.0,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          expenses
                                   .where((element) => element.stepId == step.id)
                                   .toList()[itemIndex]
                                   .details ??
-                              ''),
+                              '',
                         ),
                       ),
                     ),
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          }),
         ),
         if (category.id != 4)
           Container(
             width: 120.0,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -217,8 +221,9 @@ class TripDetailsWidget extends StatelessWidget {
                 ),
                 Text(
                   '${NumberFormat('#,###').format(total)} ₩',
-                  style: textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -226,8 +231,10 @@ class TripDetailsWidget extends StatelessWidget {
         if (associatedRates.isNotEmpty)
           Container(
             width: 120.0,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -241,8 +248,10 @@ class TripDetailsWidget extends StatelessWidget {
                     category.id == 4 &&
                     isDeducted)
                   Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 4.0,
+                      vertical: 2.0,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       color: colorScheme.outline,
@@ -267,15 +276,14 @@ class TripDetailsWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 4.0),
                         child: Text(
                           '(-10%)',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
                     Text(
                       '${NumberFormat('#,###').format(settlement)} ${schedule.category is ScheduleOverseas ? '\$' : '₩'}',
-                      style: textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w600),
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -285,8 +293,10 @@ class TripDetailsWidget extends StatelessWidget {
         if (schedule.category is ScheduleDomestic && category.id == 3)
           Container(
             width: 120.0,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -298,8 +308,9 @@ class TripDetailsWidget extends StatelessWidget {
                 ),
                 Text(
                   '${NumberFormat('#,###').format(settlement - total)} ₩',
-                  style: textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),

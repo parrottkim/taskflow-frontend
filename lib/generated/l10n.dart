@@ -619,6 +619,26 @@ class S {
     );
   }
 
+  /// `고객사를 찾을 수 없습니다.`
+  String get client_not_found {
+    return Intl.message(
+      '고객사를 찾을 수 없습니다.',
+      name: 'client_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PM을 찾을 수 없습니다.`
+  String get manager_not_found {
+    return Intl.message(
+      'PM을 찾을 수 없습니다.',
+      name: 'manager_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `북마크를 찾을 수 없습니다.`
   String get bookmark_not_found {
     return Intl.message(
@@ -639,6 +659,16 @@ class S {
     );
   }
 
+  /// `업무 종류를 찾을 수 없습니다.`
+  String get category_not_found {
+    return Intl.message(
+      '업무 종류를 찾을 수 없습니다.',
+      name: 'category_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `근무 일정을 찾을 수 없습니다.`
   String get schedule_not_found {
     return Intl.message(
@@ -649,21 +679,21 @@ class S {
     );
   }
 
-  /// `출장 명령서를 찾을 수 없습니다.`
+  /// `보고서를 찾을 수 없습니다.`
   String get report_not_found {
     return Intl.message(
-      '출장 명령서를 찾을 수 없습니다.',
+      '보고서를 찾을 수 없습니다.',
       name: 'report_not_found',
       desc: '',
       args: [],
     );
   }
 
-  /// `파일을 찾을 수 없습니다.`
-  String get file_not_found {
+  /// `출장 명령서 데이터를 찾을 수 없습니다.`
+  String get trip_data_not_found {
     return Intl.message(
-      '파일을 찾을 수 없습니다.',
-      name: 'file_not_found',
+      '출장 명령서 데이터를 찾을 수 없습니다.',
+      name: 'trip_data_not_found',
       desc: '',
       args: [],
     );
@@ -689,6 +719,56 @@ class S {
     );
   }
 
+  /// `폴더를 찾을 수 없습니다.`
+  String get folder_not_found {
+    return Intl.message(
+      '폴더를 찾을 수 없습니다.',
+      name: 'folder_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서를 찾을 수 없습니다.`
+  String get document_not_found {
+    return Intl.message(
+      '문서를 찾을 수 없습니다.',
+      name: 'document_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `협력업체를 찾을 수 없습니다.`
+  String get supplier_not_found {
+    return Intl.message(
+      '협력업체를 찾을 수 없습니다.',
+      name: 'supplier_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `파일을 찾을 수 없습니다.`
+  String get file_not_found {
+    return Intl.message(
+      '파일을 찾을 수 없습니다.',
+      name: 'file_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `경로를 찾을 수 없습니다.`
+  String get path_not_found {
+    return Intl.message(
+      '경로를 찾을 수 없습니다.',
+      name: 'path_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `승인권자의 승인이 필요합니다.`
   String get ceo_approval_required {
     return Intl.message(
@@ -704,6 +784,16 @@ class S {
     return Intl.message(
       '이 페이지에 접근할 권한이 없습니다.',
       name: 'no_permission',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `고정할 수 있는 문서는 최대 5개입니다.`
+  String get fixed_document_limit_exceeded {
+    return Intl.message(
+      '고정할 수 있는 문서는 최대 5개입니다.',
+      name: 'fixed_document_limit_exceeded',
       desc: '',
       args: [],
     );
@@ -1294,6 +1384,46 @@ class S {
     );
   }
 
+  /// `화면`
+  String get navigation_search_menu {
+    return Intl.message(
+      '화면',
+      name: 'navigation_search_menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트에서 전체 검색`
+  String get navigation_search_project_all {
+    return Intl.message(
+      '프로젝트에서 전체 검색',
+      name: 'navigation_search_project_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 검색에 실패했습니다`
+  String get navigation_search_project_error {
+    return Intl.message(
+      '프로젝트 검색에 실패했습니다',
+      name: 'navigation_search_project_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `검색 결과가 없습니다`
+  String get navigation_search_result_empty {
+    return Intl.message(
+      '검색 결과가 없습니다',
+      name: 'navigation_search_result_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `WORKSPACES`
   String get navigation_title_1 {
     return Intl.message(
@@ -1304,20 +1434,20 @@ class S {
     );
   }
 
-  /// `ADMIN`
+  /// `OTHER`
   String get navigation_title_2 {
     return Intl.message(
-      'ADMIN',
+      'OTHER',
       name: 'navigation_title_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `OTHER`
+  /// `ADMIN`
   String get navigation_title_3 {
     return Intl.message(
-      'OTHER',
+      'ADMIN',
       name: 'navigation_title_3',
       desc: '',
       args: [],
@@ -1374,11 +1504,21 @@ class S {
     return Intl.message('업무 수정', name: 'issue_edit', desc: '', args: []);
   }
 
-  /// `구매 조달 발주 처리`
-  String get issue_edit_procurement_request {
+  /// `구매 조달 발주 등록`
+  String get issue_procurement_request_new {
     return Intl.message(
-      '구매 조달 발주 처리',
-      name: 'issue_edit_procurement_request',
+      '구매 조달 발주 등록',
+      name: 'issue_procurement_request_new',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `구매 조달 발주 수정`
+  String get issue_procurement_request_edit {
+    return Intl.message(
+      '구매 조달 발주 수정',
+      name: 'issue_procurement_request_edit',
       desc: '',
       args: [],
     );
@@ -1434,9 +1574,19 @@ class S {
     return Intl.message('문서', name: 'document', desc: '', args: []);
   }
 
+  /// `조직도`
+  String get organization {
+    return Intl.message('조직도', name: 'organization', desc: '', args: []);
+  }
+
   /// `데이터 관리`
   String get data {
     return Intl.message('데이터 관리', name: 'data', desc: '', args: []);
+  }
+
+  /// `일정`
+  String get schedule {
+    return Intl.message('일정', name: 'schedule', desc: '', args: []);
   }
 
   /// `통계`
@@ -1859,9 +2009,9 @@ class S {
     return Intl.message('작성일', name: 'project_column_6', desc: '', args: []);
   }
 
-  /// `작업`
+  /// `관리`
   String get project_column_7 {
-    return Intl.message('작업', name: 'project_column_7', desc: '', args: []);
+    return Intl.message('관리', name: 'project_column_7', desc: '', args: []);
   }
 
   /// `선진행`
@@ -3520,10 +3670,10 @@ class S {
   }
 
   /// `업무 내용이 정상적으로 변경되었습니다.`
-  String get issue_form_edited {
+  String get issue_form_updated {
     return Intl.message(
       '업무 내용이 정상적으로 변경되었습니다.',
-      name: 'issue_form_edited',
+      name: 'issue_form_updated',
       desc: '',
       args: [],
     );
@@ -3549,11 +3699,41 @@ class S {
     );
   }
 
+  /// `발주 요청 정보가 정상적으로 변경되었습니다.`
+  String get issue_form_procurement_requested_updated {
+    return Intl.message(
+      '발주 요청 정보가 정상적으로 변경되었습니다.',
+      name: 'issue_form_procurement_requested_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `발주 요청이 삭제되었습니다`
   String get issue_form_procurement_requested_deleted {
     return Intl.message(
       '발주 요청이 삭제되었습니다',
       name: 'issue_form_procurement_requested_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무를 삭제하시겠습니까?`
+  String get issue_form_procurement_delete_dialog_1 {
+    return Intl.message(
+      '업무를 삭제하시겠습니까?',
+      name: 'issue_form_procurement_delete_dialog_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무를 삭제하면 모든 내용과 첨부 파일이 함께 삭제됩니다.`
+  String get issue_form_procurement_delete_dialog_2 {
+    return Intl.message(
+      '업무를 삭제하면 모든 내용과 첨부 파일이 함께 삭제됩니다.',
+      name: 'issue_form_procurement_delete_dialog_2',
       desc: '',
       args: [],
     );
@@ -3845,10 +4025,10 @@ class S {
   }
 
   /// `일정 정보가 정상적으로 변경되었습니다.`
-  String get schedule_form_edited {
+  String get schedule_form_updated {
     return Intl.message(
       '일정 정보가 정상적으로 변경되었습니다.',
-      name: 'schedule_form_edited',
+      name: 'schedule_form_updated',
       desc: '',
       args: [],
     );
@@ -4280,10 +4460,10 @@ class S {
   }
 
   /// `출장 명령서 정보가 정상적으로 변경되었습니다.`
-  String get report_form_edited {
+  String get report_form_updated {
     return Intl.message(
       '출장 명령서 정보가 정상적으로 변경되었습니다.',
-      name: 'report_form_edited',
+      name: 'report_form_updated',
       desc: '',
       args: [],
     );
@@ -4389,6 +4569,331 @@ class S {
     return Intl.message('담당 프로젝트', name: 'work_segment_2', desc: '', args: []);
   }
 
+  /// `문서 검색`
+  String get document_search {
+    return Intl.message('문서 검색', name: 'document_search', desc: '', args: []);
+  }
+
+  /// `문서가 없습니다.`
+  String get document_no_item {
+    return Intl.message(
+      '문서가 없습니다.',
+      name: 'document_no_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공지`
+  String get document_fixed {
+    return Intl.message('공지', name: 'document_fixed', desc: '', args: []);
+  }
+
+  /// `문서명`
+  String get document_column_1 {
+    return Intl.message('문서명', name: 'document_column_1', desc: '', args: []);
+  }
+
+  /// `작성자`
+  String get document_column_2 {
+    return Intl.message('작성자', name: 'document_column_2', desc: '', args: []);
+  }
+
+  /// `첨부`
+  String get document_column_3 {
+    return Intl.message('첨부', name: 'document_column_3', desc: '', args: []);
+  }
+
+  /// `작성일`
+  String get document_column_4 {
+    return Intl.message('작성일', name: 'document_column_4', desc: '', args: []);
+  }
+
+  /// `관리`
+  String get document_column_5 {
+    return Intl.message('관리', name: 'document_column_5', desc: '', args: []);
+  }
+
+  /// `제목순`
+  String get document_sort_1 {
+    return Intl.message('제목순', name: 'document_sort_1', desc: '', args: []);
+  }
+
+  /// `최신순`
+  String get document_sort_2 {
+    return Intl.message('최신순', name: 'document_sort_2', desc: '', args: []);
+  }
+
+  /// `문서 수정`
+  String get document_edit_title {
+    return Intl.message(
+      '문서 수정',
+      name: 'document_edit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서 추가`
+  String get document_add {
+    return Intl.message('문서 추가', name: 'document_add', desc: '', args: []);
+  }
+
+  /// `폴더`
+  String get document_form_1 {
+    return Intl.message('폴더', name: 'document_form_1', desc: '', args: []);
+  }
+
+  /// `문서 제목`
+  String get document_form_2 {
+    return Intl.message('문서 제목', name: 'document_form_2', desc: '', args: []);
+  }
+
+  /// `공지로 고정`
+  String get document_form_3 {
+    return Intl.message('공지로 고정', name: 'document_form_3', desc: '', args: []);
+  }
+
+  /// `중요 문서는 목록 상단에 표시합니다.`
+  String get document_form_4 {
+    return Intl.message(
+      '중요 문서는 목록 상단에 표시합니다.',
+      name: 'document_form_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서 제목 입력`
+  String get document_title_hint {
+    return Intl.message(
+      '문서 제목 입력',
+      name: 'document_title_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더 선택`
+  String get document_folder_select {
+    return Intl.message(
+      '폴더 선택',
+      name: 'document_folder_select',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서를 저장할 폴더를 선택해 주세요.`
+  String get document_folder_required {
+    return Intl.message(
+      '문서를 저장할 폴더를 선택해 주세요.',
+      name: 'document_folder_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서 제목을 입력해 주세요.`
+  String get document_title_required {
+    return Intl.message(
+      '문서 제목을 입력해 주세요.',
+      name: 'document_title_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `본문`
+  String get document_content {
+    return Intl.message('본문', name: 'document_content', desc: '', args: []);
+  }
+
+  /// `첨부파일`
+  String get document_attachment {
+    return Intl.message(
+      '첨부파일',
+      name: 'document_attachment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더 만들기`
+  String get document_folder_create_title {
+    return Intl.message(
+      '폴더 만들기',
+      name: 'document_folder_create_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더 수정`
+  String get document_folder_edit_title {
+    return Intl.message(
+      '폴더 수정',
+      name: 'document_folder_edit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상위 폴더`
+  String get document_parent_folder_label {
+    return Intl.message(
+      '상위 폴더',
+      name: 'document_parent_folder_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상위 폴더 선택`
+  String get document_parent_folder_hint {
+    return Intl.message(
+      '상위 폴더 선택',
+      name: 'document_parent_folder_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `최상위 폴더`
+  String get document_root_folder_label {
+    return Intl.message(
+      '최상위 폴더',
+      name: 'document_root_folder_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더 이름`
+  String get document_folder_name_label {
+    return Intl.message(
+      '폴더 이름',
+      name: 'document_folder_name_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더 이름 입력`
+  String get document_folder_name_hint {
+    return Intl.message(
+      '폴더 이름 입력',
+      name: 'document_folder_name_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더 이름을 입력해 주세요.`
+  String get document_folder_name_required {
+    return Intl.message(
+      '폴더 이름을 입력해 주세요.',
+      name: 'document_folder_name_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `작성자`
+  String get document_created_by {
+    return Intl.message('작성자', name: 'document_created_by', desc: '', args: []);
+  }
+
+  /// `최종 편집`
+  String get document_updated_by {
+    return Intl.message(
+      '최종 편집',
+      name: 'document_updated_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서를 삭제하시겠습니까?`
+  String get document_delete_dialog_1 {
+    return Intl.message(
+      '문서를 삭제하시겠습니까?',
+      name: 'document_delete_dialog_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서를 삭제하면 다시 복구할 수 없습니다.`
+  String get document_delete_dialog_2 {
+    return Intl.message(
+      '문서를 삭제하면 다시 복구할 수 없습니다.',
+      name: 'document_delete_dialog_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더를 삭제하시겠습니까?`
+  String get document_folder_delete_dialog_1 {
+    return Intl.message(
+      '폴더를 삭제하시겠습니까?',
+      name: 'document_folder_delete_dialog_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더를 삭제하면 하위 폴더와 문서가 함께 영향을 받을 수 있습니다`
+  String get document_folder_delete_dialog_2 {
+    return Intl.message(
+      '폴더를 삭제하면 하위 폴더와 문서가 함께 영향을 받을 수 있습니다',
+      name: 'document_folder_delete_dialog_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서가 정상적으로 등록되었습니다.`
+  String get document_created {
+    return Intl.message(
+      '문서가 정상적으로 등록되었습니다.',
+      name: 'document_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서가 정상적으로 변경되었습니다.`
+  String get document_updated {
+    return Intl.message(
+      '문서가 정상적으로 변경되었습니다.',
+      name: 'document_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서가 삭제되었습니다`
+  String get document_deleted {
+    return Intl.message(
+      '문서가 삭제되었습니다',
+      name: 'document_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더 변경이 완료되었습니다.`
+  String get document_folder_success {
+    return Intl.message(
+      '폴더 변경이 완료되었습니다.',
+      name: 'document_folder_success',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `사용자`
   String get data_segment_1 {
     return Intl.message('사용자', name: 'data_segment_1', desc: '', args: []);
@@ -4434,9 +4939,9 @@ class S {
     );
   }
 
-  /// `작업`
+  /// `관리`
   String get data_user_column_7 {
-    return Intl.message('작업', name: 'data_user_column_7', desc: '', args: []);
+    return Intl.message('관리', name: 'data_user_column_7', desc: '', args: []);
   }
 
   /// `관리자 권한을 변경하시겠습니까?`
@@ -4500,10 +5005,10 @@ class S {
   }
 
   /// `사용자 정보가 정상적으로 변경되었습니다.`
-  String get data_user_edited {
+  String get data_user_updated {
     return Intl.message(
       '사용자 정보가 정상적으로 변경되었습니다.',
-      name: 'data_user_edited',
+      name: 'data_user_updated',
       desc: '',
       args: [],
     );
@@ -4579,10 +5084,10 @@ class S {
     );
   }
 
-  /// `작업`
+  /// `관리`
   String get data_supplier_column_6 {
     return Intl.message(
-      '작업',
+      '관리',
       name: 'data_supplier_column_6',
       desc: '',
       args: [],
@@ -4715,10 +5220,10 @@ class S {
   }
 
   /// `협력업체 정보가 정상적으로 변경되었습니다.`
-  String get data_supplier_edited {
+  String get data_supplier_updated {
     return Intl.message(
       '협력업체 정보가 정상적으로 변경되었습니다.',
-      name: 'data_supplier_edited',
+      name: 'data_supplier_updated',
       desc: '',
       args: [],
     );
@@ -4857,6 +5362,46 @@ class S {
   /// `더 보기`
   String get data_address_more {
     return Intl.message('더 보기', name: 'data_address_more', desc: '', args: []);
+  }
+
+  /// `일정 검색`
+  String get schedule_search {
+    return Intl.message('일정 검색', name: 'schedule_search', desc: '', args: []);
+  }
+
+  /// `고객사`
+  String get schedule_column_1 {
+    return Intl.message('고객사', name: 'schedule_column_1', desc: '', args: []);
+  }
+
+  /// `출장 목적`
+  String get schedule_column_2 {
+    return Intl.message('출장 목적', name: 'schedule_column_2', desc: '', args: []);
+  }
+
+  /// `설명`
+  String get schedule_column_3 {
+    return Intl.message('설명', name: 'schedule_column_3', desc: '', args: []);
+  }
+
+  /// `담당자`
+  String get schedule_column_4 {
+    return Intl.message('담당자', name: 'schedule_column_4', desc: '', args: []);
+  }
+
+  /// `기간`
+  String get schedule_column_5 {
+    return Intl.message('기간', name: 'schedule_column_5', desc: '', args: []);
+  }
+
+  /// `검색 결과가 없습니다.`
+  String get schedule_search_empty {
+    return Intl.message(
+      '검색 결과가 없습니다.',
+      name: 'schedule_search_empty',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `내 정보`

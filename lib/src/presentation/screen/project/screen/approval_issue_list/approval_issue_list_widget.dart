@@ -27,6 +27,25 @@ class ApprovalIssueListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final issue = ref.watch(issueListControllerProvider(projectId: projectId));
 
+    ref.listen(issueSubmitControllerProvider, (_, state) {
+      if (state is IssueSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is IssueSubmitDeleted) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.standard,
+                  message: Intl.message('issue_form_deleted'),
+                ),
+              );
+        }
+      }
+    });
+
     return switch (issue) {
       AsyncData(:final value) => _DesktopWidget(
         projectId: projectId,
@@ -46,7 +65,7 @@ class ApprovalIssueListWidget extends ConsumerWidget {
             ApprovalIssue(
               id: 0,
               category: IssueCategory.dummy(),
-              user: User.dummy(),
+              createdBy: User.dummy(),
               content: '',
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
@@ -117,25 +136,6 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, [issueId, items]);
 
-    ref.listen(issueSubmitControllerProvider, (_, state) {
-      if (state is IssueSubmitPending) {
-        LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
-
-        if (state is IssueSubmitDeleted) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.standard,
-                  message: Intl.message('issue_form_delete'),
-                ),
-              );
-        }
-      }
-    });
-
     if (items.isEmpty) {
       return Center(
         child: Column(
@@ -189,10 +189,10 @@ class _DesktopWidget extends HookConsumerWidget {
                     child: CircleAvatar(
                       backgroundColor: Functions(
                         context,
-                      ).generateColorFromId(items[index].user.id),
+                      ).generateColorFromId(items[index].createdBy.id),
                       radius: 16.0,
                       child: Text(
-                        getInitials(items[index].user.username),
+                        getInitials(items[index].createdBy.username),
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
@@ -233,21 +233,24 @@ class _DesktopWidget extends HookConsumerWidget {
                             ),
                             color:
                                 auth is AuthAuthenticated &&
-                                    auth.user.id == items[index].user.id
+                                    auth.user.id == items[index].createdBy.id
                                 ? colorScheme.primary.withValues(alpha: 0.1)
                                 : colorScheme.surfaceContainerLow,
                           ),
                           child: Row(
                             children: [
-                              UserInformationWidget(item: items[index].user),
+                              UserInformationWidget(
+                                item: items[index].createdBy,
+                              ),
                               const Spacer(),
                               ToolbarWidget(
                                 projectId: projectId,
                                 issueId: items[index].id,
-                                categoryId: items[index].category.id,
+                                category: items[index].category,
                                 createdAt: items[index].createdAt,
                                 updatedAt: items[index].updatedAt,
-                                user: items[index].user,
+                                createdBy: items[index].createdBy,
+                                updatedBy: items[index].updatedBy,
                               ),
                             ],
                           ),

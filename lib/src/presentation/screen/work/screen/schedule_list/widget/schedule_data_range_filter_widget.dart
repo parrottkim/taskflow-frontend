@@ -7,9 +7,7 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ScheduleDateRangeFilterWidget extends HookConsumerWidget {
-  const ScheduleDateRangeFilterWidget({
-    super.key,
-  });
+  const ScheduleDateRangeFilterWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,28 +31,27 @@ class ScheduleDateRangeFilterWidget extends HookConsumerWidget {
             endDate.value = result['end'] as DateTime;
 
             ref
-                .read(scheduleFilterControllerProvider.notifier)
+                .read(
+                  scheduleFilterControllerProvider(
+                    ScheduleFilterScope.userScheduleList,
+                  ).notifier,
+                )
                 .setDateRange(start: startDate.value, end: endDate.value);
           }
         },
-        icon: Icon(
-          Symbols.date_range_rounded,
-        ),
+        icon: Icon(Symbols.date_range_rounded),
         label: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (startDate.value == null || endDate.value == null)
-              Text(
-                Intl.message('schedule_form_date_select'),
-              )
+              Text(Intl.message('schedule_form_date_select'))
             else
               Text(
-                  '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(startDate.value!)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(endDate.value!)}'),
+                '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(startDate.value!)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(endDate.value!)}',
+              ),
             SizedBox(width: 8.0),
             if (startDate.value == null && endDate.value == null)
-              Icon(
-                Symbols.chevron_right_rounded,
-              )
+              Icon(Symbols.chevron_right_rounded)
             else
               InkWell(
                 onTap: () {
@@ -62,7 +59,11 @@ class ScheduleDateRangeFilterWidget extends HookConsumerWidget {
                   endDate.value = null;
 
                   ref
-                      .read(scheduleFilterControllerProvider.notifier)
+                      .read(
+                        scheduleFilterControllerProvider(
+                          ScheduleFilterScope.userScheduleList,
+                        ).notifier,
+                      )
                       .setDateRange(start: startDate.value, end: endDate.value);
                 },
                 borderRadius: BorderRadius.circular(4.0),

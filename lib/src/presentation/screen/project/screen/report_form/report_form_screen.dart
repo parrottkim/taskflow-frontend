@@ -103,7 +103,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
       switch (state) {
         case ReportSubmitCreated(:final report) ||
-            ReportSubmitEdited(:final report):
+            ReportSubmitUpdated(:final report):
           final isCreated = state is ReportSubmitCreated;
 
           ref
@@ -112,7 +112,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 child: Toast(
                   type: ToastType.verified,
                   message: Intl.message(
-                    isCreated ? 'report_form_created' : 'report_form_edited',
+                    isCreated ? 'report_form_created' : 'report_form_updated',
                   ),
                 ),
               );

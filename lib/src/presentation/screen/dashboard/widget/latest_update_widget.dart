@@ -197,7 +197,7 @@ class _DesktopWidget extends HookWidget {
                       ),
                       SizedBox(width: 4.0),
                       Text(
-                        items[index].user.username,
+                        items[index].createdBy.username,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: colorScheme.onSurface.withValues(alpha: 0.6),
@@ -210,7 +210,7 @@ class _DesktopWidget extends HookWidget {
             ),
           ),
         ),
-        separatorBuilder: (_, __) => SizedBox(width: 16.0),
+        separatorBuilder: (_, _) => SizedBox(width: 16.0),
       ),
     );
   }

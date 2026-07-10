@@ -17,7 +17,7 @@ class TripDutyDialog extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final filter = ref.watch(
-      tripFilterControllerProvider(categoryId: categoryId),
+      tripOptionsControllerProvider(categoryId: categoryId),
     );
 
     return Dialog(

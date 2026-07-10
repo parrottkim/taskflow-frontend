@@ -1,29 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 
 class SearchWidget extends ConsumerWidget {
   const SearchWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(userFilterControllerProvider);
+    final filter = ref.watch(
+      userFilterControllerProvider(UserFilterScope.dataPage),
+    );
+    final dataFilter = ref.watch(dataFilterControllerProvider);
 
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(search: value.search),
-      _ => Skeletonizer(child: _DesktopWidget()),
+    return switch ((filter, dataFilter)) {
+      (AsyncData(value: final value), AsyncData(value: final dataFilter)) =>
+        _DesktopWidget(
+          view: dataFilter.view,
+          filter: value,
+          search: value.search,
+        ),
+      (AsyncError(:final error, :final stackTrace), _) ||
+      (
+        _,
+        AsyncError(:final error, :final stackTrace),
+      ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
+      _ => Skeletonizer(child: _DesktopWidget(filter: UserFilterState())),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final String? view;
+  final UserFilterState filter;
   final String? search;
 
-  const _DesktopWidget({this.search});
+  const _DesktopWidget({this.view, required this.filter, this.search});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,9 +51,7 @@ class _DesktopWidget extends HookConsumerWidget {
     final keyword = useValueListenable(controller);
 
     useEffect(() {
-      if (search != null) {
-        controller.text = search!;
-      }
+      controller.text = search ?? '';
       return null;
     }, [search]);
 
@@ -45,11 +61,24 @@ class _DesktopWidget extends HookConsumerWidget {
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
         onSubmitted: (_) {
-          if (keyword.text.isNotEmpty) {
-            ref
-                .read(userFilterControllerProvider.notifier)
-                .setSearch(search: keyword.text);
-          }
+          final search = keyword.text.trim();
+          final controller = ref.read(
+            userFilterControllerProvider(UserFilterScope.dataPage).notifier,
+          );
+
+          controller.setSearch(search: search);
+
+          context.goNamed(
+            RouteNames.data,
+            queryParameters: {
+              if (view != null) 'view': view,
+              'search': search,
+              if (filter.departments != null)
+                'departments': filter.departments!.join(','),
+              if (filter.positionId != null)
+                'position_id': filter.positionId.toString(),
+            },
+          );
         },
         decoration: InputDecoration(
           filled: true,

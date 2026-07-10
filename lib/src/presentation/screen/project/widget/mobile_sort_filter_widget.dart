@@ -25,9 +25,7 @@ class MobileSortFilterWidget extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             Intl.message('filter_sort'),
-            style: textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         SizedBox(height: 8.0),
@@ -35,57 +33,64 @@ class MobileSortFilterWidget extends ConsumerWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemCount: ProjectSort.values.length,
-          itemBuilder: (context, index) => Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                if (selectedSort.value == ProjectSort.values[index]) {
-                  selectedOrder.value =
-                      selectedOrder.value?.toggled ?? Order.desc;
-                } else {
-                  selectedSort.value = ProjectSort.values[index];
-                  selectedOrder.value = Order.desc;
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 12.0),
-                child: Row(
-                  children: [
-                    Text(
-                      ProjectSort.values[index].label,
-                      style: TextStyle(
-                        fontWeight: selectedSort.value != null &&
-                                selectedSort.value == ProjectSort.values[index]
-                            ? FontWeight.w700
-                            : FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(width: 4.0),
-                    Visibility(
-                      visible: selectedSort.value == ProjectSort.values[index],
-                      maintainSize: true,
-                      maintainAnimation: true,
-                      maintainState: true,
-                      child: AnimatedOpacity(
-                        duration: Duration(milliseconds: 200),
-                        opacity: selectedSort.value == ProjectSort.values[index]
-                            ? 1.0
-                            : 0.0,
-                        child: AnimatedRotation(
-                          duration: Duration(milliseconds: 200),
-                          turns: selectedOrder.value == Order.asc ? 0.0 : 0.5,
-                          child:
-                              Icon(Symbols.arrow_drop_up_rounded, size: 20.0),
+          itemBuilder: (context, index) {
+            final sort = ProjectSort.values[index];
+
+            return Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  final isSelected = selectedSort.value == sort;
+                  final nextOrder = isSelected
+                      ? (selectedOrder.value == Order.asc
+                            ? Order.desc
+                            : Order.asc)
+                      : Order.desc;
+
+                  selectedSort.value = sort;
+                  selectedOrder.value = nextOrder;
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 12.0,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        sort.label,
+                        style: TextStyle(
+                          fontWeight: selectedSort.value == sort
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 4.0),
+                      Visibility(
+                        visible: selectedSort.value == sort,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: AnimatedOpacity(
+                          duration: Duration(milliseconds: 200),
+                          opacity: selectedSort.value == sort ? 1.0 : 0.0,
+                          child: AnimatedRotation(
+                            duration: Duration(milliseconds: 200),
+                            turns: selectedOrder.value == Order.asc ? 0.0 : 0.5,
+                            child: Icon(
+                              Symbols.arrow_drop_up_rounded,
+                              size: 20.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        )
+            );
+          },
+        ),
       ],
     );
   }

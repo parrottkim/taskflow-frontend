@@ -34,7 +34,9 @@ class ProjectListWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(projectListControllerProvider);
+    final list = ref.watch(
+      projectListControllerProvider(ProjectFilterScope.projectPage),
+    );
 
     return Expanded(
       child: Padding(
@@ -188,7 +190,13 @@ class _DesktopWidget extends HookConsumerWidget {
               onNotification: (notification) {
                 if (notification.metrics.pixels >=
                     notification.metrics.maxScrollExtent - 20.0) {
-                  ref.read(projectListControllerProvider.notifier).load();
+                  ref
+                      .read(
+                        projectListControllerProvider(
+                          ProjectFilterScope.projectPage,
+                        ).notifier,
+                      )
+                      .load();
                 }
                 return false;
               },
@@ -363,7 +371,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                 onTap: () async {
                                   await ref
                                       .read(
-                                        projectListControllerProvider.notifier,
+                                        projectListControllerProvider(
+                                          ProjectFilterScope.projectPage,
+                                        ).notifier,
                                       )
                                       .toggleBookmark(
                                         id: items[index].id,
@@ -379,7 +389,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               if (auth is AuthAuthenticated &&
                                       auth.user.isAdmin ||
                                   auth is AuthAuthenticated &&
-                                      auth.user.id == items[index].user.id)
+                                      auth.user.id == items[index].createdBy.id)
                                 Padding(
                                   padding: EdgeInsets.only(left: 4.0),
                                   child: ElevatedIconButton(
@@ -450,7 +460,13 @@ class _MobileWidget extends HookConsumerWidget {
       onNotification: (notification) {
         if (notification.metrics.pixels >=
             notification.metrics.maxScrollExtent - 20.0) {
-          ref.read(projectListControllerProvider.notifier).load();
+          ref
+              .read(
+                projectListControllerProvider(
+                  ProjectFilterScope.projectPage,
+                ).notifier,
+              )
+              .load();
         }
         return false;
       },
@@ -475,7 +491,11 @@ class _MobileWidget extends HookConsumerWidget {
                     ElevatedIconButton(
                       onTap: () async {
                         await ref
-                            .read(projectListControllerProvider.notifier)
+                            .read(
+                              projectListControllerProvider(
+                                ProjectFilterScope.projectPage,
+                              ).notifier,
+                            )
                             .toggleBookmark(
                               id: items[index].id,
                               bookmarked: !items[index].isBookmarked,
@@ -489,7 +509,7 @@ class _MobileWidget extends HookConsumerWidget {
                     ),
                     if (auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated &&
-                            auth.user.id == items[index].user.id)
+                            auth.user.id == items[index].createdBy.id)
                       Padding(
                         padding: EdgeInsets.only(left: 4.0),
                         child: ElevatedIconButton(

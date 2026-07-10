@@ -50,7 +50,13 @@ class ScheduleProjectSelector extends HookConsumerWidget {
       onNotification: (notification) {
         if (notification.metrics.pixels >=
             notification.metrics.maxScrollExtent - 20.0) {
-          ref.read(projectListControllerProvider.notifier).load();
+          ref
+              .read(
+                projectListControllerProvider(
+                  ProjectFilterScope.scheduleProjectSelector,
+                ).notifier,
+              )
+              .load();
         }
         return false;
       },

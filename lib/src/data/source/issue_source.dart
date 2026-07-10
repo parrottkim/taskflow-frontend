@@ -60,8 +60,18 @@ class IssueDataSource implements IssueRepository {
   }) => _service.createProcurementIssueRequest(id: id, request: request);
 
   @override
+  Future<Issue> updateProcurementIssueRequest({
+    required int id,
+    required CreateProcurementIssueRequestDto request,
+  }) => _service.updateProcurementIssueRequest(id: id, request: request);
+
+  @override
   Future<void> approveProcurementIssueRequest({required int id}) =>
       _service.approveProcurementIssueRequest(id: id);
+
+  @override
+  Future<void> deleteProcurementIssueRequest({required int id}) =>
+      _service.deleteProcurementIssueRequest(id: id);
 
   @override
   Future<List<TransactionIssueItem>> getTransactionIssueItems({

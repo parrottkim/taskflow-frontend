@@ -12,7 +12,9 @@ class ResetFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
@@ -60,7 +62,9 @@ class _DesktopWidget extends ConsumerWidget {
               clients != null ||
               categories != null
           ? () {
-              ref.read(projectFilterControllerProvider.notifier).reset();
+              ref.invalidate(
+                projectFilterControllerProvider(ProjectFilterScope.projectPage),
+              );
 
               context.goNamed(RouteNames.project);
             }

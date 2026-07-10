@@ -10,8 +10,5 @@ abstract class ProjectFilterState with _$ProjectFilterState {
     bool? bookmark,
     List<int>? clients,
     List<int>? categories,
-    @Default([]) List<IssueCategory> categoryItems,
-    @Default([]) List<ClientGroup> clientItems,
-    @Default(0) int maxClientDepth,
   }) = _ProjectFilterState;
 }

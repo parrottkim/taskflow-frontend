@@ -79,10 +79,7 @@ class ValidationListItem extends HookWidget {
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Row(
             children: [
-              Icon(
-                Symbols.check_circle_rounded,
-                color: colorScheme.error,
-              ),
+              Icon(Symbols.check_circle_rounded, color: colorScheme.error),
               const SizedBox(width: 8.0),
               Text(
                 item.label,

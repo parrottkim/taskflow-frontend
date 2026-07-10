@@ -23,9 +23,9 @@ class ClientSelectorWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final options = ref.watch(projectOptionsControllerProvider);
 
-    return switch (filter) {
+    return switch (options) {
       AsyncData(:final value) => _DesktopWidget(
         projectId: projectId,
         clients: clients,

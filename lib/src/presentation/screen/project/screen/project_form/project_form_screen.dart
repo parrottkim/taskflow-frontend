@@ -78,7 +78,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
       switch (state) {
         case ProjectSubmitCreated(:final project) ||
-            ProjectSubmitEdited(:final project):
+            ProjectSubmitUpdated(:final project):
           final isCreated = state is ProjectSubmitCreated;
 
           ref

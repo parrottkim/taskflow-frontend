@@ -13,20 +13,30 @@ class MobileFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
+    final options = ref.watch(projectOptionsControllerProvider);
 
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-        view: value.view,
-        sort: value.sort,
-        order: value.order,
-        search: value.search,
-        clients: value.clients,
-        categories: value.categories,
-        clientItems: value.clientItems,
-        categoryItems: value.categoryItems,
-        maxClientDepth: value.maxClientDepth,
-      ),
+    return switch ((filter, options)) {
+      (AsyncData(value: final filter), AsyncData(value: final options)) =>
+        _DesktopWidget(
+          view: filter.view,
+          sort: filter.sort,
+          order: filter.order,
+          search: filter.search,
+          bookmark: filter.bookmark,
+          clients: filter.clients,
+          categories: filter.categories,
+          clientItems: options.clientItems,
+          categoryItems: options.categoryItems,
+          maxClientDepth: options.maxClientDepth,
+        ),
+      (AsyncError(:final error, :final stackTrace), _) ||
+      (
+        _,
+        AsyncError(:final error, :final stackTrace),
+      ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
       _ => Skeletonizer.zone(
         child: ElevatedButton.icon(
           onPressed: () {},
@@ -43,6 +53,7 @@ class _DesktopWidget extends StatelessWidget {
   final ProjectSort? sort;
   final Order? order;
   final String? search;
+  final bool? bookmark;
   final List<int>? clients;
   final List<int>? categories;
   final List<ClientGroup> clientItems;
@@ -54,6 +65,7 @@ class _DesktopWidget extends StatelessWidget {
     this.sort,
     this.order,
     this.search,
+    this.bookmark,
     this.clients,
     this.categories,
     required this.clientItems,
@@ -70,6 +82,9 @@ class _DesktopWidget extends StatelessWidget {
       onPressed: () => showDialog(
         context: context,
         builder: (context) => MobileFilterDialog(
+          view: view,
+          search: search,
+          bookmark: bookmark,
           sort: sort,
           order: order,
           clients: clients,

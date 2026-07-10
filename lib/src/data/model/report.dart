@@ -5,7 +5,8 @@ abstract class Report with _$Report {
   factory Report({
     required int id,
     Schedule? schedule,
-    required User user,
+    required User createdBy,
+    User? updatedBy,
     TripReport? trip,
     required String content,
     required List<ReportAttachment> attachments,
@@ -18,7 +19,7 @@ abstract class Report with _$Report {
 
   factory Report.dummy() => Report(
     id: 0,
-    user: User.dummy(),
+    createdBy: User.dummy(),
     content: '',
     attachments: [],
     createdAt: DateTime.now(),

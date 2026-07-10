@@ -13,33 +13,35 @@ class SearchWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
 
     return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(search: value.search),
-      _ => Skeletonizer.zone(child: _DesktopWidget()),
+      AsyncData(:final value) => _DesktopWidget(filter: value),
+      _ => Skeletonizer.zone(
+        child: _DesktopWidget(filter: ProjectFilterState()),
+      ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final String? search;
+  final ProjectFilterState filter;
 
-  const _DesktopWidget({this.search});
+  const _DesktopWidget({required this.filter});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final controller = useTextEditingController(text: search);
+    final controller = useTextEditingController(text: filter.search);
     final keyword = useValueListenable(controller);
 
     useEffect(() {
-      if (search != null) {
-        controller.text = search!;
-      }
+      controller.text = filter.search ?? '';
       return null;
-    }, [search]);
+    }, [filter.search]);
 
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 430.0),
@@ -47,17 +49,32 @@ class _DesktopWidget extends HookConsumerWidget {
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
         onSubmitted: (_) {
-          if (keyword.text.isNotEmpty) {
-            ref
-                .read(projectFilterControllerProvider.notifier)
-                .setSearch(search: keyword.text);
-          }
+          final nextSearch = keyword.text.trim().isEmpty
+              ? null
+              : keyword.text.trim();
 
-          final queryParameters = ref
-              .read(projectFilterControllerProvider.notifier)
-              .toQueryParameters();
+          ref
+              .read(
+                projectFilterControllerProvider(
+                  ProjectFilterScope.projectPage,
+                ).notifier,
+              )
+              .setSearch(search: nextSearch);
 
-          context.goNamed(RouteNames.project, queryParameters: queryParameters);
+          context.goNamed(
+            RouteNames.project,
+            queryParameters: {
+              if (filter.view != null) 'view': filter.view,
+              if (filter.sort != null) 'sort': filter.sort?.key,
+              if (filter.order != null) 'order': filter.order?.key,
+              'search': ?nextSearch,
+              if (filter.bookmark != null)
+                'bookmark': filter.bookmark.toString(),
+              if (filter.clients != null) 'clients': filter.clients?.join(','),
+              if (filter.categories != null)
+                'categories': filter.categories?.join(','),
+            },
+          );
         },
         decoration: InputDecoration(
           filled: true,

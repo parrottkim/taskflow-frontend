@@ -67,11 +67,10 @@ class _DesktopWidget extends HookConsumerWidget {
                 .read(dataFilterControllerProvider.notifier)
                 .setView(view: selectedItem.value.name);
 
-            final queryParameters = ref
-                .read(dataFilterControllerProvider.notifier)
-                .toQueryParameters();
-
-            context.goNamed(RouteNames.data, queryParameters: queryParameters);
+            context.goNamed(
+              RouteNames.data,
+              queryParameters: {'view': selectedItem.value.name},
+            );
 
             controller.animateTo(index);
           },

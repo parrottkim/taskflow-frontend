@@ -6,36 +6,28 @@ import 'package:taskflow/src/data/data.dart';
 class FuelExpenseWidget extends HookWidget {
   final TripFuelExpense fuel;
 
-  const FuelExpenseWidget({
-    super.key,
-    required this.fuel,
-  });
+  const FuelExpenseWidget({super.key, required this.fuel});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final settlement = useMemoized(
-      () {
-        if (fuel.rate == null ||
-            fuel.mileage == null ||
-            fuel.distance == null) {
-          return 0.0;
-        }
+    final settlement = useMemoized(() {
+      if (fuel.rate == null || fuel.mileage == null || fuel.distance == null) {
+        return 0.0;
+      }
 
-        final cleanedRate = fuel.rate?.replaceAll(',', '') ?? '0';
-        final cleanedMileage = fuel.mileage?.replaceAll(',', '') ?? '0';
-        final cleanedDistance = fuel.distance?.replaceAll(',', '') ?? '0';
+      final cleanedRate = fuel.rate?.replaceAll(',', '') ?? '0';
+      final cleanedMileage = fuel.mileage?.replaceAll(',', '') ?? '0';
+      final cleanedDistance = fuel.distance?.replaceAll(',', '') ?? '0';
 
-        final rate = double.tryParse(cleanedRate) ?? 0.0;
-        final mileage = double.tryParse(cleanedMileage) ?? 0.0;
-        final distance = double.tryParse(cleanedDistance) ?? 0.0;
+      final rate = double.tryParse(cleanedRate) ?? 0.0;
+      final mileage = double.tryParse(cleanedMileage) ?? 0.0;
+      final distance = double.tryParse(cleanedDistance) ?? 0.0;
 
-        return rate * (distance / mileage);
-      },
-      [fuel],
-    );
+      return rate * (distance / mileage);
+    }, [fuel]);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,17 +38,13 @@ class FuelExpenseWidget extends HookWidget {
           horizontalMargin: 12.0,
           dataRowMinHeight: 34.0,
           dataRowMaxHeight: double.infinity,
-          headingRowColor: WidgetStatePropertyAll(
-            colorScheme.surfaceContainer,
-          ),
+          headingRowColor: WidgetStatePropertyAll(colorScheme.surfaceContainer),
           columns: [
             DataColumn(
               columnWidth: FlexColumnWidth(1.0),
               label: Text(
                 Intl.message('report_form_column_6'),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
             DataColumn(
@@ -91,15 +79,9 @@ class FuelExpenseWidget extends HookWidget {
             DataRow(
               cells: [
                 DataCell(SizedBox()),
-                DataCell(
-                  Text('${fuel.rate ?? 0} ₩'),
-                ),
-                DataCell(
-                  Text('${fuel.mileage ?? 0} km/L'),
-                ),
-                DataCell(
-                  Text('${fuel.distance ?? 0} km'),
-                ),
+                DataCell(Text('${fuel.rate ?? 0} ₩')),
+                DataCell(Text('${fuel.mileage ?? 0} km/L')),
+                DataCell(Text('${fuel.distance ?? 0} km')),
               ],
             ),
           ],
@@ -119,8 +101,9 @@ class FuelExpenseWidget extends HookWidget {
               ),
               Text(
                 '${NumberFormat('#,###').format(settlement)} ₩',
-                style: textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),

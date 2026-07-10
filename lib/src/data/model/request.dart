@@ -557,3 +557,57 @@ abstract class UpdateRegulationRateDto with _$UpdateRegulationRateDto {
   factory UpdateRegulationRateDto.fromJson(Map<String, dynamic> json) =>
       _$UpdateRegulationRateDtoFromJson(json);
 }
+
+@freezed
+abstract class SyncDocumentFolderDto with _$SyncDocumentFolderDto {
+  const factory SyncDocumentFolderDto({
+    int? id,
+    required String name,
+    int? parentId,
+    @Default(0) int sort,
+    @Default(false) bool fixed,
+    @Default([]) List<SyncDocumentFolderDto> children,
+  }) = _SyncDocumentFolderDto;
+
+  factory SyncDocumentFolderDto.fromJson(Map<String, dynamic> json) =>
+      _$SyncDocumentFolderDtoFromJson(json);
+
+  factory SyncDocumentFolderDto.fromDocumentFolder(DocumentFolder folder) {
+    return SyncDocumentFolderDto(
+      id: folder.id > 0 ? folder.id : null,
+      name: folder.name,
+      parentId: folder.parentId != null && folder.parentId! > 0
+          ? folder.parentId
+          : null,
+      sort: folder.sort,
+      fixed: folder.fixed,
+      children: folder.children
+          .map(SyncDocumentFolderDto.fromDocumentFolder)
+          .toList(),
+    );
+  }
+}
+
+@freezed
+abstract class SyncDocumentFoldersDto with _$SyncDocumentFoldersDto {
+  const factory SyncDocumentFoldersDto({
+    required List<SyncDocumentFolderDto> items,
+  }) = _SyncDocumentFoldersDto;
+
+  factory SyncDocumentFoldersDto.fromJson(Map<String, dynamic> json) =>
+      _$SyncDocumentFoldersDtoFromJson(json);
+}
+
+@freezed
+abstract class CreateDocumentDto with _$CreateDocumentDto {
+  factory CreateDocumentDto({
+    required String title,
+    required String content,
+    required int folderId,
+    @Default(false) bool fixed,
+    required List<DocumentAttachment> attachments,
+  }) = _CreateDocumentDto;
+
+  factory CreateDocumentDto.fromJson(Map<String, dynamic> json) =>
+      _$CreateDocumentDtoFromJson(json);
+}

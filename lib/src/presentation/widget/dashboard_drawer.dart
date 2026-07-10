@@ -168,8 +168,10 @@ class NavigationRailSearch extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return InkWell(
-      onTap: () =>
-          showDialog(context: context, builder: (_) => const SearchDialog()),
+      onTap: () => showDialog(
+        context: context,
+        builder: (_) => const NavigationSearchDialog(),
+      ),
       child: Material(
         color: Colors.transparent,
         child: IgnorePointer(

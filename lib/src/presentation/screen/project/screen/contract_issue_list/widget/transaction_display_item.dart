@@ -478,7 +478,7 @@ class TransactionDisplayItem extends ConsumerWidget {
               CustomTextButton(
                 onPressed: () async {
                   final filter = await ref.read(
-                    issueFilterControllerProvider.future,
+                    issueOptionsControllerProvider.future,
                   );
                   final list = await ref.read(
                     issueListControllerProvider(projectId: projectId).future,

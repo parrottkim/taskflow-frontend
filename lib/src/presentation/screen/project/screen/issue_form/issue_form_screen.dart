@@ -124,7 +124,7 @@ class _DesktopWidget extends HookConsumerWidget {
       // 2. Sealed class 상태별 흐름 제어
       switch (submitState) {
         case IssueSubmitCreated(:final issue) ||
-            IssueSubmitEdited(:final issue):
+            IssueSubmitUpdated(:final issue):
           final isCreated = submitState is IssueSubmitCreated;
 
           ref
@@ -133,7 +133,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 child: Toast(
                   type: ToastType.verified,
                   message: Intl.message(
-                    isCreated ? 'issue_form_created' : 'issue_form_edited',
+                    isCreated ? 'issue_form_created' : 'issue_form_updated',
                   ),
                 ),
               );

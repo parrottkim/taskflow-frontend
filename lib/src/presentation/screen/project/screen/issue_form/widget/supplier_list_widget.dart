@@ -53,7 +53,13 @@ class SupplierListWidget extends HookConsumerWidget {
       onNotification: (notification) {
         if (notification.metrics.pixels >=
             notification.metrics.maxScrollExtent - 20.0) {
-          ref.read(supplierListControllerProvider.notifier).load();
+          ref
+              .read(
+                supplierListControllerProvider(
+                  SupplierFilterScope.issueSupplierDialog,
+                ).notifier,
+              )
+              .load();
         }
         return false;
       },

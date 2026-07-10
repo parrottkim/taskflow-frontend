@@ -28,7 +28,10 @@ class ProcurementRequestFormScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final form = ref.watch(
-      procurementIssueFormControllerProvider(issueId: issueId),
+      procurementIssueFormControllerProvider(
+        issueId: issueId,
+        requestId: requestId,
+      ),
     );
 
     return switch (form) {
@@ -71,8 +74,12 @@ class _DesktopWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+    final formProvider = procurementIssueFormControllerProvider(
+      issueId: issueId,
+      requestId: requestId,
+    );
 
-    final steps = value.steps;
+    final steps = requestId == null ? value.steps : ['edit'];
 
     final currentIndex = useState(0);
     final currentStep = steps[currentIndex.value];
@@ -86,6 +93,23 @@ class _DesktopWidget extends HookConsumerWidget {
     final invalidPaymentTermsSupplierIds = useState<Set<int>>({});
     final hasProcurementIssueItems = useState<Set<int>>({});
     final isProcurementIssueItemEmpty = useState<Set<int>>({});
+    final initializedRequestId = useRef<int?>(null);
+
+    useEffect(() {
+      if (requestId != null &&
+          initializedRequestId.value != requestId &&
+          value.selectedSupplierIds.isNotEmpty) {
+        nullableDeliverySupplierIds.value = value.selectedSupplierIds
+            .where((id) => value.deliveryDates[id] == null)
+            .toSet();
+        nullablePaymentTermsSupplierIds.value = value.selectedSupplierIds
+            .where((id) => value.paymentTerms[id] == null)
+            .toSet();
+        initializedRequestId.value = requestId;
+      }
+
+      return null;
+    }, [requestId, value.selectedSupplierIds]);
 
     ref.listen(issueSubmitControllerProvider, (_, submitState) {
       if (submitState is IssueSubmitPending) {
@@ -96,14 +120,18 @@ class _DesktopWidget extends HookConsumerWidget {
       LoadingOverlay.hide();
 
       switch (submitState) {
-        case IssueSubmitCreated(:final issue):
+        case IssueSubmitCreated(:final issue) ||
+            IssueSubmitUpdated(:final issue):
+          final isCreated = submitState is IssueSubmitCreated;
           ref
               .read(toastProvider)
               .showToast(
                 child: Toast(
                   type: ToastType.verified,
                   message: Intl.message(
-                    'issue_form_procurement_requested_created',
+                    isCreated
+                        ? 'issue_form_procurement_requested_created'
+                        : 'issue_form_procurement_requested_updated',
                   ),
                 ),
               );
@@ -206,11 +234,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     .toSet();
 
                 ref
-                    .read(
-                      procurementIssueFormControllerProvider(
-                        issueId: issueId,
-                      ).notifier,
-                    )
+                    .read(formProvider.notifier)
                     .setSelectedSupplierIds(selectedSupplierIds: updated);
               },
               titles: value.titles,
@@ -233,11 +257,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
                 // 💡 [추가] 노티파이어를 호출하여 상태를 실시간으로 변경하도록 반영
                 ref
-                    .read(
-                      procurementIssueFormControllerProvider(
-                        issueId: issueId,
-                      ).notifier,
-                    )
+                    .read(formProvider.notifier)
                     .updateSupplierRequest(
                       supplierId: supplierId,
                       title: value,
@@ -256,11 +276,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     }..remove(supplierId);
 
                     ref
-                        .read(
-                          procurementIssueFormControllerProvider(
-                            issueId: issueId,
-                          ).notifier,
-                        )
+                        .read(formProvider.notifier)
                         .updateSupplierRequest(
                           supplierId: supplierId,
                           deliveryDate: date,
@@ -280,11 +296,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     }..remove(supplierId);
 
                     ref
-                        .read(
-                          procurementIssueFormControllerProvider(
-                            issueId: issueId,
-                          ).notifier,
-                        )
+                        .read(formProvider.notifier)
                         .updateSupplierRequest(
                           supplierId: supplierId,
                           paymentTerms: value,
@@ -301,11 +313,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     }..remove(supplierId);
 
                     ref
-                        .read(
-                          procurementIssueFormControllerProvider(
-                            issueId: issueId,
-                          ).notifier,
-                        )
+                        .read(formProvider.notifier)
                         .updateSupplierRequest(
                           supplierId: supplierId,
                           hasFee: hasFee,
@@ -313,11 +321,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   },
               onNoteChanged: ({required int supplierId, String? note}) {
                 ref
-                    .read(
-                      procurementIssueFormControllerProvider(
-                        issueId: issueId,
-                      ).notifier,
-                    )
+                    .read(formProvider.notifier)
                     .updateSupplierRequest(
                       supplierId: supplierId,
                       note: note,
@@ -342,11 +346,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     }..remove(supplierId);
 
                     ref
-                        .read(
-                          procurementIssueFormControllerProvider(
-                            issueId: issueId,
-                          ).notifier,
-                        )
+                        .read(formProvider.notifier)
                         .updateSupplierRequestItem(
                           supplierId: supplierId,
                           index: index,
@@ -449,12 +449,22 @@ class _DesktopWidget extends HookConsumerWidget {
                           return;
                         }
 
-                        await ref
-                            .read(issueSubmitControllerProvider.notifier)
-                            .createProcurementRequests(
-                              projectId: projectId,
-                              issueId: issueId,
-                            );
+                        if (requestId == null) {
+                          await ref
+                              .read(issueSubmitControllerProvider.notifier)
+                              .createProcurementRequests(
+                                projectId: projectId,
+                                issueId: issueId,
+                              );
+                        } else {
+                          await ref
+                              .read(issueSubmitControllerProvider.notifier)
+                              .updateProcurementRequest(
+                                projectId: projectId,
+                                issueId: issueId,
+                                requestId: requestId!,
+                              );
+                        }
                         return;
                       }
 
@@ -473,7 +483,28 @@ class _DesktopWidget extends HookConsumerWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child: FilledButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        final shouldDelete = await showDialog<bool>(
+                          context: context,
+                          builder: (_) => DeleteDialog(
+                            title: Intl.message(
+                              'issue_form_procurement_delete_dialog_1',
+                            ),
+                            content: Intl.message(
+                              'issue_form_procurement_delete_dialog_2',
+                            ),
+                          ),
+                        );
+
+                        if (shouldDelete != true) return;
+
+                        await ref
+                            .read(issueSubmitControllerProvider.notifier)
+                            .deleteProcurementRequest(
+                              projectId: projectId,
+                              requestId: requestId!,
+                            );
+                      },
                       style: FilledButton.styleFrom(
                         backgroundColor: colorScheme.error,
                         iconColor: colorScheme.onError,

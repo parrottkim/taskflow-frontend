@@ -55,11 +55,23 @@ class WidgetPreset {
       route: RouteNames.document,
       label: Intl.message('document'),
     ),
-    NavigationTitle(label: Intl.message('navigation_title_2'), isAdmin: true),
+    NavigationTitle(label: Intl.message('navigation_title_2')),
+    NavigationButton(
+      icon: Symbols.groups_rounded,
+      route: RouteNames.organization,
+      label: Intl.message('organization'),
+    ),
+    NavigationTitle(label: Intl.message('navigation_title_3'), isAdmin: true),
     NavigationButton(
       icon: Symbols.data_table_rounded,
       route: RouteNames.data,
       label: Intl.message('data'),
+      isAdmin: true,
+    ),
+    NavigationButton(
+      icon: Symbols.calendar_month_rounded,
+      route: RouteNames.schedule,
+      label: Intl.message('schedule'),
       isAdmin: true,
     ),
     NavigationButton(
@@ -68,7 +80,6 @@ class WidgetPreset {
       label: Intl.message('analytics'),
       isAdmin: true,
     ),
-    // NavigationTitle(label: Intl.message('navigation_title_3')),
   ];
 
   List<ClientCount> get dummyClientCount => [
@@ -260,23 +271,24 @@ enum Order {
 }
 
 enum ProjectSegment {
-  all('project_segment_1'),
-  preexecuted('project_segment_2'),
-  active('project_segment_3'),
-  closed('project_segment_4');
+  all('all', 'project_segment_1'),
+  preexecuted('preexecuted', 'project_segment_2'),
+  active('active', 'project_segment_3'),
+  closed('closed', 'project_segment_4');
 
+  final String key;
   final String labelKey;
 
-  const ProjectSegment(this.labelKey);
+  const ProjectSegment(this.key, this.labelKey);
 
   String get label => Intl.message(labelKey);
 
   factory ProjectSegment.fromKey(String key) => ProjectSegment.values
-      .firstWhere((e) => e.name == key, orElse: () => ProjectSegment.all);
+      .firstWhere((e) => e.key == key, orElse: () => ProjectSegment.all);
 }
 
 enum ProjectSort {
-  updated('updated', 'project_sort_1'),
+  updated('update', 'project_sort_1'),
   created('created', 'project_sort_2'),
   code('code', 'project_sort_3'),
   name('name', 'project_sort_4');
@@ -295,66 +307,88 @@ enum ProjectSort {
 }
 
 enum ProjectDetailSegment {
-  contract('project_detail_segment_1'),
-  approval('project_detail_segment_2'),
-  procurement('project_detail_segment_3'),
-  report('project_detail_segment_4'),
-  timeline('project_detail_segment_5');
+  contract('contract', 'project_detail_segment_1'),
+  approval('approval', 'project_detail_segment_2'),
+  procurement('procurement', 'project_detail_segment_3'),
+  report('report', 'project_detail_segment_4'),
+  timeline('timeline', 'project_detail_segment_5');
 
+  final String key;
   final String labelKey;
 
-  const ProjectDetailSegment(this.labelKey);
+  const ProjectDetailSegment(this.key, this.labelKey);
 
   String get label => Intl.message(labelKey);
 
   factory ProjectDetailSegment.fromKey(String key) =>
       ProjectDetailSegment.values.firstWhere(
-        (e) => e.name == key,
+        (e) => e.key == key,
         orElse: () => ProjectDetailSegment.contract,
       );
 }
 
 enum WorkSegment {
-  schedule('work_segment_1'),
-  weekly('work_segment_2');
+  schedule('schedule', 'work_segment_1'),
+  charge('charge', 'work_segment_2');
 
+  final String key;
   final String labelKey;
 
-  const WorkSegment(this.labelKey);
+  const WorkSegment(this.key, this.labelKey);
 
   String get label => Intl.message(labelKey);
 
   factory WorkSegment.fromKey(String key) => WorkSegment.values.firstWhere(
-    (e) => e.name == key,
+    (e) => e.key == key,
     orElse: () => WorkSegment.schedule,
   );
 }
 
 enum DataSegment {
-  user('data_segment_1'),
-  supplier('data_segment_2');
+  user('user', 'data_segment_1'),
+  supplier('user', 'data_segment_2');
 
+  final String key;
   final String labelKey;
 
-  const DataSegment(this.labelKey);
+  const DataSegment(this.key, this.labelKey);
 
   String get label => Intl.message(labelKey);
 
   factory DataSegment.fromKey(String key) => DataSegment.values.firstWhere(
-    (e) => e.name == key,
+    (e) => e.key == key,
     orElse: () => DataSegment.user,
   );
 }
 
 enum AccountSegment {
-  user('account_segment_1');
+  user('user', 'account_segment_1');
 
+  final String key;
   final String labelKey;
 
-  const AccountSegment(this.labelKey);
+  const AccountSegment(this.key, this.labelKey);
 
   String get label => Intl.message(labelKey);
 
   factory AccountSegment.fromKey(String key) => AccountSegment.values
-      .firstWhere((e) => e.name == key, orElse: () => AccountSegment.user);
+      .firstWhere((e) => e.key == key, orElse: () => AccountSegment.user);
+}
+
+enum DocumentSort {
+  recent('recent', 'document_sort_2', Symbols.schedule_rounded),
+  title('title', 'document_sort_1', Symbols.sort_by_alpha_rounded);
+
+  final String key;
+  final String labelKey;
+  final IconData icon;
+
+  const DocumentSort(this.key, this.labelKey, this.icon);
+
+  String get label => Intl.message(labelKey);
+
+  factory DocumentSort.fromKey(String key) => DocumentSort.values.firstWhere(
+    (e) => e.key == key,
+    orElse: () => DocumentSort.recent,
+  );
 }

@@ -47,6 +47,63 @@ class CustomIconButton extends StatelessWidget {
   }
 }
 
+class CustomSvgIconButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final String asset;
+  final double padding;
+  final Color? backgroundColor;
+  final Color? iconColor;
+  final double? width;
+  final double? height;
+  final BoxFit fit;
+  final AlignmentGeometry alignment;
+  final bool matchTextDirection;
+  final String? semanticsLabel;
+  final bool preserveSvgColor;
+
+  const CustomSvgIconButton({
+    super.key,
+    required this.onTap,
+    required this.asset,
+    this.padding = 4.0,
+    this.backgroundColor = Colors.transparent,
+    this.iconColor,
+    this.width,
+    this.height,
+    this.fit = BoxFit.contain,
+    this.alignment = Alignment.center,
+    this.matchTextDirection = false,
+    this.semanticsLabel,
+    this.preserveSvgColor = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final effectiveIconColor =
+        iconColor ??
+        colorScheme.onSurface.withValues(alpha: onTap != null ? 0.7 : 0.3);
+
+    return CustomIconButton(
+      onTap: onTap,
+      padding: padding,
+      backgroundColor: backgroundColor,
+      icon: SvgPicture.asset(
+        asset,
+        width: width,
+        height: height,
+        fit: fit,
+        alignment: alignment,
+        matchTextDirection: matchTextDirection,
+        semanticsLabel: semanticsLabel,
+        colorFilter: preserveSvgColor
+            ? null
+            : ColorFilter.mode(effectiveIconColor, BlendMode.srcIn),
+      ),
+    );
+  }
+}
+
 class ElevatedIconButton extends StatelessWidget {
   final VoidCallback? onTap;
   final BorderRadius borderRadius;
@@ -191,37 +248,50 @@ class CustomToggleButton extends HookWidget {
       }
     }
 
-    return InkWell(
+    return GestureDetector(
       onTap: isEnabled ? handleToggle : null,
-      splashFactory: NoSplash.splashFactory, // 터치 시 물결 이펙트가 싫다면 유지, 원하면 제거 가능
+      behavior: HitTestBehavior.opaque, // 글자 부분을 눌러도 작동하도록 터치 영역 확장
       child: Opacity(
         opacity: isEnabled ? 1.0 : 0.6,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // 1. 체크박스 크기만큼 InkWell의 범위를 제한
             SizedBox(
               width: 20.0,
               height: 20.0,
-              child: ExcludeFocus(
-                child: Checkbox(
-                  tristate: tristate,
-                  // 부모가 내려준 value를 그대로 바인딩 (단방향 흐름 보장)
-                  value: tristate ? value : (value ?? false),
-                  // Checkbox 자체 클릭 이벤트가 중복으로 튀는 것을 방지하기 위해
-                  // 부모 InkWell의 handleToggle로 이벤트를 일원화합니다.
-                  onChanged: isEnabled ? (_) => handleToggle() : null,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  side: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.6),
-                    width: 1,
-                  ),
-                  splashRadius: 0.0,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: const VisualDensity(
-                    horizontal: -4.0,
-                    vertical: -4.0,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: isEnabled ? handleToggle : null,
+                  // [핵심] 체크박스 겉에 InkWell을 두고 테두리를 4.0으로 깎음
+                  borderRadius: BorderRadius.circular(4.0),
+                  splashFactory: InkRipple.splashFactory,
+                  child: Center(
+                    // 2. InkWell의 자식으로 Checkbox를 배치하고 자체 이벤트는 차단
+                    child: ExcludeFocus(
+                      child: AbsorbPointer(
+                        child: Checkbox(
+                          tristate: tristate,
+                          value: tristate ? value : (value ?? false),
+                          onChanged: (_) {},
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          side: BorderSide(
+                            color: colorScheme.outline.withValues(alpha: 0.6),
+                            width: 1,
+                          ),
+                          splashRadius: 0.0, // 순정 동그라미 스플래시 완전 차단
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: const VisualDensity(
+                            horizontal: -4.0,
+                            vertical: -4.0,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -229,7 +299,7 @@ class CustomToggleButton extends HookWidget {
             if (child != null)
               Padding(
                 padding: EdgeInsets.only(left: padding),
-                child: child!,
+                child: child!, // 글자를 눌러도 GestureDetector 덕분에 물결 없이 깔끔하게 작동
               ),
           ],
         ),
