@@ -49,7 +49,11 @@ class SupplierSubmitController extends _$SupplierSubmitController {
           .createSupplier(request: request);
 
       ref
-          .read(supplierListControllerProvider.notifier)
+          .read(
+            supplierListControllerProvider(
+              SupplierFilterScope.dataPage,
+            ).notifier,
+          )
           .addListItem(item: supplier);
 
       state = SupplierSubmitState.created(supplier);
@@ -120,10 +124,14 @@ class SupplierSubmitController extends _$SupplierSubmitController {
       }
 
       ref
-          .read(supplierListControllerProvider.notifier)
+          .read(
+            supplierListControllerProvider(
+              SupplierFilterScope.dataPage,
+            ).notifier,
+          )
           .updateListItem(item: supplier);
 
-      state = SupplierSubmitState.edited(supplier);
+      state = SupplierSubmitState.updated(supplier);
     } catch (e) {
       state = SupplierSubmitState.failure(e.toString());
     }
@@ -136,7 +144,11 @@ class SupplierSubmitController extends _$SupplierSubmitController {
       await ref.read(supplierRepositoryProvider).deleteSupplier(id: supplierId);
 
       ref
-          .read(supplierListControllerProvider.notifier)
+          .read(
+            supplierListControllerProvider(
+              SupplierFilterScope.dataPage,
+            ).notifier,
+          )
           .removeListItem(id: supplierId);
 
       state = SupplierSubmitState.deleted();

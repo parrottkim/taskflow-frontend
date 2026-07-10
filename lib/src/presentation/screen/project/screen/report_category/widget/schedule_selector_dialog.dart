@@ -28,7 +28,10 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final schedule = ref.watch(
-      scheduleListControllerProvider(projectId: projectId),
+      scheduleListControllerProvider(
+        scope: ScheduleFilterScope.scheduleSelectorDialog,
+        projectId: projectId,
+      ),
     );
 
     final searchController = useTextEditingController();
@@ -81,7 +84,11 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
                 ),
               ),
               onChanged: (value) => ref
-                  .read(scheduleFilterControllerProvider.notifier)
+                  .read(
+                    scheduleFilterControllerProvider(
+                      ScheduleFilterScope.scheduleSelectorDialog,
+                    ).notifier,
+                  )
                   .setSearch(search: value),
             ),
             Divider(),

@@ -102,48 +102,46 @@ class ElevatedDropdownButton<T> extends HookWidget {
               ),
             ),
           ),
-          child: Skeleton.unite(
-            child: ElevatedButton.icon(
-              onPressed: () {
-                overlayController.toggle();
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(
-                  left: 16.0,
-                  right: 12.0,
-                  top: 16.0,
-                  bottom: 16.0,
-                ),
+          child: ElevatedButton.icon(
+            onPressed: () {
+              overlayController.toggle();
+            },
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.only(
+                left: 16.0,
+                right: 12.0,
+                top: 16.0,
+                bottom: 16.0,
               ),
-              icon: icon,
-              label: Row(
-                mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
-                children: [
-                  if (selectedItem.value != null)
-                    itemBuilder(selectedItem.value as T)
-                  else
-                    label,
-                  if (isExpanded) Spacer(),
-                  if (showClose && selectedItem.value != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: InkWell(
-                        onTap: () {
-                          selectedItem.value = null;
-                          overlayController.hide();
-                          onChanged?.call(null);
-                        },
-                        borderRadius: BorderRadius.circular(4.0),
-                        child: const Icon(Symbols.close_rounded),
-                      ),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Icon(Symbols.keyboard_arrow_down_rounded),
+            ),
+            icon: icon,
+            label: Row(
+              mainAxisSize: isExpanded ? MainAxisSize.max : MainAxisSize.min,
+              children: [
+                if (selectedItem.value != null)
+                  itemBuilder(selectedItem.value as T)
+                else
+                  label,
+                if (isExpanded) Spacer(),
+                if (showClose && selectedItem.value != null)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: InkWell(
+                      onTap: () {
+                        selectedItem.value = null;
+                        overlayController.hide();
+                        onChanged?.call(null);
+                      },
+                      borderRadius: BorderRadius.circular(4.0),
+                      child: const Icon(Symbols.close_rounded),
                     ),
-                ],
-              ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Icon(Symbols.keyboard_arrow_down_rounded),
+                  ),
+              ],
             ),
           ),
         ),
@@ -476,7 +474,7 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
                                 ),
                               ),
                             );
-                          }).toList(),
+                          }),
                         ],
                       ),
                     ),
@@ -502,22 +500,20 @@ class BreadcrumbDropdownButton<T> extends HookWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (selectedPath.value.isNotEmpty)
-                  ...selectedPath.value
-                      .map(
-                        (item) => Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            itemBuilder(item),
-                            if (selectedPath.value.indexOf(item) <
-                                selectedPath.value.length - 1)
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 4.0),
-                                child: Icon(Symbols.chevron_right, size: 16.0),
-                              ),
-                          ],
-                        ),
-                      )
-                      .toList()
+                  ...selectedPath.value.map(
+                    (item) => Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        itemBuilder(item),
+                        if (selectedPath.value.indexOf(item) <
+                            selectedPath.value.length - 1)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Icon(Symbols.chevron_right, size: 16.0),
+                          ),
+                      ],
+                    ),
+                  )
                 else
                   Text(label ?? ''),
                 if (selectedPath.value.isNotEmpty)

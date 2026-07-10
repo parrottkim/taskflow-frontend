@@ -129,7 +129,10 @@ class ScheduleListWidget extends HookConsumerWidget {
             canLoad()) {
           ref
               .read(
-                scheduleListControllerProvider(projectId: projectId).notifier,
+                scheduleListControllerProvider(
+                  scope: ScheduleFilterScope.projectReportCategory,
+                  projectId: projectId,
+                ).notifier,
               )
               .loadPrevious();
         }
@@ -139,7 +142,10 @@ class ScheduleListWidget extends HookConsumerWidget {
             canLoad()) {
           ref
               .read(
-                scheduleListControllerProvider(projectId: projectId).notifier,
+                scheduleListControllerProvider(
+                  scope: ScheduleFilterScope.projectReportCategory,
+                  projectId: projectId,
+                ).notifier,
               )
               .loadNext();
         }

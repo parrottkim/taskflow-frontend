@@ -26,7 +26,11 @@ class ProjectSubmitController extends _$ProjectSubmitController {
           .createProject(request: request);
 
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .addListItem(item: project);
 
       state = ProjectSubmitState.created(project);
@@ -58,13 +62,17 @@ class ProjectSubmitController extends _$ProjectSubmitController {
           .updateProject(id: projectId, request: request);
 
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .updateListItem(item: project);
       ref
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);
 
-      state = ProjectSubmitState.edited(project);
+      state = ProjectSubmitState.updated(project);
     } catch (e) {
       state = ProjectSubmitState.failure(e.toString());
     }
@@ -87,7 +95,11 @@ class ProjectSubmitController extends _$ProjectSubmitController {
           .updateProject(id: projectId, request: request);
 
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .updateListItem(item: project);
       ref
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
@@ -105,7 +117,11 @@ class ProjectSubmitController extends _$ProjectSubmitController {
     try {
       await ref.read(projectRepositoryProvider).deleteProject(id: projectId);
       ref
-          .read(projectListControllerProvider.notifier)
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
           .removeListItem(id: projectId);
 
       state = ProjectSubmitState.deleted();

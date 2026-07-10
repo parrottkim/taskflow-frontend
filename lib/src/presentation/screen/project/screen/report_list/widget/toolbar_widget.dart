@@ -128,17 +128,16 @@ class ToolbarWidget extends HookConsumerWidget {
                 controller.open();
               }
             },
-            icon: Icon(Symbols.more_horiz_rounded),
+            icon: Icon(Symbols.more_vert_rounded, opticalSize: 20.0),
           ),
           menuChildren: [
-            SizedBox(height: 8.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: MenuItemButton(
                 onPressed:
                     auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated &&
-                            auth.user.id == item.user.id
+                            auth.user.id == item.createdBy.id
                     ? () {
                         context.pushNamed(
                           RouteNames.reportEdit,
@@ -173,7 +172,7 @@ class ToolbarWidget extends HookConsumerWidget {
                 onPressed:
                     auth is AuthAuthenticated && auth.user.isAdmin ||
                         auth is AuthAuthenticated &&
-                            auth.user.id == item.user.id
+                            auth.user.id == item.createdBy.id
                     ? () async {
                         final result = await showDialog(
                           context: context,
@@ -217,17 +216,16 @@ class ToolbarWidget extends HookConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Divider(),
             ),
-            if (auth is AuthAuthenticated)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  '${auth.user.username} ${Intl.message('common_edit_by')}',
-                  style: textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.outline.withValues(alpha: 0.7),
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                '${item.updatedBy?.username ?? item.updatedBy?.username} ${Intl.message('common_edit_by')}',
+                style: textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.outline.withValues(alpha: 0.7),
                 ),
               ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
@@ -240,7 +238,6 @@ class ToolbarWidget extends HookConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: 8.0),
           ],
         ),
       ],

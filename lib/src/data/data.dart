@@ -18,6 +18,7 @@ part 'data.freezed.dart';
 part 'model/bookmark.dart';
 part 'model/address.dart';
 part 'model/currency.dart';
+part 'model/document.dart';
 part 'model/issue.dart';
 part 'model/project.dart';
 part 'model/request.dart';
@@ -48,6 +49,14 @@ part 'source/currency_source.dart';
 part 'repository/dashboard_repository.dart';
 part 'service/dashboard_service.dart';
 part 'source/dashboard_source.dart';
+
+part 'repository/document_folder_repository.dart';
+part 'service/document_folder_service.dart';
+part 'source/document_folder_source.dart';
+
+part 'repository/document_repository.dart';
+part 'service/document_service.dart';
+part 'source/document_source.dart';
 
 part 'repository/schedule_repository.dart';
 part 'service/schedule_service.dart';

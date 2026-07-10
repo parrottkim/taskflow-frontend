@@ -71,43 +71,34 @@ class DecimalInputFormatter extends TextInputFormatter {
 }
 
 class UrlPrefixFormatter extends TextInputFormatter {
-  static const prefix = 'http://';
+  static const String httpPrefix = 'http://';
+  static const String httpsPrefix = 'https://';
 
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final text = newValue.text;
-
-    // 완전 삭제 허용
-    if (text.isEmpty) {
-      return const TextEditingValue(
-        text: '',
-        selection: TextSelection.collapsed(offset: 0),
-      );
-    }
-
-    // 이미 prefix 존재
-    if (text.startsWith(prefix)) {
+    // 1. 입력값이 비어있으면 그대로 둡니다. (사용자가 다 지울 수 있어야 함)
+    if (newValue.text.isEmpty) {
       return newValue;
     }
 
-    // prefix 일부만 남은 경우 -> 전부 삭제 처리
-    if (prefix.startsWith(text)) {
-      return const TextEditingValue(
-        text: '',
-        selection: TextSelection.collapsed(offset: 0),
-      );
+    // 2. 이미 http:// 나 https:// 로 시작한다면 건드리지 않습니다.
+    if (newValue.text.startsWith(httpPrefix) ||
+        newValue.text.startsWith(httpsPrefix)) {
+      return newValue;
     }
 
-    // 일반 문자열 입력 시 prefix 추가
-    final newText = '$prefix$text';
+    // 3. 접두사가 없다면 현재 입력된 전체 텍스트 앞에 https://를 붙입니다.
+    // 기본적으로 https를 권장하므로 https://를 사용하겠습니다.
+    final String fixedText = '$httpPrefix${newValue.text}';
 
     return TextEditingValue(
-      text: newText,
+      text: fixedText,
       selection: TextSelection.collapsed(
-        offset: newValue.selection.end + prefix.length,
+        // 커서 위치를 기존 텍스트 상대 위치만큼 뒤로 밀어줍니다.
+        offset: newValue.selection.end + httpPrefix.length,
       ),
     );
   }

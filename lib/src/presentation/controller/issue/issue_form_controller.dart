@@ -110,7 +110,7 @@ class IssueFormController extends _$IssueFormController {
       final updatedTransactions = value.transactionItems.map((t) {
         final ratio = double.tryParse(t.ratio.replaceAll(',', '')) ?? 0.0;
         final calculatedPrice = NumberFormat(
-          '#,###.##',
+          '#,##0.##',
         ).format(total * (ratio / 100));
         return t.copyWith(price: calculatedPrice);
       }).toList();

@@ -16,26 +16,41 @@ class DesktopCategoryFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
+    final options = ref.watch(projectOptionsControllerProvider);
 
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-        categories: value.categories,
-        items: value.categoryItems,
-      ),
+    return switch ((filter, options)) {
+      (AsyncData(value: final filter), AsyncData(value: final options)) =>
+        _DesktopWidget(
+          filter: filter,
+          categories: filter.categories,
+          items: options.categoryItems,
+        ),
+      (AsyncError(:final error, :final stackTrace), _) ||
+      (
+        _,
+        AsyncError(:final error, :final stackTrace),
+      ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
       _ => Skeletonizer(
         ignoreContainers: true,
-        child: _DesktopWidget(items: []),
+        child: _DesktopWidget(filter: ProjectFilterState(), items: []),
       ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
+  final ProjectFilterState filter;
   final List<int>? categories;
   final List<IssueCategory> items;
 
-  const _DesktopWidget({this.categories, required this.items});
+  const _DesktopWidget({
+    required this.filter,
+    this.categories,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,19 +72,30 @@ class _DesktopWidget extends HookConsumerWidget {
 
     return MultiSelectElevatedDropdownButton(
       onChanged: (value) {
+        final nextCategories = value.isEmpty
+            ? null
+            : value.map((e) => e.id).toList();
+
         ref
-            .read(projectFilterControllerProvider.notifier)
-            .setCategories(
-              categories: value.isEmpty
-                  ? null
-                  : value.map((e) => e.id).toList(),
-            );
+            .read(
+              projectFilterControllerProvider(
+                ProjectFilterScope.projectPage,
+              ).notifier,
+            )
+            .setCategories(categories: nextCategories);
 
-        final queryParameters = ref
-            .read(projectFilterControllerProvider.notifier)
-            .toQueryParameters();
-
-        context.goNamed(RouteNames.project, queryParameters: queryParameters);
+        context.goNamed(
+          RouteNames.project,
+          queryParameters: {
+            if (filter.view != null) 'view': filter.view,
+            if (filter.sort != null) 'sort': filter.sort?.key,
+            if (filter.order != null) 'order': filter.order?.key,
+            if (filter.search != null) 'search': filter.search,
+            if (filter.bookmark != null) 'bookmark': filter.bookmark.toString(),
+            if (filter.clients != null) 'clients': filter.clients?.join(','),
+            if (nextCategories != null) 'categories': nextCategories.join(','),
+          },
+        );
       },
       items: items,
       selectedItems: selectedItems,

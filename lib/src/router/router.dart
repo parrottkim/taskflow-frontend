@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:taskflow/src/presentation/controller/analytics/analytics_screen.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/dashboard_layout.dart';
+import 'package:taskflow/src/presentation/screen/organization/organization_screen.dart';
+import 'package:taskflow/src/presentation/screen/schedule/schedule_screen.dart';
 import 'package:taskflow/src/presentation/screen/download/download_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/forgot_password/forgot_password_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/issue_category_screen.dart';
@@ -15,6 +17,9 @@ import 'package:taskflow/src/presentation/screen/auth/reset_password/reset_passw
 import 'package:taskflow/src/presentation/screen/project/screen/report_category/report_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/report_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/data/data_screen.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_edit_dialog.dart';
+import 'package:taskflow/src/presentation/screen/document/widget/document_edit_dialog.dart';
+import 'package:taskflow/src/presentation/screen/document/widget/document_folder_edit_dialog.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_category/schedule_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/schedule_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/work_screen.dart';
@@ -39,7 +44,9 @@ final _dashboardKey = GlobalKey<NavigatorState>();
 final _projectKey = GlobalKey<NavigatorState>();
 final _workKey = GlobalKey<NavigatorState>();
 final _documentKey = GlobalKey<NavigatorState>();
+final _organizationKey = GlobalKey<NavigatorState>();
 final _dataKey = GlobalKey<NavigatorState>();
+final _scheduleKey = GlobalKey<NavigatorState>();
 final _analyticsKey = GlobalKey<NavigatorState>();
 final _accountKey = GlobalKey<NavigatorState>();
 
@@ -59,8 +66,10 @@ class RouteNames {
   static const String issueNewChoose = 'issue_new_choose';
   static const String issueNew = 'issue_new';
   static const String issueEdit = 'issue_edit';
-  static const String issueProcurementRequest =
-      'issue_edit_procurement_request';
+  static const String issueProcurementRequestNew =
+      'issue_procurement_request_new';
+  static const String issueProcurementRequestEdit =
+      'issue_procurement_request_edit';
   static const String reportNewChoose = 'report_new_choose';
   static const String reportNew = 'report_new';
   static const String reportEdit = 'report_edit';
@@ -70,7 +79,15 @@ class RouteNames {
   static const String scheduleEdit = 'schedule_edit';
   static const String work = 'work';
   static const String document = 'document';
+  static const String documentNew = 'document_new';
+  static const String documentEdit = 'document_edit';
+  static const String documentFolderNew = 'document_folder_new';
+  static const String documentFolderEdit = 'document_folder_edit';
+  static const String organization = 'organization';
   static const String data = 'data';
+  static const String supplierNew = 'supplier_new';
+  static const String supplierEdit = 'supplier_edit';
+  static const String schedule = 'schedule';
   static const String analytics = 'analytics';
   static const String account = 'account';
 }
@@ -92,6 +109,10 @@ class Routes {
   static const String issueNew = 'new';
   static const String issueEdit = 'edit';
   static const String issueProcurementRequest = 'procurement/request';
+  static const String issueProcurementRequestNew =
+      '$issueProcurementRequest/new';
+  static const String issueProcurementRequestEdit =
+      '$issueProcurementRequest/:request_id/edit';
   static const String reportBase = 'report';
   static const String reportNewChoose = 'choose';
   static const String reportNew = 'new';
@@ -103,7 +124,16 @@ class Routes {
   static const String scheduleEdit = 'edit';
   static const String work = '/work';
   static const String document = '/document';
+  static const String documentFileBase = 'file';
+  static const String documentFolderBase = 'folder';
+  static const String documentNew = 'new';
+  static const String documentEdit = 'edit';
+  static const String organization = '/organization';
   static const String data = '/data';
+  static const String supplierBase = 'supplier';
+  static const String supplierNew = 'new';
+  static const String supplierEdit = 'edit';
+  static const String schedule = '/schedule';
   static const String analytics = '/analytics';
   static const String account = '/account';
 }
@@ -252,7 +282,9 @@ class AppRouter {
                   final order = state.uri.queryParameters['order'];
                   final search = state.uri.queryParameters['search'];
                   final bookmark = state.uri.queryParameters['bookmark'];
-                  final clients = state.uri.queryParameters['clients'];
+                  final clients =
+                      state.uri.queryParameters['clients'] ??
+                      state.uri.queryParameters['client_id'];
                   final categories = state.uri.queryParameters['categories'];
 
                   return NoTransitionPage(
@@ -288,7 +320,7 @@ class AppRouter {
                       // 1. 이미 에러가 있거나, 제출이 완료된 상태면 즉시 통과
                       if (error is ErrorUnauthorized ||
                           submit is ProjectSubmitCreated ||
-                          submit is ProjectSubmitEdited ||
+                          submit is ProjectSubmitUpdated ||
                           submit is ProjectSubmitDeleted) {
                         return true;
                       }
@@ -324,7 +356,7 @@ class AppRouter {
 
                       if (error is ErrorUnauthorized ||
                           submit is ProjectSubmitCreated ||
-                          submit is ProjectSubmitEdited ||
+                          submit is ProjectSubmitUpdated ||
                           submit is ProjectSubmitDeleted) {
                         return true;
                       }
@@ -443,7 +475,7 @@ class AppRouter {
 
                                   if (error is ErrorUnauthorized ||
                                       submit is IssueSubmitCreated ||
-                                      submit is IssueSubmitEdited ||
+                                      submit is IssueSubmitUpdated ||
                                       submit is IssueSubmitDeleted) {
                                     return true;
                                   }
@@ -491,7 +523,7 @@ class AppRouter {
 
                               if (error is ErrorUnauthorized ||
                                   submit is IssueSubmitCreated ||
-                                  submit is IssueSubmitEdited ||
+                                  submit is IssueSubmitUpdated ||
                                   submit is IssueSubmitDeleted) {
                                 return true;
                               }
@@ -504,8 +536,9 @@ class AppRouter {
                             },
                           ),
                           GoRoute(
-                            name: RouteNames.issueProcurementRequest,
-                            path: ':issue_id/${Routes.issueProcurementRequest}',
+                            name: RouteNames.issueProcurementRequestNew,
+                            path:
+                                ':issue_id/${Routes.issueProcurementRequestNew}',
                             parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
                               final projectId = int.parse(
@@ -532,7 +565,53 @@ class AppRouter {
 
                               if (error is ErrorUnauthorized ||
                                   submit is IssueSubmitCreated ||
-                                  submit is IssueSubmitEdited ||
+                                  submit is IssueSubmitUpdated ||
+                                  submit is IssueSubmitDeleted) {
+                                return true;
+                              }
+
+                              final shouldNavigate = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => const PopScopeDialog(),
+                              );
+                              return shouldNavigate ?? false;
+                            },
+                          ),
+                          GoRoute(
+                            name: RouteNames.issueProcurementRequestEdit,
+                            path:
+                                ':issue_id/${Routes.issueProcurementRequestEdit}',
+                            parentNavigatorKey: _projectKey,
+                            pageBuilder: (context, state) {
+                              final projectId = int.parse(
+                                state.pathParameters['project_id']!,
+                              );
+                              final issueId = int.parse(
+                                state.pathParameters['issue_id']!,
+                              );
+                              final requestId = int.parse(
+                                state.pathParameters['request_id']!,
+                              );
+
+                              return NoTransitionPage(
+                                key: state.pageKey,
+                                name: state.name,
+                                child: ProcurementRequestFormScreen(
+                                  projectId: projectId,
+                                  issueId: issueId,
+                                  requestId: requestId,
+                                ),
+                              );
+                            },
+                            onExit: (context, state) async {
+                              final error = ref.watch(errorControllerProvider);
+                              final submit = ref.watch(
+                                issueSubmitControllerProvider,
+                              );
+
+                              if (error is ErrorUnauthorized ||
+                                  submit is IssueSubmitCreated ||
+                                  submit is IssueSubmitUpdated ||
                                   submit is IssueSubmitDeleted) {
                                 return true;
                               }
@@ -614,7 +693,7 @@ class AppRouter {
 
                                   if (error is ErrorUnauthorized ||
                                       submit is ReportSubmitCreated ||
-                                      submit is ReportSubmitEdited ||
+                                      submit is ReportSubmitUpdated ||
                                       submit is ReportSubmitDeleted) {
                                     return true;
                                   }
@@ -662,7 +741,7 @@ class AppRouter {
 
                               if (error is ErrorUnauthorized ||
                                   submit is ReportSubmitCreated ||
-                                  submit is ReportSubmitEdited ||
+                                  submit is ReportSubmitUpdated ||
                                   submit is ReportSubmitDeleted) {
                                 return true;
                               }
@@ -759,7 +838,7 @@ class AppRouter {
 
                               if (error is ErrorUnauthorized ||
                                   submit is ScheduleSubmitCreated ||
-                                  submit is ScheduleSubmitEdited ||
+                                  submit is ScheduleSubmitUpdated ||
                                   submit is ScheduleSubmitDeleted) {
                                 return true;
                               }
@@ -801,7 +880,7 @@ class AppRouter {
 
                           if (error is ErrorUnauthorized ||
                               submit is ScheduleSubmitCreated ||
-                              submit is ScheduleSubmitEdited ||
+                              submit is ScheduleSubmitUpdated ||
                               submit is ScheduleSubmitDeleted) {
                             return true;
                           }
@@ -825,10 +904,165 @@ class AppRouter {
               GoRoute(
                 name: RouteNames.document,
                 path: Routes.document,
+                pageBuilder: (context, state) {
+                  final folderId = int.tryParse(
+                    state.uri.queryParameters['folder_id'] ?? '',
+                  );
+                  final sort = state.uri.queryParameters['sort'];
+                  final order = state.uri.queryParameters['order'];
+                  final search = state.uri.queryParameters['search'];
+                  final documentId = int.tryParse(
+                    state.uri.queryParameters['document_id'] ?? '',
+                  );
+
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    name: state.name,
+                    child: DocumentScreen(
+                      folderId: folderId,
+                      sort: sort,
+                      order: order,
+                      search: search,
+                      documentId: documentId,
+                    ),
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    name: RouteNames.documentNew,
+                    path: '${Routes.documentFileBase}/${Routes.documentNew}',
+                    parentNavigatorKey: _key,
+                    pageBuilder: (context, state) => DialogPage(
+                      key: state.pageKey,
+                      name: state.name,
+                      builder: (_) => const DocumentEditDialog(),
+                    ),
+                    onExit: (context, state) async {
+                      final error = ref.watch(errorControllerProvider);
+                      final submit = ref.watch(
+                        documentSubmitControllerProvider,
+                      );
+
+                      if (error is ErrorUnauthorized ||
+                          submit is DocumentSubmitDocumentCreated ||
+                          submit is DocumentSubmitDocumentUpdated ||
+                          submit is DocumentSubmitDocumentDeleted) {
+                        return true;
+                      }
+
+                      final shouldNavigate = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => const PopScopeDialog(),
+                      );
+                      return shouldNavigate ?? false;
+                    },
+                  ),
+                  GoRoute(
+                    name: RouteNames.documentEdit,
+                    path:
+                        '${Routes.documentFileBase}/:document_id/${Routes.documentEdit}',
+                    parentNavigatorKey: _key,
+                    pageBuilder: (context, state) {
+                      final documentId = int.tryParse(
+                        state.pathParameters['document_id'] ?? '',
+                      );
+
+                      return DialogPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        builder: (_) =>
+                            DocumentEditDialog(documentId: documentId),
+                      );
+                    },
+                    onExit: (context, state) async {
+                      final error = ref.watch(errorControllerProvider);
+                      final submit = ref.watch(
+                        documentSubmitControllerProvider,
+                      );
+
+                      if (error is ErrorUnauthorized ||
+                          submit is DocumentSubmitDocumentCreated ||
+                          submit is DocumentSubmitDocumentUpdated ||
+                          submit is DocumentSubmitDocumentDeleted) {
+                        return true;
+                      }
+
+                      final shouldNavigate = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => const PopScopeDialog(),
+                      );
+                      return shouldNavigate ?? false;
+                    },
+                  ),
+                  GoRoute(
+                    name: RouteNames.documentFolderNew,
+                    path: '${Routes.documentFolderBase}/${Routes.documentNew}',
+                    parentNavigatorKey: _key,
+                    pageBuilder: (context, state) => DialogPage(
+                      key: state.pageKey,
+                      name: state.name,
+                      builder: (_) => const DocumentFolderEditDialog(),
+                    ),
+                    onExit: (context, state) async {
+                      final error = ref.watch(errorControllerProvider);
+                      final submit = ref.watch(
+                        documentSubmitControllerProvider,
+                      );
+
+                      if (error is ErrorUnauthorized ||
+                          submit is DocumentSubmitFolderSuccess) {
+                        return true;
+                      }
+
+                      final shouldNavigate = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => const PopScopeDialog(),
+                      );
+                      return shouldNavigate ?? false;
+                    },
+                  ),
+                  GoRoute(
+                    name: RouteNames.documentFolderEdit,
+                    path:
+                        '${Routes.documentFolderBase}/:folder_id/${Routes.documentEdit}',
+                    parentNavigatorKey: _key,
+                    pageBuilder: (context, state) => DialogPage(
+                      key: state.pageKey,
+                      name: state.name,
+                      builder: (_) => const DocumentFolderEditDialog(),
+                    ),
+                    onExit: (context, state) async {
+                      final error = ref.watch(errorControllerProvider);
+                      final submit = ref.watch(
+                        documentSubmitControllerProvider,
+                      );
+
+                      if (error is ErrorUnauthorized ||
+                          submit is DocumentSubmitFolderSuccess) {
+                        return true;
+                      }
+
+                      final shouldNavigate = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => const PopScopeDialog(),
+                      );
+                      return shouldNavigate ?? false;
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _organizationKey,
+            routes: [
+              GoRoute(
+                name: RouteNames.organization,
+                path: Routes.organization,
                 pageBuilder: (context, state) => NoTransitionPage(
                   key: state.pageKey,
                   name: state.name,
-                  child: DocumentScreen(),
+                  child: OrganizationScreen(),
                 ),
               ),
             ],
@@ -848,11 +1082,88 @@ class AppRouter {
                 },
                 pageBuilder: (context, state) {
                   final view = state.uri.queryParameters['view'];
+                  final search = state.uri.queryParameters['search'];
+                  final departments =
+                      state.uri.queryParameters['departments'] ??
+                      state.uri.queryParameters['department_id'];
+                  final positionId = int.tryParse(
+                    state.uri.queryParameters['position_id'] ?? '',
+                  );
 
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: DataScreen(view: view),
+                    child: DataScreen(
+                      view:
+                          view ??
+                          (state.uri.path.contains('/supplier/')
+                              ? 'supplier'
+                              : null),
+                      search: search,
+                      departments: departments,
+                      positionId: positionId,
+                    ),
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    name: RouteNames.supplierNew,
+                    path: '${Routes.supplierBase}/${Routes.supplierNew}',
+                    parentNavigatorKey: _key,
+                    pageBuilder: (context, state) => DialogPage(
+                      key: state.pageKey,
+                      name: state.name,
+                      builder: (_) => const SupplierEditDialog(),
+                    ),
+                  ),
+                  GoRoute(
+                    name: RouteNames.supplierEdit,
+                    path:
+                        '${Routes.supplierBase}/:supplier_id/${Routes.supplierEdit}',
+                    parentNavigatorKey: _key,
+                    pageBuilder: (context, state) {
+                      final supplierId = int.tryParse(
+                        state.pathParameters['supplier_id'] ?? '',
+                      );
+
+                      return DialogPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        builder: (_) =>
+                            SupplierEditDialog(supplierId: supplierId),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _scheduleKey,
+            routes: [
+              GoRoute(
+                name: RouteNames.schedule,
+                path: Routes.schedule,
+                redirect: (context, state) async {
+                  final auth = ref.read(authControllerProvider);
+                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
+                    return _showWrongApproachAndGoDashboard(context);
+                  }
+                  return null;
+                },
+                pageBuilder: (context, state) {
+                  final search = state.uri.queryParameters['search'];
+                  final departments =
+                      state.uri.queryParameters['departments'] ??
+                      state.uri.queryParameters['department_id'];
+
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    name: state.name,
+                    child: ScheduleScreen(
+                      search: search,
+                      departments: departments,
+                    ),
                   );
                 },
               ),

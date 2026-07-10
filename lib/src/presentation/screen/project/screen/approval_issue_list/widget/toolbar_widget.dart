@@ -16,20 +16,24 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 class ToolbarWidget extends ConsumerWidget {
   final int projectId;
   final int issueId;
-  final int categoryId;
+  final IssueCategory category;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final User user;
+  final User createdBy;
+  final User? updatedBy;
 
   const ToolbarWidget({
     super.key,
     required this.projectId,
     required this.issueId,
-    required this.categoryId,
+    required this.category,
     required this.createdAt,
     required this.updatedAt,
-    required this.user,
+    required this.createdBy,
+    this.updatedBy,
   });
+
+  int get categoryId => category.id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -128,16 +132,16 @@ class ToolbarWidget extends ConsumerWidget {
                     }
                   }
                 : null,
-            icon: Icon(Symbols.more_horiz_rounded),
+            icon: Icon(Symbols.more_vert_rounded),
           ),
           menuChildren: [
-            SizedBox(height: 8.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: MenuItemButton(
                 onPressed:
                     auth is AuthAuthenticated && auth.user.isAdmin ||
-                        auth is AuthAuthenticated && auth.user.id == user.id
+                        auth is AuthAuthenticated &&
+                            auth.user.id == createdBy.id
                     ? () {
                         context.goNamed(
                           RouteNames.issueEdit,
@@ -172,7 +176,8 @@ class ToolbarWidget extends ConsumerWidget {
               child: MenuItemButton(
                 onPressed:
                     auth is AuthAuthenticated && auth.user.isAdmin ||
-                        auth is AuthAuthenticated && auth.user.id == user.id
+                        auth is AuthAuthenticated &&
+                            auth.user.id == createdBy.id
                     ? () async {
                         final result = await showDialog(
                           context: context,
@@ -214,17 +219,16 @@ class ToolbarWidget extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Divider(),
             ),
-            if (auth is AuthAuthenticated)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text(
-                  '${user.username} ${Intl.message('common_edit_by')}',
-                  style: textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.outline.withValues(alpha: 0.7),
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                '${updatedBy?.username ?? createdBy.username} ${Intl.message('common_edit_by')}',
+                style: textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.outline.withValues(alpha: 0.7),
                 ),
               ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
@@ -237,7 +241,6 @@ class ToolbarWidget extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: 8.0),
           ],
         ),
       ],

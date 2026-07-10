@@ -16,6 +16,8 @@ abstract class ScheduleService {
   @GET('schedule')
   Future<Result<ScheduleGroup>> getSchedules({
     @Query('project_id') int? projectId,
+    @Query('user_id') int? userId,
+    @Query('department_id') int? departmentId,
     @Query('search') String? search,
     @Query('start') @DateTimeConverter(format: 'yyyy-MM-dd') DateTime? start,
     @Query('end') @DateTimeConverter(format: 'yyyy-MM-dd') DateTime? end,

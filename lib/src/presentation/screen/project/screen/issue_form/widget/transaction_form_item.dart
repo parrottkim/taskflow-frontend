@@ -32,7 +32,7 @@ class TransactionFormItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(issueFilterControllerProvider);
+    final filter = ref.watch(issueOptionsControllerProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
@@ -470,7 +470,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     CustomTextButton(
                       onPressed: () async {
                         final filter = await ref.read(
-                          issueFilterControllerProvider.future,
+                          issueOptionsControllerProvider.future,
                         );
                         final list = await ref.read(
                           issueListControllerProvider(

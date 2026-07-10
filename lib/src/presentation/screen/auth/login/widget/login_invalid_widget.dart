@@ -51,9 +51,7 @@ class LoginInvalidWidget extends HookWidget {
           child: Text(
             Intl.message('login_invalid'),
             textAlign: TextAlign.center,
-            style: textTheme.labelLarge?.copyWith(
-              color: colorScheme.onError,
-            ),
+            style: textTheme.labelLarge?.copyWith(color: colorScheme.onError),
           ),
         ),
       ),

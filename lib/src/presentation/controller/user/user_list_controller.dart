@@ -3,18 +3,18 @@ part of '../controller.dart';
 @riverpod
 class UserListController extends _$UserListController {
   @override
-  FutureOr<UserListState> build() async {
+  FutureOr<UserListState> build(UserFilterScope scope) async {
     return _init();
   }
 
   Future<UserListState> _init() async {
-    final filter = await ref.watch(userFilterControllerProvider.future);
+    final filter = await _filter();
 
     final result = await ref
         .read(userRepositoryProvider)
         .getUsers(
-          departmentId: filter.department?.id,
-          positionId: filter.position?.id,
+          departmentId: filter.departments?.lastOrNull,
+          positionId: filter.positionId,
           search: filter.search,
         );
 
@@ -27,7 +27,7 @@ class UserListController extends _$UserListController {
   }
 
   Future<void> load() async {
-    final filter = await ref.watch(userFilterControllerProvider.future);
+    final filter = await _filter();
 
     final value = state.value;
 
@@ -39,8 +39,8 @@ class UserListController extends _$UserListController {
           .read(userRepositoryProvider)
           .getUsers(
             page: value.page + 1,
-            departmentId: filter.department?.id,
-            positionId: filter.position?.id,
+            departmentId: filter.departments?.lastOrNull,
+            positionId: filter.positionId,
             search: filter.search,
           );
 
@@ -51,6 +51,26 @@ class UserListController extends _$UserListController {
         hasReachEnd: value.items.length + result.items.length >= value.total,
       );
     });
+  }
+
+  Future<UserFilterState> _filter() {
+    if (scope == UserFilterScope.scheduleTimeline) {
+      return ref
+          .watch(
+            scheduleFilterControllerProvider(
+              ScheduleFilterScope.schedulePage,
+            ).future,
+          )
+          .then((filter) {
+            final departmentId = filter.departments?.lastOrNull;
+
+            return UserFilterState(
+              departments: departmentId == null ? null : [departmentId],
+            );
+          });
+    }
+
+    return ref.watch(userFilterControllerProvider(scope).future);
   }
 
   Future<void> addListItem({required User item}) async {

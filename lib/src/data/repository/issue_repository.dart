@@ -26,7 +26,12 @@ abstract class IssueRepository {
     required int id,
     required CreateProcurementIssueRequestDto request,
   });
+  Future<Issue> updateProcurementIssueRequest({
+    required int id,
+    required CreateProcurementIssueRequestDto request,
+  });
   Future<void> approveProcurementIssueRequest({required int id});
+  Future<void> deleteProcurementIssueRequest({required int id});
   Future<List<TransactionIssueItem>> getTransactionIssueItems({
     required int id,
   });

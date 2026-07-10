@@ -3,12 +3,14 @@ part of '../controller.dart';
 @riverpod
 class ProjectListController extends _$ProjectListController {
   @override
-  FutureOr<ProjectListState> build() {
+  FutureOr<ProjectListState> build(ProjectFilterScope scope) {
     return _init();
   }
 
   Future<ProjectListState> _init() async {
-    final filter = await ref.watch(projectFilterControllerProvider.future);
+    final filter = await ref.watch(
+      projectFilterControllerProvider(scope).future,
+    );
 
     final result = await ref
         .watch(projectRepositoryProvider)
@@ -31,7 +33,9 @@ class ProjectListController extends _$ProjectListController {
   }
 
   Future<void> load() async {
-    final filter = await ref.watch(projectFilterControllerProvider.future);
+    final filter = await ref.watch(
+      projectFilterControllerProvider(scope).future,
+    );
 
     final value = state.value;
 

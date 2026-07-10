@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/user/widget/department_select_widget.dart';
@@ -19,7 +18,10 @@ class UserListWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final list = ref.watch(userListControllerProvider);
+    final list = ref.watch(
+      userListControllerProvider(UserFilterScope.dataPage),
+    );
+    final options = ref.watch(userOptionsControllerProvider);
 
     return Expanded(
       child: Padding(
@@ -27,14 +29,24 @@ class UserListWidget extends ConsumerWidget {
         child: ContainerWidget(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
-          child: switch (list) {
-            AsyncData(:final value) => _DesktopWidget(items: value.items),
-            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
-              error: error,
-              stackTrace: stackTrace,
-            ),
+          child: switch ((list, options)) {
+            (AsyncData(value: final list), AsyncData(value: final options)) =>
+              _DesktopWidget(
+                items: list.items,
+                positionItems: options.positionItems,
+                departmentItems: options.departmentItems,
+              ),
+            (AsyncError(:final error, :final stackTrace), _) ||
+            (
+              _,
+              AsyncError(:final error, :final stackTrace),
+            ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
             _ => Skeletonizer(
-              child: _DesktopWidget(items: List.filled(30, User.dummy())),
+              child: _DesktopWidget(
+                items: List.filled(30, User.dummy()),
+                positionItems: const [],
+                departmentItems: const [],
+              ),
             ),
           },
         ),
@@ -45,47 +57,19 @@ class UserListWidget extends ConsumerWidget {
 
 class _DesktopWidget extends ConsumerWidget {
   final List<User> items;
+  final List<UserPosition> positionItems;
+  final List<UserDepartment> departmentItems;
 
-  const _DesktopWidget({required this.items});
+  const _DesktopWidget({
+    required this.items,
+    required this.positionItems,
+    required this.departmentItems,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-
-    ref.listen(userSubmitControllerProvider, (_, state) {
-      if (state is UserSubmitPending) {
-        LoadingOverlay.show(context);
-        return;
-      }
-
-      LoadingOverlay.hide();
-
-      switch (state) {
-        case UserSubmitEdited():
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.verified,
-                  message: Intl.message('data_user_edited'),
-                ),
-              );
-
-        case UserSubmitDeleted():
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.standard,
-                  message: Intl.message('data_user_deleted'),
-                ),
-              );
-
-        default:
-          break;
-      }
-    });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -197,7 +181,13 @@ class _DesktopWidget extends ConsumerWidget {
               onNotification: (notification) {
                 if (notification.metrics.pixels >=
                     notification.metrics.maxScrollExtent - 20.0) {
-                  ref.read(userListControllerProvider.notifier).load();
+                  ref
+                      .read(
+                        userListControllerProvider(
+                          UserFilterScope.dataPage,
+                        ).notifier,
+                      )
+                      .load();
                 }
                 return false;
               },
@@ -267,8 +257,18 @@ class _DesktopWidget extends ConsumerWidget {
                           ),
                         ),
                         DataCell(Text(items[index].email)),
-                        DataCell(PositionSelectWidget(user: items[index])),
-                        DataCell(DepartmentSelectWidget(user: items[index])),
+                        DataCell(
+                          PositionSelectWidget(
+                            user: items[index],
+                            items: positionItems,
+                          ),
+                        ),
+                        DataCell(
+                          DepartmentSelectWidget(
+                            user: items[index],
+                            items: departmentItems,
+                          ),
+                        ),
                         DataCell(
                           CustomToggleButton(
                             value: items[index].isAdmin,

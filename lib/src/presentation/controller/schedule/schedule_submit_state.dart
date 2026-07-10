@@ -6,7 +6,8 @@ sealed class ScheduleSubmitState with _$ScheduleSubmitState {
   factory ScheduleSubmitState.pending() = ScheduleSubmitPending;
   factory ScheduleSubmitState.created(Schedule schedule) =
       ScheduleSubmitCreated;
-  factory ScheduleSubmitState.edited(Schedule schedule) = ScheduleSubmitEdited;
+  factory ScheduleSubmitState.updated(Schedule schedule) =
+      ScheduleSubmitUpdated;
   factory ScheduleSubmitState.deleted() = ScheduleSubmitDeleted;
   factory ScheduleSubmitState.failure(String message) = ScheduleSubmitFailure;
 }

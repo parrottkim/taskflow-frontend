@@ -2,8 +2,17 @@ part of 'widget.dart';
 
 class EditorWidget extends HookConsumerWidget {
   final EditorState editorState;
+  final double maxWidth;
+  final double minHeight;
+  final double maxHeight;
 
-  const EditorWidget({super.key, required this.editorState});
+  const EditorWidget({
+    super.key,
+    required this.editorState,
+    this.maxWidth = 600.0,
+    this.minHeight = 240.0,
+    this.maxHeight = 400.0,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,11 +25,55 @@ class EditorWidget extends HookConsumerWidget {
       () => EditorScrollController(editorState: editorState, shrinkWrap: true),
     );
 
-    Future<void> handleImagePaste(
-      EditorState editorState,
-      WidgetRef ref,
-      int maxImageSize,
-    ) async {
+    Future<void> insertImageBytes(Uint8List bytes) async {
+      if (bytes.lengthInBytes > maxImageSize) {
+        final image = img.decodeImage(bytes);
+
+        if (image != null) {
+          final resized = img.copyResize(image, width: 960);
+
+          bytes = Uint8List.fromList(img.encodeJpg(resized, quality: 80));
+        }
+      }
+
+      final base64Data = base64Encode(bytes);
+
+      final selection = editorState.selection;
+      if (selection == null || !selection.isCollapsed) {
+        return;
+      }
+      final node = editorState.getNodeAtPath(selection.end.path);
+      if (node == null) {
+        return;
+      }
+
+      final transaction = editorState.transaction;
+
+      transaction.beforeSelection = selection;
+
+      final imagePath =
+          node.type == ParagraphBlockKeys.type && (node.delta?.isEmpty ?? false)
+          ? node.path
+          : node.path.next;
+
+      transaction.insertNode(imagePath, imageNode(url: base64Data));
+
+      if (node.type == ParagraphBlockKeys.type &&
+          (node.delta?.isEmpty ?? false)) {
+        transaction.deleteNode(node);
+      }
+
+      final newLinePath = imagePath.next;
+      transaction.insertNode(newLinePath, paragraphNode());
+
+      transaction.afterSelection = Selection.collapsed(
+        Position(path: newLinePath, offset: 0),
+      );
+
+      await editorState.apply(transaction);
+    }
+
+    Future<void> handleImagePaste() async {
       final clipboard = SystemClipboard.instance;
       if (clipboard == null) return;
 
@@ -53,56 +106,7 @@ class EditorWidget extends HookConsumerWidget {
             cancelOnError: true,
           );
 
-          var bytes = await completer.future;
-
-          if (bytes.lengthInBytes > maxImageSize) {
-            final image = img.decodeImage(bytes);
-
-            if (image != null) {
-              final resized = img.copyResize(image, width: 960);
-
-              bytes = Uint8List.fromList(img.encodeJpg(resized, quality: 80));
-            }
-          }
-
-          final base64Data = base64Encode(bytes);
-
-          final selection = editorState.selection;
-          if (selection == null || !selection.isCollapsed) {
-            return;
-          }
-          final node = editorState.getNodeAtPath(selection.end.path);
-          if (node == null) {
-            return;
-          }
-
-          final transaction = editorState.transaction;
-
-          transaction.beforeSelection = selection;
-
-          final imagePath =
-              node.type == ParagraphBlockKeys.type &&
-                  (node.delta?.isEmpty ?? false)
-              ? node.path
-              : node.path.next;
-
-          // 1. 이미지 노드 삽입
-          transaction.insertNode(imagePath, imageNode(url: base64Data));
-
-          // 2. 이미 기존 비어있던 문단이면 삭제
-          if (node.type == ParagraphBlockKeys.type &&
-              (node.delta?.isEmpty ?? false)) {
-            transaction.deleteNode(node);
-          }
-
-          final newLinePath = imagePath.next;
-          transaction.insertNode(newLinePath, paragraphNode());
-
-          transaction.afterSelection = Selection.collapsed(
-            Position(path: newLinePath, offset: 0),
-          );
-
-          await editorState.apply(transaction);
+          await insertImageBytes(await completer.future);
         } catch (e) {
           ref
               .read(toastProvider)
@@ -116,13 +120,39 @@ class EditorWidget extends HookConsumerWidget {
       });
     }
 
+    Future<void> pickAndInsertImage() async {
+      try {
+        final file = await openFile(
+          acceptedTypeGroups: [
+            XTypeGroup(
+              label: 'Images',
+              extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+              mimeTypes: ['image/*'],
+            ),
+          ],
+        );
+        if (file == null) return;
+
+        await insertImageBytes(await file.readAsBytes());
+      } catch (_) {
+        ref
+            .read(toastProvider)
+            .showToast(
+              child: Toast(
+                type: ToastType.alert,
+                message: Intl.message('error_clipboard_image_paste'),
+              ),
+            );
+      }
+    }
+
     final pasteImageCommand = CommandShortcutEvent(
       key: 'paste_image',
       command: 'ctrl+v',
       macOSCommand: 'cmd+v',
       getDescription: () => '',
       handler: (editorState) {
-        handleImagePaste(editorState, ref, maxImageSize);
+        handleImagePaste();
 
         return KeyEventResult.ignored;
       },
@@ -150,10 +180,12 @@ class EditorWidget extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ContainerWidget(
-              constraints: const BoxConstraints(
-                maxWidth: 600.0,
-                maxHeight: 400.0,
+              constraints: BoxConstraints(
+                maxWidth: maxWidth,
+                minHeight: minHeight,
+                maxHeight: maxHeight,
               ),
+              borderRadius: BorderRadius.circular(8.0),
               child: Padding(
                 padding: const EdgeInsets.only(top: 32.0),
                 child: Focus(
@@ -197,7 +229,11 @@ class EditorWidget extends HookConsumerWidget {
             ),
           ],
         ),
-        ToolbarOverlayWidget(editorState: editorState),
+        ToolbarOverlayWidget(
+          editorState: editorState,
+          onPickImage: pickAndInsertImage,
+          maxWidth: maxWidth,
+        ),
       ],
     );
   }
@@ -205,8 +241,15 @@ class EditorWidget extends HookConsumerWidget {
 
 class ToolbarOverlayWidget extends HookWidget {
   final EditorState editorState;
+  final VoidCallback onPickImage;
+  final double maxWidth;
 
-  const ToolbarOverlayWidget({super.key, required this.editorState});
+  const ToolbarOverlayWidget({
+    super.key,
+    required this.editorState,
+    required this.onPickImage,
+    required this.maxWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -227,20 +270,87 @@ class ToolbarOverlayWidget extends HookWidget {
     String? highlightColorHex;
 
     final layerLink = useMemoized(() => LayerLink());
+    final canFormat = selection != null && node != null;
+
+    ToolbarButton toolbarButton({
+      required IconData icon,
+      required VoidCallback? onTap,
+      bool isHighlight = false,
+    }) {
+      return ToolbarButton(
+        onTap: onTap == null ? null : () => onTap(),
+        icon: icon,
+        isHighlight: isHighlight,
+      );
+    }
+
+    Widget divider() {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4.0),
+        child: VerticalDivider(),
+      );
+    }
+
+    void formatTextBlock({
+      required String type,
+      Map<String, dynamic> attributes = const {},
+      bool toggleToParagraph = true,
+    }) {
+      if (selection == null || node == null || node.delta == null) return;
+
+      final delta = node.delta!.toJson();
+      final isSameBlock =
+          node.type == type &&
+          attributes.entries.every(
+            (entry) => node.attributes[entry.key] == entry.value,
+          );
+
+      editorState.formatNode(
+        selection,
+        (node) => node.copyWith(
+          type: toggleToParagraph && isSameBlock
+              ? ParagraphBlockKeys.type
+              : type,
+          attributes: {
+            ...attributes,
+            blockComponentDelta: delta,
+            blockComponentBackgroundColor:
+                node.attributes[blockComponentBackgroundColor],
+            blockComponentTextDirection:
+                node.attributes[blockComponentTextDirection],
+          },
+        ),
+      );
+    }
+
+    bool hasEveryAttribute(String key) {
+      return selection != null &&
+          (nodes?.allSatisfyInSelection(
+                selection,
+                (d) => d.isNotEmpty && d.everyAttributes((a) => a[key] == true),
+              ) ??
+              false);
+    }
+
+    bool hasEveryNonNullAttribute(String key) {
+      return selection != null &&
+          (nodes?.allSatisfyInSelection(
+                selection,
+                (delta) => delta.everyAttributes((a) => a[key] != null),
+              ) ??
+              false);
+    }
 
     return CompositedTransformTarget(
       link: layerLink,
       child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width - 48.0,
-        ),
+        constraints: BoxConstraints(maxWidth: maxWidth),
         child: Container(
-          constraints: BoxConstraints(maxWidth: 600.0),
           decoration: BoxDecoration(
             border: Border.all(
               color: colorScheme.outline.withValues(alpha: 0.2),
             ),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
             color: colorScheme.surfaceBright,
           ),
           child: SingleChildScrollView(
@@ -251,235 +361,109 @@ class ToolbarOverlayWidget extends HookWidget {
                 padding: EdgeInsets.symmetric(horizontal: 4.0),
                 child: Row(
                   children: [
-                    ToolbarButton(
-                      onTap: () {
-                        editorState.undoManager.undo();
-                      },
+                    toolbarButton(
+                      onTap: editorState.undoManager.undo,
                       icon: Symbols.undo_rounded,
                     ),
-                    ToolbarButton(
-                      onTap: () {
-                        editorState.undoManager.redo();
-                      },
+                    toolbarButton(
+                      onTap: editorState.undoManager.redo,
                       icon: Symbols.redo_rounded,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: VerticalDivider(),
-                    ),
-                    ToolbarButton(
-                      onTap: () {
-                        if (selection == null || node == null) return;
-
-                        final delta = node.delta!.toJson();
-
-                        editorState.formatNode(
-                          selection,
-                          (node) => node.copyWith(
-                            type: ParagraphBlockKeys.type,
-                            attributes: {
-                              blockComponentDelta: delta,
-                              blockComponentBackgroundColor: node
-                                  .attributes[blockComponentBackgroundColor],
-                              blockComponentTextDirection:
-                                  node.attributes[blockComponentTextDirection],
-                            },
-                          ),
-                        );
-                      },
+                    divider(),
+                    toolbarButton(
+                      onTap: canFormat
+                          ? () => formatTextBlock(
+                              type: ParagraphBlockKeys.type,
+                              toggleToParagraph: false,
+                            )
+                          : null,
                       isHighlight: node?.type == ParagraphBlockKeys.type,
                       icon: Symbols.match_case_rounded,
                     ),
-                    ToolbarButton(
-                      onTap: () {
-                        if (selection == null || node == null) return;
-
-                        final delta = node.delta!.toJson();
-
-                        editorState.formatNode(
-                          selection,
-                          (node) => node.copyWith(
-                            type:
-                                node.type == 'heading' &&
-                                    node.attributes['level'] == 1
-                                ? ParagraphBlockKeys.type
-                                : HeadingBlockKeys.type,
-                            attributes: {
-                              HeadingBlockKeys.level: 1,
-                              blockComponentBackgroundColor: node
-                                  .attributes[blockComponentBackgroundColor],
-                              blockComponentTextDirection:
-                                  node.attributes[blockComponentTextDirection],
-                              blockComponentDelta: delta,
-                            },
-                          ),
-                        );
-                      },
+                    toolbarButton(
+                      onTap: canFormat
+                          ? () => formatTextBlock(
+                              type: HeadingBlockKeys.type,
+                              attributes: {HeadingBlockKeys.level: 1},
+                            )
+                          : null,
                       icon: Symbols.format_h1_rounded,
                       isHighlight:
                           node?.type == 'heading' &&
                           node?.attributes['level'] == 1,
                     ),
-                    ToolbarButton(
-                      onTap: () {
-                        if (selection == null || node == null) return;
-
-                        final delta = node.delta!.toJson();
-
-                        editorState.formatNode(
-                          selection,
-                          (node) => node.copyWith(
-                            type:
-                                node.type == 'heading' &&
-                                    node.attributes['level'] == 2
-                                ? ParagraphBlockKeys.type
-                                : HeadingBlockKeys.type,
-                            attributes: {
-                              HeadingBlockKeys.level: 2,
-                              blockComponentBackgroundColor: node
-                                  .attributes[blockComponentBackgroundColor],
-                              blockComponentTextDirection:
-                                  node.attributes[blockComponentTextDirection],
-                              blockComponentDelta: delta,
-                            },
-                          ),
-                        );
-                      },
+                    toolbarButton(
+                      onTap: canFormat
+                          ? () => formatTextBlock(
+                              type: HeadingBlockKeys.type,
+                              attributes: {HeadingBlockKeys.level: 2},
+                            )
+                          : null,
                       icon: Symbols.format_h2_rounded,
                       isHighlight:
                           node?.type == 'heading' &&
                           node?.attributes['level'] == 2,
                     ),
-                    ToolbarButton(
-                      onTap: () {
-                        if (selection == null || node == null) return;
-
-                        final delta = node.delta!.toJson();
-
-                        editorState.formatNode(
-                          selection,
-                          (node) => node.copyWith(
-                            type:
-                                node.type == 'heading' &&
-                                    node.attributes['level'] == 3
-                                ? ParagraphBlockKeys.type
-                                : HeadingBlockKeys.type,
-                            attributes: {
-                              HeadingBlockKeys.level: 3,
-                              blockComponentBackgroundColor: node
-                                  .attributes[blockComponentBackgroundColor],
-                              blockComponentTextDirection:
-                                  node.attributes[blockComponentTextDirection],
-                              blockComponentDelta: delta,
-                            },
-                          ),
-                        );
-                      },
+                    toolbarButton(
+                      onTap: canFormat
+                          ? () => formatTextBlock(
+                              type: HeadingBlockKeys.type,
+                              attributes: {HeadingBlockKeys.level: 3},
+                            )
+                          : null,
                       icon: Symbols.format_h3_rounded,
                       isHighlight:
                           node?.type == 'heading' &&
                           node?.attributes['level'] == 3,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: VerticalDivider(),
-                    ),
-                    ToolbarButton(
+                    divider(),
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
                         editorState.toggleAttribute('bold');
                       },
                       icon: Symbols.format_bold_rounded,
-                      isHighlight:
-                          selection != null &&
-                          (nodes?.allSatisfyInSelection(
-                                selection,
-                                (d) =>
-                                    d.isNotEmpty &&
-                                    d.everyAttributes((a) => a['bold'] == true),
-                              ) ??
-                              false),
+                      isHighlight: hasEveryAttribute('bold'),
                     ),
-                    ToolbarButton(
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
                         editorState.toggleAttribute('italic');
                       },
                       icon: Symbols.format_italic_rounded,
-                      isHighlight:
-                          selection != null &&
-                          (nodes?.allSatisfyInSelection(
-                                selection,
-                                (d) =>
-                                    d.isNotEmpty &&
-                                    d.everyAttributes(
-                                      (a) => a['italic'] == true,
-                                    ),
-                              ) ??
-                              false),
+                      isHighlight: hasEveryAttribute('italic'),
                     ),
-                    ToolbarButton(
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
                         editorState.toggleAttribute('underline');
                       },
                       icon: Symbols.format_underlined_rounded,
-                      isHighlight:
-                          selection != null &&
-                          (nodes?.allSatisfyInSelection(
-                                selection,
-                                (d) =>
-                                    d.isNotEmpty &&
-                                    d.everyAttributes(
-                                      (a) => a['underline'] == true,
-                                    ),
-                              ) ??
-                              false),
+                      isHighlight: hasEveryAttribute('underline'),
                     ),
-                    ToolbarButton(
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
                         editorState.toggleAttribute('strikethrough');
                       },
                       icon: Symbols.format_strikethrough_rounded,
-                      isHighlight:
-                          selection != null &&
-                          (nodes?.allSatisfyInSelection(
-                                selection,
-                                (d) =>
-                                    d.isNotEmpty &&
-                                    d.everyAttributes(
-                                      (a) => a['strikethrough'] == true,
-                                    ),
-                              ) ??
-                              false),
+                      isHighlight: hasEveryAttribute('strikethrough'),
                     ),
-                    ToolbarButton(
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
                         editorState.toggleAttribute('code');
                       },
                       icon: Symbols.code_rounded,
-                      isHighlight:
-                          selection != null &&
-                          (nodes?.allSatisfyInSelection(
-                                selection,
-                                (d) =>
-                                    d.isNotEmpty &&
-                                    d.everyAttributes((a) => a['code'] == true),
-                              ) ??
-                              false),
+                      isHighlight: hasEveryAttribute('code'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: VerticalDivider(),
-                    ),
-                    ToolbarButton(
+                    divider(),
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
@@ -495,7 +479,7 @@ class ToolbarOverlayWidget extends HookWidget {
                       icon: Symbols.format_list_bulleted_rounded,
                       isHighlight: node?.type == 'bulleted_list',
                     ),
-                    ToolbarButton(
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
@@ -511,7 +495,7 @@ class ToolbarOverlayWidget extends HookWidget {
                       icon: Symbols.format_list_numbered_rounded,
                       isHighlight: node?.type == 'numbered_list',
                     ),
-                    ToolbarButton(
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
@@ -525,11 +509,8 @@ class ToolbarOverlayWidget extends HookWidget {
                       icon: Symbols.format_quote_rounded,
                       isHighlight: node?.type == 'quote',
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: VerticalDivider(),
-                    ),
-                    ToolbarButton(
+                    divider(),
+                    toolbarButton(
                       onTap: () {
                         if (selection == null || node == null) return;
 
@@ -554,7 +535,7 @@ class ToolbarOverlayWidget extends HookWidget {
                               }) ??
                               false),
                     ),
-                    ToolbarButton(
+                    toolbarButton(
                       onTap: nodes != null && nodes.length == 1
                           ? () {
                               if (selection == null || node == null) return;
@@ -568,29 +549,13 @@ class ToolbarOverlayWidget extends HookWidget {
                             }
                           : null,
                       icon: Symbols.link_rounded,
-                      isHighlight:
-                          selection != null &&
-                          (nodes?.allSatisfyInSelection(selection, (delta) {
-                                return delta.everyAttributes(
-                                  (attributes) =>
-                                      attributes[AppFlowyRichTextKeys.href] !=
-                                      null,
-                                );
-                              }) ??
-                              false),
+                      isHighlight: hasEveryNonNullAttribute(
+                        AppFlowyRichTextKeys.href,
+                      ),
                     ),
-                    ToolbarButton(
-                      onTap: () {},
+                    toolbarButton(
+                      onTap: canFormat ? onPickImage : null,
                       icon: Symbols.photo_rounded,
-                      isHighlight:
-                          selection != null &&
-                          (nodes?.allSatisfyInSelection(selection, (delta) {
-                                return delta.everyAttributes(
-                                  (attributes) =>
-                                      attributes[ImageBlockKeys.type] != null,
-                                );
-                              }) ??
-                              false),
                     ),
                   ],
                 ),
@@ -669,7 +634,6 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
         data: node,
         feedback: _buildFeedback(),
         onDragStarted: () {
-          debugPrint('onDragStarted');
           editorState.selectionService.removeDropTarget();
         },
         onDragUpdate: (details) {
@@ -699,8 +663,6 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
 
           final acceptedPath = data?.dropPath;
 
-          debugPrint('onDragEnd, acceptedPath($acceptedPath)');
-
           _moveNodeToNewPosition(
             widget.blockComponentContext.node,
             acceptedPath,
@@ -722,16 +684,12 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
   void _onTap() {
     final path = widget.blockComponentContext.node.path;
 
-    debugPrint('onTap, path($path), beforeSelection($beforeSelection)');
-
     if (beforeSelection != null && path.inSelection(beforeSelection)) {
-      debugPrint('onTap(1), set selection to block');
       editorState.updateSelectionWithReason(
         beforeSelection,
         customSelectionType: SelectionType.block,
       );
     } else {
-      debugPrint('onTap(2), set selection to block');
       final selection = Selection.collapsed(Position(path: path));
       editorState.updateSelectionWithReason(
         selection,
@@ -795,7 +753,6 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
 
     // Drop 무시 조건 확인
     if (_shouldIgnoreDrop(realNode, newPath)) {
-      debugPrint('Drop ignored after computing newPath: $newPath');
       return;
     }
 
@@ -857,10 +814,6 @@ Widget _buildDropArea(
   final (verticalPosition, rect) = pos;
   const indicatorHeight = 2.0;
 
-  // Editor offset 반영
-  final editorBox = context.findAncestorRenderObjectOfType<RenderBox>();
-  final editorOffset = editorBox?.localToGlobal(Offset.zero) ?? Offset.zero;
-
   // top 계산
   final top = verticalPosition == VerticalPosition.top
       ? rect.top - indicatorHeight / 2
@@ -873,7 +826,7 @@ Widget _buildDropArea(
 
   return Positioned(
     top: top,
-    left: left - editorOffset.dx, // 에디터 좌표 보정
+    left: left,
     child: Container(height: indicatorHeight, width: width, color: color),
   );
 }
@@ -889,16 +842,9 @@ Widget _buildDropArea(
 
   final globalBlockRect = renderBox.localToGlobal(Offset.zero) & renderBox.size;
 
-  // Editor offset 반영
-  final editorBox = context.findAncestorRenderObjectOfType<RenderBox>();
-  final editorOffset = editorBox?.localToGlobal(Offset.zero) ?? Offset.zero;
-
-  // dragOffset를 에디터 기준으로 변환
-  final adjustedDragOffset = dragOffset - editorOffset;
-
   // Vertical position
   VerticalPosition verticalPosition =
-      adjustedDragOffset.dy < globalBlockRect.top + globalBlockRect.height / 2
+      dragOffset.dy < globalBlockRect.top + globalBlockRect.height / 2
       ? VerticalPosition.top
       : VerticalPosition.bottom;
 
@@ -1232,7 +1178,12 @@ void showLinkOverlay(
   overlay = OverlayEntry(
     builder: (context) => Stack(
       children: [
-        GestureDetector(behavior: HitTestBehavior.opaque, onTap: dismiss),
+        Positioned.fill(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: dismiss,
+          ),
+        ),
         CompositedTransformFollower(
           link: layerLink,
           showWhenUnlinked: false,
@@ -1275,6 +1226,26 @@ void showLinkOverlay(
 
               dismiss();
             },
+            onRemoved: () async {
+              FocusManager.instance.primaryFocus?.unfocus();
+              await Future.delayed(Duration.zero);
+
+              final node = editorState.getNodeAtPath(selection.start.path);
+              if (node == null || selection.length <= 0) return;
+
+              final transaction = editorState.transaction;
+              transaction.formatText(
+                node,
+                selection.startIndex,
+                selection.length,
+                {BuiltInAttributeKey.href: null},
+              );
+              transaction.afterSelection = selection;
+
+              await editorState.apply(transaction);
+
+              dismiss();
+            },
             editorState: editorState,
             selection: selection,
           ),
@@ -1290,12 +1261,14 @@ class LinkOverlayWidget extends HookWidget {
   final EditorState editorState;
   final Selection selection;
   final void Function(String insert, String attributes) onSubmitted;
+  final VoidCallback? onRemoved;
 
   const LinkOverlayWidget({
     super.key,
     required this.editorState,
     required this.selection,
     required this.onSubmitted,
+    this.onRemoved,
   });
 
   @override
@@ -1304,7 +1277,16 @@ class LinkOverlayWidget extends HookWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final node = editorState.getNodeAtPath(selection.end.path);
-    final plainText = node?.delta?.toPlainText() ?? "";
+    final nodeText = node?.delta?.toPlainText() ?? "";
+    final isSingleNodeSelection = selection.start.path.equals(
+      selection.end.path,
+    );
+    final plainText = isSingleNodeSelection && !selection.isCollapsed
+        ? nodeText.substring(
+            min(selection.startIndex, nodeText.length),
+            min(selection.endIndex, nodeText.length),
+          )
+        : "";
 
     final initialHref = editorState.getDeltaAttributeValueInSelection<String>(
       BuiltInAttributeKey.href,
@@ -1312,14 +1294,7 @@ class LinkOverlayWidget extends HookWidget {
     );
 
     final String initialValue = useMemoized(() {
-      String text = initialHref ?? plainText;
-      if (text.isEmpty) return text;
-
-      // 접두사가 없으면 http:// 를 붙여서 반환
-      if (!text.startsWith('http://') && !text.startsWith('https://')) {
-        return 'http://$text';
-      }
-      return text;
+      return _normalizeEditorUrl(initialHref ?? plainText) ?? '';
     }, [initialHref, plainText]);
 
     // 2. 가공된 initialValue를 컨트롤러에 전달
@@ -1331,6 +1306,15 @@ class LinkOverlayWidget extends HookWidget {
     final insert = useValueListenable(insertController);
 
     final hasLink = initialHref != null && initialHref.isNotEmpty;
+    final canSubmit =
+        insert.text.trim().isNotEmpty &&
+        _normalizeEditorUrl(attributes.text) != null;
+
+    void submit() {
+      final href = _normalizeEditorUrl(attributes.text);
+      if (insert.text.trim().isEmpty || href == null) return;
+      onSubmitted(insert.text.trim(), href);
+    }
 
     return ContainerWidget(
       width: 240.0,
@@ -1354,8 +1338,9 @@ class LinkOverlayWidget extends HookWidget {
             child: TextField(
               controller: attributesController,
               style: textTheme.labelLarge,
-              onSubmitted: (_) => onSubmitted(insert.text, attributes.text),
+              onSubmitted: (_) => submit(),
               decoration: InputDecoration(
+                hintText: 'https://example.com',
                 contentPadding: EdgeInsets.fromLTRB(4.0, 12.0, 4.0, 6.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4.0),
@@ -1370,7 +1355,6 @@ class LinkOverlayWidget extends HookWidget {
                   ),
                 ),
               ),
-              inputFormatters: [UrlPrefixFormatter()],
             ),
           ),
           if (!hasLink && plainText.isNotEmpty)
@@ -1380,7 +1364,7 @@ class LinkOverlayWidget extends HookWidget {
                 borderRadius: BorderRadius.circular(4.0),
                 color: colorScheme.surfaceContainerHigh,
                 child: InkWell(
-                  onTap: () => onSubmitted(insert.text, attributes.text),
+                  onTap: canSubmit ? submit : null,
                   borderRadius: BorderRadius.circular(4.0),
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -1393,7 +1377,11 @@ class LinkOverlayWidget extends HookWidget {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(attributes.text, style: textTheme.labelLarge),
+                            Text(
+                              _normalizeEditorUrl(attributes.text) ??
+                                  attributes.text,
+                              style: textTheme.labelLarge,
+                            ),
                             SizedBox(height: 2.0),
                             Text(
                               Intl.message('issue_form_link_3'),
@@ -1425,7 +1413,7 @@ class LinkOverlayWidget extends HookWidget {
               child: TextField(
                 controller: insertController,
                 style: textTheme.labelLarge,
-                onSubmitted: (_) => onSubmitted(insert.text, attributes.text),
+                onSubmitted: (_) => submit(),
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(4.0, 12.0, 4.0, 6.0),
                   border: OutlineInputBorder(
@@ -1443,10 +1431,34 @@ class LinkOverlayWidget extends HookWidget {
                 ),
               ),
             ),
+          if (hasLink)
+            Padding(
+              padding: const EdgeInsets.only(left: 4.0, right: 4.0, top: 8.0),
+              child: TextButton.icon(
+                onPressed: onRemoved,
+                icon: Icon(Symbols.link_off_rounded, size: 16.0),
+                label: Text(Intl.message('remove_link')),
+              ),
+            ),
         ],
       ),
     );
   }
+}
+
+String? _normalizeEditorUrl(String? value) {
+  final trimmed = value?.trim();
+  if (trimmed == null || trimmed.isEmpty) return null;
+
+  final normalized =
+      trimmed.startsWith('http://') || trimmed.startsWith('https://')
+      ? trimmed
+      : 'https://$trimmed';
+
+  final uri = Uri.tryParse(normalized);
+  if (uri == null || !uri.hasScheme || uri.host.isEmpty) return null;
+
+  return normalized;
 }
 
 void showImageOverlay(

@@ -14,9 +14,7 @@ class NewProjectButton extends StatelessWidget {
         context.goNamed(RouteNames.projectNew);
       },
       icon: Icon(Symbols.add_rounded),
-      label: Text(
-        Intl.message('project_new'),
-      ),
+      label: Text(Intl.message('project_new')),
     );
   }
 }

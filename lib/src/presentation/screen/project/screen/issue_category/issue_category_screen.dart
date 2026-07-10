@@ -20,7 +20,32 @@ class IssueCategoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(issueFilterControllerProvider);
+    final filter = ref.watch(issueOptionsControllerProvider);
+
+    ref.listen(projectSubmitControllerProvider, (_, state) {
+      if (state is ProjectSubmitPending) {
+        LoadingOverlay.show(context);
+      } else {
+        LoadingOverlay.hide();
+
+        if (state is ProjectSubmitCreated) {
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message('issue_new_choose_7_created'),
+                ),
+              );
+
+          context.pop();
+          context.goNamed(
+            RouteNames.projectDetail,
+            pathParameters: {'project_id': projectId.toString()},
+          );
+        }
+      }
+    });
 
     return BranchLayout(
       child: ConstrainedBox(
@@ -56,32 +81,6 @@ class _DesktopWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-
-    // 프로젝트 종결 시 작동
-    ref.listen(projectSubmitControllerProvider, (_, state) {
-      if (state is ProjectSubmitPending) {
-        LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
-
-        if (state is ProjectSubmitCreated) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.verified,
-                  message: Intl.message('issue_new_choose_7_created'),
-                ),
-              );
-
-          context.pop();
-          context.goNamed(
-            RouteNames.projectDetail,
-            pathParameters: {'project_id': projectId.toString()},
-          );
-        }
-      }
-    });
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(24.0),

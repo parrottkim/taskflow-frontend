@@ -20,13 +20,9 @@ class FunctionsWidget extends StatelessWidget {
       itemBuilder: (context, index) => ElevatedButton(
         onPressed: menu[index].onPressed,
         style: elevatedButtonTheme.style?.copyWith(
-          padding: WidgetStatePropertyAll(
-            const EdgeInsets.all(0.0),
-          ),
+          padding: WidgetStatePropertyAll(const EdgeInsets.all(0.0)),
           textStyle: WidgetStatePropertyAll(
-            textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         child: Stack(
@@ -50,10 +46,7 @@ class FunctionsWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.0),
                       color: colorScheme.onSurface,
                     ),
-                    child: Icon(
-                      menu[index].icon,
-                      color: colorScheme.surface,
-                    ),
+                    child: Icon(menu[index].icon, color: colorScheme.surface),
                   ),
                   SizedBox(width: 12.0),
                   Text(menu[index].label),

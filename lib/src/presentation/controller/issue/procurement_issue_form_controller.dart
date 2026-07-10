@@ -3,12 +3,51 @@ part of '../controller.dart';
 @riverpod
 class ProcurementIssueFormController extends _$ProcurementIssueFormController {
   @override
-  FutureOr<ProcurementIssueFormState> build({required int issueId}) => _init();
+  FutureOr<ProcurementIssueFormState> build({
+    required int issueId,
+    int? requestId,
+  }) => _init();
 
   Future<ProcurementIssueFormState> _init() async {
     final issue = await ref
         .read(issueRepositoryProvider)
         .getIssueForProcurementRequest(id: issueId);
+
+    if (requestId != null) {
+      final request = issue.requests.firstWhereOrNull(
+        (request) => request.id == requestId,
+      );
+
+      if (request != null) {
+        final supplierId = request.supplier.id;
+
+        return ProcurementIssueFormState(
+          items: request.items
+              .map(
+                (item) => ProcurementIssueItem(
+                  id: item.id,
+                  item: item.item,
+                  spec: item.spec,
+                  quantity: item.quantity,
+                  unitPrice: item.unitPrice,
+                  totalAmount: item.totalAmount,
+                  isOnlinePurchase: item.isOnlinePurchase,
+                  purchaseUrl: item.purchaseUrl,
+                  supplier: request.supplier,
+                  note: item.note,
+                ),
+              )
+              .toList(),
+          requests: issue.requests,
+          selectedSupplierIds: {supplierId},
+          titles: {supplierId: request.title},
+          deliveryDates: {supplierId: request.deliveryDate},
+          paymentTerms: {supplierId: request.paymentTerms},
+          hasFees: {supplierId: request.hasFee},
+          notes: {supplierId: request.note},
+        );
+      }
+    }
 
     return ProcurementIssueFormState(
       items: issue.procurementItems,

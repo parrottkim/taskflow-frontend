@@ -118,7 +118,7 @@ class SummaryWidget extends HookConsumerWidget {
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 8.0),
-                UserInformation.compact(user: project.user),
+                UserInformation.compact(user: project.createdBy),
               ],
             ),
           ),

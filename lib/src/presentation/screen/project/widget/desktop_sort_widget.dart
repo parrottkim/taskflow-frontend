@@ -14,61 +14,63 @@ class DesktopSortWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
 
     return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-        sort: value.sort,
-        order: value.order,
+      AsyncData(:final value) => _DesktopWidget(filter: value),
+      _ => Skeletonizer(
+        ignoreContainers: true,
+        child: _DesktopWidget(filter: ProjectFilterState()),
       ),
-      _ => Skeletonizer(ignoreContainers: true, child: _DesktopWidget()),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final ProjectSort? sort;
-  final Order? order;
+  final ProjectFilterState filter;
 
-  const _DesktopWidget({this.sort, this.order});
+  const _DesktopWidget({required this.filter});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedSort = useState<ProjectSort?>(sort);
-    final selectedOrder = useState<Order?>(order);
-
-    useEffect(() {
-      selectedSort.value = sort;
-      return null;
-    }, [sort]);
-
-    useEffect(() {
-      selectedOrder.value = order;
-      return null;
-    }, [order]);
+    final selectedSort = useState<ProjectSort?>(filter.sort);
+    final selectedOrder = useState<Order?>(filter.order);
 
     return ElevatedDropdownButton<ProjectSort>(
       onChanged: (value) {
-        if (value == null) {
-          selectedSort.value = null;
-          selectedOrder.value = null;
-        }
+        final isSortChanged = selectedSort.value != value;
+
+        // 2. 정렬 기준이 바뀌면 무조건 desc, 같으면 토글(asc <-> desc)
+        final nextOrder = isSortChanged
+            ? Order.asc
+            : (selectedOrder.value == Order.asc ? Order.desc : Order.asc);
 
         selectedSort.value = value;
-        selectedOrder.value = selectedOrder.value == Order.asc
-            ? Order.desc
-            : Order.asc;
+        selectedOrder.value = value != null ? nextOrder : null;
 
-        ref.read(projectFilterControllerProvider.notifier).setSort(sort: value);
-        ref
-            .read(projectFilterControllerProvider.notifier)
-            .setOrder(order: selectedOrder.value);
+        ref.read(
+            projectFilterControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
+          ..setSort(sort: value)
+          ..setOrder(order: nextOrder);
 
-        final queryParameters = ref
-            .read(projectFilterControllerProvider.notifier)
-            .toQueryParameters();
-
-        context.goNamed(RouteNames.project, queryParameters: queryParameters);
+        context.goNamed(
+          RouteNames.project,
+          queryParameters: {
+            if (filter.view != null) 'view': filter.view,
+            if (value != null) 'sort': value.key,
+            if (value != null) 'order': nextOrder.key,
+            if (filter.search != null) 'search': filter.search,
+            if (filter.bookmark != null) 'bookmark': filter.bookmark.toString(),
+            if (filter.clients != null) 'clients': filter.clients?.join(','),
+            if (filter.categories != null)
+              'categories': filter.categories?.join(','),
+          },
+        );
       },
       items: ProjectSort.values,
       selectedItem: selectedSort,

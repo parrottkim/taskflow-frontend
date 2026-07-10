@@ -19,10 +19,7 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BranchLayout(
-      child: Responsive(
-        desktop: _DesktopWidget(),
-        mobile: _MobileWidget(),
-      ),
+      child: Responsive(desktop: _DesktopWidget(), mobile: _MobileWidget()),
     );
   }
 }
@@ -49,27 +46,15 @@ class _DesktopWidget extends StatelessWidget {
                   columnSpan: 2,
                   child: WorldMapWidget(),
                 ),
-                BentoTile(
-                  row: 1,
-                  column: 3,
-                  child: ScheduleWidget(),
-                ),
-                BentoTile(
-                  row: 1,
-                  column: 4,
-                  child: ProjectStatsWidget(),
-                ),
+                BentoTile(row: 1, column: 3, child: ScheduleWidget()),
+                BentoTile(row: 1, column: 4, child: ProjectStatsWidget()),
                 BentoTile(
                   row: 2,
                   column: 1,
                   columnSpan: 3,
                   child: LatestUpdateWidget(),
                 ),
-                BentoTile(
-                  row: 2,
-                  column: 4,
-                  child: FunctionsWidget(),
-                ),
+                BentoTile(row: 2, column: 4, child: FunctionsWidget()),
               ],
             ),
           ),
@@ -119,7 +104,8 @@ class _MobileWidget extends ConsumerWidget {
                     children: [
                       SizedBox(width: 4.0),
                       Text(
-                          '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.end)}'),
+                        '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.end)}',
+                      ),
                       SizedBox(width: 4.0),
                       Icon(Symbols.expand_more_rounded),
                     ],

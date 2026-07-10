@@ -21,12 +21,12 @@ class ErrorController extends _$ErrorController {
 
     switch (exception.type) {
       case DioExceptionType.connectionError:
-        state = ErrorState.notDefined(
+        state = ErrorState.connectionError(
           message: Intl.message('connection_error'),
         );
         break;
       case DioExceptionType.connectionTimeout:
-        state = ErrorState.notDefined(
+        state = ErrorState.connectionTimeout(
           message: Intl.message('connection_timeout'),
         );
         break;

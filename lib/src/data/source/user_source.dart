@@ -6,7 +6,7 @@ class UserDataSource implements UserRepository {
   UserDataSource({required UserService service}) : _service = service;
 
   @override
-  Future<List<UserDepartment>> getAllDepartments() =>
+  Future<List<UserDepartmentGroup>> getAllDepartments() =>
       _service.getAllDepartments();
 
   @override

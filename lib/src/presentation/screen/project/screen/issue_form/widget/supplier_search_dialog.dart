@@ -26,9 +26,13 @@ class SupplierSearchDialog extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final list = ref.watch(supplierListControllerProvider);
-    final filter = ref.watch(supplierFilterControllerProvider);
-    final keyword = filter.value?.search?.trim() ?? '';
+    final list = ref.watch(
+      supplierListControllerProvider(SupplierFilterScope.issueSupplierDialog),
+    );
+    final filter = ref.watch(
+      supplierFilterControllerProvider(SupplierFilterScope.issueSupplierDialog),
+    );
+    final keyword = filter.value?.search.trim() ?? '';
     final hasKeyword = keyword.isNotEmpty;
 
     final controller = useTextEditingController();
@@ -43,17 +47,21 @@ class SupplierSearchDialog extends HookConsumerWidget {
       duration: const Duration(milliseconds: 150),
     );
 
-    ref.listen(supplierListControllerProvider, (_, state) {
-      if (hasKeyword && (state.isLoading || state.hasValue || state.hasError)) {
-        sizeController.forward().then((_) {
-          opacityController.forward();
-        });
-      } else {
-        opacityController.reverse().then((_) {
-          sizeController.reverse();
-        });
-      }
-    });
+    ref.listen(
+      supplierListControllerProvider(SupplierFilterScope.issueSupplierDialog),
+      (_, state) {
+        if (hasKeyword &&
+            (state.isLoading || state.hasValue || state.hasError)) {
+          sizeController.forward().then((_) {
+            opacityController.forward();
+          });
+        } else {
+          opacityController.reverse().then((_) {
+            sizeController.reverse();
+          });
+        }
+      },
+    );
 
     return Dialog(
       child: ContainerWidget(
@@ -104,8 +112,12 @@ class SupplierSearchDialog extends HookConsumerWidget {
                 ),
               ),
               onChanged: (value) => ref
-                  .read(supplierFilterControllerProvider.notifier)
-                  .updateSearch(search: value),
+                  .read(
+                    supplierFilterControllerProvider(
+                      SupplierFilterScope.issueSupplierDialog,
+                    ).notifier,
+                  )
+                  .debounceSearch(search: value),
             ),
             Divider(),
             SizeTransition(

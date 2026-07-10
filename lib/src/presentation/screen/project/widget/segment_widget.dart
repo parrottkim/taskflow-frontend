@@ -12,25 +12,27 @@ class SegmentWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(projectFilterControllerProvider);
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
 
     return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(view: value.view),
-      _ => Skeletonizer(child: _DesktopWidget()),
+      AsyncData(:final value) => _DesktopWidget(filter: value),
+      _ => Skeletonizer(child: _DesktopWidget(filter: ProjectFilterState())),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final String? view;
+  final ProjectFilterState filter;
 
-  const _DesktopWidget({this.view});
+  const _DesktopWidget({required this.filter});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItem = useState<ProjectSegment>(
       ProjectSegment.values.firstWhere(
-        (e) => e.name == view,
+        (e) => e.name == filter.view,
         orElse: () => ProjectSegment.values.first,
       ),
     );
@@ -42,7 +44,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
     useEffect(() {
       final newItem = ProjectSegment.values.firstWhere(
-        (e) => e.name == view,
+        (e) => e.name == filter.view,
         orElse: () => ProjectSegment.values.first,
       );
 
@@ -52,7 +54,7 @@ class _DesktopWidget extends HookConsumerWidget {
       }
 
       return null;
-    }, [view]);
+    }, [filter.view]);
 
     return TabBar(
       controller: controller,
@@ -60,14 +62,26 @@ class _DesktopWidget extends HookConsumerWidget {
         selectedItem.value = ProjectSegment.values[index];
 
         ref
-            .read(projectFilterControllerProvider.notifier)
+            .read(
+              projectFilterControllerProvider(
+                ProjectFilterScope.projectPage,
+              ).notifier,
+            )
             .setView(view: selectedItem.value.name);
 
-        final queryParameters = ref
-            .read(projectFilterControllerProvider.notifier)
-            .toQueryParameters();
-
-        context.goNamed(RouteNames.project, queryParameters: queryParameters);
+        context.goNamed(
+          RouteNames.project,
+          queryParameters: {
+            'view': selectedItem.value.name,
+            if (filter.sort != null) 'sort': filter.sort?.key,
+            if (filter.order != null) 'order': filter.order?.key,
+            if (filter.search != null) 'search': filter.search,
+            if (filter.bookmark != null) 'bookmark': filter.bookmark.toString(),
+            if (filter.clients != null) 'clients': filter.clients?.join(','),
+            if (filter.categories != null)
+              'categories': filter.categories?.join(','),
+          },
+        );
 
         controller.animateTo(index);
       },

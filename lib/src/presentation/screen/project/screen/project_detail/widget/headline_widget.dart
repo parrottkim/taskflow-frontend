@@ -30,7 +30,9 @@ class HeadlineWidget extends HookConsumerWidget {
           onTap: () async {
             await Clipboard.setData(ClipboardData(text: project.name));
 
-            ref.read(toastProvider).showToast(
+            ref
+                .read(toastProvider)
+                .showToast(
                   child: Toast(
                     type: ToastType.standard,
                     message: Intl.message('common_copied'),
@@ -71,7 +73,9 @@ class HeadlineWidget extends HookConsumerWidget {
           onTap: () async {
             await Clipboard.setData(ClipboardData(text: project.code));
 
-            ref.read(toastProvider).showToast(
+            ref
+                .read(toastProvider)
+                .showToast(
                   child: Toast(
                     type: ToastType.standard,
                     message: Intl.message('common_copied'),

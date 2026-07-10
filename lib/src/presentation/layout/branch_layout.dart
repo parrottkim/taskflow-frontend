@@ -24,8 +24,10 @@ class BranchLayout extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final dateSelection = ref.watch(dateSelectionControllerProvider);
-    final routerState = GoRouter.of(context).state;
-    final currentRouteName = routerState.name ?? '';
+    final route = ModalRoute.of(context);
+    final routerState = GoRouterState.of(context);
+    final currentRouteName = route?.settings.name ?? routerState.name ?? '';
+    final canPopRoute = route?.canPop ?? false;
 
     return LayoutBuilder(
       builder: (context, constraints) => Container(
@@ -44,7 +46,7 @@ class BranchLayout extends ConsumerWidget {
                 ),
                 child: Row(
                   children: [
-                    if (context.canPop())
+                    if (canPopRoute)
                       Padding(
                         padding: const EdgeInsets.only(right: 12.0),
                         child: CustomIconButton(

@@ -20,11 +20,15 @@ class ScheduleDataSource implements ScheduleRepository {
   @override
   Future<Result<ScheduleGroup>> getSchedules({
     int? projectId,
+    int? userId,
+    int? departmentId,
     String? search,
     DateTime? start,
     DateTime? end,
   }) => _service.getSchedules(
     projectId: projectId,
+    userId: userId,
+    departmentId: departmentId,
     search: search,
     start: start,
     end: end,

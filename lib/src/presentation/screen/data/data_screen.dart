@@ -9,22 +9,40 @@ import 'package:taskflow/src/router/router.dart';
 
 class DataScreen extends HookConsumerWidget {
   final String? view;
+  final String? search;
+  final String? departments;
+  final int? positionId;
 
-  const DataScreen({super.key, this.view});
+  const DataScreen({
+    super.key,
+    this.view,
+    this.search,
+    this.departments,
+    this.positionId,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      final location = GoRouter.of(context).name;
+      final location = GoRouter.of(context).location();
 
-      if (location != RouteNames.data) return;
+      if (!location.startsWith(Routes.data)) return;
 
-      Future.microtask(
-        () => ref.read(dataFilterControllerProvider.notifier).init(view: view),
-      );
+      Future.microtask(() {
+        ref.read(dataFilterControllerProvider.notifier).init(view: view);
+        ref
+            .read(
+              userFilterControllerProvider(UserFilterScope.dataPage).notifier,
+            )
+            .init(
+              search: search,
+              departments: departments,
+              positionId: positionId,
+            );
+      });
 
       return null;
-    }, [view]);
+    }, [view, search, departments, positionId]);
 
     return BranchLayout(child: _DesktopWidget());
   }

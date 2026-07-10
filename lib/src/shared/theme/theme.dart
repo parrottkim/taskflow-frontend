@@ -276,7 +276,7 @@ ThemeData lightTheme = ThemeData(
       ],
       color: schemeLight.surface,
     ),
-    textStyle: TextStyle(color: schemeLight.onSurface),
+    textStyle: textTheme.bodyMedium,
     triggerMode: TooltipTriggerMode.tap,
   ),
   menuTheme: MenuThemeData(
@@ -443,7 +443,7 @@ ThemeData darkTheme = ThemeData(
       borderRadius: BorderRadius.circular(16.0),
       color: schemeDark.surface,
     ),
-    textStyle: TextStyle(color: schemeDark.onSurface),
+    textStyle: textTheme.bodyMedium,
     triggerMode: TooltipTriggerMode.tap,
   ),
   menuTheme: MenuThemeData(
