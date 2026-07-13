@@ -26,11 +26,19 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+    final auth = ref.watch(authControllerProvider);
+
+    if (auth is! AuthAuthenticated) {
+      return const SizedBox.shrink();
+    }
+
+    final userId = auth.user.id;
 
     final schedule = ref.watch(
       scheduleListControllerProvider(
         scope: ScheduleFilterScope.scheduleSelectorDialog,
         projectId: projectId,
+        userId: userId,
       ),
     );
 
@@ -102,6 +110,8 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
                 child: switch (schedule) {
                   AsyncData(:final value) => ScheduleListWidget(
                     projectId: projectId,
+                    scope: ScheduleFilterScope.scheduleSelectorDialog,
+                    userId: userId,
                     selectedSchedule: selectedSchedule,
                     items: value.items,
                     hasNext: value.hasNext,
@@ -112,6 +122,8 @@ class ScheduleSelectorDialog extends HookConsumerWidget {
                   _ => Skeletonizer(
                     child: ScheduleListWidget(
                       projectId: projectId,
+                      scope: ScheduleFilterScope.scheduleSelectorDialog,
+                      userId: userId,
                       selectedSchedule: selectedSchedule,
                       items: List.filled(30, ScheduleGroup.dummy()),
                     ),
