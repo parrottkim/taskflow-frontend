@@ -33,9 +33,19 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
           .read(scheduleRepositoryProvider)
           .createSchedule(request: request);
 
-      ref
-          .read(scheduleListControllerProvider().notifier)
-          .addScheduleItem(item: schedule);
+      await Future.wait([
+        ref
+            .read(scheduleListControllerProvider().notifier)
+            .addScheduleItem(item: schedule),
+        ref
+            .read(
+              scheduleListControllerProvider(
+                scope: ScheduleFilterScope.userScheduleList,
+                userId: schedule.user.id,
+              ).notifier,
+            )
+            .addScheduleItem(item: schedule),
+      ]);
 
       state = ScheduleSubmitState.created(schedule);
     } catch (e) {
@@ -79,9 +89,19 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
           .read(scheduleRepositoryProvider)
           .updateSchedule(id: scheduleId, request: request);
 
-      ref
-          .read(scheduleListControllerProvider().notifier)
-          .updateScheduleItem(item: schedule);
+      await Future.wait([
+        ref
+            .read(scheduleListControllerProvider().notifier)
+            .updateScheduleItem(item: schedule),
+        ref
+            .read(
+              scheduleListControllerProvider(
+                scope: ScheduleFilterScope.userScheduleList,
+                userId: schedule.user.id,
+              ).notifier,
+            )
+            .updateScheduleItem(item: schedule),
+      ]);
 
       state = ScheduleSubmitState.updated(schedule);
     } catch (e) {
@@ -90,14 +110,27 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
   }
 
   Future<void> deleteSchedule({required int scheduleId}) async {
+    final auth = ref.read(authControllerProvider);
+
     state = ScheduleSubmitState.pending();
 
     try {
       await ref.read(scheduleRepositoryProvider).deleteSchedule(id: scheduleId);
 
-      ref
-          .read(scheduleListControllerProvider().notifier)
-          .removeScheduleItem(id: scheduleId);
+      await Future.wait([
+        ref
+            .read(scheduleListControllerProvider().notifier)
+            .removeScheduleItem(id: scheduleId),
+        if (auth is AuthAuthenticated)
+          ref
+              .read(
+                scheduleListControllerProvider(
+                  scope: ScheduleFilterScope.userScheduleList,
+                  userId: auth.user.id,
+                ).notifier,
+              )
+              .removeScheduleItem(id: scheduleId),
+      ]);
 
       state = ScheduleSubmitState.deleted();
     } catch (e) {

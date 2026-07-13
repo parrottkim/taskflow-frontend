@@ -15,6 +15,8 @@ import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ScheduleListWidget extends HookConsumerWidget {
   final int projectId;
+  final ScheduleFilterScope scope;
+  final int userId;
   final ValueNotifier<Schedule?> selectedSchedule;
   final List<ScheduleGroup> items;
   final bool hasNext;
@@ -23,6 +25,8 @@ class ScheduleListWidget extends HookConsumerWidget {
   const ScheduleListWidget({
     super.key,
     required this.projectId,
+    required this.scope,
+    required this.userId,
     required this.selectedSchedule,
     required this.items,
     this.hasNext = false,
@@ -130,8 +134,9 @@ class ScheduleListWidget extends HookConsumerWidget {
           ref
               .read(
                 scheduleListControllerProvider(
-                  scope: ScheduleFilterScope.projectReportCategory,
+                  scope: scope,
                   projectId: projectId,
+                  userId: userId,
                 ).notifier,
               )
               .loadPrevious();
@@ -143,8 +148,9 @@ class ScheduleListWidget extends HookConsumerWidget {
           ref
               .read(
                 scheduleListControllerProvider(
-                  scope: ScheduleFilterScope.projectReportCategory,
+                  scope: scope,
                   projectId: projectId,
+                  userId: userId,
                 ).notifier,
               )
               .loadNext();
