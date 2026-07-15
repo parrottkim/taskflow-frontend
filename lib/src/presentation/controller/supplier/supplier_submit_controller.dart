@@ -18,7 +18,9 @@ class SupplierSubmitController extends _$SupplierSubmitController {
       // 1. ⭐️ 공급업체 생성 전에 이미지 업로드를 먼저 수행하여 URL 확보
       if (value.file != null) {
         final bytes = await value.file!.readAsBytes();
-        final mimeType = lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+        final mimeType =
+            lookupMimeType('', headerBytes: bytes) ??
+            'application/octet-stream';
         final file = MultipartFile.fromBytes(
           bytes,
           filename: value.file!.name,
@@ -44,7 +46,7 @@ class SupplierSubmitController extends _$SupplierSubmitController {
         logo: logoUrl,
       );
 
-      Supplier supplier = await ref
+      final supplier = await ref
           .read(supplierRepositoryProvider)
           .createSupplier(request: request);
 
@@ -77,7 +79,9 @@ class SupplierSubmitController extends _$SupplierSubmitController {
       // 1. ⭐️ 공급업체 생성 전에 이미지 업로드를 먼저 수행하여 URL 확보
       if (value.file != null) {
         final bytes = await value.file!.readAsBytes();
-        final mimeType = lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+        final mimeType =
+            lookupMimeType('', headerBytes: bytes) ??
+            'application/octet-stream';
         final file = MultipartFile.fromBytes(
           bytes,
           filename: value.file!.name,
@@ -109,7 +113,9 @@ class SupplierSubmitController extends _$SupplierSubmitController {
 
       if (value.file != null) {
         final bytes = await value.file!.readAsBytes();
-        final mimeType = lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+        final mimeType =
+            lookupMimeType('', headerBytes: bytes) ??
+            'application/octet-stream';
         final file = MultipartFile.fromBytes(
           bytes,
           filename: value.file!.name,

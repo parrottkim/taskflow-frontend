@@ -91,7 +91,7 @@ abstract class IssueRepository {
 
   // --- 글로벌 터미널 및 공통 ID 액션 (최하단 격리) ---
   Future<IssueCategory> getCategory({required int id});
-  Future<void> sendMail({required int id, required SendIssueMailDto request});
+  Future<void> sendMail({required int id, required SendMailDto request});
   Future<Issue> getIssueForProcurementRequest({required int id});
   Future<Issue> getIssueForEdit({required int id});
   Future<Issue> getIssue({required int id});

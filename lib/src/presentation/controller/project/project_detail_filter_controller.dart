@@ -3,25 +3,13 @@ part of '../controller.dart';
 @riverpod
 class ProjectDetailFilterController extends _$ProjectDetailFilterController {
   @override
-  FutureOr<ProjectDetailFilterState> build() async {
-    return await _init();
-  }
+  ProjectDetailFilterState build() => ProjectDetailFilterState();
 
-  Future<ProjectDetailFilterState> _init() async {
-    return ProjectDetailFilterState();
-  }
-
-  Future<void> init({String? view}) async {
-    final value = await future;
-
-    state = AsyncData(value.copyWith(view: view));
+  void init({String? view}) {
+    state = state.copyWith(view: view);
   }
 
   void setView({String? view}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(view: view));
+    state = state.copyWith(view: view);
   }
 }

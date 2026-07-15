@@ -51,11 +51,16 @@ class WidgetPreset {
       label: Intl.message('work'),
     ),
     NavigationButton(
+      icon: Symbols.calendar_month_rounded,
+      route: RouteNames.schedule,
+      label: Intl.message('schedule'),
+    ),
+    NavigationTitle(label: Intl.message('navigation_title_2')),
+    NavigationButton(
       icon: Symbols.newsstand_rounded,
       route: RouteNames.document,
       label: Intl.message('document'),
     ),
-    NavigationTitle(label: Intl.message('navigation_title_2')),
     NavigationButton(
       icon: Symbols.groups_rounded,
       route: RouteNames.organization,
@@ -66,12 +71,6 @@ class WidgetPreset {
       icon: Symbols.data_table_rounded,
       route: RouteNames.data,
       label: Intl.message('data'),
-      isAdmin: true,
-    ),
-    NavigationButton(
-      icon: Symbols.calendar_month_rounded,
-      route: RouteNames.schedule,
-      label: Intl.message('schedule'),
       isAdmin: true,
     ),
     NavigationButton(
@@ -328,8 +327,7 @@ enum ProjectDetailSegment {
 }
 
 enum WorkSegment {
-  schedule('schedule', 'work_segment_1'),
-  charge('charge', 'work_segment_2');
+  project('project', 'work_segment_1');
 
   final String key;
   final String labelKey;
@@ -340,13 +338,28 @@ enum WorkSegment {
 
   factory WorkSegment.fromKey(String key) => WorkSegment.values.firstWhere(
     (e) => e.key == key,
-    orElse: () => WorkSegment.schedule,
+    orElse: () => WorkSegment.project,
   );
+}
+
+enum ScheduleSegment {
+  timeline('timeline', 'schedule_segment_1'),
+  mine('mine', 'schedule_segment_2');
+
+  final String key;
+  final String labelKey;
+
+  const ScheduleSegment(this.key, this.labelKey);
+
+  String get label => Intl.message(labelKey);
+
+  factory ScheduleSegment.fromKey(String key) => ScheduleSegment.values
+      .firstWhere((e) => e.key == key, orElse: () => ScheduleSegment.timeline);
 }
 
 enum DataSegment {
   user('user', 'data_segment_1'),
-  supplier('user', 'data_segment_2');
+  supplier('supplier', 'data_segment_2');
 
   final String key;
   final String labelKey;

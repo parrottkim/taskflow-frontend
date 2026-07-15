@@ -1,41 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/data/screen/supplier/supplier_screen.dart';
-import 'package:taskflow/src/presentation/screen/data/screen/user/user_screen.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/supplier_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/user_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
-class OverviewWidget extends ConsumerWidget {
-  const OverviewWidget({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(dataFilterControllerProvider);
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(view: value.view),
-      _ => Skeletonizer(child: _DesktopWidget()),
-    };
-  }
-}
-
-class _DesktopWidget extends HookConsumerWidget {
+class OverviewWidget extends HookWidget {
   final String? view;
 
-  const _DesktopWidget({this.view});
+  const OverviewWidget({super.key, this.view});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItem = useState<DataSegment>(
-      DataSegment.values.firstWhere(
-        (e) => e.name == view,
-        orElse: () => DataSegment.values.first,
-      ),
-    );
+  Widget build(BuildContext context) {
+    final selectedItem = useState<DataSegment>(DataSegment.fromKey(view ?? ''));
 
     final controller = useTabController(
       initialLength: DataSegment.values.length,
@@ -43,10 +21,7 @@ class _DesktopWidget extends HookConsumerWidget {
     );
 
     useEffect(() {
-      final newItem = DataSegment.values.firstWhere(
-        (e) => e.name == view,
-        orElse: () => DataSegment.values.first,
-      );
+      final newItem = DataSegment.fromKey(view ?? '');
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
@@ -63,16 +38,18 @@ class _DesktopWidget extends HookConsumerWidget {
           onTap: (index) {
             selectedItem.value = DataSegment.values[index];
 
-            ref
-                .read(dataFilterControllerProvider.notifier)
-                .setView(view: selectedItem.value.name);
-
             context.goNamed(
               RouteNames.data,
-              queryParameters: {'view': selectedItem.value.name},
+              queryParameters: buildQueryParameters(
+                context,
+                updates: {
+                  'view': selectedItem.value.name,
+                  'search': null,
+                  'departments': null,
+                  'position_id': null,
+                },
+              ),
             );
-
-            controller.animateTo(index);
           },
           tabAlignment: TabAlignment.start,
           isScrollable: true,
@@ -88,7 +65,8 @@ class _DesktopWidget extends HookConsumerWidget {
         Expanded(
           child: TabBarView(
             controller: controller,
-            children: [UserScreen(), SupplierScreen()],
+            physics: const NeverScrollableScrollPhysics(),
+            children: const [UserWidget(), SupplierWidget()],
           ),
         ),
       ],

@@ -2,11 +2,17 @@ part of '../controller.dart';
 
 @freezed
 abstract class DocumentSubmitState with _$DocumentSubmitState {
-  factory DocumentSubmitState.idle() = DocumentSubmitIdle;
-  factory DocumentSubmitState.pending() = DocumentSubmitPending;
-  factory DocumentSubmitState.documentCreated() = DocumentSubmitDocumentCreated;
-  factory DocumentSubmitState.documentUpdated() = DocumentSubmitDocumentUpdated;
-  factory DocumentSubmitState.documentDeleted() = DocumentSubmitDocumentDeleted;
-  factory DocumentSubmitState.folderSuccess() = DocumentSubmitFolderSuccess;
-  factory DocumentSubmitState.failure(String message) = DocumentSubmitFailure;
+  const factory DocumentSubmitState.idle() = DocumentSubmitIdle;
+  const factory DocumentSubmitState.pending() = DocumentSubmitPending;
+  const factory DocumentSubmitState.documentCreated() =
+      DocumentSubmitDocumentCreated;
+  const factory DocumentSubmitState.documentUpdated() =
+      DocumentSubmitDocumentUpdated;
+  const factory DocumentSubmitState.documentDeleted() =
+      DocumentSubmitDocumentDeleted;
+  const factory DocumentSubmitState.folderSuccess() =
+      DocumentSubmitFolderSuccess;
+  const factory DocumentSubmitState.mailed() = DocumentSubmitMailed;
+  const factory DocumentSubmitState.failure(String message) =
+      DocumentSubmitFailure;
 }

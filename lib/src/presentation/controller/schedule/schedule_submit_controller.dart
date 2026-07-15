@@ -40,7 +40,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
         ref
             .read(
               scheduleListControllerProvider(
-                scope: ScheduleFilterScope.userScheduleList,
+                scope: ScheduleFilterScope.schedulePage,
                 userId: schedule.user.id,
               ).notifier,
             )
@@ -96,7 +96,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
         ref
             .read(
               scheduleListControllerProvider(
-                scope: ScheduleFilterScope.userScheduleList,
+                scope: ScheduleFilterScope.schedulePage,
                 userId: schedule.user.id,
               ).notifier,
             )
@@ -125,7 +125,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
           ref
               .read(
                 scheduleListControllerProvider(
-                  scope: ScheduleFilterScope.userScheduleList,
+                  scope: ScheduleFilterScope.schedulePage,
                   userId: auth.user.id,
                 ).notifier,
               )

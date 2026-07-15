@@ -8,7 +8,7 @@ class DocumentListController extends _$DocumentListController {
   }
 
   Future<DocumentListState> _init() async {
-    final filter = await ref.watch(documentFilterControllerProvider.future);
+    final filter = ref.watch(documentFilterControllerProvider);
 
     final result = await ref
         .watch(documentRepositoryProvider)
@@ -28,7 +28,7 @@ class DocumentListController extends _$DocumentListController {
   }
 
   Future<void> load() async {
-    final filter = await ref.watch(documentFilterControllerProvider.future);
+    final filter = ref.watch(documentFilterControllerProvider);
 
     final value = state.value;
 
@@ -55,21 +55,26 @@ class DocumentListController extends _$DocumentListController {
     });
   }
 
-  void addListItem({required Document item}) {
+  void addListItem({required DocumentListItem item}) {
     final value = state.value;
     if (value == null) return;
 
-    final documents = [item, ...value.items];
-    state = AsyncValue.data(value.copyWith(items: documents));
+    final folderId = ref.read(documentFilterControllerProvider).folderId;
+    if (item.folderId != folderId) return;
+
+    state = AsyncValue.data(value.copyWith(items: [item, ...value.items]));
   }
 
-  void updateListItem({required Document item}) {
+  void updateListItem({required DocumentListItem item}) {
     final value = state.value;
     if (value == null) return;
 
-    final documents = value.items.map((document) {
-      return document.id == item.id ? item : document;
-    }).toList();
+    final folderId = ref.read(documentFilterControllerProvider).folderId;
+    final documents = item.folderId == folderId
+        ? value.items
+              .map((document) => document.id == item.id ? item : document)
+              .toList()
+        : value.items.where((document) => document.id != item.id).toList();
 
     state = AsyncValue.data(value.copyWith(items: documents));
   }

@@ -47,7 +47,7 @@ class ProjectDetailController extends _$ProjectDetailController {
             ProjectFilterScope.projectPage,
           ).notifier,
         )
-        .updateListItem(item: updatedItem);
+        .updateListItem(item: ProjectListItem.fromProject(updatedItem));
 
     final repository = ref.read(bookmarkRepositoryProvider);
     if (bookmarked) {

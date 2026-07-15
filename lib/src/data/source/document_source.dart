@@ -10,7 +10,7 @@ class DocumentDataSource implements DocumentRepository {
       _service.getDocumentForEdit(id: id);
 
   @override
-  Future<Result<Document>> getDocuments({
+  Future<Result<DocumentListItem>> getDocuments({
     int page = 1,
     int limit = 20,
     required int folderId,
@@ -25,6 +25,10 @@ class DocumentDataSource implements DocumentRepository {
     order: order,
     search: search,
   );
+
+  @override
+  Future<void> sendMail({required int id, required SendMailDto request}) =>
+      _service.sendMail(id: id, request: request);
 
   @override
   Future<Document> createDocument({required CreateDocumentDto request}) =>

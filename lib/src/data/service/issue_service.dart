@@ -188,7 +188,7 @@ abstract class IssueService {
   @POST('issue/mail/{id}')
   Future<void> sendMail({
     @Path('id') required int id,
-    @Body() required SendIssueMailDto request,
+    @Body() required SendMailDto request,
   });
 
   @GET('issue/{id}/procurement/request')

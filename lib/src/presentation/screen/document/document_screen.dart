@@ -14,19 +14,17 @@ import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class DocumentScreen extends HookConsumerWidget {
-  final int? folderId;
+  final String? folders;
   final String? sort;
   final String? order;
   final String? search;
-  final int? documentId;
 
   const DocumentScreen({
     super.key,
-    this.folderId,
+    this.folders,
     this.sort,
     this.order,
     this.search,
-    this.documentId,
   });
 
   @override
@@ -89,25 +87,20 @@ class DocumentScreen extends HookConsumerWidget {
       Future.microtask(() {
         ref
             .read(documentFilterControllerProvider.notifier)
-            .init(folderId: folderId, sort: sort, order: order, search: search);
+            .init(folders: folders, sort: sort, order: order, search: search);
       });
 
       return null;
-    }, [folderId, sort, order, search]);
+    }, [folders, sort, order, search]);
 
     return BranchLayout(
-      child: Responsive(
-        desktop: _DesktopWidget(documentId: documentId),
-        mobile: _MobileWidget(),
-      ),
+      child: Responsive(desktop: _DesktopWidget(), mobile: _MobileWidget()),
     );
   }
 }
 
 class _DesktopWidget extends StatelessWidget {
-  final int? documentId;
-
-  const _DesktopWidget({this.documentId});
+  const _DesktopWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -127,11 +120,7 @@ class _DesktopWidget extends StatelessWidget {
                     children: [
                       DocumentFilterWidget(),
                       SizedBox(height: 8.0),
-                      Expanded(
-                        child: DocumentListWidget(
-                          selectedDocumentId: documentId,
-                        ),
-                      ),
+                      DocumentListWidget(),
                     ],
                   ),
                 ),
@@ -149,6 +138,12 @@ class _MobileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        FolderTreeWidget(),
+        SizedBox(height: 16.0),
+        DocumentListWidget(),
+      ],
+    );
   }
 }

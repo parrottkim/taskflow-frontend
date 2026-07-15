@@ -232,19 +232,18 @@ class MainFilterPage extends ConsumerWidget {
 
                     context.goNamed(
                       RouteNames.project,
-                      queryParameters: {
-                        if (view != null) 'view': view,
-                        if (selectedSort.value != null)
+                      queryParameters: buildQueryParameters(
+                        context,
+                        updates: {
+                          'view': view,
                           'sort': selectedSort.value?.key,
-                        if (selectedOrder.value != null)
                           'order': selectedOrder.value?.key,
-                        if (search != null) 'search': search,
-                        if (bookmark != null) 'bookmark': bookmark.toString(),
-                        if (nextClients != null)
-                          'clients': nextClients.join(','),
-                        if (nextCategories != null)
-                          'categories': nextCategories.join(','),
-                      },
+                          'search': search,
+                          'bookmark': bookmark?.toString(),
+                          'clients': nextClients?.join(','),
+                          'categories': nextCategories?.join(','),
+                        },
+                      ),
                     );
 
                     context.pop();

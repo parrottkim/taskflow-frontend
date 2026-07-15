@@ -172,7 +172,7 @@ class IssueDataSource implements IssueRepository {
       _service.getCategory(id: id);
 
   @override
-  Future<void> sendMail({required int id, required SendIssueMailDto request}) =>
+  Future<void> sendMail({required int id, required SendMailDto request}) =>
       _service.sendMail(id: id, request: request);
 
   @override

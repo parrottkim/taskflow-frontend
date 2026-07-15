@@ -14,10 +14,10 @@ class SupplierAddButton extends ConsumerWidget {
       onPressed: () {
         context.pushNamed(
           RouteNames.supplierNew,
-          queryParameters: {
-            ...GoRouterState.of(context).uri.queryParameters,
-            'view': 'supplier',
-          },
+          queryParameters: buildQueryParameters(
+            context,
+            updates: const {'view': 'supplier'},
+          ),
         );
       },
       icon: Icon(Symbols.add_rounded),

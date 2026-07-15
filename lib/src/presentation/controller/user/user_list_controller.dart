@@ -8,7 +8,7 @@ class UserListController extends _$UserListController {
   }
 
   Future<UserListState> _init() async {
-    final filter = await _filter();
+    final filter = _filter();
 
     final result = await ref
         .read(userRepositoryProvider)
@@ -27,8 +27,7 @@ class UserListController extends _$UserListController {
   }
 
   Future<void> load() async {
-    final filter = await _filter();
-
+    final filter = _filter();
     final value = state.value;
 
     if (value == null) return;
@@ -48,29 +47,24 @@ class UserListController extends _$UserListController {
         items: [...value.items, ...result.items],
         page: result.page,
         total: result.total,
-        hasReachEnd: value.items.length + result.items.length >= value.total,
+        hasReachEnd: value.items.length + result.items.length >= result.total,
       );
     });
   }
 
-  Future<UserFilterState> _filter() {
+  UserFilterState _filter() {
     if (scope == UserFilterScope.scheduleTimeline) {
-      return ref
-          .watch(
-            scheduleFilterControllerProvider(
-              ScheduleFilterScope.schedulePage,
-            ).future,
-          )
-          .then((filter) {
-            final departmentId = filter.departments?.lastOrNull;
+      final filter = ref.watch(
+        scheduleFilterControllerProvider(ScheduleFilterScope.schedulePage),
+      );
+      final departmentId = filter.departments?.lastOrNull;
 
-            return UserFilterState(
-              departments: departmentId == null ? null : [departmentId],
-            );
-          });
+      return UserFilterState(
+        departments: departmentId == null ? null : [departmentId],
+      );
     }
 
-    return ref.watch(userFilterControllerProvider(scope).future);
+    return ref.watch(userFilterControllerProvider(scope));
   }
 
   Future<void> addListItem({required User item}) async {

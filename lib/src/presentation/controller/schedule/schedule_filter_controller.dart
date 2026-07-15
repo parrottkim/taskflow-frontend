@@ -3,84 +3,49 @@ part of '../controller.dart';
 @riverpod
 class ScheduleFilterController extends _$ScheduleFilterController {
   @override
-  FutureOr<ScheduleFilterState> build(ScheduleFilterScope scope) async {
-    return _init();
-  }
+  ScheduleFilterState build(ScheduleFilterScope scope) => ScheduleFilterState();
 
-  Future<ScheduleFilterState> _init() async {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
+  Future<void> init({String? view, String? search, String? departments}) async {
+    final value = state;
 
-    final defaultStart = today.subtract(const Duration(days: 28));
-    final defaultEnd = today.add(const Duration(days: 28));
-
-    return ScheduleFilterState(start: defaultStart, end: defaultEnd);
-  }
-
-  Future<void> init({String? search, String? departments}) async {
     final normalizedSearch = search?.trim();
     final nextSearch = normalizedSearch == null || normalizedSearch.isEmpty
         ? null
         : normalizedSearch;
-    final value = state.value;
 
     List<int>? nextDepartments;
+
     if (departments != null && departments.trim().isNotEmpty) {
       final options = await ref.read(scheduleOptionsControllerProvider.future);
+
       nextDepartments = _findDepartmentPath(
         groups: options.departmentGroups,
         departments: departments,
-        currentDepartments: value?.departments,
+        currentDepartments: value.departments,
       );
-    }
-
-    if (value == null) {
-      final initialValue = await _init();
-      final nextValue = initialValue.copyWith(
-        search: nextSearch,
-        departments: nextDepartments,
-      );
-
-      if (nextValue == initialValue) return;
-
-      state = AsyncData(nextValue);
-      return;
     }
 
     final nextValue = value.copyWith(
+      view: view,
       search: nextSearch,
       departments: nextDepartments,
     );
 
     if (nextValue == value) return;
 
-    state = AsyncData(nextValue);
+    state = nextValue;
+  }
+
+  void setView({String? view}) {
+    state = state.copyWith(view: view);
   }
 
   void setSearch({String? search}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(search: search));
-  }
-
-  void setDateRange({DateTime? start, DateTime? end}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncData(
-      value.copyWith(start: start ?? value.start, end: end ?? value.end),
-    );
+    state = state.copyWith(search: search);
   }
 
   void setDepartments({List<int>? departments}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(departments: departments));
+    state = state.copyWith(departments: departments);
   }
 
   List<int>? _findDepartmentPath({

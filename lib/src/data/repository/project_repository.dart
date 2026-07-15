@@ -7,7 +7,7 @@ abstract class ProjectRepository {
 
   Future<Project> getProject({required int id});
 
-  Future<Result<Project>> getProjects({
+  Future<Result<ProjectListItem>> getProjects({
     int page = 1,
     int limit = 40,
     String? view,
@@ -19,9 +19,7 @@ abstract class ProjectRepository {
     String? categories,
   });
 
-  Future<Project> createProject({
-    required CreateProjectDto request,
-  });
+  Future<Project> createProject({required CreateProjectDto request});
 
   Future<Project> updateProject({
     required int id,

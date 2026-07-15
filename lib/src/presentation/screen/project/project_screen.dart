@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
+import 'package:taskflow/src/presentation/screen/project/widget/new_project_button.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/project_filter_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/project_list_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/segment_widget.dart';
@@ -57,6 +58,7 @@ class ProjectScreen extends HookConsumerWidget {
     }, [view, sort, order, search, bookmark, clients, categories]);
 
     return const BranchLayout(
+      actions: [NewProjectButton()],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

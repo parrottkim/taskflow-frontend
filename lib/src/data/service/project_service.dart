@@ -14,7 +14,7 @@ abstract class ProjectService {
   Future<Project> getProject({@Path() required int id});
 
   @GET('project')
-  Future<Result<Project>> getProjects({
+  Future<Result<ProjectListItem>> getProjects({
     @Query('page') int page = 1,
     @Query('limit') int limit = 40,
     @Query('view') String? view,
@@ -27,9 +27,7 @@ abstract class ProjectService {
   });
 
   @POST('project')
-  Future<Project> createProject({
-    @Body() required CreateProjectDto request,
-  });
+  Future<Project> createProject({@Body() required CreateProjectDto request});
 
   @PATCH('project/{id}')
   Future<Project> updateProject({

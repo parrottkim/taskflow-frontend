@@ -12,9 +12,11 @@ class ScheduleListController extends _$ScheduleListController {
   }
 
   Future<ScheduleListState> _init() async {
-    final filter = await ref.watch(
-      scheduleFilterControllerProvider(scope).future,
-    );
+    final filter = ref.watch(scheduleFilterControllerProvider(scope));
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final start = today.subtract(const Duration(days: 28));
+    final end = today.add(const Duration(days: 28));
 
     final result = await ref
         .read(scheduleRepositoryProvider)
@@ -23,16 +25,16 @@ class ScheduleListController extends _$ScheduleListController {
           userId: userId,
           departmentId: filter.departments?.lastOrNull,
           search: filter.search,
-          start: filter.start,
-          end: filter.end,
+          start: start,
+          end: end,
         );
 
     return ScheduleListState(
       items: result.items,
       hasNext: result.hasNext,
       hasPrevious: result.hasPrevious,
-      start: filter.start,
-      end: filter.end,
+      start: start,
+      end: end,
     );
   }
 
@@ -83,9 +85,7 @@ class ScheduleListController extends _$ScheduleListController {
 
     if (value == null) return;
 
-    final filter = await ref.read(
-      scheduleFilterControllerProvider(scope).future,
-    );
+    final filter = ref.read(scheduleFilterControllerProvider(scope));
 
     final newEnd = value.start; // 현재 시작일 직전까지의 데이터를 요청해야 하므로, end를 현재 start로 설정
     final newStart = value.start.subtract(
@@ -128,9 +128,7 @@ class ScheduleListController extends _$ScheduleListController {
 
     if (value == null) return;
 
-    final filter = await ref.read(
-      scheduleFilterControllerProvider(scope).future,
-    );
+    final filter = ref.read(scheduleFilterControllerProvider(scope));
 
     final newStart = value.end;
     final newEnd = value.end.add(const Duration(days: 28));

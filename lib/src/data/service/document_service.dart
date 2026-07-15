@@ -8,13 +8,19 @@ abstract class DocumentService {
   Future<Document> getDocumentForEdit({@Path() required int id});
 
   @GET('document')
-  Future<Result<Document>> getDocuments({
+  Future<Result<DocumentListItem>> getDocuments({
     @Query('page') int page = 1,
     @Query('limit') int limit = 20,
     @Query('folder_id') required int folderId,
     @Query('sort') String? sort,
     @Query('order') String? order,
     @Query('search') String? search,
+  });
+
+  @POST('document/mail/{id}')
+  Future<void> sendMail({
+    @Path('id') required int id,
+    @Body() required SendMailDto request,
   });
 
   @POST('document')

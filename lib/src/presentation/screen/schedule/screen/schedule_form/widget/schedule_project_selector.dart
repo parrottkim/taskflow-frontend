@@ -11,7 +11,7 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 class ScheduleProjectSelector extends HookConsumerWidget {
   final int categoryId;
   final int? scheduleId;
-  final List<Project> items;
+  final List<ProjectListItem> items;
 
   const ScheduleProjectSelector({
     super.key,
@@ -72,7 +72,12 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                     scheduleId: scheduleId,
                   ).notifier,
                 )
-                .setProject(project: items[index]);
+                .setProject(
+                  projectId: items[index].id,
+                  projectName: items[index].name,
+                  projectClientId: items[index].clients.first.id,
+                  projectClientName: items[index].clients.last.name,
+                );
             context.pop();
           },
           child: Padding(

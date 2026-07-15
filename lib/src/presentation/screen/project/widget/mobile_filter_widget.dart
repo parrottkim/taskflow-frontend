@@ -13,30 +13,18 @@ class MobileFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(
-      projectFilterControllerProvider(ProjectFilterScope.projectPage),
-    );
     final options = ref.watch(projectOptionsControllerProvider);
 
-    return switch ((filter, options)) {
-      (AsyncData(value: final filter), AsyncData(value: final options)) =>
-        _DesktopWidget(
-          view: filter.view,
-          sort: filter.sort,
-          order: filter.order,
-          search: filter.search,
-          bookmark: filter.bookmark,
-          clients: filter.clients,
-          categories: filter.categories,
-          clientItems: options.clientItems,
-          categoryItems: options.categoryItems,
-          maxClientDepth: options.maxClientDepth,
-        ),
-      (AsyncError(:final error, :final stackTrace), _) ||
-      (
-        _,
-        AsyncError(:final error, :final stackTrace),
-      ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
+    return switch (options) {
+      AsyncData(value: final options) => _DesktopWidget(
+        clientItems: options.clientItems,
+        categoryItems: options.categoryItems,
+        maxClientDepth: options.maxClientDepth,
+      ),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
       _ => Skeletonizer.zone(
         child: ElevatedButton.icon(
           onPressed: () {},
@@ -48,33 +36,22 @@ class MobileFilterWidget extends ConsumerWidget {
   }
 }
 
-class _DesktopWidget extends StatelessWidget {
-  final String? view;
-  final ProjectSort? sort;
-  final Order? order;
-  final String? search;
-  final bool? bookmark;
-  final List<int>? clients;
-  final List<int>? categories;
+class _DesktopWidget extends ConsumerWidget {
   final List<ClientGroup> clientItems;
   final List<IssueCategory> categoryItems;
   final int maxClientDepth;
 
   const _DesktopWidget({
-    this.view,
-    this.sort,
-    this.order,
-    this.search,
-    this.bookmark,
-    this.clients,
-    this.categories,
     required this.clientItems,
     required this.categoryItems,
     required this.maxClientDepth,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -82,13 +59,13 @@ class _DesktopWidget extends StatelessWidget {
       onPressed: () => showDialog(
         context: context,
         builder: (context) => MobileFilterDialog(
-          view: view,
-          search: search,
-          bookmark: bookmark,
-          sort: sort,
-          order: order,
-          clients: clients,
-          categories: categories,
+          view: filter.view,
+          search: filter.search,
+          bookmark: filter.bookmark,
+          sort: filter.sort,
+          order: filter.order,
+          clients: filter.clients,
+          categories: filter.categories,
           clientItems: clientItems,
           categoryItems: categoryItems,
           maxClientDepth: maxClientDepth,
@@ -99,11 +76,11 @@ class _DesktopWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(Intl.message('project_filter_5')),
-          if (sort != null ||
-              order != null ||
-              search != null ||
-              clients != null ||
-              categories != null)
+          if (filter.sort != null ||
+              filter.order != null ||
+              filter.search != null ||
+              filter.clients != null ||
+              filter.categories != null)
             Container(
               margin: EdgeInsets.only(left: 8.0),
               padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),

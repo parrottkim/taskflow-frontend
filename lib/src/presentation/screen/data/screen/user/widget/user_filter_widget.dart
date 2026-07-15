@@ -49,46 +49,28 @@ class DataUserPositionFilterWidget extends ConsumerWidget {
     final filter = ref.watch(
       userFilterControllerProvider(UserFilterScope.dataPage),
     );
-    final dataFilter = ref.watch(dataFilterControllerProvider);
     final options = ref.watch(userOptionsControllerProvider);
 
-    return switch ((filter, dataFilter, options)) {
-      (
-        AsyncData(value: final filter),
-        AsyncData(value: final dataFilter),
-        AsyncData(value: final options),
-      ) =>
-        UserPositionFilterWidget(
-          position: filter.positionId == null
-              ? null
-              : options.positionItems.firstWhereOrNull(
-                  (item) => item.id == filter.positionId,
-                ),
-          positionItems: options.positionItems,
-          onChanged: (value) {
-            final nextPositionId = value?.id;
-            final search = filter.search.trim();
+    return switch (options) {
+      AsyncData(value: final options) => UserPositionFilterWidget(
+        position: filter.positionId == null
+            ? null
+            : options.positionItems.firstWhereOrNull(
+                (item) => item.id == filter.positionId,
+              ),
+        positionItems: options.positionItems,
+        onChanged: (value) {
+          final nextPositionId = value?.id;
 
-            ref
-                .read(
-                  userFilterControllerProvider(
-                    UserFilterScope.dataPage,
-                  ).notifier,
-                )
-                .setPositionId(positionId: nextPositionId);
-            context.goNamed(
-              RouteNames.data,
-              queryParameters: {
-                if (dataFilter.view != null) 'view': dataFilter.view,
-                if (search.isNotEmpty) 'search': search,
-                if (filter.departments != null)
-                  'departments': filter.departments!.join(','),
-                if (nextPositionId != null)
-                  'position_id': nextPositionId.toString(),
-              },
-            );
-          },
-        ),
+          context.goNamed(
+            RouteNames.data,
+            queryParameters: buildQueryParameters(
+              context,
+              updates: {'position_id': nextPositionId?.toString()},
+            ),
+          );
+        },
+      ),
       _ => Skeletonizer(
         ignoreContainers: true,
         child: UserPositionFilterWidget(
@@ -109,49 +91,31 @@ class DataUserDepartmentFilterWidget extends ConsumerWidget {
     final filter = ref.watch(
       userFilterControllerProvider(UserFilterScope.dataPage),
     );
-    final dataFilter = ref.watch(dataFilterControllerProvider);
     final options = ref.watch(userOptionsControllerProvider);
 
-    return switch ((filter, dataFilter, options)) {
-      (
-        AsyncData(value: final filter),
-        AsyncData(value: final dataFilter),
-        AsyncData(value: final options),
-      ) =>
-        UserDepartmentFilterWidget(
-          department: filter.departments?.lastOrNull == null
+    return switch (options) {
+      AsyncData(value: final options) => UserDepartmentFilterWidget(
+        department: filter.departments?.lastOrNull == null
+            ? null
+            : options.departmentItems.firstWhereOrNull(
+                (item) => item.id == filter.departments?.lastOrNull,
+              ),
+        departmentGroups: options.departmentGroups,
+        departmentItems: options.departmentItems,
+        onPathChanged: (path) {
+          final nextDepartments = path.isEmpty
               ? null
-              : options.departmentItems.firstWhereOrNull(
-                  (item) => item.id == filter.departments?.lastOrNull,
-                ),
-          departmentGroups: options.departmentGroups,
-          departmentItems: options.departmentItems,
-          onPathChanged: (path) {
-            final nextDepartments = path.isEmpty
-                ? null
-                : path.map((item) => item.id).toList();
-            final search = filter.search.trim();
+              : path.map((item) => item.id).toList();
 
-            ref
-                .read(
-                  userFilterControllerProvider(
-                    UserFilterScope.dataPage,
-                  ).notifier,
-                )
-                .setDepartments(departments: nextDepartments);
-            context.goNamed(
-              RouteNames.data,
-              queryParameters: {
-                if (dataFilter.view != null) 'view': dataFilter.view,
-                if (search.isNotEmpty) 'search': search,
-                if (nextDepartments != null)
-                  'departments': nextDepartments.join(','),
-                if (filter.positionId != null)
-                  'position_id': filter.positionId.toString(),
-              },
-            );
-          },
-        ),
+          context.goNamed(
+            RouteNames.data,
+            queryParameters: buildQueryParameters(
+              context,
+              updates: {'departments': nextDepartments?.join(',')},
+            ),
+          );
+        },
+      ),
       _ => Skeletonizer(
         ignoreContainers: true,
         child: UserDepartmentFilterWidget(

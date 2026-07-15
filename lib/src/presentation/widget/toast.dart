@@ -76,7 +76,10 @@ class Toast extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
         constraints: const BoxConstraints(maxWidth: 430.0),
-        color: getBackgroundColor(),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          color: getBackgroundColor(),
+        ),
         child: Row(
           children: [
             Icon(getIcon(), fill: 0.0, color: getForegroundColor()),
