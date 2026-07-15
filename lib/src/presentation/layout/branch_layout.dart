@@ -1,29 +1,29 @@
-import 'package:flutter/material.dart' hide DateRangePickerDialog;
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/project_action_button.dart';
-import 'package:taskflow/src/presentation/screen/project/widget/new_project_button.dart';
-import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_add_button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class BranchLayout extends ConsumerWidget {
+class BranchLayout extends StatelessWidget {
   final Widget child;
   final Widget? title;
+  final List<Widget> actions;
   final Function()? onTap;
 
-  const BranchLayout({super.key, required this.child, this.title, this.onTap});
+  const BranchLayout({
+    super.key,
+    required this.child,
+    this.title,
+    this.actions = const [],
+    this.onTap,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final dateSelection = ref.watch(dateSelectionControllerProvider);
     final route = ModalRoute.of(context);
     final routerState = GoRouterState.of(context);
     final currentRouteName = route?.settings.name ?? routerState.name ?? '';
@@ -64,48 +64,7 @@ class BranchLayout extends ConsumerWidget {
                             : Text(Intl.message(currentRouteName)),
                       ),
                     ),
-                    if (currentRouteName == RouteNames.dashboard)
-                      ElevatedButton(
-                        onPressed: () async {
-                          final result = await showDialog(
-                            context: context,
-                            builder: (_) => DateRangePickerDialog(
-                              startDate: dateSelection.start,
-                              endDate: dateSelection.end,
-                            ),
-                          );
-
-                          if (result != null) {
-                            final startDate = result['start'] as DateTime;
-                            final endDate = result['end'] as DateTime;
-
-                            ref
-                                .read(dateSelectionControllerProvider.notifier)
-                                .dataSelectionChange(
-                                  start: startDate,
-                                  end: endDate,
-                                );
-                          }
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(width: 4.0),
-                            Text(
-                              '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.end)}',
-                            ),
-                            SizedBox(width: 4.0),
-                            Icon(Symbols.expand_more_rounded),
-                          ],
-                        ),
-                      ),
-                    if (currentRouteName == RouteNames.project)
-                      NewProjectButton(),
-                    if (currentRouteName == RouteNames.projectDetail)
-                      ProjectActionButton(),
-                    if (currentRouteName == RouteNames.data &&
-                        routerState.uri.queryParameters['view'] == 'supplier')
-                      SupplierAddButton(),
+                    ...actions,
                   ],
                 ),
               ),

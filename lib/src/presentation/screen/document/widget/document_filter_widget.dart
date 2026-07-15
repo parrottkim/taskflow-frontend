@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
@@ -14,21 +13,6 @@ class DocumentFilterWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(documentFilterControllerProvider);
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(filter: value),
-      _ => Skeletonizer(child: _DesktopWidget(filter: DocumentFilterState())),
-    };
-  }
-}
-
-class _DesktopWidget extends ConsumerWidget {
-  final DocumentFilterState filter;
-
-  const _DesktopWidget({required this.filter});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 24.0),
       child: CupertinoSlidingSegmentedControl<DocumentSort>(
@@ -68,12 +52,10 @@ class _DocumentSortSegment extends ConsumerWidget {
 
         context.goNamed(
           RouteNames.document,
-          queryParameters: {
-            'folder_id': filter.folderId.toString(),
-            'sort': sort.key,
-            'order': nextOrder.key,
-            if (filter.search != null) 'search': filter.search,
-          },
+          queryParameters: buildQueryParameters(
+            context,
+            updates: {'sort': sort.key, 'order': nextOrder.key},
+          ),
         );
       },
       child: Padding(

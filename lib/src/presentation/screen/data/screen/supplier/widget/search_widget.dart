@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/router/router.dart';
 
-class SearchWidget extends ConsumerWidget {
+class SearchWidget extends HookConsumerWidget {
   const SearchWidget({super.key});
 
   @override
@@ -14,32 +15,15 @@ class SearchWidget extends ConsumerWidget {
     final filter = ref.watch(
       supplierFilterControllerProvider(SupplierFilterScope.dataPage),
     );
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(search: value.search),
-      _ => Skeletonizer(child: _DesktopWidget()),
-    };
-  }
-}
-
-class _DesktopWidget extends HookConsumerWidget {
-  final String? search;
-
-  const _DesktopWidget({this.search});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final controller = useTextEditingController(text: search);
+    final controller = useTextEditingController(text: filter.search);
     final keyword = useValueListenable(controller);
 
     useEffect(() {
-      if (search != null) {
-        controller.text = search!;
-      }
+      controller.text = filter.search;
       return null;
-    }, [search]);
+    }, [filter.search]);
 
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 430.0),
@@ -47,15 +31,15 @@ class _DesktopWidget extends HookConsumerWidget {
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
         onSubmitted: (_) {
-          if (keyword.text.isNotEmpty) {
-            ref
-                .read(
-                  supplierFilterControllerProvider(
-                    SupplierFilterScope.dataPage,
-                  ).notifier,
-                )
-                .setSearch(search: keyword.text);
-          }
+          final search = keyword.text.trim();
+
+          context.goNamed(
+            RouteNames.data,
+            queryParameters: buildQueryParameters(
+              context,
+              updates: {'search': search},
+            ),
+          );
         },
         decoration: InputDecoration(
           filled: true,

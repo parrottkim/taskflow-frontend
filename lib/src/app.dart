@@ -1,5 +1,7 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/generated/l10n.dart';
@@ -11,7 +13,7 @@ import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/theme/theme.dart';
 import 'package:taskflow/src/shared/tool/behavior.dart';
 
-class App extends ConsumerWidget {
+class App extends HookConsumerWidget {
   const App({super.key});
 
   @override
@@ -19,11 +21,41 @@ class App extends ConsumerWidget {
     final toast = ref.watch(toastProvider);
     final router = ref.watch(routerProvider);
 
+    final isSearchDialogOpen = useState(false);
+
+    Future<void> openNavigationSearch() async {
+      if (isSearchDialogOpen.value) return;
+
+      final navigatorContext =
+          router.config.routerDelegate.navigatorKey.currentContext;
+
+      if (navigatorContext == null) return;
+
+      isSearchDialogOpen.value = true;
+
+      try {
+        await showDialog<void>(
+          context: navigatorContext,
+          builder: (_) => const NavigationSearchDialog(),
+        );
+      } finally {
+        isSearchDialogOpen.value = false;
+      }
+    }
+
     ref.listen(errorControllerProvider, (_, state) {
       switch (state) {
         case ErrorInitial():
           return;
-        case ErrorUnauthorized() || ErrorForbidden():
+        case ErrorUnauthorized(:final message) ||
+            ErrorForbidden(:final message):
+          if (router.config.name != RouteNames.login) {
+            toast.removeQueuedCustomToasts();
+            toast.showToast(
+              child: Toast(type: ToastType.error, message: message),
+            );
+          }
+
           return ref.invalidate(errorControllerProvider);
         case ErrorTokenExpired(:final message):
           toast.removeQueuedCustomToasts();
@@ -56,19 +88,33 @@ class App extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      builder: (context, child) => Overlay(
-        initialEntries: [
-          if (child != null) ...[
-            OverlayEntry(
-              builder: (context) => Consumer(
-                builder: (_, ref, _) {
-                  toast.init(context);
-                  return child;
-                },
-              ),
-            ),
-          ],
-        ],
+      builder: (context, child) => CallbackShortcuts(
+        bindings: {
+          // Windows / Linux
+          const SingleActivator(LogicalKeyboardKey.keyK, control: true):
+              openNavigationSearch,
+
+          // macOS
+          const SingleActivator(LogicalKeyboardKey.keyK, meta: true):
+              openNavigationSearch,
+        },
+        child: Focus(
+          autofocus: true,
+          child: Overlay(
+            initialEntries: [
+              if (child != null) ...[
+                OverlayEntry(
+                  builder: (context) => Consumer(
+                    builder: (_, ref, _) {
+                      toast.init(context);
+                      return child;
+                    },
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
       ),
       title: 'Taskflow',
       supportedLocales: const [Locale('ko', 'KR'), Locale('en', 'US')],

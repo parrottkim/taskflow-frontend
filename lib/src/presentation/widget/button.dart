@@ -5,6 +5,16 @@ class CustomIconButton extends StatelessWidget {
   final Widget icon;
   final double padding;
   final Color? backgroundColor;
+  final BorderRadius borderRadius;
+  final double size;
+  final double? fill;
+  final double? weight;
+  final double? grade;
+  final double? opticalSize;
+  final Color? color;
+  final double? opacity;
+  final List<Shadow>? shadows;
+  final bool? applyTextScaling;
 
   const CustomIconButton({
     super.key,
@@ -12,34 +22,58 @@ class CustomIconButton extends StatelessWidget {
     required this.icon,
     this.padding = 4.0,
     this.backgroundColor = Colors.transparent,
+    this.borderRadius = const BorderRadius.all(Radius.circular(4.0)),
+    this.size = 24.0,
+    this.fill,
+    this.weight,
+    this.grade,
+    this.opticalSize,
+    this.color,
+    this.opacity,
+    this.shadows,
+    this.applyTextScaling,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final skeletonSize = math.max(size, 24.0);
 
     return IconTheme(
       data: IconThemeData(
-        weight: 400.0,
-        opticalSize: 24.0,
-        color: colorScheme.onSurface.withValues(
-          alpha: onTap != null ? 0.7 : 0.3,
-        ),
+        size: size,
+        fill: fill,
+        weight: weight ?? 400.0,
+        grade: grade,
+        opticalSize: opticalSize ?? size,
+        color:
+            color ??
+            colorScheme.onSurface.withValues(alpha: onTap != null ? 0.7 : 0.3),
+        opacity: opacity,
+        shadows: shadows,
+        applyTextScaling: applyTextScaling,
       ),
       child: Material(
         color: Colors.transparent,
+        borderRadius: borderRadius,
         child: InkWell(
           onTap: onTap,
-          customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.0),
-          ),
+          borderRadius: borderRadius,
           child: Ink(
             padding: EdgeInsets.all(padding),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4.0),
+              borderRadius: borderRadius,
               color: backgroundColor,
             ),
-            child: icon,
+            child: SizedBox.square(
+              dimension: skeletonSize,
+              child: Center(
+                child: Skeleton.replace(
+                  replacement: Bone.circle(size: skeletonSize),
+                  child: icon,
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -53,13 +87,14 @@ class CustomSvgIconButton extends StatelessWidget {
   final double padding;
   final Color? backgroundColor;
   final Color? iconColor;
+  final BorderRadius borderRadius;
+  final double size;
   final double? width;
   final double? height;
   final BoxFit fit;
   final AlignmentGeometry alignment;
   final bool matchTextDirection;
   final String? semanticsLabel;
-  final bool preserveSvgColor;
 
   const CustomSvgIconButton({
     super.key,
@@ -68,37 +103,72 @@ class CustomSvgIconButton extends StatelessWidget {
     this.padding = 4.0,
     this.backgroundColor = Colors.transparent,
     this.iconColor,
+    this.borderRadius = const BorderRadius.all(Radius.circular(4.0)),
+    this.size = 24.0,
     this.width,
     this.height,
     this.fit = BoxFit.contain,
     this.alignment = Alignment.center,
     this.matchTextDirection = false,
     this.semanticsLabel,
-    this.preserveSvgColor = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
     final effectiveIconColor =
         iconColor ??
         colorScheme.onSurface.withValues(alpha: onTap != null ? 0.7 : 0.3);
 
-    return CustomIconButton(
-      onTap: onTap,
-      padding: padding,
-      backgroundColor: backgroundColor,
-      icon: SvgPicture.asset(
-        asset,
-        width: width,
-        height: height,
-        fit: fit,
-        alignment: alignment,
-        matchTextDirection: matchTextDirection,
-        semanticsLabel: semanticsLabel,
-        colorFilter: preserveSvgColor
-            ? null
-            : ColorFilter.mode(effectiveIconColor, BlendMode.srcIn),
+    final effectiveWidth = width ?? size;
+    final effectiveHeight = height ?? size;
+    final buttonSize = math.max(
+      math.max(effectiveWidth, effectiveHeight),
+      24.0,
+    );
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: borderRadius,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: borderRadius,
+        child: Ink(
+          padding: EdgeInsets.all(padding),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: borderRadius,
+          ),
+          child: SizedBox.square(
+            dimension: buttonSize,
+            child: Center(
+              child: SvgPicture.asset(
+                asset,
+                width: effectiveWidth,
+                height: effectiveHeight,
+                fit: fit,
+                alignment: alignment,
+                matchTextDirection: matchTextDirection,
+                semanticsLabel: semanticsLabel,
+                placeholderBuilder: (_) => SizedBox(
+                  width: effectiveWidth,
+                  height: effectiveHeight,
+                  child: Skeleton.replace(
+                    replacement: Bone.circle(
+                      size: math.min(effectiveWidth, effectiveHeight),
+                    ),
+                    child: const SizedBox.expand(),
+                  ),
+                ),
+                colorFilter: ColorFilter.mode(
+                  effectiveIconColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

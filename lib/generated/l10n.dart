@@ -219,6 +219,11 @@ class S {
     return Intl.message('비고', name: 'common_note', desc: '', args: []);
   }
 
+  /// `조회`
+  String get common_view {
+    return Intl.message('조회', name: 'common_view', desc: '', args: []);
+  }
+
   /// `텍스트 색상`
   String get text_color {
     return Intl.message('텍스트 색상', name: 'text_color', desc: '', args: []);
@@ -794,6 +799,16 @@ class S {
     return Intl.message(
       '고정할 수 있는 문서는 최대 5개입니다.',
       name: 'fixed_document_limit_exceeded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.`
+  String get guest_read_only {
+    return Intl.message(
+      '읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.',
+      name: 'guest_read_only',
       desc: '',
       args: [],
     );
@@ -1572,6 +1587,11 @@ class S {
   /// `문서`
   String get document {
     return Intl.message('문서', name: 'document', desc: '', args: []);
+  }
+
+  /// `문서 상세`
+  String get document_detail {
+    return Intl.message('문서 상세', name: 'document_detail', desc: '', args: []);
   }
 
   /// `조직도`
@@ -4559,14 +4579,59 @@ class S {
     );
   }
 
-  /// `근무 일정`
+  /// `프로젝트`
   String get work_segment_1 {
-    return Intl.message('근무 일정', name: 'work_segment_1', desc: '', args: []);
+    return Intl.message('프로젝트', name: 'work_segment_1', desc: '', args: []);
   }
 
-  /// `담당 프로젝트`
-  String get work_segment_2 {
-    return Intl.message('담당 프로젝트', name: 'work_segment_2', desc: '', args: []);
+  /// `타임라인`
+  String get schedule_segment_1 {
+    return Intl.message('타임라인', name: 'schedule_segment_1', desc: '', args: []);
+  }
+
+  /// `내 일정`
+  String get schedule_segment_2 {
+    return Intl.message('내 일정', name: 'schedule_segment_2', desc: '', args: []);
+  }
+
+  /// `일정 검색`
+  String get schedule_search {
+    return Intl.message('일정 검색', name: 'schedule_search', desc: '', args: []);
+  }
+
+  /// `고객사`
+  String get schedule_column_1 {
+    return Intl.message('고객사', name: 'schedule_column_1', desc: '', args: []);
+  }
+
+  /// `출장 목적`
+  String get schedule_column_2 {
+    return Intl.message('출장 목적', name: 'schedule_column_2', desc: '', args: []);
+  }
+
+  /// `설명`
+  String get schedule_column_3 {
+    return Intl.message('설명', name: 'schedule_column_3', desc: '', args: []);
+  }
+
+  /// `담당자`
+  String get schedule_column_4 {
+    return Intl.message('담당자', name: 'schedule_column_4', desc: '', args: []);
+  }
+
+  /// `기간`
+  String get schedule_column_5 {
+    return Intl.message('기간', name: 'schedule_column_5', desc: '', args: []);
+  }
+
+  /// `검색 결과가 없습니다.`
+  String get schedule_search_empty {
+    return Intl.message(
+      '검색 결과가 없습니다.',
+      name: 'schedule_search_empty',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `문서 검색`
@@ -4719,6 +4784,16 @@ class S {
     );
   }
 
+  /// `이력 보기`
+  String get document_attachment_history {
+    return Intl.message(
+      '이력 보기',
+      name: 'document_attachment_history',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `폴더 만들기`
   String get document_folder_create_title {
     return Intl.message(
@@ -4797,6 +4872,11 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `문서 공유`
+  String get document_mail {
+    return Intl.message('문서 공유', name: 'document_mail', desc: '', args: []);
   }
 
   /// `작성자`
@@ -5362,46 +5442,6 @@ class S {
   /// `더 보기`
   String get data_address_more {
     return Intl.message('더 보기', name: 'data_address_more', desc: '', args: []);
-  }
-
-  /// `일정 검색`
-  String get schedule_search {
-    return Intl.message('일정 검색', name: 'schedule_search', desc: '', args: []);
-  }
-
-  /// `고객사`
-  String get schedule_column_1 {
-    return Intl.message('고객사', name: 'schedule_column_1', desc: '', args: []);
-  }
-
-  /// `출장 목적`
-  String get schedule_column_2 {
-    return Intl.message('출장 목적', name: 'schedule_column_2', desc: '', args: []);
-  }
-
-  /// `설명`
-  String get schedule_column_3 {
-    return Intl.message('설명', name: 'schedule_column_3', desc: '', args: []);
-  }
-
-  /// `담당자`
-  String get schedule_column_4 {
-    return Intl.message('담당자', name: 'schedule_column_4', desc: '', args: []);
-  }
-
-  /// `기간`
-  String get schedule_column_5 {
-    return Intl.message('기간', name: 'schedule_column_5', desc: '', args: []);
-  }
-
-  /// `검색 결과가 없습니다.`
-  String get schedule_search_empty {
-    return Intl.message(
-      '검색 결과가 없습니다.',
-      name: 'schedule_search_empty',
-      desc: '',
-      args: [],
-    );
   }
 
   /// `내 정보`

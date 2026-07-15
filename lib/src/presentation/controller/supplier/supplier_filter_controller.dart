@@ -5,31 +5,35 @@ class SupplierFilterController extends _$SupplierFilterController {
   Timer? _debounce;
 
   @override
-  FutureOr<SupplierFilterState> build(SupplierFilterScope scope) {
+  SupplierFilterState build(SupplierFilterScope scope) {
     ref.onDispose(() => _debounce?.cancel());
 
     return SupplierFilterState();
   }
 
+  void init({String? search}) {
+    final value = state;
+    final normalizedSearch = search?.trim() ?? '';
+    final nextValue = value.copyWith(search: normalizedSearch);
+
+    if (nextValue == value) return;
+
+    state = nextValue;
+  }
+
   void setSearch({required String search}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(search: search));
+    state = state.copyWith(search: search);
   }
 
   void debounceSearch({required String search}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state;
 
     if (_debounce?.isActive ?? false) {
       _debounce!.cancel();
     }
 
-    _debounce = Timer(const Duration(milliseconds: 500), () async {
-      state = AsyncData(value.copyWith(search: search));
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      state = value.copyWith(search: search);
     });
   }
 }

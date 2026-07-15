@@ -1,6 +1,59 @@
 part of '../data.dart';
 
 @freezed
+abstract class ProjectListItem with _$ProjectListItem {
+  factory ProjectListItem({
+    required int id,
+    required String code,
+    required String name,
+    required User createdBy,
+    User? manager,
+    IssueCategory? latestCategory,
+    required List<Client> clients,
+    required bool isPreexecuted,
+    required bool isClosed,
+    required bool isBookmarked,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _ProjectListItem;
+
+  factory ProjectListItem.fromJson(Map<String, dynamic> json) =>
+      _$ProjectListItemFromJson(json);
+
+  factory ProjectListItem.fromProject(Project project) {
+    return ProjectListItem(
+      id: project.id,
+      code: project.code,
+      name: project.name,
+      createdBy: project.createdBy,
+      manager: project.manager,
+      latestCategory: project.latestCategory,
+      clients: project.clients,
+      isPreexecuted: project.isPreexecuted,
+      isClosed: project.isClosed,
+      isBookmarked: project.isBookmarked,
+      createdAt: project.createdAt,
+      updatedAt: project.updatedAt,
+      deletedAt: project.deletedAt,
+    );
+  }
+
+  factory ProjectListItem.dummy() => ProjectListItem(
+    id: 0,
+    code: 'Dummy Project Code',
+    name: 'Dummy Project Name',
+    createdBy: User.dummy(),
+    clients: [Client.dummy()],
+    isPreexecuted: false,
+    isClosed: false,
+    isBookmarked: false,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
+}
+
+@freezed
 abstract class Project with _$Project {
   factory Project({
     required int id,
@@ -10,7 +63,7 @@ abstract class Project with _$Project {
     required User createdBy,
     User? updatedBy,
     User? manager,
-    required IssueCategory? latestCategory,
+    IssueCategory? latestCategory,
     required List<Client> clients,
     required bool isPreexecuted,
     required bool isContracted,
@@ -28,7 +81,6 @@ abstract class Project with _$Project {
     name: 'Dummy Project Name',
     views: 0,
     createdBy: User.dummy(),
-    latestCategory: null,
     clients: [Client.dummy()],
     isPreexecuted: false,
     isContracted: false,

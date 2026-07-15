@@ -8,9 +8,7 @@ class SupplierListController extends _$SupplierListController {
   }
 
   Future<SupplierListState> _init() async {
-    final filter = await ref.watch(
-      supplierFilterControllerProvider(scope).future,
-    );
+    final filter = ref.watch(supplierFilterControllerProvider(scope));
 
     final result = await ref
         .read(supplierRepositoryProvider)
@@ -25,13 +23,7 @@ class SupplierListController extends _$SupplierListController {
   }
 
   Future<void> load() async {
-    final filter = await ref.watch(
-      supplierFilterControllerProvider(scope).future,
-    );
-    final keyword = filter.search.trim();
-
-    if (keyword.isEmpty) return;
-
+    final filter = ref.watch(supplierFilterControllerProvider(scope));
     final value = state.value;
     if (value == null) return;
     if (value.hasReachEnd) return;
@@ -39,13 +31,13 @@ class SupplierListController extends _$SupplierListController {
     state = await AsyncValue.guard(() async {
       final result = await ref
           .read(supplierRepositoryProvider)
-          .getSuppliers(page: value.page + 1, search: keyword);
+          .getSuppliers(page: value.page + 1, search: filter.search);
 
       return value.copyWith(
         items: [...value.items, ...result.items],
         page: result.page,
         total: result.total,
-        hasReachEnd: value.items.length + result.items.length >= value.total,
+        hasReachEnd: value.items.length + result.items.length >= result.total,
       );
     });
   }

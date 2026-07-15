@@ -77,7 +77,7 @@ class DashboardDrawer extends HookConsumerWidget {
             ),
           ),
           if (auth is AuthAuthenticated)
-            UserWidget(
+            DashboardUserTile(
               expanded: expanded.value,
               duration: duration,
               curve: curve,
@@ -397,13 +397,13 @@ class NavigationRailButton extends StatelessWidget {
   }
 }
 
-class UserWidget extends StatelessWidget {
+class DashboardUserTile extends StatelessWidget {
   final bool expanded;
   final Duration? duration;
   final Curve? curve;
   final User user;
 
-  const UserWidget({
+  const DashboardUserTile({
     super.key,
     this.expanded = true,
     this.duration,

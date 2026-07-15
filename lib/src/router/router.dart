@@ -20,8 +20,9 @@ import 'package:taskflow/src/presentation/screen/data/data_screen.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_edit_dialog.dart';
 import 'package:taskflow/src/presentation/screen/document/widget/document_edit_dialog.dart';
 import 'package:taskflow/src/presentation/screen/document/widget/document_folder_edit_dialog.dart';
-import 'package:taskflow/src/presentation/screen/work/screen/schedule_category/schedule_category_screen.dart';
-import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/schedule_form_screen.dart';
+import 'package:taskflow/src/presentation/screen/document/document_detail_screen.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_category/schedule_category_screen.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/schedule_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/work/work_screen.dart';
 import 'package:taskflow/src/presentation/screen/document/document_screen.dart';
 import 'package:taskflow/src/presentation/screen/dashboard/dashboard_screen.dart';
@@ -43,6 +44,29 @@ final _key = GlobalKey<NavigatorState>();
 final _dashboardKey = GlobalKey<NavigatorState>();
 final _projectKey = GlobalKey<NavigatorState>();
 final _workKey = GlobalKey<NavigatorState>();
+
+Map<String, String> buildQueryParameters(
+  BuildContext context, {
+  required Map<String, String?> updates,
+  Iterable<String> remove = const [],
+}) {
+  final queryParameters = {...GoRouterState.of(context).uri.queryParameters};
+
+  for (final key in remove) {
+    queryParameters.remove(key);
+  }
+
+  for (final MapEntry(:key, :value) in updates.entries) {
+    if (value == null || value.isEmpty) {
+      queryParameters.remove(key);
+    } else {
+      queryParameters[key] = value;
+    }
+  }
+
+  return queryParameters;
+}
+
 final _documentKey = GlobalKey<NavigatorState>();
 final _organizationKey = GlobalKey<NavigatorState>();
 final _dataKey = GlobalKey<NavigatorState>();
@@ -74,11 +98,13 @@ class RouteNames {
   static const String reportNew = 'report_new';
   static const String reportEdit = 'report_edit';
   static const String reportStep = 'report_step';
+  static const String work = 'work';
+  static const String schedule = 'schedule';
   static const String scheduleNewChoose = 'schedule_new_choose';
   static const String scheduleNew = 'schedule_new';
   static const String scheduleEdit = 'schedule_edit';
-  static const String work = 'work';
   static const String document = 'document';
+  static const String documentDetail = 'document_detail';
   static const String documentNew = 'document_new';
   static const String documentEdit = 'document_edit';
   static const String documentFolderNew = 'document_folder_new';
@@ -87,7 +113,6 @@ class RouteNames {
   static const String data = 'data';
   static const String supplierNew = 'supplier_new';
   static const String supplierEdit = 'supplier_edit';
-  static const String schedule = 'schedule';
   static const String analytics = 'analytics';
   static const String account = 'account';
 }
@@ -118,7 +143,7 @@ class Routes {
   static const String reportNew = 'new';
   static const String reportEdit = 'edit';
   static const String reportStep = 'step';
-  static const String scheduleBase = '/schedule';
+  static const String schedule = '/schedule';
   static const String scheduleNewChoose = 'choose';
   static const String scheduleNew = 'new';
   static const String scheduleEdit = 'edit';
@@ -133,7 +158,6 @@ class Routes {
   static const String supplierBase = 'supplier';
   static const String supplierNew = 'new';
   static const String supplierEdit = 'edit';
-  static const String schedule = '/schedule';
   static const String analytics = '/analytics';
   static const String account = '/account';
 }
@@ -282,9 +306,7 @@ class AppRouter {
                   final order = state.uri.queryParameters['order'];
                   final search = state.uri.queryParameters['search'];
                   final bookmark = state.uri.queryParameters['bookmark'];
-                  final clients =
-                      state.uri.queryParameters['clients'] ??
-                      state.uri.queryParameters['client_id'];
+                  final clients = state.uri.queryParameters['clients'];
                   final categories = state.uri.queryParameters['categories'];
 
                   return NoTransitionPage(
@@ -776,86 +798,66 @@ class AppRouter {
                     child: WorkScreen(view: view),
                   );
                 },
+                // routes: [],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _scheduleKey,
+            routes: [
+              GoRoute(
+                name: RouteNames.schedule,
+                path: Routes.schedule,
+                redirect: (context, state) async {
+                  final auth = ref.read(authControllerProvider);
+                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
+                    return _showWrongApproachAndGoDashboard(context);
+                  }
+                  return null;
+                },
+                pageBuilder: (context, state) {
+                  final view = state.uri.queryParameters['view'];
+                  final search = state.uri.queryParameters['search'];
+                  final departments = state.uri.queryParameters['departments'];
+
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    name: state.name,
+                    child: ScheduleScreen(
+                      view: view,
+                      search: search,
+                      departments: departments,
+                    ),
+                  );
+                },
                 routes: [
                   GoRoute(
-                    path: Routes.scheduleBase,
-                    redirect: (context, state) {
-                      if (state.uri.path == Routes.scheduleBase) {
-                        return '${Routes.scheduleBase}/${Routes.scheduleNewChoose}';
-                      }
-                      return null;
+                    name: RouteNames.scheduleNewChoose,
+                    path: Routes.scheduleNewChoose,
+                    parentNavigatorKey: _scheduleKey,
+                    pageBuilder: (context, state) {
+                      final path = state.uri.queryParameters['redirect_to'];
+                      final projectId = int.tryParse(
+                        state.uri.queryParameters['project_id'] ?? '',
+                      );
+
+                      return NoTransitionPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        child: ScheduleCategoryScreen(
+                          path: path,
+                          projectId: projectId,
+                        ),
+                      );
                     },
                     routes: [
                       GoRoute(
-                        name: RouteNames.scheduleNewChoose,
-                        path: Routes.scheduleNewChoose,
-                        parentNavigatorKey: _workKey,
+                        name: RouteNames.scheduleNew,
+                        path: Routes.scheduleNew,
                         pageBuilder: (context, state) {
-                          final path = state.uri.queryParameters['redirect_to'];
                           final projectId = int.tryParse(
                             state.uri.queryParameters['project_id'] ?? '',
                           );
-
-                          return NoTransitionPage(
-                            key: state.pageKey,
-                            name: state.name,
-                            child: ScheduleCategoryScreen(
-                              path: path,
-                              projectId: projectId,
-                            ),
-                          );
-                        },
-                        routes: [
-                          GoRoute(
-                            name: RouteNames.scheduleNew,
-                            path: Routes.scheduleNew,
-                            pageBuilder: (context, state) {
-                              final projectId = int.tryParse(
-                                state.uri.queryParameters['project_id'] ?? '',
-                              );
-                              final categoryId = int.parse(
-                                state.uri.queryParameters['category']!,
-                              );
-                              final scheduleId = int.tryParse(
-                                state.pathParameters['schedule_id'] ?? '',
-                              );
-
-                              return NoTransitionPage(
-                                key: state.pageKey,
-                                name: state.name,
-                                child: ScheduleFormScreen(
-                                  projectId: projectId,
-                                  categoryId: categoryId,
-                                  scheduleId: scheduleId,
-                                ),
-                              );
-                            },
-                            onExit: (context, state) async {
-                              final error = ref.watch(errorControllerProvider);
-                              final submit = ref.watch(
-                                scheduleSubmitControllerProvider,
-                              );
-
-                              if (error is ErrorUnauthorized ||
-                                  submit is ScheduleSubmitCreated ||
-                                  submit is ScheduleSubmitUpdated ||
-                                  submit is ScheduleSubmitDeleted) {
-                                return true;
-                              }
-
-                              final shouldNavigate = await showDialog<bool>(
-                                context: context,
-                                builder: (context) => const PopScopeDialog(),
-                              );
-                              return shouldNavigate ?? false;
-                            },
-                          ),
-                        ],
-                      ),
-                      GoRoute(
-                        name: RouteNames.scheduleEdit,
-                        path: ':schedule_id/${Routes.scheduleEdit}',
-                        pageBuilder: (context, state) {
                           final categoryId = int.parse(
                             state.uri.queryParameters['category']!,
                           );
@@ -867,6 +869,7 @@ class AppRouter {
                             key: state.pageKey,
                             name: state.name,
                             child: ScheduleFormScreen(
+                              projectId: projectId,
                               categoryId: categoryId,
                               scheduleId: scheduleId,
                             ),
@@ -894,6 +897,46 @@ class AppRouter {
                       ),
                     ],
                   ),
+                  GoRoute(
+                    name: RouteNames.scheduleEdit,
+                    path: ':schedule_id/${Routes.scheduleEdit}',
+                    pageBuilder: (context, state) {
+                      final categoryId = int.parse(
+                        state.uri.queryParameters['category']!,
+                      );
+                      final scheduleId = int.tryParse(
+                        state.pathParameters['schedule_id'] ?? '',
+                      );
+
+                      return NoTransitionPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        child: ScheduleFormScreen(
+                          categoryId: categoryId,
+                          scheduleId: scheduleId,
+                        ),
+                      );
+                    },
+                    onExit: (context, state) async {
+                      final error = ref.watch(errorControllerProvider);
+                      final submit = ref.watch(
+                        scheduleSubmitControllerProvider,
+                      );
+
+                      if (error is ErrorUnauthorized ||
+                          submit is ScheduleSubmitCreated ||
+                          submit is ScheduleSubmitUpdated ||
+                          submit is ScheduleSubmitDeleted) {
+                        return true;
+                      }
+
+                      final shouldNavigate = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => const PopScopeDialog(),
+                      );
+                      return shouldNavigate ?? false;
+                    },
+                  ),
                 ],
               ),
             ],
@@ -905,29 +948,42 @@ class AppRouter {
                 name: RouteNames.document,
                 path: Routes.document,
                 pageBuilder: (context, state) {
-                  final folderId = int.tryParse(
-                    state.uri.queryParameters['folder_id'] ?? '',
-                  );
+                  final folders = state.uri.queryParameters['folders'];
                   final sort = state.uri.queryParameters['sort'];
                   final order = state.uri.queryParameters['order'];
                   final search = state.uri.queryParameters['search'];
-                  final documentId = int.tryParse(
-                    state.uri.queryParameters['document_id'] ?? '',
-                  );
 
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
                     child: DocumentScreen(
-                      folderId: folderId,
+                      folders: folders,
                       sort: sort,
                       order: order,
                       search: search,
-                      documentId: documentId,
                     ),
                   );
                 },
                 routes: [
+                  GoRoute(
+                    name: RouteNames.documentDetail,
+                    path: '${Routes.documentFileBase}/:document_id',
+                    pageBuilder: (context, state) {
+                      final documentId = int.parse(
+                        state.pathParameters['document_id']!,
+                      );
+
+                      return CustomTransitionPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        opaque: false,
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) =>
+                                child,
+                        child: DocumentDetailScreen(documentId: documentId),
+                      );
+                    },
+                  ),
                   GoRoute(
                     name: RouteNames.documentNew,
                     path: '${Routes.documentFileBase}/${Routes.documentNew}',
@@ -1083,9 +1139,7 @@ class AppRouter {
                 pageBuilder: (context, state) {
                   final view = state.uri.queryParameters['view'];
                   final search = state.uri.queryParameters['search'];
-                  final departments =
-                      state.uri.queryParameters['departments'] ??
-                      state.uri.queryParameters['department_id'];
+                  final departments = state.uri.queryParameters['departments'];
                   final positionId = int.tryParse(
                     state.uri.queryParameters['position_id'] ?? '',
                   );
@@ -1094,11 +1148,7 @@ class AppRouter {
                     key: state.pageKey,
                     name: state.name,
                     child: DataScreen(
-                      view:
-                          view ??
-                          (state.uri.path.contains('/supplier/')
-                              ? 'supplier'
-                              : null),
+                      view: view,
                       search: search,
                       departments: departments,
                       positionId: positionId,
@@ -1135,37 +1185,6 @@ class AppRouter {
                     },
                   ),
                 ],
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _scheduleKey,
-            routes: [
-              GoRoute(
-                name: RouteNames.schedule,
-                path: Routes.schedule,
-                redirect: (context, state) async {
-                  final auth = ref.read(authControllerProvider);
-                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
-                    return _showWrongApproachAndGoDashboard(context);
-                  }
-                  return null;
-                },
-                pageBuilder: (context, state) {
-                  final search = state.uri.queryParameters['search'];
-                  final departments =
-                      state.uri.queryParameters['departments'] ??
-                      state.uri.queryParameters['department_id'];
-
-                  return NoTransitionPage(
-                    key: state.pageKey,
-                    name: state.name,
-                    child: ScheduleScreen(
-                      search: search,
-                      departments: departments,
-                    ),
-                  );
-                },
               ),
             ],
           ),

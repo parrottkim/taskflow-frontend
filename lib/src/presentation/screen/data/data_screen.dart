@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_add_button.dart';
 import 'package:taskflow/src/presentation/screen/data/widget/overview_widget.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class DataScreen extends HookConsumerWidget {
@@ -29,33 +31,38 @@ class DataScreen extends HookConsumerWidget {
       if (!location.startsWith(Routes.data)) return;
 
       Future.microtask(() {
-        ref.read(dataFilterControllerProvider.notifier).init(view: view);
-        ref
-            .read(
-              userFilterControllerProvider(UserFilterScope.dataPage).notifier,
-            )
-            .init(
-              search: search,
-              departments: departments,
-              positionId: positionId,
-            );
+        if (view == DataSegment.supplier.name) {
+          ref
+              .read(
+                supplierFilterControllerProvider(
+                  SupplierFilterScope.dataPage,
+                ).notifier,
+              )
+              .init(search: search);
+        } else {
+          ref
+              .read(
+                userFilterControllerProvider(UserFilterScope.dataPage).notifier,
+              )
+              .init(
+                search: search,
+                departments: departments,
+                positionId: positionId,
+              );
+        }
       });
 
       return null;
     }, [view, search, departments, positionId]);
 
-    return BranchLayout(child: _DesktopWidget());
-  }
-}
-
-class _DesktopWidget extends StatelessWidget {
-  const _DesktopWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 24.0),
-      child: OverviewWidget(),
+    return BranchLayout(
+      actions: [
+        if (view == DataSegment.supplier.name) const SupplierAddButton(),
+      ],
+      child: Padding(
+        padding: EdgeInsets.only(top: 24.0),
+        child: OverviewWidget(view: view),
+      ),
     );
   }
 }

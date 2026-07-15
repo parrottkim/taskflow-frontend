@@ -8,8 +8,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
-import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/date_selector_widget.dart';
-import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/project_selector_widget.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/date_selector_widget.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/project_selector_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -124,7 +124,12 @@ class _DesktopWidget extends HookConsumerWidget {
                 scheduleId: scheduleId,
               ).notifier,
             )
-            .setProject(project: project);
+            .setProject(
+              projectId: project.id,
+              projectName: project.name,
+              projectClientId: project.clients.first.id,
+              projectClientName: project.clients.last.name,
+            );
       });
 
       return null;

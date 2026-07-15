@@ -33,7 +33,7 @@ abstract class ReportService {
   @POST('report/mail/{id}')
   Future<void> sendMail({
     @Path() required int id,
-    @Body() required SendReportMailDto request,
+    @Body() required SendMailDto request,
   });
 
   @POST('report')

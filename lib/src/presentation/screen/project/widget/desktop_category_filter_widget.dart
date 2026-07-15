@@ -16,59 +16,46 @@ class DesktopCategoryFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(
-      projectFilterControllerProvider(ProjectFilterScope.projectPage),
-    );
     final options = ref.watch(projectOptionsControllerProvider);
 
-    return switch ((filter, options)) {
-      (AsyncData(value: final filter), AsyncData(value: final options)) =>
-        _DesktopWidget(
-          filter: filter,
-          categories: filter.categories,
-          items: options.categoryItems,
-        ),
-      (AsyncError(:final error, :final stackTrace), _) ||
-      (
-        _,
-        AsyncError(:final error, :final stackTrace),
-      ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
+    return switch (options) {
+      AsyncData(value: final options) => _DesktopWidget(
+        items: options.categoryItems,
+      ),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
       _ => Skeletonizer(
         ignoreContainers: true,
-        child: _DesktopWidget(filter: ProjectFilterState(), items: []),
+        child: _DesktopWidget(items: []),
       ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final ProjectFilterState filter;
-  final List<int>? categories;
   final List<IssueCategory> items;
 
-  const _DesktopWidget({
-    required this.filter,
-    this.categories,
-    required this.items,
-  });
+  const _DesktopWidget({required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
     final selectedItems = useState<List<IssueCategory>>(
-      categories
-              ?.map((e) => items.firstWhere((element) => element.id == e))
-              .toList() ??
-          [],
+      items
+          .where((item) => filter.categories?.contains(item.id) ?? false)
+          .toList(),
     );
 
     useEffect(() {
-      selectedItems.value =
-          categories
-              ?.map((e) => items.firstWhere((element) => element.id == e))
-              .toList() ??
-          [];
+      selectedItems.value = items
+          .where((item) => filter.categories?.contains(item.id) ?? false)
+          .toList();
       return null;
-    }, [categories]);
+    }, [filter.categories, items]);
 
     return MultiSelectElevatedDropdownButton(
       onChanged: (value) {
@@ -86,15 +73,10 @@ class _DesktopWidget extends HookConsumerWidget {
 
         context.goNamed(
           RouteNames.project,
-          queryParameters: {
-            if (filter.view != null) 'view': filter.view,
-            if (filter.sort != null) 'sort': filter.sort?.key,
-            if (filter.order != null) 'order': filter.order?.key,
-            if (filter.search != null) 'search': filter.search,
-            if (filter.bookmark != null) 'bookmark': filter.bookmark.toString(),
-            if (filter.clients != null) 'clients': filter.clients?.join(','),
-            if (nextCategories != null) 'categories': nextCategories.join(','),
-          },
+          queryParameters: buildQueryParameters(
+            context,
+            updates: {'categories': nextCategories?.join(',')},
+          ),
         );
       },
       items: items,

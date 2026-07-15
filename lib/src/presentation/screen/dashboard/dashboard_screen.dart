@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart' hide DateRangePickerDialog;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
+import 'package:taskflow/src/presentation/screen/dashboard/widget/data_range_button.dart';
 import 'package:taskflow/src/presentation/screen/dashboard/widget/functions_widget.dart';
 import 'package:taskflow/src/presentation/screen/dashboard/widget/schedule_widget.dart';
 import 'package:taskflow/src/presentation/screen/dashboard/widget/latest_update_widget.dart';
@@ -19,6 +17,7 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BranchLayout(
+      actions: const [DateRangeButton()],
       child: Responsive(desktop: _DesktopWidget(), mobile: _MobileWidget()),
     );
   }
@@ -69,50 +68,13 @@ class _MobileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dateSelection = ref.watch(dateSelectionControllerProvider);
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Spacer(),
-                ElevatedButton(
-                  onPressed: () async {
-                    final result = await showDialog(
-                      context: context,
-                      builder: (_) => DateRangePickerDialog(
-                        startDate: dateSelection.start,
-                        endDate: dateSelection.end,
-                      ),
-                    );
-
-                    if (result != null) {
-                      final startDate = result['start'] as DateTime;
-                      final endDate = result['end'] as DateTime;
-
-                      ref
-                          .read(dateSelectionControllerProvider.notifier)
-                          .dataSelectionChange(start: startDate, end: endDate);
-                    }
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(width: 4.0),
-                      Text(
-                        '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(dateSelection.end)}',
-                      ),
-                      SizedBox(width: 4.0),
-                      Icon(Symbols.expand_more_rounded),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            Row(children: [Spacer(), DateRangeButton()]),
             SizedBox(height: 16.0),
             FunctionsWidget(),
             SizedBox(height: 16.0),

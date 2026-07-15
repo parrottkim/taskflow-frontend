@@ -16,7 +16,7 @@ class ProjectDataSource implements ProjectRepository {
   Future<Project> getProject({required int id}) => _service.getProject(id: id);
 
   @override
-  Future<Result<Project>> getProjects({
+  Future<Result<ProjectListItem>> getProjects({
     int page = 1,
     int limit = 40,
     String? view,
@@ -26,34 +26,27 @@ class ProjectDataSource implements ProjectRepository {
     String? bookmark,
     String? clients,
     String? categories,
-  }) =>
-      _service.getProjects(
-        page: page,
-        limit: limit,
-        view: view,
-        sort: sort,
-        order: order,
-        search: search,
-        bookmark: bookmark,
-        clients: clients,
-        categories: categories,
-      );
+  }) => _service.getProjects(
+    page: page,
+    limit: limit,
+    view: view,
+    sort: sort,
+    order: order,
+    search: search,
+    bookmark: bookmark,
+    clients: clients,
+    categories: categories,
+  );
 
   @override
   Future<Project> createProject({required CreateProjectDto request}) =>
-      _service.createProject(
-        request: request,
-      );
+      _service.createProject(request: request);
 
   @override
   Future<Project> updateProject({
     required int id,
     required UpdateProjectDto request,
-  }) =>
-      _service.updateProject(
-        id: id,
-        request: request,
-      );
+  }) => _service.updateProject(id: id, request: request);
 
   @override
   Future<void> deleteProject({required int id}) =>

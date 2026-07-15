@@ -1,6 +1,49 @@
 part of '../data.dart';
 
 @freezed
+abstract class DocumentListItem with _$DocumentListItem {
+  factory DocumentListItem({
+    required int id,
+    required String title,
+    required int folderId,
+    required bool fixed,
+    required User createdBy,
+    required int attachmentCount,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? deletedAt,
+  }) = _DocumentListItem;
+
+  factory DocumentListItem.fromJson(Map<String, dynamic> json) =>
+      _$DocumentListItemFromJson(json);
+
+  factory DocumentListItem.fromDocument(Document document) {
+    return DocumentListItem(
+      id: document.id,
+      title: document.title,
+      folderId: document.folderId,
+      fixed: document.fixed,
+      createdBy: document.createdBy,
+      attachmentCount: document.attachments.length,
+      createdAt: document.createdAt,
+      updatedAt: document.updatedAt,
+      deletedAt: document.deletedAt,
+    );
+  }
+
+  factory DocumentListItem.dummy() => DocumentListItem(
+    id: 0,
+    title: 'Temporary Document Title',
+    folderId: 0,
+    fixed: false,
+    createdBy: User.dummy(),
+    attachmentCount: 0,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
+}
+
+@freezed
 abstract class Document with _$Document {
   factory Document({
     required int id,
@@ -8,6 +51,7 @@ abstract class Document with _$Document {
     required String content,
     required int folderId,
     required bool fixed,
+    required int views,
     required User createdBy,
     User? updatedBy,
     @Default([]) List<DocumentAttachment> attachments,
@@ -25,6 +69,7 @@ abstract class Document with _$Document {
     content: 'content',
     folderId: 0,
     fixed: false,
+    views: 0,
     createdBy: User.dummy(),
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),

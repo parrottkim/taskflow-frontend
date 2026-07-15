@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/segment_widget.dart';
@@ -15,7 +14,7 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class OverviewWidget extends ConsumerWidget {
+class OverviewWidget extends HookConsumerWidget {
   final int projectId;
   final int? issueId;
   final int? reportId;
@@ -40,62 +39,12 @@ class OverviewWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(projectDetailFilterControllerProvider);
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-        projectId: projectId,
-        issueId: issueId,
-        reportId: reportId,
-        project: project,
-        contracts: contracts,
-        approvals: approvals,
-        procurements: procurements,
-        reports: reports,
-        view: value.view,
-      ),
-      _ => Skeletonizer(
-        child: _DesktopWidget(
-          projectId: projectId,
-          issueId: issueId,
-          reportId: reportId,
-          project: project,
-        ),
-      ),
-    };
-  }
-}
-
-class _DesktopWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? issueId;
-  final int? reportId;
-  final Project project;
-  final int contracts;
-  final int approvals;
-  final int procurements;
-  final int reports;
-  final String? view;
-
-  const _DesktopWidget({
-    required this.projectId,
-    this.issueId,
-    this.reportId,
-    required this.project,
-    this.contracts = 0,
-    this.approvals = 0,
-    this.procurements = 0,
-    this.reports = 0,
-    this.view,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     final selectedItem = useState<ProjectDetailSegment>(
       ProjectDetailSegment.values.firstWhere(
-        (e) => e.name == view,
+        (e) => e.name == filter.view,
         orElse: () => ProjectDetailSegment.values.first,
       ),
     );
@@ -117,7 +66,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
     useEffect(() {
       final newItem = ProjectDetailSegment.values.firstWhere(
-        (e) => e.name == view,
+        (e) => e.name == filter.view,
         orElse: () => ProjectDetailSegment.values.first,
       );
 
@@ -127,7 +76,7 @@ class _DesktopWidget extends HookConsumerWidget {
       }
 
       return null;
-    }, [view]);
+    }, [filter.view]);
 
     useEffect(() {
       if (project.isClosed) {
@@ -247,9 +196,14 @@ class _DesktopWidget extends HookConsumerWidget {
                               pathParameters: {
                                 'project_id': projectId.toString(),
                               },
-                              queryParameters: {
-                                'view': selectedItem.value.name,
-                              },
+                              queryParameters: buildQueryParameters(
+                                context,
+                                updates: {
+                                  'view': selectedItem.value.name,
+                                  'issue': null,
+                                  'report': null,
+                                },
+                              ),
                             );
 
                             controller.animateTo(index);

@@ -155,7 +155,8 @@ class IssueSubmitController extends _$IssueSubmitController {
         for (final file in value.files!) {
           final bytes = await file.readAsBytes();
           final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+              lookupMimeType('', headerBytes: bytes) ??
+              'application/octet-stream';
           files.add(
             MultipartFile.fromBytes(
               bytes,
@@ -183,7 +184,7 @@ class IssueSubmitController extends _$IssueSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .updateListItem(item: project);
+          .updateListItem(item: ProjectListItem.fromProject(project));
       ref
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
           .updateProject(project: project);
@@ -193,7 +194,7 @@ class IssueSubmitController extends _$IssueSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .updateListItem(item: project);
+          .updateListItem(item: ProjectListItem.fromProject(project));
       ref
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .addListItem(item: issue);
@@ -362,7 +363,8 @@ class IssueSubmitController extends _$IssueSubmitController {
         for (final file in value.files!) {
           final bytes = await file.readAsBytes();
           final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+              lookupMimeType('', headerBytes: bytes) ??
+              'application/octet-stream';
           files.add(
             MultipartFile.fromBytes(
               bytes,
@@ -390,7 +392,7 @@ class IssueSubmitController extends _$IssueSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .updateListItem(item: project);
+          .updateListItem(item: ProjectListItem.fromProject(project));
       ref
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
           .updateProject(project: project);
@@ -432,7 +434,7 @@ class IssueSubmitController extends _$IssueSubmitController {
   }) async {
     state = const IssueSubmitState.pending();
 
-    final request = SendIssueMailDto(
+    final request = SendMailDto(
       userIds: isAllSelected
           ? null
           : users.map((element) => element.id).toList(),
@@ -506,7 +508,7 @@ class IssueSubmitController extends _$IssueSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .updateListItem(item: project);
+          .updateListItem(item: ProjectListItem.fromProject(project));
       ref
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
           .updateProject(project: project);
@@ -580,7 +582,7 @@ class IssueSubmitController extends _$IssueSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .updateListItem(item: project);
+          .updateListItem(item: ProjectListItem.fromProject(project));
       ref
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
           .updateProject(project: project);

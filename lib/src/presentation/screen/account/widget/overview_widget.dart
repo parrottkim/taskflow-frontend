@@ -2,36 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/account/screen/user/user_screen.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
-class OverviewWidget extends ConsumerWidget {
+class OverviewWidget extends HookConsumerWidget {
   const OverviewWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(dataFilterControllerProvider);
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(view: value.view),
-      _ => Skeletonizer(child: _DesktopWidget()),
-    };
-  }
-}
-
-class _DesktopWidget extends HookConsumerWidget {
-  final String? view;
-
-  const _DesktopWidget({this.view});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final selectedItem = useState<AccountSegment>(
       AccountSegment.values.firstWhere(
-        (e) => e.name == view,
+        (e) => e.name == filter.view,
         orElse: () => AccountSegment.values.first,
       ),
     );
@@ -43,7 +27,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
     useEffect(() {
       final newItem = AccountSegment.values.firstWhere(
-        (e) => e.name == view,
+        (e) => e.name == filter.view,
         orElse: () => AccountSegment.values.first,
       );
 
@@ -53,7 +37,7 @@ class _DesktopWidget extends HookConsumerWidget {
       }
 
       return null;
-    }, [view]);
+    }, [filter.view]);
 
     return Column(
       children: [
@@ -68,7 +52,10 @@ class _DesktopWidget extends HookConsumerWidget {
 
             context.goNamed(
               RouteNames.account,
-              queryParameters: {'view': selectedItem.value.name},
+              queryParameters: buildQueryParameters(
+                context,
+                updates: {'view': selectedItem.value.name},
+              ),
             );
 
             controller.animateTo(index);

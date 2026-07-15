@@ -3,53 +3,38 @@ part of '../controller.dart';
 @riverpod
 class DocumentFilterController extends _$DocumentFilterController {
   @override
-  FutureOr<DocumentFilterState> build() {
-    return DocumentFilterState();
-  }
+  DocumentFilterState build() => DocumentFilterState();
 
-  Future<void> init({
-    int? folderId,
-    String? sort,
-    String? order,
-    String? search,
-  }) async {
-    final value = await future;
+  void init({String? folders, String? sort, String? order, String? search}) {
+    final nextFolders = folders
+        ?.split(',')
+        .map((value) => int.tryParse(value))
+        .nonNulls
+        .toList();
 
-    state = AsyncData(
-      value.copyWith(
-        folderId: folderId ?? value.folderId,
-        sort: sort != null ? DocumentSort.fromKey(sort) : value.sort,
-        order: order != null ? Order.fromKey(order) : value.order,
-        search: search,
-      ),
+    state = state.copyWith(
+      folders: nextFolders == null || nextFolders.isEmpty
+          ? state.folders
+          : nextFolders,
+      sort: sort != null ? DocumentSort.fromKey(sort) : state.sort,
+      order: order != null ? Order.fromKey(order) : state.order,
+      search: search,
     );
   }
 
-  void setFolderId({required int id}) {
-    final value = state.value;
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(folderId: id));
+  void setFolders({required List<int> folders}) {
+    state = state.copyWith(folders: folders);
   }
 
   void setSort({required DocumentSort sort}) {
-    final value = state.value;
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(sort: sort));
+    state = state.copyWith(sort: sort);
   }
 
   void setOrder({required Order order}) {
-    final value = state.value;
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(order: order));
+    state = state.copyWith(order: order);
   }
 
   void setSearch({String? search}) {
-    final value = state.value;
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(search: search));
+    state = state.copyWith(search: search);
   }
 }

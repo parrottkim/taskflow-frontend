@@ -32,7 +32,7 @@ class SupplierSearchDialog extends HookConsumerWidget {
     final filter = ref.watch(
       supplierFilterControllerProvider(SupplierFilterScope.issueSupplierDialog),
     );
-    final keyword = filter.value?.search.trim() ?? '';
+    final keyword = filter.search.trim();
     final hasKeyword = keyword.isNotEmpty;
 
     final controller = useTextEditingController();

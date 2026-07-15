@@ -829,9 +829,314 @@ as String,
 
 
 /// @nodoc
+mixin _$DocumentListItem {
+
+ int get id; String get title; int get folderId; bool get fixed; User get createdBy; int get attachmentCount; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+/// Create a copy of DocumentListItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DocumentListItemCopyWith<DocumentListItem> get copyWith => _$DocumentListItemCopyWithImpl<DocumentListItem>(this as DocumentListItem, _$identity);
+
+  /// Serializes this DocumentListItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocumentListItem&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.fixed, fixed) || other.fixed == fixed)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.attachmentCount, attachmentCount) || other.attachmentCount == attachmentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,title,folderId,fixed,createdBy,attachmentCount,createdAt,updatedAt,deletedAt);
+
+@override
+String toString() {
+  return 'DocumentListItem(id: $id, title: $title, folderId: $folderId, fixed: $fixed, createdBy: $createdBy, attachmentCount: $attachmentCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DocumentListItemCopyWith<$Res>  {
+  factory $DocumentListItemCopyWith(DocumentListItem value, $Res Function(DocumentListItem) _then) = _$DocumentListItemCopyWithImpl;
+@useResult
+$Res call({
+ int id, String title, int folderId, bool fixed, User createdBy, int attachmentCount, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+});
+
+
+$UserCopyWith<$Res> get createdBy;
+
+}
+/// @nodoc
+class _$DocumentListItemCopyWithImpl<$Res>
+    implements $DocumentListItemCopyWith<$Res> {
+  _$DocumentListItemCopyWithImpl(this._self, this._then);
+
+  final DocumentListItem _self;
+  final $Res Function(DocumentListItem) _then;
+
+/// Create a copy of DocumentListItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? folderId = null,Object? fixed = null,Object? createdBy = null,Object? attachmentCount = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,folderId: null == folderId ? _self.folderId : folderId // ignore: cast_nullable_to_non_nullable
+as int,fixed: null == fixed ? _self.fixed : fixed // ignore: cast_nullable_to_non_nullable
+as bool,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as User,attachmentCount: null == attachmentCount ? _self.attachmentCount : attachmentCount // ignore: cast_nullable_to_non_nullable
+as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+/// Create a copy of DocumentListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get createdBy {
+  
+  return $UserCopyWith<$Res>(_self.createdBy, (value) {
+    return _then(_self.copyWith(createdBy: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [DocumentListItem].
+extension DocumentListItemPatterns on DocumentListItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DocumentListItem value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DocumentListItem() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DocumentListItem value)  $default,){
+final _that = this;
+switch (_that) {
+case _DocumentListItem():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DocumentListItem value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DocumentListItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  int folderId,  bool fixed,  User createdBy,  int attachmentCount,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DocumentListItem() when $default != null:
+return $default(_that.id,_that.title,_that.folderId,_that.fixed,_that.createdBy,_that.attachmentCount,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  int folderId,  bool fixed,  User createdBy,  int attachmentCount,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+switch (_that) {
+case _DocumentListItem():
+return $default(_that.id,_that.title,_that.folderId,_that.fixed,_that.createdBy,_that.attachmentCount,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  int folderId,  bool fixed,  User createdBy,  int attachmentCount,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+switch (_that) {
+case _DocumentListItem() when $default != null:
+return $default(_that.id,_that.title,_that.folderId,_that.fixed,_that.createdBy,_that.attachmentCount,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _DocumentListItem implements DocumentListItem {
+   _DocumentListItem({required this.id, required this.title, required this.folderId, required this.fixed, required this.createdBy, required this.attachmentCount, required this.createdAt, required this.updatedAt, this.deletedAt});
+  factory _DocumentListItem.fromJson(Map<String, dynamic> json) => _$DocumentListItemFromJson(json);
+
+@override final  int id;
+@override final  String title;
+@override final  int folderId;
+@override final  bool fixed;
+@override final  User createdBy;
+@override final  int attachmentCount;
+@override final  DateTime createdAt;
+@override final  DateTime updatedAt;
+@override final  DateTime? deletedAt;
+
+/// Create a copy of DocumentListItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DocumentListItemCopyWith<_DocumentListItem> get copyWith => __$DocumentListItemCopyWithImpl<_DocumentListItem>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$DocumentListItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DocumentListItem&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.fixed, fixed) || other.fixed == fixed)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.attachmentCount, attachmentCount) || other.attachmentCount == attachmentCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,title,folderId,fixed,createdBy,attachmentCount,createdAt,updatedAt,deletedAt);
+
+@override
+String toString() {
+  return 'DocumentListItem(id: $id, title: $title, folderId: $folderId, fixed: $fixed, createdBy: $createdBy, attachmentCount: $attachmentCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DocumentListItemCopyWith<$Res> implements $DocumentListItemCopyWith<$Res> {
+  factory _$DocumentListItemCopyWith(_DocumentListItem value, $Res Function(_DocumentListItem) _then) = __$DocumentListItemCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String title, int folderId, bool fixed, User createdBy, int attachmentCount, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+});
+
+
+@override $UserCopyWith<$Res> get createdBy;
+
+}
+/// @nodoc
+class __$DocumentListItemCopyWithImpl<$Res>
+    implements _$DocumentListItemCopyWith<$Res> {
+  __$DocumentListItemCopyWithImpl(this._self, this._then);
+
+  final _DocumentListItem _self;
+  final $Res Function(_DocumentListItem) _then;
+
+/// Create a copy of DocumentListItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? folderId = null,Object? fixed = null,Object? createdBy = null,Object? attachmentCount = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+  return _then(_DocumentListItem(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,folderId: null == folderId ? _self.folderId : folderId // ignore: cast_nullable_to_non_nullable
+as int,fixed: null == fixed ? _self.fixed : fixed // ignore: cast_nullable_to_non_nullable
+as bool,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as User,attachmentCount: null == attachmentCount ? _self.attachmentCount : attachmentCount // ignore: cast_nullable_to_non_nullable
+as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+/// Create a copy of DocumentListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get createdBy {
+  
+  return $UserCopyWith<$Res>(_self.createdBy, (value) {
+    return _then(_self.copyWith(createdBy: value));
+  });
+}
+}
+
+
+/// @nodoc
 mixin _$Document {
 
- int get id; String get title; String get content; int get folderId; bool get fixed; User get createdBy; User? get updatedBy; List<DocumentAttachment> get attachments; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+ int get id; String get title; String get content; int get folderId; bool get fixed; int get views; User get createdBy; User? get updatedBy; List<DocumentAttachment> get attachments; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
 /// Create a copy of Document
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -844,16 +1149,16 @@ $DocumentCopyWith<Document> get copyWith => _$DocumentCopyWithImpl<Document>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Document&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.fixed, fixed) || other.fixed == fixed)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Document&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.fixed, fixed) || other.fixed == fixed)&&(identical(other.views, views) || other.views == views)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,content,folderId,fixed,createdBy,updatedBy,const DeepCollectionEquality().hash(attachments),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,title,content,folderId,fixed,views,createdBy,updatedBy,const DeepCollectionEquality().hash(attachments),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Document(id: $id, title: $title, content: $content, folderId: $folderId, fixed: $fixed, createdBy: $createdBy, updatedBy: $updatedBy, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Document(id: $id, title: $title, content: $content, folderId: $folderId, fixed: $fixed, views: $views, createdBy: $createdBy, updatedBy: $updatedBy, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -864,7 +1169,7 @@ abstract mixin class $DocumentCopyWith<$Res>  {
   factory $DocumentCopyWith(Document value, $Res Function(Document) _then) = _$DocumentCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, String content, int folderId, bool fixed, User createdBy, User? updatedBy, List<DocumentAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, String title, String content, int folderId, bool fixed, int views, User createdBy, User? updatedBy, List<DocumentAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -881,14 +1186,15 @@ class _$DocumentCopyWithImpl<$Res>
 
 /// Create a copy of Document
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? content = null,Object? folderId = null,Object? fixed = null,Object? createdBy = null,Object? updatedBy = freezed,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? content = null,Object? folderId = null,Object? fixed = null,Object? views = null,Object? createdBy = null,Object? updatedBy = freezed,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,folderId: null == folderId ? _self.folderId : folderId // ignore: cast_nullable_to_non_nullable
 as int,fixed: null == fixed ? _self.fixed : fixed // ignore: cast_nullable_to_non_nullable
-as bool,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as bool,views: null == views ? _self.views : views // ignore: cast_nullable_to_non_nullable
+as int,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
 as User?,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<DocumentAttachment>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -1000,10 +1306,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String content,  int folderId,  bool fixed,  User createdBy,  User? updatedBy,  List<DocumentAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String content,  int folderId,  bool fixed,  int views,  User createdBy,  User? updatedBy,  List<DocumentAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Document() when $default != null:
-return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_that.createdBy,_that.updatedBy,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_that.views,_that.createdBy,_that.updatedBy,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -1021,10 +1327,10 @@ return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String content,  int folderId,  bool fixed,  User createdBy,  User? updatedBy,  List<DocumentAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String content,  int folderId,  bool fixed,  int views,  User createdBy,  User? updatedBy,  List<DocumentAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Document():
-return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_that.createdBy,_that.updatedBy,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_that.views,_that.createdBy,_that.updatedBy,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1041,10 +1347,10 @@ return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String content,  int folderId,  bool fixed,  User createdBy,  User? updatedBy,  List<DocumentAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String content,  int folderId,  bool fixed,  int views,  User createdBy,  User? updatedBy,  List<DocumentAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Document() when $default != null:
-return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_that.createdBy,_that.updatedBy,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_that.views,_that.createdBy,_that.updatedBy,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -1056,7 +1362,7 @@ return $default(_that.id,_that.title,_that.content,_that.folderId,_that.fixed,_t
 @JsonSerializable()
 
 class _Document implements Document {
-   _Document({required this.id, required this.title, required this.content, required this.folderId, required this.fixed, required this.createdBy, this.updatedBy, final  List<DocumentAttachment> attachments = const [], required this.createdAt, required this.updatedAt, this.deletedAt}): _attachments = attachments;
+   _Document({required this.id, required this.title, required this.content, required this.folderId, required this.fixed, required this.views, required this.createdBy, this.updatedBy, final  List<DocumentAttachment> attachments = const [], required this.createdAt, required this.updatedAt, this.deletedAt}): _attachments = attachments;
   factory _Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);
 
 @override final  int id;
@@ -1064,6 +1370,7 @@ class _Document implements Document {
 @override final  String content;
 @override final  int folderId;
 @override final  bool fixed;
+@override final  int views;
 @override final  User createdBy;
 @override final  User? updatedBy;
  final  List<DocumentAttachment> _attachments;
@@ -1090,16 +1397,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Document&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.fixed, fixed) || other.fixed == fixed)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Document&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.content, content) || other.content == content)&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.fixed, fixed) || other.fixed == fixed)&&(identical(other.views, views) || other.views == views)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,content,folderId,fixed,createdBy,updatedBy,const DeepCollectionEquality().hash(_attachments),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,title,content,folderId,fixed,views,createdBy,updatedBy,const DeepCollectionEquality().hash(_attachments),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Document(id: $id, title: $title, content: $content, folderId: $folderId, fixed: $fixed, createdBy: $createdBy, updatedBy: $updatedBy, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Document(id: $id, title: $title, content: $content, folderId: $folderId, fixed: $fixed, views: $views, createdBy: $createdBy, updatedBy: $updatedBy, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -1110,7 +1417,7 @@ abstract mixin class _$DocumentCopyWith<$Res> implements $DocumentCopyWith<$Res>
   factory _$DocumentCopyWith(_Document value, $Res Function(_Document) _then) = __$DocumentCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, String content, int folderId, bool fixed, User createdBy, User? updatedBy, List<DocumentAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, String title, String content, int folderId, bool fixed, int views, User createdBy, User? updatedBy, List<DocumentAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -1127,14 +1434,15 @@ class __$DocumentCopyWithImpl<$Res>
 
 /// Create a copy of Document
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? content = null,Object? folderId = null,Object? fixed = null,Object? createdBy = null,Object? updatedBy = freezed,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? content = null,Object? folderId = null,Object? fixed = null,Object? views = null,Object? createdBy = null,Object? updatedBy = freezed,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_Document(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,folderId: null == folderId ? _self.folderId : folderId // ignore: cast_nullable_to_non_nullable
 as int,fixed: null == fixed ? _self.fixed : fixed // ignore: cast_nullable_to_non_nullable
-as bool,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as bool,views: null == views ? _self.views : views // ignore: cast_nullable_to_non_nullable
+as int,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
 as User?,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<DocumentAttachment>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -7465,6 +7773,377 @@ $SupplierCopyWith<$Res> get supplier {
 
 
 /// @nodoc
+mixin _$ProjectListItem {
+
+ int get id; String get code; String get name; User get createdBy; User? get manager; IssueCategory? get latestCategory; List<Client> get clients; bool get isPreexecuted; bool get isClosed; bool get isBookmarked; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProjectListItemCopyWith<ProjectListItem> get copyWith => _$ProjectListItemCopyWithImpl<ProjectListItem>(this as ProjectListItem, _$identity);
+
+  /// Serializes this ProjectListItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProjectListItem&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.manager, manager) || other.manager == manager)&&(identical(other.latestCategory, latestCategory) || other.latestCategory == latestCategory)&&const DeepCollectionEquality().equals(other.clients, clients)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,code,name,createdBy,manager,latestCategory,const DeepCollectionEquality().hash(clients),isPreexecuted,isClosed,isBookmarked,createdAt,updatedAt,deletedAt);
+
+@override
+String toString() {
+  return 'ProjectListItem(id: $id, code: $code, name: $name, createdBy: $createdBy, manager: $manager, latestCategory: $latestCategory, clients: $clients, isPreexecuted: $isPreexecuted, isClosed: $isClosed, isBookmarked: $isBookmarked, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProjectListItemCopyWith<$Res>  {
+  factory $ProjectListItemCopyWith(ProjectListItem value, $Res Function(ProjectListItem) _then) = _$ProjectListItemCopyWithImpl;
+@useResult
+$Res call({
+ int id, String code, String name, User createdBy, User? manager, IssueCategory? latestCategory, List<Client> clients, bool isPreexecuted, bool isClosed, bool isBookmarked, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+});
+
+
+$UserCopyWith<$Res> get createdBy;$UserCopyWith<$Res>? get manager;$IssueCategoryCopyWith<$Res>? get latestCategory;
+
+}
+/// @nodoc
+class _$ProjectListItemCopyWithImpl<$Res>
+    implements $ProjectListItemCopyWith<$Res> {
+  _$ProjectListItemCopyWithImpl(this._self, this._then);
+
+  final ProjectListItem _self;
+  final $Res Function(ProjectListItem) _then;
+
+/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? code = null,Object? name = null,Object? createdBy = null,Object? manager = freezed,Object? latestCategory = freezed,Object? clients = null,Object? isPreexecuted = null,Object? isClosed = null,Object? isBookmarked = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as User,manager: freezed == manager ? _self.manager : manager // ignore: cast_nullable_to_non_nullable
+as User?,latestCategory: freezed == latestCategory ? _self.latestCategory : latestCategory // ignore: cast_nullable_to_non_nullable
+as IssueCategory?,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
+as List<Client>,isPreexecuted: null == isPreexecuted ? _self.isPreexecuted : isPreexecuted // ignore: cast_nullable_to_non_nullable
+as bool,isClosed: null == isClosed ? _self.isClosed : isClosed // ignore: cast_nullable_to_non_nullable
+as bool,isBookmarked: null == isBookmarked ? _self.isBookmarked : isBookmarked // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get createdBy {
+  
+  return $UserCopyWith<$Res>(_self.createdBy, (value) {
+    return _then(_self.copyWith(createdBy: value));
+  });
+}/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get manager {
+    if (_self.manager == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.manager!, (value) {
+    return _then(_self.copyWith(manager: value));
+  });
+}/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IssueCategoryCopyWith<$Res>? get latestCategory {
+    if (_self.latestCategory == null) {
+    return null;
+  }
+
+  return $IssueCategoryCopyWith<$Res>(_self.latestCategory!, (value) {
+    return _then(_self.copyWith(latestCategory: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ProjectListItem].
+extension ProjectListItemPatterns on ProjectListItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProjectListItem value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ProjectListItem() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProjectListItem value)  $default,){
+final _that = this;
+switch (_that) {
+case _ProjectListItem():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProjectListItem value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ProjectListItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String code,  String name,  User createdBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isClosed,  bool isBookmarked,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ProjectListItem() when $default != null:
+return $default(_that.id,_that.code,_that.name,_that.createdBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isClosed,_that.isBookmarked,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String code,  String name,  User createdBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isClosed,  bool isBookmarked,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+switch (_that) {
+case _ProjectListItem():
+return $default(_that.id,_that.code,_that.name,_that.createdBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isClosed,_that.isBookmarked,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String code,  String name,  User createdBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isClosed,  bool isBookmarked,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+switch (_that) {
+case _ProjectListItem() when $default != null:
+return $default(_that.id,_that.code,_that.name,_that.createdBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isClosed,_that.isBookmarked,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ProjectListItem implements ProjectListItem {
+   _ProjectListItem({required this.id, required this.code, required this.name, required this.createdBy, this.manager, this.latestCategory, required final  List<Client> clients, required this.isPreexecuted, required this.isClosed, required this.isBookmarked, required this.createdAt, required this.updatedAt, this.deletedAt}): _clients = clients;
+  factory _ProjectListItem.fromJson(Map<String, dynamic> json) => _$ProjectListItemFromJson(json);
+
+@override final  int id;
+@override final  String code;
+@override final  String name;
+@override final  User createdBy;
+@override final  User? manager;
+@override final  IssueCategory? latestCategory;
+ final  List<Client> _clients;
+@override List<Client> get clients {
+  if (_clients is EqualUnmodifiableListView) return _clients;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_clients);
+}
+
+@override final  bool isPreexecuted;
+@override final  bool isClosed;
+@override final  bool isBookmarked;
+@override final  DateTime createdAt;
+@override final  DateTime updatedAt;
+@override final  DateTime? deletedAt;
+
+/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ProjectListItemCopyWith<_ProjectListItem> get copyWith => __$ProjectListItemCopyWithImpl<_ProjectListItem>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ProjectListItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProjectListItem&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.manager, manager) || other.manager == manager)&&(identical(other.latestCategory, latestCategory) || other.latestCategory == latestCategory)&&const DeepCollectionEquality().equals(other._clients, _clients)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,code,name,createdBy,manager,latestCategory,const DeepCollectionEquality().hash(_clients),isPreexecuted,isClosed,isBookmarked,createdAt,updatedAt,deletedAt);
+
+@override
+String toString() {
+  return 'ProjectListItem(id: $id, code: $code, name: $name, createdBy: $createdBy, manager: $manager, latestCategory: $latestCategory, clients: $clients, isPreexecuted: $isPreexecuted, isClosed: $isClosed, isBookmarked: $isBookmarked, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ProjectListItemCopyWith<$Res> implements $ProjectListItemCopyWith<$Res> {
+  factory _$ProjectListItemCopyWith(_ProjectListItem value, $Res Function(_ProjectListItem) _then) = __$ProjectListItemCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String code, String name, User createdBy, User? manager, IssueCategory? latestCategory, List<Client> clients, bool isPreexecuted, bool isClosed, bool isBookmarked, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+});
+
+
+@override $UserCopyWith<$Res> get createdBy;@override $UserCopyWith<$Res>? get manager;@override $IssueCategoryCopyWith<$Res>? get latestCategory;
+
+}
+/// @nodoc
+class __$ProjectListItemCopyWithImpl<$Res>
+    implements _$ProjectListItemCopyWith<$Res> {
+  __$ProjectListItemCopyWithImpl(this._self, this._then);
+
+  final _ProjectListItem _self;
+  final $Res Function(_ProjectListItem) _then;
+
+/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? code = null,Object? name = null,Object? createdBy = null,Object? manager = freezed,Object? latestCategory = freezed,Object? clients = null,Object? isPreexecuted = null,Object? isClosed = null,Object? isBookmarked = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+  return _then(_ProjectListItem(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as User,manager: freezed == manager ? _self.manager : manager // ignore: cast_nullable_to_non_nullable
+as User?,latestCategory: freezed == latestCategory ? _self.latestCategory : latestCategory // ignore: cast_nullable_to_non_nullable
+as IssueCategory?,clients: null == clients ? _self._clients : clients // ignore: cast_nullable_to_non_nullable
+as List<Client>,isPreexecuted: null == isPreexecuted ? _self.isPreexecuted : isPreexecuted // ignore: cast_nullable_to_non_nullable
+as bool,isClosed: null == isClosed ? _self.isClosed : isClosed // ignore: cast_nullable_to_non_nullable
+as bool,isBookmarked: null == isBookmarked ? _self.isBookmarked : isBookmarked // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get createdBy {
+  
+  return $UserCopyWith<$Res>(_self.createdBy, (value) {
+    return _then(_self.copyWith(createdBy: value));
+  });
+}/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get manager {
+    if (_self.manager == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.manager!, (value) {
+    return _then(_self.copyWith(manager: value));
+  });
+}/// Create a copy of ProjectListItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IssueCategoryCopyWith<$Res>? get latestCategory {
+    if (_self.latestCategory == null) {
+    return null;
+  }
+
+  return $IssueCategoryCopyWith<$Res>(_self.latestCategory!, (value) {
+    return _then(_self.copyWith(latestCategory: value));
+  });
+}
+}
+
+
+/// @nodoc
 mixin _$Project {
 
  int get id; String get code; String get name; int get views; User get createdBy; User? get updatedBy; User? get manager; IssueCategory? get latestCategory; List<Client> get clients; bool get isPreexecuted; bool get isContracted; bool get isClosed; String? get closureMessage; bool get isBookmarked; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
@@ -7722,7 +8401,7 @@ return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that
 @JsonSerializable()
 
 class _Project implements Project {
-   _Project({required this.id, required this.code, required this.name, required this.views, required this.createdBy, this.updatedBy, this.manager, required this.latestCategory, required final  List<Client> clients, required this.isPreexecuted, required this.isContracted, required this.isClosed, this.closureMessage, required this.isBookmarked, required this.createdAt, required this.updatedAt, this.deletedAt}): _clients = clients;
+   _Project({required this.id, required this.code, required this.name, required this.views, required this.createdBy, this.updatedBy, this.manager, this.latestCategory, required final  List<Client> clients, required this.isPreexecuted, required this.isContracted, required this.isClosed, this.closureMessage, required this.isBookmarked, required this.createdAt, required this.updatedAt, this.deletedAt}): _clients = clients;
   factory _Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 
 @override final  int id;
@@ -11405,22 +12084,22 @@ as String?,
 
 
 /// @nodoc
-mixin _$SendIssueMailDto {
+mixin _$SendMailDto {
 
  List<int>? get userIds;
-/// Create a copy of SendIssueMailDto
+/// Create a copy of SendMailDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$SendIssueMailDtoCopyWith<SendIssueMailDto> get copyWith => _$SendIssueMailDtoCopyWithImpl<SendIssueMailDto>(this as SendIssueMailDto, _$identity);
+$SendMailDtoCopyWith<SendMailDto> get copyWith => _$SendMailDtoCopyWithImpl<SendMailDto>(this as SendMailDto, _$identity);
 
-  /// Serializes this SendIssueMailDto to a JSON map.
+  /// Serializes this SendMailDto to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendIssueMailDto&&const DeepCollectionEquality().equals(other.userIds, userIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendMailDto&&const DeepCollectionEquality().equals(other.userIds, userIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -11429,15 +12108,15 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'SendIssueMailDto(userIds: $userIds)';
+  return 'SendMailDto(userIds: $userIds)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $SendIssueMailDtoCopyWith<$Res>  {
-  factory $SendIssueMailDtoCopyWith(SendIssueMailDto value, $Res Function(SendIssueMailDto) _then) = _$SendIssueMailDtoCopyWithImpl;
+abstract mixin class $SendMailDtoCopyWith<$Res>  {
+  factory $SendMailDtoCopyWith(SendMailDto value, $Res Function(SendMailDto) _then) = _$SendMailDtoCopyWithImpl;
 @useResult
 $Res call({
  List<int>? userIds
@@ -11448,14 +12127,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$SendIssueMailDtoCopyWithImpl<$Res>
-    implements $SendIssueMailDtoCopyWith<$Res> {
-  _$SendIssueMailDtoCopyWithImpl(this._self, this._then);
+class _$SendMailDtoCopyWithImpl<$Res>
+    implements $SendMailDtoCopyWith<$Res> {
+  _$SendMailDtoCopyWithImpl(this._self, this._then);
 
-  final SendIssueMailDto _self;
-  final $Res Function(SendIssueMailDto) _then;
+  final SendMailDto _self;
+  final $Res Function(SendMailDto) _then;
 
-/// Create a copy of SendIssueMailDto
+/// Create a copy of SendMailDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? userIds = freezed,}) {
   return _then(_self.copyWith(
@@ -11467,8 +12146,8 @@ as List<int>?,
 }
 
 
-/// Adds pattern-matching-related methods to [SendIssueMailDto].
-extension SendIssueMailDtoPatterns on SendIssueMailDto {
+/// Adds pattern-matching-related methods to [SendMailDto].
+extension SendMailDtoPatterns on SendMailDto {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -11481,10 +12160,10 @@ extension SendIssueMailDtoPatterns on SendIssueMailDto {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SendIssueMailDto value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SendMailDto value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _SendIssueMailDto() when $default != null:
+case _SendMailDto() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -11503,10 +12182,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SendIssueMailDto value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SendMailDto value)  $default,){
 final _that = this;
 switch (_that) {
-case _SendIssueMailDto():
+case _SendMailDto():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -11524,10 +12203,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SendIssueMailDto value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SendMailDto value)?  $default,){
 final _that = this;
 switch (_that) {
-case _SendIssueMailDto() when $default != null:
+case _SendMailDto() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -11547,7 +12226,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int>? userIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _SendIssueMailDto() when $default != null:
+case _SendMailDto() when $default != null:
 return $default(_that.userIds);case _:
   return orElse();
 
@@ -11568,7 +12247,7 @@ return $default(_that.userIds);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int>? userIds)  $default,) {final _that = this;
 switch (_that) {
-case _SendIssueMailDto():
+case _SendMailDto():
 return $default(_that.userIds);case _:
   throw StateError('Unexpected subclass');
 
@@ -11588,7 +12267,7 @@ return $default(_that.userIds);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int>? userIds)?  $default,) {final _that = this;
 switch (_that) {
-case _SendIssueMailDto() when $default != null:
+case _SendMailDto() when $default != null:
 return $default(_that.userIds);case _:
   return null;
 
@@ -11600,9 +12279,9 @@ return $default(_that.userIds);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _SendIssueMailDto implements SendIssueMailDto {
-   _SendIssueMailDto({final  List<int>? userIds}): _userIds = userIds;
-  factory _SendIssueMailDto.fromJson(Map<String, dynamic> json) => _$SendIssueMailDtoFromJson(json);
+class _SendMailDto implements SendMailDto {
+   _SendMailDto({final  List<int>? userIds}): _userIds = userIds;
+  factory _SendMailDto.fromJson(Map<String, dynamic> json) => _$SendMailDtoFromJson(json);
 
  final  List<int>? _userIds;
 @override List<int>? get userIds {
@@ -11614,20 +12293,20 @@ class _SendIssueMailDto implements SendIssueMailDto {
 }
 
 
-/// Create a copy of SendIssueMailDto
+/// Create a copy of SendMailDto
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$SendIssueMailDtoCopyWith<_SendIssueMailDto> get copyWith => __$SendIssueMailDtoCopyWithImpl<_SendIssueMailDto>(this, _$identity);
+_$SendMailDtoCopyWith<_SendMailDto> get copyWith => __$SendMailDtoCopyWithImpl<_SendMailDto>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$SendIssueMailDtoToJson(this, );
+  return _$SendMailDtoToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendIssueMailDto&&const DeepCollectionEquality().equals(other._userIds, _userIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendMailDto&&const DeepCollectionEquality().equals(other._userIds, _userIds));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -11636,15 +12315,15 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'SendIssueMailDto(userIds: $userIds)';
+  return 'SendMailDto(userIds: $userIds)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$SendIssueMailDtoCopyWith<$Res> implements $SendIssueMailDtoCopyWith<$Res> {
-  factory _$SendIssueMailDtoCopyWith(_SendIssueMailDto value, $Res Function(_SendIssueMailDto) _then) = __$SendIssueMailDtoCopyWithImpl;
+abstract mixin class _$SendMailDtoCopyWith<$Res> implements $SendMailDtoCopyWith<$Res> {
+  factory _$SendMailDtoCopyWith(_SendMailDto value, $Res Function(_SendMailDto) _then) = __$SendMailDtoCopyWithImpl;
 @override @useResult
 $Res call({
  List<int>? userIds
@@ -11655,17 +12334,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$SendIssueMailDtoCopyWithImpl<$Res>
-    implements _$SendIssueMailDtoCopyWith<$Res> {
-  __$SendIssueMailDtoCopyWithImpl(this._self, this._then);
+class __$SendMailDtoCopyWithImpl<$Res>
+    implements _$SendMailDtoCopyWith<$Res> {
+  __$SendMailDtoCopyWithImpl(this._self, this._then);
 
-  final _SendIssueMailDto _self;
-  final $Res Function(_SendIssueMailDto) _then;
+  final _SendMailDto _self;
+  final $Res Function(_SendMailDto) _then;
 
-/// Create a copy of SendIssueMailDto
+/// Create a copy of SendMailDto
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? userIds = freezed,}) {
-  return _then(_SendIssueMailDto(
+  return _then(_SendMailDto(
 userIds: freezed == userIds ? _self._userIds : userIds // ignore: cast_nullable_to_non_nullable
 as List<int>?,
   ));
@@ -17621,277 +18300,6 @@ as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore:
 as int,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
 as DateTime,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
 as DateTime,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$SendReportMailDto {
-
- List<int>? get userIds;
-/// Create a copy of SendReportMailDto
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$SendReportMailDtoCopyWith<SendReportMailDto> get copyWith => _$SendReportMailDtoCopyWithImpl<SendReportMailDto>(this as SendReportMailDto, _$identity);
-
-  /// Serializes this SendReportMailDto to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendReportMailDto&&const DeepCollectionEquality().equals(other.userIds, userIds));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(userIds));
-
-@override
-String toString() {
-  return 'SendReportMailDto(userIds: $userIds)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $SendReportMailDtoCopyWith<$Res>  {
-  factory $SendReportMailDtoCopyWith(SendReportMailDto value, $Res Function(SendReportMailDto) _then) = _$SendReportMailDtoCopyWithImpl;
-@useResult
-$Res call({
- List<int>? userIds
-});
-
-
-
-
-}
-/// @nodoc
-class _$SendReportMailDtoCopyWithImpl<$Res>
-    implements $SendReportMailDtoCopyWith<$Res> {
-  _$SendReportMailDtoCopyWithImpl(this._self, this._then);
-
-  final SendReportMailDto _self;
-  final $Res Function(SendReportMailDto) _then;
-
-/// Create a copy of SendReportMailDto
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userIds = freezed,}) {
-  return _then(_self.copyWith(
-userIds: freezed == userIds ? _self.userIds : userIds // ignore: cast_nullable_to_non_nullable
-as List<int>?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [SendReportMailDto].
-extension SendReportMailDtoPatterns on SendReportMailDto {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SendReportMailDto value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _SendReportMailDto() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SendReportMailDto value)  $default,){
-final _that = this;
-switch (_that) {
-case _SendReportMailDto():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SendReportMailDto value)?  $default,){
-final _that = this;
-switch (_that) {
-case _SendReportMailDto() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int>? userIds)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _SendReportMailDto() when $default != null:
-return $default(_that.userIds);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int>? userIds)  $default,) {final _that = this;
-switch (_that) {
-case _SendReportMailDto():
-return $default(_that.userIds);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int>? userIds)?  $default,) {final _that = this;
-switch (_that) {
-case _SendReportMailDto() when $default != null:
-return $default(_that.userIds);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _SendReportMailDto implements SendReportMailDto {
-   _SendReportMailDto({final  List<int>? userIds}): _userIds = userIds;
-  factory _SendReportMailDto.fromJson(Map<String, dynamic> json) => _$SendReportMailDtoFromJson(json);
-
- final  List<int>? _userIds;
-@override List<int>? get userIds {
-  final value = _userIds;
-  if (value == null) return null;
-  if (_userIds is EqualUnmodifiableListView) return _userIds;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(value);
-}
-
-
-/// Create a copy of SendReportMailDto
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$SendReportMailDtoCopyWith<_SendReportMailDto> get copyWith => __$SendReportMailDtoCopyWithImpl<_SendReportMailDto>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$SendReportMailDtoToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendReportMailDto&&const DeepCollectionEquality().equals(other._userIds, _userIds));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_userIds));
-
-@override
-String toString() {
-  return 'SendReportMailDto(userIds: $userIds)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$SendReportMailDtoCopyWith<$Res> implements $SendReportMailDtoCopyWith<$Res> {
-  factory _$SendReportMailDtoCopyWith(_SendReportMailDto value, $Res Function(_SendReportMailDto) _then) = __$SendReportMailDtoCopyWithImpl;
-@override @useResult
-$Res call({
- List<int>? userIds
-});
-
-
-
-
-}
-/// @nodoc
-class __$SendReportMailDtoCopyWithImpl<$Res>
-    implements _$SendReportMailDtoCopyWith<$Res> {
-  __$SendReportMailDtoCopyWithImpl(this._self, this._then);
-
-  final _SendReportMailDto _self;
-  final $Res Function(_SendReportMailDto) _then;
-
-/// Create a copy of SendReportMailDto
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userIds = freezed,}) {
-  return _then(_SendReportMailDto(
-userIds: freezed == userIds ? _self._userIds : userIds // ignore: cast_nullable_to_non_nullable
-as List<int>?,
   ));
 }
 
