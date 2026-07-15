@@ -4,12 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
-class DesktopSortWidget extends ConsumerWidget {
+class DesktopSortWidget extends HookConsumerWidget {
   const DesktopSortWidget({super.key});
 
   @override
@@ -17,24 +16,6 @@ class DesktopSortWidget extends ConsumerWidget {
     final filter = ref.watch(
       projectFilterControllerProvider(ProjectFilterScope.projectPage),
     );
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(filter: value),
-      _ => Skeletonizer(
-        ignoreContainers: true,
-        child: _DesktopWidget(filter: ProjectFilterState()),
-      ),
-    };
-  }
-}
-
-class _DesktopWidget extends HookConsumerWidget {
-  final ProjectFilterState filter;
-
-  const _DesktopWidget({required this.filter});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final selectedSort = useState<ProjectSort?>(filter.sort);
     final selectedOrder = useState<Order?>(filter.order);
 
@@ -60,16 +41,13 @@ class _DesktopWidget extends HookConsumerWidget {
 
         context.goNamed(
           RouteNames.project,
-          queryParameters: {
-            if (filter.view != null) 'view': filter.view,
-            if (value != null) 'sort': value.key,
-            if (value != null) 'order': nextOrder.key,
-            if (filter.search != null) 'search': filter.search,
-            if (filter.bookmark != null) 'bookmark': filter.bookmark.toString(),
-            if (filter.clients != null) 'clients': filter.clients?.join(','),
-            if (filter.categories != null)
-              'categories': filter.categories?.join(','),
-          },
+          queryParameters: buildQueryParameters(
+            context,
+            updates: {
+              'sort': value?.key,
+              'order': value == null ? null : nextOrder.key,
+            },
+          ),
         );
       },
       items: ProjectSort.values,

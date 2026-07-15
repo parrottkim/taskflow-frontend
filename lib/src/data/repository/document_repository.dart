@@ -3,7 +3,7 @@ part of '../data.dart';
 abstract class DocumentRepository {
   Future<Document> getDocumentForEdit({required int id});
 
-  Future<Result<Document>> getDocuments({
+  Future<Result<DocumentListItem>> getDocuments({
     int page = 1,
     int limit = 10,
     required int folderId,
@@ -11,6 +11,8 @@ abstract class DocumentRepository {
     String? order,
     String? search,
   });
+
+  Future<void> sendMail({required int id, required SendMailDto request});
 
   Future<Document> createDocument({required CreateDocumentDto request});
 

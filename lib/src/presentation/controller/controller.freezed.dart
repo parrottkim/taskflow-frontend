@@ -3143,7 +3143,7 @@ as String?,
 /// @nodoc
 mixin _$DocumentFilterState implements DiagnosticableTreeMixin {
 
- int get folderId; DocumentSort get sort; Order get order; String? get search;
+ List<int> get folders; DocumentSort get sort; Order get order; String? get search;
 /// Create a copy of DocumentFilterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3155,21 +3155,21 @@ $DocumentFilterStateCopyWith<DocumentFilterState> get copyWith => _$DocumentFilt
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'DocumentFilterState'))
-    ..add(DiagnosticsProperty('folderId', folderId))..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search));
+    ..add(DiagnosticsProperty('folders', folders))..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocumentFilterState&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocumentFilterState&&const DeepCollectionEquality().equals(other.folders, folders)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,folderId,sort,order,search);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(folders),sort,order,search);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'DocumentFilterState(folderId: $folderId, sort: $sort, order: $order, search: $search)';
+  return 'DocumentFilterState(folders: $folders, sort: $sort, order: $order, search: $search)';
 }
 
 
@@ -3180,7 +3180,7 @@ abstract mixin class $DocumentFilterStateCopyWith<$Res>  {
   factory $DocumentFilterStateCopyWith(DocumentFilterState value, $Res Function(DocumentFilterState) _then) = _$DocumentFilterStateCopyWithImpl;
 @useResult
 $Res call({
- int folderId, DocumentSort sort, Order order, String? search
+ List<int> folders, DocumentSort sort, Order order, String? search
 });
 
 
@@ -3197,10 +3197,10 @@ class _$DocumentFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of DocumentFilterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? folderId = null,Object? sort = null,Object? order = null,Object? search = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? folders = null,Object? sort = null,Object? order = null,Object? search = freezed,}) {
   return _then(_self.copyWith(
-folderId: null == folderId ? _self.folderId : folderId // ignore: cast_nullable_to_non_nullable
-as int,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+folders: null == folders ? _self.folders : folders // ignore: cast_nullable_to_non_nullable
+as List<int>,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as DocumentSort,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as Order,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -3288,10 +3288,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int folderId,  DocumentSort sort,  Order order,  String? search)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int> folders,  DocumentSort sort,  Order order,  String? search)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DocumentFilterState() when $default != null:
-return $default(_that.folderId,_that.sort,_that.order,_that.search);case _:
+return $default(_that.folders,_that.sort,_that.order,_that.search);case _:
   return orElse();
 
 }
@@ -3309,10 +3309,10 @@ return $default(_that.folderId,_that.sort,_that.order,_that.search);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int folderId,  DocumentSort sort,  Order order,  String? search)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int> folders,  DocumentSort sort,  Order order,  String? search)  $default,) {final _that = this;
 switch (_that) {
 case _DocumentFilterState():
-return $default(_that.folderId,_that.sort,_that.order,_that.search);case _:
+return $default(_that.folders,_that.sort,_that.order,_that.search);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3329,10 +3329,10 @@ return $default(_that.folderId,_that.sort,_that.order,_that.search);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int folderId,  DocumentSort sort,  Order order,  String? search)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int> folders,  DocumentSort sort,  Order order,  String? search)?  $default,) {final _that = this;
 switch (_that) {
 case _DocumentFilterState() when $default != null:
-return $default(_that.folderId,_that.sort,_that.order,_that.search);case _:
+return $default(_that.folders,_that.sort,_that.order,_that.search);case _:
   return null;
 
 }
@@ -3344,10 +3344,16 @@ return $default(_that.folderId,_that.sort,_that.order,_that.search);case _:
 
 
 class _DocumentFilterState with DiagnosticableTreeMixin implements DocumentFilterState {
-   _DocumentFilterState({this.folderId = 1, this.sort = DocumentSort.recent, this.order = Order.desc, this.search});
+   _DocumentFilterState({final  List<int> folders = const [1], this.sort = DocumentSort.recent, this.order = Order.desc, this.search}): _folders = folders;
   
 
-@override@JsonKey() final  int folderId;
+ final  List<int> _folders;
+@override@JsonKey() List<int> get folders {
+  if (_folders is EqualUnmodifiableListView) return _folders;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_folders);
+}
+
 @override@JsonKey() final  DocumentSort sort;
 @override@JsonKey() final  Order order;
 @override final  String? search;
@@ -3363,21 +3369,21 @@ _$DocumentFilterStateCopyWith<_DocumentFilterState> get copyWith => __$DocumentF
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'DocumentFilterState'))
-    ..add(DiagnosticsProperty('folderId', folderId))..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search));
+    ..add(DiagnosticsProperty('folders', folders))..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DocumentFilterState&&(identical(other.folderId, folderId) || other.folderId == folderId)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DocumentFilterState&&const DeepCollectionEquality().equals(other._folders, _folders)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,folderId,sort,order,search);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_folders),sort,order,search);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'DocumentFilterState(folderId: $folderId, sort: $sort, order: $order, search: $search)';
+  return 'DocumentFilterState(folders: $folders, sort: $sort, order: $order, search: $search)';
 }
 
 
@@ -3388,7 +3394,7 @@ abstract mixin class _$DocumentFilterStateCopyWith<$Res> implements $DocumentFil
   factory _$DocumentFilterStateCopyWith(_DocumentFilterState value, $Res Function(_DocumentFilterState) _then) = __$DocumentFilterStateCopyWithImpl;
 @override @useResult
 $Res call({
- int folderId, DocumentSort sort, Order order, String? search
+ List<int> folders, DocumentSort sort, Order order, String? search
 });
 
 
@@ -3405,10 +3411,10 @@ class __$DocumentFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of DocumentFilterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? folderId = null,Object? sort = null,Object? order = null,Object? search = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? folders = null,Object? sort = null,Object? order = null,Object? search = freezed,}) {
   return _then(_DocumentFilterState(
-folderId: null == folderId ? _self.folderId : folderId // ignore: cast_nullable_to_non_nullable
-as int,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+folders: null == folders ? _self._folders : folders // ignore: cast_nullable_to_non_nullable
+as List<int>,sort: null == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
 as DocumentSort,order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as Order,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -3721,7 +3727,7 @@ as List<XFile>?,
 /// @nodoc
 mixin _$DocumentListState implements DiagnosticableTreeMixin {
 
- List<Document> get items; int get page; int get total; bool get hasReachEnd;
+ List<DocumentListItem> get items; int get page; int get total; bool get hasReachEnd;
 /// Create a copy of DocumentListState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3758,7 +3764,7 @@ abstract mixin class $DocumentListStateCopyWith<$Res>  {
   factory $DocumentListStateCopyWith(DocumentListState value, $Res Function(DocumentListState) _then) = _$DocumentListStateCopyWithImpl;
 @useResult
 $Res call({
- List<Document> items, int page, int total, bool hasReachEnd
+ List<DocumentListItem> items, int page, int total, bool hasReachEnd
 });
 
 
@@ -3778,7 +3784,7 @@ class _$DocumentListStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
   return _then(_self.copyWith(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
-as List<Document>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as List<DocumentListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -3866,7 +3872,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Document> items,  int page,  int total,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<DocumentListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DocumentListState() when $default != null:
 return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
@@ -3887,7 +3893,7 @@ return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Document> items,  int page,  int total,  bool hasReachEnd)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<DocumentListItem> items,  int page,  int total,  bool hasReachEnd)  $default,) {final _that = this;
 switch (_that) {
 case _DocumentListState():
 return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
@@ -3907,7 +3913,7 @@ return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Document> items,  int page,  int total,  bool hasReachEnd)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<DocumentListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,) {final _that = this;
 switch (_that) {
 case _DocumentListState() when $default != null:
 return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
@@ -3922,11 +3928,11 @@ return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
 
 
 class _DocumentListState with DiagnosticableTreeMixin implements DocumentListState {
-   _DocumentListState({final  List<Document> items = const [], this.page = 0, this.total = 0, this.hasReachEnd = false}): _items = items;
+   _DocumentListState({final  List<DocumentListItem> items = const [], this.page = 0, this.total = 0, this.hasReachEnd = false}): _items = items;
   
 
- final  List<Document> _items;
-@override@JsonKey() List<Document> get items {
+ final  List<DocumentListItem> _items;
+@override@JsonKey() List<DocumentListItem> get items {
   if (_items is EqualUnmodifiableListView) return _items;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_items);
@@ -3972,7 +3978,7 @@ abstract mixin class _$DocumentListStateCopyWith<$Res> implements $DocumentListS
   factory _$DocumentListStateCopyWith(_DocumentListState value, $Res Function(_DocumentListState) _then) = __$DocumentListStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Document> items, int page, int total, bool hasReachEnd
+ List<DocumentListItem> items, int page, int total, bool hasReachEnd
 });
 
 
@@ -3992,7 +3998,7 @@ class __$DocumentListStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
   return _then(_DocumentListState(
 items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
-as List<Document>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as List<DocumentListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -4327,7 +4333,7 @@ extension DocumentSubmitStatePatterns on DocumentSubmitState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( DocumentSubmitIdle value)?  idle,TResult Function( DocumentSubmitPending value)?  pending,TResult Function( DocumentSubmitDocumentCreated value)?  documentCreated,TResult Function( DocumentSubmitDocumentUpdated value)?  documentUpdated,TResult Function( DocumentSubmitDocumentDeleted value)?  documentDeleted,TResult Function( DocumentSubmitFolderSuccess value)?  folderSuccess,TResult Function( DocumentSubmitFailure value)?  failure,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( DocumentSubmitIdle value)?  idle,TResult Function( DocumentSubmitPending value)?  pending,TResult Function( DocumentSubmitDocumentCreated value)?  documentCreated,TResult Function( DocumentSubmitDocumentUpdated value)?  documentUpdated,TResult Function( DocumentSubmitDocumentDeleted value)?  documentDeleted,TResult Function( DocumentSubmitFolderSuccess value)?  folderSuccess,TResult Function( DocumentSubmitMailed value)?  mailed,TResult Function( DocumentSubmitFailure value)?  failure,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case DocumentSubmitIdle() when idle != null:
@@ -4336,7 +4342,8 @@ return pending(_that);case DocumentSubmitDocumentCreated() when documentCreated 
 return documentCreated(_that);case DocumentSubmitDocumentUpdated() when documentUpdated != null:
 return documentUpdated(_that);case DocumentSubmitDocumentDeleted() when documentDeleted != null:
 return documentDeleted(_that);case DocumentSubmitFolderSuccess() when folderSuccess != null:
-return folderSuccess(_that);case DocumentSubmitFailure() when failure != null:
+return folderSuccess(_that);case DocumentSubmitMailed() when mailed != null:
+return mailed(_that);case DocumentSubmitFailure() when failure != null:
 return failure(_that);case _:
   return orElse();
 
@@ -4355,7 +4362,7 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( DocumentSubmitIdle value)  idle,required TResult Function( DocumentSubmitPending value)  pending,required TResult Function( DocumentSubmitDocumentCreated value)  documentCreated,required TResult Function( DocumentSubmitDocumentUpdated value)  documentUpdated,required TResult Function( DocumentSubmitDocumentDeleted value)  documentDeleted,required TResult Function( DocumentSubmitFolderSuccess value)  folderSuccess,required TResult Function( DocumentSubmitFailure value)  failure,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( DocumentSubmitIdle value)  idle,required TResult Function( DocumentSubmitPending value)  pending,required TResult Function( DocumentSubmitDocumentCreated value)  documentCreated,required TResult Function( DocumentSubmitDocumentUpdated value)  documentUpdated,required TResult Function( DocumentSubmitDocumentDeleted value)  documentDeleted,required TResult Function( DocumentSubmitFolderSuccess value)  folderSuccess,required TResult Function( DocumentSubmitMailed value)  mailed,required TResult Function( DocumentSubmitFailure value)  failure,}){
 final _that = this;
 switch (_that) {
 case DocumentSubmitIdle():
@@ -4364,7 +4371,8 @@ return pending(_that);case DocumentSubmitDocumentCreated():
 return documentCreated(_that);case DocumentSubmitDocumentUpdated():
 return documentUpdated(_that);case DocumentSubmitDocumentDeleted():
 return documentDeleted(_that);case DocumentSubmitFolderSuccess():
-return folderSuccess(_that);case DocumentSubmitFailure():
+return folderSuccess(_that);case DocumentSubmitMailed():
+return mailed(_that);case DocumentSubmitFailure():
 return failure(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -4382,7 +4390,7 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( DocumentSubmitIdle value)?  idle,TResult? Function( DocumentSubmitPending value)?  pending,TResult? Function( DocumentSubmitDocumentCreated value)?  documentCreated,TResult? Function( DocumentSubmitDocumentUpdated value)?  documentUpdated,TResult? Function( DocumentSubmitDocumentDeleted value)?  documentDeleted,TResult? Function( DocumentSubmitFolderSuccess value)?  folderSuccess,TResult? Function( DocumentSubmitFailure value)?  failure,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( DocumentSubmitIdle value)?  idle,TResult? Function( DocumentSubmitPending value)?  pending,TResult? Function( DocumentSubmitDocumentCreated value)?  documentCreated,TResult? Function( DocumentSubmitDocumentUpdated value)?  documentUpdated,TResult? Function( DocumentSubmitDocumentDeleted value)?  documentDeleted,TResult? Function( DocumentSubmitFolderSuccess value)?  folderSuccess,TResult? Function( DocumentSubmitMailed value)?  mailed,TResult? Function( DocumentSubmitFailure value)?  failure,}){
 final _that = this;
 switch (_that) {
 case DocumentSubmitIdle() when idle != null:
@@ -4391,7 +4399,8 @@ return pending(_that);case DocumentSubmitDocumentCreated() when documentCreated 
 return documentCreated(_that);case DocumentSubmitDocumentUpdated() when documentUpdated != null:
 return documentUpdated(_that);case DocumentSubmitDocumentDeleted() when documentDeleted != null:
 return documentDeleted(_that);case DocumentSubmitFolderSuccess() when folderSuccess != null:
-return folderSuccess(_that);case DocumentSubmitFailure() when failure != null:
+return folderSuccess(_that);case DocumentSubmitMailed() when mailed != null:
+return mailed(_that);case DocumentSubmitFailure() when failure != null:
 return failure(_that);case _:
   return null;
 
@@ -4409,7 +4418,7 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  idle,TResult Function()?  pending,TResult Function()?  documentCreated,TResult Function()?  documentUpdated,TResult Function()?  documentDeleted,TResult Function()?  folderSuccess,TResult Function( String message)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  idle,TResult Function()?  pending,TResult Function()?  documentCreated,TResult Function()?  documentUpdated,TResult Function()?  documentDeleted,TResult Function()?  folderSuccess,TResult Function()?  mailed,TResult Function( String message)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case DocumentSubmitIdle() when idle != null:
 return idle();case DocumentSubmitPending() when pending != null:
@@ -4417,7 +4426,8 @@ return pending();case DocumentSubmitDocumentCreated() when documentCreated != nu
 return documentCreated();case DocumentSubmitDocumentUpdated() when documentUpdated != null:
 return documentUpdated();case DocumentSubmitDocumentDeleted() when documentDeleted != null:
 return documentDeleted();case DocumentSubmitFolderSuccess() when folderSuccess != null:
-return folderSuccess();case DocumentSubmitFailure() when failure != null:
+return folderSuccess();case DocumentSubmitMailed() when mailed != null:
+return mailed();case DocumentSubmitFailure() when failure != null:
 return failure(_that.message);case _:
   return orElse();
 
@@ -4436,7 +4446,7 @@ return failure(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  idle,required TResult Function()  pending,required TResult Function()  documentCreated,required TResult Function()  documentUpdated,required TResult Function()  documentDeleted,required TResult Function()  folderSuccess,required TResult Function( String message)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  idle,required TResult Function()  pending,required TResult Function()  documentCreated,required TResult Function()  documentUpdated,required TResult Function()  documentDeleted,required TResult Function()  folderSuccess,required TResult Function()  mailed,required TResult Function( String message)  failure,}) {final _that = this;
 switch (_that) {
 case DocumentSubmitIdle():
 return idle();case DocumentSubmitPending():
@@ -4444,7 +4454,8 @@ return pending();case DocumentSubmitDocumentCreated():
 return documentCreated();case DocumentSubmitDocumentUpdated():
 return documentUpdated();case DocumentSubmitDocumentDeleted():
 return documentDeleted();case DocumentSubmitFolderSuccess():
-return folderSuccess();case DocumentSubmitFailure():
+return folderSuccess();case DocumentSubmitMailed():
+return mailed();case DocumentSubmitFailure():
 return failure(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -4462,7 +4473,7 @@ return failure(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  idle,TResult? Function()?  pending,TResult? Function()?  documentCreated,TResult? Function()?  documentUpdated,TResult? Function()?  documentDeleted,TResult? Function()?  folderSuccess,TResult? Function( String message)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  idle,TResult? Function()?  pending,TResult? Function()?  documentCreated,TResult? Function()?  documentUpdated,TResult? Function()?  documentDeleted,TResult? Function()?  folderSuccess,TResult? Function()?  mailed,TResult? Function( String message)?  failure,}) {final _that = this;
 switch (_that) {
 case DocumentSubmitIdle() when idle != null:
 return idle();case DocumentSubmitPending() when pending != null:
@@ -4470,7 +4481,8 @@ return pending();case DocumentSubmitDocumentCreated() when documentCreated != nu
 return documentCreated();case DocumentSubmitDocumentUpdated() when documentUpdated != null:
 return documentUpdated();case DocumentSubmitDocumentDeleted() when documentDeleted != null:
 return documentDeleted();case DocumentSubmitFolderSuccess() when folderSuccess != null:
-return folderSuccess();case DocumentSubmitFailure() when failure != null:
+return folderSuccess();case DocumentSubmitMailed() when mailed != null:
+return mailed();case DocumentSubmitFailure() when failure != null:
 return failure(_that.message);case _:
   return null;
 
@@ -4483,7 +4495,7 @@ return failure(_that.message);case _:
 
 
 class DocumentSubmitIdle with DiagnosticableTreeMixin implements DocumentSubmitState {
-   DocumentSubmitIdle();
+  const DocumentSubmitIdle();
   
 
 
@@ -4521,7 +4533,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 class DocumentSubmitPending with DiagnosticableTreeMixin implements DocumentSubmitState {
-   DocumentSubmitPending();
+  const DocumentSubmitPending();
   
 
 
@@ -4559,7 +4571,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 class DocumentSubmitDocumentCreated with DiagnosticableTreeMixin implements DocumentSubmitState {
-   DocumentSubmitDocumentCreated();
+  const DocumentSubmitDocumentCreated();
   
 
 
@@ -4597,7 +4609,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 class DocumentSubmitDocumentUpdated with DiagnosticableTreeMixin implements DocumentSubmitState {
-   DocumentSubmitDocumentUpdated();
+  const DocumentSubmitDocumentUpdated();
   
 
 
@@ -4635,7 +4647,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 class DocumentSubmitDocumentDeleted with DiagnosticableTreeMixin implements DocumentSubmitState {
-   DocumentSubmitDocumentDeleted();
+  const DocumentSubmitDocumentDeleted();
   
 
 
@@ -4673,7 +4685,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 class DocumentSubmitFolderSuccess with DiagnosticableTreeMixin implements DocumentSubmitState {
-   DocumentSubmitFolderSuccess();
+  const DocumentSubmitFolderSuccess();
   
 
 
@@ -4710,8 +4722,46 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
+class DocumentSubmitMailed with DiagnosticableTreeMixin implements DocumentSubmitState {
+  const DocumentSubmitMailed();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'DocumentSubmitState.mailed'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocumentSubmitMailed);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'DocumentSubmitState.mailed()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
 class DocumentSubmitFailure with DiagnosticableTreeMixin implements DocumentSubmitState {
-   DocumentSubmitFailure(this.message);
+  const DocumentSubmitFailure(this.message);
   
 
  final  String message;
@@ -8964,7 +9014,7 @@ as String,
 /// @nodoc
 mixin _$NavigationSearchState implements DiagnosticableTreeMixin {
 
- List<Project> get projects;
+ List<ProjectListItem> get projects;
 /// Create a copy of NavigationSearchState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -9001,7 +9051,7 @@ abstract mixin class $NavigationSearchStateCopyWith<$Res>  {
   factory $NavigationSearchStateCopyWith(NavigationSearchState value, $Res Function(NavigationSearchState) _then) = _$NavigationSearchStateCopyWithImpl;
 @useResult
 $Res call({
- List<Project> projects
+ List<ProjectListItem> projects
 });
 
 
@@ -9021,7 +9071,7 @@ class _$NavigationSearchStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? projects = null,}) {
   return _then(_self.copyWith(
 projects: null == projects ? _self.projects : projects // ignore: cast_nullable_to_non_nullable
-as List<Project>,
+as List<ProjectListItem>,
   ));
 }
 
@@ -9106,7 +9156,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Project> projects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ProjectListItem> projects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _NavigationSearchState() when $default != null:
 return $default(_that.projects);case _:
@@ -9127,7 +9177,7 @@ return $default(_that.projects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Project> projects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ProjectListItem> projects)  $default,) {final _that = this;
 switch (_that) {
 case _NavigationSearchState():
 return $default(_that.projects);case _:
@@ -9147,7 +9197,7 @@ return $default(_that.projects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Project> projects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ProjectListItem> projects)?  $default,) {final _that = this;
 switch (_that) {
 case _NavigationSearchState() when $default != null:
 return $default(_that.projects);case _:
@@ -9162,11 +9212,11 @@ return $default(_that.projects);case _:
 
 
 class _NavigationSearchState with DiagnosticableTreeMixin implements NavigationSearchState {
-  const _NavigationSearchState({final  List<Project> projects = const []}): _projects = projects;
+  const _NavigationSearchState({final  List<ProjectListItem> projects = const []}): _projects = projects;
   
 
- final  List<Project> _projects;
-@override@JsonKey() List<Project> get projects {
+ final  List<ProjectListItem> _projects;
+@override@JsonKey() List<ProjectListItem> get projects {
   if (_projects is EqualUnmodifiableListView) return _projects;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_projects);
@@ -9209,7 +9259,7 @@ abstract mixin class _$NavigationSearchStateCopyWith<$Res> implements $Navigatio
   factory _$NavigationSearchStateCopyWith(_NavigationSearchState value, $Res Function(_NavigationSearchState) _then) = __$NavigationSearchStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Project> projects
+ List<ProjectListItem> projects
 });
 
 
@@ -9229,7 +9279,7 @@ class __$NavigationSearchStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? projects = null,}) {
   return _then(_NavigationSearchState(
 projects: null == projects ? _self._projects : projects // ignore: cast_nullable_to_non_nullable
-as List<Project>,
+as List<ProjectListItem>,
   ));
 }
 
@@ -10725,7 +10775,7 @@ $UserCopyWith<$Res>? get manager {
 /// @nodoc
 mixin _$ProjectListState implements DiagnosticableTreeMixin {
 
- List<Project> get items; int get page; int get total; bool get hasReachEnd;
+ List<ProjectListItem> get items; int get page; int get total; bool get hasReachEnd;
 /// Create a copy of ProjectListState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -10762,7 +10812,7 @@ abstract mixin class $ProjectListStateCopyWith<$Res>  {
   factory $ProjectListStateCopyWith(ProjectListState value, $Res Function(ProjectListState) _then) = _$ProjectListStateCopyWithImpl;
 @useResult
 $Res call({
- List<Project> items, int page, int total, bool hasReachEnd
+ List<ProjectListItem> items, int page, int total, bool hasReachEnd
 });
 
 
@@ -10782,7 +10832,7 @@ class _$ProjectListStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
   return _then(_self.copyWith(
 items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
-as List<Project>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as List<ProjectListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -10870,7 +10920,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Project> items,  int page,  int total,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ProjectListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProjectListState() when $default != null:
 return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
@@ -10891,7 +10941,7 @@ return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Project> items,  int page,  int total,  bool hasReachEnd)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ProjectListItem> items,  int page,  int total,  bool hasReachEnd)  $default,) {final _that = this;
 switch (_that) {
 case _ProjectListState():
 return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
@@ -10911,7 +10961,7 @@ return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Project> items,  int page,  int total,  bool hasReachEnd)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ProjectListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,) {final _that = this;
 switch (_that) {
 case _ProjectListState() when $default != null:
 return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
@@ -10926,11 +10976,11 @@ return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
 
 
 class _ProjectListState with DiagnosticableTreeMixin implements ProjectListState {
-   _ProjectListState({final  List<Project> items = const [], this.page = 0, this.total = 0, this.hasReachEnd = false}): _items = items;
+   _ProjectListState({final  List<ProjectListItem> items = const [], this.page = 0, this.total = 0, this.hasReachEnd = false}): _items = items;
   
 
- final  List<Project> _items;
-@override@JsonKey() List<Project> get items {
+ final  List<ProjectListItem> _items;
+@override@JsonKey() List<ProjectListItem> get items {
   if (_items is EqualUnmodifiableListView) return _items;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_items);
@@ -10976,7 +11026,7 @@ abstract mixin class _$ProjectListStateCopyWith<$Res> implements $ProjectListSta
   factory _$ProjectListStateCopyWith(_ProjectListState value, $Res Function(_ProjectListState) _then) = __$ProjectListStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Project> items, int page, int total, bool hasReachEnd
+ List<ProjectListItem> items, int page, int total, bool hasReachEnd
 });
 
 
@@ -10996,7 +11046,7 @@ class __$ProjectListStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
   return _then(_ProjectListState(
 items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
-as List<Project>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as List<ProjectListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -11834,7 +11884,7 @@ as String,
 /// @nodoc
 mixin _$ScheduleFilterState implements DiagnosticableTreeMixin {
 
- String? get search; List<int>? get departments; DateTime get start; DateTime get end;
+ String? get view; String? get search; List<int>? get departments;
 /// Create a copy of ScheduleFilterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -11846,21 +11896,21 @@ $ScheduleFilterStateCopyWith<ScheduleFilterState> get copyWith => _$ScheduleFilt
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ScheduleFilterState'))
-    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments))..add(DiagnosticsProperty('start', start))..add(DiagnosticsProperty('end', end));
+    ..add(DiagnosticsProperty('view', view))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScheduleFilterState&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other.departments, departments)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScheduleFilterState&&(identical(other.view, view) || other.view == view)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other.departments, departments));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,search,const DeepCollectionEquality().hash(departments),start,end);
+int get hashCode => Object.hash(runtimeType,view,search,const DeepCollectionEquality().hash(departments));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ScheduleFilterState(search: $search, departments: $departments, start: $start, end: $end)';
+  return 'ScheduleFilterState(view: $view, search: $search, departments: $departments)';
 }
 
 
@@ -11871,7 +11921,7 @@ abstract mixin class $ScheduleFilterStateCopyWith<$Res>  {
   factory $ScheduleFilterStateCopyWith(ScheduleFilterState value, $Res Function(ScheduleFilterState) _then) = _$ScheduleFilterStateCopyWithImpl;
 @useResult
 $Res call({
- String? search, List<int>? departments, DateTime start, DateTime end
+ String? view, String? search, List<int>? departments
 });
 
 
@@ -11888,13 +11938,12 @@ class _$ScheduleFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of ScheduleFilterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? search = freezed,Object? departments = freezed,Object? start = null,Object? end = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? view = freezed,Object? search = freezed,Object? departments = freezed,}) {
   return _then(_self.copyWith(
-search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+view: freezed == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
+as String?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,departments: freezed == departments ? _self.departments : departments // ignore: cast_nullable_to_non_nullable
-as List<int>?,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
-as DateTime,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as List<int>?,
   ));
 }
 
@@ -11979,10 +12028,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  DateTime start,  DateTime end)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? view,  String? search,  List<int>? departments)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ScheduleFilterState() when $default != null:
-return $default(_that.search,_that.departments,_that.start,_that.end);case _:
+return $default(_that.view,_that.search,_that.departments);case _:
   return orElse();
 
 }
@@ -12000,10 +12049,10 @@ return $default(_that.search,_that.departments,_that.start,_that.end);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  DateTime start,  DateTime end)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? view,  String? search,  List<int>? departments)  $default,) {final _that = this;
 switch (_that) {
 case _ScheduleFilterState():
-return $default(_that.search,_that.departments,_that.start,_that.end);case _:
+return $default(_that.view,_that.search,_that.departments);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -12020,10 +12069,10 @@ return $default(_that.search,_that.departments,_that.start,_that.end);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? search,  List<int>? departments,  DateTime start,  DateTime end)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? view,  String? search,  List<int>? departments)?  $default,) {final _that = this;
 switch (_that) {
 case _ScheduleFilterState() when $default != null:
-return $default(_that.search,_that.departments,_that.start,_that.end);case _:
+return $default(_that.view,_that.search,_that.departments);case _:
   return null;
 
 }
@@ -12035,9 +12084,10 @@ return $default(_that.search,_that.departments,_that.start,_that.end);case _:
 
 
 class _ScheduleFilterState with DiagnosticableTreeMixin implements ScheduleFilterState {
-   _ScheduleFilterState({this.search, final  List<int>? departments, required this.start, required this.end}): _departments = departments;
+   _ScheduleFilterState({this.view, this.search, final  List<int>? departments}): _departments = departments;
   
 
+@override final  String? view;
 @override final  String? search;
  final  List<int>? _departments;
 @override List<int>? get departments {
@@ -12048,8 +12098,6 @@ class _ScheduleFilterState with DiagnosticableTreeMixin implements ScheduleFilte
   return EqualUnmodifiableListView(value);
 }
 
-@override final  DateTime start;
-@override final  DateTime end;
 
 /// Create a copy of ScheduleFilterState
 /// with the given fields replaced by the non-null parameter values.
@@ -12062,21 +12110,21 @@ _$ScheduleFilterStateCopyWith<_ScheduleFilterState> get copyWith => __$ScheduleF
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ScheduleFilterState'))
-    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments))..add(DiagnosticsProperty('start', start))..add(DiagnosticsProperty('end', end));
+    ..add(DiagnosticsProperty('view', view))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScheduleFilterState&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other._departments, _departments)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScheduleFilterState&&(identical(other.view, view) || other.view == view)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other._departments, _departments));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,search,const DeepCollectionEquality().hash(_departments),start,end);
+int get hashCode => Object.hash(runtimeType,view,search,const DeepCollectionEquality().hash(_departments));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ScheduleFilterState(search: $search, departments: $departments, start: $start, end: $end)';
+  return 'ScheduleFilterState(view: $view, search: $search, departments: $departments)';
 }
 
 
@@ -12087,7 +12135,7 @@ abstract mixin class _$ScheduleFilterStateCopyWith<$Res> implements $ScheduleFil
   factory _$ScheduleFilterStateCopyWith(_ScheduleFilterState value, $Res Function(_ScheduleFilterState) _then) = __$ScheduleFilterStateCopyWithImpl;
 @override @useResult
 $Res call({
- String? search, List<int>? departments, DateTime start, DateTime end
+ String? view, String? search, List<int>? departments
 });
 
 
@@ -12104,13 +12152,12 @@ class __$ScheduleFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of ScheduleFilterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? search = freezed,Object? departments = freezed,Object? start = null,Object? end = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? view = freezed,Object? search = freezed,Object? departments = freezed,}) {
   return _then(_ScheduleFilterState(
-search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+view: freezed == view ? _self.view : view // ignore: cast_nullable_to_non_nullable
+as String?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,departments: freezed == departments ? _self._departments : departments // ignore: cast_nullable_to_non_nullable
-as List<int>?,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
-as DateTime,end: null == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as List<int>?,
   ));
 }
 
@@ -17373,7 +17420,7 @@ as int,
 /// @nodoc
 mixin _$UserFilterState implements DiagnosticableTreeMixin {
 
- String get search; List<int>? get departments; int? get positionId;
+ String? get search; List<int>? get departments; int? get positionId;
 /// Create a copy of UserFilterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -17410,7 +17457,7 @@ abstract mixin class $UserFilterStateCopyWith<$Res>  {
   factory $UserFilterStateCopyWith(UserFilterState value, $Res Function(UserFilterState) _then) = _$UserFilterStateCopyWithImpl;
 @useResult
 $Res call({
- String search, List<int>? departments, int? positionId
+ String? search, List<int>? departments, int? positionId
 });
 
 
@@ -17427,10 +17474,10 @@ class _$UserFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of UserFilterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? search = null,Object? departments = freezed,Object? positionId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? search = freezed,Object? departments = freezed,Object? positionId = freezed,}) {
   return _then(_self.copyWith(
-search: null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
-as String,departments: freezed == departments ? _self.departments : departments // ignore: cast_nullable_to_non_nullable
+search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,departments: freezed == departments ? _self.departments : departments // ignore: cast_nullable_to_non_nullable
 as List<int>?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
@@ -17517,7 +17564,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String search,  List<int>? departments,  int? positionId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  int? positionId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserFilterState() when $default != null:
 return $default(_that.search,_that.departments,_that.positionId);case _:
@@ -17538,7 +17585,7 @@ return $default(_that.search,_that.departments,_that.positionId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String search,  List<int>? departments,  int? positionId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  int? positionId)  $default,) {final _that = this;
 switch (_that) {
 case _UserFilterState():
 return $default(_that.search,_that.departments,_that.positionId);case _:
@@ -17558,7 +17605,7 @@ return $default(_that.search,_that.departments,_that.positionId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String search,  List<int>? departments,  int? positionId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? search,  List<int>? departments,  int? positionId)?  $default,) {final _that = this;
 switch (_that) {
 case _UserFilterState() when $default != null:
 return $default(_that.search,_that.departments,_that.positionId);case _:
@@ -17573,10 +17620,10 @@ return $default(_that.search,_that.departments,_that.positionId);case _:
 
 
 class _UserFilterState with DiagnosticableTreeMixin implements UserFilterState {
-   _UserFilterState({this.search = '', final  List<int>? departments, this.positionId}): _departments = departments;
+   _UserFilterState({this.search, final  List<int>? departments, this.positionId}): _departments = departments;
   
 
-@override@JsonKey() final  String search;
+@override final  String? search;
  final  List<int>? _departments;
 @override List<int>? get departments {
   final value = _departments;
@@ -17624,7 +17671,7 @@ abstract mixin class _$UserFilterStateCopyWith<$Res> implements $UserFilterState
   factory _$UserFilterStateCopyWith(_UserFilterState value, $Res Function(_UserFilterState) _then) = __$UserFilterStateCopyWithImpl;
 @override @useResult
 $Res call({
- String search, List<int>? departments, int? positionId
+ String? search, List<int>? departments, int? positionId
 });
 
 
@@ -17641,10 +17688,10 @@ class __$UserFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of UserFilterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? search = null,Object? departments = freezed,Object? positionId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? search = freezed,Object? departments = freezed,Object? positionId = freezed,}) {
   return _then(_UserFilterState(
-search: null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
-as String,departments: freezed == departments ? _self._departments : departments // ignore: cast_nullable_to_non_nullable
+search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,departments: freezed == departments ? _self._departments : departments // ignore: cast_nullable_to_non_nullable
 as List<int>?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));

@@ -6,7 +6,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/work/screen/schedule_form/widget/project_selector_dialog.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/project_selector_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class ProjectSelectorWidget extends ConsumerWidget {
@@ -136,7 +136,12 @@ class _DesktopWidget extends ConsumerWidget {
                         scheduleId: scheduleId,
                       ).notifier,
                     )
-                    .setProject(project: null);
+                    .setProject(
+                      projectId: null,
+                      projectName: null,
+                      projectClientId: null,
+                      projectClientName: null,
+                    );
               },
               borderRadius: BorderRadius.circular(4.0),
               child: const Icon(Symbols.close_rounded),

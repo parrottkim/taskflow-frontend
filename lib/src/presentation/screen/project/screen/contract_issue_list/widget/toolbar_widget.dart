@@ -117,10 +117,11 @@ class ToolbarWidget extends HookConsumerWidget {
               SharePlus.instance.share(ShareParams(uri: uri));
             }
           },
-          icon: Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: const Icon(Symbols.share_rounded, size: 20.0, weight: 500.0),
-          ),
+          size: 20.0,
+          opticalSize: 20.0,
+          grade: -25.0,
+          weight: 600.0,
+          icon: const Icon(Symbols.share_rounded),
         ),
         CustomIconButton(
           onTap: () async {

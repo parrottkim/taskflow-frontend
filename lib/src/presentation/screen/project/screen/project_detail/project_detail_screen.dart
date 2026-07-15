@@ -41,6 +41,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
     }, [view]);
 
     return BranchLayout(
+      actions: const [ProjectActionButton()],
       child: switch (detail) {
         AsyncData(:final value) => Responsive(
           desktop: _DesktopWidget(

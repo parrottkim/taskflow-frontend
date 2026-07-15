@@ -304,9 +304,12 @@ class AttachmentItemWidget<T> extends HookConsumerWidget {
                       ),
                     );
               },
-              icon: Icon(Symbols.share_rounded, size: 20.0),
+              size: 20.0,
+              opticalSize: 20.0,
+              grade: -25.0,
+              weight: 600.0,
+              icon: const Icon(Symbols.share_rounded),
             ),
-            SizedBox(width: 4.0),
             CustomIconButton(
               onTap: () async {
                 final uri = Uri(

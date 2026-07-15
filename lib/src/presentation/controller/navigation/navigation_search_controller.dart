@@ -8,7 +8,7 @@ class NavigationSearchController extends _$NavigationSearchController {
   }
 
   Future<NavigationSearchState> _init() async {
-    final filter = await ref.watch(navigationFilterControllerProvider.future);
+    final filter = ref.watch(navigationFilterControllerProvider);
 
     final result = await ref
         .read(projectRepositoryProvider)

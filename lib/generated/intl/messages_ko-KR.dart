@@ -103,6 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "common_stay": MessageLookupByLibrary.simpleMessage("머무르기"),
     "common_unfold": MessageLookupByLibrary.simpleMessage("펼쳐보기"),
     "common_updated_at": MessageLookupByLibrary.simpleMessage("수정"),
+    "common_view": MessageLookupByLibrary.simpleMessage("조회"),
     "connection_error": MessageLookupByLibrary.simpleMessage(
       "연결 오류가 발생했습니다. 네트워크를 확인하세요.",
     ),
@@ -255,6 +256,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "document": MessageLookupByLibrary.simpleMessage("문서"),
     "document_add": MessageLookupByLibrary.simpleMessage("문서 추가"),
     "document_attachment": MessageLookupByLibrary.simpleMessage("첨부파일"),
+    "document_attachment_history": MessageLookupByLibrary.simpleMessage(
+      "이력 보기",
+    ),
     "document_column_1": MessageLookupByLibrary.simpleMessage("문서명"),
     "document_column_2": MessageLookupByLibrary.simpleMessage("작성자"),
     "document_column_3": MessageLookupByLibrary.simpleMessage("첨부"),
@@ -272,6 +276,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "문서를 삭제하면 다시 복구할 수 없습니다.",
     ),
     "document_deleted": MessageLookupByLibrary.simpleMessage("문서가 삭제되었습니다"),
+    "document_detail": MessageLookupByLibrary.simpleMessage("문서 상세"),
     "document_edit_title": MessageLookupByLibrary.simpleMessage("문서 수정"),
     "document_fixed": MessageLookupByLibrary.simpleMessage("공지"),
     "document_folder_create_title": MessageLookupByLibrary.simpleMessage(
@@ -304,6 +309,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "document_form_4": MessageLookupByLibrary.simpleMessage(
       "중요 문서는 목록 상단에 표시합니다.",
     ),
+    "document_mail": MessageLookupByLibrary.simpleMessage("문서 공유"),
     "document_no_item": MessageLookupByLibrary.simpleMessage("문서가 없습니다."),
     "document_not_found": MessageLookupByLibrary.simpleMessage(
       "문서를 찾을 수 없습니다.",
@@ -370,6 +376,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "forgot_password_title": MessageLookupByLibrary.simpleMessage(
       "이메일 주소를 입력하면, 비밀번호를 재설정 메일을 보내드립니다.",
+    ),
+    "guest_read_only": MessageLookupByLibrary.simpleMessage(
+      "읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.",
     ),
     "highlight_color": MessageLookupByLibrary.simpleMessage("배경 색상"),
     "hyundai": MessageLookupByLibrary.simpleMessage("현대자동차"),
@@ -1095,6 +1104,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_search_empty": MessageLookupByLibrary.simpleMessage(
       "검색 결과가 없습니다.",
     ),
+    "schedule_segment_1": MessageLookupByLibrary.simpleMessage("타임라인"),
+    "schedule_segment_2": MessageLookupByLibrary.simpleMessage("내 일정"),
     "send_timeout": MessageLookupByLibrary.simpleMessage(
       "요청을 보내는 도중 시간이 초과되었습니다.",
     ),
@@ -1123,8 +1134,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "입력한 이메일이 존재하지 않습니다.\n정보를 확인하고 다시 시도하세요.",
     ),
     "work": MessageLookupByLibrary.simpleMessage("업무"),
-    "work_segment_1": MessageLookupByLibrary.simpleMessage("근무 일정"),
-    "work_segment_2": MessageLookupByLibrary.simpleMessage("담당 프로젝트"),
+    "work_segment_1": MessageLookupByLibrary.simpleMessage("프로젝트"),
     "wrong_approach_content": MessageLookupByLibrary.simpleMessage(
       "확인 버튼을 누르면 이전 화면으로 돌아갑니다.",
     ),

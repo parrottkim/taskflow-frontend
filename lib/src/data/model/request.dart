@@ -93,11 +93,11 @@ abstract class UpdateProjectDto with _$UpdateProjectDto {
 }
 
 @freezed
-abstract class SendIssueMailDto with _$SendIssueMailDto {
-  factory SendIssueMailDto({List<int>? userIds}) = _SendIssueMailDto;
+abstract class SendMailDto with _$SendMailDto {
+  factory SendMailDto({List<int>? userIds}) = _SendMailDto;
 
-  factory SendIssueMailDto.fromJson(Map<String, dynamic> json) =>
-      _$SendIssueMailDtoFromJson(json);
+  factory SendMailDto.fromJson(Map<String, dynamic> json) =>
+      _$SendMailDtoFromJson(json);
 }
 
 @freezed
@@ -413,14 +413,6 @@ abstract class ScheduleDto with _$ScheduleDto {
 
   factory ScheduleDto.fromJson(Map<String, dynamic> json) =>
       _$CreateScheduleDtoFromJson(json);
-}
-
-@freezed
-abstract class SendReportMailDto with _$SendReportMailDto {
-  factory SendReportMailDto({List<int>? userIds}) = _SendReportMailDto;
-
-  factory SendReportMailDto.fromJson(Map<String, dynamic> json) =>
-      _$SendReportMailDtoFromJson(json);
 }
 
 // ⭐️ [신규] 보고서 생성 전체 요청 모델 (CreateReportDto 대응)

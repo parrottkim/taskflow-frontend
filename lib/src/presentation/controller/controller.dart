@@ -51,6 +51,7 @@ part 'data/data_filter_state.dart';
 
 part 'document/document_filter_controller.dart';
 part 'document/document_filter_state.dart';
+part 'document/document_detail_controller.dart';
 part 'document/document_form_controller.dart';
 part 'document/document_form_state.dart';
 part 'document/document_list_controller.dart';
@@ -157,12 +158,7 @@ part 'work/work_filter_state.dart';
 
 enum ProjectFilterScope { projectPage, scheduleProjectSelector }
 
-enum ScheduleFilterScope {
-  schedulePage,
-  userScheduleList,
-  projectReportCategory,
-  scheduleSelectorDialog,
-}
+enum ScheduleFilterScope { schedulePage, scheduleSelectorDialog }
 
 enum SupplierFilterScope { dataPage, issueSupplierDialog }
 

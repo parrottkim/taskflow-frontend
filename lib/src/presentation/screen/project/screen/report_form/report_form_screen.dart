@@ -174,7 +174,8 @@ class _DesktopWidget extends HookConsumerWidget {
           final base64 = imageUrl.split(',').last;
           final bytes = base64Decode(base64);
           final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+              lookupMimeType('', headerBytes: bytes) ??
+              'application/octet-stream';
 
           final extension = extensionFromMime(mimeType) ?? 'jpeg';
           final filename = '${node.id}.$extension';

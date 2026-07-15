@@ -31,7 +31,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .addListItem(item: project);
+          .addListItem(item: ProjectListItem.fromProject(project));
 
       state = ProjectSubmitState.created(project);
     } catch (e) {
@@ -67,7 +67,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .updateListItem(item: project);
+          .updateListItem(item: ProjectListItem.fromProject(project));
       ref
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);
@@ -100,7 +100,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
               ProjectFilterScope.projectPage,
             ).notifier,
           )
-          .updateListItem(item: project);
+          .updateListItem(item: ProjectListItem.fromProject(project));
       ref
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);

@@ -8,9 +8,7 @@ class ProjectListController extends _$ProjectListController {
   }
 
   Future<ProjectListState> _init() async {
-    final filter = await ref.watch(
-      projectFilterControllerProvider(scope).future,
-    );
+    final filter = ref.watch(projectFilterControllerProvider(scope));
 
     final result = await ref
         .watch(projectRepositoryProvider)
@@ -33,9 +31,7 @@ class ProjectListController extends _$ProjectListController {
   }
 
   Future<void> load() async {
-    final filter = await ref.watch(
-      projectFilterControllerProvider(scope).future,
-    );
+    final filter = ref.watch(projectFilterControllerProvider(scope));
 
     final value = state.value;
 
@@ -89,7 +85,7 @@ class ProjectListController extends _$ProjectListController {
     }
   }
 
-  void addListItem({required Project item}) {
+  void addListItem({required ProjectListItem item}) {
     final value = state.value;
     if (value == null) return;
 
@@ -97,7 +93,7 @@ class ProjectListController extends _$ProjectListController {
     state = AsyncValue.data(value.copyWith(items: projects));
   }
 
-  void updateListItem({required Project item}) {
+  void updateListItem({required ProjectListItem item}) {
     final value = state.value;
     if (value == null) return;
 

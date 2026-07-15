@@ -258,12 +258,10 @@ class _DesktopWidget extends ConsumerWidget {
                                     pathParameters: {
                                       'supplier_id': items[index].id.toString(),
                                     },
-                                    queryParameters: {
-                                      ...GoRouterState.of(
-                                        context,
-                                      ).uri.queryParameters,
-                                      'view': 'supplier',
-                                    },
+                                    queryParameters: buildQueryParameters(
+                                      context,
+                                      updates: const {'view': 'supplier'},
+                                    ),
                                   );
                                 },
                                 padding: EdgeInsets.all(4.0),

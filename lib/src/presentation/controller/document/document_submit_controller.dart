@@ -10,7 +10,7 @@ class DocumentSubmitController extends _$DocumentSubmitController {
 
     if (value == null) return;
 
-    state = DocumentSubmitState.pending();
+    state = const DocumentSubmitState.pending();
 
     try {
       final request = CreateDocumentDto(
@@ -30,7 +30,8 @@ class DocumentSubmitController extends _$DocumentSubmitController {
         for (final file in value.files!) {
           final bytes = await file.readAsBytes();
           final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+              lookupMimeType('', headerBytes: bytes) ??
+              'application/octet-stream';
           files.add(
             MultipartFile.fromBytes(
               bytes,
@@ -51,7 +52,7 @@ class DocumentSubmitController extends _$DocumentSubmitController {
 
       ref
           .read(documentListControllerProvider.notifier)
-          .addListItem(item: document);
+          .addListItem(item: DocumentListItem.fromDocument(document));
 
       state = DocumentSubmitState.documentCreated();
     } catch (e) {
@@ -66,7 +67,7 @@ class DocumentSubmitController extends _$DocumentSubmitController {
 
     if (value == null) return;
 
-    state = DocumentSubmitState.pending();
+    state = const DocumentSubmitState.pending();
 
     try {
       final request = CreateDocumentDto(
@@ -86,7 +87,8 @@ class DocumentSubmitController extends _$DocumentSubmitController {
         for (final file in value.files!) {
           final bytes = await file.readAsBytes();
           final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+              lookupMimeType('', headerBytes: bytes) ??
+              'application/octet-stream';
           files.add(
             MultipartFile.fromBytes(
               bytes,
@@ -107,7 +109,8 @@ class DocumentSubmitController extends _$DocumentSubmitController {
 
       ref
           .read(documentListControllerProvider.notifier)
-          .updateListItem(item: document);
+          .updateListItem(item: DocumentListItem.fromDocument(document));
+      ref.invalidate(documentDetailControllerProvider(documentId: documentId));
 
       state = DocumentSubmitState.documentUpdated();
     } catch (e) {
@@ -115,8 +118,24 @@ class DocumentSubmitController extends _$DocumentSubmitController {
     }
   }
 
+  Future<void> deleteDocument({required int documentId}) async {
+    state = const DocumentSubmitState.pending();
+
+    try {
+      await ref.read(documentRepositoryProvider).deleteDocument(id: documentId);
+
+      ref
+          .read(documentListControllerProvider.notifier)
+          .removeListItem(id: documentId);
+
+      state = DocumentSubmitState.documentDeleted();
+    } catch (e) {
+      state = DocumentSubmitState.failure(e.toString());
+    }
+  }
+
   Future<void> syncFolders({required List<DocumentFolder> folders}) async {
-    state = DocumentSubmitState.pending();
+    state = const DocumentSubmitState.pending();
 
     try {
       final request = SyncDocumentFoldersDto(
@@ -132,6 +151,30 @@ class DocumentSubmitController extends _$DocumentSubmitController {
           .setFolderItems(items: result);
 
       state = DocumentSubmitState.folderSuccess();
+    } catch (e) {
+      state = DocumentSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> sendEmail({
+    required int documentId,
+    required List<User> users,
+    required bool isAllSelected,
+  }) async {
+    state = const DocumentSubmitState.pending();
+
+    final request = SendMailDto(
+      userIds: isAllSelected
+          ? null
+          : users.map((element) => element.id).toList(),
+    );
+
+    try {
+      await ref
+          .read(documentRepositoryProvider)
+          .sendMail(id: documentId, request: request);
+
+      state = DocumentSubmitState.mailed();
     } catch (e) {
       state = DocumentSubmitState.failure(e.toString());
     }

@@ -29,17 +29,22 @@ class ScheduleFormController extends _$ScheduleFormController {
     );
   }
 
-  void setProject({Project? project}) {
+  void setProject({
+    int? projectId,
+    String? projectName,
+    int? projectClientId,
+    String? projectClientName,
+  }) {
     final value = state.value;
 
     if (value == null) return;
 
     state = AsyncData(
       value.copyWith(
-        projectId: project?.id,
-        projectName: project?.name,
-        projectClientId: project?.clients.first.id,
-        projectClientName: project?.clients.last.name,
+        projectId: projectId,
+        projectName: projectName,
+        projectClientId: projectClientId,
+        projectClientName: projectClientName,
       ),
     );
   }

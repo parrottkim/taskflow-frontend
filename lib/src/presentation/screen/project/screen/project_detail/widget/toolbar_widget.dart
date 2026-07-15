@@ -96,14 +96,11 @@ class ToolbarWidget extends HookConsumerWidget {
                 SharePlus.instance.share(ShareParams(uri: uri));
               }
             },
-            icon: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: const Icon(
-                Symbols.share_rounded,
-                size: 20.0,
-                weight: 500.0,
-              ),
-            ),
+            size: 20.0,
+            opticalSize: 20.0,
+            grade: -25.0,
+            weight: 600.0,
+            icon: const Icon(Symbols.share_rounded),
           ),
           CustomIconButton(
             onTap: () async {
@@ -115,10 +112,9 @@ class ToolbarWidget extends HookConsumerWidget {
                   )
                   .toggleBookmark(bookmarked: !project.isBookmarked);
             },
-            icon: Icon(
-              Symbols.bookmark_rounded,
-              fill: project.isBookmarked ? 1.0 : 0.0,
-            ),
+            size: 24.0,
+            fill: project.isBookmarked ? 1.0 : 0.0,
+            icon: const Icon(Symbols.bookmark_rounded),
           ),
           MenuAnchor(
             alignmentOffset: Offset(-140.0, 0.0),
@@ -249,6 +245,20 @@ class ToolbarWidget extends HookConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text(
                   relativeDate,
+                  style: textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.outline.withValues(alpha: 0.7),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Divider(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  '${Intl.message('common_view')} ${project.views}',
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: colorScheme.outline.withValues(alpha: 0.7),

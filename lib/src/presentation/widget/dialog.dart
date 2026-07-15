@@ -305,7 +305,7 @@ class NavigationSearchDialog extends HookConsumerWidget {
       router.goNamed(item.route);
     }
 
-    void moveToProject(Project project) {
+    void moveToProject(ProjectListItem project) {
       final router = GoRouter.of(context);
 
       ref
@@ -545,7 +545,7 @@ class _SearchActiveContent extends StatelessWidget {
   final AsyncValue<NavigationSearchState> projectSearch;
   final List<NavigationButton> menuResults;
   final ValueChanged<NavigationButton> onMenuTap;
-  final ValueChanged<Project> onProjectTap;
+  final ValueChanged<ProjectListItem> onProjectTap;
   final ValueChanged<String> onSearchTap;
 
   const _SearchActiveContent({
@@ -588,7 +588,7 @@ class _SearchActiveContent extends StatelessWidget {
           _ => Skeletonizer(
             child: _SearchProjectSection(
               keyword: keyword,
-              projectResults: List.filled(3, Project.dummy()),
+              projectResults: List.filled(3, ProjectListItem.dummy()),
               onProjectTap: (_) {},
               onSearchTap: (_) {},
             ),
@@ -601,8 +601,8 @@ class _SearchActiveContent extends StatelessWidget {
 
 class _SearchProjectSection extends StatelessWidget {
   final String keyword;
-  final List<Project> projectResults;
-  final ValueChanged<Project> onProjectTap;
+  final List<ProjectListItem> projectResults;
+  final ValueChanged<ProjectListItem> onProjectTap;
   final ValueChanged<String> onSearchTap;
 
   const _SearchProjectSection({
@@ -1383,64 +1383,57 @@ class UserSelectorDialog extends HookConsumerWidget {
                   )
                   .debounceSearch(search: value),
             ),
-            switch ((filter, options)) {
-              (
-                AsyncData(value: final filter),
-                AsyncData(value: final options),
-              ) =>
-                Column(
-                  children: [
-                    UserDepartmentSegmentWidget(
-                      department: _findUserDepartment(
-                        items: options.departmentItems,
-                        departmentId: filter.departments?.lastOrNull,
-                      ),
-                      departmentItems: options.departmentItems,
+            switch (options) {
+              AsyncData(value: final options) => Column(
+                children: [
+                  UserDepartmentSegmentWidget(
+                    department: _findUserDepartment(
+                      items: options.departmentItems,
+                      departmentId: filter.departments?.lastOrNull,
                     ),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 12.0,
-                      ),
-                      child: Row(
-                        children: [
-                          UserPositionFilterWidget(
-                            position: _findUserPosition(
-                              items: options.positionItems,
-                              positionId: filter.positionId,
-                            ),
-                            positionItems: options.positionItems,
-                            onChanged: (value) => ref
-                                .read(
-                                  userFilterControllerProvider(
-                                    UserFilterScope.userSelectorDialog,
-                                  ).notifier,
-                                )
-                                .setPosition(position: value),
+                    departmentItems: options.departmentItems,
+                  ),
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 12.0,
+                    ),
+                    child: Row(
+                      children: [
+                        UserPositionFilterWidget(
+                          position: _findUserPosition(
+                            items: options.positionItems,
+                            positionId: filter.positionId,
                           ),
-                          if (isSelectableMode) const Spacer(),
-                          if (isSelectableMode)
-                            TextButton(
-                              onPressed: visibleItems.isEmpty
-                                  ? null
-                                  : () => toggleSelectAll(visibleItems),
-                              child: Text(
-                                allVisibleSelected
-                                    ? Intl.message('filter_unselect_all')
-                                    : Intl.message('filter_select_all'),
-                              ),
+                          positionItems: options.positionItems,
+                          onChanged: (value) => ref
+                              .read(
+                                userFilterControllerProvider(
+                                  UserFilterScope.userSelectorDialog,
+                                ).notifier,
+                              )
+                              .setPosition(position: value),
+                        ),
+                        if (isSelectableMode) const Spacer(),
+                        if (isSelectableMode)
+                          TextButton(
+                            onPressed: visibleItems.isEmpty
+                                ? null
+                                : () => toggleSelectAll(visibleItems),
+                            child: Text(
+                              allVisibleSelected
+                                  ? Intl.message('filter_unselect_all')
+                                  : Intl.message('filter_select_all'),
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
-                  ],
-                ),
-              (AsyncError(:final error, :final stackTrace), _) ||
-              (
-                _,
-                AsyncError(:final error, :final stackTrace),
-              ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                  ),
+                ],
+              ),
+              AsyncError(:final error, :final stackTrace) =>
+                ErrorContainerWidget(error: error, stackTrace: stackTrace),
               _ => Skeletonizer(
                 child: Column(
                   children: [

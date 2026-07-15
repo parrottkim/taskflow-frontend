@@ -40,7 +40,7 @@ class ProjectListWidget extends ConsumerWidget {
 
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
         child: ContainerWidget(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
@@ -56,9 +56,11 @@ class ProjectListWidget extends ConsumerWidget {
             _ => Skeletonizer(
               child: Responsive(
                 desktop: _DesktopWidget(
-                  items: List.filled(20, Project.dummy()),
+                  items: List.filled(20, ProjectListItem.dummy()),
                 ),
-                mobile: _MobileWidget(items: List.filled(20, Project.dummy())),
+                mobile: _MobileWidget(
+                  items: List.filled(20, ProjectListItem.dummy()),
+                ),
               ),
             ),
           },
@@ -69,7 +71,7 @@ class ProjectListWidget extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final List<Project> items;
+  final List<ProjectListItem> items;
 
   const _DesktopWidget({required this.items});
 
@@ -423,17 +425,14 @@ class _DesktopWidget extends HookConsumerWidget {
   }
 }
 
-class _MobileWidget extends HookConsumerWidget {
-  final List<Project> items;
+class _MobileWidget extends ConsumerWidget {
+  final List<ProjectListItem> items;
 
   const _MobileWidget({required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    final auth = ref.watch(authControllerProvider);
 
     if (items.isEmpty) {
       return Center(
@@ -473,235 +472,252 @@ class _MobileWidget extends HookConsumerWidget {
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: items.length,
-        itemBuilder: (context, index) => InkWell(
-          onTap: () {
-            context.goNamed(
-              RouteNames.projectDetail,
-              pathParameters: {'project_id': items[index].id.toString()},
-            );
-          },
-          child: Stack(
-            alignment: Alignment.topRight,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ElevatedIconButton(
-                      onTap: () async {
-                        await ref
-                            .read(
-                              projectListControllerProvider(
-                                ProjectFilterScope.projectPage,
-                              ).notifier,
-                            )
-                            .toggleBookmark(
-                              id: items[index].id,
-                              bookmarked: !items[index].isBookmarked,
-                            );
-                      },
-                      padding: EdgeInsets.all(4.0),
-                      borderRadius: BorderRadius.circular(4.0),
-                      icon: Symbols.bookmark_rounded,
-                      size: 20.0,
-                      fill: items[index].isBookmarked ? 1.0 : 0.0,
-                    ),
-                    if (auth is AuthAuthenticated && auth.user.isAdmin ||
-                        auth is AuthAuthenticated &&
-                            auth.user.id == items[index].createdBy.id)
-                      Padding(
-                        padding: EdgeInsets.only(left: 4.0),
-                        child: ElevatedIconButton(
-                          onTap: !items[index].isClosed
-                              ? () => context.goNamed(
-                                  RouteNames.projectEdit,
-                                  pathParameters: {
-                                    'project_id': items[index].id.toString(),
-                                  },
-                                )
-                              : null,
-                          padding: EdgeInsets.all(4.0),
-                          borderRadius: BorderRadius.circular(4.0),
-                          icon: Symbols.edit_square_rounded,
-                          size: 20.0,
-                        ),
-                      ),
-                  ],
+        itemBuilder: (context, index) => _MobileItem(item: items[index]),
+        separatorBuilder: (_, _) => const Divider(),
+      ),
+    );
+  }
+}
+
+class _MobileItem extends ConsumerWidget {
+  final ProjectListItem item;
+
+  const _MobileItem({required this.item});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    final auth = ref.watch(authControllerProvider);
+    final canEdit =
+        auth is AuthAuthenticated &&
+        (auth.user.isAdmin || auth.user.id == item.createdBy.id);
+    final clientType = ClientType.fromKey(item.clients.first.id);
+    final date = item.createdAt == item.updatedAt
+        ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.createdAt)}'
+        : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
+
+    return InkWell(
+      onTap: () => context.goNamed(
+        RouteNames.projectDetail,
+        pathParameters: {'project_id': item.id.toString()},
+      ),
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedIconButton(
+                  onTap: () async {
+                    await ref
+                        .read(
+                          projectListControllerProvider(
+                            ProjectFilterScope.projectPage,
+                          ).notifier,
+                        )
+                        .toggleBookmark(
+                          id: item.id,
+                          bookmarked: !item.isBookmarked,
+                        );
+                  },
+                  padding: const EdgeInsets.all(4.0),
+                  borderRadius: BorderRadius.circular(4.0),
+                  icon: Symbols.bookmark_rounded,
+                  size: 20.0,
+                  fill: item.isBookmarked ? 1.0 : 0.0,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (items[index].isPreexecuted || items[index].isClosed)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          children: [
-                            if (items[index].isPreexecuted)
-                              Padding(
-                                padding: EdgeInsets.only(right: 6.0),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 8.0,
-                                    vertical: 2.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    color: colorScheme.error.withValues(
-                                      alpha: 0.6,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    Intl.message('project_preexecuted'),
-                                    style: textTheme.labelSmall?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      color: colorScheme.onError,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            if (items[index].isClosed)
-                              Padding(
-                                padding: EdgeInsets.only(right: 6.0),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 8.0,
-                                    vertical: 2.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.6,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    Intl.message('project_closed'),
-                                    style: textTheme.labelSmall?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      color: colorScheme.surface,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    if (items[index].latestCategory != null)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 16.0),
-                        child: CategoryWidget(
-                          item: items[index].latestCategory!,
-                        ),
-                      ),
-                    Row(
+                if (canEdit)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0),
+                    child: ElevatedIconButton(
+                      onTap: !item.isClosed
+                          ? () => context.goNamed(
+                              RouteNames.projectEdit,
+                              pathParameters: {
+                                'project_id': item.id.toString(),
+                              },
+                            )
+                          : null,
+                      padding: const EdgeInsets.all(4.0),
+                      borderRadius: BorderRadius.circular(4.0),
+                      icon: Symbols.edit_square_rounded,
+                      size: 20.0,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (item.isPreexecuted || item.isClosed)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Row(
                       children: [
-                        Skeleton.leaf(
-                          child: Container(
-                            padding: EdgeInsets.all(6.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              color: Color(
-                                ClientType.fromKey(
-                                  items[index].clients.first.id,
-                                ).color,
+                        if (item.isPreexecuted)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 6.0),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 2.0,
                               ),
-                            ),
-                            child: SizedBox(
-                              width: 16.0,
-                              height: 16.0,
-                              child: SvgPicture.asset(
-                                ClientType.fromKey(
-                                  items[index].clients.first.id,
-                                ).asset,
-                                colorFilter: ColorFilter.mode(
-                                  Colors.white,
-                                  BlendMode.srcIn,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.0),
+                                color: colorScheme.error.withValues(alpha: 0.6),
+                              ),
+                              child: Text(
+                                Intl.message('project_preexecuted'),
+                                style: textTheme.labelSmall?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: colorScheme.onError,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          items[index].clients.last.name,
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.0),
-                    Text(
-                      items[index].name,
-                      maxLines: Responsive.isMobile(context) ? 2 : 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Text(
-                      items[index].code,
-                      style: TextStyle(
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: Divider(),
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Symbols.calendar_today_rounded,
-                          size: 18.0,
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
-                        SizedBox(width: 4.0),
-                        Text(
-                          items[index].createdAt == items[index].updatedAt
-                              ? '${formatRelativeDate(items[index].createdAt)} ${Intl.message('common_created_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(items[index].createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(items[index].createdAt)}'
-                              : '${formatRelativeDate(items[index].updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(items[index].updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(items[index].updatedAt)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: colorScheme.onSurface.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (items[index].manager != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Symbols.person_rounded,
-                              size: 18.0,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.6,
+                        if (item.isClosed)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 6.0),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 2.0,
                               ),
-                            ),
-                            SizedBox(width: 4.0),
-                            Text(
-                              items[index].manager!.username,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.0),
                                 color: colorScheme.onSurface.withValues(
                                   alpha: 0.6,
                                 ),
                               ),
+                              child: Text(
+                                Intl.message('project_closed'),
+                                style: textTheme.labelSmall?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: colorScheme.surface,
+                                ),
+                              ),
                             ),
-                          ],
+                          ),
+                      ],
+                    ),
+                  ),
+                if (item.latestCategory case final category?)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: CategoryWidget(item: category),
+                  ),
+                Row(
+                  children: [
+                    Skeleton.leaf(
+                      child: Container(
+                        padding: const EdgeInsets.all(6.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Color(clientType.color),
+                        ),
+                        child: SizedBox(
+                          width: 16.0,
+                          height: 16.0,
+                          child: SvgPicture.asset(
+                            clientType.asset,
+                            colorFilter: const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                          ),
                         ),
                       ),
+                    ),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        item.clients.last.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 16.0),
+                Text(
+                  item.name,
+                  maxLines: Responsive.isMobile(context) ? 2 : 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  item.code,
+                  style: TextStyle(
+                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: Divider(),
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Symbols.calendar_today_rounded,
+                      size: 18.0,
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                    const SizedBox(width: 4.0),
+                    Expanded(
+                      child: Text(
+                        date,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (item.manager case final manager?)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Symbols.person_rounded,
+                          size: 18.0,
+                          color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
+                        const SizedBox(width: 4.0),
+                        Expanded(
+                          child: Text(
+                            manager.username,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: colorScheme.onSurface.withValues(
+                                alpha: 0.6,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
           ),
-        ),
-        separatorBuilder: (_, __) => Divider(),
+        ],
       ),
     );
   }

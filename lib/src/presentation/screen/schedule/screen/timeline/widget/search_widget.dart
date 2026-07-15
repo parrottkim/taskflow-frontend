@@ -4,11 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/router/router.dart';
 
-class SearchWidget extends ConsumerWidget {
+class SearchWidget extends HookConsumerWidget {
   const SearchWidget({super.key});
 
   @override
@@ -16,34 +15,15 @@ class SearchWidget extends ConsumerWidget {
     final filter = ref.watch(
       scheduleFilterControllerProvider(ScheduleFilterScope.schedulePage),
     );
-
-    return switch (filter) {
-      AsyncData(:final value) => _DesktopWidget(
-        search: value.search,
-        departments: value.departments,
-      ),
-      _ => Skeletonizer(child: _DesktopWidget()),
-    };
-  }
-}
-
-class _DesktopWidget extends HookConsumerWidget {
-  final String? search;
-  final List<int>? departments;
-
-  const _DesktopWidget({this.search, this.departments});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final controller = useTextEditingController(text: search);
+    final controller = useTextEditingController(text: filter.search);
     final keyword = useValueListenable(controller);
 
     useEffect(() {
-      controller.text = search ?? '';
+      controller.text = filter.search ?? '';
       return null;
-    }, [search]);
+    }, [filter.search]);
 
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 430.0),
@@ -62,10 +42,10 @@ class _DesktopWidget extends HookConsumerWidget {
 
           context.goNamed(
             RouteNames.schedule,
-            queryParameters: {
-              if (search.isNotEmpty) 'search': search,
-              if (departments != null) 'departments': departments!.join(','),
-            },
+            queryParameters: buildQueryParameters(
+              context,
+              updates: {'search': search},
+            ),
           );
         },
         decoration: InputDecoration(

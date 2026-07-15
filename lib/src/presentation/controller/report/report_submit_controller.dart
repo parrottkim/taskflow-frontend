@@ -108,7 +108,8 @@ class ReportSubmitController extends _$ReportSubmitController {
         for (final file in value.files!) {
           final bytes = await file.readAsBytes();
           final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+              lookupMimeType('', headerBytes: bytes) ??
+              'application/octet-stream';
           files.add(
             MultipartFile.fromBytes(
               bytes,
@@ -250,7 +251,8 @@ class ReportSubmitController extends _$ReportSubmitController {
         for (final file in value.files!) {
           final bytes = await file.readAsBytes();
           final mimeType =
-              lookupMimeType('', headerBytes: bytes) ?? 'image/jpeg';
+              lookupMimeType('', headerBytes: bytes) ??
+              'application/octet-stream';
           files.add(
             MultipartFile.fromBytes(
               bytes,
@@ -306,7 +308,7 @@ class ReportSubmitController extends _$ReportSubmitController {
   }) async {
     state = const ReportSubmitState.pending();
 
-    final request = SendReportMailDto(
+    final request = SendMailDto(
       userIds: isAllSelected
           ? null
           : users.map((element) => element.id).toList(),

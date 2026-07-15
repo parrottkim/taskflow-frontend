@@ -13,8 +13,7 @@ part of 'controller.dart';
 final accountFilterControllerProvider = AccountFilterControllerProvider._();
 
 final class AccountFilterControllerProvider
-    extends
-        $AsyncNotifierProvider<AccountFilterController, AccountFilterState> {
+    extends $NotifierProvider<AccountFilterController, AccountFilterState> {
   AccountFilterControllerProvider._()
     : super(
         from: null,
@@ -32,24 +31,30 @@ final class AccountFilterControllerProvider
   @$internal
   @override
   AccountFilterController create() => AccountFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AccountFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AccountFilterState>(value),
+    );
+  }
 }
 
 String _$accountFilterControllerHash() =>
-    r'bb14cf892948c1bdfaa10e442fc2a0ee451ebb74';
+    r'783e050b90667b53caf33e578236118e56de32c1';
 
-abstract class _$AccountFilterController
-    extends $AsyncNotifier<AccountFilterState> {
-  FutureOr<AccountFilterState> build();
+abstract class _$AccountFilterController extends $Notifier<AccountFilterState> {
+  AccountFilterState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<AccountFilterState>, AccountFilterState>;
+    final ref = this.ref as $Ref<AccountFilterState, AccountFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<AccountFilterState>, AccountFilterState>,
-              AsyncValue<AccountFilterState>,
+              AnyNotifier<AccountFilterState, AccountFilterState>,
+              AccountFilterState,
               Object?,
               Object?
             >;
@@ -561,7 +566,7 @@ abstract class _$WorldMapController extends $AsyncNotifier<WorldMapState> {
 final dataFilterControllerProvider = DataFilterControllerProvider._();
 
 final class DataFilterControllerProvider
-    extends $AsyncNotifierProvider<DataFilterController, DataFilterState> {
+    extends $NotifierProvider<DataFilterController, DataFilterState> {
   DataFilterControllerProvider._()
     : super(
         from: null,
@@ -579,22 +584,30 @@ final class DataFilterControllerProvider
   @$internal
   @override
   DataFilterController create() => DataFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DataFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DataFilterState>(value),
+    );
+  }
 }
 
 String _$dataFilterControllerHash() =>
-    r'29333056457e961e75c7521168f55a3d47e16e9c';
+    r'3a166972af1b2931c870578a09a9b919fb248bc9';
 
-abstract class _$DataFilterController extends $AsyncNotifier<DataFilterState> {
-  FutureOr<DataFilterState> build();
+abstract class _$DataFilterController extends $Notifier<DataFilterState> {
+  DataFilterState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<DataFilterState>, DataFilterState>;
+    final ref = this.ref as $Ref<DataFilterState, DataFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<DataFilterState>, DataFilterState>,
-              AsyncValue<DataFilterState>,
+              AnyNotifier<DataFilterState, DataFilterState>,
+              DataFilterState,
               Object?,
               Object?
             >;
@@ -606,8 +619,7 @@ abstract class _$DataFilterController extends $AsyncNotifier<DataFilterState> {
 final documentFilterControllerProvider = DocumentFilterControllerProvider._();
 
 final class DocumentFilterControllerProvider
-    extends
-        $AsyncNotifierProvider<DocumentFilterController, DocumentFilterState> {
+    extends $NotifierProvider<DocumentFilterController, DocumentFilterState> {
   DocumentFilterControllerProvider._()
     : super(
         from: null,
@@ -625,28 +637,126 @@ final class DocumentFilterControllerProvider
   @$internal
   @override
   DocumentFilterController create() => DocumentFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DocumentFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DocumentFilterState>(value),
+    );
+  }
 }
 
 String _$documentFilterControllerHash() =>
-    r'49c7eeb12aa5e5f05f86954a6762c3f324fe7a4e';
+    r'ef4a953785495be621b6afe132bea7f5ccbca997';
 
 abstract class _$DocumentFilterController
-    extends $AsyncNotifier<DocumentFilterState> {
-  FutureOr<DocumentFilterState> build();
+    extends $Notifier<DocumentFilterState> {
+  DocumentFilterState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<DocumentFilterState>, DocumentFilterState>;
+    final ref = this.ref as $Ref<DocumentFilterState, DocumentFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<DocumentFilterState>, DocumentFilterState>,
-              AsyncValue<DocumentFilterState>,
+              AnyNotifier<DocumentFilterState, DocumentFilterState>,
+              DocumentFilterState,
               Object?,
               Object?
             >;
     element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(DocumentDetailController)
+final documentDetailControllerProvider = DocumentDetailControllerFamily._();
+
+final class DocumentDetailControllerProvider
+    extends $AsyncNotifierProvider<DocumentDetailController, Document> {
+  DocumentDetailControllerProvider._({
+    required DocumentDetailControllerFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'documentDetailControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$documentDetailControllerHash();
+
+  @override
+  String toString() {
+    return r'documentDetailControllerProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  DocumentDetailController create() => DocumentDetailController();
+
+  @override
+  bool operator ==(Object other) {
+    return other is DocumentDetailControllerProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$documentDetailControllerHash() =>
+    r'f0a7be29bdc030ab934845ecac685587db3e3c21';
+
+final class DocumentDetailControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          DocumentDetailController,
+          AsyncValue<Document>,
+          Document,
+          FutureOr<Document>,
+          int
+        > {
+  DocumentDetailControllerFamily._()
+    : super(
+        retry: null,
+        name: r'documentDetailControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  DocumentDetailControllerProvider call({required int documentId}) =>
+      DocumentDetailControllerProvider._(argument: documentId, from: this);
+
+  @override
+  String toString() => r'documentDetailControllerProvider';
+}
+
+abstract class _$DocumentDetailController extends $AsyncNotifier<Document> {
+  late final _$args = ref.$arg as int;
+  int get documentId => _$args;
+
+  FutureOr<Document> build({required int documentId});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<Document>, Document>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<Document>, Document>,
+              AsyncValue<Document>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(documentId: _$args));
   }
 }
 
@@ -768,7 +878,7 @@ final class DocumentListControllerProvider
 }
 
 String _$documentListControllerHash() =>
-    r'a658a40efa73a786c5978692ebd56764f2866332';
+    r'2d8f2c86e6a6bf0db62b6cb1b2ac343e0a55e51c';
 
 abstract class _$DocumentListController
     extends $AsyncNotifier<DocumentListState> {
@@ -878,7 +988,7 @@ final class DocumentSubmitControllerProvider
 }
 
 String _$documentSubmitControllerHash() =>
-    r'e52261a7b2f0a2c530ab0958f4f32c4d4090b448';
+    r'cd1fcfbb4d20a6c681c49cdb6c3875f27829a3d0';
 
 abstract class _$DocumentSubmitController
     extends $Notifier<DocumentSubmitState> {
@@ -1381,7 +1491,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'687db6dc8d067f711051ff1c8c8957c28ac24b3d';
+    r'ce79b965a6866b03c16029903360b73531c88fcd';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -1568,10 +1678,7 @@ final navigationFilterControllerProvider =
 
 final class NavigationFilterControllerProvider
     extends
-        $AsyncNotifierProvider<
-          NavigationFilterController,
-          NavigationFilterState
-        > {
+        $NotifierProvider<NavigationFilterController, NavigationFilterState> {
   NavigationFilterControllerProvider._()
     : super(
         from: null,
@@ -1589,28 +1696,31 @@ final class NavigationFilterControllerProvider
   @$internal
   @override
   NavigationFilterController create() => NavigationFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NavigationFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NavigationFilterState>(value),
+    );
+  }
 }
 
 String _$navigationFilterControllerHash() =>
-    r'c96817792f91e2232e26c2aae5b7aed64bb3a83d';
+    r'7ed58ce5fafe74466f792ab5bd64f69d5417ca57';
 
 abstract class _$NavigationFilterController
-    extends $AsyncNotifier<NavigationFilterState> {
-  FutureOr<NavigationFilterState> build();
+    extends $Notifier<NavigationFilterState> {
+  NavigationFilterState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref
-            as $Ref<AsyncValue<NavigationFilterState>, NavigationFilterState>;
+    final ref = this.ref as $Ref<NavigationFilterState, NavigationFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<NavigationFilterState>,
-                NavigationFilterState
-              >,
-              AsyncValue<NavigationFilterState>,
+              AnyNotifier<NavigationFilterState, NavigationFilterState>,
+              NavigationFilterState,
               Object?,
               Object?
             >;
@@ -1648,7 +1758,7 @@ final class NavigationSearchControllerProvider
 }
 
 String _$navigationSearchControllerHash() =>
-    r'ba3c29104e79fbaa5e7883cc2f6acf145f916dc2';
+    r'5ce9719d4c69d0fc9e31d2bb931016e9279bea22';
 
 abstract class _$NavigationSearchController
     extends $AsyncNotifier<NavigationSearchState> {
@@ -1765,7 +1875,7 @@ final class ProjectDetailControllerProvider
 }
 
 String _$projectDetailControllerHash() =>
-    r'bec4e90a821dfb2c2c277740154589c1b84b6e9b';
+    r'dd25da34683e335b656541fb9c8dd0901c56a1d4';
 
 final class ProjectDetailControllerFamily extends $Family
     with
@@ -1821,7 +1931,7 @@ final projectDetailFilterControllerProvider =
 
 final class ProjectDetailFilterControllerProvider
     extends
-        $AsyncNotifierProvider<
+        $NotifierProvider<
           ProjectDetailFilterController,
           ProjectDetailFilterState
         > {
@@ -1842,31 +1952,32 @@ final class ProjectDetailFilterControllerProvider
   @$internal
   @override
   ProjectDetailFilterController create() => ProjectDetailFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ProjectDetailFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ProjectDetailFilterState>(value),
+    );
+  }
 }
 
 String _$projectDetailFilterControllerHash() =>
-    r'7470c1c38f8d3c21824643500a7fae0047c4e9fa';
+    r'44aaef37a6c941224f6410171a860ecac4702c84';
 
 abstract class _$ProjectDetailFilterController
-    extends $AsyncNotifier<ProjectDetailFilterState> {
-  FutureOr<ProjectDetailFilterState> build();
+    extends $Notifier<ProjectDetailFilterState> {
+  ProjectDetailFilterState build();
   @$mustCallSuper
   @override
   void runBuild() {
     final ref =
-        this.ref
-            as $Ref<
-              AsyncValue<ProjectDetailFilterState>,
-              ProjectDetailFilterState
-            >;
+        this.ref as $Ref<ProjectDetailFilterState, ProjectDetailFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<ProjectDetailFilterState>,
-                ProjectDetailFilterState
-              >,
-              AsyncValue<ProjectDetailFilterState>,
+              AnyNotifier<ProjectDetailFilterState, ProjectDetailFilterState>,
+              ProjectDetailFilterState,
               Object?,
               Object?
             >;
@@ -1878,8 +1989,7 @@ abstract class _$ProjectDetailFilterController
 final projectFilterControllerProvider = ProjectFilterControllerFamily._();
 
 final class ProjectFilterControllerProvider
-    extends
-        $AsyncNotifierProvider<ProjectFilterController, ProjectFilterState> {
+    extends $NotifierProvider<ProjectFilterController, ProjectFilterState> {
   ProjectFilterControllerProvider._({
     required ProjectFilterControllerFamily super.from,
     required ProjectFilterScope super.argument,
@@ -1905,6 +2015,14 @@ final class ProjectFilterControllerProvider
   @override
   ProjectFilterController create() => ProjectFilterController();
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ProjectFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ProjectFilterState>(value),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is ProjectFilterControllerProvider &&
@@ -1918,15 +2036,15 @@ final class ProjectFilterControllerProvider
 }
 
 String _$projectFilterControllerHash() =>
-    r'a51e15da246c79dae97c02b2640930cda70b5bc6';
+    r'6826a3052f5aeb5f51622d1542348f23a1801eac';
 
 final class ProjectFilterControllerFamily extends $Family
     with
         $ClassFamilyOverride<
           ProjectFilterController,
-          AsyncValue<ProjectFilterState>,
           ProjectFilterState,
-          FutureOr<ProjectFilterState>,
+          ProjectFilterState,
+          ProjectFilterState,
           ProjectFilterScope
         > {
   ProjectFilterControllerFamily._()
@@ -1945,22 +2063,20 @@ final class ProjectFilterControllerFamily extends $Family
   String toString() => r'projectFilterControllerProvider';
 }
 
-abstract class _$ProjectFilterController
-    extends $AsyncNotifier<ProjectFilterState> {
+abstract class _$ProjectFilterController extends $Notifier<ProjectFilterState> {
   late final _$args = ref.$arg as ProjectFilterScope;
   ProjectFilterScope get scope => _$args;
 
-  FutureOr<ProjectFilterState> build(ProjectFilterScope scope);
+  ProjectFilterState build(ProjectFilterScope scope);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<ProjectFilterState>, ProjectFilterState>;
+    final ref = this.ref as $Ref<ProjectFilterState, ProjectFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<ProjectFilterState>, ProjectFilterState>,
-              AsyncValue<ProjectFilterState>,
+              AnyNotifier<ProjectFilterState, ProjectFilterState>,
+              ProjectFilterState,
               Object?,
               Object?
             >;
@@ -2102,7 +2218,7 @@ final class ProjectListControllerProvider
 }
 
 String _$projectListControllerHash() =>
-    r'96f791d1873abfbd5692f4b7d9cc43dd33bc7d9e';
+    r'241a34f42e1919a0436e70f6dc1e9179a7d84bfd';
 
 final class ProjectListControllerFamily extends $Family
     with
@@ -2233,7 +2349,7 @@ final class ProjectSubmitControllerProvider
 }
 
 String _$projectSubmitControllerHash() =>
-    r'0be8ad81f1f59bea90160cb01b2781cdd8fa07f7';
+    r'385fc5f7d5d4c4ec0d9b6fd4d07bb7bd764ef311';
 
 abstract class _$ProjectSubmitController extends $Notifier<ProjectSubmitState> {
   ProjectSubmitState build();
@@ -2257,8 +2373,7 @@ abstract class _$ProjectSubmitController extends $Notifier<ProjectSubmitState> {
 final scheduleFilterControllerProvider = ScheduleFilterControllerFamily._();
 
 final class ScheduleFilterControllerProvider
-    extends
-        $AsyncNotifierProvider<ScheduleFilterController, ScheduleFilterState> {
+    extends $NotifierProvider<ScheduleFilterController, ScheduleFilterState> {
   ScheduleFilterControllerProvider._({
     required ScheduleFilterControllerFamily super.from,
     required ScheduleFilterScope super.argument,
@@ -2284,6 +2399,14 @@ final class ScheduleFilterControllerProvider
   @override
   ScheduleFilterController create() => ScheduleFilterController();
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(ScheduleFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<ScheduleFilterState>(value),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is ScheduleFilterControllerProvider &&
@@ -2297,15 +2420,15 @@ final class ScheduleFilterControllerProvider
 }
 
 String _$scheduleFilterControllerHash() =>
-    r'77a421f8bbcc5f36faa3a76fe24a4ceac98008ff';
+    r'299618520bfe9043a1895fbb9b9dd14f73d8909d';
 
 final class ScheduleFilterControllerFamily extends $Family
     with
         $ClassFamilyOverride<
           ScheduleFilterController,
-          AsyncValue<ScheduleFilterState>,
           ScheduleFilterState,
-          FutureOr<ScheduleFilterState>,
+          ScheduleFilterState,
+          ScheduleFilterState,
           ScheduleFilterScope
         > {
   ScheduleFilterControllerFamily._()
@@ -2325,21 +2448,20 @@ final class ScheduleFilterControllerFamily extends $Family
 }
 
 abstract class _$ScheduleFilterController
-    extends $AsyncNotifier<ScheduleFilterState> {
+    extends $Notifier<ScheduleFilterState> {
   late final _$args = ref.$arg as ScheduleFilterScope;
   ScheduleFilterScope get scope => _$args;
 
-  FutureOr<ScheduleFilterState> build(ScheduleFilterScope scope);
+  ScheduleFilterState build(ScheduleFilterScope scope);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<ScheduleFilterState>, ScheduleFilterState>;
+    final ref = this.ref as $Ref<ScheduleFilterState, ScheduleFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<ScheduleFilterState>, ScheduleFilterState>,
-              AsyncValue<ScheduleFilterState>,
+              AnyNotifier<ScheduleFilterState, ScheduleFilterState>,
+              ScheduleFilterState,
               Object?,
               Object?
             >;
@@ -2390,7 +2512,7 @@ final class ScheduleFormControllerProvider
 }
 
 String _$scheduleFormControllerHash() =>
-    r'fb943571166d23ca0eab50db74c51613c3937f50';
+    r'd70ea23269c23d06d73ab29420f9c83e2be46056';
 
 final class ScheduleFormControllerFamily extends $Family
     with
@@ -2493,7 +2615,7 @@ final class ScheduleListControllerProvider
 }
 
 String _$scheduleListControllerHash() =>
-    r'c005aa530aa99394c0a4f72b5c70c7089811b8e7';
+    r'a952b4550136c6b3e4425ce40340de39086adf86';
 
 final class ScheduleListControllerFamily extends $Family
     with
@@ -2651,7 +2773,7 @@ final class ScheduleSubmitControllerProvider
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'cf61c236aadf524e5d45e482f85dee17cd8fee52';
+    r'9e40bf800f8d01c2fbb888b8d2e5dc7f5307ef5f';
 
 abstract class _$ScheduleSubmitController
     extends $Notifier<ScheduleSubmitState> {
@@ -2676,8 +2798,7 @@ abstract class _$ScheduleSubmitController
 final supplierFilterControllerProvider = SupplierFilterControllerFamily._();
 
 final class SupplierFilterControllerProvider
-    extends
-        $AsyncNotifierProvider<SupplierFilterController, SupplierFilterState> {
+    extends $NotifierProvider<SupplierFilterController, SupplierFilterState> {
   SupplierFilterControllerProvider._({
     required SupplierFilterControllerFamily super.from,
     required SupplierFilterScope super.argument,
@@ -2703,6 +2824,14 @@ final class SupplierFilterControllerProvider
   @override
   SupplierFilterController create() => SupplierFilterController();
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SupplierFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SupplierFilterState>(value),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is SupplierFilterControllerProvider &&
@@ -2716,15 +2845,15 @@ final class SupplierFilterControllerProvider
 }
 
 String _$supplierFilterControllerHash() =>
-    r'c46db23b2c577188d650152ef1c5c1aacf893311';
+    r'7b5b07e3c3a34027533f5c63ffa4995176bad536';
 
 final class SupplierFilterControllerFamily extends $Family
     with
         $ClassFamilyOverride<
           SupplierFilterController,
-          AsyncValue<SupplierFilterState>,
           SupplierFilterState,
-          FutureOr<SupplierFilterState>,
+          SupplierFilterState,
+          SupplierFilterState,
           SupplierFilterScope
         > {
   SupplierFilterControllerFamily._()
@@ -2744,21 +2873,20 @@ final class SupplierFilterControllerFamily extends $Family
 }
 
 abstract class _$SupplierFilterController
-    extends $AsyncNotifier<SupplierFilterState> {
+    extends $Notifier<SupplierFilterState> {
   late final _$args = ref.$arg as SupplierFilterScope;
   SupplierFilterScope get scope => _$args;
 
-  FutureOr<SupplierFilterState> build(SupplierFilterScope scope);
+  SupplierFilterState build(SupplierFilterScope scope);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<SupplierFilterState>, SupplierFilterState>;
+    final ref = this.ref as $Ref<SupplierFilterState, SupplierFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<SupplierFilterState>, SupplierFilterState>,
-              AsyncValue<SupplierFilterState>,
+              AnyNotifier<SupplierFilterState, SupplierFilterState>,
+              SupplierFilterState,
               Object?,
               Object?
             >;
@@ -2902,7 +3030,7 @@ final class SupplierListControllerProvider
 }
 
 String _$supplierListControllerHash() =>
-    r'0da1c2872491c66c613b952a455dfe5dab8d4030';
+    r'511eb4e4444dc7da620b58b226fc84dd6e012144';
 
 final class SupplierListControllerFamily extends $Family
     with
@@ -2985,7 +3113,7 @@ final class SupplierSubmitControllerProvider
 }
 
 String _$supplierSubmitControllerHash() =>
-    r'a30b1ab138a70721befddb9845cbd68a7cf19bd6';
+    r'25c2bd5f8e2f64954f84b7734d9bb663c8fbcf0e';
 
 abstract class _$SupplierSubmitController
     extends $Notifier<SupplierSubmitState> {
@@ -3243,7 +3371,7 @@ final class ReportSubmitControllerProvider
 }
 
 String _$reportSubmitControllerHash() =>
-    r'2754a83da2559cfa828e917372828f20d960dff3';
+    r'0dd94f90e285f4ab38f3197d63fed648b1af86a4';
 
 abstract class _$ReportSubmitController extends $Notifier<ReportSubmitState> {
   ReportSubmitState build();
@@ -3521,7 +3649,7 @@ abstract class _$TripStepController extends $Notifier<TripStepState> {
 final userFilterControllerProvider = UserFilterControllerFamily._();
 
 final class UserFilterControllerProvider
-    extends $AsyncNotifierProvider<UserFilterController, UserFilterState> {
+    extends $NotifierProvider<UserFilterController, UserFilterState> {
   UserFilterControllerProvider._({
     required UserFilterControllerFamily super.from,
     required UserFilterScope super.argument,
@@ -3547,6 +3675,14 @@ final class UserFilterControllerProvider
   @override
   UserFilterController create() => UserFilterController();
 
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(UserFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<UserFilterState>(value),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is UserFilterControllerProvider && other.argument == argument;
@@ -3559,15 +3695,15 @@ final class UserFilterControllerProvider
 }
 
 String _$userFilterControllerHash() =>
-    r'1a8b60ee7fee34f1fb72d9c5efa0293707e6845e';
+    r'68db498d4a06c1fe45fea85edfcfad08ebe47049';
 
 final class UserFilterControllerFamily extends $Family
     with
         $ClassFamilyOverride<
           UserFilterController,
-          AsyncValue<UserFilterState>,
           UserFilterState,
-          FutureOr<UserFilterState>,
+          UserFilterState,
+          UserFilterState,
           UserFilterScope
         > {
   UserFilterControllerFamily._()
@@ -3586,20 +3722,20 @@ final class UserFilterControllerFamily extends $Family
   String toString() => r'userFilterControllerProvider';
 }
 
-abstract class _$UserFilterController extends $AsyncNotifier<UserFilterState> {
+abstract class _$UserFilterController extends $Notifier<UserFilterState> {
   late final _$args = ref.$arg as UserFilterScope;
   UserFilterScope get scope => _$args;
 
-  FutureOr<UserFilterState> build(UserFilterScope scope);
+  UserFilterState build(UserFilterScope scope);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<UserFilterState>, UserFilterState>;
+    final ref = this.ref as $Ref<UserFilterState, UserFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<UserFilterState>, UserFilterState>,
-              AsyncValue<UserFilterState>,
+              AnyNotifier<UserFilterState, UserFilterState>,
+              UserFilterState,
               Object?,
               Object?
             >;
@@ -3739,7 +3875,7 @@ final class UserListControllerProvider
 }
 
 String _$userListControllerHash() =>
-    r'c92e0ec056d1c9dc76087953b7bd02f1fa8ef554';
+    r'b5cce98ab2fcfd5a5cb312dcfeff8668c1a3737f';
 
 final class UserListControllerFamily extends $Family
     with
@@ -3891,7 +4027,7 @@ abstract class _$UserSubmitController extends $Notifier<UserSubmitState> {
 final workFilterControllerProvider = WorkFilterControllerProvider._();
 
 final class WorkFilterControllerProvider
-    extends $AsyncNotifierProvider<WorkFilterController, WorkFilterState> {
+    extends $NotifierProvider<WorkFilterController, WorkFilterState> {
   WorkFilterControllerProvider._()
     : super(
         from: null,
@@ -3909,22 +4045,30 @@ final class WorkFilterControllerProvider
   @$internal
   @override
   WorkFilterController create() => WorkFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WorkFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WorkFilterState>(value),
+    );
+  }
 }
 
 String _$workFilterControllerHash() =>
-    r'4a5c80691a26145dc1e355ec41580ea2b1650c48';
+    r'964a8c609e9a44bb4726335e34b21cc149598b25';
 
-abstract class _$WorkFilterController extends $AsyncNotifier<WorkFilterState> {
-  FutureOr<WorkFilterState> build();
+abstract class _$WorkFilterController extends $Notifier<WorkFilterState> {
+  WorkFilterState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<WorkFilterState>, WorkFilterState>;
+    final ref = this.ref as $Ref<WorkFilterState, WorkFilterState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<WorkFilterState>, WorkFilterState>,
-              AsyncValue<WorkFilterState>,
+              AnyNotifier<WorkFilterState, WorkFilterState>,
+              WorkFilterState,
               Object?,
               Object?
             >;

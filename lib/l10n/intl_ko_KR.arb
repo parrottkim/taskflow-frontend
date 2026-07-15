@@ -30,6 +30,7 @@
   "common_print": "출력하기",
   "common_send_all": "전체 발송",
   "common_note": "비고",
+  "common_view": "조회",
   "text_color": "텍스트 색상",
   "highlight_color": "배경 색상",
   "date_title": "날짜 선택",
@@ -111,6 +112,8 @@
 
   "no_permission": "이 페이지에 접근할 권한이 없습니다.",
   "fixed_document_limit_exceeded": "고정할 수 있는 문서는 최대 5개입니다.",
+
+  "guest_read_only": "읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.",
 
   "error_title": "문제가 발생했습니다",
   "error_detail": "자세히 보기",
@@ -219,6 +222,7 @@
   "report_edit": "보고서 수정",
   "work": "업무",
   "document": "문서",
+  "document_detail": "문서 상세",
   "organization": "조직도",
   "data": "데이터 관리",
   "schedule": "일정",
@@ -568,8 +572,18 @@
   "report_list_non_taxable_amount": "(비과세) 수령금액",
   
   "@_WORK": {},
-  "work_segment_1": "근무 일정",
-  "work_segment_2": "담당 프로젝트",
+  "work_segment_1": "프로젝트",
+
+  "@_SCHEDULE": {},
+  "schedule_segment_1": "타임라인",
+  "schedule_segment_2": "내 일정",
+  "schedule_search": "일정 검색",
+  "schedule_column_1": "고객사",
+  "schedule_column_2": "출장 목적",
+  "schedule_column_3": "설명",
+  "schedule_column_4": "담당자",
+  "schedule_column_5": "기간",
+  "schedule_search_empty": "검색 결과가 없습니다.",
 
   "@_DOCUMENT": {},
   "document_search": "문서 검색",
@@ -594,6 +608,7 @@
   "document_title_required": "문서 제목을 입력해 주세요.",
   "document_content": "본문",
   "document_attachment": "첨부파일",
+  "document_attachment_history": "이력 보기",
   "document_folder_create_title": "폴더 만들기",
   "document_folder_edit_title": "폴더 수정",
   "document_parent_folder_label": "상위 폴더",
@@ -602,6 +617,7 @@
   "document_folder_name_label": "폴더 이름",
   "document_folder_name_hint": "폴더 이름 입력",
   "document_folder_name_required": "폴더 이름을 입력해 주세요.",
+  "document_mail": "문서 공유",
   "document_created_by": "작성자",
   "document_updated_by": "최종 편집",
   "document_delete_dialog_1": "문서를 삭제하시겠습니까?",
@@ -666,15 +682,6 @@
   "data_address_detail_content": "상세 주소",
   "data_address_detail_not_required": "상세 주소 없음",
   "data_address_more": "더 보기",
-
-  "@_SCHEDULE": {},
-  "schedule_search": "일정 검색",
-  "schedule_column_1": "고객사",
-  "schedule_column_2": "출장 목적",
-  "schedule_column_3": "설명",
-  "schedule_column_4": "담당자",
-  "schedule_column_5": "기간",
-  "schedule_search_empty": "검색 결과가 없습니다.",
 
   "@_ACCOUNT": {},
   "account_segment_1": "내 정보"

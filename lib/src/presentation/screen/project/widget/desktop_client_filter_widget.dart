@@ -17,44 +17,34 @@ class DesktopClientFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(
-      projectFilterControllerProvider(ProjectFilterScope.projectPage),
-    );
     final options = ref.watch(projectOptionsControllerProvider);
 
-    return switch ((filter, options)) {
-      (AsyncData(value: final filter), AsyncData(value: final options)) =>
-        _DesktopWidget(
-          filter: filter,
-          clients: filter.clients,
-          items: options.clientItems,
-        ),
-      (AsyncError(:final error, :final stackTrace), _) ||
-      (
-        _,
-        AsyncError(:final error, :final stackTrace),
-      ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
+    return switch (options) {
+      AsyncData(value: final options) => _DesktopWidget(
+        items: options.clientItems,
+      ),
+      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        error: error,
+        stackTrace: stackTrace,
+      ),
       _ => Skeletonizer(
         ignoreContainers: true,
-        child: _DesktopWidget(filter: ProjectFilterState(), items: []),
+        child: _DesktopWidget(items: []),
       ),
     };
   }
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final ProjectFilterState filter;
-  final List<int>? clients;
   final List<ClientGroup> items;
 
-  const _DesktopWidget({
-    required this.filter,
-    this.clients,
-    required this.items,
-  });
+  const _DesktopWidget({required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filter = ref.watch(
+      projectFilterControllerProvider(ProjectFilterScope.projectPage),
+    );
     final allClients = items.expand((group) => group.items).toList();
 
     List<Client> getNextLevelItems(
@@ -110,12 +100,14 @@ class _DesktopWidget extends HookConsumerWidget {
           .toList();
     }
 
-    final selectedPath = useState<List<Client>>(getSelectedPath(clients));
+    final selectedPath = useState<List<Client>>(
+      getSelectedPath(filter.clients),
+    );
 
     useEffect(() {
-      selectedPath.value = getSelectedPath(clients);
+      selectedPath.value = getSelectedPath(filter.clients);
       return null;
-    }, [clients, items]);
+    }, [filter.clients, items]);
 
     return BreadcrumbDropdownButton<Client>(
       items: allClients,
@@ -179,16 +171,10 @@ class _DesktopWidget extends HookConsumerWidget {
 
         context.goNamed(
           RouteNames.project,
-          queryParameters: {
-            if (filter.view != null) 'view': filter.view,
-            if (filter.sort != null) 'sort': filter.sort?.key,
-            if (filter.order != null) 'order': filter.order?.key,
-            if (filter.search != null) 'search': filter.search,
-            if (filter.bookmark != null) 'bookmark': filter.bookmark.toString(),
-            if (nextClients != null) 'clients': nextClients.join(','),
-            if (filter.categories != null)
-              'categories': filter.categories?.join(','),
-          },
+          queryParameters: buildQueryParameters(
+            context,
+            updates: {'clients': nextClients?.join(',')},
+          ),
         );
       },
     );

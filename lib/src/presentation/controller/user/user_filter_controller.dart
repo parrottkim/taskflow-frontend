@@ -5,7 +5,7 @@ class UserFilterController extends _$UserFilterController {
   Timer? _debounce;
 
   @override
-  FutureOr<UserFilterState> build(UserFilterScope scope) async {
+  UserFilterState build(UserFilterScope scope) {
     ref.onDispose(() => _debounce?.cancel());
 
     return UserFilterState();
@@ -16,7 +16,7 @@ class UserFilterController extends _$UserFilterController {
     String? departments,
     int? positionId,
   }) async {
-    final value = await future;
+    final value = state;
     final normalizedSearch = search?.trim();
     final nextSearch = normalizedSearch == null || normalizedSearch.isEmpty
         ? null
@@ -35,35 +35,29 @@ class UserFilterController extends _$UserFilterController {
         : null;
 
     final nextValue = value.copyWith(
-      search: nextSearch ?? '',
+      search: nextSearch,
       departments: nextDepartments,
       positionId: nextPositionId,
     );
 
     if (nextValue == value) return;
 
-    state = AsyncData(nextValue);
+    state = nextValue;
   }
 
-  void setSearch({required String search}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(search: search));
+  void setSearch({String? search}) {
+    state = state.copyWith(search: search);
   }
 
   void debounceSearch({required String search}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state;
 
     if (_debounce?.isActive ?? false) {
       _debounce!.cancel();
     }
 
-    _debounce = Timer(const Duration(milliseconds: 500), () async {
-      state = AsyncValue.data(value.copyWith(search: search));
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      state = value.copyWith(search: search);
     });
   }
 
@@ -72,11 +66,7 @@ class UserFilterController extends _$UserFilterController {
   }
 
   void setPositionId({int? positionId}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncValue.data(value.copyWith(positionId: positionId));
+    state = state.copyWith(positionId: positionId);
   }
 
   void setDepartment({UserDepartment? department}) {
@@ -84,11 +74,7 @@ class UserFilterController extends _$UserFilterController {
   }
 
   void setDepartments({List<int>? departments}) {
-    final value = state.value;
-
-    if (value == null) return;
-
-    state = AsyncValue.data(value.copyWith(departments: departments));
+    state = state.copyWith(departments: departments);
   }
 
   List<int>? _findDepartmentPath({
