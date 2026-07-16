@@ -785,13 +785,6 @@ class AppRouter {
               GoRoute(
                 name: RouteNames.schedule,
                 path: Routes.schedule,
-                redirect: (context, state) async {
-                  final auth = ref.read(authControllerProvider);
-                  if (auth is AuthAuthenticated && !auth.user.isAdmin) {
-                    return _showWrongApproachAndGoDashboard(context);
-                  }
-                  return null;
-                },
                 pageBuilder: (context, state) {
                   final view = state.uri.queryParameters['view'];
                   final search = state.uri.queryParameters['search'];
