@@ -6,8 +6,8 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/fuel_expense_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_list/widget/trip_details_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/fuel_expense_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/trip_details_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class TripExportWidget extends HookConsumerWidget {
