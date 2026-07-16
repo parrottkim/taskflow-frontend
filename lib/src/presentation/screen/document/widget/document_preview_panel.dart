@@ -184,10 +184,10 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                                     pathParameters: {
                                       'document_id': document.id.toString(),
                                     },
-                                    queryParameters: buildQueryParameters(
-                                      context,
-                                      updates: const {},
-                                    ),
+                                    queryParameters: context
+                                        .buildQueryParameters(
+                                          updates: const {},
+                                        ),
                                   );
                                 }
                               : null,

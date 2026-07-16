@@ -44,29 +44,6 @@ final _key = GlobalKey<NavigatorState>();
 final _dashboardKey = GlobalKey<NavigatorState>();
 final _projectKey = GlobalKey<NavigatorState>();
 final _workKey = GlobalKey<NavigatorState>();
-
-Map<String, String> buildQueryParameters(
-  BuildContext context, {
-  required Map<String, String?> updates,
-  Iterable<String> remove = const [],
-}) {
-  final queryParameters = {...GoRouterState.of(context).uri.queryParameters};
-
-  for (final key in remove) {
-    queryParameters.remove(key);
-  }
-
-  for (final MapEntry(:key, :value) in updates.entries) {
-    if (value == null || value.isEmpty) {
-      queryParameters.remove(key);
-    } else {
-      queryParameters[key] = value;
-    }
-  }
-
-  return queryParameters;
-}
-
 final _documentKey = GlobalKey<NavigatorState>();
 final _organizationKey = GlobalKey<NavigatorState>();
 final _dataKey = GlobalKey<NavigatorState>();
@@ -966,32 +943,13 @@ class AppRouter {
                 },
                 routes: [
                   GoRoute(
-                    name: RouteNames.documentDetail,
-                    path: '${Routes.documentFileBase}/:document_id',
-                    pageBuilder: (context, state) {
-                      final documentId = int.parse(
-                        state.pathParameters['document_id']!,
-                      );
-
-                      return CustomTransitionPage(
-                        key: state.pageKey,
-                        name: state.name,
-                        opaque: false,
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) =>
-                                child,
-                        child: DocumentDetailScreen(documentId: documentId),
-                      );
-                    },
-                  ),
-                  GoRoute(
                     name: RouteNames.documentNew,
                     path: '${Routes.documentFileBase}/${Routes.documentNew}',
                     parentNavigatorKey: _key,
-                    pageBuilder: (context, state) => DialogPage(
-                      key: state.pageKey,
-                      name: state.name,
-                      builder: (_) => const DocumentEditDialog(),
+                    pageBuilder: (context, state) => buildResponsiveDialogPage(
+                      context: context,
+                      state: state,
+                      child: const DocumentEditDialog(),
                     ),
                     onExit: (context, state) async {
                       final error = ref.watch(errorControllerProvider);
@@ -1014,6 +972,42 @@ class AppRouter {
                     },
                   ),
                   GoRoute(
+                    name: RouteNames.documentDetail,
+                    path: '${Routes.documentFileBase}/:document_id',
+                    pageBuilder: (context, state) {
+                      final documentId = int.parse(
+                        state.pathParameters['document_id']!,
+                      );
+
+                      return CustomTransitionPage(
+                        key: state.pageKey,
+                        name: state.name,
+                        opaque: false,
+                        transitionDuration: const Duration(milliseconds: 250),
+                        reverseTransitionDuration: const Duration(
+                          milliseconds: 250,
+                        ),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                              final curvedAnimation = CurvedAnimation(
+                                parent: animation,
+                                curve: Curves.easeOutCubic,
+                                reverseCurve: Curves.easeInCubic,
+                              );
+
+                              return SlideTransition(
+                                position: Tween<Offset>(
+                                  begin: const Offset(1.0, 0.0),
+                                  end: Offset.zero,
+                                ).animate(curvedAnimation),
+                                child: child,
+                              );
+                            },
+                        child: DocumentDetailScreen(documentId: documentId),
+                      );
+                    },
+                  ),
+                  GoRoute(
                     name: RouteNames.documentEdit,
                     path:
                         '${Routes.documentFileBase}/:document_id/${Routes.documentEdit}',
@@ -1023,11 +1017,10 @@ class AppRouter {
                         state.pathParameters['document_id'] ?? '',
                       );
 
-                      return DialogPage(
-                        key: state.pageKey,
-                        name: state.name,
-                        builder: (_) =>
-                            DocumentEditDialog(documentId: documentId),
+                      return buildResponsiveDialogPage(
+                        context: context,
+                        state: state,
+                        child: DocumentEditDialog(documentId: documentId),
                       );
                     },
                     onExit: (context, state) async {
@@ -1054,10 +1047,10 @@ class AppRouter {
                     name: RouteNames.documentFolderNew,
                     path: '${Routes.documentFolderBase}/${Routes.documentNew}',
                     parentNavigatorKey: _key,
-                    pageBuilder: (context, state) => DialogPage(
-                      key: state.pageKey,
-                      name: state.name,
-                      builder: (_) => const DocumentFolderEditDialog(),
+                    pageBuilder: (context, state) => buildResponsiveDialogPage(
+                      context: context,
+                      state: state,
+                      child: const DocumentFolderEditDialog(),
                     ),
                     onExit: (context, state) async {
                       final error = ref.watch(errorControllerProvider);
@@ -1082,10 +1075,10 @@ class AppRouter {
                     path:
                         '${Routes.documentFolderBase}/:folder_id/${Routes.documentEdit}',
                     parentNavigatorKey: _key,
-                    pageBuilder: (context, state) => DialogPage(
-                      key: state.pageKey,
-                      name: state.name,
-                      builder: (_) => const DocumentFolderEditDialog(),
+                    pageBuilder: (context, state) => buildResponsiveDialogPage(
+                      context: context,
+                      state: state,
+                      child: const DocumentFolderEditDialog(),
                     ),
                     onExit: (context, state) async {
                       final error = ref.watch(errorControllerProvider);
@@ -1264,5 +1257,41 @@ extension GoRouterExtension on GoRouter {
   String get name {
     final last = routerDelegate.currentConfiguration.last;
     return last.route.name ?? '';
+  }
+}
+
+extension StatefulNavigationShellExtension on StatefulNavigationShell {
+  String get currentRouteName {
+    RouteMatchBase match = shellRouteContext.match.matches.last;
+
+    while (match is ShellRouteMatch && match.matches.isNotEmpty) {
+      match = match.matches.last;
+    }
+
+    final route = match.route;
+    return route is GoRoute ? route.name ?? '' : '';
+  }
+}
+
+extension RouterBuildContextExtension on BuildContext {
+  Map<String, String> buildQueryParameters({
+    required Map<String, String?> updates,
+    Iterable<String> remove = const [],
+  }) {
+    final queryParameters = {...GoRouterState.of(this).uri.queryParameters};
+
+    for (final key in remove) {
+      queryParameters.remove(key);
+    }
+
+    for (final MapEntry(:key, :value) in updates.entries) {
+      if (value == null || value.isEmpty) {
+        queryParameters.remove(key);
+      } else {
+        queryParameters[key] = value;
+      }
+    }
+
+    return queryParameters;
   }
 }

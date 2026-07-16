@@ -673,7 +673,8 @@ abstract class _$DocumentFilterController
 final documentDetailControllerProvider = DocumentDetailControllerFamily._();
 
 final class DocumentDetailControllerProvider
-    extends $AsyncNotifierProvider<DocumentDetailController, Document> {
+    extends
+        $AsyncNotifierProvider<DocumentDetailController, DocumentDetailState> {
   DocumentDetailControllerProvider._({
     required DocumentDetailControllerFamily super.from,
     required int super.argument,
@@ -712,15 +713,15 @@ final class DocumentDetailControllerProvider
 }
 
 String _$documentDetailControllerHash() =>
-    r'f0a7be29bdc030ab934845ecac685587db3e3c21';
+    r'ce81e0b09654928e9054077165d6a4b2b79c86df';
 
 final class DocumentDetailControllerFamily extends $Family
     with
         $ClassFamilyOverride<
           DocumentDetailController,
-          AsyncValue<Document>,
-          Document,
-          FutureOr<Document>,
+          AsyncValue<DocumentDetailState>,
+          DocumentDetailState,
+          FutureOr<DocumentDetailState>,
           int
         > {
   DocumentDetailControllerFamily._()
@@ -739,20 +740,22 @@ final class DocumentDetailControllerFamily extends $Family
   String toString() => r'documentDetailControllerProvider';
 }
 
-abstract class _$DocumentDetailController extends $AsyncNotifier<Document> {
+abstract class _$DocumentDetailController
+    extends $AsyncNotifier<DocumentDetailState> {
   late final _$args = ref.$arg as int;
   int get documentId => _$args;
 
-  FutureOr<Document> build({required int documentId});
+  FutureOr<DocumentDetailState> build({required int documentId});
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<Document>, Document>;
+    final ref =
+        this.ref as $Ref<AsyncValue<DocumentDetailState>, DocumentDetailState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<Document>, Document>,
-              AsyncValue<Document>,
+              AnyNotifier<AsyncValue<DocumentDetailState>, DocumentDetailState>,
+              AsyncValue<DocumentDetailState>,
               Object?,
               Object?
             >;
@@ -988,7 +991,7 @@ final class DocumentSubmitControllerProvider
 }
 
 String _$documentSubmitControllerHash() =>
-    r'cd1fcfbb4d20a6c681c49cdb6c3875f27829a3d0';
+    r'f706d172e15cf9effccc5ad061d53c1410f6ba3f';
 
 abstract class _$DocumentSubmitController
     extends $Notifier<DocumentSubmitState> {
@@ -1491,7 +1494,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'ce79b965a6866b03c16029903360b73531c88fcd';
+    r'26831c579c5c5250c8cbc24aed4b415594569e45';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -3371,7 +3374,7 @@ final class ReportSubmitControllerProvider
 }
 
 String _$reportSubmitControllerHash() =>
-    r'0dd94f90e285f4ab38f3197d63fed648b1af86a4';
+    r'5e9e898cb4548f8dd88ad023ca1931662abe2596';
 
 abstract class _$ReportSubmitController extends $Notifier<ReportSubmitState> {
   ReportSubmitState build();

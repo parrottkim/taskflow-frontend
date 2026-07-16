@@ -56,8 +56,7 @@ class FolderTreeItemWidget extends HookConsumerWidget {
 
               context.goNamed(
                 RouteNames.document,
-                queryParameters: buildQueryParameters(
-                  context,
+                queryParameters: context.buildQueryParameters(
                   updates: {'folders': path.join(',')},
                 ),
               );

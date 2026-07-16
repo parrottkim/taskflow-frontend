@@ -52,8 +52,7 @@ class _DocumentSortSegment extends ConsumerWidget {
 
         context.goNamed(
           RouteNames.document,
-          queryParameters: buildQueryParameters(
-            context,
+          queryParameters: context.buildQueryParameters(
             updates: {'sort': sort.key, 'order': nextOrder.key},
           ),
         );

@@ -101,8 +101,7 @@ class _ScheduleDepartmentFilterWidget extends ConsumerWidget {
               .setDepartments(departments: nextDepartments);
           context.goNamed(
             RouteNames.schedule,
-            queryParameters: buildQueryParameters(
-              context,
+            queryParameters: context.buildQueryParameters(
               updates: {'departments': nextDepartments?.join(',')},
             ),
           );

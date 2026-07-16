@@ -158,6 +158,60 @@ class EditorWidget extends HookConsumerWidget {
       },
     );
 
+    final deleteImageCommand = CommandShortcutEvent(
+      key: 'delete_image_with_backspace',
+      command: 'backspace, shift+backspace',
+      getDescription: () => '',
+      handler: (editorState) {
+        final selection = editorState.selection;
+        if (selection == null || !selection.isCollapsed) {
+          return KeyEventResult.ignored;
+        }
+
+        final currentNode = editorState.getNodeAtPath(selection.start.path);
+        if (currentNode == null) {
+          return KeyEventResult.ignored;
+        }
+
+        final imageNode = currentNode.type == ImageBlockKeys.type
+            ? currentNode
+            : selection.start.offset == 0 &&
+                  currentNode.previous?.type == ImageBlockKeys.type
+            ? currentNode.previous
+            : null;
+        if (imageNode == null) {
+          return KeyEventResult.ignored;
+        }
+
+        final imagePath = imageNode.path;
+        final nextNode = imageNode.next;
+        final previousNode = imageNode.previous;
+        final transaction = editorState.transaction..deleteNode(imageNode);
+
+        if (currentNode != imageNode || nextNode != null) {
+          transaction.afterSelection = Selection.collapsed(
+            Position(path: imagePath, offset: 0),
+          );
+        } else if (previousNode?.delta != null) {
+          transaction.afterSelection = Selection.collapsed(
+            Position(
+              path: previousNode!.path,
+              offset: previousNode.delta!.length,
+            ),
+          );
+        } else {
+          transaction
+            ..insertNode(imagePath, paragraphNode())
+            ..afterSelection = Selection.collapsed(
+              Position(path: imagePath, offset: 0),
+            );
+        }
+
+        editorState.apply(transaction);
+        return KeyEventResult.handled;
+      },
+    );
+
     // BlockComponentBuilders 설정
     final blockComponentBuilders = useMemoized(() {
       final map = {...standardBlockComponentBuilderMap};
@@ -204,6 +258,7 @@ class EditorWidget extends HookConsumerWidget {
                     blockComponentBuilders: blockComponentBuilders,
                     commandShortcutEvents: [
                       pasteImageCommand,
+                      deleteImageCommand,
                       ...standardCommandShortcutEvents,
                     ],
                     editorScrollController: editorScrollController,

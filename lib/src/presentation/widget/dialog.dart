@@ -10,6 +10,8 @@ class BaseDialog extends StatelessWidget {
   final double maxWidth;
   final double? maxHeight;
   final bool showDivider;
+  final bool fullScreen;
+  final bool showTitle;
   // ⭐️ content를 감싸는 기본 패딩 속성 추가
   final EdgeInsetsGeometry contentPadding;
 
@@ -21,6 +23,8 @@ class BaseDialog extends StatelessWidget {
     this.maxWidth = 430.0,
     this.maxHeight,
     this.showDivider = true,
+    this.fullScreen = false,
+    this.showTitle = true,
     // 기본값으로 좌우 16.0 패딩 지정
     this.contentPadding = const EdgeInsets.all(16.0),
   });
@@ -29,18 +33,25 @@ class BaseDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Dialog(
-      child: ContainerWidget(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        constraints: BoxConstraints(
-          maxWidth: maxWidth,
-          maxHeight: maxHeight ?? double.infinity,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title
+    final child = ContainerWidget(
+      width: fullScreen ? double.infinity : null,
+      height: fullScreen ? double.infinity : null,
+      borderWidth: fullScreen ? 0.0 : 1.0,
+      borderRadius: fullScreen
+          ? BorderRadius.zero
+          : BorderRadius.circular(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      constraints: fullScreen
+          ? null
+          : BoxConstraints(
+              maxWidth: maxWidth,
+              maxHeight: maxHeight ?? double.infinity,
+            ),
+      child: Column(
+        mainAxisSize: fullScreen ? MainAxisSize.max : MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (showTitle) ...[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
@@ -50,7 +61,6 @@ class BaseDialog extends StatelessWidget {
                 ),
               ),
             ),
-
             if (showDivider)
               const Padding(
                 padding: EdgeInsets.only(top: 16.0),
@@ -58,39 +68,71 @@ class BaseDialog extends StatelessWidget {
               )
             else
               const SizedBox(height: 16.0),
-
-            // ⭐️ Content 영역
-            // contentPadding 속성을 부여하여 외부 패딩 유연하게 제어
-            Flexible(
-              child: Padding(padding: contentPadding, child: content),
-            ),
-
-            if (showDivider)
-              const Padding(
-                padding: EdgeInsets.only(bottom: 16.0),
-                child: Divider(),
-              )
-            else
-              const SizedBox(height: 16.0),
-
-            // Actions
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: actions.map((action) {
-                  final isLast = action == actions.last;
-                  return Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: isLast ? 0.0 : 4.0),
-                      child: action,
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
           ],
-        ),
+
+          // ⭐️ Content 영역
+          // contentPadding 속성을 부여하여 외부 패딩 유연하게 제어
+          Flexible(
+            child: Padding(padding: contentPadding, child: content),
+          ),
+
+          if (showDivider)
+            const Padding(
+              padding: EdgeInsets.only(bottom: 16.0),
+              child: Divider(),
+            )
+          else
+            const SizedBox(height: 16.0),
+
+          // Actions
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: actions.map((action) {
+                final isLast = action == actions.last;
+                return Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: isLast ? 0.0 : 4.0),
+                    child: action,
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
       ),
+    );
+
+    return fullScreen ? SizedBox.expand(child: child) : Dialog(child: child);
+  }
+}
+
+class FullScreenDialogLayout extends StatelessWidget {
+  final String title;
+  final Widget child;
+
+  const FullScreenDialogLayout({
+    super.key,
+    required this.title,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Scaffold(
+      appBar: AppBar(
+        titleTextStyle: textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w800,
+        ),
+        leading: CustomIconButton(
+          onTap: () => context.pop(),
+          icon: const Icon(Symbols.chevron_left_rounded),
+        ),
+        title: Text(title),
+      ),
+      body: child,
     );
   }
 }

@@ -232,8 +232,7 @@ class MainFilterPage extends ConsumerWidget {
 
                     context.goNamed(
                       RouteNames.project,
-                      queryParameters: buildQueryParameters(
-                        context,
+                      queryParameters: context.buildQueryParameters(
                         updates: {
                           'view': view,
                           'sort': selectedSort.value?.key,

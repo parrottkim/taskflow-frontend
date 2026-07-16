@@ -11,11 +11,6 @@ class Functions {
 
   int maxImageSize = 50 * 1024 * 1024; // Max Size 50MB
 
-  bool canPop(String path) {
-    final segments = path.split('/');
-    return segments.length > 2;
-  }
-
   Color generateColorFromId(int id, {double contrast = 0.3}) {
     const double goldenRatio = 0.61803398875;
 
