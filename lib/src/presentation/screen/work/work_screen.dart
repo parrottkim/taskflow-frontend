@@ -6,6 +6,7 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/work/widget/overview_widget.dart';
 import 'package:taskflow/src/router/router.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class WorkScreen extends HookConsumerWidget {
   final String? view;
@@ -26,18 +27,13 @@ class WorkScreen extends HookConsumerWidget {
       return null;
     }, [view]);
 
-    return BranchLayout(child: _DesktopWidget());
-  }
-}
-
-class _DesktopWidget extends StatelessWidget {
-  const _DesktopWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 24.0),
-      child: OverviewWidget(),
+    return BranchLayout(
+      child: Padding(
+        padding: Responsive.isDesktop(context)
+            ? EdgeInsets.only(top: 24.0)
+            : EdgeInsets.zero,
+        child: OverviewWidget(),
+      ),
     );
   }
 }

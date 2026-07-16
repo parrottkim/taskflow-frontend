@@ -9,6 +9,7 @@ import 'package:taskflow/src/presentation/screen/project/widget/project_filter_w
 import 'package:taskflow/src/presentation/screen/project/widget/project_list_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/segment_widget.dart';
 import 'package:taskflow/src/router/router.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ProjectScreen extends HookConsumerWidget {
   final String? view;
@@ -57,17 +58,22 @@ class ProjectScreen extends HookConsumerWidget {
       return null;
     }, [view, sort, order, search, bookmark, clients, categories]);
 
-    return const BranchLayout(
+    return BranchLayout(
       actions: [NewProjectButton()],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SegmentWidget(),
-          SizedBox(height: 16.0),
-          ProjectFilterWidget(),
-          SizedBox(height: 8.0),
-          ProjectListWidget(),
-        ],
+      child: Padding(
+        padding: Responsive.isDesktop(context)
+            ? EdgeInsets.only(top: 24.0)
+            : EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SegmentWidget(),
+            SizedBox(height: 16.0),
+            ProjectFilterWidget(),
+            SizedBox(height: 8.0),
+            ProjectListWidget(),
+          ],
+        ),
       ),
     );
   }

@@ -6,22 +6,18 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/widget/user_information_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_display_item.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_request_export_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/procurement_request_item.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/progress_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/widget/toolbar_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/approval_issue_list/widget/toolbar_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class ProcurementIssueListWidget extends ConsumerWidget {
+class ApprovalIssueListWidget extends ConsumerWidget {
   final int projectId;
   final int? issueId;
 
-  const ProcurementIssueListWidget({
+  const ApprovalIssueListWidget({
     super.key,
     required this.projectId,
     this.issueId,
@@ -54,7 +50,7 @@ class ProcurementIssueListWidget extends ConsumerWidget {
       AsyncData(:final value) => _DesktopWidget(
         projectId: projectId,
         issueId: issueId,
-        items: value.procurements,
+        items: value.approvals,
       ),
       AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
         error: error,
@@ -66,7 +62,7 @@ class ProcurementIssueListWidget extends ConsumerWidget {
           issueId: issueId,
           items: List.filled(
             5,
-            ProcurementIssue(
+            ApprovalIssue(
               id: 0,
               category: IssueCategory.dummy(),
               createdBy: User.dummy(),
@@ -84,7 +80,7 @@ class ProcurementIssueListWidget extends ConsumerWidget {
 class _DesktopWidget extends HookConsumerWidget {
   final int projectId;
   final int? issueId;
-  final List<ProcurementIssue> items;
+  final List<ApprovalIssue> items;
 
   const _DesktopWidget({
     required this.projectId,
@@ -99,9 +95,16 @@ class _DesktopWidget extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final selected = useState<int?>(issueId);
-    final itemKeys = useMemoized<List<GlobalKey>>(() {
-      return List.generate(items.length, (_) => GlobalKey());
+    final itemKeys = useMemoized<Map<int, GlobalKey>>(() {
+      if (issueId == null) return {};
+      final Map<int, GlobalKey> keys = {};
+      for (final issue in items) {
+        keys[issue.id] = GlobalKey();
+      }
+      return keys;
     }, [items]);
+
+    final controller = PrimaryScrollController.of(context);
 
     useEffect(() {
       selected.value = issueId;
@@ -111,18 +114,23 @@ class _DesktopWidget extends HookConsumerWidget {
           // ⭐️ 렌더링 완료를 확실히 기다립니다.
           await WidgetsBinding.instance.endOfFrame;
 
-          final selectedIndex = items.indexWhere((i) => i.id == selected.value);
-          if (selectedIndex < 0 || selectedIndex >= itemKeys.length) return;
-
-          final ctx = itemKeys[selectedIndex].currentContext;
+          final ctx = itemKeys[selected.value]?.currentContext;
           if (ctx == null) return;
 
-          await Scrollable.ensureVisible(
-            ctx,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInQuad,
-            alignment: 0.1,
-          );
+          // ⭐️ ScrollController를 사용하는 로직으로 변경
+          if (controller.hasClients) {
+            final renderBox = ctx.findRenderObject() as RenderBox;
+            final viewport = context.findRenderObject() as RenderBox;
+            final targetOffset =
+                renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy -
+                60.0;
+
+            controller.animateTo(
+              targetOffset + controller.offset,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInQuad,
+            );
+          }
         });
       }
       return null;
@@ -143,7 +151,7 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(Intl.message('project_detail_no_procurements')),
+            Text(Intl.message('project_detail_no_approvals')),
           ],
         ),
       );
@@ -162,7 +170,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 .read(
                   issueListControllerProvider(projectId: projectId).notifier,
                 )
-                .loadProcurements();
+                .loadApprovals();
           }
           return false;
         },
@@ -171,7 +179,7 @@ class _DesktopWidget extends HookConsumerWidget {
           padding: EdgeInsets.all(Responsive.isDesktop(context) ? 16.0 : 8.0),
           itemCount: items.length,
           itemBuilder: (context, index) => Row(
-            key: itemKeys[index],
+            key: itemKeys[items[index].id],
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (Responsive.isDesktop(context))
@@ -236,6 +244,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               ),
                               const Spacer(),
                               ToolbarWidget(
+                                projectId: projectId,
                                 issueId: items[index].id,
                                 category: items[index].category,
                                 createdAt: items[index].createdAt,
@@ -258,30 +267,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                 item: items[index].category,
                               ),
                               SizedBox(height: 16.0),
-                              ProcurementDisplayItem(
-                                items: items[index].procurementItems,
-                                requests: items[index].requests,
-                              ),
-                              ProcurementRequestExportWidget(
-                                item: items[index],
-                                requests: items[index].requests,
-                              ),
-                              if (items[index].requests.isNotEmpty)
-                                ProcurementRequestItem(
-                                  projectId: projectId,
-                                  issueId: items[index].id,
-                                  requests: items[index].requests,
-                                ),
-                              if (auth is AuthAuthenticated &&
-                                  (auth.user.department?.root == 1 ||
-                                      auth.user.department?.id == 3))
-                                ProgressWidget(
-                                  projectId: projectId,
-                                  issueId: items[index].id,
-                                  items: items[index].procurementItems,
-                                  requests: items[index].requests,
-                                ),
-                              SizedBox(height: 16.0),
                               MarkdownWidget(item: items[index].content),
                               if (items[index].attachments.isNotEmpty)
                                 AttachmentListWidget(
@@ -297,7 +282,7 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             ],
           ),
-          separatorBuilder: (_, _) => SizedBox(height: 8.0),
+          separatorBuilder: (_, __) => SizedBox(height: 8.0),
         ),
       ),
     );

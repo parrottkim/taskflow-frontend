@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_list/schedule_list_screen.dart';
-import 'package:taskflow/src/presentation/screen/schedule/screen/timeline/timeline_widget.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/timeline/timeline_screen.dart';
 import 'package:taskflow/src/presentation/screen/schedule/widget/schedule_add_button.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
@@ -92,7 +92,7 @@ class OverviewWidget extends HookConsumerWidget {
           child: TabBarView(
             controller: controller,
             physics: NeverScrollableScrollPhysics(),
-            children: [TimelineWidget(), ScheduleListScreen()],
+            children: [TimelineScreen(), ScheduleListScreen()],
           ),
         ),
       ],

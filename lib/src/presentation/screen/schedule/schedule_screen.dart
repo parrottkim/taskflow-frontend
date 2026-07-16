@@ -7,6 +7,7 @@ import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/schedule/widget/overview_widget.dart';
 import 'package:taskflow/src/presentation/screen/schedule/widget/schedule_add_button.dart';
 import 'package:taskflow/src/router/router.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ScheduleScreen extends HookConsumerWidget {
   final String? view;
@@ -36,7 +37,12 @@ class ScheduleScreen extends HookConsumerWidget {
 
     return BranchLayout(
       actions: const [ScheduleAddButton()],
-      child: OverviewWidget(view: view),
+      child: Padding(
+        padding: Responsive.isDesktop(context)
+            ? EdgeInsets.only(top: 24.0)
+            : EdgeInsets.zero,
+        child: OverviewWidget(view: view),
+      ),
     );
   }
 }
