@@ -64,8 +64,7 @@ class DataUserPositionFilterWidget extends ConsumerWidget {
 
           context.goNamed(
             RouteNames.data,
-            queryParameters: buildQueryParameters(
-              context,
+            queryParameters: context.buildQueryParameters(
               updates: {'position_id': nextPositionId?.toString()},
             ),
           );
@@ -109,8 +108,7 @@ class DataUserDepartmentFilterWidget extends ConsumerWidget {
 
           context.goNamed(
             RouteNames.data,
-            queryParameters: buildQueryParameters(
-              context,
+            queryParameters: context.buildQueryParameters(
               updates: {'departments': nextDepartments?.join(',')},
             ),
           );

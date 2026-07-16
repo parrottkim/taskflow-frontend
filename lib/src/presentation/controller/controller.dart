@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:js_interop';
 
+import 'package:appflowy_editor/appflowy_editor.dart' as appflowy hide Document;
 import 'package:web/web.dart' hide ResponseType, Client, Report, Document;
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
@@ -52,6 +53,7 @@ part 'data/data_filter_state.dart';
 part 'document/document_filter_controller.dart';
 part 'document/document_filter_state.dart';
 part 'document/document_detail_controller.dart';
+part 'document/document_detail_state.dart';
 part 'document/document_form_controller.dart';
 part 'document/document_form_state.dart';
 part 'document/document_list_controller.dart';

@@ -40,8 +40,7 @@ class OverviewWidget extends HookWidget {
 
             context.goNamed(
               RouteNames.data,
-              queryParameters: buildQueryParameters(
-                context,
+              queryParameters: context.buildQueryParameters(
                 updates: {
                   'view': selectedItem.value.name,
                   'search': null,

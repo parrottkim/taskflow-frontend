@@ -8,6 +8,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class DocumentFolderEditDialog extends ConsumerWidget {
   const DocumentFolderEditDialog({super.key});
@@ -119,282 +120,272 @@ class _DialogWidget extends HookConsumerWidget {
 
     final rows = _flattenFolders(folders.value);
 
-    return BaseDialog(
+    Widget buildDialog({required bool fullScreen}) => BaseDialog(
       title: Intl.message('document_folder_edit_title'),
       maxWidth: 560.0,
       maxHeight: 720.0,
+      fullScreen: fullScreen,
+      showTitle: !fullScreen,
       contentPadding: EdgeInsets.zero,
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 420.0,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              itemBuilder: (context, index) {
-                if (index == rows.length) {
-                  return Column(
-                    key: const ValueKey('folder-add-root'),
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _FolderDropLine(
-                        target: const _FolderDropTarget(parentId: null),
-                        activeTarget: dropTarget.value,
-                        canAccept: (dragged) => _canMoveFolderTo(
-                          folders.value,
-                          folderId: dragged.id,
-                          parentId: null,
-                        ),
-                        onEntered: (target) => dropTarget.value = target,
-                        onExited: () => dropTarget.value = null,
-                        onAccept: moveFolder,
+      content: SizedBox(
+        height: fullScreen ? double.infinity : 420.0,
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          itemBuilder: (context, index) {
+            if (index == rows.length) {
+              return Column(
+                key: const ValueKey('folder-add-root'),
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _FolderDropLine(
+                    target: const _FolderDropTarget(parentId: null),
+                    activeTarget: dropTarget.value,
+                    canAccept: (dragged) => _canMoveFolderTo(
+                      folders.value,
+                      folderId: dragged.id,
+                      parentId: null,
+                    ),
+                    onEntered: (target) => dropTarget.value = target,
+                    onExited: () => dropTarget.value = null,
+                    onAccept: moveFolder,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: SizedBox(
+                      height: 40.0,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 24.0),
+                          const SizedBox(width: 8.0),
+                          CustomIconButton(
+                            onTap: () => openAddFolder(null),
+                            padding: 3.0,
+                            icon: const Icon(Symbols.add_rounded, size: 16.0),
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    ),
+                  ),
+                  _FolderNameInput(
+                    visible:
+                        isAddingFolder.value && activeAddParentId.value == null,
+                    depth: 0,
+                    onSubmit: createFolder,
+                    onCancel: () {
+                      isAddingFolder.value = false;
+                      activeAddParentId.value = null;
+                    },
+                  ),
+                ],
+              );
+            }
+
+            final row = rows[index];
+            final folder = row.folder;
+            final canManage = !folder.fixed;
+            final childDropTarget = _FolderDropTarget(parentId: folder.id);
+
+            return Column(
+              key: ValueKey('folder-${folder.id}'),
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _FolderDropLine(
+                  target: _FolderDropTarget(
+                    parentId: folder.parentId,
+                    beforeId: folder.id,
+                  ),
+                  activeTarget: dropTarget.value,
+                  canAccept: (dragged) => _canMoveFolderTo(
+                    folders.value,
+                    folderId: dragged.id,
+                    parentId: folder.parentId,
+                    beforeId: folder.id,
+                  ),
+                  onEntered: (target) => dropTarget.value = target,
+                  onExited: () => dropTarget.value = null,
+                  onAccept: moveFolder,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 16.0 + row.depth * 18.0,
+                    right: 16.0,
+                  ),
+                  child: DragTarget<DocumentFolder>(
+                    onWillAcceptWithDetails: (details) => _canMoveFolderTo(
+                      folders.value,
+                      folderId: details.data.id,
+                      parentId: folder.id,
+                    ),
+                    onMove: (_) => dropTarget.value = childDropTarget,
+                    onLeave: (_) => dropTarget.value = null,
+                    onAcceptWithDetails: (details) =>
+                        moveFolder(details.data, childDropTarget),
+                    builder: (context, _, _) {
+                      final isChildDropActive =
+                          dropTarget.value == childDropTarget;
+
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: isChildDropActive
+                              ? colorScheme.primaryContainer.withValues(
+                                  alpha: 0.36,
+                                )
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
                         child: SizedBox(
                           height: 40.0,
                           child: Row(
                             children: [
-                              const SizedBox(width: 24.0),
+                              _FolderDragHandle(
+                                folder: folder,
+                                enabled: canManage,
+                              ),
                               const SizedBox(width: 8.0),
+                              Icon(
+                                folder.children.isEmpty
+                                    ? Symbols.folder_rounded
+                                    : Symbols.folder_open_rounded,
+                                fill: 1.0,
+                                size: 18.0,
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.7,
+                                ),
+                              ),
+                              const SizedBox(width: 8.0),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        folder.name,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                    if (folder.fixed) ...[
+                                      const SizedBox(width: 4.0),
+                                      Icon(
+                                        Symbols.lock_rounded,
+                                        size: 14.0,
+                                        color: colorScheme.onSurface.withValues(
+                                          alpha: 0.42,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
                               CustomIconButton(
-                                onTap: () => openAddFolder(null),
+                                onTap: () => openAddFolder(folder.id),
                                 padding: 3.0,
                                 icon: const Icon(
                                   Symbols.add_rounded,
                                   size: 16.0,
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      _FolderNameInput(
-                        visible:
-                            isAddingFolder.value &&
-                            activeAddParentId.value == null,
-                        depth: 0,
-                        onSubmit: createFolder,
-                        onCancel: () {
-                          isAddingFolder.value = false;
-                          activeAddParentId.value = null;
-                        },
-                      ),
-                    ],
-                  );
-                }
-
-                final row = rows[index];
-                final folder = row.folder;
-                final canManage = !folder.fixed;
-                final childDropTarget = _FolderDropTarget(parentId: folder.id);
-
-                return Column(
-                  key: ValueKey('folder-${folder.id}'),
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _FolderDropLine(
-                      target: _FolderDropTarget(
-                        parentId: folder.parentId,
-                        beforeId: folder.id,
-                      ),
-                      activeTarget: dropTarget.value,
-                      canAccept: (dragged) => _canMoveFolderTo(
-                        folders.value,
-                        folderId: dragged.id,
-                        parentId: folder.parentId,
-                        beforeId: folder.id,
-                      ),
-                      onEntered: (target) => dropTarget.value = target,
-                      onExited: () => dropTarget.value = null,
-                      onAccept: moveFolder,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 16.0 + row.depth * 18.0,
-                        right: 16.0,
-                      ),
-                      child: DragTarget<DocumentFolder>(
-                        onWillAcceptWithDetails: (details) => _canMoveFolderTo(
-                          folders.value,
-                          folderId: details.data.id,
-                          parentId: folder.id,
-                        ),
-                        onMove: (_) => dropTarget.value = childDropTarget,
-                        onLeave: (_) => dropTarget.value = null,
-                        onAcceptWithDetails: (details) =>
-                            moveFolder(details.data, childDropTarget),
-                        builder: (context, _, _) {
-                          final isChildDropActive =
-                              dropTarget.value == childDropTarget;
-
-                          return DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: isChildDropActive
-                                  ? colorScheme.primaryContainer.withValues(
-                                      alpha: 0.36,
-                                    )
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(4.0),
-                            ),
-                            child: SizedBox(
-                              height: 40.0,
-                              child: Row(
-                                children: [
-                                  _FolderDragHandle(
-                                    folder: folder,
-                                    enabled: canManage,
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Icon(
-                                    folder.children.isEmpty
-                                        ? Symbols.folder_rounded
-                                        : Symbols.folder_open_rounded,
-                                    fill: 1.0,
-                                    size: 18.0,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            folder.name,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: textTheme.bodyMedium
-                                                ?.copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                        ),
-                                        if (folder.fixed) ...[
-                                          const SizedBox(width: 4.0),
-                                          Icon(
-                                            Symbols.lock_rounded,
-                                            size: 14.0,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.42),
-                                          ),
-                                        ],
-                                      ],
-                                    ),
-                                  ),
-                                  CustomIconButton(
-                                    onTap: () => openAddFolder(folder.id),
+                              const SizedBox(width: 4.0),
+                              MenuAnchor(
+                                alignmentOffset: const Offset(-112.0, 0.0),
+                                builder: (context, controller, child) {
+                                  return CustomIconButton(
+                                    onTap: canManage
+                                        ? () {
+                                            if (controller.isOpen) {
+                                              controller.close();
+                                            } else {
+                                              controller.open();
+                                            }
+                                          }
+                                        : null,
                                     padding: 3.0,
                                     icon: const Icon(
-                                      Symbols.add_rounded,
+                                      Symbols.more_vert_rounded,
                                       size: 16.0,
                                     ),
+                                  );
+                                },
+                                menuChildren: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                    ),
+                                    child: MenuItemButton(
+                                      onPressed: canManage
+                                          ? () => openEditFolder(folder)
+                                          : null,
+                                      leadingIcon: const Icon(
+                                        Symbols.edit_square_rounded,
+                                        size: 18.0,
+                                      ),
+                                      child: Text(Intl.message('common_edit')),
+                                    ),
                                   ),
-                                  const SizedBox(width: 4.0),
-                                  MenuAnchor(
-                                    alignmentOffset: const Offset(-112.0, 0.0),
-                                    builder: (context, controller, child) {
-                                      return CustomIconButton(
-                                        onTap: canManage
-                                            ? () {
-                                                if (controller.isOpen) {
-                                                  controller.close();
-                                                } else {
-                                                  controller.open();
-                                                }
-                                              }
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                    ),
+                                    child: MenuItemButton(
+                                      onPressed: canManage
+                                          ? () async =>
+                                                await deleteFolder(folder)
+                                          : null,
+                                      leadingIcon: Icon(
+                                        Symbols.delete_rounded,
+                                        size: 18.0,
+                                        color: canManage
+                                            ? colorScheme.error
                                             : null,
-                                        padding: 3.0,
-                                        icon: const Icon(
-                                          Symbols.more_vert_rounded,
-                                          size: 16.0,
-                                        ),
-                                      );
-                                    },
-                                    menuChildren: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0,
-                                        ),
-                                        child: MenuItemButton(
-                                          onPressed: canManage
-                                              ? () => openEditFolder(folder)
+                                      ),
+                                      child: Text(
+                                        Intl.message('common_delete'),
+                                        style: TextStyle(
+                                          color: canManage
+                                              ? colorScheme.error
                                               : null,
-                                          leadingIcon: const Icon(
-                                            Symbols.edit_square_rounded,
-                                            size: 18.0,
-                                          ),
-                                          child: Text(
-                                            Intl.message('common_edit'),
-                                          ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0,
-                                        ),
-                                        child: MenuItemButton(
-                                          onPressed: canManage
-                                              ? () async =>
-                                                    await deleteFolder(folder)
-                                              : null,
-                                          leadingIcon: Icon(
-                                            Symbols.delete_rounded,
-                                            size: 18.0,
-                                            color: canManage
-                                                ? colorScheme.error
-                                                : null,
-                                          ),
-                                          child: Text(
-                                            Intl.message('common_delete'),
-                                            style: TextStyle(
-                                              color: canManage
-                                                  ? colorScheme.error
-                                                  : null,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    _FolderNameInput(
-                      visible:
-                          isAddingFolder.value &&
-                          activeAddParentId.value == folder.id,
-                      depth: row.depth + 1,
-                      onSubmit: createFolder,
-                      onCancel: () {
-                        isAddingFolder.value = false;
-                        activeAddParentId.value = null;
-                      },
-                    ),
-                    _FolderNameInput(
-                      visible: activeEditFolderId.value == folder.id,
-                      depth: row.depth,
-                      initialName: folder.name,
-                      onSubmit: (name) => updateFolderName(folder, name),
-                      onCancel: () {
-                        activeEditFolderId.value = null;
-                      },
-                    ),
-                  ],
-                );
-              },
-              itemCount: rows.length + 1,
-            ),
-          ),
-        ],
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                _FolderNameInput(
+                  visible:
+                      isAddingFolder.value &&
+                      activeAddParentId.value == folder.id,
+                  depth: row.depth + 1,
+                  onSubmit: createFolder,
+                  onCancel: () {
+                    isAddingFolder.value = false;
+                    activeAddParentId.value = null;
+                  },
+                ),
+                _FolderNameInput(
+                  visible: activeEditFolderId.value == folder.id,
+                  depth: row.depth,
+                  initialName: folder.name,
+                  onSubmit: (name) => updateFolderName(folder, name),
+                  onCancel: () {
+                    activeEditFolderId.value = null;
+                  },
+                ),
+              ],
+            );
+          },
+          itemCount: rows.length + 1,
+        ),
       ),
       actions: [
         Skeleton.unite(
@@ -417,6 +408,14 @@ class _DialogWidget extends HookConsumerWidget {
           ),
         ),
       ],
+    );
+
+    return Responsive(
+      desktop: buildDialog(fullScreen: false),
+      mobile: FullScreenDialogLayout(
+        title: Intl.message('document_folder_edit_title'),
+        child: buildDialog(fullScreen: true),
+      ),
     );
   }
 

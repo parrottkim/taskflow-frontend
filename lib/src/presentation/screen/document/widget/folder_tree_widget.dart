@@ -70,8 +70,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 CustomSvgIconButton(
                   onTap: () => context.pushNamed(
                     RouteNames.documentNew,
-                    queryParameters: buildQueryParameters(
-                      context,
+                    queryParameters: context.buildQueryParameters(
                       updates: {'folders': filter.folders.join(',')},
                     ),
                   ),
@@ -84,8 +83,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   CustomSvgIconButton(
                     onTap: () => context.pushNamed(
                       RouteNames.documentFolderNew,
-                      queryParameters: buildQueryParameters(
-                        context,
+                      queryParameters: context.buildQueryParameters(
                         updates: {'folders': filter.folders.join(',')},
                       ),
                     ),
@@ -131,8 +129,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
                             context.goNamed(
                               RouteNames.document,
-                              queryParameters: buildQueryParameters(
-                                context,
+                              queryParameters: context.buildQueryParameters(
                                 updates: {'search': null},
                               ),
                             );
@@ -155,8 +152,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
                 context.goNamed(
                   RouteNames.document,
-                  queryParameters: buildQueryParameters(
-                    context,
+                  queryParameters: context.buildQueryParameters(
                     updates: {'search': nextSearch},
                   ),
                 );
@@ -310,8 +306,7 @@ class _MobileWidget extends HookConsumerWidget {
 
                                 context.goNamed(
                                   RouteNames.document,
-                                  queryParameters: buildQueryParameters(
-                                    context,
+                                  queryParameters: context.buildQueryParameters(
                                     updates: {'search': null},
                                   ),
                                 );
@@ -334,8 +329,7 @@ class _MobileWidget extends HookConsumerWidget {
 
                     context.goNamed(
                       RouteNames.document,
-                      queryParameters: buildQueryParameters(
-                        context,
+                      queryParameters: context.buildQueryParameters(
                         updates: {'search': nextSearch},
                       ),
                     );
@@ -346,8 +340,7 @@ class _MobileWidget extends HookConsumerWidget {
               CustomSvgIconButton(
                 onTap: () => context.pushNamed(
                   RouteNames.documentNew,
-                  queryParameters: buildQueryParameters(
-                    context,
+                  queryParameters: context.buildQueryParameters(
                     updates: {'folders': filter.folders.join(',')},
                   ),
                 ),
@@ -360,8 +353,7 @@ class _MobileWidget extends HookConsumerWidget {
                 CustomSvgIconButton(
                   onTap: () => context.pushNamed(
                     RouteNames.documentFolderNew,
-                    queryParameters: buildQueryParameters(
-                      context,
+                    queryParameters: context.buildQueryParameters(
                       updates: {'folders': filter.folders.join(',')},
                     ),
                   ),
@@ -406,8 +398,7 @@ class _MobileWidget extends HookConsumerWidget {
 
                           context.goNamed(
                             RouteNames.document,
-                            queryParameters: buildQueryParameters(
-                              context,
+                            queryParameters: context.buildQueryParameters(
                               updates: {'folders': folders.join(',')},
                             ),
                           );

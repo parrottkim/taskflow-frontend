@@ -52,8 +52,7 @@ class OverviewWidget extends HookConsumerWidget {
 
             context.goNamed(
               RouteNames.account,
-              queryParameters: buildQueryParameters(
-                context,
+              queryParameters: context.buildQueryParameters(
                 updates: {'view': selectedItem.value.name},
               ),
             );

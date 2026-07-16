@@ -5,7 +5,11 @@ class ReportSubmitController extends _$ReportSubmitController {
   @override
   ReportSubmitState build() => ReportSubmitState.idle();
 
-  Future<void> createReport({required int projectId, int? scheduleId}) async {
+  Future<void> createReport({
+    required int projectId,
+    int? scheduleId,
+    required appflowy.EditorState editorState,
+  }) async {
     final value = ref
         .read(
           reportFormControllerProvider(
@@ -16,18 +20,17 @@ class ReportSubmitController extends _$ReportSubmitController {
         .value;
 
     if (value == null) return;
-    if (value.content!.isEmpty) return;
-
     state = const ReportSubmitState.pending();
 
     try {
       late Report report;
+      final initialContent = appflowy.documentToMarkdown(editorState.document);
 
       // 1. 공통 필드를 포함하는 최상위 요청 생성 (Base ReportFormState에서 접근 가능)
       CreateReportDto request = CreateReportDto(
         scheduleId: value.schedule?.id,
         projectId: projectId,
-        content: value.content ?? '',
+        content: initialContent,
         attachments: value.attachments ?? [],
       );
 
@@ -103,6 +106,24 @@ class ReportSubmitController extends _$ReportSubmitController {
           .read(reportRepositoryProvider)
           .createReport(request: request);
 
+      final content = await _uploadInlineImages(
+        editorState: editorState,
+        resourceId: report.id,
+      );
+      if (content != initialContent) {
+        report = await ref
+            .read(reportRepositoryProvider)
+            .updateReport(
+              id: report.id,
+              request: _buildUpdateRequest(
+                value: value,
+                projectId: projectId,
+                content: content,
+                persistedReport: report,
+              ),
+            );
+      }
+
       if (value.files != null && value.files!.isNotEmpty) {
         List<MultipartFile> files = [];
         for (final file in value.files!) {
@@ -142,6 +163,7 @@ class ReportSubmitController extends _$ReportSubmitController {
     required int projectId,
     required int reportId,
     int? scheduleId,
+    required appflowy.EditorState editorState,
   }) async {
     final value = ref
         .read(
@@ -154,95 +176,20 @@ class ReportSubmitController extends _$ReportSubmitController {
         .value;
 
     if (value == null) return;
-    if (value.content!.isEmpty) return;
-
     state = const ReportSubmitState.pending();
 
     try {
-      late Report report;
-
-      UpdateReportDto request = UpdateReportDto(
-        scheduleId: value.schedule?.id,
+      final content = await _uploadInlineImages(
+        editorState: editorState,
+        resourceId: reportId,
+      );
+      final request = _buildUpdateRequest(
+        value: value,
         projectId: projectId,
-        content: value.content ?? '',
-        attachments: value.attachments ?? [],
+        content: content,
       );
 
-      // 3. 타입별로 분기하여 tripRequest 생성 (타입 프로모션 적용)
-      if (value.schedule != null &&
-          value.schedule!.category is ScheduleDomestic) {
-        UpdateFuelExpenseDto? fuelRequest;
-
-        // value.fuel에 안전하게 접근
-        if (value.fuel != null) {
-          fuelRequest = UpdateFuelExpenseDto(
-            id: value.fuel!.id,
-            rate: value.fuel!.rate,
-            mileage: value.fuel!.mileage,
-            distance: value.fuel!.distance,
-          );
-        }
-
-        final item = UpdateTripReportDto(
-          // value.expenses, value.rates에 안전하게 접근
-          expenses: value.expenses
-              .map(
-                (e) => UpdateActualExpenseDto(
-                  id: e.id,
-                  stepId: e.stepId,
-                  price: e.price!,
-                  details: e.details,
-                ),
-              )
-              .toList(),
-          rates: value.rates
-              .map(
-                (e) => UpdateRegulationRateDto(
-                  id: e.id,
-                  stepId: e.stepId,
-                  days: e.days!,
-                  rate: e.rate!,
-                  details: e.details,
-                ),
-              )
-              .toList(),
-          fuel: fuelRequest,
-          isDeducted: false,
-        );
-
-        request = request.copyWith(trip: item);
-      } else if (value.schedule != null &&
-          value.schedule!.category is ScheduleOverseas) {
-        final item = UpdateTripReportDto(
-          expenses: value.expenses
-              .map(
-                (e) => UpdateActualExpenseDto(
-                  id: e.id,
-                  stepId: e.stepId,
-                  price: e.price!,
-                  details: e.details,
-                ),
-              )
-              .toList(),
-          rates: value.rates
-              .map(
-                (e) => UpdateRegulationRateDto(
-                  id: e.id,
-                  stepId: e.stepId,
-                  days: e.days!,
-                  rate: e.rate!,
-                  details: e.details,
-                ),
-              )
-              .toList(),
-          fuel: null,
-          isDeducted: value.isDeducted,
-        );
-
-        request = request.copyWith(trip: item);
-      }
-
-      report = await ref
+      Report report = await ref
           .read(reportRepositoryProvider)
           .updateReport(id: reportId, request: request);
 
@@ -279,6 +226,160 @@ class ReportSubmitController extends _$ReportSubmitController {
     } catch (e) {
       state = ReportSubmitState.failure(e.toString());
     }
+  }
+
+  UpdateReportDto _buildUpdateRequest({
+    required ReportFormState value,
+    required int projectId,
+    required String content,
+    Report? persistedReport,
+  }) {
+    var request = UpdateReportDto(
+      scheduleId: value.schedule?.id,
+      projectId: projectId,
+      content: content,
+      attachments: value.attachments ?? [],
+    );
+
+    if (value.schedule?.category is ScheduleDomestic) {
+      final fuel = value.fuel;
+      final trip = UpdateTripReportDto(
+        expenses: value.expenses.indexed
+            .map(
+              (entry) => UpdateActualExpenseDto(
+                id: entry.$1 < (persistedReport?.trip?.expenses.length ?? 0)
+                    ? persistedReport!.trip!.expenses[entry.$1].id
+                    : entry.$2.id,
+                stepId: entry.$2.stepId,
+                price: entry.$2.price!,
+                details: entry.$2.details,
+              ),
+            )
+            .toList(),
+        rates: value.rates.indexed
+            .map(
+              (entry) => UpdateRegulationRateDto(
+                id: entry.$1 < (persistedReport?.trip?.rates.length ?? 0)
+                    ? persistedReport!.trip!.rates[entry.$1].id
+                    : entry.$2.id,
+                stepId: entry.$2.stepId,
+                days: entry.$2.days!,
+                rate: entry.$2.rate!,
+                details: entry.$2.details,
+              ),
+            )
+            .toList(),
+        fuel: fuel == null
+            ? null
+            : UpdateFuelExpenseDto(
+                id: persistedReport?.trip?.fuel?.id ?? fuel.id,
+                rate: fuel.rate,
+                mileage: fuel.mileage,
+                distance: fuel.distance,
+              ),
+        isDeducted: false,
+      );
+      request = request.copyWith(trip: trip);
+    } else if (value.schedule?.category is ScheduleOverseas) {
+      final trip = UpdateTripReportDto(
+        expenses: value.expenses.indexed
+            .map(
+              (entry) => UpdateActualExpenseDto(
+                id: entry.$1 < (persistedReport?.trip?.expenses.length ?? 0)
+                    ? persistedReport!.trip!.expenses[entry.$1].id
+                    : entry.$2.id,
+                stepId: entry.$2.stepId,
+                price: entry.$2.price!,
+                details: entry.$2.details,
+              ),
+            )
+            .toList(),
+        rates: value.rates.indexed
+            .map(
+              (entry) => UpdateRegulationRateDto(
+                id: entry.$1 < (persistedReport?.trip?.rates.length ?? 0)
+                    ? persistedReport!.trip!.rates[entry.$1].id
+                    : entry.$2.id,
+                stepId: entry.$2.stepId,
+                days: entry.$2.days!,
+                rate: entry.$2.rate!,
+                details: entry.$2.details,
+              ),
+            )
+            .toList(),
+        fuel: null,
+        isDeducted: value.isDeducted,
+      );
+      request = request.copyWith(trip: trip);
+    }
+
+    return request;
+  }
+
+  Future<String> _uploadInlineImages({
+    required appflowy.EditorState editorState,
+    required int resourceId,
+  }) async {
+    final document = editorState.document;
+    final map = <appflowy.Node, MultipartFile>{};
+
+    void traverseNodes(appflowy.Node node) {
+      if (node.type == appflowy.ImageBlockKeys.type) {
+        final imageUrl =
+            node.attributes[appflowy.ImageBlockKeys.url] as String?;
+        if (imageUrl != null &&
+            (imageUrl.startsWith('data:') ||
+                !(Uri.tryParse(imageUrl)?.hasScheme ?? false))) {
+          try {
+            final bytes = base64Decode(imageUrl.split(',').last);
+            final mimeType =
+                lookupMimeType('', headerBytes: bytes) ??
+                'application/octet-stream';
+            final extension = extensionFromMime(mimeType) ?? 'jpeg';
+            map[node] = MultipartFile.fromBytes(
+              bytes,
+              filename: '${node.id}.$extension',
+              contentType: MediaType.parse(mimeType),
+            );
+          } catch (error) {
+            debugPrint(
+              'Image processing failed for node: ${node.id}, error: $error',
+            );
+          }
+        }
+      }
+
+      for (final child in node.children) {
+        traverseNodes(child);
+      }
+    }
+
+    for (final node in document.root.children) {
+      traverseNodes(node);
+    }
+
+    if (map.isNotEmpty) {
+      final uploadResults = await ref
+          .read(sftpRepositoryProvider)
+          .uploadInlineImage(
+            path: 'report',
+            resourceId: resourceId,
+            files: map.values.toList(),
+          );
+      final nodes = map.keys.toList();
+
+      for (
+        var index = 0;
+        index < uploadResults.length && index < nodes.length;
+        index++
+      ) {
+        nodes[index].updateAttributes({
+          appflowy.ImageBlockKeys.url: uploadResults[index].url,
+        });
+      }
+    }
+
+    return appflowy.documentToMarkdown(document);
   }
 
   // (deleteReport 메서드는 수정 없이 유지)

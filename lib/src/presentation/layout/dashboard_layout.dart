@@ -5,22 +5,23 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class DashboardLayout extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
-  const DashboardLayout({
-    super.key,
-    required this.navigationShell,
-  });
+  const DashboardLayout({super.key, required this.navigationShell});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
 
     final path = GoRouter.of(context).routerDelegate.state.matchedLocation;
+    final branch = navigationShell.route.branches[navigationShell.currentIndex];
+    final rootRoute = branch.defaultRoute;
+
+    final currentRouteName = navigationShell.currentRouteName;
+    final isSubRoute = rootRoute != null && path != rootRoute.path;
 
     return Scaffold(
       appBar: !Responsive.isDesktop(context)
@@ -28,7 +29,7 @@ class DashboardLayout extends ConsumerWidget {
               titleTextStyle: textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w800,
               ),
-              leading: Functions(context).canPop(path)
+              leading: isSubRoute
                   ? CustomIconButton(
                       onTap: () {
                         context.pop(context);
@@ -36,7 +37,7 @@ class DashboardLayout extends ConsumerWidget {
                       icon: Icon(Symbols.chevron_left_rounded),
                     )
                   : null,
-              title: Text(Intl.message(GoRouter.of(context).name)),
+              title: Text(Intl.message(currentRouteName)),
             )
           : null,
       drawer: !Responsive.isDesktop(context)

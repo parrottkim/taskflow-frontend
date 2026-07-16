@@ -246,11 +246,10 @@ class _DocumentTableRows extends HookConsumerWidget {
                   hoveredDocumentId.value = hovered ? item.id : null;
                 },
                 onSelectChanged: (_) => {
-                  context.goNamed(
+                  context.pushNamed(
                     RouteNames.documentDetail,
                     pathParameters: {'document_id': item.id.toString()},
-                    queryParameters: buildQueryParameters(
-                      context,
+                    queryParameters: context.buildQueryParameters(
                       updates: const {},
                     ),
                   ),
@@ -336,8 +335,7 @@ class _DocumentTableRows extends HookConsumerWidget {
                           onTap: () => context.pushNamed(
                             RouteNames.documentEdit,
                             pathParameters: {'document_id': item.id.toString()},
-                            queryParameters: buildQueryParameters(
-                              context,
+                            queryParameters: context.buildQueryParameters(
                               updates: const {},
                             ),
                           ),
@@ -497,10 +495,10 @@ class _MobileDocumentItem extends ConsumerWidget {
         : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
 
     return InkWell(
-      onTap: () => context.goNamed(
+      onTap: () => context.pushNamed(
         RouteNames.documentDetail,
         pathParameters: {'document_id': item.id.toString()},
-        queryParameters: buildQueryParameters(context, updates: const {}),
+        queryParameters: context.buildQueryParameters(updates: const {}),
       ),
       child: Container(
         color: item.fixed
@@ -518,8 +516,7 @@ class _MobileDocumentItem extends ConsumerWidget {
                     onTap: () => context.pushNamed(
                       RouteNames.documentEdit,
                       pathParameters: {'document_id': item.id.toString()},
-                      queryParameters: buildQueryParameters(
-                        context,
+                      queryParameters: context.buildQueryParameters(
                         updates: const {},
                       ),
                     ),

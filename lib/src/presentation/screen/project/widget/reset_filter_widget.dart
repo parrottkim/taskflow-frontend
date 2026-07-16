@@ -30,8 +30,7 @@ class ResetFilterWidget extends ConsumerWidget {
 
               context.goNamed(
                 RouteNames.project,
-                queryParameters: buildQueryParameters(
-                  context,
+                queryParameters: context.buildQueryParameters(
                   updates: {
                     'view': null,
                     'sort': null,

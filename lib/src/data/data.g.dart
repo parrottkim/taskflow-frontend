@@ -5092,10 +5092,14 @@ class _SftpService implements SftpService {
   @override
   Future<List<File>> uploadInlineImage({
     required String path,
+    required int resourceId,
     required List<MultipartFile> files,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'path': path};
+    final queryParameters = <String, dynamic>{
+      r'path': path,
+      r'resource_id': resourceId,
+    };
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.files.addAll(files.map((i) => MapEntry('files', i)));

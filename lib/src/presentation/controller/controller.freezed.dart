@@ -3425,6 +3425,293 @@ as String?,
 }
 
 /// @nodoc
+mixin _$DocumentDetailState implements DiagnosticableTreeMixin {
+
+ Document get document;
+/// Create a copy of DocumentDetailState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DocumentDetailStateCopyWith<DocumentDetailState> get copyWith => _$DocumentDetailStateCopyWithImpl<DocumentDetailState>(this as DocumentDetailState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'DocumentDetailState'))
+    ..add(DiagnosticsProperty('document', document));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DocumentDetailState&&(identical(other.document, document) || other.document == document));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,document);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'DocumentDetailState(document: $document)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DocumentDetailStateCopyWith<$Res>  {
+  factory $DocumentDetailStateCopyWith(DocumentDetailState value, $Res Function(DocumentDetailState) _then) = _$DocumentDetailStateCopyWithImpl;
+@useResult
+$Res call({
+ Document document
+});
+
+
+$DocumentCopyWith<$Res> get document;
+
+}
+/// @nodoc
+class _$DocumentDetailStateCopyWithImpl<$Res>
+    implements $DocumentDetailStateCopyWith<$Res> {
+  _$DocumentDetailStateCopyWithImpl(this._self, this._then);
+
+  final DocumentDetailState _self;
+  final $Res Function(DocumentDetailState) _then;
+
+/// Create a copy of DocumentDetailState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? document = null,}) {
+  return _then(_self.copyWith(
+document: null == document ? _self.document : document // ignore: cast_nullable_to_non_nullable
+as Document,
+  ));
+}
+/// Create a copy of DocumentDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DocumentCopyWith<$Res> get document {
+  
+  return $DocumentCopyWith<$Res>(_self.document, (value) {
+    return _then(_self.copyWith(document: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [DocumentDetailState].
+extension DocumentDetailStatePatterns on DocumentDetailState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DocumentDetailState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DocumentDetailState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DocumentDetailState value)  $default,){
+final _that = this;
+switch (_that) {
+case _DocumentDetailState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DocumentDetailState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DocumentDetailState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Document document)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DocumentDetailState() when $default != null:
+return $default(_that.document);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Document document)  $default,) {final _that = this;
+switch (_that) {
+case _DocumentDetailState():
+return $default(_that.document);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Document document)?  $default,) {final _that = this;
+switch (_that) {
+case _DocumentDetailState() when $default != null:
+return $default(_that.document);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _DocumentDetailState with DiagnosticableTreeMixin implements DocumentDetailState {
+   _DocumentDetailState({required this.document});
+  
+
+@override final  Document document;
+
+/// Create a copy of DocumentDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DocumentDetailStateCopyWith<_DocumentDetailState> get copyWith => __$DocumentDetailStateCopyWithImpl<_DocumentDetailState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'DocumentDetailState'))
+    ..add(DiagnosticsProperty('document', document));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DocumentDetailState&&(identical(other.document, document) || other.document == document));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,document);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'DocumentDetailState(document: $document)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DocumentDetailStateCopyWith<$Res> implements $DocumentDetailStateCopyWith<$Res> {
+  factory _$DocumentDetailStateCopyWith(_DocumentDetailState value, $Res Function(_DocumentDetailState) _then) = __$DocumentDetailStateCopyWithImpl;
+@override @useResult
+$Res call({
+ Document document
+});
+
+
+@override $DocumentCopyWith<$Res> get document;
+
+}
+/// @nodoc
+class __$DocumentDetailStateCopyWithImpl<$Res>
+    implements _$DocumentDetailStateCopyWith<$Res> {
+  __$DocumentDetailStateCopyWithImpl(this._self, this._then);
+
+  final _DocumentDetailState _self;
+  final $Res Function(_DocumentDetailState) _then;
+
+/// Create a copy of DocumentDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? document = null,}) {
+  return _then(_DocumentDetailState(
+document: null == document ? _self.document : document // ignore: cast_nullable_to_non_nullable
+as Document,
+  ));
+}
+
+/// Create a copy of DocumentDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DocumentCopyWith<$Res> get document {
+  
+  return $DocumentCopyWith<$Res>(_self.document, (value) {
+    return _then(_self.copyWith(document: value));
+  });
+}
+}
+
+/// @nodoc
 mixin _$DocumentFormState implements DiagnosticableTreeMixin {
 
  String? get title; String? get content; int? get folderId; bool get fixed; List<DocumentAttachment>? get attachments; List<XFile>? get files;

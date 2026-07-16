@@ -171,8 +171,7 @@ class _DesktopWidget extends HookConsumerWidget {
 
         context.goNamed(
           RouteNames.project,
-          queryParameters: buildQueryParameters(
-            context,
+          queryParameters: context.buildQueryParameters(
             updates: {'clients': nextClients?.join(',')},
           ),
         );

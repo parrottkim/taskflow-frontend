@@ -14,8 +14,7 @@ class SupplierAddButton extends ConsumerWidget {
       onPressed: () {
         context.pushNamed(
           RouteNames.supplierNew,
-          queryParameters: buildQueryParameters(
-            context,
+          queryParameters: context.buildQueryParameters(
             updates: const {'view': 'supplier'},
           ),
         );

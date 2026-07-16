@@ -35,8 +35,7 @@ class SearchWidget extends HookConsumerWidget {
 
           context.goNamed(
             RouteNames.data,
-            queryParameters: buildQueryParameters(
-              context,
+            queryParameters: context.buildQueryParameters(
               updates: {'search': search},
             ),
           );
