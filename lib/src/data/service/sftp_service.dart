@@ -8,6 +8,7 @@ abstract class SftpService {
   @MultiPart()
   Future<List<File>> uploadInlineImage({
     @Query('path') required String path,
+    @Query('resource_id') required int resourceId,
     @Part(name: 'files') required List<MultipartFile> files,
   });
 

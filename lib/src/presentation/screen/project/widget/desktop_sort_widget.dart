@@ -41,8 +41,7 @@ class DesktopSortWidget extends HookConsumerWidget {
 
         context.goNamed(
           RouteNames.project,
-          queryParameters: buildQueryParameters(
-            context,
+          queryParameters: context.buildQueryParameters(
             updates: {
               'sort': value?.key,
               'order': value == null ? null : nextOrder.key,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 CustomTransitionPage buildFadeTransition<T>({
   required BuildContext context,
@@ -32,6 +33,26 @@ CustomTransitionPage buildSlideTransition<T>({
           ),
           child: child,
         ),
+  );
+}
+
+Page<T> buildResponsiveDialogPage<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  if (Responsive.isDesktop(context)) {
+    return DialogPage<T>(
+      key: state.pageKey,
+      name: state.name,
+      builder: (_) => child,
+    );
+  }
+
+  return NoTransitionPage<T>(
+    key: state.pageKey,
+    name: state.name,
+    child: child,
   );
 }
 

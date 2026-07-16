@@ -27,8 +27,7 @@ class BookmarkFilterWidget extends ConsumerWidget {
 
         context.goNamed(
           RouteNames.project,
-          queryParameters: buildQueryParameters(
-            context,
+          queryParameters: context.buildQueryParameters(
             updates: {'bookmark': updatedBookmark.toString()},
           ),
         );

@@ -5,7 +5,9 @@ class DocumentSubmitController extends _$DocumentSubmitController {
   @override
   DocumentSubmitState build() => DocumentSubmitState.idle();
 
-  Future<void> createDocument() async {
+  Future<void> createDocument({
+    required appflowy.EditorState editorState,
+  }) async {
     final value = ref.read(documentFormControllerProvider()).value;
 
     if (value == null) return;
@@ -13,9 +15,10 @@ class DocumentSubmitController extends _$DocumentSubmitController {
     state = const DocumentSubmitState.pending();
 
     try {
+      final initialContent = appflowy.documentToMarkdown(editorState.document);
       final request = CreateDocumentDto(
         title: value.title ?? '',
-        content: value.content ?? '',
+        content: initialContent,
         folderId: value.folderId!,
         fixed: value.fixed,
         attachments: value.attachments ?? [],
@@ -24,6 +27,19 @@ class DocumentSubmitController extends _$DocumentSubmitController {
       Document document = await ref
           .read(documentRepositoryProvider)
           .createDocument(request: request);
+
+      final content = await _uploadInlineImages(
+        editorState: editorState,
+        resourceId: document.id,
+      );
+      if (content != initialContent) {
+        document = await ref
+            .read(documentRepositoryProvider)
+            .updateDocument(
+              id: document.id,
+              request: request.copyWith(content: content),
+            );
+      }
 
       if (value.files != null && value.files!.isNotEmpty) {
         List<MultipartFile> files = [];
@@ -60,7 +76,10 @@ class DocumentSubmitController extends _$DocumentSubmitController {
     }
   }
 
-  Future<void> updateDocument({required int documentId}) async {
+  Future<void> updateDocument({
+    required int documentId,
+    required appflowy.EditorState editorState,
+  }) async {
     final value = ref
         .read(documentFormControllerProvider(documentId: documentId))
         .value;
@@ -70,9 +89,13 @@ class DocumentSubmitController extends _$DocumentSubmitController {
     state = const DocumentSubmitState.pending();
 
     try {
+      final content = await _uploadInlineImages(
+        editorState: editorState,
+        resourceId: documentId,
+      );
       final request = CreateDocumentDto(
         title: value.title ?? '',
-        content: value.content ?? '',
+        content: content,
         folderId: value.folderId!,
         fixed: value.fixed,
         attachments: value.attachments ?? [],
@@ -116,6 +139,72 @@ class DocumentSubmitController extends _$DocumentSubmitController {
     } catch (e) {
       state = DocumentSubmitState.failure(e.toString());
     }
+  }
+
+  Future<String> _uploadInlineImages({
+    required appflowy.EditorState editorState,
+    required int resourceId,
+  }) async {
+    final document = editorState.document;
+    final map = <appflowy.Node, MultipartFile>{};
+
+    void traverseNodes(appflowy.Node node) {
+      if (node.type == appflowy.ImageBlockKeys.type) {
+        final imageUrl =
+            node.attributes[appflowy.ImageBlockKeys.url] as String?;
+        if (imageUrl != null &&
+            (imageUrl.startsWith('data:') ||
+                !(Uri.tryParse(imageUrl)?.hasScheme ?? false))) {
+          try {
+            final bytes = base64Decode(imageUrl.split(',').last);
+            final mimeType =
+                lookupMimeType('', headerBytes: bytes) ??
+                'application/octet-stream';
+            final extension = extensionFromMime(mimeType) ?? 'jpeg';
+            map[node] = MultipartFile.fromBytes(
+              bytes,
+              filename: '${node.id}.$extension',
+              contentType: MediaType.parse(mimeType),
+            );
+          } catch (error) {
+            debugPrint(
+              'Image processing failed for node: ${node.id}, error: $error',
+            );
+          }
+        }
+      }
+
+      for (final child in node.children) {
+        traverseNodes(child);
+      }
+    }
+
+    for (final node in document.root.children) {
+      traverseNodes(node);
+    }
+
+    if (map.isNotEmpty) {
+      final uploadResults = await ref
+          .read(sftpRepositoryProvider)
+          .uploadInlineImage(
+            path: 'document',
+            resourceId: resourceId,
+            files: map.values.toList(),
+          );
+      final nodes = map.keys.toList();
+
+      for (
+        var index = 0;
+        index < uploadResults.length && index < nodes.length;
+        index++
+      ) {
+        nodes[index].updateAttributes({
+          appflowy.ImageBlockKeys.url: uploadResults[index].url,
+        });
+      }
+    }
+
+    return appflowy.documentToMarkdown(document);
   }
 
   Future<void> deleteDocument({required int documentId}) async {

@@ -55,8 +55,7 @@ class SegmentWidget extends HookConsumerWidget {
 
         context.goNamed(
           RouteNames.project,
-          queryParameters: buildQueryParameters(
-            context,
+          queryParameters: context.buildQueryParameters(
             updates: {'view': selectedItem.value.name},
           ),
         );

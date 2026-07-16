@@ -196,8 +196,7 @@ class OverviewWidget extends HookConsumerWidget {
                               pathParameters: {
                                 'project_id': projectId.toString(),
                               },
-                              queryParameters: buildQueryParameters(
-                                context,
+                              queryParameters: context.buildQueryParameters(
                                 updates: {
                                   'view': selectedItem.value.name,
                                   'issue': null,

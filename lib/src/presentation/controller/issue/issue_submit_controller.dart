@@ -8,6 +8,7 @@ class IssueSubmitController extends _$IssueSubmitController {
   Future<void> createIssue({
     required int projectId,
     required int categoryId,
+    required appflowy.EditorState editorState,
   }) async {
     final value = ref
         .read(
@@ -24,6 +25,7 @@ class IssueSubmitController extends _$IssueSubmitController {
 
     try {
       late Issue issue;
+      final initialContent = appflowy.documentToMarkdown(editorState.document);
 
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
@@ -46,7 +48,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = CreateContractIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: initialContent,
           currencyId: value.currency!.id,
           contractItems: contractItems,
           transactionItems: transactionItems,
@@ -60,7 +62,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = CreateKickoffIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: initialContent,
           kickoffDate: value.kickoffDate!,
           attachments: value.attachments ?? [],
         );
@@ -86,7 +88,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = CreateTransactionIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: initialContent,
           transactionItems: items,
           attachments: value.attachments ?? [],
         );
@@ -98,7 +100,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = CreateApprovalIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: initialContent,
           attachments: value.attachments ?? [],
         );
 
@@ -125,7 +127,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = CreateProcurementIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: initialContent,
           procurementItems: items,
           attachments: value.attachments ?? [],
         );
@@ -137,7 +139,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = CreatePaymentIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: initialContent,
           attachments: value.attachments ?? [],
         );
 
@@ -149,6 +151,20 @@ class IssueSubmitController extends _$IssueSubmitController {
       }
 
       if (!ref.mounted) return;
+
+      final content = await _uploadInlineImages(
+        editorState: editorState,
+        resourceId: issue.id,
+      );
+      if (content != initialContent) {
+        issue = await _updateCreatedIssue(
+          value: value,
+          issue: issue,
+          projectId: projectId,
+          categoryId: categoryId,
+          content: content,
+        );
+      }
 
       if (value.files != null && value.files!.isNotEmpty) {
         List<MultipartFile> files = [];
@@ -209,6 +225,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     required int projectId,
     required int categoryId,
     required int issueId,
+    required appflowy.EditorState editorState,
   }) async {
     final value = ref
         .read(
@@ -226,6 +243,10 @@ class IssueSubmitController extends _$IssueSubmitController {
 
     try {
       late Issue issue;
+      final content = await _uploadInlineImages(
+        editorState: editorState,
+        resourceId: issueId,
+      );
 
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
@@ -255,7 +276,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = UpdateContractIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: content,
           currencyId: value.currency!.id,
           contractItems: contractItems,
           transactionItems: transactionItems,
@@ -269,7 +290,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = UpdateKickoffIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: content,
           kickoffDate: value.kickoffDate!,
           attachments: value.attachments ?? [],
         );
@@ -281,7 +302,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = UpdateApprovalIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: content,
           attachments: value.attachments ?? [],
         );
 
@@ -309,7 +330,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = UpdateProcurementIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: content,
           procurementItems: items,
           attachments: value.attachments ?? [],
         );
@@ -335,7 +356,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = UpdateTransactionIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: content,
           transactionItems: items,
           attachments: value.attachments ?? [],
         );
@@ -347,7 +368,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final request = UpdatePaymentIssueDto(
           projectId: projectId,
           categoryId: categoryId,
-          content: value.content!,
+          content: content,
           attachments: value.attachments ?? [],
         );
 
@@ -404,6 +425,204 @@ class IssueSubmitController extends _$IssueSubmitController {
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
     }
+  }
+
+  Future<Issue> _updateCreatedIssue({
+    required IssueFormState value,
+    required Issue issue,
+    required int projectId,
+    required int categoryId,
+    required String content,
+  }) {
+    final repository = ref.read(issueRepositoryProvider);
+
+    if (value.category is IssueContract) {
+      return repository.updateContractIssue(
+        id: issue.id,
+        request: UpdateContractIssueDto(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: content,
+          currencyId: value.currency!.id,
+          contractItems: issue.contractItems
+              .map(
+                (item) => UpdateContractIssueItemDto(
+                  id: item.id,
+                  item: item.item,
+                  price: item.price,
+                ),
+              )
+              .toList(),
+          transactionItems: issue.transactionItems
+              .map(
+                (item) => UpdateTransactionIssueItemDto(
+                  id: item.id,
+                  categoryId: item.category!.id,
+                  price: item.price,
+                  ratio: item.ratio,
+                  note: item.note,
+                  isPaid: item.isPaid,
+                  paidAt: item.paidAt,
+                ),
+              )
+              .toList(),
+          attachments: issue.attachments,
+        ),
+      );
+    }
+    if (value.category is IssueKickoff) {
+      return repository.updateKickoffIssue(
+        id: issue.id,
+        request: UpdateKickoffIssueDto(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: content,
+          kickoffDate: value.kickoffDate!,
+          attachments: issue.attachments,
+        ),
+      );
+    }
+    if (value.category is IssueApproval) {
+      return repository.updateApprovalIssue(
+        id: issue.id,
+        request: UpdateApprovalIssueDto(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: content,
+          attachments: issue.attachments,
+        ),
+      );
+    }
+    if (value.category is IssueProcurement) {
+      return repository.updateProcurementIssue(
+        id: issue.id,
+        request: UpdateProcurementIssueDto(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: content,
+          procurementItems: issue.procurementItems
+              .map(
+                (item) => UpdateProcurementIssueItemDto(
+                  id: item.id,
+                  item: item.item,
+                  spec: item.spec,
+                  quantity: item.quantity,
+                  unitPrice: item.unitPrice,
+                  totalAmount: item.totalAmount,
+                  isOnlinePurchase: item.isOnlinePurchase,
+                  purchaseUrl: item.purchaseUrl,
+                  supplierId: item.supplier?.id,
+                  note: item.note,
+                ),
+              )
+              .toList(),
+          attachments: issue.attachments,
+        ),
+      );
+    }
+    if (value.category is IssueTransaction) {
+      return repository.updateTransactionIssue(
+        id: issue.id,
+        request: UpdateTransactionIssueDto(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: content,
+          transactionItems: issue.transactionItems
+              .map(
+                (item) => UpdateTransactionIssueItemDto(
+                  id: item.id,
+                  categoryId: item.category!.id,
+                  price: item.price,
+                  ratio: item.ratio,
+                  note: item.note,
+                  isPaid: item.isPaid,
+                  paidAt: item.paidAt,
+                ),
+              )
+              .toList(),
+          attachments: issue.attachments,
+        ),
+      );
+    }
+    if (value.category is IssuePayment) {
+      return repository.updatePaymentIssue(
+        id: issue.id,
+        request: UpdatePaymentIssueDto(
+          projectId: projectId,
+          categoryId: categoryId,
+          content: content,
+          attachments: issue.attachments,
+        ),
+      );
+    }
+
+    throw Exception('Unknown issue category');
+  }
+
+  Future<String> _uploadInlineImages({
+    required appflowy.EditorState editorState,
+    required int resourceId,
+  }) async {
+    final document = editorState.document;
+    final map = <appflowy.Node, MultipartFile>{};
+
+    void traverseNodes(appflowy.Node node) {
+      if (node.type == appflowy.ImageBlockKeys.type) {
+        final imageUrl =
+            node.attributes[appflowy.ImageBlockKeys.url] as String?;
+        if (imageUrl != null &&
+            (imageUrl.startsWith('data:') ||
+                !(Uri.tryParse(imageUrl)?.hasScheme ?? false))) {
+          try {
+            final bytes = base64Decode(imageUrl.split(',').last);
+            final mimeType =
+                lookupMimeType('', headerBytes: bytes) ??
+                'application/octet-stream';
+            final extension = extensionFromMime(mimeType) ?? 'jpeg';
+            map[node] = MultipartFile.fromBytes(
+              bytes,
+              filename: '${node.id}.$extension',
+              contentType: MediaType.parse(mimeType),
+            );
+          } catch (error) {
+            debugPrint(
+              'Image processing failed for node: ${node.id}, error: $error',
+            );
+          }
+        }
+      }
+
+      for (final child in node.children) {
+        traverseNodes(child);
+      }
+    }
+
+    for (final node in document.root.children) {
+      traverseNodes(node);
+    }
+
+    if (map.isNotEmpty) {
+      final uploadResults = await ref
+          .read(sftpRepositoryProvider)
+          .uploadInlineImage(
+            path: 'report',
+            resourceId: resourceId,
+            files: map.values.toList(),
+          );
+      final nodes = map.keys.toList();
+
+      for (
+        var index = 0;
+        index < uploadResults.length && index < nodes.length;
+        index++
+      ) {
+        nodes[index].updateAttributes({
+          appflowy.ImageBlockKeys.url: uploadResults[index].url,
+        });
+      }
+    }
+
+    return appflowy.documentToMarkdown(document);
   }
 
   Future<void> deleteIssue({
