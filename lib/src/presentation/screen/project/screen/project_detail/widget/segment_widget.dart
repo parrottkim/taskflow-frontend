@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/contract_issue_list/contract_issue_list_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/approval_issue_list/approval_issue_list_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/procurement_issue_list/procurement_issue_list_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_list/report_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/contract_issue_list/contract_issue_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/approval_issue_list/approval_issue_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/procurement_issue_list/procurement_issue_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/report_list_widget.dart';
 
 class SegmentWidget extends StatelessWidget {
   final int projectId;

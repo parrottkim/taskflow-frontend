@@ -24,53 +24,55 @@ class TimelineWidget extends ConsumerWidget {
     );
     final schedules = ref.watch(scheduleListControllerProvider());
 
-    final mobile = Responsive.isMobile(context);
-
-    return Padding(
-      padding: EdgeInsets.only(top: 8.0, left: 24.0, right: 24.0, bottom: 24.0),
-      child: switch ((users, schedules)) {
-        (
-          AsyncData(value: final userValue),
-          AsyncData(value: final scheduleValue),
-        ) =>
-          mobile
-              ? _MobileScheduleTimeline(
-                  users: userValue.items,
-                  groups: scheduleValue.items,
-                  start: scheduleValue.start,
-                  end: scheduleValue.end,
-                )
-              : _ScheduleTimeline(
-                  users: userValue.items,
-                  groups: scheduleValue.items,
-                  start: scheduleValue.start,
-                  end: scheduleValue.end,
-                ),
-        (AsyncError(:final error, :final stackTrace), _) =>
-          ErrorContainerWidget(error: error, stackTrace: stackTrace),
-        (_, AsyncError(:final error, :final stackTrace)) =>
-          ErrorContainerWidget(error: error, stackTrace: stackTrace),
-        _ => Skeletonizer(
-          child: mobile
-              ? _MobileScheduleTimeline(
-                  users: List.filled(10, User.dummy()),
-                  groups: List.filled(6, ScheduleGroup.dummy()),
-                  start: DateTime.now().subtract(const Duration(days: 28)),
-                  end: DateTime.now().add(const Duration(days: 28)),
-                )
-              : _ScheduleTimeline(
-                  users: List.filled(10, User.dummy()),
-                  groups: List.filled(6, ScheduleGroup.dummy()),
-                  start: DateTime.now().subtract(const Duration(days: 28)),
-                  end: DateTime.now().add(const Duration(days: 28)),
-                ),
-        ),
-      },
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
+        child: switch ((users, schedules)) {
+          (
+            AsyncData(value: final userValue),
+            AsyncData(value: final scheduleValue),
+          ) =>
+            Responsive(
+              desktop: _DesktopWidget(
+                users: userValue.items,
+                groups: scheduleValue.items,
+                start: scheduleValue.start,
+                end: scheduleValue.end,
+              ),
+              mobile: _MobileWidget(
+                users: userValue.items,
+                groups: scheduleValue.items,
+                start: scheduleValue.start,
+                end: scheduleValue.end,
+              ),
+            ),
+          (AsyncError(:final error, :final stackTrace), _) =>
+            ErrorContainerWidget(error: error, stackTrace: stackTrace),
+          (_, AsyncError(:final error, :final stackTrace)) =>
+            ErrorContainerWidget(error: error, stackTrace: stackTrace),
+          _ => Skeletonizer(
+            child: Responsive(
+              desktop: _DesktopWidget(
+                users: List.filled(10, User.dummy()),
+                groups: List.filled(6, ScheduleGroup.dummy()),
+                start: DateTime.now().subtract(const Duration(days: 28)),
+                end: DateTime.now().add(const Duration(days: 28)),
+              ),
+              mobile: _MobileWidget(
+                users: List.filled(10, User.dummy()),
+                groups: List.filled(6, ScheduleGroup.dummy()),
+                start: DateTime.now().subtract(const Duration(days: 28)),
+                end: DateTime.now().add(const Duration(days: 28)),
+              ),
+            ),
+          ),
+        },
+      ),
     );
   }
 }
 
-class _MobileScheduleTimeline extends HookConsumerWidget {
+class _MobileWidget extends HookConsumerWidget {
   static const double _rowHeight = 96.0;
 
   final List<User> users;
@@ -78,7 +80,7 @@ class _MobileScheduleTimeline extends HookConsumerWidget {
   final DateTime start;
   final DateTime end;
 
-  const _MobileScheduleTimeline({
+  const _MobileWidget({
     required this.users,
     required this.groups,
     required this.start,
@@ -430,7 +432,7 @@ class _MobileScheduleLane extends StatelessWidget {
   }
 }
 
-class _ScheduleTimeline extends HookConsumerWidget {
+class _DesktopWidget extends HookConsumerWidget {
   static const double _userColumnWidth = 260.0;
   static const double _dayWidth = 42.0;
   static const double _headerHeight = 74.0;
@@ -442,7 +444,7 @@ class _ScheduleTimeline extends HookConsumerWidget {
   final DateTime start;
   final DateTime end;
 
-  const _ScheduleTimeline({
+  const _DesktopWidget({
     required this.users,
     required this.groups,
     required this.start,
@@ -465,7 +467,7 @@ class _ScheduleTimeline extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final dates = _buildDateRange(start, end);
     final schedulesByUser = _indexSchedulesByUser(groups);
-    final timelineWidth = dates.length * _ScheduleTimeline._dayWidth;
+    final timelineWidth = dates.length * _DesktopWidget._dayWidth;
     final todayOffset = _todayOffset(start, end);
 
     void syncVerticalScroll({
@@ -513,12 +515,10 @@ class _ScheduleTimeline extends HookConsumerWidget {
       final centerOffset =
           timelineHorizontalController.offset +
           timelineHorizontalController.position.viewportDimension / 2;
-      final dayIndex = (centerOffset / _ScheduleTimeline._dayWidth)
-          .floor()
-          .clamp(
-            0,
-            _dateOnly(rangeEnd).difference(_dateOnly(rangeStart)).inDays,
-          );
+      final dayIndex = (centerOffset / _DesktopWidget._dayWidth).floor().clamp(
+        0,
+        _dateOnly(rangeEnd).difference(_dateOnly(rangeStart)).inDays,
+      );
       final nextVisibleDate = _dateOnly(
         rangeStart,
       ).add(Duration(days: dayIndex));
@@ -543,8 +543,7 @@ class _ScheduleTimeline extends HookConsumerWidget {
         }
 
         final addedDays = previousStart.difference(currentStart.value).inDays;
-        final nextOffset =
-            currentOffset + addedDays * _ScheduleTimeline._dayWidth;
+        final nextOffset = currentOffset + addedDays * _DesktopWidget._dayWidth;
         timelineHorizontalController.jumpTo(
           nextOffset.clamp(
             timelineHorizontalController.position.minScrollExtent,
@@ -594,8 +593,8 @@ class _ScheduleTimeline extends HookConsumerWidget {
       final viewportWidth =
           timelineHorizontalController.position.viewportDimension;
       final target =
-          today.difference(rangeStart).inDays * _ScheduleTimeline._dayWidth +
-          _ScheduleTimeline._dayWidth / 2 -
+          today.difference(rangeStart).inDays * _DesktopWidget._dayWidth +
+          _DesktopWidget._dayWidth / 2 -
           viewportWidth / 2;
 
       timelineHorizontalController.jumpTo(
@@ -657,7 +656,7 @@ class _ScheduleTimeline extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  width: _ScheduleTimeline._userColumnWidth,
+                  width: _DesktopWidget._userColumnWidth,
                   child: Column(
                     children: [
                       _UserHeader(
@@ -670,7 +669,7 @@ class _ScheduleTimeline extends HookConsumerWidget {
                           onNotification: handleUserListScroll,
                           child: ListView.builder(
                             controller: userVerticalController,
-                            itemExtent: _ScheduleTimeline._rowHeight,
+                            itemExtent: _DesktopWidget._rowHeight,
                             itemCount: users.length,
                             itemBuilder: (context, index) {
                               final user = users[index];
@@ -713,7 +712,7 @@ class _ScheduleTimeline extends HookConsumerWidget {
                                     onNotification: handleUserListScroll,
                                     child: ListView.builder(
                                       controller: timelineVerticalController,
-                                      itemExtent: _ScheduleTimeline._rowHeight,
+                                      itemExtent: _DesktopWidget._rowHeight,
                                       itemCount: users.length,
                                       itemBuilder: (context, index) {
                                         final user = users[index];
@@ -802,9 +801,8 @@ class _ScheduleTimeline extends HookConsumerWidget {
       return null;
     }
 
-    return today.difference(normalizedStart).inDays *
-            _ScheduleTimeline._dayWidth +
-        _ScheduleTimeline._dayWidth / 2;
+    return today.difference(normalizedStart).inDays * _DesktopWidget._dayWidth +
+        _DesktopWidget._dayWidth / 2;
   }
 
   DateTime _initialVisibleDate(DateTime start, DateTime end) {
@@ -837,7 +835,7 @@ class _UserHeader extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      height: _ScheduleTimeline._headerHeight,
+      height: _DesktopWidget._headerHeight,
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       decoration: BoxDecoration(
@@ -889,7 +887,7 @@ class _TimelineHeader extends StatelessWidget {
     final today = _dateOnly(DateTime.now());
 
     return SizedBox(
-      height: _ScheduleTimeline._headerHeight,
+      height: _DesktopWidget._headerHeight,
       child: Column(
         children: [
           SizedBox(
@@ -898,7 +896,7 @@ class _TimelineHeader extends StatelessWidget {
               children: months
                   .map(
                     (segment) => Container(
-                      width: segment.length * _ScheduleTimeline._dayWidth,
+                      width: segment.length * _DesktopWidget._dayWidth,
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(left: 12.0),
                       decoration: BoxDecoration(
@@ -928,7 +926,7 @@ class _TimelineHeader extends StatelessWidget {
                 final isToday = _dateOnly(date) == today;
 
                 return Container(
-                  width: _ScheduleTimeline._dayWidth,
+                  width: _DesktopWidget._dayWidth,
                   height: double.infinity,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -1120,7 +1118,7 @@ class _GridBackground extends StatelessWidget {
             date.weekday == DateTime.sunday;
 
         return Container(
-          width: _ScheduleTimeline._dayWidth,
+          width: _DesktopWidget._dayWidth,
           decoration: BoxDecoration(
             color: isWeekend
                 ? colorScheme.surfaceContainerLowest.withValues(alpha: 0.55)
@@ -1148,8 +1146,8 @@ class _ScheduleBar extends StatelessWidget {
     required this.schedule,
     required this.timelineStart,
     required this.timelineEnd,
-    this.dayWidth = _ScheduleTimeline._dayWidth,
-    this.rowHeight = _ScheduleTimeline._rowHeight,
+    this.dayWidth = _DesktopWidget._dayWidth,
+    this.rowHeight = _DesktopWidget._rowHeight,
   });
 
   @override
@@ -1168,13 +1166,13 @@ class _ScheduleBar extends StatelessWidget {
         6.0;
     final width =
         (clampedEnd.difference(clampedStart).inDays + 1) * dayWidth - 12.0;
-    final top = (rowHeight - _ScheduleTimeline._barHeight) / 2;
+    final top = (rowHeight - _DesktopWidget._barHeight) / 2;
 
     return Positioned(
       left: left,
       top: top,
       width: math.max(26.0, width),
-      height: _ScheduleTimeline._barHeight,
+      height: _DesktopWidget._barHeight,
       child: Tooltip(
         message:
             '${schedule.projectClientName} | ${schedule.projectName}\n${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.end)}',
