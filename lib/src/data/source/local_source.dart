@@ -4,11 +4,11 @@ class LocalDataSource implements LocalRepository {
   final FlutterSecureStorage _secure;
   final SharedPreferencesAsync _prefs;
 
-  LocalDataSource(
-      {required FlutterSecureStorage secure,
-      required SharedPreferencesAsync prefs})
-      : _secure = secure,
-        _prefs = prefs;
+  LocalDataSource({
+    required FlutterSecureStorage secure,
+    required SharedPreferencesAsync prefs,
+  }) : _secure = secure,
+       _prefs = prefs;
 
   @override
   Future<String?> getAccessToken() => _secure.read(key: 'auth.access-token');
@@ -46,8 +46,8 @@ class LocalDataSource implements LocalRepository {
 
     return keywordsString != null
         ? (json.decode(keywordsString) as List<dynamic>)
-            .map((json) => Keyword.fromJson(json))
-            .toList()
+              .map((json) => Keyword.fromJson(json))
+              .toList()
         : [];
   }
 

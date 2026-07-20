@@ -4,6 +4,6 @@ abstract class DocumentFolderRepository {
   Future<List<DocumentFolder>> getAllFolders();
 
   Future<List<DocumentFolder>> syncFolders({
-    required SyncDocumentFoldersDto body,
+    required SyncDocumentFoldersRequest body,
   });
 }

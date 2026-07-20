@@ -52,7 +52,7 @@ class RegisterFormWidget extends HookConsumerWidget {
 
     Future<void> register() async {
       TextInput.finishAutofillContext();
-      final request = RegisterDto(
+      final request = RegisterRequest(
         username: username.text,
         email: email.text,
         password: password.text,

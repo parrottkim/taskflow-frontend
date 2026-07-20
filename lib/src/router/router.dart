@@ -126,7 +126,6 @@ class Routes {
   static const String scheduleEdit = 'edit';
   static const String work = '/work';
   static const String document = '/document';
-  static const String documentFileBase = 'file';
   static const String documentFolderBase = 'folder';
   static const String documentNew = 'new';
   static const String documentEdit = 'edit';
@@ -937,7 +936,7 @@ class AppRouter {
                 routes: [
                   GoRoute(
                     name: RouteNames.documentNew,
-                    path: '${Routes.documentFileBase}/${Routes.documentNew}',
+                    path: Routes.documentNew,
                     parentNavigatorKey: _key,
                     pageBuilder: (context, state) => buildResponsiveDialogPage(
                       context: context,
@@ -966,26 +965,21 @@ class AppRouter {
                   ),
                   GoRoute(
                     name: RouteNames.documentDetail,
-                    path: '${Routes.documentFileBase}/:document_id',
+                    path: ':document_id',
                     pageBuilder: (context, state) {
                       final documentId = int.parse(
                         state.pathParameters['document_id']!,
                       );
 
-                      return CustomTransitionPage(
+                      return ClickThroughTransitionPage(
                         key: state.pageKey,
                         name: state.name,
-                        opaque: false,
-                        transitionDuration: const Duration(milliseconds: 250),
-                        reverseTransitionDuration: const Duration(
-                          milliseconds: 250,
-                        ),
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
                               final curvedAnimation = CurvedAnimation(
                                 parent: animation,
-                                curve: Curves.easeOutCubic,
-                                reverseCurve: Curves.easeInCubic,
+                                curve: Curves.easeOut,
+                                reverseCurve: Curves.easeOut,
                               );
 
                               return SlideTransition(
@@ -1002,8 +996,7 @@ class AppRouter {
                   ),
                   GoRoute(
                     name: RouteNames.documentEdit,
-                    path:
-                        '${Routes.documentFileBase}/:document_id/${Routes.documentEdit}',
+                    path: ':document_id/${Routes.documentEdit}',
                     parentNavigatorKey: _key,
                     pageBuilder: (context, state) {
                       final documentId = int.tryParse(

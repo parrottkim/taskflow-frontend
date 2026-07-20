@@ -1,7 +1,7 @@
 part of '../data.dart';
 
 abstract class SftpRepository {
-  Future<List<File>> uploadInlineImage({
+  Future<List<UploadedFile>> uploadInlineImage({
     required String path,
     required int resourceId,
     required List<MultipartFile> files,

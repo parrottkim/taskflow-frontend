@@ -9,9 +9,7 @@ class CurrencyDataSource implements CurrencyRepository {
   Future<List<Currency>> getAllCurrencies() => _service.getAllCurrencies();
 
   @override
-  Future<String> getRate({
-    required DateTime date,
-  }) =>
+  Future<String> getRate({required DateTime date}) =>
       _service.getRate(date: date);
 }
 

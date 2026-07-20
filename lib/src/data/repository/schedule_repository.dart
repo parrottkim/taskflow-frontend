@@ -16,11 +16,11 @@ abstract class ScheduleRepository {
     DateTime? end,
   });
 
-  Future<Schedule> createSchedule({required ScheduleDto request});
+  Future<Schedule> createSchedule({required UpsertScheduleRequest request});
 
   Future<Schedule> updateSchedule({
     required int id,
-    required ScheduleDto request,
+    required UpsertScheduleRequest request,
   });
 
   Future<void> deleteSchedule({required int id});

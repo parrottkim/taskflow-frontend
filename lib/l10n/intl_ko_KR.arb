@@ -573,6 +573,8 @@
   
   "@_WORK": {},
   "work_segment_1": "프로젝트",
+  "work_segment_2": "업무",
+  "work_segment_3": "보고서",
 
   "@_SCHEDULE": {},
   "schedule_segment_1": "타임라인",

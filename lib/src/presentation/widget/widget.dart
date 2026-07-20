@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart' hide Provider;
@@ -31,6 +32,8 @@ import 'package:gpt_markdown/gpt_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
+part 'widget.freezed.dart';
+
 part 'attachment.dart';
 part 'bento_grid.dart';
 part 'button.dart';
@@ -44,6 +47,7 @@ part 'dropdown.dart';
 part 'editor.dart';
 part 'logo.dart';
 part 'markdown.dart';
+part 'model.dart';
 part 'overlay.dart';
 part 'preset.dart';
 part 'progress_bar.dart';

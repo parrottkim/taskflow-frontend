@@ -1,4 +1,4 @@
-part of '../data.dart';
+part of 'widget.dart';
 
 @freezed
 abstract class ValidationItem with _$ValidationItem {
@@ -17,22 +17,13 @@ sealed class NavigationItem with _$NavigationItem {
     required String label,
     @Default(false) bool isAdmin,
   }) = NavigationButton;
+
   factory NavigationItem.title({
     required String label,
     @Default(false) bool isAdmin,
   }) = NavigationTitle;
+
   factory NavigationItem.space() = NavigationSpace;
-}
-
-@freezed
-abstract class Keyword with _$Keyword {
-  const factory Keyword({
-    required String keyword,
-    required DateTime date,
-  }) = _Keyword;
-
-  factory Keyword.fromJson(Map<String, dynamic> json) =>
-      _$KeywordFromJson(json);
 }
 
 @freezed
@@ -53,17 +44,6 @@ abstract class ClientMarkerTooltip with _$ClientMarkerTooltip {
 }
 
 @freezed
-abstract class ClientCount with _$ClientCount {
-  factory ClientCount({
-    required int depth,
-    required int count,
-  }) = _ClientCount;
-
-  factory ClientCount.fromJson(Map<String, dynamic> json) =>
-      _$ClientCountFromJson(json);
-}
-
-@freezed
 abstract class MenuOption with _$MenuOption {
   factory MenuOption({
     required IconData icon,
@@ -76,7 +56,7 @@ abstract class MenuOption with _$MenuOption {
 @freezed
 abstract class BottomSheetItem with _$BottomSheetItem {
   factory BottomSheetItem({
-    required Function() onTap,
+    required VoidCallback onTap,
     required String label,
   }) = _BottomSheetItem;
 }

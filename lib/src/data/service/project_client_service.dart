@@ -11,7 +11,8 @@ abstract class ClientService {
   Future<List<ClientCount>> getAllClientCount();
 
   @GET('project-client/{id}/relations')
-  Future<List<Client>> getClientRelations(
-      {@Path() required int id,
-      @Query('is_descendant') bool isDescendant = true});
+  Future<List<Client>> getClientRelations({
+    @Path() required int id,
+    @Query('is_descendant') bool isDescendant = true,
+  });
 }

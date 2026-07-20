@@ -19,11 +19,11 @@ abstract class ProjectRepository {
     String? categories,
   });
 
-  Future<Project> createProject({required CreateProjectDto request});
+  Future<Project> createProject({required CreateProjectRequest request});
 
   Future<Project> updateProject({
     required int id,
-    required UpdateProjectDto request,
+    required UpdateProjectRequest request,
   });
 
   Future<void> deleteProject({required int id});

@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:super_clipboard/super_clipboard.dart';
-import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/converter.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,14 +19,22 @@ part 'model/currency.dart';
 part 'model/document.dart';
 part 'model/issue.dart';
 part 'model/project.dart';
-part 'model/request.dart';
+part 'model/request/auth_request.dart';
+part 'model/request/user_request.dart';
+part 'model/request/project_request.dart';
+part 'model/request/issue_request.dart';
+part 'model/request/supplier_request.dart';
+part 'model/request/schedule_request.dart';
+part 'model/request/report_request.dart';
+part 'model/request/document_request.dart';
 part 'model/response.dart';
 part 'model/schedule.dart';
 part 'model/supplier.dart';
 part 'model/token.dart';
 part 'model/report.dart';
 part 'model/user.dart';
-part 'model/widget.dart';
+part 'model/local.dart';
+part 'model/project-client.dart';
 
 part 'repository/auth_repository.dart';
 part 'service/auth_service.dart';

@@ -3,9 +3,7 @@ part of 'widget.dart';
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TabBar _tabBar;
 
-  SliverAppBarDelegate(
-    this._tabBar,
-  );
+  SliverAppBarDelegate(this._tabBar);
 
   @override
   double get minExtent => _tabBar.preferredSize.height;
@@ -14,7 +12,10 @@ class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadiusDirectional.vertical(

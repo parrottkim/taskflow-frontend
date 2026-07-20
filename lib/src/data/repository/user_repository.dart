@@ -19,10 +19,13 @@ abstract class UserRepository {
 
   Future<User> updateUserPermission({
     required int id,
-    required UpdateUserPermissionDto request,
+    required UpdateUserPermissionRequest request,
   });
 
-  Future<User> updateUser({required int id, required UpdateUserDto request});
+  Future<User> updateUser({
+    required int id,
+    required UpdateUserRequest request,
+  });
 
   Future<void> deleteUser({required int id});
 }

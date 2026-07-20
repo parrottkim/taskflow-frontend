@@ -1135,6 +1135,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "work": MessageLookupByLibrary.simpleMessage("업무"),
     "work_segment_1": MessageLookupByLibrary.simpleMessage("프로젝트"),
+    "work_segment_2": MessageLookupByLibrary.simpleMessage("업무"),
+    "work_segment_3": MessageLookupByLibrary.simpleMessage("보고서"),
     "wrong_approach_content": MessageLookupByLibrary.simpleMessage(
       "확인 버튼을 누르면 이전 화면으로 돌아갑니다.",
     ),

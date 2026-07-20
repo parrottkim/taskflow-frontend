@@ -10,6 +10,6 @@ abstract class DocumentFolderService {
 
   @PUT('document-folder')
   Future<List<DocumentFolder>> syncFolders({
-    @Body() required SyncDocumentFoldersDto body,
+    @Body() required SyncDocumentFoldersRequest body,
   });
 }

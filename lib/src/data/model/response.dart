@@ -18,14 +18,9 @@ abstract class Result<T> with _$Result<T> {
     final parsedItems = <T>[];
     final rawItems = json['items'];
 
-    // Skip malformed entries so a single bad item does not crash the whole list.
     if (rawItems is List) {
       for (final raw in rawItems) {
-        try {
-          parsedItems.add(fromJsonT(raw));
-        } catch (_) {
-          continue;
-        }
+        parsedItems.add(fromJsonT(raw));
       }
     }
 
@@ -56,8 +51,10 @@ enum ImageExtension {
 }
 
 @freezed
-abstract class File with _$File {
-  factory File({required String path, required String url}) = _File;
+abstract class UploadedFile with _$UploadedFile {
+  factory UploadedFile({required String path, required String url}) =
+      _UploadedFile;
 
-  factory File.fromJson(Map<String, dynamic> json) => _$FileFromJson(json);
+  factory UploadedFile.fromJson(Map<String, dynamic> json) =>
+      _$UploadedFileFromJson(json);
 }
