@@ -30,8 +30,8 @@ class Calendar extends HookWidget {
     this.initialEndDate,
     this.onDateSelected,
     this.onDateRangeSelected,
-  })  : _mode = mode,
-        super(key: key);
+  }) : _mode = mode,
+       super(key: key);
 
   // --- 단일 날짜 선택 모드 생성자 ---
   /// 단일 날짜를 선택하는 캘린더를 생성합니다.
@@ -79,8 +79,9 @@ class Calendar extends HookWidget {
 
     // useState 훅을 사용하여 상태 관리
     // focusedDay: 현재 보고 있는 월/연도/10년 주기를 결정
-    final focusedDay =
-        useState<DateTime>(initialDate ?? initialStartDate ?? DateTime.now());
+    final focusedDay = useState<DateTime>(
+      initialDate ?? initialStartDate ?? DateTime.now(),
+    );
     // selectedDay: 단일 선택 모드에서 선택된 날짜
     final selectedDay = useState<DateTime?>(initialDate);
     // rangeStart, rangeEnd: 범위 선택 모드에서 시작 및 종료 날짜
@@ -103,16 +104,13 @@ class Calendar extends HookWidget {
     );
 
     final monthPageController = useMemoized(
-      () => PageController(
-        initialPage: focusedDay.value.year - minYear,
-      ),
+      () => PageController(initialPage: focusedDay.value.year - minYear),
       [focusedDay.value.year, minYear],
     );
 
     final yearPageController = useMemoized(
-      () => PageController(
-        initialPage: (focusedDay.value.year - minYear) ~/ 10,
-      ),
+      () =>
+          PageController(initialPage: (focusedDay.value.year - minYear) ~/ 10),
       [focusedDay.value.year, minYear],
     );
 
@@ -179,15 +177,17 @@ class Calendar extends HookWidget {
           onLeftArrowTap = () {
             if (dayPageController.hasClients) {
               dayPageController.previousPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
             }
           };
           onRightArrowTap = () {
             if (dayPageController.hasClients) {
               dayPageController.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
             }
           };
           break;
@@ -197,15 +197,17 @@ class Calendar extends HookWidget {
           onLeftArrowTap = () {
             if (monthPageController.hasClients) {
               monthPageController.previousPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
             }
           };
           onRightArrowTap = () {
             if (monthPageController.hasClients) {
               monthPageController.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
             }
           };
           break;
@@ -217,15 +219,17 @@ class Calendar extends HookWidget {
           onLeftArrowTap = () {
             if (yearPageController.hasClients) {
               yearPageController.previousPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
             }
           };
           onRightArrowTap = () {
             if (yearPageController.hasClients) {
               yearPageController.nextPage(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+              );
             }
           };
           break;
@@ -245,8 +249,10 @@ class Calendar extends HookWidget {
             highlightColor: colorScheme.primary.withValues(alpha: 0.1),
             splashColor: colorScheme.primary.withValues(alpha: 0.2),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 4.0,
+              ),
               child: Text(
                 headerText,
                 style: textTheme.titleMedium?.copyWith(
@@ -338,7 +344,8 @@ class Calendar extends HookWidget {
           }
           if (rangeStart.value != null && rangeEnd.value != null) {
             onDateRangeSelected?.call(
-                DateTimeRange(start: rangeStart.value!, end: rangeEnd.value!));
+              DateTimeRange(start: rangeStart.value!, end: rangeEnd.value!),
+            );
           }
         }
       }
@@ -433,8 +440,9 @@ class Calendar extends HookWidget {
                     color: colorScheme.primary,
                   );
                   backgroundDecoration = BoxDecoration(
-                    borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(50.0)),
+                    borderRadius: BorderRadius.horizontal(
+                      left: Radius.circular(50.0),
+                    ),
                     color: colorScheme.primary.withValues(alpha: 0.1),
                   );
                   textColor = colorScheme.onPrimary;
@@ -444,8 +452,9 @@ class Calendar extends HookWidget {
                     color: colorScheme.primary,
                   );
                   backgroundDecoration = BoxDecoration(
-                    borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(50.0)),
+                    borderRadius: BorderRadius.horizontal(
+                      right: Radius.circular(50.0),
+                    ),
                     color: colorScheme.primary.withValues(alpha: 0.1),
                   );
                   textColor = colorScheme.onPrimary;
@@ -462,18 +471,28 @@ class Calendar extends HookWidget {
                 if (isRangeStart && !isRangeEnd) {
                   // 시작일이지만 단일 선택은 아님
                   cellPadding = const EdgeInsets.only(
-                      top: 8.0, bottom: 8.0, left: 8.0, right: 0.0);
+                    top: 8.0,
+                    bottom: 8.0,
+                    left: 8.0,
+                    right: 0.0,
+                  );
                 } else if (isRangeEnd && !isRangeStart) {
                   // 종료일이지만 단일 선택은 아님
                   cellPadding = const EdgeInsets.only(
-                      top: 8.0, bottom: 8.0, left: 0.0, right: 8.0);
+                    top: 8.0,
+                    bottom: 8.0,
+                    left: 0.0,
+                    right: 8.0,
+                  );
                 } else if (isRangeStart && isRangeEnd) {
                   // 시작일이자 종료일 (단일 선택)
                   cellPadding = const EdgeInsets.all(8.0); // 이때는 패딩을 균일하게
                 } else {
                   // 범위 내의 중간 날짜
                   cellPadding = const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 0.0);
+                    vertical: 8.0,
+                    horizontal: 0.0,
+                  );
                 }
               } else {
                 cellPadding = const EdgeInsets.all(8.0);
@@ -532,10 +551,16 @@ class Calendar extends HookWidget {
         final DateTime end =
             rangeEnd.value ?? start; // rangeEnd가 null이면 start와 동일
 
-        final DateTime monthStart =
-            DateTime(monthDate.year, monthDate.month, 1);
-        final DateTime monthEnd =
-            DateTime(monthDate.year, monthDate.month + 1, 0);
+        final DateTime monthStart = DateTime(
+          monthDate.year,
+          monthDate.month,
+          1,
+        );
+        final DateTime monthEnd = DateTime(
+          monthDate.year,
+          monthDate.month + 1,
+          0,
+        );
 
         return (monthStart.isBefore(end) || isSameDay(monthStart, end)) &&
             (monthEnd.isAfter(start) || isSameDay(monthEnd, start));
@@ -577,7 +602,8 @@ class Calendar extends HookWidget {
               final monthDate = DateTime(yearToShow, index + 1, 1);
 
               // 상태 계산
-              final bool isTodayMonth = monthDate.year == DateTime.now().year &&
+              final bool isTodayMonth =
+                  monthDate.year == DateTime.now().year &&
                   monthDate.month == DateTime.now().month;
 
               final bool isInRange = isMonthInRange(monthDate);
@@ -610,8 +636,9 @@ class Calendar extends HookWidget {
                     color: colorScheme.primary,
                   );
                   backgroundDecoration = BoxDecoration(
-                    borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(50.0)),
+                    borderRadius: BorderRadius.horizontal(
+                      left: Radius.circular(50.0),
+                    ),
                     color: colorScheme.primary.withValues(alpha: 0.1),
                   );
                   textColor = colorScheme.onPrimary;
@@ -621,8 +648,9 @@ class Calendar extends HookWidget {
                     color: colorScheme.primary,
                   );
                   backgroundDecoration = BoxDecoration(
-                    borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(50.0)),
+                    borderRadius: BorderRadius.horizontal(
+                      right: Radius.circular(50.0),
+                    ),
                     color: colorScheme.primary.withValues(alpha: 0.1),
                   );
                   textColor = colorScheme.onPrimary;
@@ -639,18 +667,28 @@ class Calendar extends HookWidget {
                 if (isRangeStart && !isRangeEnd) {
                   // 시작일이지만 단일 선택은 아님
                   cellPadding = const EdgeInsets.only(
-                      top: 8.0, bottom: 8.0, left: 8.0, right: 0.0);
+                    top: 8.0,
+                    bottom: 8.0,
+                    left: 8.0,
+                    right: 0.0,
+                  );
                 } else if (isRangeEnd && !isRangeStart) {
                   // 종료일이지만 단일 선택은 아님
                   cellPadding = const EdgeInsets.only(
-                      top: 8.0, bottom: 8.0, left: 0.0, right: 8.0);
+                    top: 8.0,
+                    bottom: 8.0,
+                    left: 0.0,
+                    right: 8.0,
+                  );
                 } else if (isRangeStart && isRangeEnd) {
                   // 시작일이자 종료일 (단일 선택)
                   cellPadding = const EdgeInsets.all(8.0); // 이때는 패딩을 균일하게
                 } else {
                   // 범위 내의 중간 날짜
                   cellPadding = const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 0.0);
+                    vertical: 8.0,
+                    horizontal: 0.0,
+                  );
                 }
               } else {
                 cellPadding = const EdgeInsets.all(8.0);
@@ -750,16 +788,23 @@ class Calendar extends HookWidget {
           final int month = (pageIndex % 12) + 1;
           final DateTime monthToDisplay = DateTime(year, month, 1);
 
-          final DateTime firstDayOfMonth =
-              DateTime(monthToDisplay.year, monthToDisplay.month, 1);
+          final DateTime firstDayOfMonth = DateTime(
+            monthToDisplay.year,
+            monthToDisplay.month,
+            1,
+          );
           // 캘린더는 일요일부터 시작한다고 가정하므로, 일요일을 0으로 맞추기 위해 조정
           final int firstDayWeekday = firstDayOfMonth.weekday % 7;
 
-          final DateTime startDay =
-              firstDayOfMonth.subtract(Duration(days: firstDayWeekday));
+          final DateTime startDay = firstDayOfMonth.subtract(
+            Duration(days: firstDayWeekday),
+          );
 
-          final DateTime lastDayOfMonth =
-              DateTime(monthToDisplay.year, monthToDisplay.month + 1, 0);
+          final DateTime lastDayOfMonth = DateTime(
+            monthToDisplay.year,
+            monthToDisplay.month + 1,
+            0,
+          );
 
           final int totalDays =
               (lastDayOfMonth.difference(startDay).inDays + 1);
@@ -793,7 +838,8 @@ class Calendar extends HookWidget {
               BoxDecoration backgroundDecoration = BoxDecoration();
 
               Color textColor = isCurrentMonth
-                  ? colorScheme.onSurface // 현재 월 날짜는 기본 색상
+                  ? colorScheme
+                        .onSurface // 현재 월 날짜는 기본 색상
                   : colorScheme.onSurface.withValues(alpha: 0.4);
 
               if (isToday) {
@@ -833,8 +879,9 @@ class Calendar extends HookWidget {
                   );
                   if (rangeStart.value != null && rangeEnd.value != null) {
                     backgroundDecoration = BoxDecoration(
-                      borderRadius:
-                          BorderRadius.horizontal(left: Radius.circular(50.0)),
+                      borderRadius: BorderRadius.horizontal(
+                        left: Radius.circular(50.0),
+                      ),
                       color: colorScheme.primary.withValues(alpha: 0.1),
                     );
                   }
@@ -845,8 +892,9 @@ class Calendar extends HookWidget {
                     color: colorScheme.primary,
                   );
                   backgroundDecoration = BoxDecoration(
-                    borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(50.0)),
+                    borderRadius: BorderRadius.horizontal(
+                      right: Radius.circular(50.0),
+                    ),
                     color: colorScheme.primary.withValues(alpha: 0.1),
                   );
                   textColor = colorScheme.onPrimary;
@@ -863,18 +911,28 @@ class Calendar extends HookWidget {
                 if (isRangeStart && !isRangeEnd) {
                   // 시작일이지만 단일 선택은 아님
                   cellPadding = const EdgeInsets.only(
-                      top: 8.0, bottom: 8.0, left: 8.0, right: 0.0);
+                    top: 8.0,
+                    bottom: 8.0,
+                    left: 8.0,
+                    right: 0.0,
+                  );
                 } else if (isRangeEnd && !isRangeStart) {
                   // 종료일이지만 단일 선택은 아님
                   cellPadding = const EdgeInsets.only(
-                      top: 8.0, bottom: 8.0, left: 0.0, right: 8.0);
+                    top: 8.0,
+                    bottom: 8.0,
+                    left: 0.0,
+                    right: 8.0,
+                  );
                 } else if (isRangeStart && isRangeEnd) {
                   // 시작일이자 종료일 (단일 선택)
                   cellPadding = const EdgeInsets.all(8.0); // 이때는 패딩을 균일하게
                 } else {
                   // 범위 내의 중간 날짜
                   cellPadding = const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 0.0);
+                    vertical: 8.0,
+                    horizontal: 0.0,
+                  );
                 }
               } else {
                 cellPadding = const EdgeInsets.all(8.0);
@@ -902,7 +960,8 @@ class Calendar extends HookWidget {
                       '${day.day}',
                       style: TextStyle(
                         color: textColor,
-                        fontWeight: (isToday ||
+                        fontWeight:
+                            (isToday ||
                                 isSelected ||
                                 isRangeStart ||
                                 isRangeEnd)

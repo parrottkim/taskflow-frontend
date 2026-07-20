@@ -34,7 +34,7 @@ class SupplierSubmitController extends _$SupplierSubmitController {
         logoUrl = logo.url; // 생성된 외부 접근 URL 추출
       }
 
-      final request = CreateSupplierDto(
+      final request = CreateSupplierRequest(
         name: value.name!,
         number: value.number!,
         zipcode: value.zipcode,
@@ -95,7 +95,7 @@ class SupplierSubmitController extends _$SupplierSubmitController {
         logoUrl = logo.url; // 생성된 외부 접근 URL 추출
       }
 
-      final request = CreateSupplierDto(
+      final request = CreateSupplierRequest(
         name: value.name!,
         number: value.number!,
         zipcode: value.zipcode,

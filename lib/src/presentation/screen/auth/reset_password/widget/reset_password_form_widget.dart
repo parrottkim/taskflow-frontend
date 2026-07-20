@@ -43,7 +43,7 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
     Future<void> request() async {
       if (token == null) return;
 
-      final request = ResetPasswordDto(
+      final request = ResetPasswordRequest(
         token: token!,
         newPassword: password.text,
       );

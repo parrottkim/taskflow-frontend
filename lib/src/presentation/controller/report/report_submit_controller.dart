@@ -27,7 +27,7 @@ class ReportSubmitController extends _$ReportSubmitController {
       final initialContent = appflowy.documentToMarkdown(editorState.document);
 
       // 1. 공통 필드를 포함하는 최상위 요청 생성 (Base ReportFormState에서 접근 가능)
-      CreateReportDto request = CreateReportDto(
+      CreateReportRequest request = CreateReportRequest(
         scheduleId: value.schedule?.id,
         projectId: projectId,
         content: initialContent,
@@ -37,21 +37,21 @@ class ReportSubmitController extends _$ReportSubmitController {
       // 3. 타입별로 분기하여 tripRequest 생성 (타입 프로모션 적용)
       if (value.schedule != null &&
           value.schedule!.category is ScheduleDomestic) {
-        CreateFuelExpenseDto? fuelRequest;
+        CreateFuelExpenseRequest? fuelRequest;
 
         if (value.fuel != null) {
-          fuelRequest = CreateFuelExpenseDto(
+          fuelRequest = CreateFuelExpenseRequest(
             rate: value.fuel!.rate!,
             mileage: value.fuel!.mileage!,
             distance: value.fuel!.distance!,
           );
         }
 
-        final item = CreateTripReportDto(
+        final item = CreateTripReportRequest(
           // value.expenses, value.rates에 안전하게 접근
           expenses: value.expenses
               .map(
-                (e) => CreateActualExpenseDto(
+                (e) => CreateActualExpenseRequest(
                   stepId: e.stepId,
                   price: e.price!,
                   details: e.details,
@@ -60,7 +60,7 @@ class ReportSubmitController extends _$ReportSubmitController {
               .toList(),
           rates: value.rates
               .map(
-                (e) => CreateRegulationRateDto(
+                (e) => CreateRegulationRateRequest(
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
@@ -75,10 +75,10 @@ class ReportSubmitController extends _$ReportSubmitController {
         request = request.copyWith(trip: item);
       } else if (value.schedule != null &&
           value.schedule!.category is ScheduleOverseas) {
-        final item = CreateTripReportDto(
+        final item = CreateTripReportRequest(
           expenses: value.expenses
               .map(
-                (e) => CreateActualExpenseDto(
+                (e) => CreateActualExpenseRequest(
                   stepId: e.stepId,
                   price: e.price!,
                   details: e.details,
@@ -87,7 +87,7 @@ class ReportSubmitController extends _$ReportSubmitController {
               .toList(),
           rates: value.rates
               .map(
-                (e) => CreateRegulationRateDto(
+                (e) => CreateRegulationRateRequest(
                   stepId: e.stepId,
                   days: e.days!,
                   rate: e.rate!,
@@ -228,13 +228,13 @@ class ReportSubmitController extends _$ReportSubmitController {
     }
   }
 
-  UpdateReportDto _buildUpdateRequest({
+  UpdateReportRequest _buildUpdateRequest({
     required ReportFormState value,
     required int projectId,
     required String content,
     Report? persistedReport,
   }) {
-    var request = UpdateReportDto(
+    var request = UpdateReportRequest(
       scheduleId: value.schedule?.id,
       projectId: projectId,
       content: content,
@@ -243,10 +243,10 @@ class ReportSubmitController extends _$ReportSubmitController {
 
     if (value.schedule?.category is ScheduleDomestic) {
       final fuel = value.fuel;
-      final trip = UpdateTripReportDto(
+      final trip = UpdateTripReportRequest(
         expenses: value.expenses.indexed
             .map(
-              (entry) => UpdateActualExpenseDto(
+              (entry) => UpdateActualExpenseRequest(
                 id: entry.$1 < (persistedReport?.trip?.expenses.length ?? 0)
                     ? persistedReport!.trip!.expenses[entry.$1].id
                     : entry.$2.id,
@@ -258,7 +258,7 @@ class ReportSubmitController extends _$ReportSubmitController {
             .toList(),
         rates: value.rates.indexed
             .map(
-              (entry) => UpdateRegulationRateDto(
+              (entry) => UpdateRegulationRateRequest(
                 id: entry.$1 < (persistedReport?.trip?.rates.length ?? 0)
                     ? persistedReport!.trip!.rates[entry.$1].id
                     : entry.$2.id,
@@ -271,7 +271,7 @@ class ReportSubmitController extends _$ReportSubmitController {
             .toList(),
         fuel: fuel == null
             ? null
-            : UpdateFuelExpenseDto(
+            : UpdateFuelExpenseRequest(
                 id: persistedReport?.trip?.fuel?.id ?? fuel.id,
                 rate: fuel.rate,
                 mileage: fuel.mileage,
@@ -281,10 +281,10 @@ class ReportSubmitController extends _$ReportSubmitController {
       );
       request = request.copyWith(trip: trip);
     } else if (value.schedule?.category is ScheduleOverseas) {
-      final trip = UpdateTripReportDto(
+      final trip = UpdateTripReportRequest(
         expenses: value.expenses.indexed
             .map(
-              (entry) => UpdateActualExpenseDto(
+              (entry) => UpdateActualExpenseRequest(
                 id: entry.$1 < (persistedReport?.trip?.expenses.length ?? 0)
                     ? persistedReport!.trip!.expenses[entry.$1].id
                     : entry.$2.id,
@@ -296,7 +296,7 @@ class ReportSubmitController extends _$ReportSubmitController {
             .toList(),
         rates: value.rates.indexed
             .map(
-              (entry) => UpdateRegulationRateDto(
+              (entry) => UpdateRegulationRateRequest(
                 id: entry.$1 < (persistedReport?.trip?.rates.length ?? 0)
                     ? persistedReport!.trip!.rates[entry.$1].id
                     : entry.$2.id,
@@ -409,7 +409,7 @@ class ReportSubmitController extends _$ReportSubmitController {
   }) async {
     state = const ReportSubmitState.pending();
 
-    final request = SendMailDto(
+    final request = SendMailRequest(
       userIds: isAllSelected
           ? null
           : users.map((element) => element.id).toList(),

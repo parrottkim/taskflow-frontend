@@ -246,7 +246,7 @@ class _DocumentTableRows extends HookConsumerWidget {
                   hoveredDocumentId.value = hovered ? item.id : null;
                 },
                 onSelectChanged: (_) => {
-                  context.pushNamed(
+                  context.goNamed(
                     RouteNames.documentDetail,
                     pathParameters: {'document_id': item.id.toString()},
                     queryParameters: context.buildQueryParameters(
@@ -495,7 +495,7 @@ class _MobileDocumentItem extends ConsumerWidget {
         : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
 
     return InkWell(
-      onTap: () => context.pushNamed(
+      onTap: () => context.goNamed(
         RouteNames.documentDetail,
         pathParameters: {'document_id': item.id.toString()},
         queryParameters: context.buildQueryParameters(updates: const {}),

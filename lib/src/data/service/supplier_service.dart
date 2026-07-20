@@ -15,12 +15,14 @@ abstract class SupplierService {
   });
 
   @POST('supplier')
-  Future<Supplier> createSupplier({@Body() required CreateSupplierDto request});
+  Future<Supplier> createSupplier({
+    @Body() required CreateSupplierRequest request,
+  });
 
   @PATCH('supplier/{id}')
   Future<Supplier> updateSupplier({
     @Path() required int id,
-    @Body() required CreateSupplierDto request,
+    @Body() required CreateSupplierRequest request,
   });
 
   @DELETE('supplier/{id}')

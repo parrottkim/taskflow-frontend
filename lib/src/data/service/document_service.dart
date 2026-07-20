@@ -23,16 +23,18 @@ abstract class DocumentService {
   @POST('document/mail/{id}')
   Future<void> sendMail({
     @Path('id') required int id,
-    @Body() required SendMailDto request,
+    @Body() required SendMailRequest request,
   });
 
   @POST('document')
-  Future<Document> createDocument({@Body() required CreateDocumentDto request});
+  Future<Document> createDocument({
+    @Body() required CreateDocumentRequest request,
+  });
 
   @PATCH('document/{id}')
   Future<Document> updateDocument({
     @Path() required int id,
-    @Body() required CreateDocumentDto request,
+    @Body() required CreateDocumentRequest request,
   });
 
   @DELETE('document/{id}')

@@ -11,16 +11,18 @@ class DashboardDataSource implements DashboardRepository {
     int limit = 20,
     required DateTime start,
     required DateTime end,
-  }) =>
-      _service.getProjectStats(
-          page: page, limit: limit, start: start, end: end);
+  }) => _service.getProjectStats(
+    page: page,
+    limit: limit,
+    start: start,
+    end: end,
+  );
 
   @override
   Future<ProjectSummary> getProjectSummary({
     required DateTime start,
     required DateTime end,
-  }) =>
-      _service.getProjectSummary(start: start, end: end);
+  }) => _service.getProjectSummary(start: start, end: end);
 
   @override
   Future<List<TodaySchedule>> getTodaysSchedule() =>

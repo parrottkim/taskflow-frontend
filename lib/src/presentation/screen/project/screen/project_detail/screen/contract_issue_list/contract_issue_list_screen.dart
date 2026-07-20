@@ -6,21 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/contract_issue_list/widget/contract_display_item.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/contract_issue_list/widget/kickoff_display_item.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/contract_issue_list/widget/toolbar_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/contract_issue_list/widget/transaction_display_item.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/contract_issue_list/widget/user_information_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/contract_issue_list/widget/contract_display_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/contract_issue_list/widget/kickoff_display_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/contract_issue_list/widget/toolbar_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/contract_issue_list/widget/transaction_display_item.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/contract_issue_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class ContractIssueListWidget extends ConsumerWidget {
+class ContractIssueListScreen extends ConsumerWidget {
   final int projectId;
   final int? issueId;
 
-  const ContractIssueListWidget({
+  const ContractIssueListScreen({
     super.key,
     required this.projectId,
     this.issueId,

@@ -9,11 +9,11 @@ abstract class SupplierRepository {
     String? search,
   });
 
-  Future<Supplier> createSupplier({required CreateSupplierDto request});
+  Future<Supplier> createSupplier({required CreateSupplierRequest request});
 
   Future<Supplier> updateSupplier({
     required int id,
-    required CreateSupplierDto request,
+    required CreateSupplierRequest request,
   });
 
   Future<void> deleteSupplier({required int id});

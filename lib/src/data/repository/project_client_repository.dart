@@ -5,6 +5,8 @@ abstract class ClientRepository {
 
   Future<List<ClientCount>> getAllClientCount();
 
-  Future<List<Client>> getClientRelations(
-      {required int id, bool isDescendant = true});
+  Future<List<Client>> getClientRelations({
+    required int id,
+    bool isDescendant = true,
+  });
 }

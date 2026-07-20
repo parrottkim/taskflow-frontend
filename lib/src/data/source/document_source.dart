@@ -35,13 +35,13 @@ class DocumentDataSource implements DocumentRepository {
       _service.sendMail(id: id, request: request);
 
   @override
-  Future<Document> createDocument({required CreateDocumentDto request}) =>
+  Future<Document> createDocument({required CreateDocumentRequest request}) =>
       _service.createDocument(request: request);
 
   @override
   Future<Document> updateDocument({
     required int id,
-    required CreateDocumentDto request,
+    required CreateDocumentRequest request,
   }) => _service.updateDocument(id: id, request: request);
 
   @override

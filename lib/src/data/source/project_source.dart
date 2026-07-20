@@ -39,13 +39,13 @@ class ProjectDataSource implements ProjectRepository {
   );
 
   @override
-  Future<Project> createProject({required CreateProjectDto request}) =>
+  Future<Project> createProject({required CreateProjectRequest request}) =>
       _service.createProject(request: request);
 
   @override
   Future<Project> updateProject({
     required int id,
-    required UpdateProjectDto request,
+    required UpdateProjectRequest request,
   }) => _service.updateProject(id: id, request: request);
 
   @override

@@ -62,13 +62,13 @@ abstract class IssueService {
   @PATCH('issue/procurement/{id}/request')
   Future<Issue> createProcurementIssueRequest({
     @Path('id') required int id,
-    @Body() required CreateProcurementIssueRequestDto request,
+    @Body() required UpsertProcurementRequest request,
   });
 
   @PATCH('issue/procurement/request/{id}')
   Future<Issue> updateProcurementIssueRequest({
     @Path('id') required int id,
-    @Body() required CreateProcurementIssueRequestDto request,
+    @Body() required UpsertProcurementRequest request,
   });
 
   @PATCH('issue/procurement/{id}/approve')
@@ -95,13 +95,13 @@ abstract class IssueService {
 
   @POST('issue/contract')
   Future<Issue> createContractIssue({
-    @Body() required CreateContractIssueDto request,
+    @Body() required CreateContractIssueRequest request,
   });
 
   @PATCH('issue/contract/{id}')
   Future<Issue> updateContractIssue({
     @Path('id') required int id,
-    @Body() required UpdateContractIssueDto request,
+    @Body() required UpdateContractIssueRequest request,
   });
 
   // --- KICKOFF ---
@@ -112,37 +112,37 @@ abstract class IssueService {
 
   @POST('issue/kickoff')
   Future<Issue> createKickoffIssue({
-    @Body() required CreateKickoffIssueDto request,
+    @Body() required CreateKickoffIssueRequest request,
   });
 
   @PATCH('issue/kickoff/{id}')
   Future<Issue> updateKickoffIssue({
     @Path('id') required int id,
-    @Body() required UpdateKickoffIssueDto request,
+    @Body() required UpdateKickoffIssueRequest request,
   });
 
   // --- APPROVAL ---
   @POST('issue/approval')
   Future<Issue> createApprovalIssue({
-    @Body() required CreateApprovalIssueDto request,
+    @Body() required CreateApprovalIssueRequest request,
   });
 
   @PATCH('issue/approval/{id}')
   Future<Issue> updateApprovalIssue({
     @Path('id') required int id,
-    @Body() required UpdateApprovalIssueDto request,
+    @Body() required UpdateApprovalIssueRequest request,
   });
 
   // --- PROCUREMENT ---
   @POST('issue/procurement')
   Future<Issue> createProcurementIssue({
-    @Body() required CreateProcurementIssueDto request,
+    @Body() required CreateProcurementIssueRequest request,
   });
 
   @PATCH('issue/procurement/{id}')
   Future<Issue> updateProcurementIssue({
     @Path('id') required int id,
-    @Body() required UpdateProcurementIssueDto request,
+    @Body() required UpdateProcurementIssueRequest request,
   });
 
   // --- TRANSACTION ---
@@ -153,13 +153,13 @@ abstract class IssueService {
 
   @POST('issue/transaction')
   Future<Issue> createTransactionIssue({
-    @Body() required CreateTransactionIssueDto request,
+    @Body() required CreateTransactionIssueRequest request,
   });
 
   @PATCH('issue/transaction/{id}')
   Future<Issue> updateTransactionIssue({
     @Path('id') required int id,
-    @Body() required UpdateTransactionIssueDto request,
+    @Body() required UpdateTransactionIssueRequest request,
   });
 
   // --- PAYMENT ---
@@ -170,13 +170,13 @@ abstract class IssueService {
 
   @POST('issue/payment')
   Future<Issue> createPaymentIssue({
-    @Body() required CreatePaymentIssueDto request,
+    @Body() required CreatePaymentIssueRequest request,
   });
 
   @PATCH('issue/payment/{id}')
   Future<Issue> updatePaymentIssue({
     @Path('id') required int id,
-    @Body() required UpdatePaymentIssueDto request,
+    @Body() required UpdatePaymentIssueRequest request,
   });
 
   // =========================================================================
@@ -188,7 +188,7 @@ abstract class IssueService {
   @POST('issue/mail/{id}')
   Future<void> sendMail({
     @Path('id') required int id,
-    @Body() required SendMailDto request,
+    @Body() required SendMailRequest request,
   });
 
   @GET('issue/{id}/procurement/request')

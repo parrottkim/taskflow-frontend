@@ -11,7 +11,7 @@ class DocumentFolderDataSource implements DocumentFolderRepository {
 
   @override
   Future<List<DocumentFolder>> syncFolders({
-    required SyncDocumentFoldersDto body,
+    required SyncDocumentFoldersRequest body,
   }) => _service.syncFolders(body: body);
 }
 

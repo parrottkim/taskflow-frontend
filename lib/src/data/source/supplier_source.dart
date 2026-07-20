@@ -17,13 +17,13 @@ class SupplierDataSource implements SupplierRepository {
   }) => _service.getSuppliers(page: page, limit: limit, search: search);
 
   @override
-  Future<Supplier> createSupplier({required CreateSupplierDto request}) =>
+  Future<Supplier> createSupplier({required CreateSupplierRequest request}) =>
       _service.createSupplier(request: request);
 
   @override
   Future<Supplier> updateSupplier({
     required int id,
-    required CreateSupplierDto request,
+    required CreateSupplierRequest request,
   }) => _service.updateSupplier(id: id, request: request);
 
   @override

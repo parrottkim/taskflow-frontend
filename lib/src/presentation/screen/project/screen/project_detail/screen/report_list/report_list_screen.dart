@@ -6,21 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/schedule_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/toolbar_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/trip_cost_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/trip_export_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/report_list/widget/user_information_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/report_list/widget/schedule_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/report_list/widget/toolbar_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/report_list/widget/trip_cost_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/report_list/widget/trip_export_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/screen/report_list/widget/user_information_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
-class ReportListWidget extends ConsumerWidget {
+class ReportListScreen extends ConsumerWidget {
   final int projectId;
   final int? reportId;
 
-  const ReportListWidget({super.key, required this.projectId, this.reportId});
+  const ReportListScreen({super.key, required this.projectId, this.reportId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

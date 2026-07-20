@@ -327,7 +327,9 @@ enum ProjectDetailSegment {
 }
 
 enum WorkSegment {
-  project('project', 'work_segment_1');
+  project('project', 'work_segment_1'),
+  issue('issue', 'work_segment_2'),
+  report('report', 'work_segment_3');
 
   final String key;
   final String labelKey;

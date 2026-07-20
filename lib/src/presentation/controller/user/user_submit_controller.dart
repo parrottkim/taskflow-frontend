@@ -8,7 +8,7 @@ class UserSubmitController extends _$UserSubmitController {
   Future<void> toggleAdmin({required int userId, required bool flag}) async {
     state = UserSubmitState.pending();
 
-    final request = UpdateUserPermissionDto(isAdmin: flag);
+    final request = UpdateUserPermissionRequest(isAdmin: flag);
 
     try {
       final user = await ref
@@ -31,7 +31,7 @@ class UserSubmitController extends _$UserSubmitController {
   }) async {
     state = UserSubmitState.pending();
 
-    final request = UpdateUserPermissionDto(isAuthorized: flag);
+    final request = UpdateUserPermissionRequest(isAuthorized: flag);
 
     try {
       final user = await ref
@@ -55,7 +55,7 @@ class UserSubmitController extends _$UserSubmitController {
   }) async {
     state = UserSubmitState.pending();
 
-    final request = UpdateUserPermissionDto(
+    final request = UpdateUserPermissionRequest(
       positionId: positionId,
       departmentId: departmentId,
     );

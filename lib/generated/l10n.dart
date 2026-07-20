@@ -4584,6 +4584,16 @@ class S {
     return Intl.message('프로젝트', name: 'work_segment_1', desc: '', args: []);
   }
 
+  /// `업무`
+  String get work_segment_2 {
+    return Intl.message('업무', name: 'work_segment_2', desc: '', args: []);
+  }
+
+  /// `보고서`
+  String get work_segment_3 {
+    return Intl.message('보고서', name: 'work_segment_3', desc: '', args: []);
+  }
+
   /// `타임라인`
   String get schedule_segment_1 {
     return Intl.message('타임라인', name: 'schedule_segment_1', desc: '', args: []);
