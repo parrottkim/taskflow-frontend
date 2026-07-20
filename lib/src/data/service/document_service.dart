@@ -17,6 +17,9 @@ abstract class DocumentService {
     @Query('search') String? search,
   });
 
+  @GET('document/{id}')
+  Future<Document> getDocumentDetail({@Path('id') required int id});
+
   @POST('document/mail/{id}')
   Future<void> sendMail({
     @Path('id') required int id,
