@@ -13,7 +13,7 @@ class DocumentDetailController extends _$DocumentDetailController {
 
     final result = await ref
         .watch(documentRepositoryProvider)
-        .getDocumentForEdit(id: documentId);
+        .getDocumentDetail(id: documentId);
 
     return DocumentDetailState(document: result);
   }
