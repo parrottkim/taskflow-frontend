@@ -27,7 +27,11 @@ class DocumentDataSource implements DocumentRepository {
   );
 
   @override
-  Future<void> sendMail({required int id, required SendMailDto request}) =>
+  Future<Document> getDocumentDetail({required int id}) =>
+      _service.getDocumentDetail(id: id);
+
+  @override
+  Future<void> sendMail({required int id, required SendMailRequest request}) =>
       _service.sendMail(id: id, request: request);
 
   @override

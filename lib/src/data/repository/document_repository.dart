@@ -12,7 +12,9 @@ abstract class DocumentRepository {
     String? search,
   });
 
-  Future<void> sendMail({required int id, required SendMailDto request});
+  Future<Document> getDocumentDetail({required int id});
+
+  Future<void> sendMail({required int id, required SendMailRequest request});
 
   Future<Document> createDocument({required CreateDocumentDto request});
 
