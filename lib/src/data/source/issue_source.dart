@@ -56,13 +56,13 @@ class IssueDataSource implements IssueRepository {
   @override
   Future<Issue> createProcurementIssueRequest({
     required int id,
-    required CreateProcurementIssueRequestDto request,
+    required UpsertProcurementRequest request,
   }) => _service.createProcurementIssueRequest(id: id, request: request);
 
   @override
   Future<Issue> updateProcurementIssueRequest({
     required int id,
-    required CreateProcurementIssueRequestDto request,
+    required UpsertProcurementRequest request,
   }) => _service.updateProcurementIssueRequest(id: id, request: request);
 
   @override
@@ -86,13 +86,13 @@ class IssueDataSource implements IssueRepository {
 
   @override
   Future<Issue> createContractIssue({
-    required CreateContractIssueDto request,
+    required CreateContractIssueRequest request,
   }) => _service.createContractIssue(request: request);
 
   @override
   Future<Issue> updateContractIssue({
     required int id,
-    required UpdateContractIssueDto request,
+    required UpdateContractIssueRequest request,
   }) => _service.updateContractIssue(id: id, request: request);
 
   // KICKOFF
@@ -101,37 +101,38 @@ class IssueDataSource implements IssueRepository {
       _service.getKickoffIssue(id: id);
 
   @override
-  Future<Issue> createKickoffIssue({required CreateKickoffIssueDto request}) =>
-      _service.createKickoffIssue(request: request);
+  Future<Issue> createKickoffIssue({
+    required CreateKickoffIssueRequest request,
+  }) => _service.createKickoffIssue(request: request);
 
   @override
   Future<Issue> updateKickoffIssue({
     required int id,
-    required UpdateKickoffIssueDto request,
+    required UpdateKickoffIssueRequest request,
   }) => _service.updateKickoffIssue(id: id, request: request);
 
   // APPROVAL
   @override
   Future<Issue> createApprovalIssue({
-    required CreateApprovalIssueDto request,
+    required CreateApprovalIssueRequest request,
   }) => _service.createApprovalIssue(request: request);
 
   @override
   Future<Issue> updateApprovalIssue({
     required int id,
-    required UpdateApprovalIssueDto request,
+    required UpdateApprovalIssueRequest request,
   }) => _service.updateApprovalIssue(id: id, request: request);
 
   // PROCUREMENT
   @override
   Future<Issue> createProcurementIssue({
-    required CreateProcurementIssueDto request,
+    required CreateProcurementIssueRequest request,
   }) => _service.createProcurementIssue(request: request);
 
   @override
   Future<Issue> updateProcurementIssue({
     required int id,
-    required UpdateProcurementIssueDto request,
+    required UpdateProcurementIssueRequest request,
   }) => _service.updateProcurementIssue(id: id, request: request);
 
   // TRANSACTION
@@ -142,13 +143,13 @@ class IssueDataSource implements IssueRepository {
 
   @override
   Future<Issue> createTransactionIssue({
-    required CreateTransactionIssueDto request,
+    required CreateTransactionIssueRequest request,
   }) => _service.createTransactionIssue(request: request);
 
   @override
   Future<Issue> updateTransactionIssue({
     required int id,
-    required UpdateTransactionIssueDto request,
+    required UpdateTransactionIssueRequest request,
   }) => _service.updateTransactionIssue(id: id, request: request);
 
   // PAYMENT
@@ -157,13 +158,14 @@ class IssueDataSource implements IssueRepository {
       _service.getPaymentIssue(id: id);
 
   @override
-  Future<Issue> createPaymentIssue({required CreatePaymentIssueDto request}) =>
-      _service.createPaymentIssue(request: request);
+  Future<Issue> createPaymentIssue({
+    required CreatePaymentIssueRequest request,
+  }) => _service.createPaymentIssue(request: request);
 
   @override
   Future<Issue> updatePaymentIssue({
     required int id,
-    required UpdatePaymentIssueDto request,
+    required UpdatePaymentIssueRequest request,
   }) => _service.updatePaymentIssue(id: id, request: request);
 
   // --- 글로벌 터미널 및 공통 ID 액션 (최하단 격리) ---
@@ -172,7 +174,7 @@ class IssueDataSource implements IssueRepository {
       _service.getCategory(id: id);
 
   @override
-  Future<void> sendMail({required int id, required SendMailDto request}) =>
+  Future<void> sendMail({required int id, required SendMailRequest request}) =>
       _service.sendMail(id: id, request: request);
 
   @override

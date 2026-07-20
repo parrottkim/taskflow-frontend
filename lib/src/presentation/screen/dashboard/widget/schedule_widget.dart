@@ -40,8 +40,9 @@ class ScheduleWidget extends ConsumerWidget {
                       onTap: () async {
                         await launchUrl(
                           Uri.parse(
-                            'https://calendar.google.com/calendar/u/0/embed?src=dantech9999@gmail.com&ctz=Asia/Seoul',
+                            'https://calendar.google.com/calendar/u/0/r?cid=dantech9999%40gmail.com',
                           ),
+                          mode: LaunchMode.externalApplication,
                         );
                       },
                       icon: Symbols.open_in_new_rounded,

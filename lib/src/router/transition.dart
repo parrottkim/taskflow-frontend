@@ -56,6 +56,81 @@ Page<T> buildResponsiveDialogPage<T>({
   );
 }
 
+class ClickThroughTransitionPage<T> extends Page<T> {
+  final Widget child;
+  final Duration transitionDuration;
+  final Duration reverseTransitionDuration;
+  final Widget Function(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  )
+  transitionsBuilder;
+
+  const ClickThroughTransitionPage({
+    required this.child,
+    required this.transitionsBuilder,
+    this.transitionDuration = const Duration(milliseconds: 300),
+    this.reverseTransitionDuration = const Duration(milliseconds: 300),
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+  });
+
+  @override
+  Route<T> createRoute(BuildContext context) =>
+      _ClickThroughTransitionPageRoute<T>(this);
+}
+
+class _ClickThroughTransitionPageRoute<T> extends PageRoute<T> {
+  _ClickThroughTransitionPageRoute(ClickThroughTransitionPage<T> page)
+    : super(settings: page, requestFocus: false);
+
+  ClickThroughTransitionPage<T> get _page =>
+      settings as ClickThroughTransitionPage<T>;
+
+  @override
+  bool get barrierDismissible => false;
+
+  @override
+  Color? get barrierColor => null;
+
+  @override
+  String? get barrierLabel => null;
+
+  @override
+  Duration get transitionDuration => _page.transitionDuration;
+
+  @override
+  Duration get reverseTransitionDuration => _page.reverseTransitionDuration;
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  bool get opaque => false;
+
+  @override
+  Widget buildModalBarrier() => const IgnorePointer(child: SizedBox.expand());
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) => _page.child;
+
+  @override
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) => _page.transitionsBuilder(context, animation, secondaryAnimation, child);
+}
+
 class BottomSheetPage<T> extends Page<T> {
   final Offset? anchorPoint;
   final Color? barrierColor;

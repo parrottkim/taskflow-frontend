@@ -36,17 +36,17 @@ class ReportDataSource implements ReportRepository {
   }) => _service.getReports(page: page, limit: limit, projectId: projectId);
 
   @override
-  Future<void> sendMail({required int id, required SendMailDto request}) =>
+  Future<void> sendMail({required int id, required SendMailRequest request}) =>
       _service.sendMail(id: id, request: request);
 
   @override
-  Future<Report> createReport({required CreateReportDto request}) =>
+  Future<Report> createReport({required CreateReportRequest request}) =>
       _service.createReport(request: request);
 
   @override
   Future<Report> updateReport({
     required int id,
-    required UpdateReportDto request,
+    required UpdateReportRequest request,
   }) => _service.updateReport(id: id, request: request);
 
   @override

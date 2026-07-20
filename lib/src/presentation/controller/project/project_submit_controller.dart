@@ -13,7 +13,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
     state = const ProjectSubmitState.pending();
 
     try {
-      final request = CreateProjectDto(
+      final request = CreateProjectRequest(
         managerId: value.manager?.id,
         clientId: value.clients!.last.id,
         projectCode: value.code!,
@@ -49,7 +49,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
     state = const ProjectSubmitState.pending();
 
     try {
-      final request = UpdateProjectDto(
+      final request = UpdateProjectRequest(
         managerId: value.manager?.id,
         clientId: value.clients!.last.id,
         projectCode: value.code!,
@@ -85,7 +85,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
     state = const ProjectSubmitState.pending();
 
     try {
-      final request = UpdateProjectDto(
+      final request = UpdateProjectRequest(
         isClosed: true,
         closureMessage: closureMessage,
       );

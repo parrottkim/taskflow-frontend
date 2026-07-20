@@ -24,11 +24,11 @@ abstract class IssueRepository {
   Future<HttpResponse<List<int>>> exportPurchaseOrder({required int id});
   Future<Issue> createProcurementIssueRequest({
     required int id,
-    required CreateProcurementIssueRequestDto request,
+    required UpsertProcurementRequest request,
   });
   Future<Issue> updateProcurementIssueRequest({
     required int id,
-    required CreateProcurementIssueRequestDto request,
+    required UpsertProcurementRequest request,
   });
   Future<void> approveProcurementIssueRequest({required int id});
   Future<void> deleteProcurementIssueRequest({required int id});
@@ -39,34 +39,40 @@ abstract class IssueRepository {
   // --- 도메인별 단독 ID 및 CUD API ---
   // CONTRACT
   Future<HttpResponse<ContractIssue?>> getContractIssue({required int id});
-  Future<Issue> createContractIssue({required CreateContractIssueDto request});
+  Future<Issue> createContractIssue({
+    required CreateContractIssueRequest request,
+  });
   Future<Issue> updateContractIssue({
     required int id,
-    required UpdateContractIssueDto request,
+    required UpdateContractIssueRequest request,
   });
 
   // KICKOFF
   Future<HttpResponse<KickoffIssue?>> getKickoffIssue({required int id});
-  Future<Issue> createKickoffIssue({required CreateKickoffIssueDto request});
+  Future<Issue> createKickoffIssue({
+    required CreateKickoffIssueRequest request,
+  });
   Future<Issue> updateKickoffIssue({
     required int id,
-    required UpdateKickoffIssueDto request,
+    required UpdateKickoffIssueRequest request,
   });
 
   // APPROVAL
-  Future<Issue> createApprovalIssue({required CreateApprovalIssueDto request});
+  Future<Issue> createApprovalIssue({
+    required CreateApprovalIssueRequest request,
+  });
   Future<Issue> updateApprovalIssue({
     required int id,
-    required UpdateApprovalIssueDto request,
+    required UpdateApprovalIssueRequest request,
   });
 
   // PROCUREMENT
   Future<Issue> createProcurementIssue({
-    required CreateProcurementIssueDto request,
+    required CreateProcurementIssueRequest request,
   });
   Future<Issue> updateProcurementIssue({
     required int id,
-    required UpdateProcurementIssueDto request,
+    required UpdateProcurementIssueRequest request,
   });
 
   // TRANSACTION
@@ -74,24 +80,26 @@ abstract class IssueRepository {
     required int id,
   });
   Future<Issue> createTransactionIssue({
-    required CreateTransactionIssueDto request,
+    required CreateTransactionIssueRequest request,
   });
   Future<Issue> updateTransactionIssue({
     required int id,
-    required UpdateTransactionIssueDto request,
+    required UpdateTransactionIssueRequest request,
   });
 
   // PAYMENT
   Future<HttpResponse<PaymentIssue?>> getPaymentIssue({required int id});
-  Future<Issue> createPaymentIssue({required CreatePaymentIssueDto request});
+  Future<Issue> createPaymentIssue({
+    required CreatePaymentIssueRequest request,
+  });
   Future<Issue> updatePaymentIssue({
     required int id,
-    required UpdatePaymentIssueDto request,
+    required UpdatePaymentIssueRequest request,
   });
 
   // --- 글로벌 터미널 및 공통 ID 액션 (최하단 격리) ---
   Future<IssueCategory> getCategory({required int id});
-  Future<void> sendMail({required int id, required SendMailDto request});
+  Future<void> sendMail({required int id, required SendMailRequest request});
   Future<Issue> getIssueForProcurementRequest({required int id});
   Future<Issue> getIssueForEdit({required int id});
   Future<Issue> getIssue({required int id});

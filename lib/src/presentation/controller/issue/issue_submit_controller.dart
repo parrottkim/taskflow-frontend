@@ -30,13 +30,14 @@ class IssueSubmitController extends _$IssueSubmitController {
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
             .map(
-              (e) => CreateContractIssueItemDto(item: e.item, price: e.price),
+              (e) =>
+                  CreateContractIssueItemRequest(item: e.item, price: e.price),
             )
             .toList();
 
         final transactionItems = value.transactionItems
             .map(
-              (e) => CreateTransactionIssueItemDto(
+              (e) => CreateTransactionIssueItemRequest(
                 categoryId: e.category!.id,
                 price: e.price,
                 ratio: e.ratio,
@@ -45,7 +46,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        final request = CreateContractIssueDto(
+        final request = CreateContractIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
@@ -59,7 +60,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             .read(issueRepositoryProvider)
             .createContractIssue(request: request);
       } else if (value.category is IssueKickoff) {
-        final request = CreateKickoffIssueDto(
+        final request = CreateKickoffIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
@@ -73,7 +74,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       } else if (value.category is IssueTransaction) {
         final items = value.transactionItems
             .map(
-              (e) => UpdateTransactionIssueItemDto(
+              (e) => UpdateTransactionIssueItemRequest(
                 id: e.id,
                 categoryId: e.category!.id,
                 price: e.price,
@@ -85,7 +86,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        final request = CreateTransactionIssueDto(
+        final request = CreateTransactionIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
@@ -97,7 +98,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             .read(issueRepositoryProvider)
             .createTransactionIssue(request: request);
       } else if (value.category is IssueApproval) {
-        final request = CreateApprovalIssueDto(
+        final request = CreateApprovalIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
@@ -110,7 +111,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       } else if (value.category is IssueProcurement) {
         final items = value.procurementItems
             .map(
-              (e) => CreateProcurementIssueItemDto(
+              (e) => CreateProcurementIssueItemRequest(
                 item: e.item,
                 spec: e.spec,
                 quantity: e.quantity,
@@ -124,7 +125,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        final request = CreateProcurementIssueDto(
+        final request = CreateProcurementIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
@@ -136,7 +137,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             .read(issueRepositoryProvider)
             .createProcurementIssue(request: request);
       } else if (value.category is IssuePayment) {
-        final request = CreatePaymentIssueDto(
+        final request = CreatePaymentIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
@@ -251,7 +252,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
             .map(
-              (e) => UpdateContractIssueItemDto(
+              (e) => UpdateContractIssueItemRequest(
                 id: e.id,
                 item: e.item,
                 price: e.price,
@@ -261,7 +262,7 @@ class IssueSubmitController extends _$IssueSubmitController {
 
         final transactionItems = value.transactionItems
             .map(
-              (e) => UpdateTransactionIssueItemDto(
+              (e) => UpdateTransactionIssueItemRequest(
                 id: e.id,
                 categoryId: e.category!.id,
                 price: e.price,
@@ -273,7 +274,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        final request = UpdateContractIssueDto(
+        final request = UpdateContractIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -287,7 +288,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             .read(issueRepositoryProvider)
             .updateContractIssue(id: issueId, request: request);
       } else if (value.category is IssueKickoff) {
-        final request = UpdateKickoffIssueDto(
+        final request = UpdateKickoffIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -299,7 +300,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             .read(issueRepositoryProvider)
             .updateKickoffIssue(id: issueId, request: request);
       } else if (value.category is IssueApproval) {
-        final request = UpdateApprovalIssueDto(
+        final request = UpdateApprovalIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -312,7 +313,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       } else if (value.category is IssueProcurement) {
         final items = value.procurementItems
             .map(
-              (e) => UpdateProcurementIssueItemDto(
+              (e) => UpdateProcurementIssueItemRequest(
                 id: e.id,
                 item: e.item,
                 spec: e.spec,
@@ -327,7 +328,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        final request = UpdateProcurementIssueDto(
+        final request = UpdateProcurementIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -341,7 +342,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       } else if (value.category is IssueTransaction) {
         final items = value.transactionItems
             .map(
-              (e) => UpdateTransactionIssueItemDto(
+              (e) => UpdateTransactionIssueItemRequest(
                 id: e.id,
                 categoryId: e.category!.id,
                 price: e.price,
@@ -353,7 +354,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        final request = UpdateTransactionIssueDto(
+        final request = UpdateTransactionIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -365,7 +366,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             .read(issueRepositoryProvider)
             .updateTransactionIssue(id: issueId, request: request);
       } else if (value.category is IssuePayment) {
-        final request = UpdatePaymentIssueDto(
+        final request = UpdatePaymentIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -439,14 +440,14 @@ class IssueSubmitController extends _$IssueSubmitController {
     if (value.category is IssueContract) {
       return repository.updateContractIssue(
         id: issue.id,
-        request: UpdateContractIssueDto(
+        request: UpdateContractIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
           currencyId: value.currency!.id,
           contractItems: issue.contractItems
               .map(
-                (item) => UpdateContractIssueItemDto(
+                (item) => UpdateContractIssueItemRequest(
                   id: item.id,
                   item: item.item,
                   price: item.price,
@@ -455,7 +456,7 @@ class IssueSubmitController extends _$IssueSubmitController {
               .toList(),
           transactionItems: issue.transactionItems
               .map(
-                (item) => UpdateTransactionIssueItemDto(
+                (item) => UpdateTransactionIssueItemRequest(
                   id: item.id,
                   categoryId: item.category!.id,
                   price: item.price,
@@ -473,7 +474,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     if (value.category is IssueKickoff) {
       return repository.updateKickoffIssue(
         id: issue.id,
-        request: UpdateKickoffIssueDto(
+        request: UpdateKickoffIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -485,7 +486,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     if (value.category is IssueApproval) {
       return repository.updateApprovalIssue(
         id: issue.id,
-        request: UpdateApprovalIssueDto(
+        request: UpdateApprovalIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -496,13 +497,13 @@ class IssueSubmitController extends _$IssueSubmitController {
     if (value.category is IssueProcurement) {
       return repository.updateProcurementIssue(
         id: issue.id,
-        request: UpdateProcurementIssueDto(
+        request: UpdateProcurementIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
           procurementItems: issue.procurementItems
               .map(
-                (item) => UpdateProcurementIssueItemDto(
+                (item) => UpdateProcurementIssueItemRequest(
                   id: item.id,
                   item: item.item,
                   spec: item.spec,
@@ -523,13 +524,13 @@ class IssueSubmitController extends _$IssueSubmitController {
     if (value.category is IssueTransaction) {
       return repository.updateTransactionIssue(
         id: issue.id,
-        request: UpdateTransactionIssueDto(
+        request: UpdateTransactionIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
           transactionItems: issue.transactionItems
               .map(
-                (item) => UpdateTransactionIssueItemDto(
+                (item) => UpdateTransactionIssueItemRequest(
                   id: item.id,
                   categoryId: item.category!.id,
                   price: item.price,
@@ -547,7 +548,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     if (value.category is IssuePayment) {
       return repository.updatePaymentIssue(
         id: issue.id,
-        request: UpdatePaymentIssueDto(
+        request: UpdatePaymentIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
@@ -653,7 +654,7 @@ class IssueSubmitController extends _$IssueSubmitController {
   }) async {
     state = const IssueSubmitState.pending();
 
-    final request = SendMailDto(
+    final request = SendMailRequest(
       userIds: isAllSelected
           ? null
           : users.map((element) => element.id).toList(),
@@ -689,7 +690,7 @@ class IssueSubmitController extends _$IssueSubmitController {
         final items = value.items
             .where((item) => item.supplier?.id == supplierId)
             .map(
-              (item) => CreateProcurementIssueItemDto(
+              (item) => CreateProcurementIssueItemRequest(
                 item: item.item,
                 spec: item.spec,
                 quantity: item.quantity,
@@ -703,7 +704,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             )
             .toList();
 
-        final request = CreateProcurementIssueRequestDto(
+        final request = UpsertProcurementRequest(
           title: value.titles[supplierId]!,
           deliveryDate: value.deliveryDates[supplierId],
           paymentTerms: value.paymentTerms[supplierId],
@@ -764,7 +765,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       final items = value.items
           .where((item) => item.supplier?.id == supplierId)
           .map(
-            (item) => CreateProcurementIssueItemDto(
+            (item) => CreateProcurementIssueItemRequest(
               item: item.item,
               spec: item.spec,
               quantity: item.quantity,
@@ -778,7 +779,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           )
           .toList();
 
-      final request = CreateProcurementIssueRequestDto(
+      final request = UpsertProcurementRequest(
         title: value.titles[supplierId]!,
         deliveryDate: value.deliveryDates[supplierId],
         paymentTerms: value.paymentTerms[supplierId],

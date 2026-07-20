@@ -16,11 +16,11 @@ abstract class DocumentRepository {
 
   Future<void> sendMail({required int id, required SendMailRequest request});
 
-  Future<Document> createDocument({required CreateDocumentDto request});
+  Future<Document> createDocument({required CreateDocumentRequest request});
 
   Future<Document> updateDocument({
     required int id,
-    required CreateDocumentDto request,
+    required CreateDocumentRequest request,
   });
 
   Future<void> deleteDocument({required int id});

@@ -3,6 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/work/screen/issue_list/issue_list_screen.dart';
+import 'package:taskflow/src/presentation/screen/work/screen/project_list/project_list_screen.dart';
+import 'package:taskflow/src/presentation/screen/work/screen/report_list/report_list_screen.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
@@ -70,7 +73,14 @@ class OverviewWidget extends HookConsumerWidget {
           ),
         ),
         Expanded(
-          child: TabBarView(controller: controller, children: [Center()]),
+          child: TabBarView(
+            controller: controller,
+            children: [
+              ProjectListScreen(),
+              IssueListScreen(),
+              ReportListScreen(),
+            ],
+          ),
         ),
       ],
     );

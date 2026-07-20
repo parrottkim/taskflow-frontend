@@ -6,22 +6,22 @@ class AuthDataSource implements AuthRepository {
   AuthDataSource({required AuthService service}) : _service = service;
 
   @override
-  Future<Token> login({required LoginDto login}) =>
+  Future<Token> login({required LoginRequest login}) =>
       _service.login(login: login);
 
   @override
-  Future<User> register({required RegisterDto request}) =>
+  Future<User> register({required RegisterRequest request}) =>
       _service.register(request: request);
 
   @override
   Future<Token> refresh() => _service.refresh();
 
   @override
-  Future<void> forgotPassword({required ForgotPasswordDto request}) =>
+  Future<void> forgotPassword({required ForgotPasswordRequest request}) =>
       _service.forgotPassword(request: request);
 
   @override
-  Future<void> resetPassword({required ResetPasswordDto request}) =>
+  Future<void> resetPassword({required ResetPasswordRequest request}) =>
       _service.resetPassword(request: request);
 }
 

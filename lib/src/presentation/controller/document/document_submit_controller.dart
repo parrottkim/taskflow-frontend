@@ -16,7 +16,7 @@ class DocumentSubmitController extends _$DocumentSubmitController {
 
     try {
       final initialContent = appflowy.documentToMarkdown(editorState.document);
-      final request = CreateDocumentDto(
+      final request = CreateDocumentRequest(
         title: value.title ?? '',
         content: initialContent,
         folderId: value.folderId!,
@@ -93,7 +93,7 @@ class DocumentSubmitController extends _$DocumentSubmitController {
         editorState: editorState,
         resourceId: documentId,
       );
-      final request = CreateDocumentDto(
+      final request = CreateDocumentRequest(
         title: value.title ?? '',
         content: content,
         folderId: value.folderId!,
@@ -227,8 +227,10 @@ class DocumentSubmitController extends _$DocumentSubmitController {
     state = const DocumentSubmitState.pending();
 
     try {
-      final request = SyncDocumentFoldersDto(
-        items: folders.map(SyncDocumentFolderDto.fromDocumentFolder).toList(),
+      final request = SyncDocumentFoldersRequest(
+        items: folders
+            .map(SyncDocumentFolderRequest.fromDocumentFolder)
+            .toList(),
       );
 
       final result = await ref
@@ -252,7 +254,7 @@ class DocumentSubmitController extends _$DocumentSubmitController {
   }) async {
     state = const DocumentSubmitState.pending();
 
-    final request = SendMailDto(
+    final request = SendMailRequest(
       userIds: isAllSelected
           ? null
           : users.map((element) => element.id).toList(),

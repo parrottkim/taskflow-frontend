@@ -24,12 +24,14 @@ abstract class ScheduleService {
   });
 
   @POST('schedule')
-  Future<Schedule> createSchedule({@Body() required ScheduleDto request});
+  Future<Schedule> createSchedule({
+    @Body() required UpsertScheduleRequest request,
+  });
 
   @PATCH('schedule/{id}')
   Future<Schedule> updateSchedule({
     @Path('id') required int id,
-    @Body() required ScheduleDto request,
+    @Body() required UpsertScheduleRequest request,
   });
 
   @DELETE('schedule/{id}')

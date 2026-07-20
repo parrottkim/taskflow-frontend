@@ -22,18 +22,13 @@ class UserInformation extends StatelessWidget {
     this.showPosition = false,
   });
 
-  factory UserInformation.compact({
-    Key? key,
-    required User user,
-  }) {
+  factory UserInformation.compact({Key? key, required User user}) {
     return UserInformation(
       key: key,
       user: user,
       avatarRadius: 10.0,
       spacing: 6.0,
-      usernameStyle: const TextStyle(
-        fontWeight: FontWeight.w500,
-      ),
+      usernameStyle: const TextStyle(fontWeight: FontWeight.w500),
       showEmail: false,
       showDepartment: false,
       showPosition: false,
@@ -55,10 +50,7 @@ class UserInformation extends StatelessWidget {
             radius: avatarRadius,
             child: Text(
               getInitials(user.username),
-              style: TextStyle(
-                fontSize: avatarRadius,
-                color: Colors.white,
-              ),
+              style: TextStyle(fontSize: avatarRadius, color: Colors.white),
             ),
           ),
         ),
@@ -70,10 +62,7 @@ class UserInformation extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  user.username,
-                  style: usernameStyle,
-                ),
+                Text(user.username, style: usernameStyle),
                 if (showDepartment && user.department != null)
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0),
@@ -89,7 +78,8 @@ class UserInformation extends StatelessWidget {
             if (showEmail)
               Text(
                 user.email,
-                style: emailStyle ??
+                style:
+                    emailStyle ??
                     textTheme.labelSmall?.copyWith(
                       color: colorScheme.onSurface.withValues(alpha: 0.6),
                     ),

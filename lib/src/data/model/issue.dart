@@ -49,15 +49,6 @@ abstract class IssueCategory with _$IssueCategory {
   factory IssueCategory.dummy() => IssueCategory.contract(id: 1, name: '카테고리');
 }
 
-abstract class IssueInterface {
-  int get id;
-  String get content;
-  User get user;
-  List<IssueAttachment> get attachments;
-  DateTime get createdAt;
-  DateTime get updatedAt;
-}
-
 @freezed
 sealed class Issue with _$Issue {
   factory Issue({

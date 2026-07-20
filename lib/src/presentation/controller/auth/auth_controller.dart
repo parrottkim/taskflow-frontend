@@ -30,7 +30,7 @@ class AuthController extends _$AuthController {
     }
   }
 
-  Future<void> login({required LoginDto login}) async {
+  Future<void> login({required LoginRequest login}) async {
     state = const AuthPending();
     try {
       final token = await ref.watch(authRepositoryProvider).login(login: login);
@@ -67,7 +67,7 @@ class AuthController extends _$AuthController {
     }
   }
 
-  Future<void> register({required RegisterDto request}) async {
+  Future<void> register({required RegisterRequest request}) async {
     state = const AuthPending();
     try {
       await ref.read(authRepositoryProvider).register(request: request).then((
@@ -86,11 +86,11 @@ class AuthController extends _$AuthController {
     state = const AuthUnauthenticated();
   }
 
-  Future<void> forgotPassword({required ForgotPasswordDto request}) async {
+  Future<void> forgotPassword({required ForgotPasswordRequest request}) async {
     await ref.read(authRepositoryProvider).forgotPassword(request: request);
   }
 
-  Future<void> resetPassword({required ResetPasswordDto request}) async {
+  Future<void> resetPassword({required ResetPasswordRequest request}) async {
     await ref.read(authRepositoryProvider).resetPassword(request: request);
   }
 }

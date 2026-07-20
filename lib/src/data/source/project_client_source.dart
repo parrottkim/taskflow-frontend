@@ -12,9 +12,10 @@ class ClientDataSource implements ClientRepository {
   Future<List<ClientCount>> getAllClientCount() => _service.getAllClientCount();
 
   @override
-  Future<List<Client>> getClientRelations(
-          {required int id, bool isDescendant = true}) =>
-      _service.getClientRelations(id: id, isDescendant: isDescendant);
+  Future<List<Client>> getClientRelations({
+    required int id,
+    bool isDescendant = true,
+  }) => _service.getClientRelations(id: id, isDescendant: isDescendant);
 }
 
 @riverpod

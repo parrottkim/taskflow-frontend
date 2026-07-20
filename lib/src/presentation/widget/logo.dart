@@ -19,10 +19,7 @@ class Logo extends StatelessWidget {
       ),
       child: SvgPicture.asset(
         'assets/icons/logo.svg',
-        colorFilter: ColorFilter.mode(
-          colorScheme.onPrimary,
-          BlendMode.srcIn,
-        ),
+        colorFilter: ColorFilter.mode(colorScheme.onPrimary, BlendMode.srcIn),
       ),
     );
   }

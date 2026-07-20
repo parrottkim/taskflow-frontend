@@ -28,13 +28,13 @@ abstract class UserService {
   @PATCH('user/{id}/permission')
   Future<User> updateUserPermission({
     @Path('id') required int id,
-    @Body() required UpdateUserPermissionDto request,
+    @Body() required UpdateUserPermissionRequest request,
   });
 
   @PATCH('user/{id}')
   Future<User> updateUser({
     @Path('id') required int id,
-    @Body() required UpdateUserDto request,
+    @Body() required UpdateUserRequest request,
   });
 
   @DELETE('user/{id}')
