@@ -12,7 +12,7 @@ class OverviewWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(dataFilterControllerProvider);
+    final filter = ref.watch(accountFilterControllerProvider);
     final selectedItem = useState<AccountSegment>(
       AccountSegment.values.firstWhere(
         (e) => e.name == filter.view,
@@ -47,7 +47,7 @@ class OverviewWidget extends HookConsumerWidget {
             selectedItem.value = AccountSegment.values[index];
 
             ref
-                .read(dataFilterControllerProvider.notifier)
+                .read(accountFilterControllerProvider.notifier)
                 .setView(view: selectedItem.value.name);
 
             context.goNamed(

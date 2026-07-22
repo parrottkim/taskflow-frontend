@@ -64,136 +64,10 @@ class DocumentListWidget extends ConsumerWidget {
   }
 }
 
-class _DesktopWidget extends StatelessWidget {
+class _DesktopWidget extends HookConsumerWidget {
   final List<DocumentListItem> items;
 
   const _DesktopWidget({required this.items});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    final fixedItems = items.where((document) => document.fixed).toList();
-    final normalItems = items.where((document) => !document.fixed).toList();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Skeleton.keep(child: const _DocumentTableColumns()),
-        Divider(),
-        if (items.isEmpty)
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/empty.svg',
-                    width: 40.0,
-                    height: 40.0,
-                    colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(Intl.message('document_no_item')),
-                ],
-              ),
-            ),
-          )
-        else ...[
-          if (fixedItems.isNotEmpty) ...[
-            _DocumentTableRows(items: fixedItems, selectedDocumentId: null),
-            if (normalItems.isNotEmpty) Divider(),
-          ],
-          Expanded(
-            child: normalItems.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/empty.svg',
-                          width: 40.0,
-                          height: 40.0,
-                          colorFilter: ColorFilter.mode(
-                            colorScheme.onSurface.withValues(alpha: 0.7),
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(Intl.message('document_no_item')),
-                      ],
-                    ),
-                  )
-                : _DocumentTableRows(
-                    items: normalItems,
-                    selectedDocumentId: null,
-                  ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-class _DocumentTableColumns extends StatelessWidget {
-  const _DocumentTableColumns();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    Text label(String message) {
-      return Text(
-        message,
-        style: textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w600,
-          color: colorScheme.onSurface.withValues(alpha: 0.7),
-        ),
-      );
-    }
-
-    return DataTable(
-      headingRowHeight: 48.0,
-      showCheckboxColumn: false,
-      columns: [
-        DataColumn(
-          columnWidth: FlexColumnWidth(2.5),
-          label: label(Intl.message('document_column_1')),
-        ),
-        DataColumn(
-          columnWidth: FlexColumnWidth(),
-          label: label(Intl.message('document_column_2')),
-        ),
-        DataColumn(
-          columnWidth: FixedColumnWidth(120.0),
-          label: label(Intl.message('document_column_3')),
-        ),
-        DataColumn(
-          columnWidth: FixedColumnWidth(200.0),
-          label: label(Intl.message('document_column_4')),
-        ),
-        DataColumn(
-          columnWidth: FixedColumnWidth(100.0),
-          label: label(Intl.message('document_column_5')),
-        ),
-      ],
-      rows: const [],
-    );
-  }
-}
-
-class _DocumentTableRows extends HookConsumerWidget {
-  final List<DocumentListItem> items;
-  final int? selectedDocumentId;
-
-  const _DocumentTableRows({
-    required this.items,
-    required this.selectedDocumentId,
-  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -202,190 +76,182 @@ class _DocumentTableRows extends HookConsumerWidget {
 
     final auth = ref.watch(authControllerProvider);
     final hoveredDocumentId = useState<int?>(null);
+    final fixedItems = items.where((item) => item.fixed);
+    final normalItems = items.where((item) => !item.fixed);
+    final orderedItems = [...fixedItems, ...normalItems];
 
-    WidgetStateProperty<Color?>? fixedRowColor(DocumentListItem item) {
-      if (!item.fixed) {
-        return null;
-      }
-
-      if (selectedDocumentId == item.id) {
-        return WidgetStatePropertyAll(colorScheme.surfaceContainerHighest);
-      }
-
-      if (hoveredDocumentId.value == item.id) {
-        return WidgetStatePropertyAll(colorScheme.surfaceContainerHigh);
-      }
-
-      return WidgetStatePropertyAll(colorScheme.surfaceContainerLow);
-    }
-
-    return NotificationListener<ScrollNotification>(
-      onNotification: (notification) {
-        if (notification.metrics.pixels >=
-            notification.metrics.maxScrollExtent - 20.0) {
-          ref.read(documentListControllerProvider.notifier).load();
-        }
-        return false;
-      },
-      child: SingleChildScrollView(
-        child: DataTable(
-          headingRowHeight: 0.0,
-          showCheckboxColumn: false,
-          columns: const [
-            DataColumn(columnWidth: FlexColumnWidth(2.5), label: SizedBox()),
-            DataColumn(columnWidth: FlexColumnWidth(), label: SizedBox()),
-            DataColumn(columnWidth: FixedColumnWidth(120.0), label: SizedBox()),
-            DataColumn(columnWidth: FixedColumnWidth(200.0), label: SizedBox()),
-            DataColumn(columnWidth: FixedColumnWidth(100.0), label: SizedBox()),
-          ],
-          rows: [
-            for (final item in items)
-              DataRow(
-                selected: selectedDocumentId == item.id,
-                onHover: (hovered) {
-                  hoveredDocumentId.value = hovered ? item.id : null;
-                },
-                onSelectChanged: (_) => {
-                  context.goNamed(
-                    RouteNames.documentDetail,
-                    pathParameters: {'document_id': item.id.toString()},
-                    queryParameters: context.buildQueryParameters(
-                      updates: const {},
-                    ),
-                  ),
-                },
-                color: fixedRowColor(item),
-                cells: [
-                  DataCell(
-                    Row(
-                      children: [
-                        if (item.fixed)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6.0),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 2.0,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.0),
-                                color: colorScheme.error.withValues(alpha: 0.6),
-                              ),
-                              child: Text(
-                                Intl.message('document_fixed'),
-                                style: textTheme.labelSmall?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: colorScheme.onError,
-                                ),
-                              ),
-                            ),
+    return FixedHeaderDataTable(
+      columns: [
+        DataTableColumnConfig(
+          label: Intl.message('document_column_1'),
+          width: const FlexColumnWidth(2.5),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('document_column_2'),
+          width: const FlexColumnWidth(),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('document_column_3'),
+          width: const FixedColumnWidth(120.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('document_column_4'),
+          width: const FixedColumnWidth(200.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('document_column_5'),
+          width: const FixedColumnWidth(100.0),
+        ),
+      ],
+      rows: [
+        for (final item in orderedItems)
+          DataRow(
+            onHover: (hovered) {
+              hoveredDocumentId.value = hovered ? item.id : null;
+            },
+            onSelectChanged: (_) => {
+              context.goNamed(
+                RouteNames.documentDetail,
+                pathParameters: {'document_id': item.id.toString()},
+                queryParameters: context.buildQueryParameters(
+                  updates: const {},
+                ),
+              ),
+            },
+            color: item.fixed
+                ? WidgetStatePropertyAll(
+                    hoveredDocumentId.value == item.id
+                        ? colorScheme.surfaceContainerHigh
+                        : colorScheme.surfaceContainerLow,
+                  )
+                : null,
+            cells: [
+              DataCell(
+                Row(
+                  children: [
+                    if (item.fixed)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 6.0),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                            vertical: 2.0,
                           ),
-                        Expanded(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4.0),
+                            color: colorScheme.error.withValues(alpha: 0.6),
+                          ),
                           child: Text(
-                            item.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  DataCell(UserInformation.compact(user: item.createdBy)),
-                  DataCell(
-                    Row(
-                      children: [
-                        Skeleton.unite(
-                          child: Icon(
-                            Symbols.attachment_rounded,
-                            size: 20.0,
-                            weight: 300.0,
-                            color: colorScheme.outline.withValues(alpha: 0.7),
-                          ),
-                        ),
-                        SizedBox(width: 8.0),
-                        Expanded(
-                          child: Text(
-                            '${item.attachmentCount >= 10 ? '10+' : item.attachmentCount}',
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                            Intl.message('document_fixed'),
+                            style: textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: colorScheme.onError,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  DataCell(
-                    Text(
-                      item.createdAt == item.updatedAt
-                          ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
-                          : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
-                      style: TextStyle(
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                      ),
+                    Expanded(
+                      child: Text(
+                        item.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              DataCell(UserInformation.compact(user: item.createdBy)),
+              DataCell(
+                Row(
+                  children: [
+                    Skeleton.unite(
+                      child: Icon(
+                        Symbols.attachment_rounded,
+                        size: 20.0,
+                        weight: 300.0,
+                        color: colorScheme.outline.withValues(alpha: 0.7),
+                      ),
+                    ),
+                    SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        '${item.attachmentCount >= 10 ? '10+' : item.attachmentCount}',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              DataCell(
+                Text(
+                  item.createdAt == item.updatedAt
+                      ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
+                      : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
+                  style: TextStyle(
+                    color: colorScheme.onSurface.withValues(alpha: 0.7),
                   ),
-                  DataCell(
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ElevatedIconButton(
-                          onTap: () => context.pushNamed(
-                            RouteNames.documentEdit,
-                            pathParameters: {'document_id': item.id.toString()},
-                            queryParameters: context.buildQueryParameters(
-                              updates: const {},
-                            ),
-                          ),
+                ),
+              ),
+              DataCell(
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedIconButton(
+                      onTap: () => context.pushNamed(
+                        RouteNames.documentEdit,
+                        pathParameters: {'document_id': item.id.toString()},
+                        queryParameters: context.buildQueryParameters(
+                          updates: const {},
+                        ),
+                      ),
+                      padding: EdgeInsets.all(4.0),
+                      borderRadius: BorderRadius.circular(4.0),
+                      icon: Symbols.edit_rounded,
+                      size: 20.0,
+                    ),
+                    if (auth is AuthAuthenticated && auth.user.isAdmin ||
+                        auth is AuthAuthenticated &&
+                            auth.user.id == item.createdBy.id)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: ElevatedIconButton(
+                          onTap: () async {
+                            final result = await showDialog(
+                              context: context,
+                              builder: (_) => DeleteDialog(
+                                title: Intl.message('document_delete_dialog_1'),
+                                content: Intl.message(
+                                  'document_delete_dialog_2',
+                                ),
+                              ),
+                            );
+
+                            if (result) {
+                              await ref
+                                  .read(
+                                    documentSubmitControllerProvider.notifier,
+                                  )
+                                  .deleteDocument(documentId: item.id);
+                            }
+                          },
                           padding: EdgeInsets.all(4.0),
                           borderRadius: BorderRadius.circular(4.0),
-                          icon: Symbols.edit_rounded,
+                          icon: Symbols.delete_rounded,
                           size: 20.0,
                         ),
-                        if (auth is AuthAuthenticated && auth.user.isAdmin ||
-                            auth is AuthAuthenticated &&
-                                auth.user.id == item.createdBy.id)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: ElevatedIconButton(
-                              onTap: () async {
-                                final result = await showDialog(
-                                  context: context,
-                                  builder: (_) => DeleteDialog(
-                                    title: Intl.message(
-                                      'document_delete_dialog_1',
-                                    ),
-                                    content: Intl.message(
-                                      'document_delete_dialog_2',
-                                    ),
-                                  ),
-                                );
-
-                                if (result) {
-                                  await ref
-                                      .read(
-                                        documentSubmitControllerProvider
-                                            .notifier,
-                                      )
-                                      .deleteDocument(documentId: item.id);
-                                }
-                              },
-                              padding: EdgeInsets.all(4.0),
-                              borderRadius: BorderRadius.circular(4.0),
-                              icon: Symbols.delete_rounded,
-                              size: 20.0,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
+                      ),
+                  ],
+                ),
               ),
-          ],
-        ),
-      ),
+            ],
+          ),
+      ],
+      empty: DataTableEmpty(message: Intl.message('document_no_item')),
+      onLoadMore: () =>
+          ref.read(documentListControllerProvider.notifier).load(),
     );
   }
 }
@@ -400,6 +266,7 @@ class _MobileWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final fixedItems = items.where((item) => item.fixed).toList();
     final normalItems = items.where((item) => !item.fixed).toList();
+    final orderedItems = [...fixedItems, ...normalItems];
 
     if (items.isEmpty) {
       return Center(
@@ -422,56 +289,20 @@ class _MobileWidget extends ConsumerWidget {
       );
     }
 
-    return Column(
-      children: [
-        if (fixedItems.isNotEmpty) ...[
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: fixedItems.length,
-            itemBuilder: (context, index) =>
-                _MobileDocumentItem(item: fixedItems[index]),
-            separatorBuilder: (_, _) => const Divider(),
-          ),
-          if (normalItems.isNotEmpty) const Divider(),
-        ],
-        Expanded(
-          child: normalItems.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/empty.svg',
-                        width: 40.0,
-                        height: 40.0,
-                        colorFilter: ColorFilter.mode(
-                          colorScheme.onSurface.withValues(alpha: 0.7),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(Intl.message('document_no_item')),
-                    ],
-                  ),
-                )
-              : NotificationListener<ScrollNotification>(
-                  onNotification: (notification) {
-                    if (notification.metrics.pixels >=
-                        notification.metrics.maxScrollExtent - 20.0) {
-                      ref.read(documentListControllerProvider.notifier).load();
-                    }
-                    return false;
-                  },
-                  child: ListView.separated(
-                    itemCount: normalItems.length,
-                    itemBuilder: (context, index) =>
-                        _MobileDocumentItem(item: normalItems[index]),
-                    separatorBuilder: (_, _) => const Divider(),
-                  ),
-                ),
-        ),
-      ],
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification.metrics.pixels >=
+            notification.metrics.maxScrollExtent - 20.0) {
+          ref.read(documentListControllerProvider.notifier).load();
+        }
+        return false;
+      },
+      child: ListView.separated(
+        itemCount: orderedItems.length,
+        itemBuilder: (context, index) =>
+            _MobileDocumentItem(item: orderedItems[index]),
+        separatorBuilder: (_, _) => const Divider(),
+      ),
     );
   }
 }

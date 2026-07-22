@@ -148,12 +148,13 @@ class _DesktopWidget extends HookConsumerWidget {
         if (!controller.hasClients) return;
 
         final ctx = key.currentContext;
-        if (ctx == null) return;
+        if (ctx == null || !ctx.mounted) return;
+
+        final scrollContext = controller.position.context.storageContext;
+        if (!scrollContext.mounted) return;
 
         final renderBox = ctx.findRenderObject() as RenderBox;
-        final scrollBox =
-            controller.position.context.storageContext.findRenderObject()
-                as RenderBox;
+        final scrollBox = scrollContext.findRenderObject() as RenderBox;
 
         final offset = renderBox
             .localToGlobal(Offset.zero, ancestor: scrollBox)

@@ -20,7 +20,8 @@ class AccountScreen extends HookConsumerWidget {
       if (location != RouteNames.account) return;
 
       Future.microtask(
-        () => ref.read(dataFilterControllerProvider.notifier).init(view: view),
+        () =>
+            ref.read(accountFilterControllerProvider.notifier).init(view: view),
       );
 
       return null;

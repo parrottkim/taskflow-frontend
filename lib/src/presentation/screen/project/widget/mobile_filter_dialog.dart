@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:collection/collection.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/mobile_category_filter_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/mobile_client_filter_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/mobile_sort_filter_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/router/router.dart';
+
+typedef ProjectFilterApplyCallback =
+    void Function(
+      ProjectSort? sort,
+      Order? order,
+      List<int>? clients,
+      List<int>? categories,
+    );
 
 class MobileFilterDialog extends HookWidget {
-  final String? view;
-  final String? search;
-  final bool? bookmark;
   final ProjectSort? sort;
   final Order? order;
   final List<int>? clients;
@@ -25,12 +26,10 @@ class MobileFilterDialog extends HookWidget {
   final List<ClientGroup> clientItems;
   final List<IssueCategory> categoryItems;
   final int maxClientDepth;
+  final ProjectFilterApplyCallback onApply;
 
   const MobileFilterDialog({
     super.key,
-    this.view,
-    this.search,
-    this.bookmark,
     this.sort,
     this.order,
     this.clients,
@@ -38,16 +37,17 @@ class MobileFilterDialog extends HookWidget {
     required this.clientItems,
     required this.categoryItems,
     required this.maxClientDepth,
+    required this.onApply,
   });
 
   @override
   Widget build(BuildContext context) {
     final controller = usePageController();
 
-    final selectedClients = useState<List<int>>(clients ?? []);
-    final selectedCategories = useState<List<int>>(categories ?? []);
     final selectedSort = useState<ProjectSort?>(sort);
     final selectedOrder = useState<Order?>(order);
+    final selectedClients = useState<List<int>>(clients ?? []);
+    final selectedCategories = useState<List<int>>(categories ?? []);
 
     final currentDepth = useState(
       clients?.length.clamp(0, maxClientDepth - 1) ?? 0,
@@ -64,18 +64,16 @@ class MobileFilterDialog extends HookWidget {
             physics: NeverScrollableScrollPhysics(),
             children: [
               MainFilterPage(
-                view: view,
-                search: search,
-                bookmark: bookmark,
                 controller: controller,
-                clientItems: clientItems,
-                categoryItems: categoryItems,
-                selectedClients: selectedClients,
-                selectedCategories: selectedCategories,
                 selectedSort: selectedSort,
                 selectedOrder: selectedOrder,
+                selectedClients: selectedClients,
+                selectedCategories: selectedCategories,
+                clientItems: clientItems,
+                categoryItems: categoryItems,
                 currentDepth: currentDepth,
                 maxClientDepth: maxClientDepth,
+                onApply: onApply,
               ),
               ClientFilterPage(
                 controller: controller,
@@ -102,38 +100,34 @@ class MobileFilterDialog extends HookWidget {
   }
 }
 
-class MainFilterPage extends ConsumerWidget {
-  final String? view;
-  final String? search;
-  final bool? bookmark;
+class MainFilterPage extends StatelessWidget {
   final PageController controller;
-  final List<ClientGroup> clientItems;
-  final List<IssueCategory> categoryItems;
-  final ValueNotifier<List<int>> selectedClients;
-  final ValueNotifier<List<int>> selectedCategories;
   final ValueNotifier<ProjectSort?> selectedSort;
   final ValueNotifier<Order?> selectedOrder;
+  final ValueNotifier<List<int>> selectedClients;
+  final ValueNotifier<List<int>> selectedCategories;
+  final List<ClientGroup> clientItems;
+  final List<IssueCategory> categoryItems;
   final ValueNotifier<int> currentDepth;
   final int maxClientDepth;
+  final ProjectFilterApplyCallback onApply;
 
   const MainFilterPage({
     super.key,
-    this.view,
-    this.search,
-    this.bookmark,
     required this.controller,
-    required this.clientItems,
-    required this.categoryItems,
-    required this.selectedClients,
-    required this.selectedCategories,
     required this.selectedSort,
     required this.selectedOrder,
+    required this.selectedClients,
+    required this.selectedCategories,
+    required this.clientItems,
+    required this.categoryItems,
     required this.currentDepth,
     required this.maxClientDepth,
+    required this.onApply,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -187,7 +181,7 @@ class MainFilterPage extends ConsumerWidget {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () => context.pop(),
+                  onPressed: () => Navigator.of(context).pop(),
                   child: Text(Intl.message('common_cancel')),
                 ),
               ),
@@ -195,57 +189,20 @@ class MainFilterPage extends ConsumerWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    ref
-                        .read(
-                          projectFilterControllerProvider(
-                            ProjectFilterScope.projectPage,
-                          ).notifier,
-                        )
-                        .setSort(sort: selectedSort.value);
-                    ref
-                        .read(
-                          projectFilterControllerProvider(
-                            ProjectFilterScope.projectPage,
-                          ).notifier,
-                        )
-                        .setOrder(order: selectedOrder.value);
                     final nextClients = selectedClients.value.isEmpty
                         ? null
                         : selectedClients.value;
-                    ref
-                        .read(
-                          projectFilterControllerProvider(
-                            ProjectFilterScope.projectPage,
-                          ).notifier,
-                        )
-                        .setClients(clients: nextClients);
                     final nextCategories = selectedCategories.value.isEmpty
                         ? null
                         : selectedCategories.value;
-                    ref
-                        .read(
-                          projectFilterControllerProvider(
-                            ProjectFilterScope.projectPage,
-                          ).notifier,
-                        )
-                        .setCategories(categories: nextCategories);
 
-                    context.goNamed(
-                      RouteNames.project,
-                      queryParameters: context.buildQueryParameters(
-                        updates: {
-                          'view': view,
-                          'sort': selectedSort.value?.key,
-                          'order': selectedOrder.value?.key,
-                          'search': search,
-                          'bookmark': bookmark?.toString(),
-                          'clients': nextClients?.join(','),
-                          'categories': nextCategories?.join(','),
-                        },
-                      ),
+                    Navigator.of(context).pop();
+                    onApply(
+                      selectedSort.value,
+                      selectedOrder.value,
+                      nextClients,
+                      nextCategories,
                     );
-
-                    context.pop();
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: colorScheme.onPrimary,

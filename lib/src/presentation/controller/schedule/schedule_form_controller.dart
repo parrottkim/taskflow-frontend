@@ -49,7 +49,7 @@ class ScheduleFormController extends _$ScheduleFormController {
     );
   }
 
-  void setDate({DateTime? start, DateTime? end}) {
+  void setDateRange({DateTime? start, DateTime? end}) {
     final value = state.value;
 
     if (value == null) return;

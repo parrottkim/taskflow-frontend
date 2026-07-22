@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -7,6 +8,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/project/widget/mobile_filter_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 
 class MobileFilterWidget extends ConsumerWidget {
   const MobileFilterWidget({super.key});
@@ -58,10 +60,7 @@ class _DesktopWidget extends ConsumerWidget {
     return ElevatedButton.icon(
       onPressed: () => showDialog(
         context: context,
-        builder: (context) => MobileFilterDialog(
-          view: filter.view,
-          search: filter.search,
-          bookmark: filter.bookmark,
+        builder: (_) => MobileFilterDialog(
           sort: filter.sort,
           order: filter.order,
           clients: filter.clients,
@@ -69,6 +68,32 @@ class _DesktopWidget extends ConsumerWidget {
           clientItems: clientItems,
           categoryItems: categoryItems,
           maxClientDepth: maxClientDepth,
+          onApply: (sort, order, clients, categories) {
+            ref.read(
+                projectFilterControllerProvider(
+                  ProjectFilterScope.projectPage,
+                ).notifier,
+              )
+              ..setSort(sort: sort)
+              ..setOrder(order: order)
+              ..setClients(clients: clients)
+              ..setCategories(categories: categories);
+
+            context.goNamed(
+              RouteNames.project,
+              queryParameters: context.buildQueryParameters(
+                updates: {
+                  'view': filter.view,
+                  'sort': sort?.key,
+                  'order': order?.key,
+                  'search': filter.search,
+                  'bookmark': filter.bookmark?.toString(),
+                  'clients': clients?.join(','),
+                  'categories': categories?.join(','),
+                },
+              ),
+            );
+          },
         ),
       ),
       icon: Icon(Symbols.filter_alt_rounded),

@@ -59,11 +59,11 @@ class ErrorController extends _$ErrorController {
         if (message == 'refresh_token_expired') {
           state = ErrorState.tokenExpired(message: Intl.message(message));
         } else {
-          state = ErrorState.unauthorized(message: message);
+          state = ErrorState.unauthorized(message: Intl.message(message));
         }
         break;
       case 403:
-        state = ErrorState.forbidden(message: message);
+        state = ErrorState.forbidden(message: Intl.message(message));
         break;
       case 404:
         state = ErrorState.notFound(message: Intl.message(message));

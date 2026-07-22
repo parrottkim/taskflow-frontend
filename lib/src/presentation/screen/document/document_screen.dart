@@ -118,6 +118,7 @@ class _DesktopWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(height: 24.0),
                       DocumentFilterWidget(),
                       SizedBox(height: 8.0),
                       DocumentListWidget(),
@@ -139,9 +140,12 @@ class _MobileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FolderTreeWidget(),
         SizedBox(height: 16.0),
+        DocumentFilterWidget(),
+        SizedBox(height: 8.0),
         DocumentListWidget(),
       ],
     );

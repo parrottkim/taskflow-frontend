@@ -7,7 +7,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_category/widget/schedule_selector_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_category/widget/schedule_select_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
@@ -75,7 +75,7 @@ class _DesktopWidget extends HookConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ScheduleSelectorWidget(
+                  ScheduleSelectWidget(
                     projectId: projectId,
                     reportId: reportId,
                     selectedSchedule: selectedSchedule,
