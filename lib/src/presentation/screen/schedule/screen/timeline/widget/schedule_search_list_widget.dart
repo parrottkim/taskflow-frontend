@@ -26,8 +26,8 @@ class ScheduleSearchListWidget extends ConsumerWidget {
           borderRadius: BorderRadius.circular(8.0),
           child: switch (schedules) {
             AsyncData(value: final value) => Responsive(
-              desktop: _DesktopWidget(items: _flatten(value.items)),
-              mobile: _MobileWidget(items: _flatten(value.items)),
+              desktop: _DesktopWidget(items: value.flattenedItems),
+              mobile: _MobileWidget(items: value.flattenedItems),
             ),
             AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
               error: error,
@@ -46,26 +46,6 @@ class ScheduleSearchListWidget extends ConsumerWidget {
       ),
     );
   }
-
-  List<Schedule> _flatten(List<ScheduleGroup> groups) {
-    final seenIds = <int>{};
-    final items = <Schedule>[];
-
-    for (final group in groups) {
-      for (final schedule in group.items) {
-        if (seenIds.add(schedule.id)) {
-          items.add(schedule);
-        }
-      }
-    }
-
-    items.sort((a, b) {
-      final startCompare = a.start.compareTo(b.start);
-      return startCompare == 0 ? a.id.compareTo(b.id) : startCompare;
-    });
-
-    return items;
-  }
 }
 
 class _DesktopWidget extends ConsumerWidget {
@@ -78,196 +58,64 @@ class _DesktopWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Skeleton.keep(
-          child: DataTable(
-            headingRowHeight: 48.0,
-            showCheckboxColumn: false,
-            columns: _columns(context, showLabels: true),
-            rows: const [],
-          ),
+    return FixedHeaderDataTable(
+      columns: [
+        DataTableColumnConfig(
+          label: Intl.message('schedule_column_1'),
+          width: const FixedColumnWidth(220.0),
         ),
-        const Divider(),
-        if (items.isEmpty)
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/empty.svg',
-                    width: 40.0,
-                    height: 40.0,
-                    colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    Intl.message('schedule_search_empty'),
-                    style: textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-            ),
-          )
-        else
-          Expanded(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                if (notification.metrics.pixels >=
-                    notification.metrics.maxScrollExtent - 20.0) {
-                  ref
-                      .read(scheduleListControllerProvider().notifier)
-                      .loadNext();
-                }
-                return false;
-              },
-              child: SingleChildScrollView(
-                child: DataTable(
-                  headingRowHeight: 0.0,
-                  showCheckboxColumn: false,
-                  columns: _columns(context, showLabels: false),
-                  rows: List.generate(
-                    items.length,
-                    (index) =>
-                        _scheduleRow(context: context, schedule: items[index]),
-                  ),
-                ),
-              ),
-            ),
-          ),
+        DataTableColumnConfig(
+          label: Intl.message('schedule_column_2'),
+          width: const FlexColumnWidth(1.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('schedule_column_3'),
+          width: const FlexColumnWidth(1.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('schedule_column_4'),
+          width: const FixedColumnWidth(220.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('schedule_column_5'),
+          width: const FixedColumnWidth(220.0),
+        ),
       ],
-    );
-  }
-
-  List<DataColumn> _columns(BuildContext context, {required bool showLabels}) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return [
-      DataColumn(
-        columnWidth: const FixedColumnWidth(220.0),
-        label: Text(
-          Intl.message('schedule_column_1'),
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
-        ),
-      ),
-      DataColumn(
-        columnWidth: const FlexColumnWidth(1.0),
-        label: Text(
-          Intl.message('schedule_column_2'),
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
-        ),
-      ),
-      DataColumn(
-        columnWidth: const FlexColumnWidth(1.0),
-        label: Text(
-          Intl.message('schedule_column_3'),
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
-        ),
-      ),
-      DataColumn(
-        columnWidth: const FixedColumnWidth(220.0),
-        label: Text(
-          Intl.message('schedule_column_4'),
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
-        ),
-      ),
-      DataColumn(
-        columnWidth: const FixedColumnWidth(220.0),
-        label: Text(
-          Intl.message('schedule_column_5'),
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
-        ),
-      ),
-    ];
-  }
-
-  DataRow _scheduleRow({
-    required BuildContext context,
-    required Schedule schedule,
-  }) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final dateText =
-        '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.end)}';
-
-    return DataRow(
-      onSelectChanged: (value) {
-        context.goNamed(
-          RouteNames.projectDetail,
-          pathParameters: {'project_id': schedule.projectId.toString()},
-        );
-      },
-      cells: [
-        DataCell(
-          Row(
-            children: [
-              Skeleton.leaf(
-                child: Container(
-                  padding: EdgeInsets.all(6.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Color(
-                      ClientType.fromKey(schedule.projectClientId).color,
-                    ),
-                  ),
-                  child: SizedBox(
-                    width: 16.0,
-                    height: 16.0,
-                    child: SvgPicture.asset(
-                      ClientType.fromKey(schedule.projectClientId).asset,
-                      colorFilter: ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
+      rows: [
+        for (final schedule in items)
+          DataRow(
+            onSelectChanged: (_) {
+              context.goNamed(
+                RouteNames.projectDetail,
+                pathParameters: {'project_id': schedule.projectId.toString()},
+              );
+            },
+            cells: [
+              DataCell(
+                ClientInformation(
+                  clientId: schedule.projectClientId,
+                  name: schedule.projectClientName,
                 ),
               ),
-              SizedBox(width: 12.0),
-              Text(
-                schedule.projectClientName,
-                style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+              DataCell(Text(schedule.summary)),
+              DataCell(Text(schedule.description ?? '')),
+              DataCell(UserInformation.compact(user: schedule.user)),
+              DataCell(
+                Text(
+                  '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.end)}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.labelMedium?.copyWith(
+                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  ),
                 ),
               ),
             ],
           ),
-        ),
-        DataCell(Text(schedule.summary)),
-        DataCell(Text(schedule.description ?? '')),
-        DataCell(UserInformation.compact(user: schedule.user)),
-        DataCell(
-          Text(
-            dateText,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: textTheme.labelMedium?.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
-            ),
-          ),
-        ),
       ],
+      empty: DataTableEmpty(message: Intl.message('schedule_search_empty')),
+      onLoadMore: () =>
+          ref.read(scheduleListControllerProvider().notifier).loadNext(),
     );
   }
 }
@@ -338,7 +186,6 @@ class _MobileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final clientType = ClientType.fromKey(item.projectClientId);
     final dateText =
         '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(item.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(item.end)}';
 
@@ -355,20 +202,14 @@ class _MobileItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                _ClientIcon(clientType: clientType),
-                const SizedBox(width: 8.0),
-                Text(
-                  item.projectClientName,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-              ],
+            ClientInformation(
+              clientId: item.projectClientId,
+              name: item.projectClientName,
             ),
             const SizedBox(height: 16.0),
             Text(
               item.summary.isEmpty ? item.projectName : item.summary,
-              maxLines: Responsive.isMobile(context) ? 2 : 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w500,
@@ -432,33 +273,6 @@ class _MobileItem extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ClientIcon extends StatelessWidget {
-  final ClientType clientType;
-
-  const _ClientIcon({required this.clientType});
-
-  @override
-  Widget build(BuildContext context) {
-    return Skeleton.leaf(
-      child: Container(
-        padding: const EdgeInsets.all(6.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          color: Color(clientType.color),
-        ),
-        child: SizedBox(
-          width: 16.0,
-          height: 16.0,
-          child: SvgPicture.asset(
-            clientType.asset,
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-          ),
         ),
       ),
     );

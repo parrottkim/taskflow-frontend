@@ -85,43 +85,65 @@ class _DesktopWidget extends HookConsumerWidget {
 
     final selected = useState<int?>(reportId);
     final itemKeys = useMemoized<Map<int, GlobalKey>>(() {
-      final Map<int, GlobalKey> keys = {};
-      for (final issue in items) {
-        keys[issue.id] = GlobalKey();
+      final keys = <int, GlobalKey>{};
+
+      for (final report in items) {
+        keys[report.id] = GlobalKey();
       }
+
       return keys;
     }, [items]);
+
+    final orderedIds = useMemoized<List<int>>(
+      () => items.map((item) => item.id).toList(),
+      [items],
+    );
 
     final controller = PrimaryScrollController.of(context);
 
     useEffect(() {
       selected.value = reportId;
 
-      if (selected.value != null && items.any((i) => i.id == selected.value)) {
-        Future.microtask(() async {
-          await WidgetsBinding.instance.endOfFrame;
-
-          final ctx = itemKeys[selected.value]?.currentContext;
-          if (ctx == null) return;
-
-          // ⭐️ ScrollController를 사용하는 로직으로 변경
-          if (controller.hasClients) {
-            final renderBox = ctx.findRenderObject() as RenderBox;
-            final viewport = context.findRenderObject() as RenderBox;
-            final targetOffset =
-                renderBox.localToGlobal(Offset.zero, ancestor: viewport).dy -
-                60.0;
-
-            controller.animateTo(
-              targetOffset + controller.offset,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInQuad,
-            );
-          }
-        });
+      if (reportId == null) return null;
+      if (!orderedIds.contains(reportId)) {
+        Future.microtask(
+          () => ref
+              .read(reportListControllerProvider(projectId: projectId).notifier)
+              .load(),
+        );
+        return null;
       }
+
+      final key = itemKeys[reportId];
+      if (key == null) return null;
+
+      Future.microtask(() async {
+        await WidgetsBinding.instance.endOfFrame;
+
+        if (!controller.hasClients) return;
+
+        final ctx = key.currentContext;
+        if (ctx == null || !ctx.mounted) return;
+
+        final scrollContext = controller.position.context.storageContext;
+        if (!scrollContext.mounted) return;
+
+        final renderBox = ctx.findRenderObject() as RenderBox;
+        final scrollBox = scrollContext.findRenderObject() as RenderBox;
+
+        final offset = renderBox
+            .localToGlobal(Offset.zero, ancestor: scrollBox)
+            .dy;
+
+        controller.animateTo(
+          controller.offset + offset,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      });
+
       return null;
-    }, [reportId, items]);
+    }, [reportId, orderedIds]);
 
     if (items.isEmpty) {
       return Center(

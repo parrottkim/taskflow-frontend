@@ -1141,7 +1141,7 @@ final class ErrorControllerProvider
   }
 }
 
-String _$errorControllerHash() => r'f7b55b3c3d83258f6b2c8e2f7254a821e1da09c7';
+String _$errorControllerHash() => r'9c253b51b13dcfdb88e5d549b6e6f40dbeb5c4cd';
 
 abstract class _$ErrorController extends $Notifier<ErrorState> {
   ErrorState build();
@@ -2515,7 +2515,7 @@ final class ScheduleFormControllerProvider
 }
 
 String _$scheduleFormControllerHash() =>
-    r'd70ea23269c23d06d73ab29420f9c83e2be46056';
+    r'42f4ba0867bd92486b2de387c164fdff82f78770';
 
 final class ScheduleFormControllerFamily extends $Family
     with
@@ -4072,6 +4072,380 @@ abstract class _$WorkFilterController extends $Notifier<WorkFilterState> {
             as $ClassProviderElement<
               AnyNotifier<WorkFilterState, WorkFilterState>,
               WorkFilterState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WorkIssueFilterController)
+final workIssueFilterControllerProvider = WorkIssueFilterControllerProvider._();
+
+final class WorkIssueFilterControllerProvider
+    extends $NotifierProvider<WorkIssueFilterController, WorkIssueFilterState> {
+  WorkIssueFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workIssueFilterControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workIssueFilterControllerHash();
+
+  @$internal
+  @override
+  WorkIssueFilterController create() => WorkIssueFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WorkIssueFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WorkIssueFilterState>(value),
+    );
+  }
+}
+
+String _$workIssueFilterControllerHash() =>
+    r'b27eb45993f0820842d3608616dc180dde966712';
+
+abstract class _$WorkIssueFilterController
+    extends $Notifier<WorkIssueFilterState> {
+  WorkIssueFilterState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<WorkIssueFilterState, WorkIssueFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<WorkIssueFilterState, WorkIssueFilterState>,
+              WorkIssueFilterState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WorkIssueListController)
+final workIssueListControllerProvider = WorkIssueListControllerProvider._();
+
+final class WorkIssueListControllerProvider
+    extends
+        $AsyncNotifierProvider<WorkIssueListController, WorkIssueListState> {
+  WorkIssueListControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workIssueListControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workIssueListControllerHash();
+
+  @$internal
+  @override
+  WorkIssueListController create() => WorkIssueListController();
+}
+
+String _$workIssueListControllerHash() =>
+    r'a0c73683068e1a6374a9e2ab6d86bfbff8e59263';
+
+abstract class _$WorkIssueListController
+    extends $AsyncNotifier<WorkIssueListState> {
+  FutureOr<WorkIssueListState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<WorkIssueListState>, WorkIssueListState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<WorkIssueListState>, WorkIssueListState>,
+              AsyncValue<WorkIssueListState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WorkProjectFilterController)
+final workProjectFilterControllerProvider =
+    WorkProjectFilterControllerProvider._();
+
+final class WorkProjectFilterControllerProvider
+    extends
+        $NotifierProvider<WorkProjectFilterController, WorkProjectFilterState> {
+  WorkProjectFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workProjectFilterControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workProjectFilterControllerHash();
+
+  @$internal
+  @override
+  WorkProjectFilterController create() => WorkProjectFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WorkProjectFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WorkProjectFilterState>(value),
+    );
+  }
+}
+
+String _$workProjectFilterControllerHash() =>
+    r'a81e5bc485debca278f4a63c7a42defc21042946';
+
+abstract class _$WorkProjectFilterController
+    extends $Notifier<WorkProjectFilterState> {
+  WorkProjectFilterState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<WorkProjectFilterState, WorkProjectFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<WorkProjectFilterState, WorkProjectFilterState>,
+              WorkProjectFilterState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WorkProjectListController)
+final workProjectListControllerProvider = WorkProjectListControllerProvider._();
+
+final class WorkProjectListControllerProvider
+    extends
+        $AsyncNotifierProvider<
+          WorkProjectListController,
+          WorkProjectListState
+        > {
+  WorkProjectListControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workProjectListControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workProjectListControllerHash();
+
+  @$internal
+  @override
+  WorkProjectListController create() => WorkProjectListController();
+}
+
+String _$workProjectListControllerHash() =>
+    r'2808cfccedc4774de5e0d7de3e6da5f85705377d';
+
+abstract class _$WorkProjectListController
+    extends $AsyncNotifier<WorkProjectListState> {
+  FutureOr<WorkProjectListState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref
+            as $Ref<AsyncValue<WorkProjectListState>, WorkProjectListState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<WorkProjectListState>,
+                WorkProjectListState
+              >,
+              AsyncValue<WorkProjectListState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WorkReportFilterController)
+final workReportFilterControllerProvider =
+    WorkReportFilterControllerProvider._();
+
+final class WorkReportFilterControllerProvider
+    extends
+        $NotifierProvider<WorkReportFilterController, WorkReportFilterState> {
+  WorkReportFilterControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workReportFilterControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workReportFilterControllerHash();
+
+  @$internal
+  @override
+  WorkReportFilterController create() => WorkReportFilterController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WorkReportFilterState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WorkReportFilterState>(value),
+    );
+  }
+}
+
+String _$workReportFilterControllerHash() =>
+    r'956fcaae78809ed1141027a06c0a5bf17924f7bf';
+
+abstract class _$WorkReportFilterController
+    extends $Notifier<WorkReportFilterState> {
+  WorkReportFilterState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<WorkReportFilterState, WorkReportFilterState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<WorkReportFilterState, WorkReportFilterState>,
+              WorkReportFilterState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WorkReportListController)
+final workReportListControllerProvider = WorkReportListControllerProvider._();
+
+final class WorkReportListControllerProvider
+    extends
+        $AsyncNotifierProvider<WorkReportListController, WorkReportListState> {
+  WorkReportListControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workReportListControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workReportListControllerHash();
+
+  @$internal
+  @override
+  WorkReportListController create() => WorkReportListController();
+}
+
+String _$workReportListControllerHash() =>
+    r'f371a9113091963739f91293ebbd4bced93865a6';
+
+abstract class _$WorkReportListController
+    extends $AsyncNotifier<WorkReportListState> {
+  FutureOr<WorkReportListState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<WorkReportListState>, WorkReportListState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<WorkReportListState>, WorkReportListState>,
+              AsyncValue<WorkReportListState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(WorkReportOptionsController)
+final workReportOptionsControllerProvider =
+    WorkReportOptionsControllerProvider._();
+
+final class WorkReportOptionsControllerProvider
+    extends
+        $AsyncNotifierProvider<
+          WorkReportOptionsController,
+          WorkReportOptionsState
+        > {
+  WorkReportOptionsControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workReportOptionsControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workReportOptionsControllerHash();
+
+  @$internal
+  @override
+  WorkReportOptionsController create() => WorkReportOptionsController();
+}
+
+String _$workReportOptionsControllerHash() =>
+    r'54d5a75d6381f7fad85cbb2564acbda80c0107e0';
+
+abstract class _$WorkReportOptionsController
+    extends $AsyncNotifier<WorkReportOptionsState> {
+  FutureOr<WorkReportOptionsState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref
+            as $Ref<AsyncValue<WorkReportOptionsState>, WorkReportOptionsState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<WorkReportOptionsState>,
+                WorkReportOptionsState
+              >,
+              AsyncValue<WorkReportOptionsState>,
               Object?,
               Object?
             >;

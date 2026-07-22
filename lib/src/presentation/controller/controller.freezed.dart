@@ -19568,4 +19568,2043 @@ as String?,
 
 }
 
+/// @nodoc
+mixin _$WorkIssueFilterState implements DiagnosticableTreeMixin {
+
+ WorkIssueSort? get sort; Order? get order; String? get search; List<int>? get clients; List<int>? get categories;
+/// Create a copy of WorkIssueFilterState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WorkIssueFilterStateCopyWith<WorkIssueFilterState> get copyWith => _$WorkIssueFilterStateCopyWithImpl<WorkIssueFilterState>(this as WorkIssueFilterState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkIssueFilterState'))
+    ..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('clients', clients))..add(DiagnosticsProperty('categories', categories));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkIssueFilterState&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.categories, categories));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,sort,order,search,const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(categories));
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkIssueFilterState(sort: $sort, order: $order, search: $search, clients: $clients, categories: $categories)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WorkIssueFilterStateCopyWith<$Res>  {
+  factory $WorkIssueFilterStateCopyWith(WorkIssueFilterState value, $Res Function(WorkIssueFilterState) _then) = _$WorkIssueFilterStateCopyWithImpl;
+@useResult
+$Res call({
+ WorkIssueSort? sort, Order? order, String? search, List<int>? clients, List<int>? categories
+});
+
+
+
+
+}
+/// @nodoc
+class _$WorkIssueFilterStateCopyWithImpl<$Res>
+    implements $WorkIssueFilterStateCopyWith<$Res> {
+  _$WorkIssueFilterStateCopyWithImpl(this._self, this._then);
+
+  final WorkIssueFilterState _self;
+  final $Res Function(WorkIssueFilterState) _then;
+
+/// Create a copy of WorkIssueFilterState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? sort = freezed,Object? order = freezed,Object? search = freezed,Object? clients = freezed,Object? categories = freezed,}) {
+  return _then(_self.copyWith(
+sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as WorkIssueSort?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as Order?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,clients: freezed == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
+as List<int>?,categories: freezed == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
+as List<int>?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WorkIssueFilterState].
+extension WorkIssueFilterStatePatterns on WorkIssueFilterState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkIssueFilterState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WorkIssueFilterState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkIssueFilterState value)  $default,){
+final _that = this;
+switch (_that) {
+case _WorkIssueFilterState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkIssueFilterState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WorkIssueFilterState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( WorkIssueSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WorkIssueFilterState() when $default != null:
+return $default(_that.sort,_that.order,_that.search,_that.clients,_that.categories);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( WorkIssueSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories)  $default,) {final _that = this;
+switch (_that) {
+case _WorkIssueFilterState():
+return $default(_that.sort,_that.order,_that.search,_that.clients,_that.categories);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( WorkIssueSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories)?  $default,) {final _that = this;
+switch (_that) {
+case _WorkIssueFilterState() when $default != null:
+return $default(_that.sort,_that.order,_that.search,_that.clients,_that.categories);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WorkIssueFilterState with DiagnosticableTreeMixin implements WorkIssueFilterState {
+   _WorkIssueFilterState({this.sort, this.order, this.search, final  List<int>? clients, final  List<int>? categories}): _clients = clients,_categories = categories;
+  
+
+@override final  WorkIssueSort? sort;
+@override final  Order? order;
+@override final  String? search;
+ final  List<int>? _clients;
+@override List<int>? get clients {
+  final value = _clients;
+  if (value == null) return null;
+  if (_clients is EqualUnmodifiableListView) return _clients;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _categories;
+@override List<int>? get categories {
+  final value = _categories;
+  if (value == null) return null;
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+
+/// Create a copy of WorkIssueFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WorkIssueFilterStateCopyWith<_WorkIssueFilterState> get copyWith => __$WorkIssueFilterStateCopyWithImpl<_WorkIssueFilterState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkIssueFilterState'))
+    ..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('clients', clients))..add(DiagnosticsProperty('categories', categories));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkIssueFilterState&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._categories, _categories));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,sort,order,search,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_categories));
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkIssueFilterState(sort: $sort, order: $order, search: $search, clients: $clients, categories: $categories)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WorkIssueFilterStateCopyWith<$Res> implements $WorkIssueFilterStateCopyWith<$Res> {
+  factory _$WorkIssueFilterStateCopyWith(_WorkIssueFilterState value, $Res Function(_WorkIssueFilterState) _then) = __$WorkIssueFilterStateCopyWithImpl;
+@override @useResult
+$Res call({
+ WorkIssueSort? sort, Order? order, String? search, List<int>? clients, List<int>? categories
+});
+
+
+
+
+}
+/// @nodoc
+class __$WorkIssueFilterStateCopyWithImpl<$Res>
+    implements _$WorkIssueFilterStateCopyWith<$Res> {
+  __$WorkIssueFilterStateCopyWithImpl(this._self, this._then);
+
+  final _WorkIssueFilterState _self;
+  final $Res Function(_WorkIssueFilterState) _then;
+
+/// Create a copy of WorkIssueFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? sort = freezed,Object? order = freezed,Object? search = freezed,Object? clients = freezed,Object? categories = freezed,}) {
+  return _then(_WorkIssueFilterState(
+sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as WorkIssueSort?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as Order?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,clients: freezed == clients ? _self._clients : clients // ignore: cast_nullable_to_non_nullable
+as List<int>?,categories: freezed == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<int>?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$WorkIssueListState implements DiagnosticableTreeMixin {
+
+ List<WorkIssueListItem> get items; int get page; int get total; bool get hasReachEnd;
+/// Create a copy of WorkIssueListState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WorkIssueListStateCopyWith<WorkIssueListState> get copyWith => _$WorkIssueListStateCopyWithImpl<WorkIssueListState>(this as WorkIssueListState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkIssueListState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkIssueListState&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),page,total,hasReachEnd);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkIssueListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WorkIssueListStateCopyWith<$Res>  {
+  factory $WorkIssueListStateCopyWith(WorkIssueListState value, $Res Function(WorkIssueListState) _then) = _$WorkIssueListStateCopyWithImpl;
+@useResult
+$Res call({
+ List<WorkIssueListItem> items, int page, int total, bool hasReachEnd
+});
+
+
+
+
+}
+/// @nodoc
+class _$WorkIssueListStateCopyWithImpl<$Res>
+    implements $WorkIssueListStateCopyWith<$Res> {
+  _$WorkIssueListStateCopyWithImpl(this._self, this._then);
+
+  final WorkIssueListState _self;
+  final $Res Function(WorkIssueListState) _then;
+
+/// Create a copy of WorkIssueListState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
+  return _then(_self.copyWith(
+items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as List<WorkIssueListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WorkIssueListState].
+extension WorkIssueListStatePatterns on WorkIssueListState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkIssueListState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WorkIssueListState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkIssueListState value)  $default,){
+final _that = this;
+switch (_that) {
+case _WorkIssueListState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkIssueListState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WorkIssueListState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<WorkIssueListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WorkIssueListState() when $default != null:
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<WorkIssueListItem> items,  int page,  int total,  bool hasReachEnd)  $default,) {final _that = this;
+switch (_that) {
+case _WorkIssueListState():
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<WorkIssueListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,) {final _that = this;
+switch (_that) {
+case _WorkIssueListState() when $default != null:
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WorkIssueListState with DiagnosticableTreeMixin implements WorkIssueListState {
+   _WorkIssueListState({final  List<WorkIssueListItem> items = const [], this.page = 0, this.total = 0, this.hasReachEnd = false}): _items = items;
+  
+
+ final  List<WorkIssueListItem> _items;
+@override@JsonKey() List<WorkIssueListItem> get items {
+  if (_items is EqualUnmodifiableListView) return _items;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_items);
+}
+
+@override@JsonKey() final  int page;
+@override@JsonKey() final  int total;
+@override@JsonKey() final  bool hasReachEnd;
+
+/// Create a copy of WorkIssueListState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WorkIssueListStateCopyWith<_WorkIssueListState> get copyWith => __$WorkIssueListStateCopyWithImpl<_WorkIssueListState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkIssueListState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkIssueListState&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),page,total,hasReachEnd);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkIssueListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WorkIssueListStateCopyWith<$Res> implements $WorkIssueListStateCopyWith<$Res> {
+  factory _$WorkIssueListStateCopyWith(_WorkIssueListState value, $Res Function(_WorkIssueListState) _then) = __$WorkIssueListStateCopyWithImpl;
+@override @useResult
+$Res call({
+ List<WorkIssueListItem> items, int page, int total, bool hasReachEnd
+});
+
+
+
+
+}
+/// @nodoc
+class __$WorkIssueListStateCopyWithImpl<$Res>
+    implements _$WorkIssueListStateCopyWith<$Res> {
+  __$WorkIssueListStateCopyWithImpl(this._self, this._then);
+
+  final _WorkIssueListState _self;
+  final $Res Function(_WorkIssueListState) _then;
+
+/// Create a copy of WorkIssueListState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
+  return _then(_WorkIssueListState(
+items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as List<WorkIssueListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$WorkProjectFilterState implements DiagnosticableTreeMixin {
+
+ ProjectSegment get status; WorkProjectSort? get sort; Order? get order; String? get search; List<int>? get clients; List<int>? get categories;
+/// Create a copy of WorkProjectFilterState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WorkProjectFilterStateCopyWith<WorkProjectFilterState> get copyWith => _$WorkProjectFilterStateCopyWithImpl<WorkProjectFilterState>(this as WorkProjectFilterState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkProjectFilterState'))
+    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('clients', clients))..add(DiagnosticsProperty('categories', categories));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkProjectFilterState&&(identical(other.status, status) || other.status == status)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.categories, categories));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,sort,order,search,const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(categories));
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkProjectFilterState(status: $status, sort: $sort, order: $order, search: $search, clients: $clients, categories: $categories)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WorkProjectFilterStateCopyWith<$Res>  {
+  factory $WorkProjectFilterStateCopyWith(WorkProjectFilterState value, $Res Function(WorkProjectFilterState) _then) = _$WorkProjectFilterStateCopyWithImpl;
+@useResult
+$Res call({
+ ProjectSegment status, WorkProjectSort? sort, Order? order, String? search, List<int>? clients, List<int>? categories
+});
+
+
+
+
+}
+/// @nodoc
+class _$WorkProjectFilterStateCopyWithImpl<$Res>
+    implements $WorkProjectFilterStateCopyWith<$Res> {
+  _$WorkProjectFilterStateCopyWithImpl(this._self, this._then);
+
+  final WorkProjectFilterState _self;
+  final $Res Function(WorkProjectFilterState) _then;
+
+/// Create a copy of WorkProjectFilterState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? sort = freezed,Object? order = freezed,Object? search = freezed,Object? clients = freezed,Object? categories = freezed,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as ProjectSegment,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as WorkProjectSort?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as Order?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,clients: freezed == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
+as List<int>?,categories: freezed == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
+as List<int>?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WorkProjectFilterState].
+extension WorkProjectFilterStatePatterns on WorkProjectFilterState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkProjectFilterState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WorkProjectFilterState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkProjectFilterState value)  $default,){
+final _that = this;
+switch (_that) {
+case _WorkProjectFilterState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkProjectFilterState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WorkProjectFilterState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ProjectSegment status,  WorkProjectSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WorkProjectFilterState() when $default != null:
+return $default(_that.status,_that.sort,_that.order,_that.search,_that.clients,_that.categories);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ProjectSegment status,  WorkProjectSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories)  $default,) {final _that = this;
+switch (_that) {
+case _WorkProjectFilterState():
+return $default(_that.status,_that.sort,_that.order,_that.search,_that.clients,_that.categories);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ProjectSegment status,  WorkProjectSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories)?  $default,) {final _that = this;
+switch (_that) {
+case _WorkProjectFilterState() when $default != null:
+return $default(_that.status,_that.sort,_that.order,_that.search,_that.clients,_that.categories);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WorkProjectFilterState with DiagnosticableTreeMixin implements WorkProjectFilterState {
+   _WorkProjectFilterState({this.status = ProjectSegment.all, this.sort, this.order, this.search, final  List<int>? clients, final  List<int>? categories}): _clients = clients,_categories = categories;
+  
+
+@override@JsonKey() final  ProjectSegment status;
+@override final  WorkProjectSort? sort;
+@override final  Order? order;
+@override final  String? search;
+ final  List<int>? _clients;
+@override List<int>? get clients {
+  final value = _clients;
+  if (value == null) return null;
+  if (_clients is EqualUnmodifiableListView) return _clients;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _categories;
+@override List<int>? get categories {
+  final value = _categories;
+  if (value == null) return null;
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+
+/// Create a copy of WorkProjectFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WorkProjectFilterStateCopyWith<_WorkProjectFilterState> get copyWith => __$WorkProjectFilterStateCopyWithImpl<_WorkProjectFilterState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkProjectFilterState'))
+    ..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('clients', clients))..add(DiagnosticsProperty('categories', categories));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkProjectFilterState&&(identical(other.status, status) || other.status == status)&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._categories, _categories));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,sort,order,search,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_categories));
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkProjectFilterState(status: $status, sort: $sort, order: $order, search: $search, clients: $clients, categories: $categories)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WorkProjectFilterStateCopyWith<$Res> implements $WorkProjectFilterStateCopyWith<$Res> {
+  factory _$WorkProjectFilterStateCopyWith(_WorkProjectFilterState value, $Res Function(_WorkProjectFilterState) _then) = __$WorkProjectFilterStateCopyWithImpl;
+@override @useResult
+$Res call({
+ ProjectSegment status, WorkProjectSort? sort, Order? order, String? search, List<int>? clients, List<int>? categories
+});
+
+
+
+
+}
+/// @nodoc
+class __$WorkProjectFilterStateCopyWithImpl<$Res>
+    implements _$WorkProjectFilterStateCopyWith<$Res> {
+  __$WorkProjectFilterStateCopyWithImpl(this._self, this._then);
+
+  final _WorkProjectFilterState _self;
+  final $Res Function(_WorkProjectFilterState) _then;
+
+/// Create a copy of WorkProjectFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? sort = freezed,Object? order = freezed,Object? search = freezed,Object? clients = freezed,Object? categories = freezed,}) {
+  return _then(_WorkProjectFilterState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as ProjectSegment,sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as WorkProjectSort?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as Order?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,clients: freezed == clients ? _self._clients : clients // ignore: cast_nullable_to_non_nullable
+as List<int>?,categories: freezed == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<int>?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$WorkProjectListState implements DiagnosticableTreeMixin {
+
+ List<WorkProjectListItem> get items; int get page; int get total; bool get hasReachEnd;
+/// Create a copy of WorkProjectListState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WorkProjectListStateCopyWith<WorkProjectListState> get copyWith => _$WorkProjectListStateCopyWithImpl<WorkProjectListState>(this as WorkProjectListState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkProjectListState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkProjectListState&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),page,total,hasReachEnd);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkProjectListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WorkProjectListStateCopyWith<$Res>  {
+  factory $WorkProjectListStateCopyWith(WorkProjectListState value, $Res Function(WorkProjectListState) _then) = _$WorkProjectListStateCopyWithImpl;
+@useResult
+$Res call({
+ List<WorkProjectListItem> items, int page, int total, bool hasReachEnd
+});
+
+
+
+
+}
+/// @nodoc
+class _$WorkProjectListStateCopyWithImpl<$Res>
+    implements $WorkProjectListStateCopyWith<$Res> {
+  _$WorkProjectListStateCopyWithImpl(this._self, this._then);
+
+  final WorkProjectListState _self;
+  final $Res Function(WorkProjectListState) _then;
+
+/// Create a copy of WorkProjectListState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
+  return _then(_self.copyWith(
+items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as List<WorkProjectListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WorkProjectListState].
+extension WorkProjectListStatePatterns on WorkProjectListState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkProjectListState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WorkProjectListState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkProjectListState value)  $default,){
+final _that = this;
+switch (_that) {
+case _WorkProjectListState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkProjectListState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WorkProjectListState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<WorkProjectListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WorkProjectListState() when $default != null:
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<WorkProjectListItem> items,  int page,  int total,  bool hasReachEnd)  $default,) {final _that = this;
+switch (_that) {
+case _WorkProjectListState():
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<WorkProjectListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,) {final _that = this;
+switch (_that) {
+case _WorkProjectListState() when $default != null:
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WorkProjectListState with DiagnosticableTreeMixin implements WorkProjectListState {
+   _WorkProjectListState({final  List<WorkProjectListItem> items = const [], this.page = 0, this.total = 0, this.hasReachEnd = false}): _items = items;
+  
+
+ final  List<WorkProjectListItem> _items;
+@override@JsonKey() List<WorkProjectListItem> get items {
+  if (_items is EqualUnmodifiableListView) return _items;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_items);
+}
+
+@override@JsonKey() final  int page;
+@override@JsonKey() final  int total;
+@override@JsonKey() final  bool hasReachEnd;
+
+/// Create a copy of WorkProjectListState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WorkProjectListStateCopyWith<_WorkProjectListState> get copyWith => __$WorkProjectListStateCopyWithImpl<_WorkProjectListState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkProjectListState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkProjectListState&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),page,total,hasReachEnd);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkProjectListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WorkProjectListStateCopyWith<$Res> implements $WorkProjectListStateCopyWith<$Res> {
+  factory _$WorkProjectListStateCopyWith(_WorkProjectListState value, $Res Function(_WorkProjectListState) _then) = __$WorkProjectListStateCopyWithImpl;
+@override @useResult
+$Res call({
+ List<WorkProjectListItem> items, int page, int total, bool hasReachEnd
+});
+
+
+
+
+}
+/// @nodoc
+class __$WorkProjectListStateCopyWithImpl<$Res>
+    implements _$WorkProjectListStateCopyWith<$Res> {
+  __$WorkProjectListStateCopyWithImpl(this._self, this._then);
+
+  final _WorkProjectListState _self;
+  final $Res Function(_WorkProjectListState) _then;
+
+/// Create a copy of WorkProjectListState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
+  return _then(_WorkProjectListState(
+items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as List<WorkProjectListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$WorkReportFilterState implements DiagnosticableTreeMixin {
+
+ WorkReportSort? get sort; Order? get order; String? get search; List<int>? get clients; List<int>? get categories; DateTime? get start; DateTime? get end;
+/// Create a copy of WorkReportFilterState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WorkReportFilterStateCopyWith<WorkReportFilterState> get copyWith => _$WorkReportFilterStateCopyWithImpl<WorkReportFilterState>(this as WorkReportFilterState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkReportFilterState'))
+    ..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('clients', clients))..add(DiagnosticsProperty('categories', categories))..add(DiagnosticsProperty('start', start))..add(DiagnosticsProperty('end', end));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkReportFilterState&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.categories, categories)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,sort,order,search,const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(categories),start,end);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkReportFilterState(sort: $sort, order: $order, search: $search, clients: $clients, categories: $categories, start: $start, end: $end)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WorkReportFilterStateCopyWith<$Res>  {
+  factory $WorkReportFilterStateCopyWith(WorkReportFilterState value, $Res Function(WorkReportFilterState) _then) = _$WorkReportFilterStateCopyWithImpl;
+@useResult
+$Res call({
+ WorkReportSort? sort, Order? order, String? search, List<int>? clients, List<int>? categories, DateTime? start, DateTime? end
+});
+
+
+
+
+}
+/// @nodoc
+class _$WorkReportFilterStateCopyWithImpl<$Res>
+    implements $WorkReportFilterStateCopyWith<$Res> {
+  _$WorkReportFilterStateCopyWithImpl(this._self, this._then);
+
+  final WorkReportFilterState _self;
+  final $Res Function(WorkReportFilterState) _then;
+
+/// Create a copy of WorkReportFilterState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? sort = freezed,Object? order = freezed,Object? search = freezed,Object? clients = freezed,Object? categories = freezed,Object? start = freezed,Object? end = freezed,}) {
+  return _then(_self.copyWith(
+sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as WorkReportSort?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as Order?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,clients: freezed == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
+as List<int>?,categories: freezed == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
+as List<int>?,start: freezed == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as DateTime?,end: freezed == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WorkReportFilterState].
+extension WorkReportFilterStatePatterns on WorkReportFilterState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkReportFilterState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WorkReportFilterState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkReportFilterState value)  $default,){
+final _that = this;
+switch (_that) {
+case _WorkReportFilterState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkReportFilterState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WorkReportFilterState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( WorkReportSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories,  DateTime? start,  DateTime? end)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WorkReportFilterState() when $default != null:
+return $default(_that.sort,_that.order,_that.search,_that.clients,_that.categories,_that.start,_that.end);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( WorkReportSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories,  DateTime? start,  DateTime? end)  $default,) {final _that = this;
+switch (_that) {
+case _WorkReportFilterState():
+return $default(_that.sort,_that.order,_that.search,_that.clients,_that.categories,_that.start,_that.end);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( WorkReportSort? sort,  Order? order,  String? search,  List<int>? clients,  List<int>? categories,  DateTime? start,  DateTime? end)?  $default,) {final _that = this;
+switch (_that) {
+case _WorkReportFilterState() when $default != null:
+return $default(_that.sort,_that.order,_that.search,_that.clients,_that.categories,_that.start,_that.end);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WorkReportFilterState with DiagnosticableTreeMixin implements WorkReportFilterState {
+   _WorkReportFilterState({this.sort, this.order, this.search, final  List<int>? clients, final  List<int>? categories, this.start, this.end}): _clients = clients,_categories = categories;
+  
+
+@override final  WorkReportSort? sort;
+@override final  Order? order;
+@override final  String? search;
+ final  List<int>? _clients;
+@override List<int>? get clients {
+  final value = _clients;
+  if (value == null) return null;
+  if (_clients is EqualUnmodifiableListView) return _clients;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<int>? _categories;
+@override List<int>? get categories {
+  final value = _categories;
+  if (value == null) return null;
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+@override final  DateTime? start;
+@override final  DateTime? end;
+
+/// Create a copy of WorkReportFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WorkReportFilterStateCopyWith<_WorkReportFilterState> get copyWith => __$WorkReportFilterStateCopyWithImpl<_WorkReportFilterState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkReportFilterState'))
+    ..add(DiagnosticsProperty('sort', sort))..add(DiagnosticsProperty('order', order))..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('clients', clients))..add(DiagnosticsProperty('categories', categories))..add(DiagnosticsProperty('start', start))..add(DiagnosticsProperty('end', end));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkReportFilterState&&(identical(other.sort, sort) || other.sort == sort)&&(identical(other.order, order) || other.order == order)&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,sort,order,search,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_categories),start,end);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkReportFilterState(sort: $sort, order: $order, search: $search, clients: $clients, categories: $categories, start: $start, end: $end)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WorkReportFilterStateCopyWith<$Res> implements $WorkReportFilterStateCopyWith<$Res> {
+  factory _$WorkReportFilterStateCopyWith(_WorkReportFilterState value, $Res Function(_WorkReportFilterState) _then) = __$WorkReportFilterStateCopyWithImpl;
+@override @useResult
+$Res call({
+ WorkReportSort? sort, Order? order, String? search, List<int>? clients, List<int>? categories, DateTime? start, DateTime? end
+});
+
+
+
+
+}
+/// @nodoc
+class __$WorkReportFilterStateCopyWithImpl<$Res>
+    implements _$WorkReportFilterStateCopyWith<$Res> {
+  __$WorkReportFilterStateCopyWithImpl(this._self, this._then);
+
+  final _WorkReportFilterState _self;
+  final $Res Function(_WorkReportFilterState) _then;
+
+/// Create a copy of WorkReportFilterState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? sort = freezed,Object? order = freezed,Object? search = freezed,Object? clients = freezed,Object? categories = freezed,Object? start = freezed,Object? end = freezed,}) {
+  return _then(_WorkReportFilterState(
+sort: freezed == sort ? _self.sort : sort // ignore: cast_nullable_to_non_nullable
+as WorkReportSort?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as Order?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,clients: freezed == clients ? _self._clients : clients // ignore: cast_nullable_to_non_nullable
+as List<int>?,categories: freezed == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<int>?,start: freezed == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as DateTime?,end: freezed == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$WorkReportListState implements DiagnosticableTreeMixin {
+
+ List<WorkReportListItem> get items; int get page; int get total; bool get hasReachEnd;
+/// Create a copy of WorkReportListState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WorkReportListStateCopyWith<WorkReportListState> get copyWith => _$WorkReportListStateCopyWithImpl<WorkReportListState>(this as WorkReportListState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkReportListState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkReportListState&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(items),page,total,hasReachEnd);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkReportListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WorkReportListStateCopyWith<$Res>  {
+  factory $WorkReportListStateCopyWith(WorkReportListState value, $Res Function(WorkReportListState) _then) = _$WorkReportListStateCopyWithImpl;
+@useResult
+$Res call({
+ List<WorkReportListItem> items, int page, int total, bool hasReachEnd
+});
+
+
+
+
+}
+/// @nodoc
+class _$WorkReportListStateCopyWithImpl<$Res>
+    implements $WorkReportListStateCopyWith<$Res> {
+  _$WorkReportListStateCopyWithImpl(this._self, this._then);
+
+  final WorkReportListState _self;
+  final $Res Function(WorkReportListState) _then;
+
+/// Create a copy of WorkReportListState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
+  return _then(_self.copyWith(
+items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as List<WorkReportListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WorkReportListState].
+extension WorkReportListStatePatterns on WorkReportListState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkReportListState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WorkReportListState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkReportListState value)  $default,){
+final _that = this;
+switch (_that) {
+case _WorkReportListState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkReportListState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WorkReportListState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<WorkReportListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WorkReportListState() when $default != null:
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<WorkReportListItem> items,  int page,  int total,  bool hasReachEnd)  $default,) {final _that = this;
+switch (_that) {
+case _WorkReportListState():
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<WorkReportListItem> items,  int page,  int total,  bool hasReachEnd)?  $default,) {final _that = this;
+switch (_that) {
+case _WorkReportListState() when $default != null:
+return $default(_that.items,_that.page,_that.total,_that.hasReachEnd);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WorkReportListState with DiagnosticableTreeMixin implements WorkReportListState {
+   _WorkReportListState({final  List<WorkReportListItem> items = const [], this.page = 0, this.total = 0, this.hasReachEnd = false}): _items = items;
+  
+
+ final  List<WorkReportListItem> _items;
+@override@JsonKey() List<WorkReportListItem> get items {
+  if (_items is EqualUnmodifiableListView) return _items;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_items);
+}
+
+@override@JsonKey() final  int page;
+@override@JsonKey() final  int total;
+@override@JsonKey() final  bool hasReachEnd;
+
+/// Create a copy of WorkReportListState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WorkReportListStateCopyWith<_WorkReportListState> get copyWith => __$WorkReportListStateCopyWithImpl<_WorkReportListState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkReportListState'))
+    ..add(DiagnosticsProperty('items', items))..add(DiagnosticsProperty('page', page))..add(DiagnosticsProperty('total', total))..add(DiagnosticsProperty('hasReachEnd', hasReachEnd));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkReportListState&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.page, page) || other.page == page)&&(identical(other.total, total) || other.total == total)&&(identical(other.hasReachEnd, hasReachEnd) || other.hasReachEnd == hasReachEnd));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),page,total,hasReachEnd);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkReportListState(items: $items, page: $page, total: $total, hasReachEnd: $hasReachEnd)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WorkReportListStateCopyWith<$Res> implements $WorkReportListStateCopyWith<$Res> {
+  factory _$WorkReportListStateCopyWith(_WorkReportListState value, $Res Function(_WorkReportListState) _then) = __$WorkReportListStateCopyWithImpl;
+@override @useResult
+$Res call({
+ List<WorkReportListItem> items, int page, int total, bool hasReachEnd
+});
+
+
+
+
+}
+/// @nodoc
+class __$WorkReportListStateCopyWithImpl<$Res>
+    implements _$WorkReportListStateCopyWith<$Res> {
+  __$WorkReportListStateCopyWithImpl(this._self, this._then);
+
+  final _WorkReportListState _self;
+  final $Res Function(_WorkReportListState) _then;
+
+/// Create a copy of WorkReportListState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? items = null,Object? page = null,Object? total = null,Object? hasReachEnd = null,}) {
+  return _then(_WorkReportListState(
+items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as List<WorkReportListItem>,page: null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,hasReachEnd: null == hasReachEnd ? _self.hasReachEnd : hasReachEnd // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$WorkReportOptionsState implements DiagnosticableTreeMixin {
+
+ List<ClientGroup> get clientItems; List<ScheduleCategory> get categoryItems; int get maxClientDepth;
+/// Create a copy of WorkReportOptionsState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WorkReportOptionsStateCopyWith<WorkReportOptionsState> get copyWith => _$WorkReportOptionsStateCopyWithImpl<WorkReportOptionsState>(this as WorkReportOptionsState, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkReportOptionsState'))
+    ..add(DiagnosticsProperty('clientItems', clientItems))..add(DiagnosticsProperty('categoryItems', categoryItems))..add(DiagnosticsProperty('maxClientDepth', maxClientDepth));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WorkReportOptionsState&&const DeepCollectionEquality().equals(other.clientItems, clientItems)&&const DeepCollectionEquality().equals(other.categoryItems, categoryItems)&&(identical(other.maxClientDepth, maxClientDepth) || other.maxClientDepth == maxClientDepth));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(clientItems),const DeepCollectionEquality().hash(categoryItems),maxClientDepth);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkReportOptionsState(clientItems: $clientItems, categoryItems: $categoryItems, maxClientDepth: $maxClientDepth)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $WorkReportOptionsStateCopyWith<$Res>  {
+  factory $WorkReportOptionsStateCopyWith(WorkReportOptionsState value, $Res Function(WorkReportOptionsState) _then) = _$WorkReportOptionsStateCopyWithImpl;
+@useResult
+$Res call({
+ List<ClientGroup> clientItems, List<ScheduleCategory> categoryItems, int maxClientDepth
+});
+
+
+
+
+}
+/// @nodoc
+class _$WorkReportOptionsStateCopyWithImpl<$Res>
+    implements $WorkReportOptionsStateCopyWith<$Res> {
+  _$WorkReportOptionsStateCopyWithImpl(this._self, this._then);
+
+  final WorkReportOptionsState _self;
+  final $Res Function(WorkReportOptionsState) _then;
+
+/// Create a copy of WorkReportOptionsState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? clientItems = null,Object? categoryItems = null,Object? maxClientDepth = null,}) {
+  return _then(_self.copyWith(
+clientItems: null == clientItems ? _self.clientItems : clientItems // ignore: cast_nullable_to_non_nullable
+as List<ClientGroup>,categoryItems: null == categoryItems ? _self.categoryItems : categoryItems // ignore: cast_nullable_to_non_nullable
+as List<ScheduleCategory>,maxClientDepth: null == maxClientDepth ? _self.maxClientDepth : maxClientDepth // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [WorkReportOptionsState].
+extension WorkReportOptionsStatePatterns on WorkReportOptionsState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WorkReportOptionsState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WorkReportOptionsState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WorkReportOptionsState value)  $default,){
+final _that = this;
+switch (_that) {
+case _WorkReportOptionsState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WorkReportOptionsState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WorkReportOptionsState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ClientGroup> clientItems,  List<ScheduleCategory> categoryItems,  int maxClientDepth)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WorkReportOptionsState() when $default != null:
+return $default(_that.clientItems,_that.categoryItems,_that.maxClientDepth);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ClientGroup> clientItems,  List<ScheduleCategory> categoryItems,  int maxClientDepth)  $default,) {final _that = this;
+switch (_that) {
+case _WorkReportOptionsState():
+return $default(_that.clientItems,_that.categoryItems,_that.maxClientDepth);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ClientGroup> clientItems,  List<ScheduleCategory> categoryItems,  int maxClientDepth)?  $default,) {final _that = this;
+switch (_that) {
+case _WorkReportOptionsState() when $default != null:
+return $default(_that.clientItems,_that.categoryItems,_that.maxClientDepth);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _WorkReportOptionsState with DiagnosticableTreeMixin implements WorkReportOptionsState {
+  const _WorkReportOptionsState({final  List<ClientGroup> clientItems = const [], final  List<ScheduleCategory> categoryItems = const [], this.maxClientDepth = 0}): _clientItems = clientItems,_categoryItems = categoryItems;
+  
+
+ final  List<ClientGroup> _clientItems;
+@override@JsonKey() List<ClientGroup> get clientItems {
+  if (_clientItems is EqualUnmodifiableListView) return _clientItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_clientItems);
+}
+
+ final  List<ScheduleCategory> _categoryItems;
+@override@JsonKey() List<ScheduleCategory> get categoryItems {
+  if (_categoryItems is EqualUnmodifiableListView) return _categoryItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_categoryItems);
+}
+
+@override@JsonKey() final  int maxClientDepth;
+
+/// Create a copy of WorkReportOptionsState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WorkReportOptionsStateCopyWith<_WorkReportOptionsState> get copyWith => __$WorkReportOptionsStateCopyWithImpl<_WorkReportOptionsState>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'WorkReportOptionsState'))
+    ..add(DiagnosticsProperty('clientItems', clientItems))..add(DiagnosticsProperty('categoryItems', categoryItems))..add(DiagnosticsProperty('maxClientDepth', maxClientDepth));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WorkReportOptionsState&&const DeepCollectionEquality().equals(other._clientItems, _clientItems)&&const DeepCollectionEquality().equals(other._categoryItems, _categoryItems)&&(identical(other.maxClientDepth, maxClientDepth) || other.maxClientDepth == maxClientDepth));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_clientItems),const DeepCollectionEquality().hash(_categoryItems),maxClientDepth);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'WorkReportOptionsState(clientItems: $clientItems, categoryItems: $categoryItems, maxClientDepth: $maxClientDepth)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$WorkReportOptionsStateCopyWith<$Res> implements $WorkReportOptionsStateCopyWith<$Res> {
+  factory _$WorkReportOptionsStateCopyWith(_WorkReportOptionsState value, $Res Function(_WorkReportOptionsState) _then) = __$WorkReportOptionsStateCopyWithImpl;
+@override @useResult
+$Res call({
+ List<ClientGroup> clientItems, List<ScheduleCategory> categoryItems, int maxClientDepth
+});
+
+
+
+
+}
+/// @nodoc
+class __$WorkReportOptionsStateCopyWithImpl<$Res>
+    implements _$WorkReportOptionsStateCopyWith<$Res> {
+  __$WorkReportOptionsStateCopyWithImpl(this._self, this._then);
+
+  final _WorkReportOptionsState _self;
+  final $Res Function(_WorkReportOptionsState) _then;
+
+/// Create a copy of WorkReportOptionsState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? clientItems = null,Object? categoryItems = null,Object? maxClientDepth = null,}) {
+  return _then(_WorkReportOptionsState(
+clientItems: null == clientItems ? _self._clientItems : clientItems // ignore: cast_nullable_to_non_nullable
+as List<ClientGroup>,categoryItems: null == categoryItems ? _self._categoryItems : categoryItems // ignore: cast_nullable_to_non_nullable
+as List<ScheduleCategory>,maxClientDepth: null == maxClientDepth ? _self.maxClientDepth : maxClientDepth // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
 // dart format on

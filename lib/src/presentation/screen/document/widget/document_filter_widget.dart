@@ -13,14 +13,28 @@ class DocumentFilterWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(documentFilterControllerProvider);
+
     return Padding(
-      padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 24.0),
+      padding: const EdgeInsets.only(left: 24.0, right: 24.0),
       child: CupertinoSlidingSegmentedControl<DocumentSort>(
         groupValue: filter.sort,
-        onValueChanged: (_) {},
+        onValueChanged: (sort) {
+          if (sort == null || sort == filter.sort) return;
+
+          ref.read(documentFilterControllerProvider.notifier)
+            ..setSort(sort: sort)
+            ..setOrder(order: Order.desc);
+
+          context.goNamed(
+            RouteNames.document,
+            queryParameters: context.buildQueryParameters(
+              updates: {'sort': sort.key, 'order': Order.desc.key},
+            ),
+          );
+        },
         children: {
           for (final sort in DocumentSort.values)
-            sort: _DocumentSortSegment(sort: sort, filter: filter),
+            sort: _DocumentSortSegment(sort: sort),
         },
       ),
     );
@@ -29,34 +43,37 @@ class DocumentFilterWidget extends ConsumerWidget {
 
 class _DocumentSortSegment extends ConsumerWidget {
   final DocumentSort sort;
-  final DocumentFilterState filter;
 
-  const _DocumentSortSegment({required this.sort, required this.filter});
+  const _DocumentSortSegment({required this.sort});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    final filter = ref.watch(documentFilterControllerProvider);
     final isSelected = filter.sort == sort;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () {
-        final nextOrder = isSelected
-            ? (filter.order == Order.asc ? Order.desc : Order.asc)
-            : Order.desc;
+      onTap: isSelected
+          ? () {
+              final nextOrder = filter.order == Order.asc
+                  ? Order.desc
+                  : Order.asc;
 
-        ref.read(documentFilterControllerProvider.notifier)
-          ..setSort(sort: sort)
-          ..setOrder(order: nextOrder);
+              ref.read(documentFilterControllerProvider.notifier)
+                ..setSort(sort: sort)
+                ..setOrder(order: nextOrder);
 
-        context.goNamed(
-          RouteNames.document,
-          queryParameters: context.buildQueryParameters(
-            updates: {'sort': sort.key, 'order': nextOrder.key},
-          ),
-        );
-      },
+              context.goNamed(
+                RouteNames.document,
+                queryParameters: context.buildQueryParameters(
+                  updates: {'sort': sort.key, 'order': nextOrder.key},
+                ),
+              );
+            }
+          : null,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
         child: Row(

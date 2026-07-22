@@ -775,6 +775,7 @@ _ProjectListItem _$ProjectListItemFromJson(Map<String, dynamic> json) =>
           .map((e) => Client.fromJson(e as Map<String, dynamic>))
           .toList(),
       isPreexecuted: json['isPreexecuted'] as bool,
+      isContracted: json['isContracted'] as bool,
       isClosed: json['isClosed'] as bool,
       isBookmarked: json['isBookmarked'] as bool,
       createdAt: DateTime.parse(json['createdAt'] as String),
@@ -794,6 +795,7 @@ Map<String, dynamic> _$ProjectListItemToJson(_ProjectListItem instance) =>
       'latestCategory': instance.latestCategory,
       'clients': instance.clients,
       'isPreexecuted': instance.isPreexecuted,
+      'isContracted': instance.isContracted,
       'isClosed': instance.isClosed,
       'isBookmarked': instance.isBookmarked,
       'createdAt': instance.createdAt.toIso8601String(),
@@ -2364,6 +2366,66 @@ _ClientCount _$ClientCountFromJson(Map<String, dynamic> json) => _ClientCount(
 
 Map<String, dynamic> _$ClientCountToJson(_ClientCount instance) =>
     <String, dynamic>{'depth': instance.depth, 'count': instance.count};
+
+_WorkIssueListItem _$WorkIssueListItemFromJson(Map<String, dynamic> json) =>
+    _WorkIssueListItem(
+      id: (json['id'] as num).toInt(),
+      projectId: (json['projectId'] as num).toInt(),
+      projectCode: json['projectCode'] as String,
+      projectName: json['projectName'] as String,
+      category: IssueCategory.fromJson(
+        json['category'] as Map<String, dynamic>,
+      ),
+      clients: (json['clients'] as List<dynamic>)
+          .map((e) => Client.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$WorkIssueListItemToJson(_WorkIssueListItem instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'projectId': instance.projectId,
+      'projectCode': instance.projectCode,
+      'projectName': instance.projectName,
+      'category': instance.category,
+      'clients': instance.clients,
+      'createdBy': instance.createdBy,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+    };
+
+_WorkReportListItem _$WorkReportListItemFromJson(Map<String, dynamic> json) =>
+    _WorkReportListItem(
+      id: (json['id'] as num).toInt(),
+      projectId: (json['projectId'] as num).toInt(),
+      projectCode: json['projectCode'] as String,
+      projectName: json['projectName'] as String,
+      clients: (json['clients'] as List<dynamic>)
+          .map((e) => Client.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      schedule: json['schedule'] == null
+          ? null
+          : Schedule.fromJson(json['schedule'] as Map<String, dynamic>),
+      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$WorkReportListItemToJson(_WorkReportListItem instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'projectId': instance.projectId,
+      'projectCode': instance.projectCode,
+      'projectName': instance.projectName,
+      'clients': instance.clients,
+      'schedule': instance.schedule,
+      'createdBy': instance.createdBy,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+    };
 
 // dart format off
 
@@ -6179,6 +6241,192 @@ class _UserService implements UserService {
   }
 }
 
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+
+class _WorkService implements WorkService {
+  _WorkService(this._dio, {this.baseUrl, this.errorLogger});
+
+  final Dio _dio;
+
+  String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<Result<ProjectListItem>> getProjects({
+    int page = 1,
+    int limit = 20,
+    String? status,
+    String? sort,
+    String? order,
+    String? search,
+    String? clients,
+    String? categories,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'limit': limit,
+      r'status': status,
+      r'sort': sort,
+      r'order': order,
+      r'search': search,
+      r'clients': clients,
+      r'categories': categories,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<ProjectListItem>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'work/projects',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Result<ProjectListItem> _value;
+    try {
+      _value = Result<ProjectListItem>.fromJson(
+        _result.data!,
+        (json) => ProjectListItem.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<WorkIssueListItem>> getIssues({
+    int page = 1,
+    int limit = 20,
+    String? sort,
+    String? order,
+    String? search,
+    String? clients,
+    String? categories,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'limit': limit,
+      r'sort': sort,
+      r'order': order,
+      r'search': search,
+      r'clients': clients,
+      r'categories': categories,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<WorkIssueListItem>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'work/issues',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Result<WorkIssueListItem> _value;
+    try {
+      _value = Result<WorkIssueListItem>.fromJson(
+        _result.data!,
+        (json) => WorkIssueListItem.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Result<WorkReportListItem>> getReports({
+    int page = 1,
+    int limit = 20,
+    String? sort,
+    String? order,
+    String? search,
+    String? clients,
+    String? categories,
+    DateTime? start,
+    DateTime? end,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'limit': limit,
+      r'sort': sort,
+      r'order': order,
+      r'search': search,
+      r'clients': clients,
+      r'categories': categories,
+      r'start': start?.toIso8601String(),
+      r'end': end?.toIso8601String(),
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Result<WorkReportListItem>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'work/reports',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Result<WorkReportListItem> _value;
+    try {
+      _value = Result<WorkReportListItem>.fromJson(
+        _result.data!,
+        (json) => WorkReportListItem.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
+
+  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
+  }
+}
+
 // dart format on
 
 // **************************************************************************
@@ -6917,3 +7165,44 @@ final class UserRepositoryProvider
 }
 
 String _$userRepositoryHash() => r'76ac51c907be91a7f185aeb1aac239ed05d0f6c1';
+
+@ProviderFor(workRepository)
+final workRepositoryProvider = WorkRepositoryProvider._();
+
+final class WorkRepositoryProvider
+    extends $FunctionalProvider<WorkRepository, WorkRepository, WorkRepository>
+    with $Provider<WorkRepository> {
+  WorkRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<WorkRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  WorkRepository create(Ref ref) {
+    return workRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(WorkRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<WorkRepository>(value),
+    );
+  }
+}
+
+String _$workRepositoryHash() => r'd82b27c0b56b3da34e02cef65af630771592e10d';

@@ -25,13 +25,17 @@ class DataScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filter = ref.watch(dataFilterControllerProvider);
+
     useEffect(() {
       final location = GoRouter.of(context).location();
 
       if (!location.startsWith(Routes.data)) return;
 
       Future.microtask(() {
-        if (view == DataSegment.supplier.name) {
+        ref.read(dataFilterControllerProvider.notifier).init(view: view);
+
+        if (view == DataSegment.supplier.key) {
           ref
               .read(
                 supplierFilterControllerProvider(
@@ -57,11 +61,11 @@ class DataScreen extends HookConsumerWidget {
 
     return BranchLayout(
       actions: [
-        if (view == DataSegment.supplier.name) const SupplierAddButton(),
+        if (filter.view == DataSegment.supplier.name) const SupplierAddButton(),
       ],
       child: Padding(
         padding: EdgeInsets.only(top: 24.0),
-        child: OverviewWidget(view: view),
+        child: OverviewWidget(),
       ),
     );
   }

@@ -290,7 +290,7 @@ class _DesktopWidget extends HookConsumerWidget {
                       ElevatedDropdownButton<Currency>(
                         showClose: false,
                         items: currencies,
-                        selectedItem: selectedCurrency,
+                        value: selectedCurrency.value,
                         icon: SizedBox(
                           width: 16.0,
                           height: 16.0,
@@ -307,6 +307,8 @@ class _DesktopWidget extends HookConsumerWidget {
                         label: Text(Intl.message('issue_form_contract_6')),
                         itemBuilder: (currency) => Text(currency.code),
                         onChanged: (value) {
+                          selectedCurrency.value = value;
+
                           ref
                               .read(
                                 issueFormControllerProvider(
@@ -315,7 +317,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   issueId: issueId,
                                 ).notifier,
                               )
-                              .setContractCurrency(currency: value!);
+                              .setContractCurrency(currency: value);
                         },
                       ),
                       SizedBox(height: 8.0),
@@ -780,7 +782,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       >(
                                         isExpanded: true,
                                         items: categories,
-                                        selectedItem: selectedCategories[index],
+                                        value: selectedCategories[index].value,
                                         icon: Icon(Symbols.checkbook_rounded),
                                         label: Text(
                                           Intl.message(
@@ -790,6 +792,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                         itemBuilder: (category) =>
                                             Text(category.name),
                                         onChanged: (value) {
+                                          selectedCategories[index].value =
+                                              value;
                                           hasTransactionIssueItems.value =
                                               false;
                                           isTransactionIssueItemEmpty.value =
@@ -806,6 +810,27 @@ class _DesktopWidget extends HookConsumerWidget {
                                               .updateTransactionIssueItem(
                                                 index: index,
                                                 category: value,
+                                              );
+                                        },
+                                        onClear: () {
+                                          selectedCategories[index].value =
+                                              null;
+                                          hasTransactionIssueItems.value =
+                                              false;
+                                          isTransactionIssueItemEmpty.value =
+                                              false;
+                                          isRatioInvalid.value = false;
+                                          ref
+                                              .read(
+                                                issueFormControllerProvider(
+                                                  projectId: projectId,
+                                                  categoryId: categoryId,
+                                                  issueId: issueId,
+                                                ).notifier,
+                                              )
+                                              .updateTransactionIssueItem(
+                                                index: index,
+                                                category: null,
                                               );
                                         },
                                       ),

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/supplier/supplier_widget.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/user/user_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
-class OverviewWidget extends HookWidget {
-  final String? view;
-
-  const OverviewWidget({super.key, this.view});
+class OverviewWidget extends HookConsumerWidget {
+  const OverviewWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final selectedItem = useState<DataSegment>(DataSegment.fromKey(view ?? ''));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filter = ref.watch(dataFilterControllerProvider);
+    final selectedItem = useState<DataSegment>(
+      DataSegment.fromKey(filter.view ?? ''),
+    );
 
     final controller = useTabController(
       initialLength: DataSegment.values.length,
@@ -21,7 +24,7 @@ class OverviewWidget extends HookWidget {
     );
 
     useEffect(() {
-      final newItem = DataSegment.fromKey(view ?? '');
+      final newItem = DataSegment.fromKey(filter.view ?? '');
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
@@ -29,7 +32,7 @@ class OverviewWidget extends HookWidget {
       }
 
       return null;
-    }, [view]);
+    }, [filter.view]);
 
     return Column(
       children: [
@@ -37,6 +40,10 @@ class OverviewWidget extends HookWidget {
           controller: controller,
           onTap: (index) {
             selectedItem.value = DataSegment.values[index];
+
+            ref
+                .read(dataFilterControllerProvider.notifier)
+                .setView(view: selectedItem.value.name);
 
             context.goNamed(
               RouteNames.data,

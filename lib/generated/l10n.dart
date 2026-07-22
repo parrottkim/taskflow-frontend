@@ -4594,6 +4594,281 @@ class S {
     return Intl.message('보고서', name: 'work_segment_3', desc: '', args: []);
   }
 
+  /// `상태`
+  String get work_project_column_1 {
+    return Intl.message(
+      '상태',
+      name: 'work_project_column_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `고객사`
+  String get work_project_column_2 {
+    return Intl.message(
+      '고객사',
+      name: 'work_project_column_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 코드`
+  String get work_project_column_3 {
+    return Intl.message(
+      '프로젝트 코드',
+      name: 'work_project_column_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 이름`
+  String get work_project_column_4 {
+    return Intl.message(
+      '프로젝트 이름',
+      name: 'work_project_column_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `카테고리`
+  String get work_project_column_5 {
+    return Intl.message(
+      '카테고리',
+      name: 'work_project_column_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `작성일`
+  String get work_project_column_6 {
+    return Intl.message(
+      '작성일',
+      name: 'work_project_column_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `수정일`
+  String get work_project_sort_1 {
+    return Intl.message('수정일', name: 'work_project_sort_1', desc: '', args: []);
+  }
+
+  /// `등록일`
+  String get work_project_sort_2 {
+    return Intl.message('등록일', name: 'work_project_sort_2', desc: '', args: []);
+  }
+
+  /// `프로젝트 코드`
+  String get work_project_sort_3 {
+    return Intl.message(
+      '프로젝트 코드',
+      name: 'work_project_sort_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 이름`
+  String get work_project_sort_4 {
+    return Intl.message(
+      '프로젝트 이름',
+      name: 'work_project_sort_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 검색`
+  String get work_project_search {
+    return Intl.message(
+      '프로젝트 검색',
+      name: 'work_project_search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트를 찾을 수 없습니다`
+  String get work_project_no_item {
+    return Intl.message(
+      '프로젝트를 찾을 수 없습니다',
+      name: 'work_project_no_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `카테고리`
+  String get work_issue_column_1 {
+    return Intl.message(
+      '카테고리',
+      name: 'work_issue_column_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `고객사`
+  String get work_issue_column_2 {
+    return Intl.message('고객사', name: 'work_issue_column_2', desc: '', args: []);
+  }
+
+  /// `프로젝트 코드`
+  String get work_issue_column_3 {
+    return Intl.message(
+      '프로젝트 코드',
+      name: 'work_issue_column_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 이름`
+  String get work_issue_column_4 {
+    return Intl.message(
+      '프로젝트 이름',
+      name: 'work_issue_column_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `작성일`
+  String get work_issue_column_5 {
+    return Intl.message('작성일', name: 'work_issue_column_5', desc: '', args: []);
+  }
+
+  /// `수정일`
+  String get work_issue_sort_1 {
+    return Intl.message('수정일', name: 'work_issue_sort_1', desc: '', args: []);
+  }
+
+  /// `등록일`
+  String get work_issue_sort_2 {
+    return Intl.message('등록일', name: 'work_issue_sort_2', desc: '', args: []);
+  }
+
+  /// `카테고리`
+  String get work_issue_sort_3 {
+    return Intl.message('카테고리', name: 'work_issue_sort_3', desc: '', args: []);
+  }
+
+  /// `업무 검색`
+  String get work_issue_search {
+    return Intl.message('업무 검색', name: 'work_issue_search', desc: '', args: []);
+  }
+
+  /// `업무를 찾을 수 없습니다`
+  String get work_issue_no_item {
+    return Intl.message(
+      '업무를 찾을 수 없습니다',
+      name: 'work_issue_no_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `카테고리`
+  String get work_report_column_1 {
+    return Intl.message(
+      '카테고리',
+      name: 'work_report_column_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `고객사`
+  String get work_report_column_2 {
+    return Intl.message(
+      '고객사',
+      name: 'work_report_column_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 코드`
+  String get work_report_column_3 {
+    return Intl.message(
+      '프로젝트 코드',
+      name: 'work_report_column_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트 이름`
+  String get work_report_column_4 {
+    return Intl.message(
+      '프로젝트 이름',
+      name: 'work_report_column_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `일정`
+  String get work_report_column_5 {
+    return Intl.message('일정', name: 'work_report_column_5', desc: '', args: []);
+  }
+
+  /// `작성일`
+  String get work_report_column_6 {
+    return Intl.message(
+      '작성일',
+      name: 'work_report_column_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `수정일`
+  String get work_report_sort_1 {
+    return Intl.message('수정일', name: 'work_report_sort_1', desc: '', args: []);
+  }
+
+  /// `등록일`
+  String get work_report_sort_2 {
+    return Intl.message('등록일', name: 'work_report_sort_2', desc: '', args: []);
+  }
+
+  /// `카테고리`
+  String get work_report_sort_3 {
+    return Intl.message('카테고리', name: 'work_report_sort_3', desc: '', args: []);
+  }
+
+  /// `일정`
+  String get work_report_sort_4 {
+    return Intl.message('일정', name: 'work_report_sort_4', desc: '', args: []);
+  }
+
+  /// `보고서 검색`
+  String get work_report_search {
+    return Intl.message(
+      '보고서 검색',
+      name: 'work_report_search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `보고서를 찾을 수 없습니다`
+  String get work_report_no_item {
+    return Intl.message(
+      '보고서를 찾을 수 없습니다',
+      name: 'work_report_no_item',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `타임라인`
   String get schedule_segment_1 {
     return Intl.message('타임라인', name: 'schedule_segment_1', desc: '', args: []);

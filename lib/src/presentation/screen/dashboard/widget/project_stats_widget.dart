@@ -64,99 +64,66 @@ class _DesktopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        DataTable(
-          headingTextStyle: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-          headingRowHeight: 40.0,
-          horizontalMargin: 20.0,
-          columnSpacing: 0.0,
-          showCheckboxColumn: false,
-          columns: [
-            DataColumn(
-              columnWidth: FractionColumnWidth(0.6),
-              label: Text(Intl.message('dashboard_project_stats_1')),
-            ),
-            DataColumn(
-              columnWidth: FractionColumnWidth(0.2),
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(Intl.message('dashboard_project_stats_2')),
-            ),
-            DataColumn(
-              columnWidth: FractionColumnWidth(0.2),
-              headingRowAlignment: MainAxisAlignment.center,
-              label: Text(Intl.message('dashboard_project_stats_3')),
-            ),
-          ],
-          rows: [],
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return FixedHeaderDataTable(
+      columns: [
+        DataTableColumnConfig(
+          label: Intl.message('dashboard_project_stats_1'),
+          width: const FractionColumnWidth(0.6),
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: DataTable(
-              headingRowHeight: 0.0,
-              horizontalMargin: 20.0,
-              columnSpacing: 0.0,
-              showCheckboxColumn: false,
-              columns: [
-                DataColumn(
-                  columnWidth: FractionColumnWidth(0.6),
-                  label: SizedBox(),
-                ),
-                DataColumn(
-                  columnWidth: FractionColumnWidth(0.2),
-                  label: SizedBox(),
-                ),
-                DataColumn(
-                  columnWidth: FractionColumnWidth(0.2),
-                  label: SizedBox(),
-                ),
-              ],
-              rows: List.generate(
-                items.length,
-                (index) => DataRow(
-                  onSelectChanged: (_) {
-                    context.goNamed(
-                      RouteNames.project,
-                      queryParameters: {'search': items[index].user.username},
-                    );
-                  },
-                  cells: [
-                    DataCell(UserInformation(user: items[index].user)),
-                    DataCell(
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          '${items[index].valid}',
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ),
-                    ),
-                    DataCell(
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          '${items[index].total}',
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+        DataTableColumnConfig(
+          label: Intl.message('dashboard_project_stats_2'),
+          width: const FractionColumnWidth(0.2),
+          headingRowAlignment: MainAxisAlignment.center,
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('dashboard_project_stats_3'),
+          width: const FractionColumnWidth(0.2),
+          headingRowAlignment: MainAxisAlignment.center,
         ),
       ],
+      rows: [
+        for (final item in items)
+          DataRow(
+            onSelectChanged: (_) {
+              context.goNamed(
+                RouteNames.project,
+                queryParameters: {'search': item.user.username},
+              );
+            },
+            cells: [
+              DataCell(UserInformation(user: item.user)),
+              DataCell(
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    '${item.valid}',
+                    style: TextStyle(
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ),
+              ),
+              DataCell(
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    '${item.total}',
+                    style: TextStyle(
+                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+      ],
+      empty: const SizedBox.shrink(),
+      headingRowHeight: 40.0,
+      horizontalMargin: 20.0,
+      columnSpacing: 0.0,
+      showDivider: false,
     );
   }
 }

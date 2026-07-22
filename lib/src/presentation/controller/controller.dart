@@ -157,6 +157,20 @@ part 'user/user_submit_state.dart';
 
 part 'work/work_filter_controller.dart';
 part 'work/work_filter_state.dart';
+part 'work/work_issue_filter_controller.dart';
+part 'work/work_issue_filter_state.dart';
+part 'work/work_issue_list_controller.dart';
+part 'work/work_issue_list_state.dart';
+part 'work/work_project_filter_controller.dart';
+part 'work/work_project_filter_state.dart';
+part 'work/work_project_list_controller.dart';
+part 'work/work_project_list_state.dart';
+part 'work/work_report_filter_controller.dart';
+part 'work/work_report_filter_state.dart';
+part 'work/work_report_list_controller.dart';
+part 'work/work_report_list_state.dart';
+part 'work/work_report_options_controller.dart';
+part 'work/work_report_options_state.dart';
 
 enum ProjectFilterScope { projectPage, scheduleProjectSelector }
 
