@@ -85,7 +85,7 @@ class _DesktopWidget extends ConsumerWidget {
         for (final schedule in items)
           DataRow(
             onSelectChanged: (_) {
-              context.goNamed(
+              context.pushNamed(
                 RouteNames.projectDetail,
                 pathParameters: {'project_id': schedule.projectId.toString()},
               );
@@ -191,7 +191,7 @@ class _MobileItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        context.goNamed(
+        context.pushNamed(
           RouteNames.projectDetail,
           pathParameters: {'project_id': item.projectId.toString()},
         );
