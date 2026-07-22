@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
-import 'package:taskflow/src/presentation/screen/document/widget/document_folder_selector_widget.dart';
+import 'package:taskflow/src/presentation/screen/document/widget/document_folder_select_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
@@ -125,7 +125,7 @@ class _DialogWidget extends HookConsumerWidget {
             ),
             const SizedBox(height: 8.0),
             Skeleton.unite(
-              child: DocumentFolderSelectorWidget(
+              child: DocumentFolderSelectWidget(
                 folderId: value.folderId,
                 isFolderEmpty: isFolderEmpty,
                 onChanged: (folderId) {

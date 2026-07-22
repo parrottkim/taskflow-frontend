@@ -49,7 +49,7 @@ class HeadlineWidget extends HookConsumerWidget {
               Expanded(
                 child: Text(
                   project.name,
-                  maxLines: Responsive.isMobile(context) ? 2 : 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: Responsive.isMobile(context) ? 20.0 : 28.0,

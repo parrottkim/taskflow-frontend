@@ -35,6 +35,7 @@ part 'model/report.dart';
 part 'model/user.dart';
 part 'model/local.dart';
 part 'model/project-client.dart';
+part 'model/work.dart';
 
 part 'repository/auth_repository.dart';
 part 'service/auth_service.dart';
@@ -98,3 +99,7 @@ part 'source/report_source.dart';
 part 'repository/user_repository.dart';
 part 'service/user_service.dart';
 part 'source/user_source.dart';
+
+part 'repository/work_repository.dart';
+part 'service/work_service.dart';
+part 'source/work_source.dart';

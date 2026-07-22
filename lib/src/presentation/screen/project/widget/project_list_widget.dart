@@ -70,7 +70,7 @@ class ProjectListWidget extends ConsumerWidget {
   }
 }
 
-class _DesktopWidget extends HookConsumerWidget {
+class _DesktopWidget extends ConsumerWidget {
   final List<ProjectListItem> items;
 
   const _DesktopWidget({required this.items});
@@ -82,345 +82,182 @@ class _DesktopWidget extends HookConsumerWidget {
 
     final auth = ref.watch(authControllerProvider);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Skeleton.keep(
-          child: DataTable(
-            headingRowHeight: 48.0,
-            showCheckboxColumn: false,
-            columns: [
-              DataColumn(
-                columnWidth: FixedColumnWidth(220.0),
-                label: Text(
-                  Intl.message('project_column_1'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(200.0),
-                label: Text(
-                  Intl.message('project_column_2'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FlexColumnWidth(1.0),
-                label: Text(
-                  Intl.message('project_column_3'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(140.0),
-                label: Text(
-                  Intl.message('project_column_4'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(140.0),
-                label: Text(
-                  Intl.message('project_column_5'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(140.0),
-                label: Text(
-                  Intl.message('project_column_6'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(100.0),
-                label: Text(
-                  Intl.message('project_column_7'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-            ],
-            rows: [],
-          ),
+    return FixedHeaderDataTable(
+      columns: [
+        DataTableColumnConfig(
+          label: Intl.message('project_column_1'),
+          width: const FixedColumnWidth(220.0),
         ),
-        Divider(),
-        if (items.isEmpty)
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        DataTableColumnConfig(
+          label: Intl.message('project_column_2'),
+          width: const FixedColumnWidth(200.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('project_column_3'),
+          width: const FlexColumnWidth(1.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('project_column_4'),
+          width: const FixedColumnWidth(140.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('project_column_5'),
+          width: const FixedColumnWidth(140.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('project_column_6'),
+          width: const FixedColumnWidth(140.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('project_column_7'),
+          width: const FixedColumnWidth(100.0),
+        ),
+      ],
+      rows: List.generate(items.length, (index) {
+        final item = items[index];
+        final date = item.createdAt == item.updatedAt
+            ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
+            : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}';
+
+        return DataRow(
+          onSelectChanged: (value) => context.goNamed(
+            RouteNames.projectDetail,
+            pathParameters: {'project_id': item.id.toString()},
+          ),
+          cells: [
+            DataCell(
+              ClientInformation(
+                clientId: item.clients.first.id,
+                name: item.clients.last.name,
+              ),
+            ),
+            DataCell(
+              Text(item.code, maxLines: 1, overflow: TextOverflow.ellipsis),
+            ),
+            DataCell(
+              Row(
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/empty.svg',
-                    width: 40.0,
-                    height: 40.0,
-                    colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
-                      BlendMode.srcIn,
+                  if (item.isPreexecuted)
+                    Padding(
+                      padding: EdgeInsets.only(right: 6.0),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 2.0,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          color: colorScheme.error.withValues(alpha: 0.6),
+                        ),
+                        child: Text(
+                          Intl.message('project_preexecuted'),
+                          style: textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: colorScheme.onError,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(Intl.message('project_no_item')),
+                  if (item.isClosed)
+                    Padding(
+                      padding: EdgeInsets.only(right: 6.0),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 2.0,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
+                        child: Text(
+                          Intl.message('project_closed'),
+                          style: textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: colorScheme.surface,
+                          ),
+                        ),
+                      ),
+                    ),
+                  Text(item.name, maxLines: 1, overflow: TextOverflow.ellipsis),
                 ],
               ),
             ),
-          )
-        else
-          Expanded(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                if (notification.metrics.pixels >=
-                    notification.metrics.maxScrollExtent - 20.0) {
-                  ref
-                      .read(
-                        projectListControllerProvider(
-                          ProjectFilterScope.projectPage,
-                        ).notifier,
-                      )
-                      .load();
-                }
-                return false;
-              },
-              child: SingleChildScrollView(
-                child: DataTable(
-                  headingRowHeight: 0.0,
-                  showCheckboxColumn: false,
-                  columns: [
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(220.0),
-                      label: Text(Intl.message('project_column_1')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(200.0),
-                      label: Text(Intl.message('project_column_2')),
-                    ),
-                    DataColumn(
-                      columnWidth: FlexColumnWidth(1.0),
-                      label: Text(Intl.message('project_column_3')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(140.0),
-                      label: Text(Intl.message('project_column_4')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(140.0),
-                      label: Text(Intl.message('project_column_5')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(140.0),
-                      label: Text(Intl.message('project_column_6')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(100.0),
-                      label: Text(Intl.message('project_column_7')),
-                    ),
-                  ],
-                  rows: List.generate(
-                    items.length,
-                    (index) => DataRow(
-                      onSelectChanged: (value) => context.goNamed(
-                        RouteNames.projectDetail,
-                        pathParameters: {
-                          'project_id': items[index].id.toString(),
-                        },
-                      ),
-                      cells: [
-                        DataCell(
-                          Row(
-                            children: [
-                              Skeleton.leaf(
-                                child: Container(
-                                  padding: EdgeInsets.all(6.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Color(
-                                      ClientType.fromKey(
-                                        items[index].clients.first.id,
-                                      ).color,
-                                    ),
-                                  ),
-                                  child: SizedBox(
-                                    width: 16.0,
-                                    height: 16.0,
-                                    child: SvgPicture.asset(
-                                      ClientType.fromKey(
-                                        items[index].clients.first.id,
-                                      ).asset,
-                                      colorFilter: ColorFilter.mode(
-                                        Colors.white,
-                                        BlendMode.srcIn,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 12.0),
-                              Text(
-                                items[index].clients.last.name,
-                                style: textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        DataCell(Text(items[index].code)),
-                        DataCell(
-                          Row(
-                            children: [
-                              if (items[index].isPreexecuted)
-                                Padding(
-                                  padding: EdgeInsets.only(right: 6.0),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0,
-                                      vertical: 2.0,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      color: colorScheme.error.withValues(
-                                        alpha: 0.6,
-                                      ),
-                                    ),
-                                    child: Text(
-                                      Intl.message('project_preexecuted'),
-                                      style: textTheme.labelSmall?.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: colorScheme.onError,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              if (items[index].isClosed)
-                                Padding(
-                                  padding: EdgeInsets.only(right: 6.0),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0,
-                                      vertical: 2.0,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.6,
-                                      ),
-                                    ),
-                                    child: Text(
-                                      Intl.message('project_closed'),
-                                      style: textTheme.labelSmall?.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        color: colorScheme.surface,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              Text(items[index].name),
-                            ],
-                          ),
-                        ),
-                        DataCell(
-                          items[index].latestCategory != null
-                              ? CategoryWidget(
-                                  item: items[index].latestCategory!,
-                                )
-                              : Text('-'),
-                        ),
-                        DataCell(
-                          items[index].manager != null
-                              ? UserInformation.compact(
-                                  user: items[index].manager!,
-                                )
-                              : Text('-'),
-                        ),
-                        DataCell(
-                          Text(
-                            items[index].createdAt == items[index].updatedAt
-                                ? '${formatRelativeDate(items[index].createdAt)} ${Intl.message('common_created_at')}'
-                                : '${formatRelativeDate(items[index].updatedAt)} ${Intl.message('common_updated_at')}',
-                            style: TextStyle(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedIconButton(
-                                onTap: () async {
-                                  await ref
-                                      .read(
-                                        projectListControllerProvider(
-                                          ProjectFilterScope.projectPage,
-                                        ).notifier,
-                                      )
-                                      .toggleBookmark(
-                                        id: items[index].id,
-                                        bookmarked: !items[index].isBookmarked,
-                                      );
-                                },
-                                padding: EdgeInsets.all(4.0),
-                                borderRadius: BorderRadius.circular(4.0),
-                                icon: Symbols.bookmark_rounded,
-                                size: 20.0,
-                                fill: items[index].isBookmarked ? 1.0 : 0.0,
-                              ),
-                              if (auth is AuthAuthenticated &&
-                                      auth.user.isAdmin ||
-                                  auth is AuthAuthenticated &&
-                                      auth.user.id == items[index].createdBy.id)
-                                Padding(
-                                  padding: EdgeInsets.only(left: 4.0),
-                                  child: ElevatedIconButton(
-                                    onTap: !items[index].isClosed
-                                        ? () => context.goNamed(
-                                            RouteNames.projectEdit,
-                                            pathParameters: {
-                                              'project_id': items[index].id
-                                                  .toString(),
-                                            },
-                                          )
-                                        : null,
-                                    padding: EdgeInsets.all(4.0),
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    icon: Symbols.edit_square_rounded,
-                                    size: 20.0,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+            DataCell(
+              item.latestCategory != null
+                  ? CategoryWidget(item: item.latestCategory!)
+                  : Text('-'),
+            ),
+            DataCell(
+              item.manager != null
+                  ? UserInformation.compact(user: item.manager!)
+                  : Text('-'),
+            ),
+            DataCell(
+              Text(
+                date,
+                style: TextStyle(
+                  color: colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
               ),
             ),
-          ),
-      ],
+            DataCell(
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedIconButton(
+                    onTap: () async {
+                      await ref
+                          .read(
+                            projectListControllerProvider(
+                              ProjectFilterScope.projectPage,
+                            ).notifier,
+                          )
+                          .toggleBookmark(
+                            id: item.id,
+                            bookmarked: !item.isBookmarked,
+                          );
+                    },
+                    padding: EdgeInsets.all(4.0),
+                    borderRadius: BorderRadius.circular(4.0),
+                    icon: Symbols.bookmark_rounded,
+                    size: 20.0,
+                    fill: item.isBookmarked ? 1.0 : 0.0,
+                  ),
+                  if (auth is AuthAuthenticated && auth.user.isAdmin ||
+                      auth is AuthAuthenticated &&
+                          auth.user.id == item.createdBy.id)
+                    Padding(
+                      padding: EdgeInsets.only(left: 4.0),
+                      child: ElevatedIconButton(
+                        onTap: !item.isClosed
+                            ? () => context.goNamed(
+                                RouteNames.projectEdit,
+                                pathParameters: {
+                                  'project_id': item.id.toString(),
+                                },
+                              )
+                            : null,
+                        padding: EdgeInsets.all(4.0),
+                        borderRadius: BorderRadius.circular(4.0),
+                        icon: Symbols.edit_square_rounded,
+                        size: 20.0,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        );
+      }),
+      empty: DataTableEmpty(message: Intl.message('project_no_item')),
+      onLoadMore: () => ref
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
+          .load(),
     );
   }
 }
@@ -433,6 +270,8 @@ class _MobileWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final auth = ref.watch(authControllerProvider);
 
     if (items.isEmpty) {
       return Center(
@@ -472,252 +311,248 @@ class _MobileWidget extends ConsumerWidget {
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: items.length,
-        itemBuilder: (context, index) => _MobileItem(item: items[index]),
-        separatorBuilder: (_, _) => const Divider(),
-      ),
-    );
-  }
-}
+        itemBuilder: (context, index) {
+          final item = items[index];
+          final canEdit =
+              auth is AuthAuthenticated &&
+              (auth.user.isAdmin || auth.user.id == item.createdBy.id);
+          final clientType = ClientType.fromKey(item.clients.first.id);
+          final date = item.createdAt == item.updatedAt
+              ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.createdAt)}'
+              : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
 
-class _MobileItem extends ConsumerWidget {
-  final ProjectListItem item;
-
-  const _MobileItem({required this.item});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    final auth = ref.watch(authControllerProvider);
-    final canEdit =
-        auth is AuthAuthenticated &&
-        (auth.user.isAdmin || auth.user.id == item.createdBy.id);
-    final clientType = ClientType.fromKey(item.clients.first.id);
-    final date = item.createdAt == item.updatedAt
-        ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.createdAt)}'
-        : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
-
-    return InkWell(
-      onTap: () => context.goNamed(
-        RouteNames.projectDetail,
-        pathParameters: {'project_id': item.id.toString()},
-      ),
-      child: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedIconButton(
-                  onTap: () async {
-                    await ref
-                        .read(
-                          projectListControllerProvider(
-                            ProjectFilterScope.projectPage,
-                          ).notifier,
-                        )
-                        .toggleBookmark(
-                          id: item.id,
-                          bookmarked: !item.isBookmarked,
-                        );
-                  },
-                  padding: const EdgeInsets.all(4.0),
-                  borderRadius: BorderRadius.circular(4.0),
-                  icon: Symbols.bookmark_rounded,
-                  size: 20.0,
-                  fill: item.isBookmarked ? 1.0 : 0.0,
-                ),
-                if (canEdit)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: ElevatedIconButton(
-                      onTap: !item.isClosed
-                          ? () => context.goNamed(
-                              RouteNames.projectEdit,
-                              pathParameters: {
-                                'project_id': item.id.toString(),
-                              },
-                            )
-                          : null,
-                      padding: const EdgeInsets.all(4.0),
-                      borderRadius: BorderRadius.circular(4.0),
-                      icon: Symbols.edit_square_rounded,
-                      size: 20.0,
-                    ),
-                  ),
-              ],
+          return InkWell(
+            onTap: () => context.goNamed(
+              RouteNames.projectDetail,
+              pathParameters: {'project_id': item.id.toString()},
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
+              alignment: Alignment.topRight,
               children: [
-                if (item.isPreexecuted || item.isClosed)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
-                      children: [
-                        if (item.isPreexecuted)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6.0),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedIconButton(
+                        onTap: () async {
+                          await ref
+                              .read(
+                                projectListControllerProvider(
+                                  ProjectFilterScope.projectPage,
+                                ).notifier,
+                              )
+                              .toggleBookmark(
+                                id: item.id,
+                                bookmarked: !item.isBookmarked,
+                              );
+                        },
+                        padding: const EdgeInsets.all(4.0),
+                        borderRadius: BorderRadius.circular(4.0),
+                        icon: Symbols.bookmark_rounded,
+                        size: 20.0,
+                        fill: item.isBookmarked ? 1.0 : 0.0,
+                      ),
+                      if (canEdit)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: ElevatedIconButton(
+                            onTap: !item.isClosed
+                                ? () => context.goNamed(
+                                    RouteNames.projectEdit,
+                                    pathParameters: {
+                                      'project_id': item.id.toString(),
+                                    },
+                                  )
+                                : null,
+                            padding: const EdgeInsets.all(4.0),
+                            borderRadius: BorderRadius.circular(4.0),
+                            icon: Symbols.edit_square_rounded,
+                            size: 20.0,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (item.isPreexecuted || item.isClosed)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: Row(
+                            children: [
+                              if (item.isPreexecuted)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 6.0),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                      vertical: 2.0,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      color: colorScheme.error.withValues(
+                                        alpha: 0.6,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      Intl.message('project_preexecuted'),
+                                      style: textTheme.labelSmall?.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: colorScheme.onError,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (item.isClosed)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 6.0),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                      vertical: 2.0,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                      color: colorScheme.onSurface.withValues(
+                                        alpha: 0.6,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      Intl.message('project_closed'),
+                                      style: textTheme.labelSmall?.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: colorScheme.surface,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      if (item.latestCategory case final category?)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: CategoryWidget(item: category),
+                        ),
+                      Row(
+                        children: [
+                          Skeleton.leaf(
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 2.0,
-                              ),
+                              padding: const EdgeInsets.all(6.0),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.0),
-                                color: colorScheme.error.withValues(alpha: 0.6),
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Color(clientType.color),
                               ),
-                              child: Text(
-                                Intl.message('project_preexecuted'),
-                                style: textTheme.labelSmall?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: colorScheme.onError,
+                              child: SizedBox(
+                                width: 16.0,
+                                height: 16.0,
+                                child: SvgPicture.asset(
+                                  clientType.asset,
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.white,
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        if (item.isClosed)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6.0),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 2.0,
+                          const SizedBox(width: 8.0),
+                          Expanded(
+                            child: Text(
+                              item.clients.last.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
                               ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        item.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        item.code,
+                        style: TextStyle(
+                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Symbols.calendar_today_rounded,
+                            size: 18.0,
+                            color: colorScheme.onSurface.withValues(alpha: 0.6),
+                          ),
+                          const SizedBox(width: 4.0),
+                          Expanded(
+                            child: Text(
+                              date,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
                                 color: colorScheme.onSurface.withValues(
                                   alpha: 0.6,
                                 ),
                               ),
-                              child: Text(
-                                Intl.message('project_closed'),
-                                style: textTheme.labelSmall?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: colorScheme.surface,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (item.manager case final manager?)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Symbols.person_rounded,
+                                size: 18.0,
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.6,
                                 ),
                               ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                if (item.latestCategory case final category?)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: CategoryWidget(item: category),
-                  ),
-                Row(
-                  children: [
-                    Skeleton.leaf(
-                      child: Container(
-                        padding: const EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: Color(clientType.color),
-                        ),
-                        child: SizedBox(
-                          width: 16.0,
-                          height: 16.0,
-                          child: SvgPicture.asset(
-                            clientType.asset,
-                            colorFilter: const ColorFilter.mode(
-                              Colors.white,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Expanded(
-                      child: Text(
-                        item.clients.last.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                Text(
-                  item.name,
-                  maxLines: Responsive.isMobile(context) ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Text(
-                  item.code,
-                  style: TextStyle(
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Divider(),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Symbols.calendar_today_rounded,
-                      size: 18.0,
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
-                    ),
-                    const SizedBox(width: 4.0),
-                    Expanded(
-                      child: Text(
-                        date,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                if (item.manager case final manager?)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Symbols.person_rounded,
-                          size: 18.0,
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
-                        const SizedBox(width: 4.0),
-                        Expanded(
-                          child: Text(
-                            manager.username,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.6,
+                              const SizedBox(width: 4.0),
+                              Expanded(
+                                child: Text(
+                                  manager.username,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.6,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                    ],
                   ),
+                ),
               ],
             ),
-          ),
-        ],
+          );
+        },
+        separatorBuilder: (_, _) => const Divider(),
       ),
     );
   }

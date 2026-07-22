@@ -152,8 +152,8 @@ class _DesktopWidget extends HookWidget {
                   padding: EdgeInsets.only(
                     left: 8.0,
                     right: 10.0,
-                    top: 2.0,
-                    bottom: 2.0,
+                    top: 4.0,
+                    bottom: 4.0,
                   ),
                   decoration: ShapeDecoration(
                     shape: StadiumBorder(),
@@ -165,9 +165,14 @@ class _DesktopWidget extends HookWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        category is ScheduleDomestic
-                            ? Symbols.emoji_transportation_rounded
-                            : Symbols.flight_takeoff_rounded,
+                        switch (category) {
+                          ScheduleDomestic() =>
+                            Symbols.emoji_transportation_rounded,
+                          ScheduleOverseas() => Symbols.flight_takeoff_rounded,
+                          ScheduleCenter() => Symbols.factory_rounded,
+                          ScheduleRemote() => Symbols.laptop_mac_rounded,
+                          ScheduleConference() => Symbols.handshake_rounded,
+                        },
                         fill: 0.0,
                         size: 16.0,
                         color: Functions(

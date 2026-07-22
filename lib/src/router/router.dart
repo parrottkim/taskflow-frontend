@@ -767,11 +767,29 @@ class AppRouter {
                 path: Routes.work,
                 pageBuilder: (context, state) {
                   final view = state.uri.queryParameters['view'];
+                  final status = state.uri.queryParameters['status'];
+                  final sort = state.uri.queryParameters['sort'];
+                  final order = state.uri.queryParameters['order'];
+                  final search = state.uri.queryParameters['search'];
+                  final clients = state.uri.queryParameters['clients'];
+                  final categories = state.uri.queryParameters['categories'];
+                  final start = state.uri.queryParameters['start'];
+                  final end = state.uri.queryParameters['end'];
 
                   return NoTransitionPage(
                     key: state.pageKey,
                     name: state.name,
-                    child: WorkScreen(view: view),
+                    child: WorkScreen(
+                      view: view,
+                      status: status,
+                      sort: sort,
+                      order: order,
+                      search: search,
+                      clients: clients,
+                      categories: categories,
+                      start: start,
+                      end: end,
+                    ),
                   );
                 },
                 // routes: [],

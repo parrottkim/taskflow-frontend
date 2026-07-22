@@ -8,8 +8,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
-import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/date_selector_widget.dart';
-import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/project_selector_widget.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/date_range_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/project_select_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -240,7 +240,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 8.0),
-                      ProjectSelectorWidget(
+                      ProjectSelectWidget(
                         categoryId: categoryId,
                         scheduleId: scheduleId,
                         projectName: value.projectName,
@@ -259,7 +259,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 8.0),
-                      DateSelectorWidget(
+                      DateRangeSelectWidget(
                         categoryId: categoryId,
                         scheduleId: scheduleId,
                         start: value.start,

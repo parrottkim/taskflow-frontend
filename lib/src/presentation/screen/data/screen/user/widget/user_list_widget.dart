@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -68,282 +67,137 @@ class _DesktopWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+    return FixedHeaderDataTable(
+      columns: [
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_1'),
+          width: const FlexColumnWidth(),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_2'),
+          width: const FlexColumnWidth(),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_3'),
+          width: const FlexColumnWidth(),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_4'),
+          width: const FlexColumnWidth(),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_5'),
+          width: const FixedColumnWidth(100.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_6'),
+          width: const FixedColumnWidth(100.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_7'),
+          width: const FixedColumnWidth(80.0),
+        ),
+      ],
+      rows: [
+        for (final item in items)
+          DataRow(
+            onSelectChanged: (value) {},
+            cells: [
+              DataCell(
+                Row(
+                  children: [
+                    Skeleton.unite(
+                      child: CircleAvatar(
+                        backgroundColor: Functions(
+                          context,
+                        ).generateColorFromId(item.id),
+                        radius: 16.0,
+                        child: Text(
+                          getInitials(item.username),
+                          style: TextStyle(fontSize: 16.0, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8.0),
+                    Text(
+                      item.username,
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              DataCell(Text(item.email)),
+              DataCell(PositionSelectWidget(user: item, items: positionItems)),
+              DataCell(
+                DepartmentSelectWidget(user: item, items: departmentItems),
+              ),
+              DataCell(
+                CustomToggleButton(
+                  value: item.isAdmin,
+                  onChanged: (value) async {
+                    final result = await showDialog(
+                      context: context,
+                      builder: (_) => UserAdminToggleDialog(),
+                    );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Skeleton.keep(
-          child: DataTable(
-            headingRowHeight: 48.0,
-            showCheckboxColumn: false,
-            columns: [
-              DataColumn(
-                columnWidth: FlexColumnWidth(),
-                label: Text(
-                  Intl.message('data_user_column_1'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
+                    if (result) {
+                      await ref
+                          .read(userSubmitControllerProvider.notifier)
+                          .toggleAdmin(userId: item.id, flag: value ?? false);
+                    }
+                  },
                 ),
               ),
-              DataColumn(
-                columnWidth: FlexColumnWidth(),
-                label: Text(
-                  Intl.message('data_user_column_2'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
+              DataCell(
+                CustomToggleButton(
+                  value: item.isAuthorized,
+                  onChanged: (value) async {
+                    final result = await showDialog(
+                      context: context,
+                      builder: (_) => UserApproveToggleDialog(),
+                    );
+
+                    if (result) {
+                      await ref
+                          .read(userSubmitControllerProvider.notifier)
+                          .toggleAuthorized(
+                            userId: item.id,
+                            flag: value ?? false,
+                          );
+                    }
+                  },
                 ),
               ),
-              DataColumn(
-                columnWidth: FlexColumnWidth(),
-                label: Text(
-                  Intl.message('data_user_column_3'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FlexColumnWidth(),
-                label: Text(
-                  Intl.message('data_user_column_4'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(100.0),
-                label: Text(
-                  Intl.message('data_user_column_5'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(100.0),
-                label: Text(
-                  Intl.message('data_user_column_6'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-              ),
-              DataColumn(
-                columnWidth: FixedColumnWidth(80.0),
-                label: Text(
-                  Intl.message('data_user_column_7'),
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
+              DataCell(
+                ElevatedIconButton(
+                  onTap: () async {
+                    final result = await showDialog(
+                      context: context,
+                      builder: (_) => DeleteDialog(
+                        title: Intl.message('data_user_delete_dialog_1'),
+                        content: Intl.message('data_user_delete_dialog_2'),
+                      ),
+                    );
+
+                    if (result) {
+                      await ref
+                          .read(userSubmitControllerProvider.notifier)
+                          .deleteUser(userId: item.id);
+                    }
+                  },
+                  padding: EdgeInsets.all(4.0),
+                  borderRadius: BorderRadius.circular(4.0),
+                  icon: Symbols.delete_rounded,
+                  size: 20.0,
                 ),
               ),
             ],
-            rows: [],
-          ),
-        ),
-        Divider(),
-        if (items.isEmpty)
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/empty.svg',
-                    width: 40.0,
-                    height: 40.0,
-                    colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(Intl.message('data_user_no_item')),
-                ],
-              ),
-            ),
-          )
-        else
-          Expanded(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                if (notification.metrics.pixels >=
-                    notification.metrics.maxScrollExtent - 20.0) {
-                  ref
-                      .read(
-                        userListControllerProvider(
-                          UserFilterScope.dataPage,
-                        ).notifier,
-                      )
-                      .load();
-                }
-                return false;
-              },
-              child: SingleChildScrollView(
-                child: DataTable(
-                  headingRowHeight: 0.0,
-                  showCheckboxColumn: false,
-                  columns: [
-                    DataColumn(
-                      columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('data_user_column_1')),
-                    ),
-                    DataColumn(
-                      columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('data_user_column_2')),
-                    ),
-                    DataColumn(
-                      columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('data_user_column_3')),
-                    ),
-                    DataColumn(
-                      columnWidth: FlexColumnWidth(),
-                      label: Text(Intl.message('data_user_column_4')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(100.0),
-                      label: Text(Intl.message('data_user_column_5')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(100.0),
-                      label: Text(Intl.message('data_user_column_6')),
-                    ),
-                    DataColumn(
-                      columnWidth: FixedColumnWidth(80.0),
-                      label: Text(Intl.message('data_user_column_7')),
-                    ),
-                  ],
-                  rows: List.generate(
-                    items.length,
-                    (index) => DataRow(
-                      onSelectChanged: (value) {},
-                      cells: [
-                        DataCell(
-                          Row(
-                            children: [
-                              Skeleton.unite(
-                                child: CircleAvatar(
-                                  backgroundColor: Functions(
-                                    context,
-                                  ).generateColorFromId(items[index].id),
-                                  radius: 16.0,
-                                  child: Text(
-                                    getInitials(items[index].username),
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 8.0),
-                              Text(
-                                items[index].username,
-                                style: TextStyle(fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        ),
-                        DataCell(Text(items[index].email)),
-                        DataCell(
-                          PositionSelectWidget(
-                            user: items[index],
-                            items: positionItems,
-                          ),
-                        ),
-                        DataCell(
-                          DepartmentSelectWidget(
-                            user: items[index],
-                            items: departmentItems,
-                          ),
-                        ),
-                        DataCell(
-                          CustomToggleButton(
-                            value: items[index].isAdmin,
-                            onChanged: (value) async {
-                              final result = await showDialog(
-                                context: context,
-                                builder: (_) => UserAdminToggleDialog(),
-                              );
-
-                              if (result) {
-                                await ref
-                                    .read(userSubmitControllerProvider.notifier)
-                                    .toggleAdmin(
-                                      userId: items[index].id,
-                                      flag: value ?? false,
-                                    );
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(
-                          CustomToggleButton(
-                            value: items[index].isAuthorized,
-                            onChanged: (value) async {
-                              final result = await showDialog(
-                                context: context,
-                                builder: (_) => UserApproveToggleDialog(),
-                              );
-
-                              if (result) {
-                                await ref
-                                    .read(userSubmitControllerProvider.notifier)
-                                    .toggleAuthorized(
-                                      userId: items[index].id,
-                                      flag: value ?? false,
-                                    );
-                              }
-                            },
-                          ),
-                        ),
-                        DataCell(
-                          ElevatedIconButton(
-                            onTap: () async {
-                              final result = await showDialog(
-                                context: context,
-                                builder: (_) => DeleteDialog(
-                                  title: Intl.message(
-                                    'data_user_delete_dialog_1',
-                                  ),
-                                  content: Intl.message(
-                                    'data_user_delete_dialog_2',
-                                  ),
-                                ),
-                              );
-
-                              if (result) {
-                                await ref
-                                    .read(userSubmitControllerProvider.notifier)
-                                    .deleteUser(userId: items[index].id);
-                              }
-                            },
-                            padding: EdgeInsets.all(4.0),
-                            borderRadius: BorderRadius.circular(4.0),
-                            icon: Symbols.delete_rounded,
-                            size: 20.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ),
       ],
+      empty: DataTableEmpty(message: Intl.message('data_user_no_item')),
+      onLoadMore: () => ref
+          .read(userListControllerProvider(UserFilterScope.dataPage).notifier)
+          .load(),
     );
   }
 }

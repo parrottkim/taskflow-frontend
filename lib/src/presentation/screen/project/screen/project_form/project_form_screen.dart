@@ -7,8 +7,8 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/client_selector_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/manager_selector_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/client_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/manager_select_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -135,7 +135,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 8.0),
-                      ClientSelectorWidget(
+                      ClientSelectWidget(
                         projectId: projectId,
                         clients: value.clients,
                         isClientsEmpty: isClientsEmpty,
@@ -244,7 +244,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 8.0),
-                      ManagerSelectorWidget(
+                      ManagerSelectWidget(
                         projectId: projectId,
                         selectedManager: value.manager,
                       ),

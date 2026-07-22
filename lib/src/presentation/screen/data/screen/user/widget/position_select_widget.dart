@@ -27,13 +27,13 @@ class PositionSelectWidget extends ConsumerWidget {
           isExpanded: true,
           showClose: false,
           items: items,
-          selectedItem: ValueNotifier(user.position),
+          value: user.position,
           label: Text(Intl.message('data_user_column_3')),
           itemBuilder: (value) => Text(value.name),
           onChanged: (value) async {
             await ref
                 .read(userSubmitControllerProvider.notifier)
-                .updateUser(userId: user.id, positionId: value?.id);
+                .updateUser(userId: user.id, positionId: value.id);
           },
         ),
       ),

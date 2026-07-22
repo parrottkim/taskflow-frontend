@@ -27,13 +27,13 @@ class DepartmentSelectWidget extends ConsumerWidget {
           isExpanded: true,
           showClose: false,
           items: items,
-          selectedItem: ValueNotifier(user.department),
+          value: user.department,
           label: Text(Intl.message('data_user_column_3')),
           itemBuilder: (value) => Text(value.name),
           onChanged: (value) async {
             ref
                 .read(userSubmitControllerProvider.notifier)
-                .updateUser(userId: user.id, departmentId: value?.id);
+                .updateUser(userId: user.id, departmentId: value.id);
           },
         ),
       ),
