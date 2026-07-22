@@ -90,7 +90,7 @@ class _DesktopWidget extends ConsumerWidget {
             : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}';
 
         return DataRow(
-          onSelectChanged: (_) => context.goNamed(
+          onSelectChanged: (_) => context.pushNamed(
             RouteNames.projectDetail,
             pathParameters: {'project_id': item.projectId.toString()},
             queryParameters: {
@@ -192,7 +192,7 @@ class _MobileWidget extends ConsumerWidget {
               : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
 
           return InkWell(
-            onTap: () => context.goNamed(
+            onTap: () => context.pushNamed(
               RouteNames.projectDetail,
               pathParameters: {'project_id': item.projectId.toString()},
               queryParameters: {

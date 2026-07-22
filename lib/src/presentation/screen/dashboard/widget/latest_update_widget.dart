@@ -100,7 +100,7 @@ class _DesktopWidget extends HookWidget {
               : constraints.maxWidth - 48.0,
           child: InkWell(
             onTap: () {
-              context.goNamed(
+              context.pushNamed(
                 RouteNames.projectDetail,
                 pathParameters: {
                   'project_id': items[index].projectId.toString(),
