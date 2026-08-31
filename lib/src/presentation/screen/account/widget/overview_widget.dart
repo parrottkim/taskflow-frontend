@@ -13,27 +13,27 @@ class OverviewWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(accountFilterControllerProvider);
-    final selectedItem = useState<AccountSegment>(
-      AccountSegment.values.firstWhere(
+    final selectedItem = useState<AccountSection>(
+      AccountSection.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => AccountSegment.values.first,
+        orElse: () => AccountSection.values.first,
       ),
     );
 
     final controller = useTabController(
-      initialLength: AccountSegment.values.length,
-      initialIndex: AccountSegment.values.indexOf(selectedItem.value),
+      initialLength: AccountSection.values.length,
+      initialIndex: AccountSection.values.indexOf(selectedItem.value),
     );
 
     useEffect(() {
-      final newItem = AccountSegment.values.firstWhere(
+      final newItem = AccountSection.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => AccountSegment.values.first,
+        orElse: () => AccountSection.values.first,
       );
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
-        controller.animateTo(AccountSegment.values.indexOf(newItem));
+        controller.animateTo(AccountSection.values.indexOf(newItem));
       }
 
       return null;
@@ -44,7 +44,7 @@ class OverviewWidget extends HookConsumerWidget {
         TabBar(
           controller: controller,
           onTap: (index) {
-            selectedItem.value = AccountSegment.values[index];
+            selectedItem.value = AccountSection.values[index];
 
             ref
                 .read(accountFilterControllerProvider.notifier)
@@ -63,10 +63,10 @@ class OverviewWidget extends HookConsumerWidget {
           isScrollable: true,
           labelPadding: EdgeInsets.symmetric(horizontal: 24.0),
           tabs: List.generate(
-            AccountSegment.values.length,
+            AccountSection.values.length,
             (index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(AccountSegment.values[index].label),
+              child: Text(AccountSection.values[index].label),
             ),
           ),
         ),

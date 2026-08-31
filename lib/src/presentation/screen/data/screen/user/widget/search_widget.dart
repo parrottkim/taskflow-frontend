@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -50,7 +51,7 @@ class SearchWidget extends HookConsumerWidget {
               width: 20.0,
               height: 20.0,
               colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
+                colorScheme.onSurface.strong,
                 BlendMode.srcIn,
               ),
               semanticsLabel: 'Search Icon',

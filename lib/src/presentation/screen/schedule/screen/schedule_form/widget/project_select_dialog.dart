@@ -33,7 +33,7 @@ class ProjectSelectDialog extends HookConsumerWidget {
     final searchController = useTextEditingController();
 
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
         constraints: BoxConstraints(maxWidth: 430.0, maxHeight: 600.0),
@@ -54,7 +54,7 @@ class ProjectSelectDialog extends HookConsumerWidget {
                     width: 20.0,
                     height: 20.0,
                     colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
+                      colorScheme.onSurface.strong,
                       BlendMode.srcIn,
                     ),
                     semanticsLabel: 'Search Icon',
@@ -102,8 +102,10 @@ class ProjectSelectDialog extends HookConsumerWidget {
                     scheduleId: scheduleId,
                     items: value.items,
                   ),
-                  AsyncError(:final error, :final stackTrace) =>
-                    ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                  AsyncError(:final error, :final stackTrace) => ErrorStateView(
+                    error: error,
+                    stackTrace: stackTrace,
+                  ),
                   _ => Skeletonizer(
                     child: ScheduleProjectSelector(
                       categoryId: categoryId,

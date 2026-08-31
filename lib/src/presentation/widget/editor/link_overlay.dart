@@ -59,7 +59,7 @@ class LinkOverlayWidget extends HookWidget {
       onSubmitted(insert.text.trim(), href);
     }
 
-    return ContainerWidget(
+    return ContentContainer(
       width: 240.0,
       padding: const EdgeInsets.all(4.0),
       borderRadius: BorderRadius.circular(8.0),
@@ -87,15 +87,11 @@ class LinkOverlayWidget extends HookWidget {
                 contentPadding: EdgeInsets.fromLTRB(4.0, 12.0, 4.0, 6.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4.0),
-                  borderSide: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
-                  ),
+                  borderSide: BorderSide(color: colorScheme.outline.subtle),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(4.0),
-                  borderSide: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
-                  ),
+                  borderSide: BorderSide(color: colorScheme.outline.subtle),
                 ),
               ),
             ),
@@ -161,15 +157,11 @@ class LinkOverlayWidget extends HookWidget {
                   contentPadding: EdgeInsets.fromLTRB(4.0, 12.0, 4.0, 6.0),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
-                    ),
+                    borderSide: BorderSide(color: colorScheme.outline.subtle),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
-                    ),
+                    borderSide: BorderSide(color: colorScheme.outline.subtle),
                   ),
                 ),
               ),

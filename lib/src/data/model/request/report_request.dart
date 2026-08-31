@@ -23,6 +23,7 @@ abstract class CreateTripReportRequest with _$CreateTripReportRequest {
     required List<CreateRegulationRateRequest> rates,
     CreateFuelExpenseRequest? fuel, // ⭐️ 타입 변경
     bool? isDeducted, // DTO에 맞게 required로 변경
+    List<UpdateScheduleHolidayRequest>? holidays,
   }) = _CreateTripReportRequest;
 
   factory CreateTripReportRequest.fromJson(Map<String, dynamic> json) =>
@@ -45,7 +46,9 @@ abstract class CreateFuelExpenseRequest with _$CreateFuelExpenseRequest {
 abstract class CreateActualExpenseRequest with _$CreateActualExpenseRequest {
   factory CreateActualExpenseRequest({
     required int stepId,
+    int? currencyId,
     required String price,
+    DateTime? paymentDate,
     String? details,
   }) = _CreateActualExpenseRequest;
   factory CreateActualExpenseRequest.fromJson(Map<String, dynamic> json) =>
@@ -88,6 +91,7 @@ abstract class UpdateTripReportRequest with _$UpdateTripReportRequest {
     List<UpdateRegulationRateRequest>? rates, // ⭐️ Optional
     UpdateFuelExpenseRequest? fuel, // ⭐️ 타입 변경 및 Optional
     bool? isDeducted, // ⭐️ Optional
+    List<UpdateScheduleHolidayRequest>? holidays,
   }) = _UpdateTripReportRequest;
 
   factory UpdateTripReportRequest.fromJson(Map<String, dynamic> json) =>
@@ -114,7 +118,9 @@ abstract class UpdateActualExpenseRequest with _$UpdateActualExpenseRequest {
   factory UpdateActualExpenseRequest({
     int? id,
     required int stepId,
+    int? currencyId,
     required String price,
+    DateTime? paymentDate,
     String? details,
   }) = _UpdateActualExpenseRequest;
   factory UpdateActualExpenseRequest.fromJson(Map<String, dynamic> json) =>

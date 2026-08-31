@@ -15,6 +15,13 @@ class ReportFormController extends _$ReportFormController {
       final result = await ref
           .read(reportRepositoryProvider)
           .getReportForEdit(id: reportId!);
+      final isScheduleChanged =
+          scheduleId != null && result.schedule?.id != scheduleId;
+      final schedule = isScheduleChanged
+          ? await ref
+                .read(scheduleRepositoryProvider)
+                .getSchedule(id: scheduleId!)
+          : result.schedule;
 
       return ReportFormState(
         expenses: result.trip?.expenses ?? [],
@@ -23,7 +30,7 @@ class ReportFormController extends _$ReportFormController {
         isDeducted: result.trip?.isDeducted ?? false,
         content: result.content,
         attachments: result.attachments,
-        schedule: result.schedule,
+        schedule: schedule,
       );
     }
 
@@ -39,10 +46,12 @@ class ReportFormController extends _$ReportFormController {
     return ReportFormState();
   }
 
-  void addActualExpense({TripActualExpense? item}) {
-    final value = state.value;
+  void selectSchedule(Schedule? schedule) {
+    state = AsyncData(state.requireValue.copyWith(schedule: schedule));
+  }
 
-    if (value == null) return;
+  void addActualExpense({TripActualExpense? item}) {
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -59,9 +68,7 @@ class ReportFormController extends _$ReportFormController {
     String? price,
     String? details,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItem = [...value.expenses];
 
@@ -77,10 +84,80 @@ class ReportFormController extends _$ReportFormController {
     }
   }
 
-  void removeActualExpense({required int index}) {
-    final value = state.value;
+  void updateActualExpenseCurrency({
+    required int index,
+    required int currencyId,
+  }) {
+    final value = state.requireValue;
 
-    if (value == null) return;
+    if (index < 0 || index >= value.expenses.length) return;
+
+    final updatedExpenses = [...value.expenses];
+    updatedExpenses[index] = updatedExpenses[index].copyWith(
+      currencyId: currencyId,
+    );
+
+    state = AsyncData(value.copyWith(expenses: updatedExpenses));
+  }
+
+  void updateActualExpensePaymentDate({
+    required int index,
+    DateTime? paymentDate,
+  }) {
+    final value = state.requireValue;
+
+    if (index < 0 || index >= value.expenses.length) return;
+
+    final updatedExpenses = [...value.expenses];
+    updatedExpenses[index] = updatedExpenses[index].copyWith(
+      paymentDate: paymentDate,
+    );
+
+    state = AsyncData(value.copyWith(expenses: updatedExpenses));
+  }
+
+  void updateHolidayTravelOnly({
+    required int index,
+    required bool isTravelOnly,
+  }) {
+    final value = state.requireValue;
+    final schedule = value.schedule;
+
+    if (schedule == null || index < 0 || index >= schedule.holidays.length) {
+      return;
+    }
+
+    final updatedHolidays = [...schedule.holidays];
+    updatedHolidays[index] = updatedHolidays[index].copyWith(
+      isTravelOnly: isTravelOnly,
+    );
+    state = AsyncData(
+      value.copyWith(schedule: schedule.copyWith(holidays: updatedHolidays)),
+    );
+  }
+
+  void updateHolidayCompensatoryLeaveDate({
+    required int index,
+    DateTime? compensatoryLeaveDate,
+  }) {
+    final value = state.requireValue;
+    final schedule = value.schedule;
+
+    if (schedule == null || index < 0 || index >= schedule.holidays.length) {
+      return;
+    }
+
+    final updatedHolidays = [...schedule.holidays];
+    updatedHolidays[index] = updatedHolidays[index].copyWith(
+      compensatoryLeaveDate: compensatoryLeaveDate,
+    );
+    state = AsyncData(
+      value.copyWith(schedule: schedule.copyWith(holidays: updatedHolidays)),
+    );
+  }
+
+  void removeActualExpense({required int index}) {
+    final value = state.requireValue;
 
     final newItem = [...value.expenses];
 
@@ -98,9 +175,7 @@ class ReportFormController extends _$ReportFormController {
   // -----------------------------------------------------------------
 
   void addRegulationRate({TripRegulationRate? item}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -115,9 +190,7 @@ class ReportFormController extends _$ReportFormController {
     String? rate,
     String? details,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItem = [...value.rates];
 
@@ -134,32 +207,20 @@ class ReportFormController extends _$ReportFormController {
   }
 
   void removeRegulationRate({required int index}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newRates = [...value.rates];
 
     if (index >= 0 && index < newRates.length) {
-      // 삭제할 rate의 stepId 가져오기
-      final stepIdToRemove = newRates[index].stepId;
       newRates.removeAt(index);
-
-      // 동일한 stepId를 가진 expenses도 함께 삭제
-      final newExpenses = value.expenses
-          .where((expense) => expense.stepId != stepIdToRemove)
-          .toList();
-
-      state = AsyncData(value.copyWith(rates: newRates, expenses: newExpenses));
+      state = AsyncData(value.copyWith(rates: newRates));
     } else {
       return;
     }
   }
 
   void setFuelExpense({String? rate, String? mileage, String? distance}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     // 현재 연료 객체를 가져옵니다.
     final currentFuel = value.fuel;
@@ -205,29 +266,19 @@ class ReportFormController extends _$ReportFormController {
   }
 
   void setDeducted({required bool flag}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(isDeducted: flag));
   }
 
-  void setContent(String markdown) {
-    final value = state.value;
+  void setContent({required String content}) {
+    final value = state.requireValue;
 
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(content: markdown));
-
-    ref
-        .read(reportValidationControllerProvider.notifier)
-        .setContentValid(markdown.trimRight().isEmpty);
+    state = AsyncData(value.copyWith(content: content));
   }
 
   Future<void> removeAttachment({required ReportAttachment attachment}) async {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
     if (reportId == null) return;
 
     await ref
@@ -236,29 +287,57 @@ class ReportFormController extends _$ReportFormController {
 
     state = AsyncData(
       value.copyWith(
-        attachments: [
-          ...value.attachments?.where((item) => item.id != attachment.id) ?? [],
-        ],
+        attachments: value.attachments
+            .where((item) => item.id != attachment.id)
+            .toList(),
       ),
     );
   }
 
   void addFile({required XFile file}) {
-    final value = state.value;
+    final value = state.requireValue;
 
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(files: [...?value.files, file]));
+    state = AsyncData(value.copyWith(files: [...value.files, file]));
   }
 
   void removeFile({required XFile file}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
-        files: [...value.files?.where((item) => item.path != file.path) ?? []],
+        files: value.files.where((item) => item.path != file.path).toList(),
+      ),
+    );
+  }
+
+  ReportDraftPayload toDraftPayload() {
+    final value = state.requireValue;
+
+    return ReportDraftPayload(
+      trip: TripReport(
+        expenses: value.expenses,
+        rates: value.rates,
+        fuel: value.fuel,
+        isDeducted: value.isDeducted ?? false,
+      ),
+      content: value.content,
+      schedule: value.schedule,
+    );
+  }
+
+  void restoreDraftPayload(
+    ReportDraftPayload payload, {
+    List<XFile> files = const [],
+  }) {
+    state = AsyncData(
+      state.requireValue.copyWith(
+        expenses: payload.trip.expenses,
+        rates: payload.trip.rates,
+        fuel: payload.trip.fuel,
+        isDeducted: payload.trip.isDeducted,
+        content: payload.content,
+        schedule: payload.schedule,
+        files: files,
       ),
     );
   }

@@ -24,33 +24,25 @@ class DocumentFormController extends _$DocumentFormController {
   }
 
   void setFolder({required int? folderId}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(folderId: folderId));
   }
 
   void setTitle({required String title}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(title: title));
   }
 
   void setContent({required String content}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(content: content));
   }
 
   void setFixed({required bool fixed}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(fixed: fixed));
   }
@@ -58,9 +50,7 @@ class DocumentFormController extends _$DocumentFormController {
   Future<void> removeAttachment({
     required DocumentAttachment attachment,
   }) async {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
     if (documentId == null) return;
 
     await ref
@@ -70,28 +60,50 @@ class DocumentFormController extends _$DocumentFormController {
     state = AsyncData(
       value.copyWith(
         attachments: value.attachments
-            ?.where((item) => item.id != attachment.id)
+            .where((item) => item.id != attachment.id)
             .toList(),
       ),
     );
   }
 
   void addFile({required XFile file}) {
-    final value = state.value;
+    final value = state.requireValue;
 
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(files: [...?value.files, file]));
+    state = AsyncData(value.copyWith(files: [...value.files, file]));
   }
 
   void removeFile({required XFile file}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
-        files: [...value.files?.where((item) => item.path != file.path) ?? []],
+        files: [...value.files.where((item) => item.path != file.path)],
+      ),
+    );
+  }
+
+  DocumentDraftPayload toDraftPayload() {
+    final value = state.requireValue;
+
+    return DocumentDraftPayload(
+      folderId: value.folderId,
+      title: value.title,
+      content: value.content,
+      fixed: value.fixed,
+    );
+  }
+
+  void restoreDraftPayload(
+    DocumentDraftPayload payload, {
+    List<XFile> files = const [],
+  }) {
+    state = AsyncData(
+      state.requireValue.copyWith(
+        folderId: payload.folderId,
+        title: payload.title,
+        content: payload.content,
+        fixed: payload.fixed,
+        files: files,
       ),
     );
   }

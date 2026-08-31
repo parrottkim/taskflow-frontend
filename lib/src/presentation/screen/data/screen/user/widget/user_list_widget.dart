@@ -7,6 +7,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/user/widget/department_select_widget.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/user/widget/position_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/data/screen/user/widget/rank_select_widget.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/user/widget/user_admin_toggle_dialog.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/user/widget/user_approve_toggle_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
@@ -20,18 +21,19 @@ class UserListWidget extends ConsumerWidget {
     final list = ref.watch(
       userListControllerProvider(UserFilterScope.dataPage),
     );
-    final options = ref.watch(userOptionsControllerProvider);
+    final options = ref.watch(userOptionsProvider);
 
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: ContainerWidget(
+        child: ContentContainer(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
           child: switch ((list, options)) {
             (AsyncData(value: final list), AsyncData(value: final options)) =>
               _DesktopWidget(
                 items: list.items,
+                rankItems: options.rankItems,
                 positionItems: options.positionItems,
                 departmentItems: options.departmentItems,
               ),
@@ -39,10 +41,11 @@ class UserListWidget extends ConsumerWidget {
             (
               _,
               AsyncError(:final error, :final stackTrace),
-            ) => ErrorContainerWidget(error: error, stackTrace: stackTrace),
+            ) => ErrorStateView(error: error, stackTrace: stackTrace),
             _ => Skeletonizer(
               child: _DesktopWidget(
                 items: List.filled(30, User.dummy()),
+                rankItems: const [],
                 positionItems: const [],
                 departmentItems: const [],
               ),
@@ -56,11 +59,13 @@ class UserListWidget extends ConsumerWidget {
 
 class _DesktopWidget extends ConsumerWidget {
   final List<User> items;
+  final List<UserRank> rankItems;
   final List<UserPosition> positionItems;
   final List<UserDepartment> departmentItems;
 
   const _DesktopWidget({
     required this.items,
+    required this.rankItems,
     required this.positionItems,
     required this.departmentItems,
   });
@@ -71,11 +76,11 @@ class _DesktopWidget extends ConsumerWidget {
       columns: [
         DataTableColumnConfig(
           label: Intl.message('data_user_column_1'),
-          width: const FlexColumnWidth(),
+          width: const FixedColumnWidth(160.0),
         ),
         DataTableColumnConfig(
           label: Intl.message('data_user_column_2'),
-          width: const FlexColumnWidth(),
+          width: const FixedColumnWidth(220.0),
         ),
         DataTableColumnConfig(
           label: Intl.message('data_user_column_3'),
@@ -87,7 +92,7 @@ class _DesktopWidget extends ConsumerWidget {
         ),
         DataTableColumnConfig(
           label: Intl.message('data_user_column_5'),
-          width: const FixedColumnWidth(100.0),
+          width: const FlexColumnWidth(),
         ),
         DataTableColumnConfig(
           label: Intl.message('data_user_column_6'),
@@ -95,6 +100,10 @@ class _DesktopWidget extends ConsumerWidget {
         ),
         DataTableColumnConfig(
           label: Intl.message('data_user_column_7'),
+          width: const FixedColumnWidth(100.0),
+        ),
+        DataTableColumnConfig(
+          label: Intl.message('data_user_column_8'),
           width: const FixedColumnWidth(80.0),
         ),
       ],
@@ -127,12 +136,13 @@ class _DesktopWidget extends ConsumerWidget {
                 ),
               ),
               DataCell(Text(item.email)),
+              DataCell(RankSelectWidget(user: item, items: rankItems)),
               DataCell(PositionSelectWidget(user: item, items: positionItems)),
               DataCell(
                 DepartmentSelectWidget(user: item, items: departmentItems),
               ),
               DataCell(
-                CustomToggleButton(
+                AppToggleButton(
                   value: item.isAdmin,
                   onChanged: (value) async {
                     final result = await showDialog(
@@ -143,13 +153,13 @@ class _DesktopWidget extends ConsumerWidget {
                     if (result) {
                       await ref
                           .read(userSubmitControllerProvider.notifier)
-                          .toggleAdmin(userId: item.id, flag: value ?? false);
+                          .toggleAdmin(userId: item.id, flag: value);
                     }
                   },
                 ),
               ),
               DataCell(
-                CustomToggleButton(
+                AppToggleButton(
                   value: item.isAuthorized,
                   onChanged: (value) async {
                     final result = await showDialog(
@@ -160,10 +170,7 @@ class _DesktopWidget extends ConsumerWidget {
                     if (result) {
                       await ref
                           .read(userSubmitControllerProvider.notifier)
-                          .toggleAuthorized(
-                            userId: item.id,
-                            flag: value ?? false,
-                          );
+                          .toggleAuthorized(userId: item.id, flag: value);
                     }
                   },
                 ),
@@ -194,7 +201,7 @@ class _DesktopWidget extends ConsumerWidget {
             ],
           ),
       ],
-      empty: DataTableEmpty(message: Intl.message('data_user_no_item')),
+      empty: EmptyStateView(message: Intl.message('data_user_no_item')),
       onLoadMore: () => ref
           .read(userListControllerProvider(UserFilterScope.dataPage).notifier)
           .load(),

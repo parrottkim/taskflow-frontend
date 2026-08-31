@@ -3,8 +3,7 @@ part of '../data.dart';
 class DocumentFolderDataSource implements DocumentFolderRepository {
   final DocumentFolderService _service;
 
-  DocumentFolderDataSource({required DocumentFolderService service})
-    : _service = service;
+  DocumentFolderDataSource({required this._service});
 
   @override
   Future<List<DocumentFolder>> getAllFolders() => _service.getAllFolders();

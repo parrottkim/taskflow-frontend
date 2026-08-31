@@ -3,7 +3,7 @@ part of '../data.dart';
 class AddressDataSource implements AddressRepository {
   final AddressService _service;
 
-  AddressDataSource({required AddressService service}) : _service = service;
+  AddressDataSource({required this._service});
 
   @override
   Future<Result<Address>> search({

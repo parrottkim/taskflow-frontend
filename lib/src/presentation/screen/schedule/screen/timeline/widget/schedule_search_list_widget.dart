@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +20,7 @@ class ScheduleSearchListWidget extends ConsumerWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: ContainerWidget(
+        child: ContentContainer(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
           child: switch (schedules) {
@@ -29,7 +28,7 @@ class ScheduleSearchListWidget extends ConsumerWidget {
               desktop: _DesktopWidget(items: value.flattenedItems),
               mobile: _MobileWidget(items: value.flattenedItems),
             ),
-            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            AsyncError(:final error, :final stackTrace) => ErrorStateView(
               error: error,
               stackTrace: stackTrace,
             ),
@@ -92,28 +91,28 @@ class _DesktopWidget extends ConsumerWidget {
             },
             cells: [
               DataCell(
-                ClientInformation(
+                ClientInfo(
                   clientId: schedule.projectClientId,
                   name: schedule.projectClientName,
                 ),
               ),
               DataCell(Text(schedule.summary)),
               DataCell(Text(schedule.description ?? '')),
-              DataCell(UserInformation.compact(user: schedule.user)),
+              DataCell(UserInfo.compact(user: schedule.user)),
               DataCell(
                 Text(
                   '${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.start)} - ${DateFormat.yMMMd(Intl.getCurrentLocale()).format(schedule.end)}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.labelMedium?.copyWith(
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ),
             ],
           ),
       ],
-      empty: DataTableEmpty(message: Intl.message('schedule_search_empty')),
+      empty: EmptyStateView(message: Intl.message('schedule_search_empty')),
       onLoadMore: () =>
           ref.read(scheduleListControllerProvider().notifier).loadNext(),
     );
@@ -131,24 +130,7 @@ class _MobileWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text('검색 결과가 없습니다.'),
-          ],
-        ),
-      );
+      return EmptyStateView(message: '검색 결과가 없습니다.');
     }
 
     return NotificationListener<ScrollNotification>(
@@ -202,7 +184,7 @@ class _MobileItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClientInformation(
+            ClientInfo(
               clientId: item.projectClientId,
               name: item.projectClientName,
             ),
@@ -219,9 +201,7 @@ class _MobileItem extends StatelessWidget {
               item.projectName,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
-              ),
+              style: TextStyle(color: colorScheme.onSurface.strong),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -232,14 +212,14 @@ class _MobileItem extends StatelessWidget {
                 Icon(
                   Symbols.calendar_today_rounded,
                   size: 18.0,
-                  color: colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: colorScheme.onSurface.strong,
                 ),
                 const SizedBox(width: 4.0),
                 Text(
                   dateText,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ],
@@ -251,14 +231,14 @@ class _MobileItem extends StatelessWidget {
                   Icon(
                     Symbols.person_rounded,
                     size: 18.0,
-                    color: colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: colorScheme.onSurface.strong,
                   ),
                   const SizedBox(width: 4.0),
                   Text(
                     item.user.username,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: colorScheme.onSurface.strong,
                     ),
                   ),
                   if (item.user.department != null)
@@ -266,7 +246,7 @@ class _MobileItem extends StatelessWidget {
                       ' • ${item.user.department!.name}',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: colorScheme.onSurface.strong,
                       ),
                     ),
                 ],

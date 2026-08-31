@@ -4,26 +4,18 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_scope.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class FileItemWidget extends HookConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final XFile file;
 
-  const FileItemWidget({
-    super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
-    required this.file,
-  });
+  const FileItemWidget({super.key, required this.file});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final formController = IssueFormScope.of(context).controller(ref);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -31,7 +23,7 @@ class FileItemWidget extends HookConsumerWidget {
     final lengthFuture = useMemoized(() => file.length(), [file]);
     final length = useFuture(lengthFuture).data;
 
-    return ContainerWidget(
+    return ContentContainer(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       borderRadius: BorderRadius.circular(8.0),
       child: Row(
@@ -43,7 +35,7 @@ class FileItemWidget extends HookConsumerWidget {
               Icon(
                 Symbols.draft_rounded,
                 size: 24.0,
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                color: colorScheme.onSurface.strong,
               ),
               if (extension(file.name).isNotEmpty)
                 Positioned(
@@ -52,7 +44,7 @@ class FileItemWidget extends HookConsumerWidget {
                     width: 20.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(2.0),
-                      color: colorScheme.primary.withValues(alpha: 0.7),
+                      color: colorScheme.primary.strong,
                     ),
                     child: Text(
                       extension(file.name).substring(1),
@@ -83,21 +75,13 @@ class FileItemWidget extends HookConsumerWidget {
             formatBytes(length ?? 0),
             style: textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w500,
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
+              color: colorScheme.onSurface.strong,
             ),
           ),
           SizedBox(width: 8.0),
-          CustomIconButton(
+          AppIconButton(
             onTap: () {
-              ref
-                  .read(
-                    issueFormControllerProvider(
-                      projectId: projectId,
-                      categoryId: categoryId,
-                      issueId: issueId,
-                    ).notifier,
-                  )
-                  .removeFile(file: file);
+              formController.removeFile(file: file);
             },
             icon: Icon(Symbols.delete_rounded, size: 20.0),
           ),

@@ -15,7 +15,7 @@ class MobileFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final options = ref.watch(projectOptionsControllerProvider);
+    final options = ref.watch(projectOptionsProvider);
 
     return switch (options) {
       AsyncData(value: final options) => _MobileWidget(
@@ -23,7 +23,7 @@ class MobileFilterWidget extends ConsumerWidget {
         categoryItems: options.categoryItems,
         maxClientDepth: options.maxClientDepth,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),

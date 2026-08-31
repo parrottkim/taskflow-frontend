@@ -49,7 +49,7 @@ class DataUserPositionFilterWidget extends ConsumerWidget {
     final filter = ref.watch(
       userFilterControllerProvider(UserFilterScope.dataPage),
     );
-    final options = ref.watch(userOptionsControllerProvider);
+    final options = ref.watch(userOptionsProvider);
 
     return switch (options) {
       AsyncData(value: final options) => UserPositionFilterWidget(
@@ -90,7 +90,7 @@ class DataUserDepartmentFilterWidget extends ConsumerWidget {
     final filter = ref.watch(
       userFilterControllerProvider(UserFilterScope.dataPage),
     );
-    final options = ref.watch(userOptionsControllerProvider);
+    final options = ref.watch(userOptionsProvider);
 
     return switch (options) {
       AsyncData(value: final options) => UserDepartmentFilterWidget(

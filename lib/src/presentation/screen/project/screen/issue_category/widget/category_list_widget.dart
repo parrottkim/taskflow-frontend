@@ -6,8 +6,8 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
+import 'package:taskflow/src/router/router.dart';
 
 class CategoryListWidget extends ConsumerWidget {
   final int projectId;
@@ -28,7 +28,7 @@ class CategoryListWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return ContainerWidget(
+    return ContentContainer(
       elevation: 1.0,
       padding: EdgeInsets.zero,
       child: ListView.separated(
@@ -44,7 +44,9 @@ class CategoryListWidget extends ConsumerWidget {
                     .read(toastProvider)
                     .showToast(
                       child: Toast(
-                        message: Intl.message('contract_issue_exists'),
+                        message: Intl.message(
+                          'conflict_contract_issue_already_exists',
+                        ),
                       ),
                     );
                 return;
@@ -81,7 +83,8 @@ class CategoryListWidget extends ConsumerWidget {
               }
             }
 
-            context.goNamed(
+            ref.read(issueValidationControllerProvider.notifier).reset();
+            context.pushNamed(
               RouteNames.issueNew,
               pathParameters: {
                 'project_id': projectId.toString(),
@@ -117,7 +120,7 @@ class CategoryListWidget extends ConsumerWidget {
                     Icon(
                       Symbols.arrow_right_alt_rounded,
                       size: 20.0,
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
+                      color: colorScheme.onSurface.strong,
                     ),
                   ],
                 ),
@@ -125,7 +128,7 @@ class CategoryListWidget extends ConsumerWidget {
                 Text(
                   Intl.message('issue_new_choose_${index + 1}_2'),
                   style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ],

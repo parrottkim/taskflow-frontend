@@ -27,7 +27,7 @@ class ProjectSelectWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final options = ref.watch(projectOptionsControllerProvider);
+    final options = ref.watch(projectOptionsProvider);
 
     return switch (options) {
       AsyncData(:final value) => _DesktopWidget(
@@ -90,13 +90,13 @@ class _DesktopWidget extends ConsumerWidget {
               padding: EdgeInsets.all(4.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
-                color: Color(ClientType.fromKey(projectClientId!).color),
+                color: Color(ClientBrand.fromKey(projectClientId!).color),
               ),
               child: SizedBox(
                 width: 12.0,
                 height: 12.0,
                 child: SvgPicture.asset(
-                  ClientType.fromKey(projectClientId!).asset,
+                  ClientBrand.fromKey(projectClientId!).asset,
                   colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ),

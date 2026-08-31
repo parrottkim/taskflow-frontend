@@ -1,4 +1,20 @@
 services:
+  edge:
+    image: nginx:alpine
+    container_name: taskflow-edge
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/edge.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+    networks:
+      - backend_default
+    depends_on:
+      - frontend-dev
+      - frontend-prod
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    restart: unless-stopped
+
   frontend-dev:
     image: dantechhjkim/frontend-dev
     container_name: frontend-dev

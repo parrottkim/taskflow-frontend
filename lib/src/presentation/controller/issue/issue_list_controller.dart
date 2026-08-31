@@ -53,8 +53,8 @@ class IssueListController extends _$IssueListController {
   }
 
   Future<void> loadApprovals() async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.approvalsHasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
@@ -74,8 +74,8 @@ class IssueListController extends _$IssueListController {
   }
 
   Future<void> loadProcurements() async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.procurementsHasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
@@ -95,8 +95,8 @@ class IssueListController extends _$IssueListController {
   }
 
   Future<void> approveProcurementRequest({required int requestId}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     await ref
         .read(issueRepositoryProvider)
@@ -128,8 +128,8 @@ class IssueListController extends _$IssueListController {
   }
 
   void removeProcurementRequest({required int requestId}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(
       value.copyWith(
@@ -153,8 +153,8 @@ class IssueListController extends _$IssueListController {
   }
 
   void addListItem({required Issue item}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(switch (item.category) {
       IssueApproval() => value.copyWith(
@@ -273,8 +273,8 @@ class IssueListController extends _$IssueListController {
   }
 
   void updateListItem(Issue issue) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(switch (issue.category) {
       IssueContract() => value.copyWith(
@@ -375,8 +375,8 @@ class IssueListController extends _$IssueListController {
   }
 
   void removeListItem({required int id, IssueCategory? category}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final isApproval =
         category is IssueApproval ||

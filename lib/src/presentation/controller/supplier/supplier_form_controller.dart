@@ -28,17 +28,13 @@ class SupplierFormController extends _$SupplierFormController {
   }
 
   void setName({required String name}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(name: name));
   }
 
   void setNumber({required String number}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(number: number));
   }
@@ -49,9 +45,7 @@ class SupplierFormController extends _$SupplierFormController {
     required String roadAddressReference,
     required String? detailAddress,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -64,25 +58,19 @@ class SupplierFormController extends _$SupplierFormController {
   }
 
   void setPhone({required String phone}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(phone: phone));
   }
 
   void setEmail({required String email}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(email: email));
   }
 
   Future<void> addFile({required XFile file}) async {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final bytes = await file.readAsBytes();
 
@@ -90,9 +78,7 @@ class SupplierFormController extends _$SupplierFormController {
   }
 
   void removeFile({required XFile file}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(file: null, fileBytes: null));
   }

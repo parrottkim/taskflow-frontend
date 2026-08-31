@@ -14,11 +14,13 @@ class SortWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(workReportFilterControllerProvider);
 
-    return ElevatedDropdownButton<WorkReportSort>(
+    return ElevatedDropdownButton<WorkReportSortOption>(
       onChanged: (value) {
         final isSameDescending =
-            value == filter.sort && filter.order == Order.desc;
-        final nextOrder = isSameDescending ? Order.asc : Order.desc;
+            value == filter.sort && filter.order == SortDirection.desc;
+        final nextOrder = isSameDescending
+            ? SortDirection.asc
+            : SortDirection.desc;
 
         ref.read(workReportFilterControllerProvider.notifier)
           ..setSort(sort: value)
@@ -43,7 +45,7 @@ class SortWidget extends ConsumerWidget {
           ),
         );
       },
-      items: WorkReportSort.values,
+      items: WorkReportSortOption.values,
       value: filter.sort,
       icon: const RotatedBox(
         quarterTurns: 1,
@@ -64,7 +66,7 @@ class SortWidget extends ConsumerWidget {
           Visibility(
             visible: filter.sort == item,
             child: RotatedBox(
-              quarterTurns: filter.order == Order.asc ? 0 : 2,
+              quarterTurns: filter.order == SortDirection.asc ? 0 : 2,
               child: Icon(Symbols.arrow_drop_up_rounded, size: 20.0),
             ),
           ),

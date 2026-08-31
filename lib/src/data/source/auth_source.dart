@@ -3,7 +3,7 @@ part of '../data.dart';
 class AuthDataSource implements AuthRepository {
   final AuthService _service;
 
-  AuthDataSource({required AuthService service}) : _service = service;
+  AuthDataSource({required this._service});
 
   @override
   Future<Token> login({required LoginRequest login}) =>
@@ -15,6 +15,9 @@ class AuthDataSource implements AuthRepository {
 
   @override
   Future<Token> refresh() => _service.refresh();
+
+  @override
+  Future<void> logout() => _service.logout();
 
   @override
   Future<void> forgotPassword({required ForgotPasswordRequest request}) =>

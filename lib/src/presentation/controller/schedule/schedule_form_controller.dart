@@ -1,6 +1,18 @@
 part of '../controller.dart';
 
 @riverpod
+Future<Schedule?> scheduleFormInitialSchedule(
+  Ref ref, {
+  int? scheduleId,
+}) async {
+  if (scheduleId == null) return null;
+
+  return ref
+      .read(scheduleRepositoryProvider)
+      .getScheduleForEdit(id: scheduleId);
+}
+
+@riverpod
 class ScheduleFormController extends _$ScheduleFormController {
   @override
   FutureOr<ScheduleFormState> build({
@@ -9,13 +21,11 @@ class ScheduleFormController extends _$ScheduleFormController {
   }) => _init();
 
   Future<ScheduleFormState> _init() async {
-    if (scheduleId == null) {
-      return ScheduleFormState();
-    }
+    final result = await ref.watch(
+      scheduleFormInitialScheduleProvider(scheduleId: scheduleId).future,
+    );
 
-    final result = await ref
-        .read(scheduleRepositoryProvider)
-        .getScheduleForEdit(id: scheduleId!);
+    if (result == null) return ScheduleFormState();
 
     return ScheduleFormState(
       projectId: result.projectId,
@@ -35,9 +45,8 @@ class ScheduleFormController extends _$ScheduleFormController {
     int? projectClientId,
     String? projectClientName,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -50,28 +59,20 @@ class ScheduleFormController extends _$ScheduleFormController {
   }
 
   void setDateRange({DateTime? start, DateTime? end}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(start: start, end: end));
   }
 
   void setSummary({required String summary}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(summary: summary));
   }
 
   void setDescription({required String description}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(description: description));
   }
-
-  Future<void> deleteSchedule() async {}
 }

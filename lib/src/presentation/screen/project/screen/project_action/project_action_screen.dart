@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -7,7 +6,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/router/router.dart';
 
 class ProjectActionScreen extends ConsumerWidget {
   final int projectId;
@@ -28,7 +26,7 @@ class ProjectActionScreen extends ConsumerWidget {
             projectId: projectId,
             isClosed: value.project.isClosed,
           ),
-          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+          AsyncError(:final error, :final stackTrace) => ErrorStateView(
             error: error,
             stackTrace: stackTrace,
           ),
@@ -52,37 +50,16 @@ class _DesktopWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final actions = [
-      (
-        title: Intl.message('project_action_1'),
-        description: Intl.message('project_action_1_1'),
-        enabled: !isClosed,
-        onTap: () {
-          context.pushNamed(
-            RouteNames.issueNewChoose,
-            pathParameters: {'project_id': projectId.toString()},
-          );
-        },
-      ),
-      (
-        title: Intl.message('project_action_2'),
-        description: Intl.message('project_action_2_1'),
-        enabled: true,
-        onTap: () {
-          context.pushNamed(
-            RouteNames.reportNewChoose,
-            pathParameters: {'project_id': projectId.toString()},
-          );
-        },
-      ),
-    ];
+    final actions = UiConfiguration(
+      context,
+    ).projectActionMenu(projectId: projectId, isClosed: isClosed);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ContainerWidget(
+          ContentContainer(
             elevation: 1.0,
             padding: EdgeInsets.zero,
             child: ListView.separated(
@@ -93,7 +70,7 @@ class _DesktopWidget extends StatelessWidget {
                 final action = actions[index];
 
                 return InkWell(
-                  onTap: action.enabled ? action.onTap : null,
+                  onTap: action.onPressed,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -103,37 +80,29 @@ class _DesktopWidget extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              index == 0
-                                  ? Symbols.mountain_flag_rounded
-                                  : Symbols.description_rounded,
+                              action.icon,
                               size: 20.0,
-                              color: action.enabled
+                              color: action.onPressed != null
                                   ? colorScheme.primary
-                                  : colorScheme.onSurface.withValues(
-                                      alpha: 0.35,
-                                    ),
+                                  : colorScheme.onSurface.muted,
                             ),
                             SizedBox(width: 6.0),
                             Text(
-                              action.title,
+                              action.label,
                               style: textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.w700,
-                                color: action.enabled
+                                color: action.onPressed != null
                                     ? null
-                                    : colorScheme.onSurface.withValues(
-                                        alpha: 0.35,
-                                      ),
+                                    : colorScheme.onSurface.muted,
                               ),
                             ),
                             Spacer(),
                             Icon(
                               Symbols.arrow_right_alt_rounded,
                               size: 20.0,
-                              color: action.enabled
-                                  ? colorScheme.onSurface.withValues(alpha: 0.7)
-                                  : colorScheme.onSurface.withValues(
-                                      alpha: 0.25,
-                                    ),
+                              color: action.onPressed != null
+                                  ? colorScheme.onSurface.strong
+                                  : colorScheme.onSurface.subtle,
                             ),
                           ],
                         ),
@@ -141,9 +110,9 @@ class _DesktopWidget extends StatelessWidget {
                         Text(
                           action.description,
                           style: textTheme.bodySmall?.copyWith(
-                            color: action.enabled
-                                ? colorScheme.onSurface.withValues(alpha: 0.7)
-                                : colorScheme.onSurface.withValues(alpha: 0.35),
+                            color: action.onPressed != null
+                                ? colorScheme.onSurface.strong
+                                : colorScheme.onSurface.muted,
                           ),
                         ),
                       ],
@@ -151,35 +120,36 @@ class _DesktopWidget extends StatelessWidget {
                   ),
                 );
               },
-              separatorBuilder: (_, __) => Divider(),
+              separatorBuilder: (_, _) => Divider(),
             ),
           ),
-          if (isClosed) ...[
-            SizedBox(height: 16.0),
-            ContainerWidget(
-              padding: const EdgeInsets.all(16.0),
-              color: colorScheme.errorContainer,
-              child: Row(
-                children: [
-                  Icon(
-                    Symbols.warning_rounded,
-                    size: 20.0,
-                    color: colorScheme.error,
-                  ),
-                  SizedBox(width: 8.0),
-                  Expanded(
-                    child: Text(
-                      '프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.',
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.error.withValues(alpha: 0.8),
-                        fontWeight: FontWeight.w600,
+          if (isClosed)
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ContentContainer(
+                color: colorScheme.outline.subtle,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Symbols.mountain_flag_rounded, size: 20.0),
+                    SizedBox(width: 8.0),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Intl.message('project_detail_closed_1'),
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(height: 4.0),
+                          Text(Intl.message('project_detail_closed_2')),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ],
         ],
       ),
     );

@@ -6,32 +6,31 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_scope.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widget/supplier_search_dialog.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ProcurementFormItem extends HookConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final List<ProcurementIssueItem> items;
   final List<ProcurementIssueRequest> requests;
-  final ValueNotifier<bool> hasProcurementIssueItems;
-  final ValueNotifier<bool> isProcurementIssueItemEmpty;
 
   const ProcurementFormItem({
     super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
     required this.items,
     required this.requests,
-    required this.hasProcurementIssueItems,
-    required this.isProcurementIssueItemEmpty,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scope = IssueFormScope.of(context);
+    final projectId = scope.projectId;
+    final categoryId = scope.categoryId;
+    final issueId = scope.issueId;
+    final validation = ref.watch(issueValidationControllerProvider);
+    final validationController = ref.read(
+      issueValidationControllerProvider.notifier,
+    );
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -178,8 +177,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                 if (requests.isEmpty)
                   TextButton.icon(
                     onPressed: () {
-                      hasProcurementIssueItems.value = false;
-                      isProcurementIssueItemEmpty.value = false;
+                      validationController.clearProcurement();
 
                       ref
                           .read(
@@ -227,21 +225,15 @@ class ProcurementFormItem extends HookConsumerWidget {
                               showBottomBorder: true,
                               border: TableBorder(
                                 verticalInside: BorderSide(
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.2,
-                                  ),
+                                  color: colorScheme.outline.subtle,
                                   width: 1.0,
                                 ),
                                 horizontalInside: BorderSide(
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.2,
-                                  ),
+                                  color: colorScheme.outline.subtle,
                                   width: 1.0,
                                 ),
                                 bottom: BorderSide(
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.2,
-                                  ),
+                                  color: colorScheme.outline.subtle,
                                   width: 1.0,
                                 ),
                               ),
@@ -256,8 +248,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.text_fields_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -267,8 +258,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -285,8 +275,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.text_fields_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -296,8 +285,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -314,8 +302,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.numbers_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -325,8 +312,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -343,8 +329,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.numbers_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -354,8 +339,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -372,8 +356,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.numbers_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -383,8 +366,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -401,8 +383,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.package_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -412,8 +393,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -429,8 +409,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.package_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -440,8 +419,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -458,8 +436,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                       children: [
                                         Icon(
                                           Symbols.text_fields_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -467,8 +444,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           Intl.message('common_note'),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -522,8 +498,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                             ),
                                           ),
                                           onChanged: (value) {
-                                            isProcurementIssueItemEmpty.value =
-                                                false;
+                                            validationController
+                                                .clearProcurement();
                                             ref
                                                 .read(
                                                   issueFormControllerProvider(
@@ -537,9 +513,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                   item: value,
                                                 );
                                           },
-                                          onSubmitted: (_) => FocusScope.of(
-                                            context,
-                                          ).requestFocus(specFocuses[index]),
+                                          onSubmitted: (_) =>
+                                              specFocuses[index].requestFocus(),
                                         ),
                                       ),
                                     ),
@@ -580,8 +555,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                             ),
                                           ),
                                           onChanged: (value) {
-                                            isProcurementIssueItemEmpty.value =
-                                                false;
+                                            validationController
+                                                .clearProcurement();
 
                                             ref
                                                 .read(
@@ -597,11 +572,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                 );
                                           },
                                           onSubmitted: (_) =>
-                                              FocusScope.of(
-                                                context,
-                                              ).requestFocus(
-                                                quantityFocuses[index],
-                                              ),
+                                              quantityFocuses[index]
+                                                  .requestFocus(),
                                         ),
                                       ),
                                     ),
@@ -650,8 +622,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                             ),
                                           ),
                                           onChanged: (value) {
-                                            isProcurementIssueItemEmpty.value =
-                                                false;
+                                            validationController
+                                                .clearProcurement();
 
                                             if (value.isNotEmpty &&
                                                 unitPriceControllers[index]
@@ -715,11 +687,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                 );
                                           },
                                           onSubmitted: (_) =>
-                                              FocusScope.of(
-                                                context,
-                                              ).requestFocus(
-                                                unitPriceFocuses[index],
-                                              ),
+                                              unitPriceFocuses[index]
+                                                  .requestFocus(),
                                         ),
                                       ),
                                     ),
@@ -768,8 +737,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                             suffixText: '₩',
                                           ),
                                           onChanged: (value) {
-                                            isProcurementIssueItemEmpty.value =
-                                                false;
+                                            validationController
+                                                .clearProcurement();
 
                                             if (value.isNotEmpty &&
                                                 quantityControllers[index]
@@ -865,8 +834,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                           suffixText: '₩',
                                         ),
                                         onChanged: (value) {
-                                          isProcurementIssueItemEmpty.value =
-                                              false;
+                                          validationController
+                                              .clearProcurement();
 
                                           ref
                                               .read(
@@ -888,11 +857,10 @@ class ProcurementFormItem extends HookConsumerWidget {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(4.0),
-                                            child: CustomToggleButton(
+                                            child: AppToggleButton(
                                               onChanged: (value) {
-                                                isProcurementIssueItemEmpty
-                                                        .value =
-                                                    false;
+                                                validationController
+                                                    .clearProcurement();
 
                                                 ref
                                                     .read(
@@ -915,11 +883,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                       .addPostFrameCallback((
                                                         _,
                                                       ) {
-                                                        FocusScope.of(
-                                                          context,
-                                                        ).requestFocus(
-                                                          purchaseUrlFocuses[index],
-                                                        );
+                                                        purchaseUrlFocuses[index]
+                                                            .requestFocus();
                                                       });
                                                 }
                                               },
@@ -994,9 +959,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                       : null,
                                                 ),
                                                 onChanged: (value) {
-                                                  isProcurementIssueItemEmpty
-                                                          .value =
-                                                      false;
+                                                  validationController
+                                                      .clearProcurement();
                                                   ref
                                                       .read(
                                                         issueFormControllerProvider(
@@ -1029,22 +993,18 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                     !items[index]
                                                         .isOnlinePurchase
                                                     ? () {
-                                                        isProcurementIssueItemEmpty
-                                                                .value =
-                                                            false;
+                                                        validationController
+                                                            .clearProcurement();
 
                                                         showDialog(
                                                           context: context,
                                                           builder: (_) =>
-                                                              SupplierSearchDialog(
-                                                                projectId:
-                                                                    projectId,
-                                                                categoryId:
-                                                                    categoryId,
-                                                                issueId:
-                                                                    issueId,
-                                                                itemIndex:
-                                                                    index,
+                                                              scope.wrap(
+                                                                child:
+                                                                    SupplierSearchDialog(
+                                                                      itemIndex:
+                                                                          index,
+                                                                    ),
                                                               ),
                                                         );
                                                       }
@@ -1056,10 +1016,9 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                           4.0,
                                                         ),
                                                     side: BorderSide(
-                                                      color: colorScheme.outline
-                                                          .withValues(
-                                                            alpha: 0.4,
-                                                          ),
+                                                      color: colorScheme
+                                                          .outline
+                                                          .muted,
                                                     ),
                                                   ),
                                                   minimumSize: Size(80, 36),
@@ -1145,15 +1104,12 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                         showDialog(
                                                           context: context,
                                                           builder: (_) =>
-                                                              SupplierSearchDialog(
-                                                                projectId:
-                                                                    projectId,
-                                                                categoryId:
-                                                                    categoryId,
-                                                                issueId:
-                                                                    issueId,
-                                                                itemIndex:
-                                                                    index,
+                                                              scope.wrap(
+                                                                child:
+                                                                    SupplierSearchDialog(
+                                                                      itemIndex:
+                                                                          index,
+                                                                    ),
                                                               ),
                                                         );
                                                       },
@@ -1221,9 +1177,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                       ),
                                                 ),
                                                 onChanged: (value) {
-                                                  isProcurementIssueItemEmpty
-                                                          .value =
-                                                      false;
+                                                  validationController
+                                                      .clearProcurement();
 
                                                   ref
                                                       .read(
@@ -1240,11 +1195,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                                       );
                                                 },
                                                 onSubmitted: (_) =>
-                                                    FocusScope.of(
-                                                      context,
-                                                    ).requestFocus(
-                                                      quantityFocuses[index],
-                                                    ),
+                                                    quantityFocuses[index]
+                                                        .requestFocus(),
                                               ),
                                             ),
                                           ),
@@ -1255,12 +1207,8 @@ class ProcurementFormItem extends HookConsumerWidget {
                                             child: ElevatedIconButton(
                                               onTap: () async {
                                                 if (items.length == 1) {
-                                                  hasProcurementIssueItems
-                                                          .value =
-                                                      false;
-                                                  isProcurementIssueItemEmpty
-                                                          .value =
-                                                      false;
+                                                  validationController
+                                                      .clearProcurement();
 
                                                   await opacityController
                                                       .reverse();
@@ -1300,9 +1248,7 @@ class ProcurementFormItem extends HookConsumerWidget {
                             decoration: BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.2,
-                                  ),
+                                  color: colorScheme.outline.subtle,
                                   width: 1.0,
                                 ),
                               ),
@@ -1351,12 +1297,12 @@ class ProcurementFormItem extends HookConsumerWidget {
                 ),
               ),
             ),
-          InvalidWidget(
-            visible: hasProcurementIssueItems.value,
+          ValidationErrorMessage(
+            visible: validation.procurementItemsMissing,
             text: Intl.message('issue_form_procurement_item_invalid_1'),
           ),
-          InvalidWidget(
-            visible: isProcurementIssueItemEmpty.value,
+          ValidationErrorMessage(
+            visible: validation.procurementItemInvalid,
             text: Intl.message('issue_form_procurement_item_invalid_2'),
           ),
         ],

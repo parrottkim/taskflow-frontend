@@ -13,6 +13,9 @@ abstract class AuthService {
   @POST('auth/refresh')
   Future<Token> refresh();
 
+  @POST('auth/logout')
+  Future<void> logout();
+
   @POST('auth/forgot-password')
   Future<void> forgotPassword({@Body() required ForgotPasswordRequest request});
 

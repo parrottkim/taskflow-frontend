@@ -8,6 +8,8 @@ sealed class ProjectSubmitState with _$ProjectSubmitState {
       ProjectSubmitCreated;
   const factory ProjectSubmitState.updated(Project project) =
       ProjectSubmitUpdated;
+  const factory ProjectSubmitState.closed(Project project) =
+      ProjectSubmitClosed;
   const factory ProjectSubmitState.deleted() = ProjectSubmitDeleted;
   const factory ProjectSubmitState.failure(String message) =
       ProjectSubmitFailure;

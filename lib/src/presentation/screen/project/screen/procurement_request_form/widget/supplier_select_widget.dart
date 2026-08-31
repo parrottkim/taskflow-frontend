@@ -81,7 +81,7 @@ class SupplierSelectWidget extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                CustomToggleButton(
+                                AppToggleButton(
                                   value: selectedSupplierIds.contains(
                                     supplier.id,
                                   ),
@@ -90,7 +90,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                       : (checked) {
                                           onSupplierSelectionChanged((
                                             supplier.id,
-                                            checked ?? false,
+                                            checked,
                                           ));
                                         },
                                 ),
@@ -128,9 +128,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                   style: textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w600,
                                     color: isDisabled
-                                        ? colorScheme.onSurface.withValues(
-                                            alpha: 0.4,
-                                          )
+                                        ? colorScheme.onSurface.muted
                                         : null,
                                   ),
                                 ),
@@ -150,21 +148,15 @@ class SupplierSelectWidget extends StatelessWidget {
                               showBottomBorder: true,
                               border: TableBorder(
                                 verticalInside: BorderSide(
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.2,
-                                  ),
+                                  color: colorScheme.outline.subtle,
                                   width: 1.0,
                                 ),
                                 horizontalInside: BorderSide(
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.2,
-                                  ),
+                                  color: colorScheme.outline.subtle,
                                   width: 1.0,
                                 ),
                                 bottom: BorderSide(
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.2,
-                                  ),
+                                  color: colorScheme.outline.subtle,
                                   width: 1.0,
                                 ),
                               ),
@@ -179,8 +171,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                       children: [
                                         Icon(
                                           Symbols.text_fields_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -190,8 +181,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -208,8 +198,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                       children: [
                                         Icon(
                                           Symbols.text_fields_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -219,8 +208,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -237,8 +225,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                       children: [
                                         Icon(
                                           Symbols.numbers_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -248,8 +235,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -266,8 +252,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                       children: [
                                         Icon(
                                           Symbols.numbers_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -277,8 +262,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -295,8 +279,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                       children: [
                                         Icon(
                                           Symbols.numbers_rounded,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                           size: 16.0,
                                         ),
                                         SizedBox(width: 4.0),
@@ -306,8 +289,7 @@ class SupplierSelectWidget extends StatelessWidget {
                                           ),
                                           style: textTheme.bodyMedium?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -391,7 +373,7 @@ class SupplierSelectWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                         ),
@@ -440,7 +422,7 @@ class SupplierSelectWidget extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: InvalidWidget(
+          child: ValidationErrorMessage(
             visible: isSelectedSupplierEmpty.value,
             text: Intl.message('issue_form_procurement_requested_invalid_1'),
           ),

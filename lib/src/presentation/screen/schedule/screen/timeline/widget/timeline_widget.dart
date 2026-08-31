@@ -46,10 +46,14 @@ class TimelineWidget extends ConsumerWidget {
                 end: scheduleValue.end,
               ),
             ),
-          (AsyncError(:final error, :final stackTrace), _) =>
-            ErrorContainerWidget(error: error, stackTrace: stackTrace),
-          (_, AsyncError(:final error, :final stackTrace)) =>
-            ErrorContainerWidget(error: error, stackTrace: stackTrace),
+          (AsyncError(:final error, :final stackTrace), _) => ErrorStateView(
+            error: error,
+            stackTrace: stackTrace,
+          ),
+          (_, AsyncError(:final error, :final stackTrace)) => ErrorStateView(
+            error: error,
+            stackTrace: stackTrace,
+          ),
           _ => Skeletonizer(
             child: Responsive(
               desktop: _DesktopWidget(
@@ -139,7 +143,7 @@ class _MobileWidget extends HookConsumerWidget {
       return false;
     }
 
-    return ContainerWidget(
+    return ContentContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(8.0),
       child: Column(
@@ -154,10 +158,7 @@ class _MobileWidget extends HookConsumerWidget {
               ensureWeekLoaded(todayWeek);
             },
           ),
-          Divider(
-            height: 1.0,
-            color: colorScheme.outline.withValues(alpha: 0.12),
-          ),
+          Divider(height: 1.0, color: colorScheme.outline.faint),
           _MobileTimelineHeader(weekStart: visibleWeek.value),
           Expanded(
             child: NotificationListener<ScrollNotification>(
@@ -206,7 +207,7 @@ class _MobileWeekNavigator extends StatelessWidget {
       height: 48.0,
       child: Row(
         children: [
-          CustomIconButton(
+          AppIconButton(
             onTap: onPrevious,
             icon: const Icon(Symbols.chevron_left_rounded),
           ),
@@ -221,11 +222,11 @@ class _MobileWeekNavigator extends StatelessWidget {
               ),
             ),
           ),
-          CustomIconButton(
+          AppIconButton(
             onTap: onToday,
             icon: const Icon(Symbols.today_rounded, size: 20.0),
           ),
-          CustomIconButton(
+          AppIconButton(
             onTap: onNext,
             icon: const Icon(Symbols.chevron_right_rounded),
           ),
@@ -257,16 +258,10 @@ class _MobileTimelineHeader extends StatelessWidget {
           return Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: isToday
-                    ? colorScheme.primary.withValues(alpha: 0.08)
-                    : null,
+                color: isToday ? colorScheme.primary.faint : null,
                 border: Border(
-                  right: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.09),
-                  ),
-                  bottom: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.12),
-                  ),
+                  right: BorderSide(color: colorScheme.outline.faint),
+                  bottom: BorderSide(color: colorScheme.outline.faint),
                 ),
               ),
               child: Column(
@@ -277,7 +272,7 @@ class _MobileTimelineHeader extends StatelessWidget {
                     maxLines: 1,
                     style: textTheme.labelSmall?.copyWith(
                       fontSize: 9.0,
-                      color: colorScheme.onSurface.withValues(alpha: 0.48),
+                      color: colorScheme.onSurface.muted,
                     ),
                   ),
                   Text(
@@ -324,11 +319,7 @@ class _MobileUserTimelineRow extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: colorScheme.outline.withValues(alpha: 0.12),
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: colorScheme.outline.faint)),
       ),
       child: Column(
         children: [
@@ -338,12 +329,12 @@ class _MobileUserTimelineRow extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Row(
                 children: [
-                  Expanded(child: UserInformation.compact(user: user)),
+                  Expanded(child: UserInfo.compact(user: user)),
                   const SizedBox(width: 8.0),
                   Text(
                     '일정 ${visibleSchedules.length}',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: colorScheme.onSurface.withValues(alpha: 0.52),
+                      color: colorScheme.onSurface.strong,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -394,16 +385,12 @@ class _MobileScheduleLane extends StatelessWidget {
                     width: dayWidth,
                     decoration: BoxDecoration(
                       color: isToday
-                          ? colorScheme.primary.withValues(alpha: 0.06)
+                          ? colorScheme.primary.faint
                           : isWeekend
-                          ? colorScheme.surfaceContainerLowest.withValues(
-                              alpha: 0.55,
-                            )
+                          ? colorScheme.surfaceContainerLowest.strong
                           : null,
                       border: Border(
-                        right: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.09),
-                        ),
+                        right: BorderSide(color: colorScheme.outline.faint),
                       ),
                     ),
                   );
@@ -645,7 +632,7 @@ class _DesktopWidget extends HookConsumerWidget {
       return null;
     }, [start, end]);
 
-    return ContainerWidget(
+    return ContentContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(8.0),
       child: Column(
@@ -687,10 +674,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     ],
                   ),
                 ),
-                VerticalDivider(
-                  width: 1.0,
-                  color: colorScheme.outline.withValues(alpha: 0.18),
-                ),
+                VerticalDivider(width: 1.0, color: colorScheme.outline.subtle),
                 Expanded(
                   child: Scrollbar(
                     controller: timelineHorizontalController,
@@ -839,11 +823,7 @@ class _UserHeader extends StatelessWidget {
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: colorScheme.outline.withValues(alpha: 0.12),
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: colorScheme.outline.faint)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -864,7 +844,7 @@ class _UserHeader extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: textTheme.labelSmall?.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.54),
+              color: colorScheme.onSurface.strong,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -901,9 +881,7 @@ class _TimelineHeader extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 12.0),
                       decoration: BoxDecoration(
                         border: Border(
-                          right: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.18),
-                          ),
+                          right: BorderSide(color: colorScheme.outline.subtle),
                         ),
                       ),
                       child: Text(
@@ -912,7 +890,7 @@ class _TimelineHeader extends StatelessWidget {
                         ).format(segment.date),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: colorScheme.onSurface.withValues(alpha: 0.62),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ),
@@ -932,9 +910,7 @@ class _TimelineHeader extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: colorScheme.surface,
                     border: Border(
-                      right: BorderSide(
-                        color: colorScheme.outline.withValues(alpha: 0.11),
-                      ),
+                      right: BorderSide(color: colorScheme.outline.faint),
                     ),
                   ),
                   child: Stack(
@@ -946,7 +922,7 @@ class _TimelineHeader extends StatelessWidget {
                         bottom: 0.0,
                         child: Container(
                           height: 1.0,
-                          color: colorScheme.outline.withValues(alpha: 0.12),
+                          color: colorScheme.outline.faint,
                         ),
                       ),
                       Center(
@@ -958,7 +934,7 @@ class _TimelineHeader extends StatelessWidget {
                                 : FontWeight.w600,
                             color: isToday
                                 ? colorScheme.primary
-                                : colorScheme.onSurface.withValues(alpha: 0.52),
+                                : colorScheme.onSurface.strong,
                           ),
                         ),
                       ),
@@ -1033,21 +1009,17 @@ class _UserTimelineRow extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: colorScheme.outline.withValues(alpha: 0.12),
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: colorScheme.outline.faint)),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
         child: Row(
           children: [
-            Expanded(child: UserInformation.compact(user: user)),
+            Expanded(child: UserInfo.compact(user: user)),
             Text(
               scheduleCount.toString(),
               style: textTheme.labelSmall?.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.44),
+                color: colorScheme.onSurface.muted,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -1075,11 +1047,7 @@ class _TimelineRow extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: colorScheme.outline.withValues(alpha: 0.12),
-          ),
-        ),
+        border: Border(bottom: BorderSide(color: colorScheme.outline.faint)),
       ),
       child: Stack(
         children: [
@@ -1121,13 +1089,9 @@ class _GridBackground extends StatelessWidget {
           width: _DesktopWidget._dayWidth,
           decoration: BoxDecoration(
             color: isWeekend
-                ? colorScheme.surfaceContainerLowest.withValues(alpha: 0.55)
+                ? colorScheme.surfaceContainerLowest.strong
                 : Colors.transparent,
-            border: Border(
-              right: BorderSide(
-                color: colorScheme.outline.withValues(alpha: 0.09),
-              ),
-            ),
+            border: Border(right: BorderSide(color: colorScheme.outline.faint)),
           ),
         );
       }),
@@ -1153,7 +1117,7 @@ class _ScheduleBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final color = ClientType.fromKey(schedule.projectClientId).color;
+    final color = ClientBrand.fromKey(schedule.projectClientId).color;
 
     final clampedStart = schedule.start.isBefore(timelineStart)
         ? _dateOnly(timelineStart)
@@ -1202,7 +1166,7 @@ class _ScheduleBar extends StatelessWidget {
                         width: 3.0,
                         height: 14.0,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.65),
+                          color: Colors.white.strong,
                           borderRadius: BorderRadius.circular(999.0),
                         ),
                       ),
@@ -1212,7 +1176,7 @@ class _ScheduleBar extends StatelessWidget {
                           width: 16.0,
                           height: 16.0,
                           child: SvgPicture.asset(
-                            ClientType.fromKey(schedule.projectClientId).asset,
+                            ClientBrand.fromKey(schedule.projectClientId).asset,
                             colorFilter: const ColorFilter.mode(
                               Colors.white,
                               BlendMode.srcIn,
@@ -1238,7 +1202,7 @@ class _ScheduleBar extends StatelessWidget {
                       Text(
                         '${schedule.end.difference(schedule.start).inDays + 1}d',
                         style: textTheme.labelSmall?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.86),
+                          color: Colors.white.strong,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

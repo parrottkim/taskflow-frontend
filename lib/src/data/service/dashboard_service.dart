@@ -28,4 +28,10 @@ abstract class DashboardService {
 
   @GET('dashboard/schedule/today')
   Future<List<TodaySchedule>> getTodaysSchedule();
+
+  @GET('dashboard/search')
+  Future<DashboardSearchResult> search({
+    @Query('search') required String search,
+    @Query('limit') int limit = 5,
+  });
 }

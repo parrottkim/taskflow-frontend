@@ -8,18 +8,9 @@ import 'package:taskflow/src/presentation/screen/project/screen/issue_form/widge
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class SupplierSearchDialog extends HookConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final int itemIndex;
 
-  const SupplierSearchDialog({
-    super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
-    required this.itemIndex,
-  });
+  const SupplierSearchDialog({super.key, required this.itemIndex});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,7 +55,7 @@ class SupplierSearchDialog extends HookConsumerWidget {
     );
 
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
         constraints: BoxConstraints(maxWidth: 430.0, maxHeight: 600.0),
@@ -86,7 +77,7 @@ class SupplierSearchDialog extends HookConsumerWidget {
                     width: 20.0,
                     height: 20.0,
                     colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
+                      colorScheme.onSurface.strong,
                       BlendMode.srcIn,
                     ),
                     semanticsLabel: 'Search Icon',
@@ -160,9 +151,6 @@ class SupplierSearchDialog extends HookConsumerWidget {
                       ),
                     ),
                     AsyncData(:final value) => SupplierListWidget(
-                      projectId: projectId,
-                      categoryId: categoryId,
-                      issueId: issueId,
                       itemIndex: itemIndex,
                       items: value.items,
                     ),

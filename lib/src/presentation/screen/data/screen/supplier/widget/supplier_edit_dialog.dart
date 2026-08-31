@@ -194,7 +194,7 @@ class _DialogWidget extends HookConsumerWidget {
                 ),
                 SizedBox(width: 8.0),
                 if (value.file != null)
-                  ContainerWidget(
+                  ContentContainer(
                     width: 60.0,
                     padding: EdgeInsets.zero,
                     borderRadius: BorderRadius.circular(8.0),
@@ -214,7 +214,7 @@ class _DialogWidget extends HookConsumerWidget {
                               curve: Curves.easeInOut,
                               // 호버 상태에 따라 배경을 투명에서 불투명 화이트로 부드럽게 변경
                               color: isHovered.value
-                                  ? colorScheme.surface.withValues(alpha: 0.7)
+                                  ? colorScheme.surface.strong
                                   : Colors.transparent,
                               child: AnimatedOpacity(
                                 duration: const Duration(milliseconds: 150),
@@ -224,9 +224,7 @@ class _DialogWidget extends HookConsumerWidget {
                                 child: Center(
                                   child: Icon(
                                     Symbols.close_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 20.0,
                                     weight: 600.0,
                                   ),
@@ -258,7 +256,7 @@ class _DialogWidget extends HookConsumerWidget {
                     ),
                   ),
                 if (value.file == null && value.logo != null)
-                  ContainerWidget(
+                  ContentContainer(
                     width: 60.0,
                     padding: EdgeInsets.zero,
                     borderRadius: BorderRadius.circular(8.0),
@@ -301,7 +299,7 @@ class _DialogWidget extends HookConsumerWidget {
                     .setName(name: value);
               },
             ),
-            InvalidWidget(
+            ValidationErrorMessage(
               visible: isNameEmpty.value,
               text: Intl.message('data_supplier_name_empty'),
             ),
@@ -343,11 +341,11 @@ class _DialogWidget extends HookConsumerWidget {
                     .setNumber(number: value);
               },
             ),
-            InvalidWidget(
+            ValidationErrorMessage(
               visible: isNumberEmpty.value,
               text: Intl.message('data_supplier_number_empty'),
             ),
-            InvalidWidget(
+            ValidationErrorMessage(
               visible: isNumberInvalid.value,
               text: Intl.message('data_supplier_number_invalid'),
             ),
@@ -384,7 +382,7 @@ class _DialogWidget extends HookConsumerWidget {
                         width: 20.0,
                         height: 20.0,
                         colorFilter: ColorFilter.mode(
-                          colorScheme.onSurface.withValues(alpha: 0.7),
+                          colorScheme.onSurface.strong,
                           BlendMode.srcIn,
                         ),
                         semanticsLabel: 'Search Icon',
@@ -424,7 +422,7 @@ class _DialogWidget extends HookConsumerWidget {
             Text(
               Intl.message('data_supplier_phone_number_only'),
               style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                color: colorScheme.onSurface.strong,
               ),
             ),
             const SizedBox(height: 8.0),

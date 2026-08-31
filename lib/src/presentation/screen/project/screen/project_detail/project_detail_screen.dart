@@ -6,7 +6,7 @@ import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/overview_widget.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/project_action_button.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/project_detail_action_button.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/widget/summary_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
@@ -41,7 +41,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
     }, [view]);
 
     return BranchLayout(
-      actions: const [ProjectActionButton()],
+      actions: const [ProjectDetailActionButton()],
       child: switch (detail) {
         AsyncData(:final value) => Responsive(
           desktop: _DesktopWidget(
@@ -65,7 +65,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
             reports: value.reports,
           ),
         ),
-        AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        AsyncError(:final error, :final stackTrace) => ErrorStateView(
           error: error,
           stackTrace: stackTrace,
         ),
@@ -165,7 +165,7 @@ class _MobileWidget extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
       child: Column(
         children: [
-          Row(children: [Spacer(), ProjectActionButton()]),
+          Row(children: [Spacer(), ProjectDetailActionButton()]),
           SizedBox(height: 8.0),
           Expanded(
             child: OverviewWidget(

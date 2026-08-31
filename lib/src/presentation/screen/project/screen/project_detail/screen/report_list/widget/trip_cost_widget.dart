@@ -16,7 +16,7 @@ class TripCostWidget extends HookConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      padding: const EdgeInsets.only(top: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -39,7 +39,7 @@ class TripCostWidget extends HookConsumerWidget {
                         Text(
                           Intl.message('report_form_total_cost'),
                           style: textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                         Text.rich(
@@ -69,9 +69,7 @@ class TripCostWidget extends HookConsumerWidget {
                           Text(
                             Intl.message('report_form_taxable_amount'),
                             style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                           Text.rich(
@@ -82,7 +80,7 @@ class TripCostWidget extends HookConsumerWidget {
                               children: [
                                 TextSpan(
                                   text:
-                                      '${NumberFormat('#,###').format(item.trip!.calculations!.taxableAmount)} ',
+                                      '${NumberFormat('#,###.##').format(item.trip!.calculations!.taxableAmount)} ',
                                 ),
                                 TextSpan(
                                   text: '₩',
@@ -104,9 +102,7 @@ class TripCostWidget extends HookConsumerWidget {
                           Text(
                             Intl.message('report_form_non_taxable_amount'),
                             style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                           Text.rich(
@@ -139,9 +135,7 @@ class TripCostWidget extends HookConsumerWidget {
                           Text(
                             Intl.message('report_form_exchange_rate'),
                             style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                           Text.rich(
@@ -152,7 +146,7 @@ class TripCostWidget extends HookConsumerWidget {
                               children: [
                                 TextSpan(
                                   text:
-                                      '${NumberFormat('#,###').format(item.trip!.calculations!.exchangeRate)} ',
+                                      '${NumberFormat('#,##0.00').format(item.trip!.calculations!.exchangeRate)} ',
                                 ),
                                 TextSpan(
                                   text: '₩ / 1\$',
@@ -180,7 +174,7 @@ class TripCostWidget extends HookConsumerWidget {
                       Text(
                         Intl.message('report_form_total_cost'),
                         style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                       Spacer(),
@@ -200,9 +194,7 @@ class TripCostWidget extends HookConsumerWidget {
                           Text(
                             Intl.message('report_form_taxable_amount'),
                             style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                           Spacer(),
@@ -223,9 +215,7 @@ class TripCostWidget extends HookConsumerWidget {
                           Text(
                             Intl.message('report_form_non_taxable_amount'),
                             style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                           Spacer(),
@@ -246,14 +236,12 @@ class TripCostWidget extends HookConsumerWidget {
                           Text(
                             Intl.message('report_form_exchange_rate'),
                             style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                           Spacer(),
                           Text(
-                            '${NumberFormat('#,###').format(item.trip!.calculations!.exchangeRate)} ₩ / 1\$',
+                            '${NumberFormat('#,##0.00').format(item.trip!.calculations!.exchangeRate)} ₩ / 1\$',
                             style: textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),

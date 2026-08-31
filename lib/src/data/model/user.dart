@@ -8,6 +8,7 @@ abstract class User with _$User {
     required String username,
     @Default(false) bool isAdmin,
     @Default(false) bool isAuthorized,
+    UserRank? rank,
     UserPosition? position,
     UserDepartment? department,
   }) = _User;
@@ -18,9 +19,20 @@ abstract class User with _$User {
     id: 0,
     email: 'gdhong@dan-tech.com',
     username: '홍길동',
+    rank: UserRank.dummy(),
     position: UserPosition.dummy(),
     department: UserDepartment.dummy(),
   );
+}
+
+@freezed
+abstract class UserRank with _$UserRank {
+  factory UserRank({required int id, required String name}) = _UserRank;
+
+  factory UserRank.fromJson(Map<String, dynamic> json) =>
+      _$UserRankFromJson(json);
+
+  factory UserRank.dummy() => UserRank(id: 0, name: 'Rank');
 }
 
 @freezed

@@ -1,52 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_scope.dart';
+import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class SupplierListWidget extends HookConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final int itemIndex;
   final List<Supplier> items;
 
   const SupplierListWidget({
     super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
     required this.itemIndex,
     required this.items,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final formController = IssueFormScope.of(context).controller(ref);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('issue_form_procurement_14')),
-          ],
-        ),
-      );
+      return EmptyStateView(message: Intl.message('issue_form_procurement_14'));
     }
 
     return NotificationListener<ScrollNotification>(
@@ -67,18 +46,10 @@ class SupplierListWidget extends HookConsumerWidget {
         itemCount: items.length,
         itemBuilder: (context, index) => InkWell(
           onTap: () {
-            ref
-                .read(
-                  issueFormControllerProvider(
-                    projectId: projectId,
-                    categoryId: categoryId,
-                    issueId: issueId,
-                  ).notifier,
-                )
-                .updateProcurementIssueItem(
-                  index: itemIndex,
-                  supplier: items[index],
-                );
+            formController.updateProcurementIssueItem(
+              index: itemIndex,
+              supplier: items[index],
+            );
             context.pop();
           },
           child: Padding(
@@ -129,7 +100,7 @@ class SupplierListWidget extends HookConsumerWidget {
                       Text(
                         items[index].number,
                         style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                       if (items[index].address != null)
@@ -141,9 +112,7 @@ class SupplierListWidget extends HookConsumerWidget {
                                 Symbols.location_on_rounded,
                                 size: 16.0,
                                 fill: 1.0,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                               SizedBox(width: 4.0),
                               Expanded(
@@ -151,9 +120,7 @@ class SupplierListWidget extends HookConsumerWidget {
                                   items[index].address!,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.bodySmall?.copyWith(
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                   ),
                                 ),
                               ),
@@ -169,9 +136,7 @@ class SupplierListWidget extends HookConsumerWidget {
                                 Symbols.call_rounded,
                                 size: 16.0,
                                 fill: 1.0,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                               SizedBox(width: 2.0),
                               Expanded(
@@ -179,9 +144,7 @@ class SupplierListWidget extends HookConsumerWidget {
                                   items[index].phone!,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.bodySmall?.copyWith(
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                   ),
                                 ),
                               ),

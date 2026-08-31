@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/data/data.dart';
@@ -43,34 +44,34 @@ class FuelExpenseWidget extends HookWidget {
             DataColumn(
               columnWidth: FlexColumnWidth(1.0),
               label: Text(
-                Intl.message('report_form_column_6'),
+                Intl.message('report_form_personal_vehicle_fuel_expense'),
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
             DataColumn(
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
-                Intl.message('report_form_column_7'),
+                Intl.message('report_form_fuel_unit_price'),
                 style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: colorScheme.onSurface.strong,
                 ),
               ),
             ),
             DataColumn(
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
-                Intl.message('report_form_column_8'),
+                Intl.message('report_form_fuel_efficiency'),
                 style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: colorScheme.onSurface.strong,
                 ),
               ),
             ),
             DataColumn(
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
-                Intl.message('report_form_column_9'),
+                Intl.message('report_form_driving_distance'),
                 style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: colorScheme.onSurface.strong,
                 ),
               ),
             ),
@@ -96,7 +97,7 @@ class FuelExpenseWidget extends HookWidget {
               Text(
                 Intl.message('report_form_settlement'),
                 style: textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: colorScheme.onSurface.strong,
                 ),
               ),
               Text(

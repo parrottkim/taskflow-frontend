@@ -25,7 +25,7 @@ class FolderTreeWidget extends ConsumerWidget {
         desktop: _DesktopWidget(items: folder.folderItems),
         mobile: _MobileWidget(items: folder.folderItems),
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),
@@ -67,7 +67,7 @@ class _DesktopWidget extends HookConsumerWidget {
             child: Row(
               children: [
                 Spacer(),
-                CustomSvgIconButton(
+                AppSvgIconButton(
                   onTap: () => context.pushNamed(
                     RouteNames.documentNew,
                     queryParameters: context.buildQueryParameters(
@@ -80,7 +80,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   asset: 'assets/icons/add-file.svg',
                 ),
                 if (auth is AuthAuthenticated && auth.user.isAdmin)
-                  CustomSvgIconButton(
+                  AppSvgIconButton(
                     onTap: () => context.pushNamed(
                       RouteNames.documentFolderNew,
                       queryParameters: context.buildQueryParameters(
@@ -110,7 +110,7 @@ class _DesktopWidget extends HookConsumerWidget {
                     width: 16.0,
                     height: 16.0,
                     colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
+                      colorScheme.onSurface.strong,
                       BlendMode.srcIn,
                     ),
                     semanticsLabel: 'Search Icon',
@@ -119,7 +119,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 suffixIcon: controller.text.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(right: 4.0),
-                        child: CustomIconButton(
+                        child: AppIconButton(
                           onTap: () {
                             controller.clear();
 
@@ -285,7 +285,7 @@ class _MobileWidget extends HookConsumerWidget {
                         width: 16.0,
                         height: 16.0,
                         colorFilter: ColorFilter.mode(
-                          colorScheme.onSurface.withValues(alpha: 0.7),
+                          colorScheme.onSurface.strong,
                           BlendMode.srcIn,
                         ),
                         semanticsLabel: 'Search Icon',
@@ -294,7 +294,7 @@ class _MobileWidget extends HookConsumerWidget {
                     suffixIcon: controller.text.isNotEmpty
                         ? Padding(
                             padding: const EdgeInsets.only(right: 4.0),
-                            child: CustomIconButton(
+                            child: AppIconButton(
                               onTap: () {
                                 controller.clear();
 
@@ -337,7 +337,7 @@ class _MobileWidget extends HookConsumerWidget {
                 ),
               ),
               SizedBox(width: 8.0),
-              CustomSvgIconButton(
+              AppSvgIconButton(
                 onTap: () => context.pushNamed(
                   RouteNames.documentNew,
                   queryParameters: context.buildQueryParameters(
@@ -350,7 +350,7 @@ class _MobileWidget extends HookConsumerWidget {
                 asset: 'assets/icons/add-file.svg',
               ),
               if (auth is AuthAuthenticated && auth.user.isAdmin)
-                CustomSvgIconButton(
+                AppSvgIconButton(
                   onTap: () => context.pushNamed(
                     RouteNames.documentFolderNew,
                     queryParameters: context.buildQueryParameters(
@@ -420,7 +420,7 @@ class _MobileWidget extends HookConsumerWidget {
                 ),
               ],
               Spacer(),
-              CustomIconButton(
+              AppIconButton(
                 onTap: () {
                   expanded.value = !expanded.value;
                 },

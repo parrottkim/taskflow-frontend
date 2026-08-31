@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/data/data.dart';
 
@@ -9,6 +10,7 @@ class TripDetailsWidget extends StatelessWidget {
   final Schedule schedule;
   final TripCategory category;
   final List<TripStep> steps;
+  final List<Currency> currencies;
   final List<TripRegulation> regulations;
   final List<TripActualExpense> expenses;
   final List<TripRegulationRate> rates;
@@ -19,6 +21,7 @@ class TripDetailsWidget extends StatelessWidget {
     required this.schedule,
     required this.category,
     required this.steps,
+    required this.currencies,
     required this.regulations,
     required this.expenses,
     required this.rates,
@@ -43,14 +46,15 @@ class TripDetailsWidget extends StatelessWidget {
           double.tryParse(rate.rate?.replaceAll(',', '') ?? '0') ?? 0.0;
       final daysValue =
           double.tryParse(rate.days?.replaceAll(',', '') ?? '0') ?? 0.0;
-      final discountRate =
+      final deductionRate =
           schedule.category is ScheduleOverseas &&
               category.id == 4 &&
-              isDeducted
+              isDeducted &&
+              rate.stepId != 24
           ? 0.1
           : 0.0;
 
-      return sum + (rateValue * daysValue * (1 - discountRate));
+      return sum + (rateValue * daysValue * (1 - deductionRate));
     });
 
     final total = expenses
@@ -60,8 +64,11 @@ class TripDetailsWidget extends StatelessWidget {
         .fold<double>(0.0, (sum, expense) {
           final priceString = (expense.price ?? '0').replaceAll(',', '');
           final priceValue = double.tryParse(priceString) ?? 0.0;
+          final convertedPrice =
+              expense.convertedPrice ??
+              (priceValue * (expense.exchangeRate ?? 1)).roundToDouble();
 
-          return sum + priceValue;
+          return sum + convertedPrice;
         });
 
     return Column(
@@ -86,36 +93,31 @@ class TripDetailsWidget extends StatelessWidget {
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
                 Intl.message('report_form_regulation'),
-                style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
+                style: TextStyle(color: colorScheme.onSurface.strong),
               ),
             ),
             DataColumn(
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
-                Intl.message('report_form_column_1'),
-                style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
+                Intl.message('report_form_expense_amount'),
+                style: TextStyle(color: colorScheme.onSurface.strong),
               ),
             ),
             DataColumn(
               columnWidth: FlexColumnWidth(0.4),
               label: Text(
-                Intl.message('report_form_column_2'),
-                style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
+                Intl.message('report_form_expense_details'),
+                style: TextStyle(color: colorScheme.onSurface.strong),
               ),
             ),
           ],
           rows: List.generate(steps.length, (index) {
             final step = steps[index];
-            final int length = expenses
-                .where((e) => e.stepId == step.id)
-                .length;
-            final double height = max(34.0, 34.0 * length);
+            final stepExpenses = expenses
+                .where((expense) => expense.stepId == step.id)
+                .toList();
+            final itemHeight = step.requiresExpenseCurrency ? 70.0 : 34.0;
+            final double height = max(34.0, itemHeight * stepExpenses.length);
 
             return DataRow(
               cells: [
@@ -160,43 +162,88 @@ class TripDetailsWidget extends StatelessWidget {
                 DataCell(
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: expenses
-                        .where((element) => element.stepId == step.id)
-                        .toList()
-                        .length,
-                    itemBuilder: (context, itemIndex) => SizedBox(
-                      height: 34.0,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${expenses.where((element) => element.stepId == step.id).toList()[itemIndex].price ?? 0} ₩',
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: stepExpenses.length,
+                    itemBuilder: (context, itemIndex) {
+                      final expense = stepExpenses[itemIndex];
+                      final currency = currencies.firstWhereOrNull(
+                        (currency) => currency.id == expense.currencyId,
+                      );
+
+                      return SizedBox(
+                        height: itemHeight,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${expense.price ?? 0} ${step.requiresExpenseCurrency ? currency?.symbol ?? '-' : '₩'}',
+                              ),
+                              if (step.requiresExpenseCurrency &&
+                                  expense.convertedPrice != null)
+                                Text(
+                                  '${NumberFormat('#,###').format(expense.convertedPrice)} ₩',
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurface.strong,
+                                  ),
+                                ),
+                              if (step.requiresExpenseCurrency &&
+                                  expense.exchangeRate != null)
+                                Text(
+                                  [
+                                    '${NumberFormat('#,###.##').format(expense.exchangeRate)} ₩',
+                                    if (expense.exchangeRateAppliedDate != null)
+                                      DateFormat.yMMMd(
+                                        Intl.getCurrentLocale(),
+                                      ).format(
+                                        expense.exchangeRateAppliedDate!,
+                                      ),
+                                  ].join(' · '),
+                                  style: textTheme.labelSmall?.copyWith(
+                                    color: colorScheme.onSurface.strong,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
                 DataCell(
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: expenses
-                        .where((element) => element.stepId == step.id)
-                        .toList()
-                        .length,
-                    itemBuilder: (context, itemIndex) => SizedBox(
-                      height: 34.0,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          expenses
-                                  .where((element) => element.stepId == step.id)
-                                  .toList()[itemIndex]
-                                  .details ??
-                              '',
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: stepExpenses.length,
+                    itemBuilder: (context, itemIndex) {
+                      final expense = stepExpenses[itemIndex];
+
+                      return SizedBox(
+                        height: itemHeight,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(expense.details ?? ''),
+                              if (step.requiresExpenseCurrency &&
+                                  expense.paymentDate != null)
+                                Text(
+                                  DateFormat.yMMMd(
+                                    Intl.getCurrentLocale(),
+                                  ).format(expense.paymentDate!),
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurface.strong,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -216,7 +263,7 @@ class TripDetailsWidget extends StatelessWidget {
                 Text(
                   Intl.message('report_form_total'),
                   style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
                 Text(
@@ -241,7 +288,7 @@ class TripDetailsWidget extends StatelessWidget {
                 Text(
                   Intl.message('report_form_regulation'),
                   style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
                 if (schedule.category is ScheduleOverseas &&
@@ -302,9 +349,7 @@ class TripDetailsWidget extends StatelessWidget {
               children: [
                 Text(
                   Intl.message('report_form_settlement'),
-                  style: TextStyle(
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
                 ),
                 Text(
                   '${NumberFormat('#,###').format(settlement - total)} ₩',

@@ -50,12 +50,14 @@ class UserSubmitController extends _$UserSubmitController {
 
   Future<void> updateUser({
     required int userId,
+    int? rankId,
     int? positionId,
     int? departmentId,
   }) async {
     state = UserSubmitState.pending();
 
     final request = UpdateUserPermissionRequest(
+      rankId: rankId,
       positionId: positionId,
       departmentId: departmentId,
     );

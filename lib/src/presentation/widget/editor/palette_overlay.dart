@@ -26,7 +26,7 @@ class PaletteOverlayWidget extends HookWidget {
     final selectedTextColor = useState<String?>(currentTextColor);
     final selectedHighlightColor = useState<String?>(currentHighlightColor);
 
-    return ContainerWidget(
+    return ContentContainer(
       width: 170.0,
       padding: const EdgeInsets.all(8.0),
       borderRadius: BorderRadius.circular(8.0),
@@ -127,12 +127,12 @@ class ColorItem extends HookWidget {
               border: Border.all(
                 color: isTransparent
                     ? Theme.of(context).colorScheme.outline
-                    : baseColor.withValues(alpha: 0.6),
+                    : baseColor.strong,
                 width: (isHovered.value || isSelected) ? 2.5 : 1.0,
               ),
               borderRadius: BorderRadius.circular(4.0),
               color: showBackground && !isTransparent
-                  ? baseColor.withValues(alpha: 0.2)
+                  ? baseColor.subtle
                   : Colors.transparent,
             ),
             child: showTextIcon
@@ -144,11 +144,7 @@ class ColorItem extends HookWidget {
                     ),
                   )
                 : (isSelected
-                      ? Icon(
-                          Icons.check,
-                          size: 14,
-                          color: baseColor.withValues(alpha: 0.8),
-                        )
+                      ? Icon(Icons.check, size: 14, color: baseColor.strong)
                       : null),
           ),
         ),

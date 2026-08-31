@@ -16,7 +16,7 @@ class SendEmailDialog extends HookConsumerWidget {
     final selectedUsers = useState<List<User>>([]);
 
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         constraints: const BoxConstraints(maxWidth: 430.0),
         child: Column(
@@ -43,10 +43,10 @@ class SendEmailDialog extends HookConsumerWidget {
             const SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: CustomToggleButton(
+              child: AppToggleButton(
                 value: isAllSelected.value,
                 onChanged: (value) {
-                  isAllSelected.value = value ?? false;
+                  isAllSelected.value = value;
                   if (isAllSelected.value) selectedUsers.value = [];
                 },
                 child: Text(Intl.message('common_send_all')),

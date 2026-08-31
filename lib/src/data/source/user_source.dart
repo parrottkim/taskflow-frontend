@@ -10,6 +10,9 @@ class UserDataSource implements UserRepository {
       _service.getAllDepartments();
 
   @override
+  Future<List<UserRank>> getAllRanks() => _service.getAllRanks();
+
+  @override
   Future<List<UserPosition>> getAllPositions() => _service.getAllPositions();
 
   @override

@@ -13,7 +13,7 @@ class StatusWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(workProjectFilterControllerProvider);
 
-    return CupertinoSlidingSegmentedControl<ProjectSegment>(
+    return CupertinoSlidingSegmentedControl<ProjectStatusFilter>(
       groupValue: filter.status,
       onValueChanged: (status) {
         if (status == null || status == filter.status) return;
@@ -30,7 +30,7 @@ class StatusWidget extends ConsumerWidget {
         );
       },
       children: {
-        for (final status in ProjectSegment.values)
+        for (final status in ProjectStatusFilter.values)
           status: _ProjectSegment(status: status),
       },
     );
@@ -38,7 +38,7 @@ class StatusWidget extends ConsumerWidget {
 }
 
 class _ProjectSegment extends ConsumerWidget {
-  final ProjectSegment status;
+  final ProjectStatusFilter status;
 
   const _ProjectSegment({required this.status});
 

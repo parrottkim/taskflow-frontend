@@ -62,7 +62,7 @@ class SummaryCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return ContainerWidget(
+    return ContentContainer(
       width: MediaQuery.of(context).size.width - 120.0,
       color: _buildBackgroundColor(context),
       child: Column(
@@ -75,7 +75,7 @@ class SummaryCardWidget extends StatelessWidget {
               padding: EdgeInsets.all(4.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
-                color: _buildIconColor(context).withValues(alpha: 0.3),
+                color: _buildIconColor(context).muted,
               ),
               child: Icon(
                 icon,
@@ -86,9 +86,7 @@ class SummaryCardWidget extends StatelessWidget {
             ),
           Text(
             title,
-            style: TextStyle(
-              color: _buildForegroundColor(context).withValues(alpha: 0.6),
-            ),
+            style: TextStyle(color: _buildForegroundColor(context).strong),
           ),
           Text(
             NumberFormat('###,###,###,###').format(value),

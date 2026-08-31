@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
@@ -87,7 +88,7 @@ class ScheduleWidget extends StatelessWidget {
                         Intl.message('report_form_schedule_scheduled'),
                         style: textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: colorScheme.onSurface.withValues(alpha: 0.4),
+                          color: colorScheme.onSurface.muted,
                         ),
                       ),
                     ),
@@ -106,7 +107,7 @@ class ScheduleWidget extends StatelessWidget {
                     ),
                     color: Functions(context)
                         .generateColorFromId(schedule.category.id)
-                        .withValues(alpha: 0.2),
+                        .subtle,
                   ),
                   child: Text(
                     schedule.category.name,
@@ -154,15 +155,11 @@ class ScheduleWidget extends StatelessWidget {
                         '${DateFormat.yMEd(Intl.getCurrentLocale()).format(schedule.start)} - ${DateFormat.yMEd(Intl.getCurrentLocale()).format(schedule.end)}',
                         style: Responsive.isDesktop(context)
                             ? textTheme.bodyLarge?.copyWith(
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                                 fontWeight: FontWeight.w700,
                               )
                             : textTheme.bodyMedium?.copyWith(
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                                 fontWeight: FontWeight.w700,
                               ),
                       ),
@@ -187,14 +184,10 @@ class ScheduleWidget extends StatelessWidget {
                             : schedule.description!,
                         style: Responsive.isDesktop(context)
                             ? textTheme.bodyMedium?.copyWith(
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               )
                             : textTheme.bodySmall?.copyWith(
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                       ),
                     ],

@@ -73,7 +73,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
       }
     }
 
-    return ContainerWidget(
+    return ContentContainer(
       elevation: fullScreen ? 0.0 : 1.0,
       padding: EdgeInsets.zero,
       color: colorScheme.surface,
@@ -83,9 +83,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
           border: fullScreen
               ? null
               : Border(
-                  left: BorderSide(
-                    color: colorScheme.outlineVariant.withValues(alpha: 0.7),
-                  ),
+                  left: BorderSide(color: colorScheme.outlineVariant.strong),
                 ),
         ),
         child: Column(
@@ -96,7 +94,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
               child: Row(
                 children: [
                   if (!fullScreen)
-                    CustomIconButton(
+                    AppIconButton(
                       onTap: onClose,
                       size: 20.0,
                       weight: 300.0,
@@ -104,7 +102,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                       icon: Icon(Symbols.right_panel_close_rounded),
                     ),
                   Spacer(),
-                  CustomIconButton(
+                  AppIconButton(
                     onTap: () async {
                       final location = GoRouter.of(context).namedLocation(
                         RouteNames.documentDetail,
@@ -134,7 +132,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                     weight: 600.0,
                     icon: const Icon(Symbols.share_rounded),
                   ),
-                  CustomIconButton(
+                  AppIconButton(
                     onTap: () async {
                       showDialog(
                         context: context,
@@ -157,7 +155,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                   ),
                   MenuAnchor(
                     alignmentOffset: Offset(-140.0, 0.0),
-                    builder: (context, controller, child) => CustomIconButton(
+                    builder: (context, controller, child) => AppIconButton(
                       onTap: () {
                         if (controller.isOpen) {
                           controller.close();
@@ -272,7 +270,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                           '${document.updatedBy?.username ?? document.createdBy.username} ${Intl.message('common_edit_by')}',
                           style: textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.outline.withValues(alpha: 0.7),
+                            color: colorScheme.outline.strong,
                           ),
                         ),
                       ),
@@ -282,7 +280,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                           relativeDate,
                           style: textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.outline.withValues(alpha: 0.7),
+                            color: colorScheme.outline.strong,
                           ),
                         ),
                       ),
@@ -296,7 +294,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                           '${Intl.message('common_view')} ${document.views}',
                           style: textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.outline.withValues(alpha: 0.7),
+                            color: colorScheme.outline.strong,
                           ),
                         ),
                       ),
@@ -318,7 +316,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.0),
-                        color: colorScheme.error.withValues(alpha: 0.12),
+                        color: colorScheme.error.faint,
                       ),
                       child: Text(
                         Intl.message('document_fixed'),
@@ -453,7 +451,7 @@ class DocumentPreviewPanel extends HookConsumerWidget {
                         child: Text(
                           Intl.message('document_no_item'),
                           style: textTheme.bodyMedium?.copyWith(
-                            color: colorScheme.onSurface.withValues(alpha: 0.5),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       )
@@ -479,9 +477,7 @@ class _UserRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(
-      context,
-    ).colorScheme.onSurface.withValues(alpha: 0.7);
+    final color = Theme.of(context).colorScheme.onSurface.strong;
 
     return SizedBox(
       height: 32.0,
@@ -497,7 +493,7 @@ class _UserRow extends StatelessWidget {
               ],
             ),
           ),
-          UserInformation.compact(user: user),
+          UserInfo.compact(user: user),
         ],
       ),
     );

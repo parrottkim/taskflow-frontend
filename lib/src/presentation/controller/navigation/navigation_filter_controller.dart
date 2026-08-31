@@ -12,6 +12,7 @@ class NavigationFilterController extends _$NavigationFilterController {
   }
 
   void setSearch({required String search}) {
+    _debounce?.cancel();
     state = state.copyWith(search: search);
   }
 

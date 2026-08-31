@@ -35,7 +35,7 @@ class DataScreen extends HookConsumerWidget {
       Future.microtask(() {
         ref.read(dataFilterControllerProvider.notifier).init(view: view);
 
-        if (view == DataSegment.supplier.key) {
+        if (view == AdminDataSection.supplier.key) {
           ref
               .read(
                 supplierFilterControllerProvider(
@@ -61,7 +61,8 @@ class DataScreen extends HookConsumerWidget {
 
     return BranchLayout(
       actions: [
-        if (filter.view == DataSegment.supplier.name) const SupplierAddButton(),
+        if (filter.view == AdminDataSection.supplier.name)
+          const SupplierAddButton(),
       ],
       child: Padding(
         padding: EdgeInsets.only(top: 24.0),

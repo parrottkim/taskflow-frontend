@@ -38,7 +38,7 @@ class SummaryWidget extends HookConsumerWidget {
     }, [project]);
 
     return ConstrainedBox(
-      constraints: BoxConstraints(minWidth: 300.0, maxWidth: 300.0),
+      constraints: BoxConstraints(minWidth: 320.0, maxWidth: 320.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,10 +51,8 @@ class SummaryWidget extends HookConsumerWidget {
               opacity: opacityController,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: ContainerWidget(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: colorScheme.outline.withValues(alpha: 0.2),
-                  borderColor: colorScheme.outline,
+                child: ContentContainer(
+                  color: colorScheme.outline.subtle,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -82,10 +80,9 @@ class SummaryWidget extends HookConsumerWidget {
           if (project.isClosed)
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: ContainerWidget(
+              child: ContentContainer(
                 width: double.infinity,
                 padding: EdgeInsets.all(16.0),
-                borderRadius: BorderRadius.circular(8.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,17 +95,16 @@ class SummaryWidget extends HookConsumerWidget {
                     Text(
                       project.closureMessage!,
                       style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: colorScheme.onSurface.strong,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ContainerWidget(
+          ContentContainer(
             width: double.infinity,
             padding: EdgeInsets.all(16.0),
-            borderRadius: BorderRadius.circular(8.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +114,7 @@ class SummaryWidget extends HookConsumerWidget {
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 8.0),
-                UserInformation.compact(user: project.createdBy),
+                UserInfo.compact(user: project.createdBy),
               ],
             ),
           ),

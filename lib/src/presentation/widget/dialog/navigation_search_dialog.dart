@@ -6,15 +6,21 @@ class NavigationSearchDialog extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
-
     final auth = ref.watch(authControllerProvider);
     final local = ref.watch(localControllerProvider);
-
     final controller = useTextEditingController();
     final keyword = useValueListenable(controller);
-    final search = keyword.text.trim().isEmpty
-        ? null
-        : ref.watch(navigationSearchControllerProvider);
+    final scrollController = useScrollController();
+    final selectedIndex = useState(0);
+    final itemKeys = useMemoized(() => <String, GlobalKey>{});
+    final searchText = keyword.text.trim();
+    final navigationFilter = ref.watch(navigationFilterControllerProvider);
+    final isSearchReady =
+        searchText.isNotEmpty && navigationFilter.search == searchText;
+    final search = isSearchReady
+        ? ref.watch(navigationSearchProvider)
+        : const AsyncLoading<DashboardSearchResult>();
+    final router = GoRouter.of(context);
 
     void setSearchText(String value) {
       controller.value = TextEditingValue(
@@ -24,359 +30,599 @@ class NavigationSearchDialog extends HookConsumerWidget {
       );
     }
 
-    final isAdmin = auth is AuthAuthenticated && auth.user.isAdmin;
-    final menus = WidgetPreset(
-      context,
-    ).navigationItems.whereType<NavigationButton>();
-    final filteredMenus = menus.where((item) {
-      if (!item.isAdmin || isAdmin) {
-        if (keyword.text.isEmpty) return true;
-        return item.label.toLowerCase().contains(keyword.text.toLowerCase()) ||
-            item.route.toLowerCase().contains(keyword.text.toLowerCase());
-      }
-      return false;
-    }).toList();
-
-    void moveToMenu(NavigationButton item) {
-      final router = GoRouter.of(context);
-
-      ref.read(localControllerProvider.notifier).addKeywords(text: item.label);
+    void closeAndGoNamed(
+      String name, {
+      Map<String, String> pathParameters = const {},
+      Map<String, String> queryParameters = const {},
+      bool push = false,
+    }) {
       context.pop();
-      router.goNamed(item.route);
+      if (push) {
+        router.pushNamed(
+          name,
+          pathParameters: pathParameters,
+          queryParameters: queryParameters,
+        );
+      } else {
+        router.goNamed(
+          name,
+          pathParameters: pathParameters,
+          queryParameters: queryParameters,
+        );
+      }
     }
 
-    void moveToProject(ProjectListItem project) {
-      final router = GoRouter.of(context);
-
-      ref
-          .read(localControllerProvider.notifier)
-          .addKeywords(text: keyword.text);
-      context.pop();
-      router.goNamed(
-        RouteNames.projectDetail,
-        pathParameters: {'project_id': project.id.toString()},
-      );
+    void saveSearchKeyword() {
+      if (searchText.isNotEmpty) {
+        ref
+            .read(localControllerProvider.notifier)
+            .addKeywords(text: searchText);
+      }
     }
 
     void moveToProjectSearch(String value) {
       final nextSearch = value.trim();
       if (nextSearch.isEmpty) return;
-
-      final router = GoRouter.of(context);
-
       ref.read(localControllerProvider.notifier).addKeywords(text: nextSearch);
-      context.pop();
-      router.goNamed(
+      closeAndGoNamed(
         RouteNames.project,
         queryParameters: {'search': nextSearch},
       );
     }
 
-    void submitSearch() {
-      final nextSearch = keyword.text.trim();
-      if (nextSearch.isEmpty) return;
-
-      if (filteredMenus.isNotEmpty) {
-        moveToMenu(filteredMenus.first);
-        return;
-      }
-
-      switch (search) {
-        case AsyncData(:final value) when value.projects.isNotEmpty:
-          moveToProject(value.projects.first);
-        default:
-          moveToProjectSearch(nextSearch);
+    void moveToResult(DashboardSearchItem item) {
+      saveSearchKeyword();
+      switch (item.type) {
+        case DashboardSearchItemType.project:
+          closeAndGoNamed(
+            RouteNames.projectDetail,
+            pathParameters: {'project_id': item.id.toString()},
+          );
+        case DashboardSearchItemType.document:
+          closeAndGoNamed(
+            RouteNames.documentDetail,
+            pathParameters: {'document_id': item.id.toString()},
+          );
+        case DashboardSearchItemType.schedule:
+          closeAndGoNamed(
+            RouteNames.scheduleEdit,
+            pathParameters: {'schedule_id': item.id.toString()},
+          );
+        case DashboardSearchItemType.issue:
+          final projectId = item.projectId;
+          if (projectId == null) return;
+          closeAndGoNamed(
+            RouteNames.projectDetail,
+            pathParameters: {'project_id': projectId.toString()},
+            queryParameters: {'issue': item.id.toString()},
+          );
+        case DashboardSearchItemType.report:
+          final projectId = item.projectId;
+          if (projectId == null) return;
+          closeAndGoNamed(
+            RouteNames.projectDetail,
+            pathParameters: {'project_id': projectId.toString()},
+            queryParameters: {'report': item.id.toString()},
+          );
       }
     }
 
-    return Dialog(
-      child: ContainerWidget(
-        padding: EdgeInsets.zero,
-        borderRadius: BorderRadius.circular(8.0),
-        constraints: const BoxConstraints(maxWidth: 600.0, maxHeight: 600.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: controller,
-              autofocus: true,
-              textInputAction: TextInputAction.search,
-              onSubmitted: (_) => submitSearch(),
-              onChanged: (value) => ref
-                  .read(navigationFilterControllerProvider.notifier)
-                  .debounceSearch(search: value),
-              decoration: InputDecoration(
-                hintText: Intl.message('navigation_search_title'),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 13.0, right: 2.0),
-                  child: SvgPicture.asset(
-                    'assets/icons/search.svg',
-                    width: 20.0,
-                    height: 20.0,
-                    colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
-                      BlendMode.srcIn,
+    bool matches(String title, List<String> aliases) {
+      if (searchText.isEmpty) return true;
+      final query = searchText.toLowerCase();
+      return title.toLowerCase().contains(query) ||
+          aliases.any((value) => value.toLowerCase().contains(query));
+    }
+
+    final hasActionIntent = const [
+      '새',
+      '등록',
+      '작성',
+      '생성',
+    ].any(searchText.contains);
+    final allQuickActions = [
+      _SearchEntry(
+        id: 'action-project-new',
+        icon: Symbols.add_business_rounded,
+        title: Intl.message('dashboard_functions_2'),
+        keywords: const ['프로젝트', '새 프로젝트', '등록', '생성'],
+        onTap: () => closeAndGoNamed(RouteNames.projectNew, push: true),
+      ),
+      _SearchEntry(
+        id: 'action-schedule-new',
+        icon: Symbols.event_upcoming_rounded,
+        title: Intl.message('dashboard_functions_1'),
+        keywords: const ['일정', '근무 일정', '등록', '생성'],
+        onTap: () => closeAndGoNamed(RouteNames.scheduleNewChoose, push: true),
+      ),
+      _SearchEntry(
+        id: 'action-document-new',
+        icon: Symbols.note_add_rounded,
+        title: '${Intl.message('document')} ${Intl.message('common_post')}',
+        keywords: const ['문서', '새 문서', '작성', '등록', '생성'],
+        onTap: () => closeAndGoNamed(RouteNames.documentNew, push: true),
+      ),
+    ];
+    final quickActions = allQuickActions.where((item) {
+      return hasActionIntent && matches(item.title, item.keywords);
+    }).toList();
+
+    final isAdmin = auth is AuthAuthenticated && auth.user.isAdmin;
+    final menuEntries = [
+      ...UiConfiguration(context).navigationItems
+          .whereType<NavigationButton>()
+          .where((item) => !item.isAdmin || isAdmin)
+          .where((item) => matches(item.label, [item.route]))
+          .map(
+            (item) => _SearchEntry(
+              id: 'menu-${item.route}',
+              icon: item.icon,
+              title: item.label,
+              keywords: [item.route],
+              onTap: () => closeAndGoNamed(item.route),
+            ),
+          ),
+      if (matches(Intl.message('account'), const ['계정', '내 정보', '프로필']))
+        _SearchEntry(
+          id: 'menu-account',
+          icon: Symbols.account_circle_rounded,
+          title: Intl.message('account'),
+          keywords: const ['계정', '내 정보', '프로필'],
+          onTap: () => closeAndGoNamed(RouteNames.account),
+        ),
+    ];
+
+    List<_SearchEntry> resultEntries(
+      DashboardSearchGroup group,
+      IconData icon,
+    ) => group.items
+        .map(
+          (item) => _SearchEntry(
+            id: 'result-${item.type.name}-${item.id}',
+            icon: icon,
+            title: item.title,
+            subtitle: switch (item.type) {
+              DashboardSearchItemType.schedule when item.start != null =>
+                '${item.subtitle ?? ''} · ${DateFormat('yyyy.MM.dd').format(item.start!)}',
+              _ => item.subtitle,
+            },
+            onTap: () => moveToResult(item),
+          ),
+        )
+        .toList();
+
+    final sections = <_SearchSectionData>[];
+    var showLoading = false;
+    var showEmpty = false;
+    Object? searchError;
+    StackTrace? searchStackTrace;
+
+    if (searchText.isEmpty) {
+      switch (local) {
+        case AsyncData(:final value) when value.keywords.isNotEmpty:
+          sections.add(
+            _SearchSectionData(
+              title: Intl.message('navigation_search_keyword'),
+              action: AppTextButton(
+                onPressed: () =>
+                    ref.read(localControllerProvider.notifier).removeKeywords(),
+                text: Intl.message('navigation_search_keyword_erase'),
+              ),
+              entries: value.keywords
+                  .map(
+                    (item) => _SearchEntry(
+                      id: 'history-${item.keyword}',
+                      icon: Symbols.history_rounded,
+                      title: item.keyword,
+                      onTap: () {
+                        selectedIndex.value = 0;
+                        setSearchText(item.keyword);
+                        ref
+                            .read(navigationFilterControllerProvider.notifier)
+                            .setSearch(search: item.keyword);
+                      },
                     ),
-                    semanticsLabel: 'Search Icon',
-                  ),
+                  )
+                  .toList(),
+            ),
+          );
+        case AsyncLoading():
+          showLoading = true;
+        default:
+          break;
+      }
+      sections.add(
+        _SearchSectionData(
+          title: Intl.message('common_post'),
+          entries: allQuickActions,
+        ),
+      );
+      if (menuEntries.isNotEmpty) {
+        sections.add(
+          _SearchSectionData(
+            title: Intl.message('navigation_search_menu'),
+            entries: menuEntries,
+          ),
+        );
+      }
+    } else {
+      if (quickActions.isNotEmpty) {
+        sections.add(
+          _SearchSectionData(
+            title: Intl.message('common_post'),
+            entries: quickActions,
+          ),
+        );
+      }
+      if (menuEntries.isNotEmpty) {
+        sections.add(
+          _SearchSectionData(
+            title: Intl.message('navigation_search_menu'),
+            entries: menuEntries,
+          ),
+        );
+      }
+
+      switch (search) {
+        case AsyncData(:final value):
+          final projectEntries =
+              resultEntries(value.projects, Symbols.work_rounded)..add(
+                _SearchEntry(
+                  id: 'result-project-all',
+                  icon: Symbols.search_rounded,
+                  title: Intl.message('navigation_search_project_all'),
+                  subtitle: searchText,
+                  onTap: () => moveToProjectSearch(searchText),
                 ),
-                suffixIcon: IconButton(
-                  tooltip: keyword.text.isEmpty
-                      ? Intl.message('common_close')
-                      : Intl.message('common_cancel'),
-                  onPressed: keyword.text.isEmpty
-                      ? () => context.pop()
-                      : () {
-                          setSearchText('');
-                          ref
-                              .read(navigationFilterControllerProvider.notifier)
-                              .setSearch(search: '');
-                        },
-                  icon: Icon(
-                    keyword.text.isEmpty
-                        ? Symbols.close_rounded
-                        : Symbols.cancel_rounded,
-                    size: 20.0,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
-                ),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(8.0),
-                  ),
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(8.0),
-                  ),
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(8.0),
-                  ),
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
+              );
+          sections.add(
+            _SearchSectionData(
+              title: Intl.message('project'),
+              entries: projectEntries,
+            ),
+          );
+          final resultGroups = [
+            (
+              title: Intl.message('document'),
+              entries: resultEntries(
+                value.documents,
+                Symbols.description_rounded,
               ),
             ),
-            const Divider(),
-            SizedBox(
-              height: 420.0,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 120),
-                switchInCurve: Curves.easeOut,
-                switchOutCurve: Curves.easeOut,
-                child: keyword.text.isEmpty
-                    ? _SearchIdleContent(
-                        key: const ValueKey('idle'),
-                        local: local,
-                        navigationItems: filteredMenus,
-                        onKeywordTap: (value) {
-                          setSearchText(value);
-                          ref
-                              .read(navigationFilterControllerProvider.notifier)
-                              .setSearch(search: value);
-                        },
-                        onKeywordRemove: () => ref
-                            .read(localControllerProvider.notifier)
-                            .removeKeywords(),
-                        onMenuTap: moveToMenu,
-                      )
-                    : _SearchActiveContent(
-                        key: const ValueKey('active'),
-                        keyword: keyword.text,
-                        projectSearch: search!,
-                        menuResults: filteredMenus,
-                        onMenuTap: moveToMenu,
-                        onProjectTap: moveToProject,
-                        onSearchTap: moveToProjectSearch,
+            (
+              title: Intl.message('schedule'),
+              entries: resultEntries(
+                value.schedules,
+                Symbols.calendar_month_rounded,
+              ),
+            ),
+            (
+              title: Intl.message('work_segment_2'),
+              entries: resultEntries(value.issues, Symbols.task_rounded),
+            ),
+            (
+              title: Intl.message('work_segment_3'),
+              entries: resultEntries(value.reports, Symbols.summarize_rounded),
+            ),
+          ];
+          for (final group in resultGroups) {
+            if (group.entries.isNotEmpty) {
+              sections.add(
+                _SearchSectionData(title: group.title, entries: group.entries),
+              );
+            }
+          }
+          showEmpty =
+              value.projects.items.isEmpty &&
+              value.documents.items.isEmpty &&
+              value.schedules.items.isEmpty &&
+              value.issues.items.isEmpty &&
+              value.reports.items.isEmpty;
+        case AsyncError(:final error, :final stackTrace):
+          searchError = error;
+          searchStackTrace = stackTrace;
+        default:
+          showLoading = true;
+      }
+    }
+
+    final selectableEntries = [
+      for (final section in sections) ...section.entries,
+    ];
+    final effectiveSelectedIndex = selectableEntries.isEmpty
+        ? -1
+        : selectedIndex.value.clamp(0, selectableEntries.length - 1);
+
+    void ensureSelectionVisible(int index) {
+      final key = itemKeys[selectableEntries[index].id];
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final itemContext = key?.currentContext;
+        if (itemContext != null) {
+          Scrollable.ensureVisible(
+            itemContext,
+            duration: const Duration(milliseconds: 120),
+            alignment: 0.5,
+          );
+        }
+      });
+    }
+
+    void moveSelection(int offset) {
+      if (selectableEntries.isEmpty) return;
+      final current = effectiveSelectedIndex < 0 ? 0 : effectiveSelectedIndex;
+      final next = (current + offset).clamp(0, selectableEntries.length - 1);
+      selectedIndex.value = next;
+      ensureSelectionVisible(next);
+    }
+
+    void executeSelection() {
+      if (effectiveSelectedIndex >= 0) {
+        selectableEntries[effectiveSelectedIndex].onTap();
+      } else if (searchText.isNotEmpty) {
+        moveToProjectSearch(searchText);
+      }
+    }
+
+    KeyEventResult handleKeyEvent(FocusNode _, KeyEvent event) {
+      if (event is! KeyDownEvent) return KeyEventResult.ignored;
+      switch (event.logicalKey) {
+        case LogicalKeyboardKey.arrowDown:
+          moveSelection(1);
+          return KeyEventResult.handled;
+        case LogicalKeyboardKey.arrowUp:
+          moveSelection(-1);
+          return KeyEventResult.handled;
+        case LogicalKeyboardKey.escape:
+          context.pop();
+          return KeyEventResult.handled;
+        default:
+          return KeyEventResult.ignored;
+      }
+    }
+
+    return Focus(
+      onKeyEvent: handleKeyEvent,
+      child: Dialog(
+        child: ContentContainer(
+          padding: EdgeInsets.zero,
+          borderRadius: BorderRadius.circular(8.0),
+          constraints: const BoxConstraints(maxWidth: 600.0, maxHeight: 600.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: controller,
+                autofocus: true,
+                textInputAction: TextInputAction.search,
+                onSubmitted: (_) => executeSelection(),
+                onChanged: (value) {
+                  selectedIndex.value = 0;
+                  ref
+                      .read(navigationFilterControllerProvider.notifier)
+                      .debounceSearch(search: value.trim());
+                },
+                decoration: InputDecoration(
+                  hintText: Intl.message('navigation_search_title'),
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 13.0, right: 2.0),
+                    child: SvgPicture.asset(
+                      'assets/icons/search.svg',
+                      width: 20.0,
+                      height: 20.0,
+                      colorFilter: ColorFilter.mode(
+                        colorScheme.onSurface.strong,
+                        BlendMode.srcIn,
                       ),
+                      semanticsLabel: 'Search Icon',
+                    ),
+                  ),
+                  suffixIcon: searchText.isNotEmpty
+                      ? IconButton(
+                          tooltip: searchText.isEmpty
+                              ? Intl.message('common_close')
+                              : Intl.message('common_cancel'),
+                          onPressed: searchText.isEmpty
+                              ? () => context.pop()
+                              : () {
+                                  selectedIndex.value = 0;
+                                  setSearchText('');
+                                  ref
+                                      .read(
+                                        navigationFilterControllerProvider
+                                            .notifier,
+                                      )
+                                      .setSearch(search: '');
+                                },
+                          icon: Icon(
+                            Symbols.close_rounded,
+                            size: 20.0,
+                            color: colorScheme.onSurface.strong,
+                          ),
+                        )
+                      : null,
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(8.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(8.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(8.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                ),
               ),
-            ),
-          ],
+              const Divider(),
+              SizedBox(
+                height: 420.0,
+                child: _SearchContent(
+                  scrollController: scrollController,
+                  sections: sections,
+                  selectedIndex: effectiveSelectedIndex,
+                  itemKey: (entry) =>
+                      itemKeys.putIfAbsent(entry.id, () => GlobalKey()),
+                  onHover: (index) => selectedIndex.value = index,
+                  showLoading: showLoading,
+                  showEmpty: showEmpty,
+                  error: searchError,
+                  stackTrace: searchStackTrace,
+                ),
+              ),
+              const _SearchKeyboardHint(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _SearchIdleContent extends StatelessWidget {
-  final AsyncValue<LocalState> local;
-  final List<NavigationButton> navigationItems;
-  final ValueChanged<String> onKeywordTap;
-  final VoidCallback onKeywordRemove;
-  final ValueChanged<NavigationButton> onMenuTap;
+class _SearchEntry {
+  final String id;
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final List<String> keywords;
+  final VoidCallback onTap;
 
-  const _SearchIdleContent({
-    super.key,
-    required this.local,
-    required this.navigationItems,
-    required this.onKeywordTap,
-    required this.onKeywordRemove,
-    required this.onMenuTap,
+  const _SearchEntry({
+    required this.id,
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.keywords = const [],
+    required this.onTap,
+  });
+}
+
+class _SearchSectionData {
+  final String title;
+  final List<_SearchEntry> entries;
+  final Widget? action;
+
+  const _SearchSectionData({
+    required this.title,
+    required this.entries,
+    this.action,
+  });
+}
+
+class _SearchContent extends StatelessWidget {
+  final ScrollController scrollController;
+  final List<_SearchSectionData> sections;
+  final int selectedIndex;
+  final GlobalKey Function(_SearchEntry entry) itemKey;
+  final ValueChanged<int> onHover;
+  final bool showLoading;
+  final bool showEmpty;
+  final Object? error;
+  final StackTrace? stackTrace;
+
+  const _SearchContent({
+    required this.scrollController,
+    required this.sections,
+    required this.selectedIndex,
+    required this.itemKey,
+    required this.onHover,
+    required this.showLoading,
+    required this.showEmpty,
+    this.error,
+    this.stackTrace,
   });
 
   @override
   Widget build(BuildContext context) {
+    var index = 0;
+    final widgets = <Widget>[];
+    for (final section in sections) {
+      widgets.add(
+        _SearchSectionHeader(title: section.title, action: section.action),
+      );
+      for (final entry in section.entries) {
+        final entryIndex = index++;
+        widgets.add(
+          _SearchTile(
+            key: itemKey(entry),
+            icon: entry.icon,
+            title: entry.title,
+            subtitle: entry.subtitle,
+            selected: entryIndex == selectedIndex,
+            onHover: () => onHover(entryIndex),
+            onTap: entry.onTap,
+          ),
+        );
+      }
+      widgets.add(const SizedBox(height: 12.0));
+    }
+
     return ListView(
+      controller: scrollController,
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       children: [
-        _SearchSectionHeader(
-          title: Intl.message('navigation_search_keyword'),
-          action: switch (local) {
-            AsyncData(:final value) when value.keywords.isNotEmpty =>
-              CustomTextButton(
-                onPressed: onKeywordRemove,
-                text: Intl.message('navigation_search_keyword_erase'),
-              ),
-            _ => null,
-          },
-        ),
-        ...switch (local) {
-          AsyncData(:final value) =>
-            value.keywords.isNotEmpty
-                ? value.keywords
-                      .map(
-                        (keyword) => _SearchTile(
-                          icon: Symbols.history_rounded,
-                          title: keyword.keyword,
-                          onTap: () => onKeywordTap(keyword.keyword),
-                        ),
-                      )
-                      .toList()
-                : [
-                    _SearchEmptyText(
-                      text: Intl.message('navigation_search_keyword_empty'),
-                    ),
-                  ],
-          _ => [
-            Skeletonizer(
-              child: Column(
-                children: List.generate(
-                  3,
-                  (_) => _SearchTile(
-                    icon: Symbols.history_rounded,
-                    title: '최근 검색어',
-                    onTap: () {},
-                  ),
+        ...widgets,
+        if (showLoading)
+          Skeletonizer(
+            child: Column(
+              children: List.generate(
+                3,
+                (_) => _SearchTile(
+                  icon: Symbols.search_rounded,
+                  title: '검색 결과',
+                  onTap: () {},
                 ),
               ),
             ),
-          ],
-        },
-        const SizedBox(height: 12.0),
-        _SearchSectionHeader(title: Intl.message('navigation_search_menu')),
-        ...navigationItems.map(
-          (item) => _SearchTile(
-            icon: item.icon,
-            title: item.label,
-            onTap: () => onMenuTap(item),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SearchActiveContent extends StatelessWidget {
-  final String keyword;
-  final AsyncValue<NavigationSearchState> projectSearch;
-  final List<NavigationButton> menuResults;
-  final ValueChanged<NavigationButton> onMenuTap;
-  final ValueChanged<ProjectListItem> onProjectTap;
-  final ValueChanged<String> onSearchTap;
-
-  const _SearchActiveContent({
-    super.key,
-    required this.keyword,
-    required this.projectSearch,
-    required this.menuResults,
-    required this.onMenuTap,
-    required this.onProjectTap,
-    required this.onSearchTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      children: [
-        if (menuResults.isNotEmpty) ...[
-          _SearchSectionHeader(title: Intl.message('navigation_search_menu')),
-          ...menuResults.map(
-            (item) => _SearchTile(
-              icon: item.icon,
-              title: item.label,
-              onTap: () => onMenuTap(item),
-            ),
-          ),
-          const SizedBox(height: 12.0),
-        ],
-        switch (projectSearch) {
-          AsyncData(:final value) => _SearchProjectSection(
-            keyword: keyword,
-            projectResults: value.projects,
-            onProjectTap: onProjectTap,
-            onSearchTap: onSearchTap,
-          ),
-          AsyncError(:final error, :final stackTrace) => Padding(
+        if (error != null)
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ErrorContainerWidget(error: error, stackTrace: stackTrace),
-          ),
-          _ => Skeletonizer(
-            child: _SearchProjectSection(
-              keyword: keyword,
-              projectResults: List.filled(3, ProjectListItem.dummy()),
-              onProjectTap: (_) {},
-              onSearchTap: (_) {},
+            child: ErrorStateView(
+              error: error!,
+              stackTrace: stackTrace ?? StackTrace.empty,
             ),
           ),
-        },
-      ],
-    );
-  }
-}
-
-class _SearchProjectSection extends StatelessWidget {
-  final String keyword;
-  final List<ProjectListItem> projectResults;
-  final ValueChanged<ProjectListItem> onProjectTap;
-  final ValueChanged<String> onSearchTap;
-
-  const _SearchProjectSection({
-    required this.keyword,
-    required this.projectResults,
-    required this.onProjectTap,
-    required this.onSearchTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _SearchSectionHeader(title: Intl.message('project')),
-        if (projectResults.isNotEmpty)
-          ...projectResults.map(
-            (project) => _SearchTile(
-              icon: Symbols.work_rounded,
-              title: project.name,
-              subtitle: project.code,
-              onTap: () => onProjectTap(project),
-            ),
-          ),
-        _SearchTile(
-          icon: Symbols.search_rounded,
-          title: Intl.message('navigation_search_project_all'),
-          subtitle: keyword,
-          onTap: () => onSearchTap(keyword),
-        ),
-        if (projectResults.isEmpty)
+        if (showEmpty)
           _SearchEmptyText(
             text: Intl.message('navigation_search_result_empty'),
           ),
       ],
+    );
+  }
+}
+
+class _SearchKeyboardHint extends StatelessWidget {
+  const _SearchKeyboardHint();
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: colorScheme.outline.subtle)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            '↑↓ 이동  ·  Enter 열기  ·  Esc 닫기',
+            style: textTheme.labelSmall?.copyWith(
+              color: colorScheme.onSurface.strong,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -390,7 +636,6 @@ class _SearchSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 8.0),
       child: Row(
@@ -411,12 +656,17 @@ class _SearchTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final String? subtitle;
+  final bool selected;
+  final VoidCallback? onHover;
   final VoidCallback onTap;
 
   const _SearchTile({
+    super.key,
     required this.icon,
     required this.title,
     this.subtitle,
+    this.selected = false,
+    this.onHover,
     required this.onTap,
   });
 
@@ -424,45 +674,46 @@ class _SearchTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 20.0,
-              color: colorScheme.outline.withValues(alpha: 0.7),
-            ),
-            const SizedBox(width: 10.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.bodyMedium,
-                  ),
-                  if (subtitle != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: Text(
-                        subtitle!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.55),
+    return Material(
+      color: selected ? colorScheme.surfaceContainerHigh : Colors.transparent,
+      child: InkWell(
+        onHover: (hovering) {
+          if (hovering) onHover?.call();
+        },
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          child: Row(
+            children: [
+              Icon(icon, size: 20.0, color: colorScheme.outline.strong),
+              const SizedBox(width: 10.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: textTheme.bodyMedium,
+                    ),
+                    if (subtitle != null && subtitle!.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: Text(
+                          subtitle!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurface.strong,
+                          ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

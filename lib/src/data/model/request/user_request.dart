@@ -18,6 +18,7 @@ abstract class UpdateUserPermissionRequest with _$UpdateUserPermissionRequest {
     bool? isAdmin,
     bool? isAuthorized,
     bool? isGuest,
+    int? rankId,
     int? positionId,
     int? departmentId,
   }) = _UpdateUserPermissionRequest;

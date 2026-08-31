@@ -23,8 +23,8 @@ class WorkReportFilterController extends _$WorkReportFilterController {
         .toList();
 
     final nextValue = value.copyWith(
-      sort: sort != null ? WorkReportSort.fromKey(sort) : null,
-      order: order != null ? Order.fromKey(order) : null,
+      sort: sort != null ? WorkReportSortOption.fromKey(sort) : null,
+      order: order != null ? SortDirection.fromKey(order) : null,
       search: search,
       clients: nextClients == null || nextClients.isEmpty ? null : nextClients,
       categories: categories
@@ -41,11 +41,11 @@ class WorkReportFilterController extends _$WorkReportFilterController {
     state = nextValue;
   }
 
-  void setSort({WorkReportSort? sort}) {
+  void setSort({WorkReportSortOption? sort}) {
     state = state.copyWith(sort: sort);
   }
 
-  void setOrder({Order? order}) {
+  void setOrder({SortDirection? order}) {
     state = state.copyWith(order: order);
   }
 

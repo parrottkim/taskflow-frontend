@@ -212,7 +212,7 @@ class ItemEditWidget extends HookWidget {
                       onTitleChanged(supplierId: supplierId, value: value);
                     },
                   ),
-                  InvalidWidget(
+                  ValidationErrorMessage(
                     visible: invalidTitleSupplierIds.value.contains(supplierId),
                     text: Intl.message(
                       'issue_form_procurement_requested_invalid_4',
@@ -282,10 +282,10 @@ class ItemEditWidget extends HookWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  CustomToggleButton(
+                  AppToggleButton(
                     value: isDeliveryNullable,
                     onChanged: (value) {
-                      final checked = value ?? false;
+                      final checked = value;
                       nullableDeliverySupplierIds.value = {
                         ...nullableDeliverySupplierIds.value,
                       };
@@ -309,7 +309,7 @@ class ItemEditWidget extends HookWidget {
                       Intl.message('issue_form_procurement_requested_5'),
                     ),
                   ),
-                  InvalidWidget(
+                  ValidationErrorMessage(
                     visible:
                         !isDeliveryNullable &&
                         invalidDeliverySupplierIds.value.contains(supplierId),
@@ -342,10 +342,10 @@ class ItemEditWidget extends HookWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  CustomToggleButton(
+                  AppToggleButton(
                     value: isPaymentTermsNullable,
                     onChanged: (value) {
-                      final checked = value ?? false;
+                      final checked = value;
 
                       if (checked) {
                         nullablePaymentTermsSupplierIds.value = {
@@ -366,7 +366,7 @@ class ItemEditWidget extends HookWidget {
                       Intl.message('issue_form_procurement_requested_5'),
                     ),
                   ),
-                  InvalidWidget(
+                  ValidationErrorMessage(
                     visible:
                         !isPaymentTermsNullable &&
                         invalidPaymentTermsSupplierIds.value.contains(
@@ -391,13 +391,10 @@ class ItemEditWidget extends HookWidget {
                   else
                     Text('${NumberFormat('#,###').format(total)} ₩'),
                   SizedBox(height: 8.0),
-                  CustomToggleButton(
+                  AppToggleButton(
                     value: hasFees[supplierId],
                     onChanged: (value) {
-                      onHasFeeChanged(
-                        supplierId: supplierId,
-                        hasFee: value ?? false,
-                      );
+                      onHasFeeChanged(supplierId: supplierId, hasFee: value);
                     },
                     child: Text(
                       Intl.message('issue_form_procurement_requested_1'),
@@ -434,15 +431,15 @@ class ItemEditWidget extends HookWidget {
                 showBottomBorder: true,
                 border: TableBorder(
                   verticalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   horizontalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   bottom: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                 ),
@@ -455,7 +452,7 @@ class ItemEditWidget extends HookWidget {
                         children: [
                           Icon(
                             Symbols.text_fields_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -463,9 +460,7 @@ class ItemEditWidget extends HookWidget {
                             Intl.message('issue_form_procurement_2'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -480,7 +475,7 @@ class ItemEditWidget extends HookWidget {
                         children: [
                           Icon(
                             Symbols.text_fields_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -488,9 +483,7 @@ class ItemEditWidget extends HookWidget {
                             Intl.message('issue_form_procurement_3'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -505,7 +498,7 @@ class ItemEditWidget extends HookWidget {
                         children: [
                           Icon(
                             Symbols.numbers_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -513,9 +506,7 @@ class ItemEditWidget extends HookWidget {
                             Intl.message('issue_form_procurement_4'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -530,7 +521,7 @@ class ItemEditWidget extends HookWidget {
                         children: [
                           Icon(
                             Symbols.numbers_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -538,9 +529,7 @@ class ItemEditWidget extends HookWidget {
                             Intl.message('issue_form_procurement_5'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -555,7 +544,7 @@ class ItemEditWidget extends HookWidget {
                         children: [
                           Icon(
                             Symbols.numbers_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -563,9 +552,7 @@ class ItemEditWidget extends HookWidget {
                             Intl.message('issue_form_procurement_6'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -649,9 +636,8 @@ class ItemEditWidget extends HookWidget {
                                     item: value,
                                   );
                                 },
-                                onSubmitted: (_) => FocusScope.of(
-                                  context,
-                                ).requestFocus(specFocuses[globalIndex]),
+                                onSubmitted: (_) =>
+                                    specFocuses[globalIndex].requestFocus(),
                               ),
                             ),
                           ),
@@ -701,9 +687,8 @@ class ItemEditWidget extends HookWidget {
                                     spec: value,
                                   );
                                 },
-                                onSubmitted: (_) => FocusScope.of(
-                                  context,
-                                ).requestFocus(quantityFocuses[globalIndex]),
+                                onSubmitted: (_) =>
+                                    quantityFocuses[globalIndex].requestFocus(),
                               ),
                             ),
                           ),
@@ -752,9 +737,8 @@ class ItemEditWidget extends HookWidget {
                                   quantity: value,
                                 );
                               },
-                              onSubmitted: (_) => FocusScope.of(
-                                context,
-                              ).requestFocus(unitPriceFocuses[globalIndex]),
+                              onSubmitted: (_) =>
+                                  unitPriceFocuses[globalIndex].requestFocus(),
                             ),
                           ),
                         ),
@@ -847,11 +831,11 @@ class ItemEditWidget extends HookWidget {
                 }),
               ),
             ),
-            InvalidWidget(
+            ValidationErrorMessage(
               visible: hasProcurementIssueItems.value.contains(supplierId),
               text: Intl.message('issue_form_procurement_item_invalid_1'),
             ),
-            InvalidWidget(
+            ValidationErrorMessage(
               visible: isProcurementIssueItemEmpty.value.contains(supplierId),
               text: Intl.message('issue_form_procurement_item_invalid_2'),
             ),

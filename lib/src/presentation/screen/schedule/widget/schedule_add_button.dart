@@ -11,7 +11,7 @@ class ScheduleAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FilledButton.icon(
       onPressed: () {
-        context.goNamed(RouteNames.scheduleNewChoose);
+        context.pushNamed(RouteNames.scheduleNewChoose);
       },
       icon: Icon(Symbols.add_rounded),
       label: Text(Intl.message('schedule_new')),

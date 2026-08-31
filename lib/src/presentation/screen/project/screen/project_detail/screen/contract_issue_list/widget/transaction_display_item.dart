@@ -41,15 +41,15 @@ class TransactionDisplayItem extends ConsumerWidget {
               showBottomBorder: true,
               border: TableBorder(
                 verticalInside: BorderSide(
-                  color: colorScheme.outline.withValues(alpha: 0.2),
+                  color: colorScheme.outline.subtle,
                   width: 1.0,
                 ),
                 horizontalInside: BorderSide(
-                  color: colorScheme.outline.withValues(alpha: 0.2),
+                  color: colorScheme.outline.subtle,
                   width: 1.0,
                 ),
                 bottom: BorderSide(
-                  color: colorScheme.outline.withValues(alpha: 0.2),
+                  color: colorScheme.outline.subtle,
                   width: 1.0,
                 ),
               ),
@@ -62,7 +62,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                       children: [
                         Icon(
                           Symbols.checkbook_rounded,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                           size: 16.0,
                         ),
                         SizedBox(width: 4.0),
@@ -70,7 +70,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                           Intl.message('issue_form_transaction_3'),
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ],
@@ -85,7 +85,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                       children: [
                         Icon(
                           Symbols.numbers_rounded,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                           size: 16.0,
                         ),
                         SizedBox(width: 4.0),
@@ -93,7 +93,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                           Intl.message('issue_form_transaction_4'),
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ],
@@ -108,7 +108,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                       children: [
                         Icon(
                           Symbols.numbers_rounded,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                           size: 16.0,
                         ),
                         SizedBox(width: 4.0),
@@ -116,7 +116,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                           Intl.message('issue_form_transaction_5'),
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ],
@@ -131,7 +131,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                       children: [
                         Icon(
                           Symbols.check_box_rounded,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                           size: 16.0,
                         ),
                         SizedBox(width: 4.0),
@@ -139,7 +139,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                           Intl.message('issue_form_transaction_6'),
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ],
@@ -154,7 +154,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                       children: [
                         Icon(
                           Symbols.text_fields_rounded,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                           size: 16.0,
                         ),
                         SizedBox(width: 4.0),
@@ -162,7 +162,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                           Intl.message('common_note'),
                           style: textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ],
@@ -218,7 +218,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                         ),
                         width: double.infinity,
                         child: IgnorePointer(
-                          child: CustomToggleButton(value: items[index].isPaid),
+                          child: AppToggleButton(value: items[index].isPaid),
                         ),
                       ),
                     ),
@@ -248,15 +248,15 @@ class TransactionDisplayItem extends ConsumerWidget {
                 showBottomBorder: true,
                 border: TableBorder(
                   verticalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   horizontalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   bottom: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                 ),
@@ -269,7 +269,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                         children: [
                           Icon(
                             Symbols.checkbook_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -277,9 +277,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                             Intl.message('issue_form_transaction_3'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -294,7 +292,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                         children: [
                           Icon(
                             Symbols.numbers_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -302,9 +300,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                             Intl.message('issue_form_transaction_4'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -319,7 +315,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                         children: [
                           Icon(
                             Symbols.numbers_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -327,9 +323,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                             Intl.message('issue_form_transaction_5'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -344,7 +338,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                         children: [
                           Icon(
                             Symbols.check_box_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -352,9 +346,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                             Intl.message('issue_form_transaction_6'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -369,7 +361,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                         children: [
                           Icon(
                             Symbols.text_fields_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -377,9 +369,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                             Intl.message('common_note'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -435,9 +425,7 @@ class TransactionDisplayItem extends ConsumerWidget {
                           ),
                           width: double.infinity,
                           child: IgnorePointer(
-                            child: CustomToggleButton(
-                              value: items[index].isPaid,
-                            ),
+                            child: AppToggleButton(value: items[index].isPaid),
                           ),
                         ),
                       ),
@@ -462,10 +450,10 @@ class TransactionDisplayItem extends ConsumerWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         constraints: BoxConstraints(maxWidth: 400.0),
-        child: ContainerWidget(
+        child: ContentContainer(
           width: double.infinity,
           borderRadius: BorderRadius.circular(8.0),
-          color: colorScheme.outline.withValues(alpha: 0.2),
+          color: colorScheme.outline.subtle,
           borderColor: colorScheme.outline,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -475,11 +463,9 @@ class TransactionDisplayItem extends ConsumerWidget {
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 4.0),
-              CustomTextButton(
+              AppTextButton(
                 onPressed: () async {
-                  final filter = await ref.read(
-                    issueOptionsControllerProvider.future,
-                  );
+                  final filter = await ref.read(issueOptionsProvider.future);
                   final list = await ref.read(
                     issueListControllerProvider(projectId: projectId).future,
                   );
@@ -492,8 +478,8 @@ class TransactionDisplayItem extends ConsumerWidget {
                     context.goNamed(
                       RouteNames.issueNew,
                       pathParameters: {
-                        'category_id': categoryId.toString(),
                         'project_id': projectId.toString(),
+                        'category_id': categoryId.toString(),
                       },
                     );
                   } else {

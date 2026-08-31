@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -56,7 +55,7 @@ class ProcurementIssueListScreen extends ConsumerWidget {
         issueId: issueId,
         items: value.procurements,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),
@@ -129,23 +128,8 @@ class _DesktopWidget extends HookConsumerWidget {
     }, [issueId, items]);
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('project_detail_no_procurements')),
-          ],
-        ),
+      return EmptyStateView(
+        message: Intl.message('project_detail_no_procurements'),
       );
     }
 
@@ -205,7 +189,7 @@ class _DesktopWidget extends HookConsumerWidget {
                       width: 2.0,
                     ),
                   ),
-                  child: ContainerWidget(
+                  child: ContentContainer(
                     padding: EdgeInsets.zero,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -226,7 +210,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             color:
                                 auth is AuthAuthenticated &&
                                     auth.user.id == items[index].createdBy.id
-                                ? colorScheme.primary.withValues(alpha: 0.1)
+                                ? colorScheme.primary.faint
                                 : colorScheme.surfaceContainerLow,
                           ),
                           child: Row(
@@ -253,7 +237,7 @@ class _DesktopWidget extends HookConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CategoryWidget(
+                              IssueCategoryBadge(
                                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                                 item: items[index].category,
                               ),

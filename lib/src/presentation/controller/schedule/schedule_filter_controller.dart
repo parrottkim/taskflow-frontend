@@ -16,7 +16,7 @@ class ScheduleFilterController extends _$ScheduleFilterController {
     List<int>? nextDepartments;
 
     if (departments != null && departments.trim().isNotEmpty) {
-      final options = await ref.read(scheduleOptionsControllerProvider.future);
+      final options = await ref.read(scheduleOptionsProvider.future);
 
       nextDepartments = _findDepartmentPath(
         groups: options.departmentGroups,

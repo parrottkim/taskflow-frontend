@@ -24,9 +24,7 @@ class DocumentDetailScreen extends ConsumerWidget {
       if (state is DocumentSubmitDocumentDeleted) close();
     });
 
-    final detail = ref.watch(
-      documentDetailControllerProvider(documentId: documentId),
-    );
+    final detail = ref.watch(documentDetailProvider(documentId: documentId));
 
     return Responsive(
       desktop: LayoutBuilder(
@@ -47,7 +45,7 @@ class DocumentDetailScreen extends ConsumerWidget {
 }
 
 class _DetailWidget extends StatelessWidget {
-  final AsyncValue<DocumentDetailState> detail;
+  final AsyncValue<Document> detail;
   final VoidCallback onClose;
   final bool fullScreen;
 
@@ -61,11 +59,11 @@ class _DetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (detail) {
       AsyncData(:final value) => DocumentPreviewPanel(
-        document: value.document,
+        document: value,
         onClose: onClose,
         fullScreen: fullScreen,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),

@@ -14,4 +14,6 @@ abstract class DashboardRepository {
   });
 
   Future<List<TodaySchedule>> getTodaysSchedule();
+
+  Future<DashboardSearchResult> search({required String search, int limit = 5});
 }

@@ -9,80 +9,45 @@ class AuthController extends _$AuthController {
 
   Future<void> init() async {
     try {
-      final accessToken = await ref
-          .read(localRepositoryProvider)
-          .getAccessToken();
-      final persistLogin = await ref
-          .read(localRepositoryProvider)
-          .getPersistLogin();
+      final token = await ref.read(authRepositoryProvider).refresh();
+      ref.read(tokenControllerProvider.notifier).set(token.accessToken);
 
-      if (accessToken != null && persistLogin) {
-        final decodedToken = decodeJwt(accessToken);
-        final user = await ref
-            .read(userRepositoryProvider)
-            .getUser(id: decodedToken['sub']);
-        state = AuthAuthenticated(user: user);
-      } else {
-        state = const AuthUnauthenticated();
-      }
-    } on DioException {
-      state = AuthUnauthenticated();
-    }
-  }
-
-  Future<void> login({required LoginRequest login}) async {
-    state = const AuthPending();
-    try {
-      final token = await ref.watch(authRepositoryProvider).login(login: login);
-
-      await ref
-          .read(localRepositoryProvider)
-          .setAccessToken(accessToken: token.accessToken);
-      await ref
-          .read(localRepositoryProvider)
-          .setRefreshToken(refreshToken: token.refreshToken);
-      final decodedToken = decodeJwt(token.accessToken);
-
+      final decoded = decodeJwt(token.accessToken);
       final user = await ref
           .read(userRepositoryProvider)
-          .getUser(id: decodedToken['sub']);
+          .getUser(id: decoded['sub']);
+
       state = AuthAuthenticated(user: user);
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.badResponse) {
-        if (e.response?.statusCode == 403) {
-          state = const AuthForbidden();
-        } else if (e.response?.statusCode == 409) {
-          state = const AuthConflict();
-        } else {
-          state = const AuthFailed();
-        }
-      } else if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.sendTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.connectionError) {
-        state = const AuthNetworkError();
-      } else {
-        state = const AuthFailed();
-      }
+    } on DioException {
+      ref.read(tokenControllerProvider.notifier).clear();
+      state = const AuthUnauthenticated();
     }
   }
 
-  Future<void> register({required RegisterRequest request}) async {
-    state = const AuthPending();
+  void authenticate({required User user, required String accessToken}) {
+    ref.read(tokenControllerProvider.notifier).set(accessToken);
+    state = AuthAuthenticated(user: user);
+  }
+
+  Future<bool> register({required RegisterRequest request}) async {
     try {
-      await ref.read(authRepositoryProvider).register(request: request).then((
-        value,
-      ) async {
-        state = const AuthRequest();
-      });
-    } catch (e) {
-      state = const AuthFailed();
+      await ref.read(authRepositoryProvider).register(request: request);
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 
   Future<void> logout() async {
-    await ref.read(localRepositoryProvider).removeAccessToken();
-    await ref.read(localRepositoryProvider).removeRefreshToken();
+    try {
+      await ref.read(authRepositoryProvider).logout();
+    } finally {
+      expireSession();
+    }
+  }
+
+  void expireSession() {
+    ref.read(tokenControllerProvider.notifier).clear();
     state = const AuthUnauthenticated();
   }
 

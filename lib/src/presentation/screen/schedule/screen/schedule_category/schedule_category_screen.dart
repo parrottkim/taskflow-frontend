@@ -18,7 +18,7 @@ class ScheduleCategoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final options = ref.watch(scheduleOptionsControllerProvider);
+    final options = ref.watch(scheduleOptionsProvider);
 
     return BranchLayout(
       child: Container(
@@ -29,7 +29,7 @@ class ScheduleCategoryScreen extends ConsumerWidget {
             projectId: projectId,
             items: value.categoryItems,
           ),
-          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+          AsyncError(:final error, :final stackTrace) => ErrorStateView(
             error: error,
             stackTrace: stackTrace,
           ),
@@ -58,7 +58,7 @@ class _DesktopWidget extends StatelessWidget {
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(24.0),
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: EdgeInsets.zero,
         child: ListView.separated(
           shrinkWrap: true,
@@ -105,7 +105,7 @@ class _DesktopWidget extends StatelessWidget {
                       Icon(
                         Symbols.arrow_right_alt_rounded,
                         size: 20.0,
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: colorScheme.onSurface.strong,
                       ),
                     ],
                   ),
@@ -113,7 +113,7 @@ class _DesktopWidget extends StatelessWidget {
                   Text(
                     Intl.message('schedule_new_choose_${index + 1}_2'),
                     style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
+                      color: colorScheme.onSurface.strong,
                     ),
                   ),
                 ],

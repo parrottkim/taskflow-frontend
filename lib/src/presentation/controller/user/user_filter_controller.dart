@@ -21,7 +21,7 @@ class UserFilterController extends _$UserFilterController {
     final nextSearch = normalizedSearch == null || normalizedSearch.isEmpty
         ? null
         : normalizedSearch;
-    final options = await ref.read(userOptionsControllerProvider.future);
+    final options = await ref.read(userOptionsProvider.future);
     final nextDepartments = _findDepartmentPath(
       groups: options.departmentGroups,
       departments: departments,

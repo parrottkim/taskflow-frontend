@@ -76,7 +76,7 @@ class _ScheduleDepartmentFilterWidget extends ConsumerWidget {
     final filter = ref.watch(
       scheduleFilterControllerProvider(ScheduleFilterScope.schedulePage),
     );
-    final options = ref.watch(scheduleOptionsControllerProvider);
+    final options = ref.watch(scheduleOptionsProvider);
 
     return switch (options) {
       AsyncData(value: final options) => UserDepartmentFilterWidget(
@@ -107,7 +107,7 @@ class _ScheduleDepartmentFilterWidget extends ConsumerWidget {
           );
         },
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),

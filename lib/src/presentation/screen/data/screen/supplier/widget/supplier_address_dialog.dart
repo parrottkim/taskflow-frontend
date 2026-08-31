@@ -77,9 +77,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(14.0),
               decoration: BoxDecoration(
-                color: colorScheme.surfaceContainerHighest.withValues(
-                  alpha: 0.4,
-                ),
+                color: colorScheme.surfaceContainerHighest.muted,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Column(
@@ -103,7 +101,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
                   Text(
                     item.jibunAddr,
                     style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: colorScheme.onSurface.strong,
                     ),
                   ),
                 ],
@@ -127,10 +125,10 @@ class SupplierAddressDialog extends HookConsumerWidget {
               onSubmitted: (_) => onConfirm(),
             ),
             const SizedBox(height: 12.0),
-            CustomToggleButton(
+            AppToggleButton(
               value: isDetailNotRequired.value,
               onChanged: (val) {
-                isDetailNotRequired.value = val ?? false;
+                isDetailNotRequired.value = val;
                 if (isDetailNotRequired.value) {
                   detailController.clear();
                 }
@@ -168,7 +166,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
     // [공통 레이아웃] 1단계: 주소 검색 UI
     // ==========================================
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
         constraints: const BoxConstraints(maxWidth: 520.0, maxHeight: 640.0),
@@ -195,7 +193,7 @@ class SupplierAddressDialog extends HookConsumerWidget {
                     width: 20.0,
                     height: 20.0,
                     colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
+                      colorScheme.onSurface.strong,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -269,7 +267,7 @@ class _AddressListView extends StatelessWidget {
         child: Text(
           Intl.message('data_address_search_idle'),
           style: textTheme.bodyMedium?.copyWith(
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
+            color: colorScheme.onSurface.strong,
           ),
         ),
       );
@@ -280,7 +278,7 @@ class _AddressListView extends StatelessWidget {
         child: Text(
           Intl.message('data_address_search_empty'),
           style: textTheme.bodyMedium?.copyWith(
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
+            color: colorScheme.onSurface.strong,
           ),
         ),
       );
@@ -346,7 +344,7 @@ class _AddressListView extends StatelessWidget {
             child: Text(
               item.jibunAddr,
               style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                color: colorScheme.onSurface.strong,
               ),
             ),
           ),

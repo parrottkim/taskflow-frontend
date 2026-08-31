@@ -21,36 +21,26 @@ class DownloadController extends _$DownloadController {
         return DownloadState.failed();
       }
 
-      final userAgent = window.navigator.userAgent.toLowerCase();
-      final isIOS = userAgent.contains('iphone') || userAgent.contains('ipad');
+      final bytes = Uint8List.fromList(result.data);
+      final mimeType = lookupMimeType(filename!) ?? 'application/octet-stream';
+      final blob = Blob([bytes.toJS].toJS, BlobPropertyBag(type: mimeType));
+      final url = URL.createObjectURL(blob);
+      final anchor = HTMLAnchorElement()
+        ..href = url
+        ..download = filename!
+        ..style.display = 'none';
 
-      if (isIOS) {
-        // iOS: blob 다운로드 불가 → data URL 사용
-        final base64 = base64Encode(result.data);
-        final url = 'data:application/octet-stream;base64,$base64';
-
-        final anchor = HTMLAnchorElement()
-          ..href = url
-          ..download = filename!;
-        anchor.click();
-      } else {
-        // 일반 브라우저
-        final bytes = Uint8List.fromList(result.data);
-        final blob = Blob([bytes.toJS].toJS);
-        final url = URL.createObjectURL(blob);
-
-        final anchor = HTMLAnchorElement()
-          ..href = url
-          ..download = filename!;
-        anchor.click();
-
-        URL.revokeObjectURL(url);
-      }
+      // Mobile Safari requires the link to be attached to the document. Keep
+      // the object URL alive long enough for Safari to consume it as well.
+      document.body?.append(anchor);
+      anchor.click();
+      anchor.remove();
+      Timer(const Duration(seconds: 60), () => URL.revokeObjectURL(url));
 
       return DownloadState.success();
     } catch (e, stackTrace) {
-      print(e);
-      print(stackTrace);
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: stackTrace);
       return DownloadState.failed();
     }
   }

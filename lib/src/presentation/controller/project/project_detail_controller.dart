@@ -27,15 +27,15 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void updateProject({required Project project}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(value.copyWith(project: project));
   }
 
   Future<void> toggleBookmark({required bool bookmarked}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedItem = value.project.copyWith(isBookmarked: bookmarked);
 
@@ -58,9 +58,7 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   Future<void> delete() async {
-    final value = state.value;
-
-    if (value == null) return;
+    state.requireValue;
 
     await ref.read(projectRepositoryProvider).deleteProject(id: projectId);
     ref
@@ -73,16 +71,16 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void increaseContractsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(value.copyWith(contracts: value.contracts + 1));
   }
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
   void decreaseContractsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(
       value.copyWith(
@@ -92,16 +90,16 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void increaseApprovalsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(value.copyWith(approvals: value.approvals + 1));
   }
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
   void decreaseApprovalsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(
       value.copyWith(
@@ -111,8 +109,8 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void increaseProcurementsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(
       value.copyWith(procurements: value.procurements + 1),
@@ -121,8 +119,8 @@ class ProjectDetailController extends _$ProjectDetailController {
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
   void decreaseProcurementsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(
       value.copyWith(
@@ -132,16 +130,16 @@ class ProjectDetailController extends _$ProjectDetailController {
   }
 
   void increaseReportsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(value.copyWith(reports: value.reports + 1));
   }
 
   // issueCount를 1 감소시키는 함수 (최소 0 유지)
   void decreaseReportsCount() {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncValue.data(
       value.copyWith(reports: (value.reports > 0) ? value.reports - 1 : 0),

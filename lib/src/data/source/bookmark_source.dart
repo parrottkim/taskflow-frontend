@@ -3,7 +3,7 @@ part of '../data.dart';
 class BookmarkDataSource implements BookmarkRepository {
   final BookmarkService _service;
 
-  BookmarkDataSource({required BookmarkService service}) : _service = service;
+  BookmarkDataSource({required this._service});
 
   @override
   Future<Bookmark> addBookmark({required int id}) =>

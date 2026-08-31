@@ -186,3 +186,16 @@ String formatBytes(int bytes) {
 bool isValidUrl(String url) {
   return Uri.tryParse(url)?.hasAbsolutePath ?? false;
 }
+
+Uri? parseSafeWebUrl(String? value) {
+  final uri = Uri.tryParse(value?.trim() ?? '');
+
+  if (uri == null ||
+      !uri.hasScheme ||
+      uri.host.isEmpty ||
+      (uri.scheme != 'https' && uri.scheme != 'http')) {
+    return null;
+  }
+
+  return uri;
+}

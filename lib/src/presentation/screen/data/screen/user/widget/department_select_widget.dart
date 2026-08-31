@@ -26,12 +26,18 @@ class DepartmentSelectWidget extends ConsumerWidget {
         child: ElevatedDropdownButton<UserDepartment>(
           isExpanded: true,
           showClose: false,
+          allowNull: true,
           items: items,
           value: user.department,
-          label: Text(Intl.message('data_user_column_3')),
+          label: Text(Intl.message('data_user_column_5')),
           itemBuilder: (value) => Text(value.name),
+          onClear: () async {
+            await ref
+                .read(userSubmitControllerProvider.notifier)
+                .updateUser(userId: user.id, departmentId: null);
+          },
           onChanged: (value) async {
-            ref
+            await ref
                 .read(userSubmitControllerProvider.notifier)
                 .updateUser(userId: user.id, departmentId: value.id);
           },

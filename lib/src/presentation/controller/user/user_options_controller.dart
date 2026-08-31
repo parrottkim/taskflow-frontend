@@ -1,18 +1,17 @@
 part of '../controller.dart';
 
 @riverpod
-class UserOptionsController extends _$UserOptionsController {
-  @override
-  FutureOr<UserOptionsState> build() async {
-    final departmentGroups = await ref
-        .read(userRepositoryProvider)
-        .getAllDepartments();
-    final positions = await ref.read(userRepositoryProvider).getAllPositions();
+Future<UserOptionsState> userOptions(Ref ref) async {
+  final departmentGroups = await ref
+      .read(userRepositoryProvider)
+      .getAllDepartments();
+  final ranks = await ref.read(userRepositoryProvider).getAllRanks();
+  final positions = await ref.read(userRepositoryProvider).getAllPositions();
 
-    return UserOptionsState(
-      departmentGroups: departmentGroups,
-      departmentItems: departmentGroups.expand((group) => group.items).toList(),
-      positionItems: positions,
-    );
-  }
+  return UserOptionsState(
+    departmentGroups: departmentGroups,
+    departmentItems: departmentGroups.expand((group) => group.items).toList(),
+    rankItems: ranks,
+    positionItems: positions,
+  );
 }

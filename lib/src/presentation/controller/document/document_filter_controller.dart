@@ -16,8 +16,8 @@ class DocumentFilterController extends _$DocumentFilterController {
       folders: nextFolders == null || nextFolders.isEmpty
           ? state.folders
           : nextFolders,
-      sort: sort != null ? DocumentSort.fromKey(sort) : state.sort,
-      order: order != null ? Order.fromKey(order) : state.order,
+      sort: sort != null ? DocumentSortOption.fromKey(sort) : state.sort,
+      order: order != null ? SortDirection.fromKey(order) : state.order,
       search: search,
     );
   }
@@ -26,11 +26,11 @@ class DocumentFilterController extends _$DocumentFilterController {
     state = state.copyWith(folders: folders);
   }
 
-  void setSort({required DocumentSort sort}) {
+  void setSort({required DocumentSortOption sort}) {
     state = state.copyWith(sort: sort);
   }
 
-  void setOrder({required Order order}) {
+  void setOrder({required SortDirection order}) {
     state = state.copyWith(order: order);
   }
 

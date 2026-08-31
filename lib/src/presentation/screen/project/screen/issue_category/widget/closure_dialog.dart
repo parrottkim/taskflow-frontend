@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -21,8 +22,30 @@ class ClosureDialog extends HookConsumerWidget {
 
     final message = useValueListenable(controller);
 
+    final isClosing = useRef(false);
+
+    ref.listen(projectSubmitControllerProvider, (_, state) {
+      if (!isClosing.value) return;
+
+      if (state is ProjectSubmitPending) {
+        LoadingOverlay.show(context);
+        return;
+      }
+
+      LoadingOverlay.hide();
+
+      if (state is ProjectSubmitClosed) {
+        isClosing.value = false;
+        context.pop(true);
+      }
+
+      if (state is ProjectSubmitFailure) {
+        isClosing.value = false;
+      }
+    });
+
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         constraints: const BoxConstraints(maxWidth: 430.0),
         child: Column(
@@ -47,7 +70,7 @@ class ClosureDialog extends HookConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ContainerWidget(
+                  ContentContainer(
                     borderRadius: BorderRadius.circular(8.0),
                     color: colorScheme.errorContainer,
                     borderColor: colorScheme.error,
@@ -111,6 +134,8 @@ class ClosureDialog extends HookConsumerWidget {
                     child: ElevatedButton(
                       onPressed: message.text.isNotEmpty
                           ? () {
+                              isClosing.value = true;
+
                               ref
                                   .read(
                                     projectSubmitControllerProvider.notifier,
