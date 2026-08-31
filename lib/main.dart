@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -14,25 +13,43 @@ import 'package:taskflow/src/core/core.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:idb_shim/idb_browser.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  usePathUrlStrategy();
-
-  GoRouter.optionURLReflectsImperativeAPIs = true;
-
-  const secure = FlutterSecureStorage();
-  final prefs = SharedPreferencesAsync();
-  final ftoast = FToast();
-
-  const environment = String.fromEnvironment(
-    'ENVIRONMENT',
-    defaultValue: 'prod',
-  );
-
-  // 2. runZonedGuarded 내부에서만 로직 수행
   await runZonedGuarded(
     () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      usePathUrlStrategy();
+
+      GoRouter.optionURLReflectsImperativeAPIs = true;
+
+      final database = await idbFactoryBrowser.open(
+        'taskflow_drafts',
+        version: 1,
+        onUpgradeNeeded: (event) {
+          final drafts = event.database.createObjectStore(
+            'drafts',
+            keyPath: 'id',
+          );
+
+          drafts.createIndex('by_user', 'userId');
+
+          final assets = event.database.createObjectStore(
+            'draft_assets',
+            keyPath: 'id',
+          );
+
+          assets.createIndex('by_draft', 'draftId');
+        },
+      );
+      final prefs = SharedPreferencesAsync();
+      final ftoast = FToast();
+
+      const environment = String.fromEnvironment(
+        'ENVIRONMENT',
+        defaultValue: 'prod',
+      );
+
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -52,7 +69,7 @@ Future<void> main() async {
         runApp(
           ProviderScope(
             overrides: [
-              flutterSecureStorageProvider.overrideWithValue(secure),
+              indexedDatabaseProvider.overrideWithValue(database),
               sharedPreferencesAsyncProvider.overrideWithValue(prefs),
               toastProvider.overrideWithValue(ftoast),
             ],
@@ -70,7 +87,7 @@ Future<void> main() async {
           appRunner: () => runApp(
             ProviderScope(
               overrides: [
-                flutterSecureStorageProvider.overrideWithValue(secure),
+                indexedDatabaseProvider.overrideWithValue(database),
                 sharedPreferencesAsyncProvider.overrideWithValue(prefs),
                 toastProvider.overrideWithValue(ftoast),
               ],

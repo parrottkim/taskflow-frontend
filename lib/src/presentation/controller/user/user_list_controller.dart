@@ -28,9 +28,8 @@ class UserListController extends _$UserListController {
 
   Future<void> load() async {
     final filter = _filter();
-    final value = state.value;
-
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
@@ -68,8 +67,8 @@ class UserListController extends _$UserListController {
   }
 
   Future<void> addListItem({required User item}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedUsers = [item, ...value.items];
 
@@ -77,8 +76,8 @@ class UserListController extends _$UserListController {
   }
 
   Future<void> updateListItem({required User item}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedUsers = value.items.map((user) {
       return user.id == item.id ? item : user;
@@ -88,8 +87,8 @@ class UserListController extends _$UserListController {
   }
 
   Future<void> removeListItem({required int id}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedUsers = value.items.where((user) => user.id != id).toList();
 

@@ -31,17 +31,29 @@ class LoginFormWidget extends HookConsumerWidget {
 
     final passwordVisibility = useState<bool>(false);
     final isInvalid = useState<bool>(false);
-
-    ref.listen(authControllerProvider, (_, state) {
-      if (state is AuthFailed) {
+    ref.listen(loginControllerProvider, (_, state) {
+      if (state is LoginFailed) {
         isInvalid.value = true;
       }
     });
 
-    login() async {
-      TextInput.finishAutofillContext();
-      final login = LoginRequest(email: email.text, password: password.text);
-      await ref.read(authControllerProvider.notifier).login(login: login);
+    Future<void> submitLogin() async {
+      final persistLogin =
+          ref.read(localControllerProvider).value?.persistLogin ?? false;
+
+      final request = LoginRequest(
+        email: email.text.trim(),
+        password: password.text,
+        persistLogin: persistLogin,
+      );
+
+      final success = await ref
+          .read(loginControllerProvider.notifier)
+          .login(login: request);
+
+      if (success) {
+        TextInput.finishAutofillContext();
+      }
     }
 
     return SingleChildScrollView(
@@ -60,7 +72,7 @@ class LoginFormWidget extends HookConsumerWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Logo(),
+                    AppLogo(),
                     SizedBox(height: 48.0),
                     Text(
                       Intl.message('login_headline'),
@@ -91,7 +103,10 @@ class LoginFormWidget extends HookConsumerWidget {
                         onChanged: (_) => isInvalid.value = false,
                         autofocus: true,
                         keyboardType: TextInputType.emailAddress,
-                        autofillHints: const [AutofillHints.email],
+                        autofillHints: const [
+                          AutofillHints.username,
+                          AutofillHints.email,
+                        ],
                         textInputAction: TextInputAction.next,
                       ),
                       SizedBox(height: 24.0),
@@ -107,7 +122,7 @@ class LoginFormWidget extends HookConsumerWidget {
                         focusNode: passwordFocus,
                         onSubmitted:
                             email.text.isNotEmpty && password.text.isNotEmpty
-                            ? (_) => login()
+                            ? (_) => submitLogin()
                             : null,
                         onChanged: (text) => isInvalid.value = false,
                         obscureText: !passwordVisibility.value,
@@ -117,7 +132,7 @@ class LoginFormWidget extends HookConsumerWidget {
                           suffixIcon: password.text.isNotEmpty
                               ? Padding(
                                   padding: const EdgeInsets.only(right: 4.0),
-                                  child: CustomIconButton(
+                                  child: AppIconButton(
                                     onTap: () {
                                       passwordVisibility.value =
                                           !passwordVisibility.value;
@@ -139,18 +154,18 @@ class LoginFormWidget extends HookConsumerWidget {
                       LoginInvalidWidget(visible: isInvalid.value),
                       Row(
                         children: [
-                          CustomToggleButton(
+                          AppToggleButton(
                             value: ref
                                 .watch(localControllerProvider)
                                 .value
                                 ?.persistLogin,
                             onChanged: (value) async => await ref
                                 .read(localControllerProvider.notifier)
-                                .setPersistLogin(flag: value ?? false),
+                                .setPersistLogin(flag: value),
                             child: Text(Intl.message('login_persist')),
                           ),
                           Spacer(),
-                          CustomTextButton(
+                          AppTextButton(
                             onPressed: () => context.goNamed(
                               RouteNames.forgotPassword,
                               queryParameters: {
@@ -165,7 +180,7 @@ class LoginFormWidget extends HookConsumerWidget {
                       SizedBox(
                         width: double.infinity,
                         child: FilledButton(
-                          onPressed: () => login(),
+                          onPressed: () => submitLogin(),
                           child: Text(Intl.message('login_button')),
                         ),
                       ),
@@ -176,7 +191,7 @@ class LoginFormWidget extends HookConsumerWidget {
                           children: [
                             Text(Intl.message('login_create_account_1')),
                             SizedBox(width: 8.0),
-                            CustomTextButton(
+                            AppTextButton(
                               onPressed: () => context.goNamed(
                                 RouteNames.register,
                                 queryParameters: {

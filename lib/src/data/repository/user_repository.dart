@@ -3,6 +3,8 @@ part of '../data.dart';
 abstract class UserRepository {
   Future<List<UserDepartmentGroup>> getAllDepartments();
 
+  Future<List<UserRank>> getAllRanks();
+
   Future<List<UserPosition>> getAllPositions();
 
   Future<List<User>> getAllUsers();

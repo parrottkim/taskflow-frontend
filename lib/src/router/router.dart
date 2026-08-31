@@ -14,7 +14,6 @@ import 'package:taskflow/src/presentation/screen/project/screen/project_action/p
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/project_detail_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_form/project_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/reset_password/reset_password_screen.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/report_category/report_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/report_form/report_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/data/data_screen.dart';
 import 'package:taskflow/src/presentation/screen/data/screen/supplier/widget/supplier_edit_dialog.dart';
@@ -71,7 +70,6 @@ class RouteNames {
       'issue_procurement_request_new';
   static const String issueProcurementRequestEdit =
       'issue_procurement_request_edit';
-  static const String reportNewChoose = 'report_new_choose';
   static const String reportNew = 'report_new';
   static const String reportEdit = 'report_edit';
   static const String reportStep = 'report_step';
@@ -116,7 +114,6 @@ class Routes {
   static const String issueProcurementRequestEdit =
       '$issueProcurementRequest/:request_id/edit';
   static const String reportBase = 'report';
-  static const String reportNewChoose = 'choose';
   static const String reportNew = 'new';
   static const String reportEdit = 'edit';
   static const String reportStep = 'step';
@@ -327,7 +324,7 @@ class AppRouter {
                       final shouldNavigate = await showDialog<bool>(
                         context: context,
                         barrierDismissible: false, // 실수 클릭 방지
-                        builder: (context) => const PopScopeDialog(),
+                        builder: (context) => const UnsavedChangesDialog(),
                       );
 
                       return shouldNavigate ?? false;
@@ -363,7 +360,7 @@ class AppRouter {
                       final shouldNavigate = await showDialog<bool>(
                         context: context,
                         barrierDismissible: false, // 실수 클릭 방지
-                        builder: (context) => const PopScopeDialog(),
+                        builder: (context) => const UnsavedChangesDialog(),
                       );
 
                       return shouldNavigate ?? false;
@@ -417,14 +414,40 @@ class AppRouter {
                         path: Routes.issueBase,
                         redirect: (context, state) {
                           if (state.uri.path == Routes.issueBase) {
-                            return '${Routes.issueBase}/${Routes.issueNewChoose}';
+                            return '${Routes.issueBase}/${Routes.issueNew}';
                           }
                           return null;
                         },
                         routes: [
                           GoRoute(
-                            name: RouteNames.issueNewChoose,
                             path: Routes.issueNewChoose,
+                            redirect: (context, state) {
+                              return GoRouter.of(context).namedLocation(
+                                RouteNames.issueNewChoose,
+                                pathParameters: {
+                                  'project_id':
+                                      state.pathParameters['project_id']!,
+                                },
+                              );
+                            },
+                          ),
+                          GoRoute(
+                            name: RouteNames.issueNewChoose,
+                            path: Routes.issueNew,
+                            redirect: (context, state) {
+                              final categoryId =
+                                  state.uri.queryParameters['category'];
+                              if (categoryId == null) return null;
+
+                              return GoRouter.of(context).namedLocation(
+                                RouteNames.issueNew,
+                                pathParameters: {
+                                  'project_id':
+                                      state.pathParameters['project_id']!,
+                                  'category_id': categoryId,
+                                },
+                              );
+                            },
                             pageBuilder: (context, state) {
                               final projectId = int.parse(
                                 state.pathParameters['project_id']!,
@@ -441,16 +464,13 @@ class AppRouter {
                             routes: [
                               GoRoute(
                                 name: RouteNames.issueNew,
-                                path: '${Routes.issueNew}/:category_id',
+                                path: ':category_id',
                                 pageBuilder: (context, state) {
                                   final projectId = int.parse(
                                     state.pathParameters['project_id']!,
                                   );
                                   final categoryId = int.parse(
                                     state.pathParameters['category_id']!,
-                                  );
-                                  final issueId = int.tryParse(
-                                    state.pathParameters['issue_id'] ?? '',
                                   );
 
                                   return NoTransitionPage(
@@ -459,7 +479,6 @@ class AppRouter {
                                     child: IssueFormScreen(
                                       projectId: projectId,
                                       categoryId: categoryId,
-                                      issueId: issueId,
                                     ),
                                   );
                                 },
@@ -481,12 +500,27 @@ class AppRouter {
                                   final shouldNavigate = await showDialog<bool>(
                                     context: context,
                                     builder: (context) =>
-                                        const PopScopeDialog(),
+                                        const UnsavedChangesDialog(),
                                   );
                                   return shouldNavigate ?? false;
                                 },
                               ),
                             ],
+                          ),
+                          GoRoute(
+                            path:
+                                '${Routes.issueNewChoose}/${Routes.issueNew}/:category_id',
+                            redirect: (context, state) {
+                              return GoRouter.of(context).namedLocation(
+                                RouteNames.issueNew,
+                                pathParameters: {
+                                  'project_id':
+                                      state.pathParameters['project_id']!,
+                                  'category_id':
+                                      state.pathParameters['category_id']!,
+                                },
+                              );
+                            },
                           ),
                           GoRoute(
                             name: RouteNames.issueEdit,
@@ -528,7 +562,8 @@ class AppRouter {
 
                               final shouldNavigate = await showDialog<bool>(
                                 context: context,
-                                builder: (context) => const PopScopeDialog(),
+                                builder: (context) =>
+                                    const UnsavedChangesDialog(),
                               );
                               return shouldNavigate ?? false;
                             },
@@ -570,7 +605,8 @@ class AppRouter {
 
                               final shouldNavigate = await showDialog<bool>(
                                 context: context,
-                                builder: (context) => const PopScopeDialog(),
+                                builder: (context) =>
+                                    const UnsavedChangesDialog(),
                               );
                               return shouldNavigate ?? false;
                             },
@@ -616,7 +652,8 @@ class AppRouter {
 
                               final shouldNavigate = await showDialog<bool>(
                                 context: context,
-                                builder: (context) => const PopScopeDialog(),
+                                builder: (context) =>
+                                    const UnsavedChangesDialog(),
                               );
                               return shouldNavigate ?? false;
                             },
@@ -633,15 +670,12 @@ class AppRouter {
                         },
                         routes: [
                           GoRoute(
-                            name: RouteNames.reportNewChoose,
-                            path: Routes.reportNewChoose, // 예: choose
+                            name: RouteNames.reportNew,
+                            path: Routes.reportNew,
                             parentNavigatorKey: _projectKey,
                             pageBuilder: (context, state) {
                               final projectId = int.parse(
                                 state.pathParameters['project_id']!,
-                              );
-                              final reportId = int.tryParse(
-                                state.pathParameters['report_id'] ?? '',
                               );
                               final scheduleId = int.tryParse(
                                 state.uri.queryParameters['schedule_id'] ?? '',
@@ -650,61 +684,32 @@ class AppRouter {
                               return NoTransitionPage(
                                 key: state.pageKey,
                                 name: state.name,
-                                child: ReportCategoryScreen(
+                                child: ReportFormScreen(
                                   projectId: projectId,
-                                  reportId: reportId,
                                   scheduleId: scheduleId,
                                 ),
                               );
                             },
-                            routes: [
-                              // 2. 신규 작성 (ReportNew) - 다단계 폼 시작점
-                              GoRoute(
-                                name: RouteNames.reportNew,
-                                path: Routes.reportNew,
-                                parentNavigatorKey: _projectKey,
-                                pageBuilder: (context, state) {
-                                  final projectId = int.parse(
-                                    state.pathParameters['project_id']!,
-                                  );
-                                  final scheduleId = int.tryParse(
-                                    state.uri.queryParameters['schedule_id'] ??
-                                        '',
-                                  );
+                            onExit: (context, state) async {
+                              final error = ref.watch(errorControllerProvider);
+                              final submit = ref.watch(
+                                reportSubmitControllerProvider,
+                              );
 
-                                  return NoTransitionPage(
-                                    key: state.pageKey,
-                                    name: state.name,
-                                    child: ReportFormScreen(
-                                      projectId: projectId,
-                                      scheduleId: scheduleId,
-                                    ),
-                                  );
-                                },
-                                onExit: (context, state) async {
-                                  final error = ref.watch(
-                                    errorControllerProvider,
-                                  );
-                                  final submit = ref.watch(
-                                    reportSubmitControllerProvider,
-                                  );
+                              if (error is ErrorUnauthorized ||
+                                  submit is ReportSubmitCreated ||
+                                  submit is ReportSubmitUpdated ||
+                                  submit is ReportSubmitDeleted) {
+                                return true;
+                              }
 
-                                  if (error is ErrorUnauthorized ||
-                                      submit is ReportSubmitCreated ||
-                                      submit is ReportSubmitUpdated ||
-                                      submit is ReportSubmitDeleted) {
-                                    return true;
-                                  }
-
-                                  final shouldNavigate = await showDialog<bool>(
-                                    context: context,
-                                    builder: (context) =>
-                                        const PopScopeDialog(),
-                                  );
-                                  return shouldNavigate ?? false;
-                                },
-                              ),
-                            ],
+                              final shouldNavigate = await showDialog<bool>(
+                                context: context,
+                                builder: (context) =>
+                                    const UnsavedChangesDialog(),
+                              );
+                              return shouldNavigate ?? false;
+                            },
                           ),
                           GoRoute(
                             name: RouteNames.reportEdit,
@@ -746,7 +751,8 @@ class AppRouter {
 
                               final shouldNavigate = await showDialog<bool>(
                                 context: context,
-                                builder: (context) => const PopScopeDialog(),
+                                builder: (context) =>
+                                    const UnsavedChangesDialog(),
                               );
                               return shouldNavigate ?? false;
                             },
@@ -877,7 +883,7 @@ class AppRouter {
 
                           final shouldNavigate = await showDialog<bool>(
                             context: context,
-                            builder: (context) => const PopScopeDialog(),
+                            builder: (context) => const UnsavedChangesDialog(),
                           );
                           return shouldNavigate ?? false;
                         },
@@ -919,7 +925,7 @@ class AppRouter {
 
                       final shouldNavigate = await showDialog<bool>(
                         context: context,
-                        builder: (context) => const PopScopeDialog(),
+                        builder: (context) => const UnsavedChangesDialog(),
                       );
                       return shouldNavigate ?? false;
                     },
@@ -976,7 +982,7 @@ class AppRouter {
 
                       final shouldNavigate = await showDialog<bool>(
                         context: context,
-                        builder: (context) => const PopScopeDialog(),
+                        builder: (context) => const UnsavedChangesDialog(),
                       );
                       return shouldNavigate ?? false;
                     },
@@ -1042,7 +1048,7 @@ class AppRouter {
 
                       final shouldNavigate = await showDialog<bool>(
                         context: context,
-                        builder: (context) => const PopScopeDialog(),
+                        builder: (context) => const UnsavedChangesDialog(),
                       );
                       return shouldNavigate ?? false;
                     },
@@ -1069,7 +1075,7 @@ class AppRouter {
 
                       final shouldNavigate = await showDialog<bool>(
                         context: context,
-                        builder: (context) => const PopScopeDialog(),
+                        builder: (context) => const UnsavedChangesDialog(),
                       );
                       return shouldNavigate ?? false;
                     },
@@ -1097,7 +1103,7 @@ class AppRouter {
 
                       final shouldNavigate = await showDialog<bool>(
                         context: context,
-                        builder: (context) => const PopScopeDialog(),
+                        builder: (context) => const UnsavedChangesDialog(),
                       );
                       return shouldNavigate ?? false;
                     },

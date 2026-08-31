@@ -22,7 +22,7 @@ class ProjectListWidget extends ConsumerWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
-        child: ContainerWidget(
+        child: ContentContainer(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
           child: switch (list) {
@@ -30,7 +30,7 @@ class ProjectListWidget extends ConsumerWidget {
               desktop: _DesktopWidget(items: value.items),
               mobile: _MobileWidget(items: value.items),
             ),
-            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            AsyncError(:final error, :final stackTrace) => ErrorStateView(
               error: error,
               stackTrace: stackTrace,
             ),
@@ -112,7 +112,7 @@ class _DesktopWidget extends ConsumerWidget {
                     WorkProjectStatus.preexecuted => colorScheme.error,
                     WorkProjectStatus.active => colorScheme.primary,
                     WorkProjectStatus.closed => colorScheme.outline,
-                  }.withValues(alpha: 0.12),
+                  }.faint,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -146,7 +146,7 @@ class _DesktopWidget extends ConsumerWidget {
               ),
             ),
             DataCell(
-              ClientInformation(
+              ClientInfo(
                 clientId: item.clients.first.id,
                 name: item.clients.last.name,
               ),
@@ -159,21 +159,16 @@ class _DesktopWidget extends ConsumerWidget {
             ),
             DataCell(
               item.latestCategory != null
-                  ? CategoryWidget(item: item.latestCategory!)
+                  ? IssueCategoryBadge(item: item.latestCategory!)
                   : Text('-'),
             ),
             DataCell(
-              Text(
-                date,
-                style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
-              ),
+              Text(date, style: TextStyle(color: colorScheme.onSurface.strong)),
             ),
           ],
         );
       }),
-      empty: DataTableEmpty(message: Intl.message('work_project_no_item')),
+      empty: EmptyStateView(message: Intl.message('work_project_no_item')),
       onLoadMore: () =>
           ref.read(workProjectListControllerProvider.notifier).load(),
     );
@@ -191,24 +186,7 @@ class _MobileWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('work_project_no_item')),
-          ],
-        ),
-      );
+      return EmptyStateView(message: Intl.message('work_project_no_item'));
     }
 
     return NotificationListener<ScrollNotification>(
@@ -230,7 +208,7 @@ class _MobileWidget extends ConsumerWidget {
             WorkProjectStatus.active => colorScheme.primary,
             WorkProjectStatus.closed => colorScheme.outline,
           };
-          final clientType = ClientType.fromKey(item.clients.first.id);
+          final clientType = ClientBrand.fromKey(item.clients.first.id);
           final date = item.createdAt == item.updatedAt
               ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.createdAt)}'
               : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
@@ -254,7 +232,7 @@ class _MobileWidget extends ConsumerWidget {
                         ),
                         decoration: ShapeDecoration(
                           shape: const StadiumBorder(),
-                          color: statusColor.withValues(alpha: 0.12),
+                          color: statusColor.faint,
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -281,7 +259,7 @@ class _MobileWidget extends ConsumerWidget {
                       if (item.latestCategory case final category?)
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
-                          child: CategoryWidget(item: category),
+                          child: IssueCategoryBadge(item: category),
                         ),
                     ],
                   ),
@@ -330,9 +308,7 @@ class _MobileWidget extends ConsumerWidget {
                   ),
                   Text(
                     item.code,
-                    style: TextStyle(
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
+                    style: TextStyle(color: colorScheme.onSurface.strong),
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -343,7 +319,7 @@ class _MobileWidget extends ConsumerWidget {
                       Icon(
                         Symbols.calendar_today_rounded,
                         size: 18.0,
-                        color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: colorScheme.onSurface.strong,
                       ),
                       const SizedBox(width: 4.0),
                       Expanded(
@@ -353,7 +329,7 @@ class _MobileWidget extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ),

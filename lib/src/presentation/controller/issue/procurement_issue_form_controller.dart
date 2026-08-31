@@ -56,9 +56,7 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
   }
 
   void setSelectedSupplierIds({required Set<int> selectedSupplierIds}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final nextTitles = <int, String>{};
     final nextDeliveryDates = <int, DateTime?>{};
@@ -97,8 +95,7 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
     bool updatePaymentTerms = false,
     bool updateNote = false,
   }) {
-    final value = state.value;
-    if (value == null) return;
+    final value = state.requireValue;
 
     final nextTitles = {...value.titles};
     final nextDeliveryDates = {...value.deliveryDates};
@@ -143,9 +140,7 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
     String? unitPrice,
     String? totalAmount,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final supplierItemIndexes = <int>[];
     for (var i = 0; i < value.items.length; i++) {

@@ -7,6 +7,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
+import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/presentation/screen/auth/register/widget/password_invalid_widget.dart';
 import 'package:taskflow/src/presentation/screen/auth/register/widget/terms_and_agreement_widget.dart';
 import 'package:taskflow/src/shared/tool/validation.dart';
@@ -35,7 +36,7 @@ class RegisterFormWidget extends HookConsumerWidget {
 
     final passwordVisibility = useState<bool>(false);
     final validationItems = useState(
-      WidgetPreset(context).passwordValidationItems,
+      UiConfiguration(context).passwordValidationItems,
     );
 
     final termsAndAgreement = useState<bool>(false);
@@ -57,9 +58,27 @@ class RegisterFormWidget extends HookConsumerWidget {
         email: email.text,
         password: password.text,
       );
-      await ref
+      LoadingOverlay.show(context);
+      final success = await ref
           .read(authControllerProvider.notifier)
           .register(request: request);
+      LoadingOverlay.hide();
+
+      if (!context.mounted || !success) return;
+
+      final router = ref.read(routerProvider).config;
+      router.goNamed(
+        RouteNames.login,
+        queryParameters: {if (path != null) 'redirect_to': path},
+      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final dialogContext = router.routerDelegate.navigatorKey.currentContext;
+        if (dialogContext == null) return;
+        showDialog(
+          context: dialogContext,
+          builder: (_) => const LoginRequestDialog(),
+        );
+      });
     }
 
     return SingleChildScrollView(
@@ -195,7 +214,7 @@ class RegisterFormWidget extends HookConsumerWidget {
                   suffixIcon: password.text.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(right: 4.0),
-                          child: CustomIconButton(
+                          child: AppIconButton(
                             onTap: () {
                               passwordVisibility.value =
                                   !passwordVisibility.value;

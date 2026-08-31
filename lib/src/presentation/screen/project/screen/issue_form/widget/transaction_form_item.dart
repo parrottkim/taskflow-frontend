@@ -7,60 +7,37 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_scope.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 
 class TransactionFormItem extends ConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final Currency? currency;
   final List<TransactionIssueItem> items;
-  final ValueNotifier<bool> hasTransactionIssueItems;
-  final ValueNotifier<bool> isTransactionIssueItemEmpty;
 
-  const TransactionFormItem({
-    super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
-    this.currency,
-    required this.items,
-    required this.hasTransactionIssueItems,
-    required this.isTransactionIssueItemEmpty,
-  });
+  const TransactionFormItem({super.key, this.currency, required this.items});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(issueOptionsControllerProvider);
+    final filter = ref.watch(issueOptionsProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-        projectId: projectId,
-        categoryId: categoryId,
-        issueId: issueId,
         currency: currency,
         categories: value.transactionCategories,
         currencies: value.currencies,
         items: items,
-        hasTransactionIssueItems: hasTransactionIssueItems,
-        isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
-          projectId: projectId,
-          categoryId: categoryId,
-          issueId: issueId,
           currency: Currency.empty(),
           categories: [],
           currencies: [],
           items: List.filled(1, TransactionIssueItem.dummy()),
-          hasTransactionIssueItems: hasTransactionIssueItems,
-          isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
         ),
       ),
     };
@@ -68,30 +45,28 @@ class TransactionFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final Currency? currency;
   final List<TransactionIssueItemCategory> categories;
   final List<Currency> currencies;
   final List<TransactionIssueItem>? items;
-  final ValueNotifier<bool> hasTransactionIssueItems;
-  final ValueNotifier<bool> isTransactionIssueItemEmpty;
 
   const _DesktopWidget({
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
     this.currency,
     required this.categories,
     required this.currencies,
     this.items,
-    required this.hasTransactionIssueItems,
-    required this.isTransactionIssueItemEmpty,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scope = IssueFormScope.of(context);
+    final projectId = scope.projectId;
+    final categoryId = scope.categoryId;
+    final issueId = scope.issueId;
+    final validation = ref.watch(issueValidationControllerProvider);
+    final validationController = ref.read(
+      issueValidationControllerProvider.notifier,
+    );
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -168,15 +143,15 @@ class _DesktopWidget extends HookConsumerWidget {
                         showBottomBorder: true,
                         border: TableBorder(
                           verticalInside: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                           horizontalInside: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                           bottom: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                         ),
@@ -191,9 +166,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.checkbook_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -201,9 +174,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_3'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -220,9 +191,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -230,9 +199,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_4'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -249,9 +216,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -259,9 +224,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_5'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -278,9 +241,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -288,9 +249,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_6'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -307,9 +266,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.text_fields_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -317,9 +274,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('common_note'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -370,7 +325,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 8.0,
                                   ),
-                                  child: CustomToggleButton(
+                                  child: AppToggleButton(
                                     value: items![index].isPaid,
                                     onChanged: (value) {
                                       ref
@@ -383,7 +338,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                           )
                                           .toggleTransactionIssueItemPaid(
                                             index: index,
-                                            isPaid: value ?? false,
+                                            isPaid: value,
                                           );
                                     },
                                   ),
@@ -425,7 +380,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       ),
                                     ),
                                     onChanged: (value) {
-                                      isTransactionIssueItemEmpty.value = false;
+                                      validationController.clearTransaction();
                                       ref
                                           .read(
                                             issueFormControllerProvider(
@@ -454,10 +409,10 @@ class _DesktopWidget extends HookConsumerWidget {
           else
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: ContainerWidget(
+              child: ContentContainer(
                 width: double.infinity,
                 borderRadius: BorderRadius.circular(8.0),
-                color: colorScheme.outline.withValues(alpha: 0.2),
+                color: colorScheme.outline.subtle,
                 borderColor: colorScheme.outline,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -467,10 +422,10 @@ class _DesktopWidget extends HookConsumerWidget {
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 4.0),
-                    CustomTextButton(
+                    AppTextButton(
                       onPressed: () async {
                         final filter = await ref.read(
-                          issueOptionsControllerProvider.future,
+                          issueOptionsProvider.future,
                         );
                         final list = await ref.read(
                           issueListControllerProvider(
@@ -486,8 +441,8 @@ class _DesktopWidget extends HookConsumerWidget {
                           context.goNamed(
                             RouteNames.issueNew,
                             pathParameters: {
-                              'category_id': categoryId.toString(),
                               'project_id': projectId.toString(),
+                              'category_id': categoryId.toString(),
                             },
                           );
                         } else {
@@ -507,12 +462,12 @@ class _DesktopWidget extends HookConsumerWidget {
                 ),
               ),
             ),
-          InvalidWidget(
-            visible: hasTransactionIssueItems.value,
+          ValidationErrorMessage(
+            visible: validation.transactionItemsMissing,
             text: Intl.message('issue_form_transaction_item_invalid_1'),
           ),
-          InvalidWidget(
-            visible: isTransactionIssueItemEmpty.value,
+          ValidationErrorMessage(
+            visible: validation.transactionItemInvalid,
             text: Intl.message('issue_form_transaction_item_invalid_2'),
           ),
         ],

@@ -3,8 +3,8 @@ part of '../controller.dart';
 @freezed
 abstract class WorkReportFilterState with _$WorkReportFilterState {
   factory WorkReportFilterState({
-    WorkReportSort? sort,
-    Order? order,
+    WorkReportSortOption? sort,
+    SortDirection? order,
     String? search,
     List<int>? clients,
     List<int>? categories,

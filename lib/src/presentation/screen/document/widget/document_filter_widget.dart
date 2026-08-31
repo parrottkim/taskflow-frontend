@@ -16,24 +16,24 @@ class DocumentFilterWidget extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-      child: CupertinoSlidingSegmentedControl<DocumentSort>(
+      child: CupertinoSlidingSegmentedControl<DocumentSortOption>(
         groupValue: filter.sort,
         onValueChanged: (sort) {
           if (sort == null || sort == filter.sort) return;
 
           ref.read(documentFilterControllerProvider.notifier)
             ..setSort(sort: sort)
-            ..setOrder(order: Order.desc);
+            ..setOrder(order: SortDirection.desc);
 
           context.goNamed(
             RouteNames.document,
             queryParameters: context.buildQueryParameters(
-              updates: {'sort': sort.key, 'order': Order.desc.key},
+              updates: {'sort': sort.key, 'order': SortDirection.desc.key},
             ),
           );
         },
         children: {
-          for (final sort in DocumentSort.values)
+          for (final sort in DocumentSortOption.values)
             sort: _DocumentSortSegment(sort: sort),
         },
       ),
@@ -42,7 +42,7 @@ class DocumentFilterWidget extends ConsumerWidget {
 }
 
 class _DocumentSortSegment extends ConsumerWidget {
-  final DocumentSort sort;
+  final DocumentSortOption sort;
 
   const _DocumentSortSegment({required this.sort});
 
@@ -58,9 +58,9 @@ class _DocumentSortSegment extends ConsumerWidget {
       behavior: HitTestBehavior.opaque,
       onTap: isSelected
           ? () {
-              final nextOrder = filter.order == Order.asc
-                  ? Order.desc
-                  : Order.asc;
+              final nextOrder = filter.order == SortDirection.asc
+                  ? SortDirection.desc
+                  : SortDirection.asc;
 
               ref.read(documentFilterControllerProvider.notifier)
                 ..setSort(sort: sort)
@@ -79,17 +79,13 @@ class _DocumentSortSegment extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              sort.icon,
-              size: 16.0,
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
-            ),
+            Icon(sort.icon, size: 16.0, color: colorScheme.onSurface.strong),
             SizedBox(width: 6.0),
             Text(sort.label, style: textTheme.bodyMedium),
             SizedBox(width: 6.0),
             if (isSelected)
               RotatedBox(
-                quarterTurns: filter.order == Order.asc ? 0 : 2,
+                quarterTurns: filter.order == SortDirection.asc ? 0 : 2,
                 child: Icon(Symbols.arrow_drop_up_rounded, size: 16.0),
               ),
           ],

@@ -17,14 +17,20 @@ class ReportSubmitController extends _$ReportSubmitController {
             scheduleId: scheduleId,
           ),
         )
-        .value;
-
-    if (value == null) return;
+        .requireValue;
     state = const ReportSubmitState.pending();
 
     try {
       late Report report;
-      final initialContent = appflowy.documentToMarkdown(editorState.document);
+      final initialContent = value.content ?? '';
+      final dailyAllowance = value.schedule?.category is ScheduleDomestic
+          ? await ref
+                .read(reportRepositoryProvider)
+                .previewDailyAllowance(
+                  scheduleId: value.schedule!.id,
+                  holidays: value.schedule!.holidays,
+                )
+          : null;
 
       // 1. 공통 필드를 포함하는 최상위 요청 생성 (Base ReportFormState에서 접근 가능)
       CreateReportRequest request = CreateReportRequest(
@@ -53,23 +59,44 @@ class ReportSubmitController extends _$ReportSubmitController {
               .map(
                 (e) => CreateActualExpenseRequest(
                   stepId: e.stepId,
+                  currencyId: e.currencyId,
                   price: e.price!,
+                  paymentDate: e.paymentDate,
                   details: e.details,
                 ),
               )
               .toList(),
-          rates: value.rates
-              .map(
-                (e) => CreateRegulationRateRequest(
-                  stepId: e.stepId,
-                  days: e.days!,
-                  rate: e.rate!,
-                  details: e.details,
+          rates: [
+            ...value.rates
+                .where((rate) => rate.stepId != 10 && rate.stepId != 11)
+                .map(
+                  (rate) => CreateRegulationRateRequest(
+                    stepId: rate.stepId,
+                    days: rate.days!,
+                    rate: rate.rate!,
+                    details: rate.details,
+                  ),
                 ),
-              )
-              .toList(),
+            CreateRegulationRateRequest(
+              stepId: 10,
+              days: dailyAllowance!.totalTripDays.toString(),
+              rate:
+                  dailyAllowance.dailyRate ==
+                      dailyAllowance.dailyRate.truncateToDouble()
+                  ? dailyAllowance.dailyRate.toInt().toString()
+                  : dailyAllowance.dailyRate.toString(),
+            ),
+          ],
           fuel: fuelRequest,
-          isDeducted: false,
+          holidays: value.schedule!.holidays
+              .map(
+                (holiday) => UpdateScheduleHolidayRequest(
+                  date: holiday.date,
+                  isTravelOnly: holiday.isTravelOnly,
+                  compensatoryLeaveDate: holiday.compensatoryLeaveDate,
+                ),
+              )
+              .toList(),
         );
 
         request = request.copyWith(trip: item);
@@ -80,7 +107,9 @@ class ReportSubmitController extends _$ReportSubmitController {
               .map(
                 (e) => CreateActualExpenseRequest(
                   stepId: e.stepId,
+                  currencyId: e.currencyId,
                   price: e.price!,
+                  paymentDate: e.paymentDate,
                   details: e.details,
                 ),
               )
@@ -96,7 +125,6 @@ class ReportSubmitController extends _$ReportSubmitController {
               )
               .toList(),
           fuel: null,
-          isDeducted: value.isDeducted,
         );
 
         request = request.copyWith(trip: item);
@@ -120,6 +148,7 @@ class ReportSubmitController extends _$ReportSubmitController {
                 projectId: projectId,
                 content: content,
                 persistedReport: report,
+                dailyAllowance: dailyAllowance,
               ),
             );
       }
@@ -173,12 +202,18 @@ class ReportSubmitController extends _$ReportSubmitController {
             scheduleId: scheduleId,
           ),
         )
-        .value;
-
-    if (value == null) return;
+        .requireValue;
     state = const ReportSubmitState.pending();
 
     try {
+      final dailyAllowance = value.schedule?.category is ScheduleDomestic
+          ? await ref
+                .read(reportRepositoryProvider)
+                .previewDailyAllowance(
+                  scheduleId: value.schedule!.id,
+                  holidays: value.schedule!.holidays,
+                )
+          : null;
       final content = await _uploadInlineImages(
         editorState: editorState,
         resourceId: reportId,
@@ -187,6 +222,7 @@ class ReportSubmitController extends _$ReportSubmitController {
         value: value,
         projectId: projectId,
         content: content,
+        dailyAllowance: dailyAllowance,
       );
 
       Report report = await ref
@@ -233,6 +269,7 @@ class ReportSubmitController extends _$ReportSubmitController {
     required int projectId,
     required String content,
     Report? persistedReport,
+    DailyAllowancePreview? dailyAllowance,
   }) {
     var request = UpdateReportRequest(
       scheduleId: value.schedule?.id,
@@ -243,6 +280,11 @@ class ReportSubmitController extends _$ReportSubmitController {
 
     if (value.schedule?.category is ScheduleDomestic) {
       final fuel = value.fuel;
+      final existingDailyRate =
+          persistedReport?.trip?.rates.firstWhereOrNull(
+            (rate) => rate.stepId == 10,
+          ) ??
+          value.rates.firstWhereOrNull((rate) => rate.stepId == 10);
       final trip = UpdateTripReportRequest(
         expenses: value.expenses.indexed
             .map(
@@ -251,24 +293,36 @@ class ReportSubmitController extends _$ReportSubmitController {
                     ? persistedReport!.trip!.expenses[entry.$1].id
                     : entry.$2.id,
                 stepId: entry.$2.stepId,
+                currencyId: entry.$2.currencyId,
                 price: entry.$2.price!,
+                paymentDate: entry.$2.paymentDate,
                 details: entry.$2.details,
               ),
             )
             .toList(),
-        rates: value.rates.indexed
-            .map(
-              (entry) => UpdateRegulationRateRequest(
-                id: entry.$1 < (persistedReport?.trip?.rates.length ?? 0)
-                    ? persistedReport!.trip!.rates[entry.$1].id
-                    : entry.$2.id,
-                stepId: entry.$2.stepId,
-                days: entry.$2.days!,
-                rate: entry.$2.rate!,
-                details: entry.$2.details,
+        rates: [
+          ...value.rates
+              .where((rate) => rate.stepId != 10 && rate.stepId != 11)
+              .map(
+                (rate) => UpdateRegulationRateRequest(
+                  id: rate.id,
+                  stepId: rate.stepId,
+                  days: rate.days!,
+                  rate: rate.rate!,
+                  details: rate.details,
+                ),
               ),
-            )
-            .toList(),
+          UpdateRegulationRateRequest(
+            id: existingDailyRate?.id,
+            stepId: 10,
+            days: dailyAllowance!.totalTripDays.toString(),
+            rate:
+                dailyAllowance.dailyRate ==
+                    dailyAllowance.dailyRate.truncateToDouble()
+                ? dailyAllowance.dailyRate.toInt().toString()
+                : dailyAllowance.dailyRate.toString(),
+          ),
+        ],
         fuel: fuel == null
             ? null
             : UpdateFuelExpenseRequest(
@@ -277,7 +331,15 @@ class ReportSubmitController extends _$ReportSubmitController {
                 mileage: fuel.mileage,
                 distance: fuel.distance,
               ),
-        isDeducted: false,
+        holidays: value.schedule!.holidays
+            .map(
+              (holiday) => UpdateScheduleHolidayRequest(
+                date: holiday.date,
+                isTravelOnly: holiday.isTravelOnly,
+                compensatoryLeaveDate: holiday.compensatoryLeaveDate,
+              ),
+            )
+            .toList(),
       );
       request = request.copyWith(trip: trip);
     } else if (value.schedule?.category is ScheduleOverseas) {
@@ -289,7 +351,9 @@ class ReportSubmitController extends _$ReportSubmitController {
                     ? persistedReport!.trip!.expenses[entry.$1].id
                     : entry.$2.id,
                 stepId: entry.$2.stepId,
+                currencyId: entry.$2.currencyId,
                 price: entry.$2.price!,
+                paymentDate: entry.$2.paymentDate,
                 details: entry.$2.details,
               ),
             )
@@ -308,7 +372,6 @@ class ReportSubmitController extends _$ReportSubmitController {
             )
             .toList(),
         fuel: null,
-        isDeducted: value.isDeducted,
       );
       request = request.copyWith(trip: trip);
     }

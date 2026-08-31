@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -66,7 +67,7 @@ class FolderTreeItemWidget extends HookConsumerWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: selected
-                      ? colorScheme.primary.withValues(alpha: 0.08)
+                      ? colorScheme.primary.faint
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(6.0),
                 ),
@@ -95,9 +96,7 @@ class FolderTreeItemWidget extends HookConsumerWidget {
                                       ? Symbols.keyboard_arrow_down_rounded
                                       : Symbols.keyboard_arrow_right_rounded,
                                   size: 18.0,
-                                  color: colorScheme.onSurface.withValues(
-                                    alpha: 0.55,
-                                  ),
+                                  color: colorScheme.onSurface.strong,
                                 ),
                               )
                             : null,
@@ -110,7 +109,7 @@ class FolderTreeItemWidget extends HookConsumerWidget {
                         size: 18.0,
                         color: selected
                             ? colorScheme.primary
-                            : colorScheme.onSurface.withValues(alpha: 0.7),
+                            : colorScheme.onSurface.strong,
                         weight: selected ? 600 : 400,
                       ),
                       SizedBox(width: 8.0),
@@ -122,7 +121,7 @@ class FolderTreeItemWidget extends HookConsumerWidget {
                           style: textTheme.bodyMedium?.copyWith(
                             color: selected
                                 ? colorScheme.primary
-                                : colorScheme.onSurface.withValues(alpha: 0.7),
+                                : colorScheme.onSurface.strong,
                             fontWeight: selected
                                 ? FontWeight.w600
                                 : FontWeight.w400,

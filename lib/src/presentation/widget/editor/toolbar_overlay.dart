@@ -16,7 +16,25 @@ class ToolbarOverlayWidget extends HookWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    useListenable(editorState.selectionNotifier);
+    final toolbarRevision = useState(0);
+
+    useEffect(() {
+      void updateToolbar() {
+        // Text input advances the selection through transactions. Rebuilding
+        // the toolbar for those updates causes unnecessary repainting while a
+        // Web IME composition is active.
+        if (editorState.selectionUpdateReason !=
+            SelectionUpdateReason.transaction) {
+          toolbarRevision.value++;
+        }
+      }
+
+      editorState.selectionNotifier.addListener(updateToolbar);
+      return () => editorState.selectionNotifier.removeListener(updateToolbar);
+    }, [editorState]);
+
+    // Register this build as a consumer of the revision.
+    toolbarRevision.value;
 
     // 현재 상태를 직접 참조 (null이어도 상관 없음)
     final selection = editorState.selection;
@@ -26,12 +44,21 @@ class ToolbarOverlayWidget extends HookWidget {
     final nodes = selection != null
         ? editorState.getNodesInSelection(selection)
         : null;
+    bool hasContent(Node selectedNode) =>
+        selectedNode.delta?.toPlainText().trim().isNotEmpty ?? false;
+
+    final textNodes =
+        nodes?.where((selectedNode) => selectedNode.delta != null).toList() ??
+        const <Node>[];
+    final nonEmptyTextNodes = textNodes.where(hasContent).toList();
 
     String? textColorHex;
     String? highlightColorHex;
 
     final layerLink = useMemoized(() => LayerLink());
-    final canFormat = selection != null && node != null;
+    final canFormatTextBlock = selection != null && textNodes.isNotEmpty;
+    final canFormatHeading = selection != null && nonEmptyTextNodes.isNotEmpty;
+    final canInsertImage = selection?.isCollapsed == true && node != null;
 
     ToolbarButton toolbarButton({
       required IconData icon,
@@ -39,7 +66,14 @@ class ToolbarOverlayWidget extends HookWidget {
       bool isHighlight = false,
     }) {
       return ToolbarButton(
-        onTap: onTap == null ? null : () => onTap(),
+        onTap: onTap == null
+            ? null
+            : () {
+                onTap();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  toolbarRevision.value++;
+                });
+              },
         icon: icon,
         isHighlight: isHighlight,
       );
@@ -52,36 +86,76 @@ class ToolbarOverlayWidget extends HookWidget {
       );
     }
 
+    bool hasEveryTextBlock(
+      String type, {
+      Map<String, dynamic> attributes = const {},
+      bool skipEmpty = false,
+    }) {
+      final targetNodes = skipEmpty ? nonEmptyTextNodes : textNodes;
+
+      return targetNodes.isNotEmpty &&
+          targetNodes.every(
+            (selectedNode) =>
+                selectedNode.type == type &&
+                attributes.entries.every(
+                  (entry) => selectedNode.attributes[entry.key] == entry.value,
+                ),
+          );
+    }
+
     void formatTextBlock({
       required String type,
       Map<String, dynamic> attributes = const {},
       bool toggleToParagraph = true,
+      bool skipEmpty = false,
     }) {
-      if (selection == null || node == null || node.delta == null) return;
+      final selection = editorState.selection;
+      if (selection == null) return;
 
-      final delta = node.delta!.toJson();
-      final isSameBlock =
-          node.type == type &&
-          attributes.entries.every(
-            (entry) => node.attributes[entry.key] == entry.value,
+      final currentTextNodes = editorState
+          .getNodesInSelection(selection)
+          .where((selectedNode) => selectedNode.delta != null)
+          .toList();
+      final targetNodes = skipEmpty
+          ? currentTextNodes.where(hasContent).toList()
+          : currentTextNodes;
+      if (targetNodes.isEmpty) return;
+
+      final shouldToggleToParagraph =
+          toggleToParagraph &&
+          targetNodes.every(
+            (selectedNode) =>
+                selectedNode.type == type &&
+                attributes.entries.every(
+                  (entry) => selectedNode.attributes[entry.key] == entry.value,
+                ),
           );
+      final targetType = shouldToggleToParagraph
+          ? ParagraphBlockKeys.type
+          : type;
+      final transaction = editorState.transaction;
 
-      editorState.formatNode(
-        selection,
-        (node) => node.copyWith(
-          type: toggleToParagraph && isSameBlock
-              ? ParagraphBlockKeys.type
-              : type,
+      for (final selectedNode in targetNodes) {
+        final formattedNode = selectedNode.copyWith(
+          type: targetType,
           attributes: {
-            ...attributes,
-            blockComponentDelta: delta,
+            if (targetType != ParagraphBlockKeys.type) ...attributes,
+            blockComponentDelta: (selectedNode.delta ?? Delta()).toJson(),
             blockComponentBackgroundColor:
-                node.attributes[blockComponentBackgroundColor],
+                selectedNode.attributes[blockComponentBackgroundColor],
             blockComponentTextDirection:
-                node.attributes[blockComponentTextDirection],
+                selectedNode.attributes[blockComponentTextDirection],
+            blockComponentAlign: selectedNode.attributes[blockComponentAlign],
           },
-        ),
-      );
+        );
+
+        transaction
+          ..insertNode(selectedNode.path, formattedNode)
+          ..deleteNode(selectedNode);
+      }
+
+      transaction.afterSelection = transaction.beforeSelection;
+      editorState.apply(transaction);
     }
 
     bool hasEveryAttribute(String key) {
@@ -108,9 +182,7 @@ class ToolbarOverlayWidget extends HookWidget {
         constraints: BoxConstraints(maxWidth: maxWidth),
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: colorScheme.outline.withValues(alpha: 0.2),
-            ),
+            border: Border.all(color: colorScheme.outline.subtle),
             borderRadius: BorderRadius.vertical(top: Radius.circular(8.0)),
             color: colorScheme.surfaceBright,
           ),
@@ -132,55 +204,64 @@ class ToolbarOverlayWidget extends HookWidget {
                     ),
                     divider(),
                     toolbarButton(
-                      onTap: canFormat
+                      onTap: canFormatTextBlock
                           ? () => formatTextBlock(
                               type: ParagraphBlockKeys.type,
                               toggleToParagraph: false,
                             )
                           : null,
-                      isHighlight: node?.type == ParagraphBlockKeys.type,
+                      isHighlight: hasEveryTextBlock(ParagraphBlockKeys.type),
                       icon: Symbols.match_case_rounded,
                     ),
                     toolbarButton(
-                      onTap: canFormat
+                      onTap: canFormatHeading
                           ? () => formatTextBlock(
                               type: HeadingBlockKeys.type,
                               attributes: {HeadingBlockKeys.level: 1},
+                              skipEmpty: true,
                             )
                           : null,
                       icon: Symbols.format_h1_rounded,
-                      isHighlight:
-                          node?.type == 'heading' &&
-                          node?.attributes['level'] == 1,
+                      isHighlight: hasEveryTextBlock(
+                        HeadingBlockKeys.type,
+                        attributes: {HeadingBlockKeys.level: 1},
+                        skipEmpty: true,
+                      ),
                     ),
                     toolbarButton(
-                      onTap: canFormat
+                      onTap: canFormatHeading
                           ? () => formatTextBlock(
                               type: HeadingBlockKeys.type,
                               attributes: {HeadingBlockKeys.level: 2},
+                              skipEmpty: true,
                             )
                           : null,
                       icon: Symbols.format_h2_rounded,
-                      isHighlight:
-                          node?.type == 'heading' &&
-                          node?.attributes['level'] == 2,
+                      isHighlight: hasEveryTextBlock(
+                        HeadingBlockKeys.type,
+                        attributes: {HeadingBlockKeys.level: 2},
+                        skipEmpty: true,
+                      ),
                     ),
                     toolbarButton(
-                      onTap: canFormat
+                      onTap: canFormatHeading
                           ? () => formatTextBlock(
                               type: HeadingBlockKeys.type,
                               attributes: {HeadingBlockKeys.level: 3},
+                              skipEmpty: true,
                             )
                           : null,
                       icon: Symbols.format_h3_rounded,
-                      isHighlight:
-                          node?.type == 'heading' &&
-                          node?.attributes['level'] == 3,
+                      isHighlight: hasEveryTextBlock(
+                        HeadingBlockKeys.type,
+                        attributes: {HeadingBlockKeys.level: 3},
+                        skipEmpty: true,
+                      ),
                     ),
                     divider(),
                     toolbarButton(
                       onTap: () {
-                        if (selection == null || node == null) return;
+                        if (editorState.selection == null) return;
 
                         editorState.toggleAttribute('bold');
                       },
@@ -189,7 +270,7 @@ class ToolbarOverlayWidget extends HookWidget {
                     ),
                     toolbarButton(
                       onTap: () {
-                        if (selection == null || node == null) return;
+                        if (editorState.selection == null) return;
 
                         editorState.toggleAttribute('italic');
                       },
@@ -198,7 +279,7 @@ class ToolbarOverlayWidget extends HookWidget {
                     ),
                     toolbarButton(
                       onTap: () {
-                        if (selection == null || node == null) return;
+                        if (editorState.selection == null) return;
 
                         editorState.toggleAttribute('underline');
                       },
@@ -207,7 +288,7 @@ class ToolbarOverlayWidget extends HookWidget {
                     ),
                     toolbarButton(
                       onTap: () {
-                        if (selection == null || node == null) return;
+                        if (editorState.selection == null) return;
 
                         editorState.toggleAttribute('strikethrough');
                       },
@@ -216,7 +297,7 @@ class ToolbarOverlayWidget extends HookWidget {
                     ),
                     toolbarButton(
                       onTap: () {
-                        if (selection == null || node == null) return;
+                        if (editorState.selection == null) return;
 
                         editorState.toggleAttribute('code');
                       },
@@ -225,55 +306,39 @@ class ToolbarOverlayWidget extends HookWidget {
                     ),
                     divider(),
                     toolbarButton(
-                      onTap: () {
-                        if (selection == null || node == null) return;
-
-                        editorState.formatNode(
-                          selection,
-                          (node) => node.copyWith(
-                            type: node.type == 'bulleted_list'
-                                ? 'paragraph'
-                                : 'bulleted_list',
-                          ),
-                        );
-                      },
+                      onTap: canFormatTextBlock
+                          ? () => formatTextBlock(
+                              type: BulletedListBlockKeys.type,
+                            )
+                          : null,
                       icon: Symbols.format_list_bulleted_rounded,
-                      isHighlight: node?.type == 'bulleted_list',
+                      isHighlight: hasEveryTextBlock(
+                        BulletedListBlockKeys.type,
+                      ),
                     ),
                     toolbarButton(
-                      onTap: () {
-                        if (selection == null || node == null) return;
-
-                        editorState.formatNode(
-                          selection,
-                          (node) => node.copyWith(
-                            type: node.type == 'numbered_list'
-                                ? 'paragraph'
-                                : 'numbered_list',
-                          ),
-                        );
-                      },
+                      onTap: canFormatTextBlock
+                          ? () => formatTextBlock(
+                              type: NumberedListBlockKeys.type,
+                            )
+                          : null,
                       icon: Symbols.format_list_numbered_rounded,
-                      isHighlight: node?.type == 'numbered_list',
+                      isHighlight: hasEveryTextBlock(
+                        NumberedListBlockKeys.type,
+                      ),
                     ),
                     toolbarButton(
-                      onTap: () {
-                        if (selection == null || node == null) return;
-
-                        editorState.formatNode(
-                          selection,
-                          (node) => node.copyWith(
-                            type: node.type == 'quote' ? 'paragraph' : 'quote',
-                          ),
-                        );
-                      },
+                      onTap: canFormatTextBlock
+                          ? () => formatTextBlock(type: QuoteBlockKeys.type)
+                          : null,
                       icon: Symbols.format_quote_rounded,
-                      isHighlight: node?.type == 'quote',
+                      isHighlight: hasEveryTextBlock(QuoteBlockKeys.type),
                     ),
                     divider(),
                     toolbarButton(
                       onTap: () {
-                        if (selection == null || node == null) return;
+                        final currentSelection = editorState.selection;
+                        if (currentSelection == null) return;
 
                         showPaletteOverlay(
                           context,
@@ -299,12 +364,13 @@ class ToolbarOverlayWidget extends HookWidget {
                     toolbarButton(
                       onTap: nodes != null && nodes.length == 1
                           ? () {
-                              if (selection == null || node == null) return;
+                              final currentSelection = editorState.selection;
+                              if (currentSelection == null) return;
 
                               showLinkOverlay(
                                 context,
                                 editorState,
-                                selection,
+                                currentSelection,
                                 layerLink: layerLink,
                               );
                             }
@@ -315,7 +381,7 @@ class ToolbarOverlayWidget extends HookWidget {
                       ),
                     ),
                     toolbarButton(
-                      onTap: canFormat ? onPickImage : null,
+                      onTap: canInsertImage ? onPickImage : null,
                       icon: Symbols.photo_rounded,
                     ),
                   ],
@@ -380,6 +446,10 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
 
   @override
   void dispose() {
+    // The scroll service resolves providers through its BuildContext. During
+    // route teardown that context may already be deactivated, so stop the
+    // state-owned auto scroller directly instead.
+    editorState.autoScroller?.stopAutoScroll();
     editorState.service.selectionService.unregisterGestureInterceptor(
       _interceptorKey,
     );
@@ -395,6 +465,8 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
         data: node,
         feedback: _buildFeedback(),
         onDragStarted: () {
+          globalPosition = null;
+          editorState.scrollService?.stopAutoScroll();
           editorState.selectionService.removeDropTarget();
         },
         onDragUpdate: (details) {
@@ -412,6 +484,7 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
           editorState.scrollService?.startAutoScroll(details.globalPosition);
         },
         onDragEnd: (details) {
+          editorState.scrollService?.stopAutoScroll();
           editorState.selectionService.removeDropTarget();
 
           if (globalPosition == null) {
@@ -429,6 +502,7 @@ class _DragToReorderActionState extends State<DragToReorderAction> {
             acceptedPath,
             globalPosition!,
           );
+          globalPosition = null;
         },
         child: GestureDetector(
           onTap: _onTap,
@@ -583,7 +657,7 @@ Widget _buildDropArea(
   // left 계산: 블록 전체 너비 사용
   final left = rect.left;
   final width = rect.width; // 전체 블록 너비로 확장
-  final color = Theme.of(context).colorScheme.primary.withValues(alpha: 0.4);
+  final color = Theme.of(context).colorScheme.primary.muted;
 
   return Positioned(
     top: top,

@@ -52,26 +52,20 @@ class IssueFormController extends _$IssueFormController {
     );
   }
 
-  void setContent(String markdown) {
-    final value = state.value;
+  void setContent({required String content}) {
+    final value = state.requireValue;
 
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(content: markdown));
+    state = AsyncData(value.copyWith(content: content));
   }
 
   void setContractCurrency({required Currency currency}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(currency: currency));
   }
 
   void addContractIssueItem({ContractIssueItem? item}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -88,8 +82,7 @@ class IssueFormController extends _$IssueFormController {
     String? item,
     String? price,
   }) {
-    final value = state.value;
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItems = [...value.contractItems];
 
@@ -125,9 +118,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeContractIssueItem({required int index}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItems = [...value.contractItems];
 
@@ -144,25 +135,19 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeAllContractIssueItem() {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(contractItems: []));
   }
 
   void setKickoffDate({required DateTime date}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(kickoffDate: date));
   }
 
   void addProcurementIssueItem({ProcurementIssueItem? item}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -186,9 +171,7 @@ class IssueFormController extends _$IssueFormController {
     Supplier? supplier,
     String? note,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItems = [...value.procurementItems];
 
@@ -236,9 +219,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeProcurementIssueItem({required int index}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItems = [...value.procurementItems];
 
@@ -255,17 +236,13 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeAllProcurementIssueItem() {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(procurementItems: []));
   }
 
   void addTransactionIssueItem({TransactionIssueItem? item}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -284,9 +261,7 @@ class IssueFormController extends _$IssueFormController {
     String? ratio,
     String? note,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItems = [...value.transactionItems];
 
@@ -307,8 +282,7 @@ class IssueFormController extends _$IssueFormController {
     required int index,
     required bool isPaid,
   }) {
-    final value = state.value;
-    if (value == null) return;
+    final value = state.requireValue;
 
     final items = [...value.transactionItems];
     if (index < 0 || index >= items.length) return;
@@ -323,9 +297,7 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeTransactionIssueItem({required int index}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     final newItems = [...value.transactionItems];
 
@@ -342,17 +314,13 @@ class IssueFormController extends _$IssueFormController {
   }
 
   void removeAllTransactionIssueItem() {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(transactionItems: []));
   }
 
   Future<void> removeAttachment({required IssueAttachment attachment}) async {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
     if (issueId == null) return;
 
     await ref
@@ -361,29 +329,57 @@ class IssueFormController extends _$IssueFormController {
 
     state = AsyncData(
       value.copyWith(
-        attachments: [
-          ...value.attachments?.where((item) => item.id != attachment.id) ?? [],
-        ],
+        attachments: value.attachments
+            .where((item) => item.id != attachment.id)
+            .toList(),
       ),
     );
   }
 
   void addFile({required XFile file}) {
-    final value = state.value;
+    final value = state.requireValue;
 
-    if (value == null) return;
-
-    state = AsyncData(value.copyWith(files: [...?value.files, file]));
+    state = AsyncData(value.copyWith(files: [...value.files, file]));
   }
 
   void removeFile({required XFile file}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
-        files: [...value.files?.where((item) => item.path != file.path) ?? []],
+        files: value.files.where((item) => item.path != file.path).toList(),
+      ),
+    );
+  }
+
+  IssueDraftPayload toDraftPayload() {
+    final value = state.requireValue;
+
+    return IssueDraftPayload(
+      category: value.category,
+      content: value.content,
+      currency: value.currency,
+      kickoffDate: value.kickoffDate,
+      contractItems: value.contractItems,
+      transactionItems: value.transactionItems,
+      procurementItems: value.procurementItems,
+    );
+  }
+
+  void restoreDraftPayload(
+    IssueDraftPayload payload, {
+    List<XFile> files = const [],
+  }) {
+    state = AsyncData(
+      state.requireValue.copyWith(
+        category: payload.category,
+        content: payload.content,
+        currency: payload.currency,
+        kickoffDate: payload.kickoffDate,
+        contractItems: payload.contractItems,
+        transactionItems: payload.transactionItems,
+        procurementItems: payload.procurementItems,
+        files: files,
       ),
     );
   }

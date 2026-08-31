@@ -42,16 +42,16 @@ class OverviewWidget extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final selectedItem = useState<ProjectDetailSegment>(
-      ProjectDetailSegment.values.firstWhere(
+    final selectedItem = useState<ProjectDetailTab>(
+      ProjectDetailTab.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => ProjectDetailSegment.values.first,
+        orElse: () => ProjectDetailTab.values.first,
       ),
     );
 
     final controller = useTabController(
-      initialLength: ProjectDetailSegment.values.length,
-      initialIndex: ProjectDetailSegment.values.indexOf(selectedItem.value),
+      initialLength: ProjectDetailTab.values.length,
+      initialIndex: ProjectDetailTab.values.indexOf(selectedItem.value),
     );
 
     final opacityController = useAnimationController(
@@ -65,14 +65,14 @@ class OverviewWidget extends HookConsumerWidget {
     final currentIndex = useState<int>(controller.index);
 
     useEffect(() {
-      final newItem = ProjectDetailSegment.values.firstWhere(
+      final newItem = ProjectDetailTab.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => ProjectDetailSegment.values.first,
+        orElse: () => ProjectDetailTab.values.first,
       );
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
-        controller.animateTo(ProjectDetailSegment.values.indexOf(newItem));
+        controller.animateTo(ProjectDetailTab.values.indexOf(newItem));
       }
 
       return null;
@@ -118,11 +118,9 @@ class OverviewWidget extends HookConsumerWidget {
             child: FadeTransition(
               opacity: opacityController,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: ContainerWidget(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: colorScheme.outline.withValues(alpha: 0.2),
-                  borderColor: colorScheme.outline,
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: ContentContainer(
+                  color: colorScheme.outline.subtle,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -148,7 +146,7 @@ class OverviewWidget extends HookConsumerWidget {
             ),
           ),
         Expanded(
-          child: ContainerWidget(
+          child: ContentContainer(
             padding: EdgeInsets.zero,
             child: Stack(
               alignment: Alignment.topRight,
@@ -156,23 +154,16 @@ class OverviewWidget extends HookConsumerWidget {
                 NestedScrollView(
                   headerSliverBuilder: (context, innerBoxIsScrolled) => [
                     SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 24.0,
-                          right: 24.0,
-                          top: 24.0,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 32.0),
-                            HeadlineWidget(project: project),
-                            SizedBox(height: 32.0),
-                            InfoWidget(project: project),
-                            SizedBox(height: 16.0),
-                          ],
-                        ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ToolbarWidget(project: project),
+                          HeadlineWidget(project: project),
+                          SizedBox(height: 32.0),
+                          InfoWidget(project: project),
+                          SizedBox(height: 16.0),
+                        ],
                       ),
                     ),
                     SliverPersistentHeader(
@@ -181,8 +172,7 @@ class OverviewWidget extends HookConsumerWidget {
                         TabBar(
                           controller: controller,
                           onTap: (index) {
-                            selectedItem.value =
-                                ProjectDetailSegment.values[index];
+                            selectedItem.value = ProjectDetailTab.values[index];
 
                             ref
                                 .read(
@@ -210,69 +200,61 @@ class OverviewWidget extends HookConsumerWidget {
                           tabAlignment: TabAlignment.start,
                           isScrollable: true,
                           labelPadding: EdgeInsets.symmetric(horizontal: 24.0),
-                          tabs: List.generate(
-                            ProjectDetailSegment.values.length,
-                            (index) {
-                              final isActive =
-                                  (controller.animation?.value ??
-                                          controller.index)
-                                      .round() ==
-                                  index;
+                          tabs: List.generate(ProjectDetailTab.values.length, (
+                            index,
+                          ) {
+                            final isActive =
+                                (controller.animation?.value ??
+                                        controller.index)
+                                    .round() ==
+                                index;
 
-                              final segment =
-                                  ProjectDetailSegment.values[index];
-                              final count = switch (segment) {
-                                ProjectDetailSegment.contract => contracts,
-                                ProjectDetailSegment.approval => approvals,
-                                ProjectDetailSegment.procurement =>
-                                  procurements,
-                                ProjectDetailSegment.report => reports,
-                                _ => null,
-                              };
+                            final segment = ProjectDetailTab.values[index];
+                            final count = switch (segment) {
+                              ProjectDetailTab.contract => contracts,
+                              ProjectDetailTab.approval => approvals,
+                              ProjectDetailTab.procurement => procurements,
+                              ProjectDetailTab.report => reports,
+                              _ => null,
+                            };
 
-                              final countText = (count != null)
-                                  ? (count >= 10 ? '10+' : count.toString())
-                                  : null;
+                            final countText = (count != null)
+                                ? (count >= 10 ? '10+' : count.toString())
+                                : null;
 
-                              return Tab(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      ProjectDetailSegment.values[index].label,
-                                    ),
-                                    if (countText != null)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 6.0,
+                            return Tab(
+                              child: Row(
+                                children: [
+                                  Text(ProjectDetailTab.values[index].label),
+                                  if (countText != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 6.0),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 4.0,
+                                          vertical: 2.0,
                                         ),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 4.0,
-                                            vertical: 2.0,
-                                          ),
-                                          decoration: ShapeDecoration(
-                                            shape: StadiumBorder(),
-                                            color: isActive
-                                                ? colorScheme.primary
-                                                : colorScheme.outline
-                                                      .withValues(alpha: 0.7),
-                                          ),
-                                          child: Text(
-                                            countText,
-                                            style: textTheme.labelMedium
-                                                ?.copyWith(
-                                                  fontSize: 8.0,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: colorScheme.onPrimary,
-                                                ),
-                                          ),
+                                        decoration: ShapeDecoration(
+                                          shape: StadiumBorder(),
+                                          color: isActive
+                                              ? colorScheme.primary
+                                              : colorScheme.outline.strong,
+                                        ),
+                                        child: Text(
+                                          countText,
+                                          style: textTheme.labelMedium
+                                              ?.copyWith(
+                                                fontSize: 8.0,
+                                                fontWeight: FontWeight.w600,
+                                                color: colorScheme.onPrimary,
+                                              ),
                                         ),
                                       ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                                    ),
+                                ],
+                              ),
+                            );
+                          }),
                         ),
                       ),
                     ),
@@ -285,7 +267,6 @@ class OverviewWidget extends HookConsumerWidget {
                     controller: controller,
                   ),
                 ),
-                ToolbarWidget(project: project),
               ],
             ),
           ),

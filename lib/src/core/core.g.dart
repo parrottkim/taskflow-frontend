@@ -48,7 +48,7 @@ final class ServiceUrlProvider
   }
 }
 
-String _$serviceUrlHash() => r'515e0ab94f472eeabbd5ce9cfb53d58c0a3446bf';
+String _$serviceUrlHash() => r'a2c3e087520fdf16d3406e6fdde9499ffb53e6a1';
 
 @ProviderFor(clientUrl)
 final clientUrlProvider = ClientUrlProvider._();
@@ -89,55 +89,48 @@ final class ClientUrlProvider
   }
 }
 
-String _$clientUrlHash() => r'46e2a4023f87e37ec7d80bf30d2203819fc4983e';
+String _$clientUrlHash() => r'5e9b346d13d04a5ef079c1fbad13b480c215416f';
 
-@ProviderFor(flutterSecureStorage)
-final flutterSecureStorageProvider = FlutterSecureStorageProvider._();
+@ProviderFor(indexedDatabase)
+final indexedDatabaseProvider = IndexedDatabaseProvider._();
 
-final class FlutterSecureStorageProvider
-    extends
-        $FunctionalProvider<
-          FlutterSecureStorage,
-          FlutterSecureStorage,
-          FlutterSecureStorage
-        >
-    with $Provider<FlutterSecureStorage> {
-  FlutterSecureStorageProvider._()
+final class IndexedDatabaseProvider
+    extends $FunctionalProvider<Database, Database, Database>
+    with $Provider<Database> {
+  IndexedDatabaseProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'flutterSecureStorageProvider',
+        name: r'indexedDatabaseProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$flutterSecureStorageHash();
+  String debugGetCreateSourceHash() => _$indexedDatabaseHash();
 
   @$internal
   @override
-  $ProviderElement<FlutterSecureStorage> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
+  $ProviderElement<Database> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
-  FlutterSecureStorage create(Ref ref) {
-    return flutterSecureStorage(ref);
+  Database create(Ref ref) {
+    return indexedDatabase(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(FlutterSecureStorage value) {
+  Override overrideWithValue(Database value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<FlutterSecureStorage>(value),
+      providerOverride: $SyncValueProvider<Database>(value),
     );
   }
 }
 
-String _$flutterSecureStorageHash() =>
-    r'b785c9732d44fba14a0c5b728f3026c023c7e443';
+String _$indexedDatabaseHash() => r'b5dc0dc2e6569b564159e700d9b5eedf653743fb';
 
 @ProviderFor(http)
 final httpProvider = HttpProvider._();
@@ -177,7 +170,7 @@ final class HttpProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$httpHash() => r'9e6cd4a9d0714b3d4934516c49124086852b80b7';
+String _$httpHash() => r'a9e43df86fd3ff7097764d6fe24cdba724841bae';
 
 @ProviderFor(sharedPreferencesAsync)
 final sharedPreferencesAsyncProvider = SharedPreferencesAsyncProvider._();

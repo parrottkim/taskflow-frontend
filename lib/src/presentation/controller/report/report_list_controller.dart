@@ -21,9 +21,8 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> load() async {
-    final value = state.value;
-
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
@@ -41,8 +40,8 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> addListItem({required Report item}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedReports = [item, ...value.items];
 
@@ -54,8 +53,8 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> updateListItem({required Report item}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedReports = value.items.map((issue) {
       return issue.id == item.id ? item : issue;
@@ -65,8 +64,8 @@ class ReportListController extends _$ReportListController {
   }
 
   Future<void> removeListItem({required int id}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedReports = value.items
         .where((project) => project.id != id)

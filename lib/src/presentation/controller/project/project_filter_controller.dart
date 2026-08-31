@@ -16,7 +16,9 @@ class ProjectFilterController extends _$ProjectFilterController {
   }) {
     final value = state;
 
-    final isValid = ProjectSegment.values.map((e) => e.name).contains(view);
+    final isValid = ProjectStatusFilter.values
+        .map((e) => e.name)
+        .contains(view);
     final nextClients = clients
         ?.split(',')
         .map((value) => int.tryParse(value))
@@ -25,8 +27,8 @@ class ProjectFilterController extends _$ProjectFilterController {
 
     final nextValue = value.copyWith(
       view: isValid ? view : null,
-      sort: sort != null ? ProjectSort.fromKey(sort) : null,
-      order: order != null ? Order.fromKey(order) : null,
+      sort: sort != null ? ProjectSortOption.fromKey(sort) : null,
+      order: order != null ? SortDirection.fromKey(order) : null,
       search: search,
       bookmark: bookmark == null ? null : bookmark == 'true',
       clients: nextClients == null || nextClients.isEmpty ? null : nextClients,
@@ -46,11 +48,11 @@ class ProjectFilterController extends _$ProjectFilterController {
     state = state.copyWith(view: view);
   }
 
-  void setSort({ProjectSort? sort}) {
+  void setSort({ProjectSortOption? sort}) {
     state = state.copyWith(sort: sort);
   }
 
-  void setOrder({Order? order}) {
+  void setOrder({SortDirection? order}) {
     state = state.copyWith(order: order);
   }
 

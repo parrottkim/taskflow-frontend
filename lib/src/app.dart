@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:taskflow/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
@@ -20,10 +19,12 @@ class App extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final toast = ref.watch(toastProvider);
     final router = ref.watch(routerProvider);
+    final auth = ref.watch(authControllerProvider);
 
     final isSearchDialogOpen = useState(false);
 
     Future<void> openNavigationSearch() async {
+      if (auth is! AuthAuthenticated) return;
       if (isSearchDialogOpen.value) return;
 
       final navigatorContext =
@@ -47,6 +48,7 @@ class App extends HookConsumerWidget {
       switch (state) {
         case ErrorInitial():
           return;
+
         case ErrorUnauthorized(:final message) ||
             ErrorForbidden(:final message):
           if (router.config.name != RouteNames.login) {
@@ -56,34 +58,26 @@ class App extends HookConsumerWidget {
             );
           }
 
-          return ref.invalidate(errorControllerProvider);
         case ErrorTokenExpired(:final message):
           toast.removeQueuedCustomToasts();
           toast.showToast(
             child: Toast(type: ToastType.standard, message: message),
           );
-          return ref.invalidate(errorControllerProvider);
+
         case ErrorBadRequest(:final message) ||
             ErrorNotFound(:final message) ||
             ErrorConflict(:final message) ||
+            ErrorTooManyRequests(:final message) ||
             ErrorConnectionError(:final message) ||
             ErrorConnectionTimeout(:final message) ||
-            ErrorNotFound(:final message):
+            ErrorNotDefined(:final message):
           toast.removeQueuedCustomToasts();
           toast.showToast(
             child: Toast(type: ToastType.error, message: message),
           );
-          return ref.invalidate(errorControllerProvider);
-        default:
-          toast.removeQueuedCustomToasts();
-          toast.showToast(
-            child: Toast(
-              type: ToastType.error,
-              message: Intl.message('error_unexpected'),
-            ),
-          );
-          return ref.invalidate(errorControllerProvider);
       }
+
+      ref.invalidate(errorControllerProvider);
     });
 
     return MaterialApp.router(
@@ -99,7 +93,9 @@ class App extends HookConsumerWidget {
               openNavigationSearch,
         },
         child: Focus(
+          debugLabel: 'app-shortcuts',
           autofocus: true,
+          skipTraversal: true,
           child: Overlay(
             initialEntries: [
               if (child != null) ...[

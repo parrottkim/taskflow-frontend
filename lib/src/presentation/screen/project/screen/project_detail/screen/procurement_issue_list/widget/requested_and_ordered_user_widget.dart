@@ -20,7 +20,7 @@ class RequestedAndOrderedUserWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(top: 4.0, left: 16.0, right: 16.0, bottom: 16.0),
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: EdgeInsets.symmetric(horizontal: 12.0),
         borderRadius: BorderRadius.circular(8.0),
         child: Column(
@@ -41,15 +41,13 @@ class RequestedAndOrderedUserWidget extends StatelessWidget {
                           Icon(
                             Symbols.shopping_cart_rounded,
                             size: 18.0,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                           SizedBox(width: 6.0),
                           Text(
                             Intl.message('issue_form_procurement_20'),
                             style: TextStyle(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -57,7 +55,7 @@ class RequestedAndOrderedUserWidget extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: UserInformation.compact(user: requestedUser!),
+                      child: UserInfo.compact(user: requestedUser!),
                     ),
                   ],
                 ),

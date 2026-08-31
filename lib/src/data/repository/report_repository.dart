@@ -7,6 +7,12 @@ abstract class ReportRepository {
 
   Future<List<TripRegulation>> getAllTripRegulations({required int id});
 
+  Future<DailyAllowancePreview> previewDailyAllowance({
+    required int scheduleId,
+    List<ScheduleHoliday>? holidays,
+    List<TripActualExpense>? expenses,
+  });
+
   Future<HttpResponse<List<int>>> exportTrip({required int id});
 
   Future<Report> getReportForEdit({required int id});

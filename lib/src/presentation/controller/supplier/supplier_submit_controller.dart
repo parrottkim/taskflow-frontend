@@ -6,9 +6,7 @@ class SupplierSubmitController extends _$SupplierSubmitController {
   SupplierSubmitState build() => SupplierSubmitState.idle();
 
   Future<void> createSupplier() async {
-    final value = ref.read(supplierFormControllerProvider()).value;
-
-    if (value == null) return;
+    final value = ref.read(supplierFormControllerProvider()).requireValue;
 
     state = SupplierSubmitState.pending();
 
@@ -67,9 +65,7 @@ class SupplierSubmitController extends _$SupplierSubmitController {
   Future<void> updateSupplier({required int supplierId}) async {
     final value = ref
         .read(supplierFormControllerProvider(supplierId: supplierId))
-        .value;
-
-    if (value == null) return;
+        .requireValue;
 
     state = SupplierSubmitState.pending();
 

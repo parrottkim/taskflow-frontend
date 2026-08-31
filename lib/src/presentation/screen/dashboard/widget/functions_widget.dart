@@ -7,7 +7,7 @@ class FunctionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final menu = WidgetPreset(context).quickMenu;
+    final menu = UiConfiguration(context).quickMenu;
 
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
@@ -33,7 +33,7 @@ class FunctionsWidget extends StatelessWidget {
               child: Icon(
                 Symbols.add_rounded,
                 size: 16.0,
-                color: colorScheme.outline.withValues(alpha: 0.7),
+                color: colorScheme.outline.strong,
               ),
             ),
             Container(

@@ -30,6 +30,12 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
       }
     }
 
+    void toggleAllCategories(bool? value) {
+      selectedCategories.value = value == true
+          ? categoryItems.map((item) => item.id).toList()
+          : [];
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -41,35 +47,21 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
           ),
         ),
         SizedBox(height: 8.0),
-        InkWell(
-          onTap: () {
-            if (selectedCategories.value.isEmpty) {
-              selectedCategories.value = categoryItems
-                  .map((e) => e.id)
-                  .toList();
-            } else {
-              selectedCategories.value = [];
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 12.0,
-            ),
-            child: IgnorePointer(
-              child: CustomToggleButton(
-                padding: 12.0,
-                tristate: true,
-                value: getToggleState(),
-                onChanged: (_) {},
-                child: Text(
-                  selectedCategories.value.isEmpty
-                      ? Intl.message('filter_select_all')
-                      : Intl.message('filter_unselect_all'),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: AppToggleButton.tristate(
+              padding: 12.0,
+              value: getToggleState(),
+              onChanged: toggleAllCategories,
+              child: Text(
+                selectedCategories.value.isEmpty
+                    ? Intl.message('filter_select_all')
+                    : Intl.message('filter_unselect_all'),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurface.strong,
                 ),
               ),
             ),
@@ -113,7 +105,7 @@ class MobileCategoryFilterWidget extends ConsumerWidget {
                     vertical: 12.0,
                   ),
                   child: IgnorePointer(
-                    child: CustomToggleButton(
+                    child: AppToggleButton(
                       padding: 12.0,
                       value: isSelected,
                       onChanged: (_) {},

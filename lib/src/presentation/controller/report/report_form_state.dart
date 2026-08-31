@@ -1,5 +1,20 @@
 part of '../controller.dart';
 
+enum ReportFormStep {
+  schedule('schedule'),
+  transportation('transportation', categoryId: 1),
+  localTransportation('local_transportation', categoryId: 2),
+  accommodation('accommodation', categoryId: 3),
+  dailyExpense('daily_expense', categoryId: 4),
+  other('other', categoryId: 5),
+  description('description');
+
+  final String key;
+  final int? categoryId;
+
+  const ReportFormStep(this.key, {this.categoryId});
+}
+
 @freezed
 abstract class ReportFormState with _$ReportFormState {
   const ReportFormState._();
@@ -9,8 +24,8 @@ abstract class ReportFormState with _$ReportFormState {
     TripFuelExpense? fuel,
     bool? isDeducted,
     String? content,
-    List<ReportAttachment>? attachments,
-    List<XFile>? files,
+    @Default(<ReportAttachment>[]) List<ReportAttachment> attachments,
+    @Default(<XFile>[]) List<XFile> files,
     Schedule? schedule,
   }) = _ReportFormState;
 
@@ -18,14 +33,14 @@ abstract class ReportFormState with _$ReportFormState {
       schedule?.category is ScheduleDomestic ||
       schedule?.category is ScheduleOverseas;
 
-  List<String> get steps => hasTripSchedule
+  List<ReportFormStep> get steps => hasTripSchedule
       ? [
-          'transportation',
-          'local_transportation',
-          'accommodation',
-          'daily_expense',
-          'other',
-          'description',
+          ReportFormStep.transportation,
+          ReportFormStep.localTransportation,
+          ReportFormStep.accommodation,
+          ReportFormStep.dailyExpense,
+          ReportFormStep.other,
+          ReportFormStep.description,
         ]
-      : ['description'];
+      : [ReportFormStep.description];
 }

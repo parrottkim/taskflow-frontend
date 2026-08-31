@@ -1,20 +1,12 @@
 part of '../controller.dart';
 
 @riverpod
-class DocumentDetailController extends _$DocumentDetailController {
-  @override
-  FutureOr<DocumentDetailState> build({required int documentId}) async =>
-      _init();
-
-  Future<DocumentDetailState> _init() async {
-    if (documentId == 0) {
-      return DocumentDetailState(document: Document.dummy());
-    }
-
-    final result = await ref
-        .watch(documentRepositoryProvider)
-        .getDocumentDetail(id: documentId);
-
-    return DocumentDetailState(document: result);
+Future<Document> documentDetail(Ref ref, {required int documentId}) async {
+  if (documentId == 0) {
+    return Document.dummy();
   }
+
+  return ref
+      .watch(documentRepositoryProvider)
+      .getDocumentDetail(id: documentId);
 }

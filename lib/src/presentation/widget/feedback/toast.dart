@@ -1,6 +1,6 @@
 part of '../widget.dart';
 
-enum ToastType { standard, alert, error, verified }
+enum ToastType { standard, alert, error, verified, saving }
 
 class Toast extends StatelessWidget {
   final ToastType type;
@@ -15,81 +15,78 @@ class Toast extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    const verifiedColor = Color(0xFF388E3C);
+    const borderRadius = BorderRadius.all(Radius.circular(8.0));
+    final (
+      backgroundColor,
+      foregroundColor,
+      borderColor,
+      icon,
+    ) = switch (type) {
+      ToastType.standard => (
+        colorScheme.surfaceContainer,
+        colorScheme.onSurface,
+        colorScheme.onSurface.muted,
+        Symbols.info_rounded,
+      ),
+      ToastType.alert => (
+        colorScheme.primary,
+        colorScheme.onPrimary,
+        colorScheme.outline.subtle,
+        Symbols.report_rounded,
+      ),
+      ToastType.error => (
+        colorScheme.errorContainer,
+        colorScheme.error,
+        colorScheme.error.muted,
+        Symbols.cancel_rounded,
+      ),
+      ToastType.verified => (
+        verifiedColor.faint,
+        verifiedColor,
+        verifiedColor.muted,
+        Symbols.check_circle_rounded,
+      ),
+      ToastType.saving => (
+        colorScheme.surfaceContainer,
+        colorScheme.onSurface,
+        colorScheme.onSurface.muted,
+        null,
+      ),
+    };
 
-    Color getBackgroundColor() {
-      switch (type) {
-        case ToastType.standard:
-          return colorScheme.surfaceContainer;
-        case ToastType.alert:
-          return colorScheme.primary;
-        case ToastType.error:
-          return colorScheme.errorContainer;
-        case ToastType.verified:
-          return Color(0xFF388E3C).withValues(alpha: 0.1);
-      }
-    }
-
-    Color getForegroundColor() {
-      switch (type) {
-        case ToastType.standard:
-          return colorScheme.onSurface;
-        case ToastType.alert:
-          return colorScheme.onPrimary;
-        case ToastType.error:
-          return colorScheme.error;
-        case ToastType.verified:
-          return Color(0xFF388E3C);
-      }
-    }
-
-    Color getBorderColor() {
-      switch (type) {
-        case ToastType.standard:
-          return colorScheme.onSurface.withValues(alpha: 0.4);
-        case ToastType.alert:
-          return colorScheme.outline.withValues(alpha: 0.2);
-        case ToastType.error:
-          return colorScheme.error.withValues(alpha: 0.4);
-        case ToastType.verified:
-          return Color(0xFF388E3C).withValues(alpha: 0.4);
-      }
-    }
-
-    IconData getIcon() {
-      switch (type) {
-        case ToastType.standard:
-          return Symbols.info_rounded;
-        case ToastType.alert:
-          return Symbols.report_rounded;
-        case ToastType.error:
-          return Symbols.cancel_rounded;
-        case ToastType.verified:
-          return Symbols.check_circle_rounded;
-      }
-    }
-
-    return ContainerWidget(
+    return ContentContainer(
       padding: EdgeInsets.zero,
       color: colorScheme.surface,
-      borderColor: getBorderColor(),
-      borderRadius: BorderRadius.circular(8.0),
+      borderColor: borderColor,
+      borderRadius: borderRadius,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
         constraints: const BoxConstraints(maxWidth: 430.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          color: getBackgroundColor(),
+          borderRadius: borderRadius,
+          color: backgroundColor,
         ),
         child: Row(
           children: [
-            Icon(getIcon(), fill: 0.0, color: getForegroundColor()),
+            if (icon == null)
+              SizedBox.square(
+                dimension: 16.0,
+                child: CircularProgressIndicator(
+                  strokeCap: StrokeCap.round,
+                  strokeWidth: 2.0,
+                  color: foregroundColor,
+                ),
+              )
+            else
+              Icon(icon, fill: 0.0, color: foregroundColor),
             const SizedBox(width: 8.0),
             Expanded(
               child: Text(
                 message,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  color: getForegroundColor(),
+                  color: foregroundColor,
                 ),
               ),
             ),

@@ -26,23 +26,8 @@ class ScheduleProjectSelector extends HookConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('schedule_form_project_emtpy')),
-          ],
-        ),
+      return EmptyStateView(
+        message: Intl.message('schedule_form_project_emtpy'),
       );
     }
 
@@ -96,14 +81,18 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       color: Color(
-                        ClientType.fromKey(items[index].clients.first.id).color,
+                        ClientBrand.fromKey(
+                          items[index].clients.first.id,
+                        ).color,
                       ),
                     ),
                     child: SizedBox(
                       width: 12.0,
                       height: 12.0,
                       child: SvgPicture.asset(
-                        ClientType.fromKey(items[index].clients.first.id).asset,
+                        ClientBrand.fromKey(
+                          items[index].clients.first.id,
+                        ).asset,
                         colorFilter: ColorFilter.mode(
                           Colors.white,
                           BlendMode.srcIn,
@@ -137,7 +126,7 @@ class ScheduleProjectSelector extends HookConsumerWidget {
                       Text(
                         items[index].code,
                         style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ],

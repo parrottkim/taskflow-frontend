@@ -1,0 +1,47 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "nginx/edge.conf"
+      - "docker-compose.yml"
+      - ".github/workflows/infrastructure.yml"
+  workflow_dispatch:
+
+env:
+  COMPOSE_FILE: docker-compose.yml
+  REMOTE_DIR: "D:/01-Projects/taskflow/frontend"
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Transfer deployment configuration
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "docker-compose.yml,nginx/edge.conf"
+          target: ${{ env.REMOTE_DIR }}
+
+  deploy:
+    needs: transfer
+    runs-on: [self-hosted, windows, taskflow-frontend]
+
+    steps:
+      - name: Deploy infrastructure
+        shell: powershell
+        run: |
+          Set-Location -Path "${{ env.REMOTE_DIR }}"
+
+          docker compose -f "${{ env.COMPOSE_FILE }}" pull edge
+          docker compose -f "${{ env.COMPOSE_FILE }}" up -d
+          docker exec taskflow-edge nginx -t
+          docker exec taskflow-edge nginx -s reload

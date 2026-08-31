@@ -5,27 +5,20 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/report_form_scope.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class FuelExpenseWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? reportId;
-  final int? scheduleId;
   final TripFuelExpense? fuel;
 
-  const FuelExpenseWidget({
-    super.key,
-    required this.projectId,
-    this.reportId,
-    this.scheduleId,
-    this.fuel,
-  });
+  const FuelExpenseWidget({super.key, this.fuel});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final formController = ReportFormScope.of(context).controller(ref);
 
     final rateController = useTextEditingController(text: fuel?.rate);
     final mileageController = useTextEditingController(text: fuel?.mileage);
@@ -76,7 +69,7 @@ class FuelExpenseWidget extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            Intl.message('report_form_column_6'),
+            Intl.message('report_form_personal_vehicle_fuel_expense'),
             style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           SizedBox(height: 4.0),
@@ -89,17 +82,14 @@ class FuelExpenseWidget extends HookConsumerWidget {
             showBottomBorder: true,
             border: TableBorder(
               verticalInside: BorderSide(
-                color: colorScheme.outline.withValues(alpha: 0.2),
+                color: colorScheme.outline.subtle,
                 width: 1.0,
               ),
               horizontalInside: BorderSide(
-                color: colorScheme.outline.withValues(alpha: 0.2),
+                color: colorScheme.outline.subtle,
                 width: 1.0,
               ),
-              bottom: BorderSide(
-                color: colorScheme.outline.withValues(alpha: 0.2),
-                width: 1.0,
-              ),
+              bottom: BorderSide(color: colorScheme.outline.subtle, width: 1.0),
             ),
             columns: [
               DataColumn(
@@ -110,15 +100,15 @@ class FuelExpenseWidget extends HookConsumerWidget {
                     children: [
                       Icon(
                         Symbols.numbers_rounded,
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: colorScheme.onSurface.strong,
                         size: 16.0,
                       ),
                       SizedBox(width: 4.0),
                       Text(
-                        Intl.message('report_form_column_7'),
+                        Intl.message('report_form_fuel_unit_price'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ],
@@ -133,15 +123,15 @@ class FuelExpenseWidget extends HookConsumerWidget {
                     children: [
                       Icon(
                         Symbols.numbers_rounded,
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: colorScheme.onSurface.strong,
                         size: 16.0,
                       ),
                       SizedBox(width: 4.0),
                       Text(
-                        Intl.message('report_form_column_8'),
+                        Intl.message('report_form_fuel_efficiency'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ],
@@ -156,15 +146,15 @@ class FuelExpenseWidget extends HookConsumerWidget {
                     children: [
                       Icon(
                         Symbols.numbers_rounded,
-                        color: colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: colorScheme.onSurface.strong,
                         size: 16.0,
                       ),
                       SizedBox(width: 4.0),
                       Text(
-                        Intl.message('report_form_column_9'),
+                        Intl.message('report_form_driving_distance'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ],
@@ -175,138 +165,28 @@ class FuelExpenseWidget extends HookConsumerWidget {
             rows: [
               DataRow(
                 cells: [
-                  DataCell(
-                    Material(
-                      elevation: rateFocus.hasFocus ? 1.0 : 0.0,
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: rateFocus.hasFocus
-                          ? colorScheme.surfaceBright
-                          : colorScheme.surfaceContainerLow,
-                      child: TextField(
-                        focusNode: rateFocus,
-                        controller: rateController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [DecimalInputFormatter()],
-                        textAlign: TextAlign.end,
-                        style: textTheme.bodyMedium,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              width: 2.0,
-                              color: colorScheme.primary,
-                            ),
-                          ),
-                          suffixText: '₩',
-                        ),
-                        onChanged: (value) => ref
-                            .read(
-                              reportFormControllerProvider(
-                                projectId: projectId,
-                                reportId: reportId,
-                                scheduleId: scheduleId,
-                              ).notifier,
-                            )
-                            .setFuelExpense(rate: value),
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(mileageFocus),
-                      ),
-                    ),
+                  _NumberInputCell(
+                    controller: rateController,
+                    focusNode: rateFocus,
+                    suffixText: '₩',
+                    onChanged: (value) =>
+                        formController.setFuelExpense(rate: value),
+                    onSubmitted: (_) => mileageFocus.requestFocus(),
                   ),
-                  DataCell(
-                    Material(
-                      elevation: mileageFocus.hasFocus ? 1.0 : 0.0,
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: mileageFocus.hasFocus
-                          ? colorScheme.surfaceBright
-                          : colorScheme.surfaceContainerLow,
-                      child: TextField(
-                        focusNode: mileageFocus,
-                        controller: mileageController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [DecimalInputFormatter()],
-                        textAlign: TextAlign.end,
-                        style: textTheme.bodyMedium,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              width: 2.0,
-                              color: colorScheme.primary,
-                            ),
-                          ),
-                          suffixText: 'km/L',
-                        ),
-                        onChanged: (value) => ref
-                            .read(
-                              reportFormControllerProvider(
-                                projectId: projectId,
-                                reportId: reportId,
-                                scheduleId: scheduleId,
-                              ).notifier,
-                            )
-                            .setFuelExpense(mileage: value),
-                        onSubmitted: (_) =>
-                            FocusScope.of(context).requestFocus(distanceFocus),
-                      ),
-                    ),
+                  _NumberInputCell(
+                    controller: mileageController,
+                    focusNode: mileageFocus,
+                    suffixText: 'km/L',
+                    onChanged: (value) =>
+                        formController.setFuelExpense(mileage: value),
+                    onSubmitted: (_) => distanceFocus.requestFocus(),
                   ),
-                  DataCell(
-                    Material(
-                      elevation: distanceFocus.hasFocus ? 1.0 : 0.0,
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: distanceFocus.hasFocus
-                          ? colorScheme.surfaceBright
-                          : colorScheme.surfaceContainerLow,
-                      child: TextField(
-                        focusNode: distanceFocus,
-                        controller: distanceController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [DecimalInputFormatter()],
-                        textAlign: TextAlign.end,
-                        style: textTheme.bodyMedium,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            borderSide: BorderSide(
-                              width: 2.0,
-                              color: colorScheme.primary,
-                            ),
-                          ),
-                          suffixText: 'km',
-                        ),
-                        onChanged: (value) => ref
-                            .read(
-                              reportFormControllerProvider(
-                                projectId: projectId,
-                                reportId: reportId,
-                                scheduleId: scheduleId,
-                              ).notifier,
-                            )
-                            .setFuelExpense(distance: value),
-                      ),
-                    ),
+                  _NumberInputCell(
+                    controller: distanceController,
+                    focusNode: distanceFocus,
+                    suffixText: 'km',
+                    onChanged: (value) =>
+                        formController.setFuelExpense(distance: value),
                   ),
                 ],
               ),
@@ -316,7 +196,7 @@ class FuelExpenseWidget extends HookConsumerWidget {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: colorScheme.outline.withValues(alpha: 0.2),
+                  color: colorScheme.outline.subtle,
                   width: 1.0,
                 ),
               ),
@@ -354,7 +234,7 @@ class FuelExpenseWidget extends HookConsumerWidget {
               ],
             ),
           ),
-          InvalidWidget(
+          ValidationErrorMessage(
             visible: isFuelInvalid,
             text: Intl.message('report_form_invalid_4'),
           ),
@@ -362,4 +242,54 @@ class FuelExpenseWidget extends HookConsumerWidget {
       ),
     );
   }
+}
+
+class _NumberInputCell extends DataCell {
+  _NumberInputCell({
+    required TextEditingController controller,
+    required FocusNode focusNode,
+    required String suffixText,
+    required ValueChanged<String> onChanged,
+    ValueChanged<String>? onSubmitted,
+  }) : super(
+         Builder(
+           builder: (context) {
+             final colorScheme = Theme.of(context).colorScheme;
+             return Material(
+               elevation: focusNode.hasFocus ? 1.0 : 0.0,
+               borderRadius: BorderRadius.circular(8.0),
+               color: focusNode.hasFocus
+                   ? colorScheme.surfaceBright
+                   : colorScheme.surfaceContainerLow,
+               child: TextField(
+                 controller: controller,
+                 focusNode: focusNode,
+                 keyboardType: TextInputType.number,
+                 inputFormatters: [DecimalInputFormatter()],
+                 textAlign: TextAlign.end,
+                 style: Theme.of(context).textTheme.bodyMedium,
+                 maxLines: 1,
+                 decoration: InputDecoration(
+                   border: const OutlineInputBorder(
+                     borderSide: BorderSide(color: Colors.transparent),
+                   ),
+                   enabledBorder: const OutlineInputBorder(
+                     borderSide: BorderSide(color: Colors.transparent),
+                   ),
+                   focusedBorder: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(8.0),
+                     borderSide: BorderSide(
+                       width: 2.0,
+                       color: colorScheme.primary,
+                     ),
+                   ),
+                   suffixText: suffixText,
+                 ),
+                 onChanged: onChanged,
+                 onSubmitted: onSubmitted,
+               ),
+             );
+           },
+         ),
+       );
 }

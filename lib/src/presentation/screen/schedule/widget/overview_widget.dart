@@ -17,27 +17,27 @@ class OverviewWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItem = useState<ScheduleSegment>(
-      ScheduleSegment.values.firstWhere(
+    final selectedItem = useState<ScheduleSection>(
+      ScheduleSection.values.firstWhere(
         (e) => e.name == view,
-        orElse: () => ScheduleSegment.values.first,
+        orElse: () => ScheduleSection.values.first,
       ),
     );
 
     final controller = useTabController(
-      initialLength: ScheduleSegment.values.length,
-      initialIndex: ScheduleSegment.values.indexOf(selectedItem.value),
+      initialLength: ScheduleSection.values.length,
+      initialIndex: ScheduleSection.values.indexOf(selectedItem.value),
     );
 
     useEffect(() {
-      final newItem = ScheduleSegment.values.firstWhere(
+      final newItem = ScheduleSection.values.firstWhere(
         (e) => e.name == view,
-        orElse: () => ScheduleSegment.values.first,
+        orElse: () => ScheduleSection.values.first,
       );
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
-        controller.animateTo(ScheduleSegment.values.indexOf(newItem));
+        controller.animateTo(ScheduleSection.values.indexOf(newItem));
       }
 
       return null;
@@ -48,7 +48,7 @@ class OverviewWidget extends HookConsumerWidget {
         TabBar(
           controller: controller,
           onTap: (index) {
-            selectedItem.value = ScheduleSegment.values[index];
+            selectedItem.value = ScheduleSection.values[index];
 
             ref
                 .read(
@@ -71,10 +71,10 @@ class OverviewWidget extends HookConsumerWidget {
           isScrollable: true,
           labelPadding: EdgeInsets.symmetric(horizontal: 24.0),
           tabs: List.generate(
-            ScheduleSegment.values.length,
+            ScheduleSection.values.length,
             (index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(ScheduleSegment.values[index].label),
+              child: Text(ScheduleSection.values[index].label),
             ),
           ),
         ),

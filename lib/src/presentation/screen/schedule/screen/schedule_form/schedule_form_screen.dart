@@ -3,11 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/schedule_form_actions.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/compensatory_widget.dart';
 import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/date_range_select_widget.dart';
 import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_form/widget/project_select_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
@@ -43,7 +44,7 @@ class ScheduleFormScreen extends ConsumerWidget {
           scheduleId: scheduleId,
           value: value,
         ),
-        AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        AsyncError(:final error, :final stackTrace) => ErrorStateView(
           error: error,
           stackTrace: stackTrace,
         ),
@@ -76,7 +77,6 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     final summaryController = useTextEditingController(text: value.summary);
@@ -87,10 +87,7 @@ class _DesktopWidget extends HookConsumerWidget {
     final summaryFocus = useFocusNode();
     final descriptionFocus = useFocusNode();
 
-    final isProjectSelected = useState(false);
-    final isDateSelected = useState(false);
-    final isSummaryEmpty = useState(false);
-    final isDescriptionEmpty = useState(false);
+    final hasAttemptedSubmit = useState(false);
 
     useEffect(() {
       Future.microtask(
@@ -144,40 +141,40 @@ class _DesktopWidget extends HookConsumerWidget {
       LoadingOverlay.hide();
 
       switch (state) {
-        case ScheduleSubmitCreated(:final schedule) ||
-            ScheduleSubmitUpdated(:final schedule):
-          final isCreated = state is ScheduleSubmitCreated;
-
+        case ScheduleSubmitCreated(:final schedule):
           ref
               .read(toastProvider)
               .showToast(
                 child: Toast(
                   type: ToastType.verified,
-                  message: Intl.message(
-                    isCreated
-                        ? 'schedule_form_created'
-                        : 'schedule_form_updated',
-                  ),
+                  message: Intl.message('schedule_form_created'),
                 ),
               );
 
           if (projectId == null) {
             context.goNamed(
-              RouteNames.work,
+              RouteNames.schedule,
               queryParameters: {'view': 'schedule'},
             );
           } else {
             context.goNamed(
-              RouteNames.reportNewChoose,
-              pathParameters: {
-                'project_id': projectId.toString(), // 주소창의 :project_id 영역으로 주입됨
-              },
-              queryParameters: {
-                'schedule_id': schedule.id
-                    .toString(), // 주소창 뒤의 ?schedule_id=288 영역으로 주입됨
-              },
+              RouteNames.reportNew,
+              pathParameters: {'project_id': projectId.toString()},
+              queryParameters: {'schedule_id': schedule.id.toString()},
             );
           }
+
+        case ScheduleSubmitUpdated():
+          ref
+              .read(toastProvider)
+              .showToast(
+                child: Toast(
+                  type: ToastType.verified,
+                  message: Intl.message('schedule_form_updated'),
+                ),
+              );
+
+          context.pop();
 
         case ScheduleSubmitDeleted():
           ref
@@ -190,7 +187,7 @@ class _DesktopWidget extends HookConsumerWidget {
               );
 
           context.goNamed(
-            RouteNames.work,
+            RouteNames.schedule,
             queryParameters: {'view': 'schedule'},
           );
 
@@ -247,8 +244,9 @@ class _DesktopWidget extends HookConsumerWidget {
                         projectClientId: value.projectClientId,
                         projectClientName: value.projectClientName,
                       ),
-                      InvalidWidget(
-                        visible: isProjectSelected.value,
+                      ValidationErrorMessage(
+                        visible:
+                            hasAttemptedSubmit.value && value.projectId == null,
                         text: Intl.message('schedule_form_invalid_1'),
                       ),
                       SizedBox(height: 24.0),
@@ -265,10 +263,20 @@ class _DesktopWidget extends HookConsumerWidget {
                         start: value.start,
                         end: value.end,
                       ),
-                      InvalidWidget(
-                        visible: isDateSelected.value,
+                      ValidationErrorMessage(
+                        visible:
+                            hasAttemptedSubmit.value &&
+                            (value.start == null || value.end == null),
                         text: Intl.message('schedule_form_invalid_2'),
                       ),
+                      if (categoryId == 1)
+                        CompensatoryWidget(
+                          categoryId: categoryId,
+                          scheduleId: scheduleId,
+                          start: value.start,
+                          end: value.end,
+                          showValidation: hasAttemptedSubmit.value,
+                        ),
                       SizedBox(height: 24.0),
                       Text(
                         Intl.message('schedule_form_summary'),
@@ -282,8 +290,6 @@ class _DesktopWidget extends HookConsumerWidget {
                           focusNode: summaryFocus,
                           controller: summaryController,
                           onChanged: (value) {
-                            isSummaryEmpty.value = false;
-
                             ref
                                 .read(
                                   scheduleFormControllerProvider(
@@ -295,13 +301,14 @@ class _DesktopWidget extends HookConsumerWidget {
                           },
                           maxLines: 1,
                           decoration: InputDecoration(filled: true),
-                          onSubmitted: (value) => FocusScope.of(
-                            context,
-                          ).requestFocus(descriptionFocus),
+                          onSubmitted: (value) =>
+                              descriptionFocus.requestFocus(),
                         ),
                       ),
-                      InvalidWidget(
-                        visible: isSummaryEmpty.value,
+                      ValidationErrorMessage(
+                        visible:
+                            hasAttemptedSubmit.value &&
+                            (value.summary?.trim().isEmpty ?? true),
                         text: Intl.message('schedule_form_invalid_3'),
                       ),
                       SizedBox(height: 24.0),
@@ -331,9 +338,11 @@ class _DesktopWidget extends HookConsumerWidget {
                           decoration: InputDecoration(filled: true),
                         ),
                       ),
-                      InvalidWidget(
-                        visible: isDescriptionEmpty.value,
-                        text: Intl.message('schedule_form_invalid_3'),
+                      ValidationErrorMessage(
+                        visible:
+                            hasAttemptedSubmit.value &&
+                            (value.description?.trim().isEmpty ?? true),
+                        text: Intl.message('schedule_form_invalid_4'),
                       ),
                     ],
                   ),
@@ -342,100 +351,117 @@ class _DesktopWidget extends HookConsumerWidget {
             ),
           ),
         ),
-        Divider(),
-        Container(
-          padding: EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-            top: 16.0,
-            bottom: 32.0,
-          ),
-          constraints: BoxConstraints(maxWidth: 430.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: FilledButton(
-                  onPressed: () async {
-                    isProjectSelected.value = value.projectId == null;
-                    isDateSelected.value =
-                        value.start == null || value.end == null;
-                    isSummaryEmpty.value =
-                        value.summary == null || value.summary!.isEmpty;
-                    isDescriptionEmpty.value =
-                        value.description == null || value.description!.isEmpty;
+        ScheduleFormActions(
+          onPressed: () async {
+            hasAttemptedSubmit.value = true;
 
-                    if (isProjectSelected.value ||
-                        isDateSelected.value ||
-                        isSummaryEmpty.value ||
-                        isDescriptionEmpty.value) {
-                      LoadingOverlay.hide();
-                      return;
-                    }
+            final isProjectInvalid = value.projectId == null;
+            final isDateInvalid = value.start == null || value.end == null;
+            final isSummaryInvalid = value.summary?.trim().isEmpty ?? true;
+            final isDescriptionInvalid =
+                value.description?.trim().isEmpty ?? true;
 
-                    if (scheduleId == null) {
-                      await ref
-                          .read(scheduleSubmitControllerProvider.notifier)
-                          .createSchedule(categoryId: categoryId);
-                    } else {
-                      await ref
-                          .read(scheduleSubmitControllerProvider.notifier)
-                          .updateSchedule(
-                            categoryId: categoryId,
-                            scheduleId: scheduleId!,
-                          );
-                    }
-                  },
-                  child: Text(
-                    scheduleId != null
-                        ? Intl.message('common_edit')
-                        : Intl.message('common_post'),
-                  ),
-                ),
-              ),
-              if (scheduleId != null)
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: FilledButton(
-                    onPressed: () async {
-                      final result = await showDialog(
-                        context: context,
-                        builder: (_) => DeleteDialog(
-                          title: Intl.message('schedule_form_delete_dialog_1'),
-                          content: Intl.message(
-                            'schedule_form_delete_dialog_2',
-                          ),
+            if (isProjectInvalid ||
+                isDateInvalid ||
+                isSummaryInvalid ||
+                isDescriptionInvalid) {
+              LoadingOverlay.hide();
+              return;
+            }
+
+            if (categoryId == 1) {
+              final List<ScheduleHolidayFormState> holidays;
+
+              try {
+                holidays = await ref.read(
+                  scheduleHolidayFormControllerProvider(
+                    categoryId: categoryId,
+                    scheduleId: scheduleId,
+                    start: value.start,
+                    end: value.end,
+                  ).future,
+                );
+              } catch (_) {
+                return;
+              }
+
+              if (!context.mounted) return;
+
+              final isCompensatoryLeaveDateInvalid = holidays.any(
+                (holiday) =>
+                    holiday.compensatoryLeaveDate == null ||
+                    DateUtils.dateOnly(
+                      holiday.compensatoryLeaveDate!,
+                    ).isBefore(DateUtils.dateOnly(DateTime.now())) ||
+                    holiday.compensatoryLeaveDate!.weekday ==
+                        DateTime.saturday ||
+                    holiday.compensatoryLeaveDate!.weekday == DateTime.sunday ||
+                    (!DateUtils.dateOnly(
+                          holiday.compensatoryLeaveDate!,
+                        ).isBefore(DateUtils.dateOnly(value.start!)) &&
+                        !DateUtils.dateOnly(
+                          holiday.compensatoryLeaveDate!,
+                        ).isAfter(DateUtils.dateOnly(value.end!))),
+              );
+              final compensatoryLeaveDates = holidays
+                  .map((holiday) => holiday.compensatoryLeaveDate)
+                  .whereType<DateTime>()
+                  .map(DateUtils.dateOnly)
+                  .toList();
+              final hasDuplicateCompensatoryLeaveDate =
+                  compensatoryLeaveDates.toSet().length !=
+                  compensatoryLeaveDates.length;
+
+              if (isCompensatoryLeaveDateInvalid ||
+                  hasDuplicateCompensatoryLeaveDate) {
+                return;
+              }
+            }
+
+            if (scheduleId == null) {
+              await ref
+                  .read(scheduleSubmitControllerProvider.notifier)
+                  .createSchedule(categoryId: categoryId);
+            } else {
+              await ref
+                  .read(scheduleSubmitControllerProvider.notifier)
+                  .updateSchedule(
+                    categoryId: categoryId,
+                    scheduleId: scheduleId!,
+                  );
+            }
+          },
+          label: scheduleId != null
+              ? Intl.message('common_edit')
+              : Intl.message('common_post'),
+          onDelete: scheduleId == null
+              ? null
+              : () async {
+                  final result = await showDialog<bool>(
+                    context: context,
+                    builder: (_) => DeleteDialog(
+                      title: Intl.message('schedule_form_delete_dialog_1'),
+                      content: Intl.message('schedule_form_delete_dialog_2'),
+                    ),
+                  );
+
+                  if (!context.mounted || result != true) return;
+
+                  context.pop();
+
+                  await ref
+                      .read(scheduleSubmitControllerProvider.notifier)
+                      .deleteSchedule(scheduleId: scheduleId!);
+
+                  ref
+                      .read(toastProvider)
+                      .showToast(
+                        child: Toast(
+                          type: ToastType.standard,
+                          message: Intl.message('project_form_delete'),
                         ),
                       );
-
-                      if (result) {
-                        context.pop();
-
-                        await ref
-                            .read(scheduleSubmitControllerProvider.notifier)
-                            .deleteSchedule(scheduleId: scheduleId!);
-
-                        ref
-                            .read(toastProvider)
-                            .showToast(
-                              child: Toast(
-                                type: ToastType.standard,
-                                message: Intl.message('project_form_delete'),
-                              ),
-                            );
-                      }
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: colorScheme.error,
-                      iconColor: colorScheme.onError,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
-                      child: Icon(Symbols.delete_rounded, size: 19.0),
-                    ),
-                  ),
-                ),
-            ],
-          ),
+                },
         ),
       ],
     );

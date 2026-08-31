@@ -16,19 +16,16 @@ class SummaryWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dateSelection = ref.watch(dateSelectionControllerProvider);
     final state = ref.watch(
-      summaryControllerProvider(
-        start: dateSelection.start,
-        end: dateSelection.end,
-      ),
+      summaryProvider(start: dateSelection.start, end: dateSelection.end),
     );
     final dummy = ProjectSummary.dummy();
 
     return switch (state) {
       AsyncData(:final value) => Responsive(
-        desktop: _DesktopWidget(item: value.summary),
-        mobile: _MobileWidget(item: value.summary),
+        desktop: _DesktopWidget(item: value),
+        mobile: _MobileWidget(item: value),
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),
@@ -78,9 +75,9 @@ class _DesktopWidget extends StatelessWidget {
           column: 3,
           child: SummaryCardWidget(
             type: SummaryCardType.surface,
-            icon: Symbols.rocket_launch_rounded,
+            icon: Symbols.footprint_rounded,
             title: Intl.message('dashboard_summary_3'),
-            value: item.kickedOff,
+            value: item.preexecuted,
           ),
         ),
         BentoTile(
@@ -135,9 +132,9 @@ class _MobileWidget extends StatelessWidget {
           column: 1,
           child: SummaryCardWidget(
             type: SummaryCardType.surface,
-            icon: Symbols.rocket_launch_rounded,
+            icon: Symbols.footprint_rounded,
             title: Intl.message('dashboard_summary_3'),
-            value: item.kickedOff,
+            value: item.preexecuted,
           ),
         ),
         BentoTile(

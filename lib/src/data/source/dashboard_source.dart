@@ -3,7 +3,7 @@ part of '../data.dart';
 class DashboardDataSource implements DashboardRepository {
   final DashboardService _service;
 
-  DashboardDataSource({required DashboardService service}) : _service = service;
+  DashboardDataSource({required this._service});
 
   @override
   Future<Result<ProjectStats>> getProjectStats({
@@ -27,6 +27,12 @@ class DashboardDataSource implements DashboardRepository {
   @override
   Future<List<TodaySchedule>> getTodaysSchedule() =>
       _service.getTodaysSchedule();
+
+  @override
+  Future<DashboardSearchResult> search({
+    required String search,
+    int limit = 5,
+  }) => _service.search(search: search, limit: limit);
 }
 
 @riverpod

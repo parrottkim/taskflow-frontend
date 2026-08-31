@@ -3,7 +3,7 @@ part of '../data.dart';
 class CurrencyDataSource implements CurrencyRepository {
   final CurrencyService _service;
 
-  CurrencyDataSource({required CurrencyService service}) : _service = service;
+  CurrencyDataSource({required this._service});
 
   @override
   Future<List<Currency>> getAllCurrencies() => _service.getAllCurrencies();

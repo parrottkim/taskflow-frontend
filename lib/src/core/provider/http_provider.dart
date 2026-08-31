@@ -13,6 +13,13 @@ Dio http(Ref ref) {
   );
   final dio = Dio(options);
 
+  dio.httpClientAdapter = BrowserHttpClientAdapter(
+    withCredentials: true,
+    // The API explicitly supports credentialed CORS and OPTIONS requests.
+    // Dio 5.11 otherwise logs the same informational warning per request.
+    enableCORSWarning: false,
+  );
+
   dio.interceptors.add(HttpInterceptor(dio: dio, container: ref.container));
 
   return dio;
@@ -60,46 +67,36 @@ class HttpInterceptor extends Interceptor {
       }
     }
 
-    // statusCode가 null이면 다른 오류 처리 (예: DioExceptionType.connectionTimeout 등)로 흐르게 합니다.
+    final requestPath = err.requestOptions.path;
+    final isAuthRequest =
+        requestPath.endsWith('auth/login') ||
+        requestPath.endsWith('auth/refresh') ||
+        requestPath.endsWith('auth/logout');
+
+    // 로그인 실패나 시작 시 refresh 쿠키가 없는 경우는 호출자가 처리할
+    // 정상적인 인증 결과이므로 logout 재호출이나 전역 오류로 전달하지 않습니다.
+    if (statusCode == 401 && isAuthRequest) {
+      return handler.next(err);
+    }
+
     if (statusCode == 401) {
-      // 3. message가 'access_token_expired'일 때만 로직을 실행합니다.
-      if (message == 'access_token_expired') {
-        final refreshToken = await container
-            .read(localRepositoryProvider)
-            .getRefreshToken();
+      if (message == 'unauthorized_access_token_expired') {
+        try {
+          final response = await dio.post('auth/refresh');
+          final accessToken = response.data['accessToken'] as String;
 
-        if (refreshToken == null) {
-          return handler.reject(err);
-        }
-
-        // ... (토큰 갱신 로직은 그대로 유지) ...
-        final response = await dio.post(
-          'auth/refresh',
-          options: Options(headers: {'Authorization': 'Bearer $refreshToken'}),
-        );
-
-        if (response.statusCode == 201) {
-          final accessToken = response.data['accessToken'];
-          final refreshToken = response.data['refreshToken'];
-
-          container
-              .read(localRepositoryProvider)
-              .setAccessToken(accessToken: accessToken);
-          container
-              .read(localRepositoryProvider)
-              .setRefreshToken(refreshToken: refreshToken);
+          container.read(tokenControllerProvider.notifier).set(accessToken);
 
           err.requestOptions.headers['Authorization'] = 'Bearer $accessToken';
-
-          print('refreshed');
-
           return handler.resolve(await dio.fetch(err.requestOptions));
+        } on DioException {
+          container.read(authControllerProvider.notifier).expireSession();
+          return handler.next(err);
         }
       }
 
-      // 401 오류지만 access_token_expired가 아니거나, message가 null인 경우
-      // (Refresh Token 만료, 유효하지 않은 토큰, 기타 401)
-      await container.read(authControllerProvider.notifier).logout();
+      container.read(authControllerProvider.notifier).expireSession();
+      return handler.next(err);
     }
 
     // 401이 아니거나 갱신 실패 후 최종 오류 처리
@@ -125,9 +122,7 @@ class HttpInterceptor extends Interceptor {
 
     options.headers['Accept-Language'] = acceptLanguage;
 
-    final accessToken = await container
-        .read(localRepositoryProvider)
-        .getAccessToken();
+    final accessToken = container.read(tokenControllerProvider).token;
     if (options.path != 'auth/refresh' && accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
 

@@ -22,7 +22,7 @@ class IssueListWidget extends ConsumerWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
-        child: ContainerWidget(
+        child: ContentContainer(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
           child: switch (list) {
@@ -30,7 +30,7 @@ class IssueListWidget extends ConsumerWidget {
               desktop: _DesktopWidget(items: value.items),
               mobile: _MobileWidget(items: value.items),
             ),
-            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            AsyncError(:final error, :final stackTrace) => ErrorStateView(
               error: error,
               stackTrace: stackTrace,
             ),
@@ -95,17 +95,17 @@ class _DesktopWidget extends ConsumerWidget {
             pathParameters: {'project_id': item.projectId.toString()},
             queryParameters: {
               'view': switch (item.category) {
-                IssueProcurement() => ProjectDetailSegment.procurement.key,
-                IssueApproval() => ProjectDetailSegment.approval.key,
-                _ => ProjectDetailSegment.contract.key,
+                IssueProcurement() => ProjectDetailTab.procurement.key,
+                IssueApproval() => ProjectDetailTab.approval.key,
+                _ => ProjectDetailTab.contract.key,
               },
               'issue': item.id.toString(),
             },
           ),
           cells: [
-            DataCell(CategoryWidget(item: item.category)),
+            DataCell(IssueCategoryBadge(item: item.category)),
             DataCell(
-              ClientInformation(
+              ClientInfo(
                 clientId: item.clients.first.id,
                 name: item.clients.last.name,
               ),
@@ -125,17 +125,12 @@ class _DesktopWidget extends ConsumerWidget {
               ),
             ),
             DataCell(
-              Text(
-                date,
-                style: TextStyle(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
-              ),
+              Text(date, style: TextStyle(color: colorScheme.onSurface.strong)),
             ),
           ],
         );
       }),
-      empty: DataTableEmpty(message: Intl.message('work_issue_no_item')),
+      empty: EmptyStateView(message: Intl.message('work_issue_no_item')),
       onLoadMore: () =>
           ref.read(workIssueListControllerProvider.notifier).load(),
     );
@@ -153,24 +148,7 @@ class _MobileWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('work_issue_no_item')),
-          ],
-        ),
-      );
+      return EmptyStateView(message: Intl.message('work_issue_no_item'));
     }
 
     return NotificationListener<ScrollNotification>(
@@ -186,7 +164,7 @@ class _MobileWidget extends ConsumerWidget {
         itemCount: items.length,
         itemBuilder: (context, index) {
           final item = items[index];
-          final clientType = ClientType.fromKey(item.clients.first.id);
+          final clientType = ClientBrand.fromKey(item.clients.first.id);
           final date = item.createdAt == item.updatedAt
               ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.createdAt)}'
               : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(item.updatedAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(item.updatedAt)}';
@@ -197,9 +175,9 @@ class _MobileWidget extends ConsumerWidget {
               pathParameters: {'project_id': item.projectId.toString()},
               queryParameters: {
                 'view': switch (item.category) {
-                  IssueProcurement() => ProjectDetailSegment.procurement.key,
-                  IssueApproval() => ProjectDetailSegment.approval.key,
-                  _ => ProjectDetailSegment.contract.key,
+                  IssueProcurement() => ProjectDetailTab.procurement.key,
+                  IssueApproval() => ProjectDetailTab.approval.key,
+                  _ => ProjectDetailTab.contract.key,
                 },
                 'issue': item.id.toString(),
               },
@@ -209,7 +187,7 @@ class _MobileWidget extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryWidget(item: item.category),
+                  IssueCategoryBadge(item: item.category),
                   const SizedBox(height: 16.0),
                   Row(
                     children: [
@@ -255,9 +233,7 @@ class _MobileWidget extends ConsumerWidget {
                   ),
                   Text(
                     item.projectCode,
-                    style: TextStyle(
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
+                    style: TextStyle(color: colorScheme.onSurface.strong),
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -268,7 +244,7 @@ class _MobileWidget extends ConsumerWidget {
                       Icon(
                         Symbols.calendar_today_rounded,
                         size: 18.0,
-                        color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: colorScheme.onSurface.strong,
                       ),
                       const SizedBox(width: 4.0),
                       Expanded(
@@ -278,7 +254,7 @@ class _MobileWidget extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ),

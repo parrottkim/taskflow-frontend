@@ -124,7 +124,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                       const SizedBox(height: 8.0),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: ContainerWidget(
+                        child: ContentContainer(
                           padding: EdgeInsets.only(
                             left: 12.0,
                             right: 24.0,
@@ -150,8 +150,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         Icon(
                                           Symbols.account_circle_rounded,
                                           size: 18.0,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                         ),
                                         SizedBox(width: 6.0),
                                         Text(
@@ -159,16 +158,13 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             'issue_form_procurement_20',
                                           ),
                                           style: TextStyle(
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  UserInformation.compact(
-                                    user: request.requestedBy,
-                                  ),
+                                  UserInfo.compact(user: request.requestedBy),
                                 ],
                               ),
                               SizedBox(height: 8.0),
@@ -182,8 +178,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         Icon(
                                           Symbols.shopping_cart_rounded,
                                           size: 18.0,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                         ),
                                         SizedBox(width: 6.0),
                                         Text(
@@ -191,8 +186,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             'issue_form_procurement_21',
                                           ),
                                           style: TextStyle(
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -216,8 +210,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         Icon(
                                           Symbols.delivery_truck_speed_rounded,
                                           size: 18.0,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                         ),
                                         SizedBox(width: 6.0),
                                         Text(
@@ -225,8 +218,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             'issue_form_procurement_22',
                                           ),
                                           style: TextStyle(
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -254,8 +246,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         Icon(
                                           Symbols.checkbook_rounded,
                                           size: 18.0,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                         ),
                                         SizedBox(width: 6.0),
                                         Text(
@@ -263,8 +254,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             'issue_form_procurement_24',
                                           ),
                                           style: TextStyle(
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -290,8 +280,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         Icon(
                                           Symbols.attach_money_rounded,
                                           size: 18.0,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                         ),
                                         SizedBox(width: 6.0),
                                         Text(
@@ -299,8 +288,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             'issue_form_procurement_requested_1',
                                           ),
                                           style: TextStyle(
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -326,15 +314,13 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         Icon(
                                           Symbols.sticky_note_2_rounded,
                                           size: 18.0,
-                                          color: colorScheme.onSurface
-                                              .withValues(alpha: 0.7),
+                                          color: colorScheme.onSurface.strong,
                                         ),
                                         SizedBox(width: 6.0),
                                         Text(
                                           Intl.message('common_note'),
                                           style: TextStyle(
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                           ),
                                         ),
                                       ],
@@ -393,7 +379,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          CustomToggleButton(
+                                          AppToggleButton(
                                             value: request.isApproved,
                                             onChanged:
                                                 auth.user.position?.id == 1 &&
@@ -459,21 +445,15 @@ class ProcurementRequestItem extends ConsumerWidget {
                                 showBottomBorder: true,
                                 border: TableBorder(
                                   verticalInside: BorderSide(
-                                    color: colorScheme.outline.withValues(
-                                      alpha: 0.2,
-                                    ),
+                                    color: colorScheme.outline.subtle,
                                     width: 1.0,
                                   ),
                                   horizontalInside: BorderSide(
-                                    color: colorScheme.outline.withValues(
-                                      alpha: 0.2,
-                                    ),
+                                    color: colorScheme.outline.subtle,
                                     width: 1.0,
                                   ),
                                   bottom: BorderSide(
-                                    color: colorScheme.outline.withValues(
-                                      alpha: 0.2,
-                                    ),
+                                    color: colorScheme.outline.subtle,
                                     width: 1.0,
                                   ),
                                 ),
@@ -488,8 +468,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         children: [
                                           Icon(
                                             Symbols.text_fields_rounded,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                             size: 16.0,
                                           ),
                                           SizedBox(width: 4.0),
@@ -500,8 +479,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             style: textTheme.bodyMedium
                                                 ?.copyWith(
                                                   fontWeight: FontWeight.w600,
-                                                  color: colorScheme.onSurface
-                                                      .withValues(alpha: 0.7),
+                                                  color: colorScheme
+                                                      .onSurface
+                                                      .strong,
                                                 ),
                                           ),
                                         ],
@@ -518,8 +498,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         children: [
                                           Icon(
                                             Symbols.text_fields_rounded,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                             size: 16.0,
                                           ),
                                           SizedBox(width: 4.0),
@@ -530,8 +509,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             style: textTheme.bodyMedium
                                                 ?.copyWith(
                                                   fontWeight: FontWeight.w600,
-                                                  color: colorScheme.onSurface
-                                                      .withValues(alpha: 0.7),
+                                                  color: colorScheme
+                                                      .onSurface
+                                                      .strong,
                                                 ),
                                           ),
                                         ],
@@ -548,8 +528,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         children: [
                                           Icon(
                                             Symbols.numbers_rounded,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                             size: 16.0,
                                           ),
                                           SizedBox(width: 4.0),
@@ -560,8 +539,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             style: textTheme.bodyMedium
                                                 ?.copyWith(
                                                   fontWeight: FontWeight.w600,
-                                                  color: colorScheme.onSurface
-                                                      .withValues(alpha: 0.7),
+                                                  color: colorScheme
+                                                      .onSurface
+                                                      .strong,
                                                 ),
                                           ),
                                         ],
@@ -578,8 +558,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         children: [
                                           Icon(
                                             Symbols.numbers_rounded,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                             size: 16.0,
                                           ),
                                           SizedBox(width: 4.0),
@@ -590,8 +569,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             style: textTheme.bodyMedium
                                                 ?.copyWith(
                                                   fontWeight: FontWeight.w600,
-                                                  color: colorScheme.onSurface
-                                                      .withValues(alpha: 0.7),
+                                                  color: colorScheme
+                                                      .onSurface
+                                                      .strong,
                                                 ),
                                           ),
                                         ],
@@ -608,8 +588,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         children: [
                                           Icon(
                                             Symbols.numbers_rounded,
-                                            color: colorScheme.onSurface
-                                                .withValues(alpha: 0.7),
+                                            color: colorScheme.onSurface.strong,
                                             size: 16.0,
                                           ),
                                           SizedBox(width: 4.0),
@@ -620,8 +599,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                             style: textTheme.bodyMedium
                                                 ?.copyWith(
                                                   fontWeight: FontWeight.w600,
-                                                  color: colorScheme.onSurface
-                                                      .withValues(alpha: 0.7),
+                                                  color: colorScheme
+                                                      .onSurface
+                                                      .strong,
                                                 ),
                                           ),
                                         ],
@@ -708,21 +688,15 @@ class ProcurementRequestItem extends ConsumerWidget {
                                   showBottomBorder: true,
                                   border: TableBorder(
                                     verticalInside: BorderSide(
-                                      color: colorScheme.outline.withValues(
-                                        alpha: 0.2,
-                                      ),
+                                      color: colorScheme.outline.subtle,
                                       width: 1.0,
                                     ),
                                     horizontalInside: BorderSide(
-                                      color: colorScheme.outline.withValues(
-                                        alpha: 0.2,
-                                      ),
+                                      color: colorScheme.outline.subtle,
                                       width: 1.0,
                                     ),
                                     bottom: BorderSide(
-                                      color: colorScheme.outline.withValues(
-                                        alpha: 0.2,
-                                      ),
+                                      color: colorScheme.outline.subtle,
                                       width: 1.0,
                                     ),
                                   ),
@@ -739,8 +713,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                                           children: [
                                             Icon(
                                               Symbols.text_fields_rounded,
-                                              color: colorScheme.onSurface
-                                                  .withValues(alpha: 0.7),
+                                              color:
+                                                  colorScheme.onSurface.strong,
                                               size: 16.0,
                                             ),
                                             const SizedBox(width: 4.0),
@@ -751,8 +725,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                               style: textTheme.bodyMedium
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.w600,
-                                                    color: colorScheme.onSurface
-                                                        .withValues(alpha: 0.7),
+                                                    color: colorScheme
+                                                        .onSurface
+                                                        .strong,
                                                   ),
                                             ),
                                           ],
@@ -771,8 +746,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                                           children: [
                                             Icon(
                                               Symbols.text_fields_rounded,
-                                              color: colorScheme.onSurface
-                                                  .withValues(alpha: 0.7),
+                                              color:
+                                                  colorScheme.onSurface.strong,
                                               size: 16.0,
                                             ),
                                             const SizedBox(width: 4.0),
@@ -783,8 +758,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                               style: textTheme.bodyMedium
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.w600,
-                                                    color: colorScheme.onSurface
-                                                        .withValues(alpha: 0.7),
+                                                    color: colorScheme
+                                                        .onSurface
+                                                        .strong,
                                                   ),
                                             ),
                                           ],
@@ -801,8 +777,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                                           children: [
                                             Icon(
                                               Symbols.numbers_rounded,
-                                              color: colorScheme.onSurface
-                                                  .withValues(alpha: 0.7),
+                                              color:
+                                                  colorScheme.onSurface.strong,
                                               size: 16.0,
                                             ),
                                             const SizedBox(width: 4.0),
@@ -813,8 +789,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                               style: textTheme.bodyMedium
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.w600,
-                                                    color: colorScheme.onSurface
-                                                        .withValues(alpha: 0.7),
+                                                    color: colorScheme
+                                                        .onSurface
+                                                        .strong,
                                                   ),
                                             ),
                                           ],
@@ -833,8 +810,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                                           children: [
                                             Icon(
                                               Symbols.numbers_rounded,
-                                              color: colorScheme.onSurface
-                                                  .withValues(alpha: 0.7),
+                                              color:
+                                                  colorScheme.onSurface.strong,
                                               size: 16.0,
                                             ),
                                             const SizedBox(width: 4.0),
@@ -845,8 +822,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                               style: textTheme.bodyMedium
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.w600,
-                                                    color: colorScheme.onSurface
-                                                        .withValues(alpha: 0.7),
+                                                    color: colorScheme
+                                                        .onSurface
+                                                        .strong,
                                                   ),
                                             ),
                                           ],
@@ -865,8 +843,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                                           children: [
                                             Icon(
                                               Symbols.numbers_rounded,
-                                              color: colorScheme.onSurface
-                                                  .withValues(alpha: 0.7),
+                                              color:
+                                                  colorScheme.onSurface.strong,
                                               size: 16.0,
                                             ),
                                             const SizedBox(width: 4.0),
@@ -877,8 +855,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                               style: textTheme.bodyMedium
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.w600,
-                                                    color: colorScheme.onSurface
-                                                        .withValues(alpha: 0.7),
+                                                    color: colorScheme
+                                                        .onSurface
+                                                        .strong,
                                                   ),
                                             ),
                                           ],
@@ -894,8 +873,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                                           children: [
                                             Icon(
                                               Symbols.package_rounded,
-                                              color: colorScheme.onSurface
-                                                  .withValues(alpha: 0.7),
+                                              color:
+                                                  colorScheme.onSurface.strong,
                                               size: 16.0,
                                             ),
                                             const SizedBox(width: 4.0),
@@ -906,8 +885,9 @@ class ProcurementRequestItem extends ConsumerWidget {
                                               style: textTheme.bodyMedium
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.w600,
-                                                    color: colorScheme.onSurface
-                                                        .withValues(alpha: 0.7),
+                                                    color: colorScheme
+                                                        .onSurface
+                                                        .strong,
                                                   ),
                                             ),
                                           ],
@@ -919,11 +899,12 @@ class ProcurementRequestItem extends ConsumerWidget {
                                     itemIndex,
                                   ) {
                                     final row = requestItems[itemIndex];
-                                    final url = row.purchaseUrl?.trim();
+                                    final purchaseUri = parseSafeWebUrl(
+                                      row.purchaseUrl,
+                                    );
                                     final hasUrl =
                                         row.isOnlinePurchase &&
-                                        url != null &&
-                                        url.isNotEmpty;
+                                        purchaseUri != null;
 
                                     return DataRow(
                                       cells: [
@@ -1000,20 +981,16 @@ class ProcurementRequestItem extends ConsumerWidget {
                                                         size: 20.0,
                                                         color: colorScheme
                                                             .onSurface
-                                                            .withValues(
-                                                              alpha: 0.7,
-                                                            ),
+                                                            .strong,
                                                       ),
                                                       const SizedBox(
                                                         width: 6.0,
                                                       ),
                                                       InkWell(
                                                         onTap: () async {
-                                                          final uri =
-                                                              Uri.tryParse(url);
-                                                          if (uri == null)
-                                                            return;
-                                                          await launchUrl(uri);
+                                                          await launchUrl(
+                                                            purchaseUri,
+                                                          );
                                                         },
                                                         child: Text(
                                                           Intl.message(
@@ -1056,7 +1033,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: colorScheme.outline.withValues(alpha: 0.2),
+                              color: colorScheme.outline.subtle,
                               width: 1.0,
                             ),
                           ),
@@ -1086,20 +1063,19 @@ class ProcurementRequestItem extends ConsumerWidget {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: MenuAnchor(
                         alignmentOffset: Offset(-160.0, 0.0),
-                        builder: (context, controller, child) =>
-                            CustomIconButton(
-                              onTap: () {
-                                if (controller.isOpen) {
-                                  controller.close();
-                                } else {
-                                  controller.open();
-                                }
-                              },
-                              icon: Icon(
-                                Symbols.more_vert_rounded,
-                                opticalSize: 20.0,
-                              ),
-                            ),
+                        builder: (context, controller, child) => AppIconButton(
+                          onTap: () {
+                            if (controller.isOpen) {
+                              controller.close();
+                            } else {
+                              controller.open();
+                            }
+                          },
+                          icon: Icon(
+                            Symbols.more_vert_rounded,
+                            opticalSize: 20.0,
+                          ),
+                        ),
                         menuChildren: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -1108,7 +1084,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                             child: MenuItemButton(
                               onPressed:
                                   auth is AuthAuthenticated &&
-                                          auth.user.isAdmin ||
+                                          (auth.user.department?.root == 1 ||
+                                              auth.user.department?.id == 3) ||
                                       auth is AuthAuthenticated &&
                                           auth.user.id == request.requestedBy.id
                                   ? () {
@@ -1150,7 +1127,8 @@ class ProcurementRequestItem extends ConsumerWidget {
                             child: MenuItemButton(
                               onPressed:
                                   auth is AuthAuthenticated &&
-                                          auth.user.isAdmin ||
+                                          (auth.user.department?.root == 1 ||
+                                              auth.user.department?.id == 3) ||
                                       auth is AuthAuthenticated &&
                                           auth.user.id == request.requestedBy.id
                                   ? () async {
@@ -1213,9 +1191,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                 '${request.requestedBy.username} ${Intl.message('common_edit_by')}',
                                 style: textTheme.labelSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  color: colorScheme.outline.withValues(
-                                    alpha: 0.7,
-                                  ),
+                                  color: colorScheme.outline.strong,
                                 ),
                               ),
                             ),
@@ -1227,9 +1203,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                               relativeDate,
                               style: textTheme.labelSmall?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: colorScheme.outline.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.outline.strong,
                               ),
                             ),
                           ),

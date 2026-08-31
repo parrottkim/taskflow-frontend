@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -14,7 +13,7 @@ class OrganizationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final organization = ref.watch(organizationControllerProvider);
+    final organization = ref.watch(organizationProvider);
 
     return BranchLayout(
       child: LayoutBuilder(
@@ -24,13 +23,15 @@ class OrganizationScreen extends ConsumerWidget {
             height: constraints.maxHeight,
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: ContainerWidget(
+              child: ContentContainer(
                 padding: EdgeInsets.zero,
                 borderRadius: BorderRadius.circular(8.0),
                 child: switch (organization) {
                   AsyncData(:final value) => _OrganizationChart(state: value),
-                  AsyncError(:final error, :final stackTrace) =>
-                    ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                  AsyncError(:final error, :final stackTrace) => ErrorStateView(
+                    error: error,
+                    stackTrace: stackTrace,
+                  ),
                   _ => Skeletonizer(
                     child: _OrganizationChart(
                       state: OrganizationState(
@@ -297,7 +298,7 @@ class _ChildrenConnector extends StatelessWidget {
     }
 
     final colorScheme = Theme.of(context).colorScheme;
-    final lineColor = colorScheme.outline.withValues(alpha: 0.24);
+    final lineColor = colorScheme.outline.subtle;
     final totalWidth =
         childWidths.fold(0.0, (sum, width) => sum + width) +
         (childWidths.length - 1) * spacing;
@@ -405,7 +406,7 @@ class _DepartmentHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return ContainerWidget(
+    return ContentContainer(
       padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       borderRadius: BorderRadius.circular(8.0),
       child: Text(
@@ -463,7 +464,7 @@ class _UserTile extends StatelessWidget {
                 child: Text(
                   user.position!.name,
                   style: textTheme.labelSmall?.copyWith(
-                    color: colorScheme.onSurface.withValues(alpha: 0.65),
+                    color: colorScheme.onSurface.strong,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -478,26 +479,6 @@ class _UserTile extends StatelessWidget {
 
 class _EmptyOrganization extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            'assets/icons/empty.svg',
-            width: 40.0,
-            height: 40.0,
-            colorFilter: ColorFilter.mode(
-              colorScheme.onSurface.withValues(alpha: 0.7),
-              BlendMode.srcIn,
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Text(Intl.message('data_user_no_item')),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      EmptyStateView(message: Intl.message('data_user_no_item'));
 }

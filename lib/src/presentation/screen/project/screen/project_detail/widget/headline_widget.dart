@@ -22,32 +22,33 @@ class HeadlineWidget extends HookConsumerWidget {
     final isNameHovered = useState(false);
     final isCodeHovered = useState(false);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        InkWell(
-          onTap: () async {
-            await Clipboard.setData(ClipboardData(text: project.name));
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: project.name));
 
-            ref
-                .read(toastProvider)
-                .showToast(
-                  child: Toast(
-                    type: ToastType.standard,
-                    message: Intl.message('common_copied'),
-                  ),
-                );
-          },
-          onHover: (value) {
-            isNameHovered.value = value;
-          },
-          borderRadius: BorderRadius.circular(4.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: Text(
+              ref
+                  .read(toastProvider)
+                  .showToast(
+                    child: Toast(
+                      type: ToastType.standard,
+                      message: Intl.message('common_copied'),
+                    ),
+                  );
+            },
+            onHover: (value) {
+              isNameHovered.value = value;
+            },
+            borderRadius: BorderRadius.circular(4.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
                   project.name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -56,58 +57,58 @@ class HeadlineWidget extends HookConsumerWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
-              if (isNameHovered.value)
-                Padding(
-                  padding: EdgeInsets.only(left: 4.0),
-                  child: Icon(
-                    Symbols.content_copy_rounded,
-                    size: 20.0,
-                    color: colorScheme.outline.withValues(alpha: 0.7),
+                if (isNameHovered.value)
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 4.0),
+                    child: Icon(
+                      Symbols.content_copy_rounded,
+                      size: 20.0,
+                      color: colorScheme.outline.strong,
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
-        ),
-        InkWell(
-          onTap: () async {
-            await Clipboard.setData(ClipboardData(text: project.code));
+          InkWell(
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: project.code));
 
-            ref
-                .read(toastProvider)
-                .showToast(
-                  child: Toast(
-                    type: ToastType.standard,
-                    message: Intl.message('common_copied'),
-                  ),
-                );
-          },
-          onHover: (value) {
-            isCodeHovered.value = value;
-          },
-          borderRadius: BorderRadius.circular(4.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                project.code,
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
-              ),
-              if (isCodeHovered.value)
-                Padding(
-                  padding: EdgeInsets.only(left: 2.0),
-                  child: Icon(
-                    Symbols.content_copy_rounded,
-                    size: 12.0,
-                    color: colorScheme.outline.withValues(alpha: 0.7),
+              ref
+                  .read(toastProvider)
+                  .showToast(
+                    child: Toast(
+                      type: ToastType.standard,
+                      message: Intl.message('common_copied'),
+                    ),
+                  );
+            },
+            onHover: (value) {
+              isCodeHovered.value = value;
+            },
+            borderRadius: BorderRadius.circular(4.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  project.code,
+                  style: textTheme.titleMedium?.copyWith(
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
-            ],
+                if (isCodeHovered.value)
+                  Padding(
+                    padding: EdgeInsets.only(left: 4.0, right: 2.0),
+                    child: Icon(
+                      Symbols.content_copy_rounded,
+                      size: 12.0,
+                      color: colorScheme.outline.strong,
+                    ),
+                  ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

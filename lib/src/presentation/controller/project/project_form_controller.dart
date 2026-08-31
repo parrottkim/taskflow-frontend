@@ -29,9 +29,7 @@ class ProjectFormController extends _$ProjectFormController {
     required List<Client> clients,
     required bool isAllClientSelected,
   }) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(
       value.copyWith(
@@ -42,41 +40,31 @@ class ProjectFormController extends _$ProjectFormController {
   }
 
   void setCode({required String code}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(code: code));
   }
 
   void setName({required String name}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(name: name));
   }
 
   void setManager({User? manager}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(manager: manager));
   }
 
   void setIsPreexecuted({required bool isPreexecuted}) {
-    final value = state.value;
-
-    if (value == null) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(isPreexecuted: isPreexecuted));
   }
 
   Future<void> deleteProject() async {
-    final value = state.value;
-
-    if (value == null) return;
+    state.requireValue;
 
     if (projectId != null) {
       await ref.read(projectRepositoryProvider).deleteProject(id: projectId!);

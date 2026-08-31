@@ -38,10 +38,6 @@ class RouterInterceptor implements RouterInterceptorInterface {
           return state.namedLocation(RouteNames.dashboard);
 
         case AuthUnauthenticated():
-        case AuthFailed():
-        case AuthForbidden():
-        case AuthConflict():
-        case AuthNetworkError():
           // 로그인되지 않았거나 실패/거부/충돌 상태
           if (redirect != null) {
             if (redirect.startsWith(Routes.login)) {
@@ -58,8 +54,6 @@ class RouterInterceptor implements RouterInterceptorInterface {
           return state.namedLocation(RouteNames.login);
 
         case AuthInitial():
-        case AuthRequest():
-        case AuthPending():
           // 상태 확인 중이거나 요청/대기 중. 스플래시 화면에 머무름 (리다이렉트 없음)
           return null;
       }
@@ -75,16 +69,7 @@ class RouterInterceptor implements RouterInterceptorInterface {
             queryParameters: {'redirect_to': redirect ?? uri.toString()},
           );
 
-        case AuthRequest():
-        case AuthPending():
-          // 현재 페이지에서 로딩 상태 유지 (리다이렉트 없음)
-          return null;
-
         case AuthUnauthenticated():
-        case AuthFailed():
-        case AuthForbidden():
-        case AuthConflict():
-        case AuthNetworkError():
           // 현재 접근하려는 경로가 인증 관련 경로일 경우 (login, register, forgotPassword 등)
           if (matchedLocation.startsWith(Routes.login)) {
             return null;

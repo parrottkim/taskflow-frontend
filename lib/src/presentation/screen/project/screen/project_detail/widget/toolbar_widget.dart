@@ -68,7 +68,7 @@ class ToolbarWidget extends HookConsumerWidget {
             ),
           ),
           SizedBox(width: 8.0),
-          CustomIconButton(
+          AppIconButton(
             onTap: () async {
               final path = GoRouter.of(
                 context,
@@ -102,7 +102,7 @@ class ToolbarWidget extends HookConsumerWidget {
             weight: 600.0,
             icon: const Icon(Symbols.share_rounded),
           ),
-          CustomIconButton(
+          AppIconButton(
             onTap: () async {
               await ref
                   .read(
@@ -118,7 +118,7 @@ class ToolbarWidget extends HookConsumerWidget {
           ),
           MenuAnchor(
             alignmentOffset: Offset(-140.0, 0.0),
-            builder: (context, controller, child) => CustomIconButton(
+            builder: (context, controller, child) => AppIconButton(
               onTap: !project.isClosed
                   ? () {
                       if (controller.isOpen) {
@@ -139,7 +139,7 @@ class ToolbarWidget extends HookConsumerWidget {
                           auth is AuthAuthenticated &&
                               auth.user.id == project.createdBy.id
                       ? () {
-                          context.goNamed(
+                          context.pushNamed(
                             RouteNames.projectEdit,
                             pathParameters: {
                               'project_id': project.id.toString(),
@@ -237,7 +237,7 @@ class ToolbarWidget extends HookConsumerWidget {
                   '${project.updatedBy?.username ?? project.updatedBy?.username} ${Intl.message('common_edit_by')}',
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.outline.withValues(alpha: 0.7),
+                    color: colorScheme.outline.strong,
                   ),
                 ),
               ),
@@ -247,7 +247,7 @@ class ToolbarWidget extends HookConsumerWidget {
                   relativeDate,
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.outline.withValues(alpha: 0.7),
+                    color: colorScheme.outline.strong,
                   ),
                 ),
               ),
@@ -261,7 +261,7 @@ class ToolbarWidget extends HookConsumerWidget {
                   '${Intl.message('common_view')} ${project.views}',
                   style: textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.outline.withValues(alpha: 0.7),
+                    color: colorScheme.outline.strong,
                   ),
                 ),
               ),

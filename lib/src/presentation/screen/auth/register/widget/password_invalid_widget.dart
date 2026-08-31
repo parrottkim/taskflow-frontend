@@ -5,7 +5,7 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class PasswordInvalidWidget extends StatelessWidget {
   final String password;
-  final List<ValidationItem> items;
+  final List<ValidationRule> items;
 
   const PasswordInvalidWidget({
     super.key,
@@ -35,7 +35,7 @@ class PasswordInvalidWidget extends StatelessWidget {
 
 class ValidationListItem extends HookWidget {
   final bool visible;
-  final ValidationItem item;
+  final ValidationRule item;
 
   const ValidationListItem({
     super.key,

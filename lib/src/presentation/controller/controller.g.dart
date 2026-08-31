@@ -146,7 +146,7 @@ final class AuthControllerProvider
   }
 }
 
-String _$authControllerHash() => r'dd14ea33b7e63ac8d1a44af4903b577635c107d9';
+String _$authControllerHash() => r'6cb0c2f0530de906acf643eb2c1ca1853c5d969e';
 
 abstract class _$AuthController extends $Notifier<AuthState> {
   AuthState build();
@@ -166,44 +166,103 @@ abstract class _$AuthController extends $Notifier<AuthState> {
   }
 }
 
-@ProviderFor(CalendarController)
-final calendarControllerProvider = CalendarControllerProvider._();
+@ProviderFor(LoginController)
+final loginControllerProvider = LoginControllerProvider._();
 
-final class CalendarControllerProvider
-    extends $AsyncNotifierProvider<CalendarController, CalendarState> {
-  CalendarControllerProvider._()
+final class LoginControllerProvider
+    extends $NotifierProvider<LoginController, LoginState> {
+  LoginControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'calendarControllerProvider',
+        name: r'loginControllerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$calendarControllerHash();
+  String debugGetCreateSourceHash() => _$loginControllerHash();
 
   @$internal
   @override
-  CalendarController create() => CalendarController();
+  LoginController create() => LoginController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(LoginState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<LoginState>(value),
+    );
+  }
 }
 
-String _$calendarControllerHash() =>
-    r'a9c4619bfaf92f143a41a62eb1ee201cbca4b0eb';
+String _$loginControllerHash() => r'0e418511e0af3cff11f219919858be334a126459';
 
-abstract class _$CalendarController extends $AsyncNotifier<CalendarState> {
-  FutureOr<CalendarState> build();
+abstract class _$LoginController extends $Notifier<LoginState> {
+  LoginState build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<CalendarState>, CalendarState>;
+    final ref = this.ref as $Ref<LoginState, LoginState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<CalendarState>, CalendarState>,
-              AsyncValue<CalendarState>,
+              AnyNotifier<LoginState, LoginState>,
+              LoginState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(TokenController)
+final tokenControllerProvider = TokenControllerProvider._();
+
+final class TokenControllerProvider
+    extends $NotifierProvider<TokenController, TokenState> {
+  TokenControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'tokenControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$tokenControllerHash();
+
+  @$internal
+  @override
+  TokenController create() => TokenController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(TokenState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<TokenState>(value),
+    );
+  }
+}
+
+String _$tokenControllerHash() => r'be7eb5b00c6b8bfe2c83b7a33dc8af5b20927836';
+
+abstract class _$TokenController extends $Notifier<TokenState> {
+  TokenState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<TokenState, TokenState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<TokenState, TokenState>,
+              TokenState,
               Object?,
               Object?
             >;
@@ -257,304 +316,6 @@ abstract class _$DateSelectionController extends $Notifier<DateSelectionState> {
             as $ClassProviderElement<
               AnyNotifier<DateSelectionState, DateSelectionState>,
               DateSelectionState,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(LatestUpdateController)
-final latestUpdateControllerProvider = LatestUpdateControllerProvider._();
-
-final class LatestUpdateControllerProvider
-    extends $AsyncNotifierProvider<LatestUpdateController, LatestUpdateState> {
-  LatestUpdateControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'latestUpdateControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$latestUpdateControllerHash();
-
-  @$internal
-  @override
-  LatestUpdateController create() => LatestUpdateController();
-}
-
-String _$latestUpdateControllerHash() =>
-    r'6236a34a4a29b9538c5553fbffb176d1759acfb6';
-
-abstract class _$LatestUpdateController
-    extends $AsyncNotifier<LatestUpdateState> {
-  FutureOr<LatestUpdateState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<LatestUpdateState>, LatestUpdateState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<LatestUpdateState>, LatestUpdateState>,
-              AsyncValue<LatestUpdateState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(ProjectStatsController)
-final projectStatsControllerProvider = ProjectStatsControllerFamily._();
-
-final class ProjectStatsControllerProvider
-    extends $AsyncNotifierProvider<ProjectStatsController, ProjectStatsState> {
-  ProjectStatsControllerProvider._({
-    required ProjectStatsControllerFamily super.from,
-    required ({DateTime start, DateTime end}) super.argument,
-  }) : super(
-         retry: null,
-         name: r'projectStatsControllerProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$projectStatsControllerHash();
-
-  @override
-  String toString() {
-    return r'projectStatsControllerProvider'
-        ''
-        '$argument';
-  }
-
-  @$internal
-  @override
-  ProjectStatsController create() => ProjectStatsController();
-
-  @override
-  bool operator ==(Object other) {
-    return other is ProjectStatsControllerProvider &&
-        other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$projectStatsControllerHash() =>
-    r'7715e5a2f4a05c044ea9a12dc05bf8095c487a66';
-
-final class ProjectStatsControllerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          ProjectStatsController,
-          AsyncValue<ProjectStatsState>,
-          ProjectStatsState,
-          FutureOr<ProjectStatsState>,
-          ({DateTime start, DateTime end})
-        > {
-  ProjectStatsControllerFamily._()
-    : super(
-        retry: null,
-        name: r'projectStatsControllerProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  ProjectStatsControllerProvider call({
-    required DateTime start,
-    required DateTime end,
-  }) => ProjectStatsControllerProvider._(
-    argument: (start: start, end: end),
-    from: this,
-  );
-
-  @override
-  String toString() => r'projectStatsControllerProvider';
-}
-
-abstract class _$ProjectStatsController
-    extends $AsyncNotifier<ProjectStatsState> {
-  late final _$args = ref.$arg as ({DateTime start, DateTime end});
-  DateTime get start => _$args.start;
-  DateTime get end => _$args.end;
-
-  FutureOr<ProjectStatsState> build({
-    required DateTime start,
-    required DateTime end,
-  });
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<ProjectStatsState>, ProjectStatsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<ProjectStatsState>, ProjectStatsState>,
-              AsyncValue<ProjectStatsState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(
-      ref,
-      () => build(start: _$args.start, end: _$args.end),
-    );
-  }
-}
-
-@ProviderFor(SummaryController)
-final summaryControllerProvider = SummaryControllerFamily._();
-
-final class SummaryControllerProvider
-    extends $AsyncNotifierProvider<SummaryController, SummaryState> {
-  SummaryControllerProvider._({
-    required SummaryControllerFamily super.from,
-    required ({DateTime start, DateTime end}) super.argument,
-  }) : super(
-         retry: null,
-         name: r'summaryControllerProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$summaryControllerHash();
-
-  @override
-  String toString() {
-    return r'summaryControllerProvider'
-        ''
-        '$argument';
-  }
-
-  @$internal
-  @override
-  SummaryController create() => SummaryController();
-
-  @override
-  bool operator ==(Object other) {
-    return other is SummaryControllerProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$summaryControllerHash() => r'f6d803617aff920046553d02827bbb9286d9afc0';
-
-final class SummaryControllerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          SummaryController,
-          AsyncValue<SummaryState>,
-          SummaryState,
-          FutureOr<SummaryState>,
-          ({DateTime start, DateTime end})
-        > {
-  SummaryControllerFamily._()
-    : super(
-        retry: null,
-        name: r'summaryControllerProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  SummaryControllerProvider call({
-    required DateTime start,
-    required DateTime end,
-  }) => SummaryControllerProvider._(
-    argument: (start: start, end: end),
-    from: this,
-  );
-
-  @override
-  String toString() => r'summaryControllerProvider';
-}
-
-abstract class _$SummaryController extends $AsyncNotifier<SummaryState> {
-  late final _$args = ref.$arg as ({DateTime start, DateTime end});
-  DateTime get start => _$args.start;
-  DateTime get end => _$args.end;
-
-  FutureOr<SummaryState> build({
-    required DateTime start,
-    required DateTime end,
-  });
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<SummaryState>, SummaryState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<SummaryState>, SummaryState>,
-              AsyncValue<SummaryState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(
-      ref,
-      () => build(start: _$args.start, end: _$args.end),
-    );
-  }
-}
-
-@ProviderFor(WorldMapController)
-final worldMapControllerProvider = WorldMapControllerProvider._();
-
-final class WorldMapControllerProvider
-    extends $AsyncNotifierProvider<WorldMapController, WorldMapState> {
-  WorldMapControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'worldMapControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$worldMapControllerHash();
-
-  @$internal
-  @override
-  WorldMapController create() => WorldMapController();
-}
-
-String _$worldMapControllerHash() =>
-    r'a2691e0d9196b8e9e630e8cae7c58db723055e49';
-
-abstract class _$WorldMapController extends $AsyncNotifier<WorldMapState> {
-  FutureOr<WorldMapState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<WorldMapState>, WorldMapState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<WorldMapState>, WorldMapState>,
-              AsyncValue<WorldMapState>,
               Object?,
               Object?
             >;
@@ -648,7 +409,7 @@ final class DocumentFilterControllerProvider
 }
 
 String _$documentFilterControllerHash() =>
-    r'ef4a953785495be621b6afe132bea7f5ccbca997';
+    r'7dc2e5317633c601085ccb4a8bc63c728a253d58';
 
 abstract class _$DocumentFilterController
     extends $Notifier<DocumentFilterState> {
@@ -666,100 +427,6 @@ abstract class _$DocumentFilterController
               Object?
             >;
     element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(DocumentDetailController)
-final documentDetailControllerProvider = DocumentDetailControllerFamily._();
-
-final class DocumentDetailControllerProvider
-    extends
-        $AsyncNotifierProvider<DocumentDetailController, DocumentDetailState> {
-  DocumentDetailControllerProvider._({
-    required DocumentDetailControllerFamily super.from,
-    required int super.argument,
-  }) : super(
-         retry: null,
-         name: r'documentDetailControllerProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$documentDetailControllerHash();
-
-  @override
-  String toString() {
-    return r'documentDetailControllerProvider'
-        ''
-        '($argument)';
-  }
-
-  @$internal
-  @override
-  DocumentDetailController create() => DocumentDetailController();
-
-  @override
-  bool operator ==(Object other) {
-    return other is DocumentDetailControllerProvider &&
-        other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$documentDetailControllerHash() =>
-    r'a638b41b81c842f540710bccd6a408c99fbef03f';
-
-final class DocumentDetailControllerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          DocumentDetailController,
-          AsyncValue<DocumentDetailState>,
-          DocumentDetailState,
-          FutureOr<DocumentDetailState>,
-          int
-        > {
-  DocumentDetailControllerFamily._()
-    : super(
-        retry: null,
-        name: r'documentDetailControllerProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  DocumentDetailControllerProvider call({required int documentId}) =>
-      DocumentDetailControllerProvider._(argument: documentId, from: this);
-
-  @override
-  String toString() => r'documentDetailControllerProvider';
-}
-
-abstract class _$DocumentDetailController
-    extends $AsyncNotifier<DocumentDetailState> {
-  late final _$args = ref.$arg as int;
-  int get documentId => _$args;
-
-  FutureOr<DocumentDetailState> build({required int documentId});
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<DocumentDetailState>, DocumentDetailState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<DocumentDetailState>, DocumentDetailState>,
-              AsyncValue<DocumentDetailState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(documentId: _$args));
   }
 }
 
@@ -806,7 +473,7 @@ final class DocumentFormControllerProvider
 }
 
 String _$documentFormControllerHash() =>
-    r'e4b39e7d48e49b4727d28190fe796e4a95350a34';
+    r'a1e2e751406498a6f5dec6598e634c9306ec2537';
 
 final class DocumentFormControllerFamily extends $Family
     with
@@ -881,7 +548,7 @@ final class DocumentListControllerProvider
 }
 
 String _$documentListControllerHash() =>
-    r'2d8f2c86e6a6bf0db62b6cb1b2ac343e0a55e51c';
+    r'aad63c6b9b84ec5f9233e0d387bda6fafdb07cc1';
 
 abstract class _$DocumentListController
     extends $AsyncNotifier<DocumentListState> {
@@ -932,7 +599,7 @@ final class DocumentOptionsControllerProvider
 }
 
 String _$documentOptionsControllerHash() =>
-    r'dee6e45833c43a0dc10c2571eb0e97d1bcbd618b';
+    r'4310897dec76418e3f90d1a67f4bb77a5c62a8bd';
 
 abstract class _$DocumentOptionsController
     extends $AsyncNotifier<DocumentOptionsState> {
@@ -991,7 +658,7 @@ final class DocumentSubmitControllerProvider
 }
 
 String _$documentSubmitControllerHash() =>
-    r'4dd643f904baf483c1ad1b7643d376ee2b4bed71';
+    r'c6790e03953a41889b558909f24b0632138ccdde';
 
 abstract class _$DocumentSubmitController
     extends $Notifier<DocumentSubmitState> {
@@ -1054,7 +721,7 @@ final class DownloadControllerProvider
 }
 
 String _$downloadControllerHash() =>
-    r'460766c74d69917f16ae9156b226c12585bb57e8';
+    r'5373081469cf58a43190aeac9e7d2f5979c456f7';
 
 final class DownloadControllerFamily extends $Family
     with
@@ -1109,6 +776,637 @@ abstract class _$DownloadController extends $AsyncNotifier<DownloadState> {
   }
 }
 
+@ProviderFor(DocumentDraftAutosaveController)
+final documentDraftAutosaveControllerProvider =
+    DocumentDraftAutosaveControllerFamily._();
+
+final class DocumentDraftAutosaveControllerProvider
+    extends
+        $NotifierProvider<DocumentDraftAutosaveController, DraftAutosaveState> {
+  DocumentDraftAutosaveControllerProvider._({
+    required DocumentDraftAutosaveControllerFamily super.from,
+    required int? super.argument,
+  }) : super(
+         retry: null,
+         name: r'documentDraftAutosaveControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$documentDraftAutosaveControllerHash();
+
+  @override
+  String toString() {
+    return r'documentDraftAutosaveControllerProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  DocumentDraftAutosaveController create() => DocumentDraftAutosaveController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DraftAutosaveState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DraftAutosaveState>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DocumentDraftAutosaveControllerProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$documentDraftAutosaveControllerHash() =>
+    r'd449a55bda65a3161e5e54fbb3a7944fa7b95fe7';
+
+final class DocumentDraftAutosaveControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          DocumentDraftAutosaveController,
+          DraftAutosaveState,
+          DraftAutosaveState,
+          DraftAutosaveState,
+          int?
+        > {
+  DocumentDraftAutosaveControllerFamily._()
+    : super(
+        retry: null,
+        name: r'documentDraftAutosaveControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  DocumentDraftAutosaveControllerProvider call({int? documentId}) =>
+      DocumentDraftAutosaveControllerProvider._(
+        argument: documentId,
+        from: this,
+      );
+
+  @override
+  String toString() => r'documentDraftAutosaveControllerProvider';
+}
+
+abstract class _$DocumentDraftAutosaveController
+    extends $Notifier<DraftAutosaveState> {
+  late final _$args = ref.$arg as int?;
+  int? get documentId => _$args;
+
+  DraftAutosaveState build({int? documentId});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<DraftAutosaveState, DraftAutosaveState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DraftAutosaveState, DraftAutosaveState>,
+              DraftAutosaveState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(documentId: _$args));
+  }
+}
+
+@ProviderFor(DocumentDraftController)
+final documentDraftControllerProvider = DocumentDraftControllerProvider._();
+
+final class DocumentDraftControllerProvider
+    extends $AsyncNotifierProvider<DocumentDraftController, DraftState> {
+  DocumentDraftControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'documentDraftControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$documentDraftControllerHash();
+
+  @$internal
+  @override
+  DocumentDraftController create() => DocumentDraftController();
+}
+
+String _$documentDraftControllerHash() =>
+    r'6e3d5f5215a949b7fdccc2c5c002c181277325df';
+
+abstract class _$DocumentDraftController extends $AsyncNotifier<DraftState> {
+  FutureOr<DraftState> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<DraftState>, DraftState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<DraftState>, DraftState>,
+              AsyncValue<DraftState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(IssueDraftAutosaveController)
+final issueDraftAutosaveControllerProvider =
+    IssueDraftAutosaveControllerFamily._();
+
+final class IssueDraftAutosaveControllerProvider
+    extends
+        $NotifierProvider<IssueDraftAutosaveController, DraftAutosaveState> {
+  IssueDraftAutosaveControllerProvider._({
+    required IssueDraftAutosaveControllerFamily super.from,
+    required ({int projectId, int categoryId, int? issueId}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'issueDraftAutosaveControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$issueDraftAutosaveControllerHash();
+
+  @override
+  String toString() {
+    return r'issueDraftAutosaveControllerProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  IssueDraftAutosaveController create() => IssueDraftAutosaveController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DraftAutosaveState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DraftAutosaveState>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is IssueDraftAutosaveControllerProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$issueDraftAutosaveControllerHash() =>
+    r'90dcc4503df10ca770db9ec0ac68b207ccb86916';
+
+final class IssueDraftAutosaveControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          IssueDraftAutosaveController,
+          DraftAutosaveState,
+          DraftAutosaveState,
+          DraftAutosaveState,
+          ({int projectId, int categoryId, int? issueId})
+        > {
+  IssueDraftAutosaveControllerFamily._()
+    : super(
+        retry: null,
+        name: r'issueDraftAutosaveControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  IssueDraftAutosaveControllerProvider call({
+    required int projectId,
+    required int categoryId,
+    int? issueId,
+  }) => IssueDraftAutosaveControllerProvider._(
+    argument: (projectId: projectId, categoryId: categoryId, issueId: issueId),
+    from: this,
+  );
+
+  @override
+  String toString() => r'issueDraftAutosaveControllerProvider';
+}
+
+abstract class _$IssueDraftAutosaveController
+    extends $Notifier<DraftAutosaveState> {
+  late final _$args =
+      ref.$arg as ({int projectId, int categoryId, int? issueId});
+  int get projectId => _$args.projectId;
+  int get categoryId => _$args.categoryId;
+  int? get issueId => _$args.issueId;
+
+  DraftAutosaveState build({
+    required int projectId,
+    required int categoryId,
+    int? issueId,
+  });
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<DraftAutosaveState, DraftAutosaveState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DraftAutosaveState, DraftAutosaveState>,
+              DraftAutosaveState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(
+      ref,
+      () => build(
+        projectId: _$args.projectId,
+        categoryId: _$args.categoryId,
+        issueId: _$args.issueId,
+      ),
+    );
+  }
+}
+
+@ProviderFor(IssueDraftController)
+final issueDraftControllerProvider = IssueDraftControllerFamily._();
+
+final class IssueDraftControllerProvider
+    extends $AsyncNotifierProvider<IssueDraftController, DraftState> {
+  IssueDraftControllerProvider._({
+    required IssueDraftControllerFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'issueDraftControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$issueDraftControllerHash();
+
+  @override
+  String toString() {
+    return r'issueDraftControllerProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  IssueDraftController create() => IssueDraftController();
+
+  @override
+  bool operator ==(Object other) {
+    return other is IssueDraftControllerProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$issueDraftControllerHash() =>
+    r'3181ef81b63c9c602f9a1f47376580dc1467e303';
+
+final class IssueDraftControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          IssueDraftController,
+          AsyncValue<DraftState>,
+          DraftState,
+          FutureOr<DraftState>,
+          int
+        > {
+  IssueDraftControllerFamily._()
+    : super(
+        retry: null,
+        name: r'issueDraftControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  IssueDraftControllerProvider call({required int projectId}) =>
+      IssueDraftControllerProvider._(argument: projectId, from: this);
+
+  @override
+  String toString() => r'issueDraftControllerProvider';
+}
+
+abstract class _$IssueDraftController extends $AsyncNotifier<DraftState> {
+  late final _$args = ref.$arg as int;
+  int get projectId => _$args;
+
+  FutureOr<DraftState> build({required int projectId});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<DraftState>, DraftState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<DraftState>, DraftState>,
+              AsyncValue<DraftState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(projectId: _$args));
+  }
+}
+
+@ProviderFor(DraftRestoreController)
+final draftRestoreControllerProvider = DraftRestoreControllerProvider._();
+
+final class DraftRestoreControllerProvider
+    extends $NotifierProvider<DraftRestoreController, DraftRestoreState> {
+  DraftRestoreControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'draftRestoreControllerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$draftRestoreControllerHash();
+
+  @$internal
+  @override
+  DraftRestoreController create() => DraftRestoreController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DraftRestoreState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DraftRestoreState>(value),
+    );
+  }
+}
+
+String _$draftRestoreControllerHash() =>
+    r'da32a1b737c2640a011cdd4026882a8a13ecc462';
+
+abstract class _$DraftRestoreController extends $Notifier<DraftRestoreState> {
+  DraftRestoreState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<DraftRestoreState, DraftRestoreState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DraftRestoreState, DraftRestoreState>,
+              DraftRestoreState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(ReportDraftAutosaveController)
+final reportDraftAutosaveControllerProvider =
+    ReportDraftAutosaveControllerFamily._();
+
+final class ReportDraftAutosaveControllerProvider
+    extends
+        $NotifierProvider<ReportDraftAutosaveController, DraftAutosaveState> {
+  ReportDraftAutosaveControllerProvider._({
+    required ReportDraftAutosaveControllerFamily super.from,
+    required ({int projectId, int? reportId, int? scheduleId}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'reportDraftAutosaveControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$reportDraftAutosaveControllerHash();
+
+  @override
+  String toString() {
+    return r'reportDraftAutosaveControllerProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  ReportDraftAutosaveController create() => ReportDraftAutosaveController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DraftAutosaveState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DraftAutosaveState>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReportDraftAutosaveControllerProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$reportDraftAutosaveControllerHash() =>
+    r'a74756b18d475f6dae9dd0d78b66a0489494f018';
+
+final class ReportDraftAutosaveControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          ReportDraftAutosaveController,
+          DraftAutosaveState,
+          DraftAutosaveState,
+          DraftAutosaveState,
+          ({int projectId, int? reportId, int? scheduleId})
+        > {
+  ReportDraftAutosaveControllerFamily._()
+    : super(
+        retry: null,
+        name: r'reportDraftAutosaveControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ReportDraftAutosaveControllerProvider call({
+    required int projectId,
+    int? reportId,
+    int? scheduleId,
+  }) => ReportDraftAutosaveControllerProvider._(
+    argument: (
+      projectId: projectId,
+      reportId: reportId,
+      scheduleId: scheduleId,
+    ),
+    from: this,
+  );
+
+  @override
+  String toString() => r'reportDraftAutosaveControllerProvider';
+}
+
+abstract class _$ReportDraftAutosaveController
+    extends $Notifier<DraftAutosaveState> {
+  late final _$args =
+      ref.$arg as ({int projectId, int? reportId, int? scheduleId});
+  int get projectId => _$args.projectId;
+  int? get reportId => _$args.reportId;
+  int? get scheduleId => _$args.scheduleId;
+
+  DraftAutosaveState build({
+    required int projectId,
+    int? reportId,
+    int? scheduleId,
+  });
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<DraftAutosaveState, DraftAutosaveState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<DraftAutosaveState, DraftAutosaveState>,
+              DraftAutosaveState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(
+      ref,
+      () => build(
+        projectId: _$args.projectId,
+        reportId: _$args.reportId,
+        scheduleId: _$args.scheduleId,
+      ),
+    );
+  }
+}
+
+@ProviderFor(ReportDraftController)
+final reportDraftControllerProvider = ReportDraftControllerFamily._();
+
+final class ReportDraftControllerProvider
+    extends $AsyncNotifierProvider<ReportDraftController, DraftState> {
+  ReportDraftControllerProvider._({
+    required ReportDraftControllerFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'reportDraftControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$reportDraftControllerHash();
+
+  @override
+  String toString() {
+    return r'reportDraftControllerProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  ReportDraftController create() => ReportDraftController();
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReportDraftControllerProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$reportDraftControllerHash() =>
+    r'cd8d064ec1786a5c22b7e56d2677ae04cd4e5f75';
+
+final class ReportDraftControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          ReportDraftController,
+          AsyncValue<DraftState>,
+          DraftState,
+          FutureOr<DraftState>,
+          int
+        > {
+  ReportDraftControllerFamily._()
+    : super(
+        retry: null,
+        name: r'reportDraftControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ReportDraftControllerProvider call({required int projectId}) =>
+      ReportDraftControllerProvider._(argument: projectId, from: this);
+
+  @override
+  String toString() => r'reportDraftControllerProvider';
+}
+
+abstract class _$ReportDraftController extends $AsyncNotifier<DraftState> {
+  late final _$args = ref.$arg as int;
+  int get projectId => _$args;
+
+  FutureOr<DraftState> build({required int projectId});
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<DraftState>, DraftState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<DraftState>, DraftState>,
+              AsyncValue<DraftState>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, () => build(projectId: _$args));
+  }
+}
+
 @ProviderFor(ErrorController)
 final errorControllerProvider = ErrorControllerProvider._();
 
@@ -1141,7 +1439,7 @@ final class ErrorControllerProvider
   }
 }
 
-String _$errorControllerHash() => r'9c253b51b13dcfdb88e5d549b6e6f40dbeb5c4cd';
+String _$errorControllerHash() => r'b7339e2d933aa1b1815edc1321de7c40027daa1f';
 
 abstract class _$ErrorController extends $Notifier<ErrorState> {
   ErrorState build();
@@ -1256,7 +1554,7 @@ final class IssueFormControllerProvider
 }
 
 String _$issueFormControllerHash() =>
-    r'2ddbec6417ebb7469635538754b630e2b89524b4';
+    r'2b37e23eed7372be8c5c5eaea456e3ddcb813cae';
 
 final class IssueFormControllerFamily extends $Family
     with
@@ -1366,7 +1664,7 @@ final class IssueListControllerProvider
 }
 
 String _$issueListControllerHash() =>
-    r'07d1423cd87a3170992b1ab4e2bcfd2c23bc9cbe';
+    r'98024004daa80bc3da47d90284b653d3f0c2f7bf';
 
 final class IssueListControllerFamily extends $Family
     with
@@ -1414,53 +1712,6 @@ abstract class _$IssueListController extends $AsyncNotifier<IssueListState> {
   }
 }
 
-@ProviderFor(IssueOptionsController)
-final issueOptionsControllerProvider = IssueOptionsControllerProvider._();
-
-final class IssueOptionsControllerProvider
-    extends $AsyncNotifierProvider<IssueOptionsController, IssueOptionsState> {
-  IssueOptionsControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'issueOptionsControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$issueOptionsControllerHash();
-
-  @$internal
-  @override
-  IssueOptionsController create() => IssueOptionsController();
-}
-
-String _$issueOptionsControllerHash() =>
-    r'60235a578137649553fd74a953e540d75547ac95';
-
-abstract class _$IssueOptionsController
-    extends $AsyncNotifier<IssueOptionsState> {
-  FutureOr<IssueOptionsState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<IssueOptionsState>, IssueOptionsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<IssueOptionsState>, IssueOptionsState>,
-              AsyncValue<IssueOptionsState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
 @ProviderFor(IssueSubmitController)
 final issueSubmitControllerProvider = IssueSubmitControllerProvider._();
 
@@ -1494,7 +1745,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'b4bdcef3a9f3912672719f98956cbfcbcc680034';
+    r'646bb211281f2621acc06694e4a81207b427bc48';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -1507,6 +1758,60 @@ abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
             as $ClassProviderElement<
               AnyNotifier<IssueSubmitState, IssueSubmitState>,
               IssueSubmitState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(IssueValidationController)
+final issueValidationControllerProvider = IssueValidationControllerProvider._();
+
+final class IssueValidationControllerProvider
+    extends $NotifierProvider<IssueValidationController, IssueValidationState> {
+  IssueValidationControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'issueValidationControllerProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$issueValidationControllerHash();
+
+  @$internal
+  @override
+  IssueValidationController create() => IssueValidationController();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(IssueValidationState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<IssueValidationState>(value),
+    );
+  }
+}
+
+String _$issueValidationControllerHash() =>
+    r'7d213ae4de048b56549c7578123f6a2c74b69a57';
+
+abstract class _$IssueValidationController
+    extends $Notifier<IssueValidationState> {
+  IssueValidationState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<IssueValidationState, IssueValidationState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<IssueValidationState, IssueValidationState>,
+              IssueValidationState,
               Object?,
               Object?
             >;
@@ -1562,7 +1867,7 @@ final class ProcurementIssueFormControllerProvider
 }
 
 String _$procurementIssueFormControllerHash() =>
-    r'455ef470a9957a86d6d3039e527cf94b2935f2be';
+    r'ca1699968e884f1ab44d88aaf8891d54a56edd74';
 
 final class ProcurementIssueFormControllerFamily extends $Family
     with
@@ -1655,7 +1960,7 @@ final class LocalControllerProvider
   LocalController create() => LocalController();
 }
 
-String _$localControllerHash() => r'77e32e702d20a3487ee72db3f0a0959a0f08d29e';
+String _$localControllerHash() => r'a51ae430ad94fb70e43de57d95c2c5aa98961b83';
 
 abstract class _$LocalController extends $AsyncNotifier<LocalState> {
   FutureOr<LocalState> build();
@@ -1710,7 +2015,7 @@ final class NavigationFilterControllerProvider
 }
 
 String _$navigationFilterControllerHash() =>
-    r'7ed58ce5fafe74466f792ab5bd64f69d5417ca57';
+    r'5736d2aa112f64f05a0351b2857a6f8d4a55b20e';
 
 abstract class _$NavigationFilterController
     extends $Notifier<NavigationFilterState> {
@@ -1724,109 +2029,6 @@ abstract class _$NavigationFilterController
             as $ClassProviderElement<
               AnyNotifier<NavigationFilterState, NavigationFilterState>,
               NavigationFilterState,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(NavigationSearchController)
-final navigationSearchControllerProvider =
-    NavigationSearchControllerProvider._();
-
-final class NavigationSearchControllerProvider
-    extends
-        $AsyncNotifierProvider<
-          NavigationSearchController,
-          NavigationSearchState
-        > {
-  NavigationSearchControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'navigationSearchControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$navigationSearchControllerHash();
-
-  @$internal
-  @override
-  NavigationSearchController create() => NavigationSearchController();
-}
-
-String _$navigationSearchControllerHash() =>
-    r'5ce9719d4c69d0fc9e31d2bb931016e9279bea22';
-
-abstract class _$NavigationSearchController
-    extends $AsyncNotifier<NavigationSearchState> {
-  FutureOr<NavigationSearchState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref
-            as $Ref<AsyncValue<NavigationSearchState>, NavigationSearchState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<NavigationSearchState>,
-                NavigationSearchState
-              >,
-              AsyncValue<NavigationSearchState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(OrganizationController)
-final organizationControllerProvider = OrganizationControllerProvider._();
-
-final class OrganizationControllerProvider
-    extends $AsyncNotifierProvider<OrganizationController, OrganizationState> {
-  OrganizationControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'organizationControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$organizationControllerHash();
-
-  @$internal
-  @override
-  OrganizationController create() => OrganizationController();
-}
-
-String _$organizationControllerHash() =>
-    r'f142599df19c70d4f7d499d10badb9f756543295';
-
-abstract class _$OrganizationController
-    extends $AsyncNotifier<OrganizationState> {
-  FutureOr<OrganizationState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<OrganizationState>, OrganizationState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<OrganizationState>, OrganizationState>,
-              AsyncValue<OrganizationState>,
               Object?,
               Object?
             >;
@@ -1878,7 +2080,7 @@ final class ProjectDetailControllerProvider
 }
 
 String _$projectDetailControllerHash() =>
-    r'dd25da34683e335b656541fb9c8dd0901c56a1d4';
+    r'3020ad220471ddeb05fa22f7423c6c3fb4ee7bb9';
 
 final class ProjectDetailControllerFamily extends $Family
     with
@@ -2039,7 +2241,7 @@ final class ProjectFilterControllerProvider
 }
 
 String _$projectFilterControllerHash() =>
-    r'6826a3052f5aeb5f51622d1542348f23a1801eac';
+    r'b8460ad67dc291a413fcba4a9644698951bf8df0';
 
 final class ProjectFilterControllerFamily extends $Family
     with
@@ -2129,7 +2331,7 @@ final class ProjectFormControllerProvider
 }
 
 String _$projectFormControllerHash() =>
-    r'47a9f7c0f6ecd43b5a46a348039e0ac0bf269155';
+    r'89645b8b2992d31098c6a4ceb9d27f4144934ee1';
 
 final class ProjectFormControllerFamily extends $Family
     with
@@ -2221,7 +2423,7 @@ final class ProjectListControllerProvider
 }
 
 String _$projectListControllerHash() =>
-    r'241a34f42e1919a0436e70f6dc1e9179a7d84bfd';
+    r'2843ffe0c173f9ff95dd853e553019a7d2e7c3b2';
 
 final class ProjectListControllerFamily extends $Family
     with
@@ -2271,54 +2473,6 @@ abstract class _$ProjectListController
   }
 }
 
-@ProviderFor(ProjectOptionsController)
-final projectOptionsControllerProvider = ProjectOptionsControllerProvider._();
-
-final class ProjectOptionsControllerProvider
-    extends
-        $AsyncNotifierProvider<ProjectOptionsController, ProjectOptionsState> {
-  ProjectOptionsControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'projectOptionsControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$projectOptionsControllerHash();
-
-  @$internal
-  @override
-  ProjectOptionsController create() => ProjectOptionsController();
-}
-
-String _$projectOptionsControllerHash() =>
-    r'c3b331d9a0fb93319647ac332a8add659936d8d9';
-
-abstract class _$ProjectOptionsController
-    extends $AsyncNotifier<ProjectOptionsState> {
-  FutureOr<ProjectOptionsState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<ProjectOptionsState>, ProjectOptionsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<ProjectOptionsState>, ProjectOptionsState>,
-              AsyncValue<ProjectOptionsState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
 @ProviderFor(ProjectSubmitController)
 final projectSubmitControllerProvider = ProjectSubmitControllerProvider._();
 
@@ -2352,7 +2506,7 @@ final class ProjectSubmitControllerProvider
 }
 
 String _$projectSubmitControllerHash() =>
-    r'8e4361210fe49e4b71303ba1486471a69f1a60d7';
+    r'ff15df4b095ae2f406db1e3ae037403cd27f56ad';
 
 abstract class _$ProjectSubmitController extends $Notifier<ProjectSubmitState> {
   ProjectSubmitState build();
@@ -2423,7 +2577,7 @@ final class ScheduleFilterControllerProvider
 }
 
 String _$scheduleFilterControllerHash() =>
-    r'299618520bfe9043a1895fbb9b9dd14f73d8909d';
+    r'70c5d371eb316026cb10c673dd6ca23ea09b81d8';
 
 final class ScheduleFilterControllerFamily extends $Family
     with
@@ -2472,6 +2626,83 @@ abstract class _$ScheduleFilterController
   }
 }
 
+@ProviderFor(scheduleFormInitialSchedule)
+final scheduleFormInitialScheduleProvider =
+    ScheduleFormInitialScheduleFamily._();
+
+final class ScheduleFormInitialScheduleProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Schedule?>,
+          Schedule?,
+          FutureOr<Schedule?>
+        >
+    with $FutureModifier<Schedule?>, $FutureProvider<Schedule?> {
+  ScheduleFormInitialScheduleProvider._({
+    required ScheduleFormInitialScheduleFamily super.from,
+    required int? super.argument,
+  }) : super(
+         retry: null,
+         name: r'scheduleFormInitialScheduleProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$scheduleFormInitialScheduleHash();
+
+  @override
+  String toString() {
+    return r'scheduleFormInitialScheduleProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<Schedule?> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Schedule?> create(Ref ref) {
+    final argument = this.argument as int?;
+    return scheduleFormInitialSchedule(ref, scheduleId: argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ScheduleFormInitialScheduleProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$scheduleFormInitialScheduleHash() =>
+    r'1a080cad3852e84f7c47737a4cfd89247b3f77a7';
+
+final class ScheduleFormInitialScheduleFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<Schedule?>, int?> {
+  ScheduleFormInitialScheduleFamily._()
+    : super(
+        retry: null,
+        name: r'scheduleFormInitialScheduleProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ScheduleFormInitialScheduleProvider call({int? scheduleId}) =>
+      ScheduleFormInitialScheduleProvider._(argument: scheduleId, from: this);
+
+  @override
+  String toString() => r'scheduleFormInitialScheduleProvider';
+}
+
 @ProviderFor(ScheduleFormController)
 final scheduleFormControllerProvider = ScheduleFormControllerFamily._();
 
@@ -2515,7 +2746,7 @@ final class ScheduleFormControllerProvider
 }
 
 String _$scheduleFormControllerHash() =>
-    r'42f4ba0867bd92486b2de387c164fdff82f78770';
+    r'6fa3cb8659d44a965e9b724c7cee8d1b2d7b87ae';
 
 final class ScheduleFormControllerFamily extends $Family
     with
@@ -2574,6 +2805,147 @@ abstract class _$ScheduleFormController
   }
 }
 
+@ProviderFor(ScheduleHolidayFormController)
+final scheduleHolidayFormControllerProvider =
+    ScheduleHolidayFormControllerFamily._();
+
+final class ScheduleHolidayFormControllerProvider
+    extends
+        $AsyncNotifierProvider<
+          ScheduleHolidayFormController,
+          List<ScheduleHolidayFormState>
+        > {
+  ScheduleHolidayFormControllerProvider._({
+    required ScheduleHolidayFormControllerFamily super.from,
+    required ({int categoryId, DateTime? start, DateTime? end, int? scheduleId})
+    super.argument,
+  }) : super(
+         retry: null,
+         name: r'scheduleHolidayFormControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$scheduleHolidayFormControllerHash();
+
+  @override
+  String toString() {
+    return r'scheduleHolidayFormControllerProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  ScheduleHolidayFormController create() => ScheduleHolidayFormController();
+
+  @override
+  bool operator ==(Object other) {
+    return other is ScheduleHolidayFormControllerProvider &&
+        other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$scheduleHolidayFormControllerHash() =>
+    r'd6474f9ec2883613d31483d743f8d35b88bd0d04';
+
+final class ScheduleHolidayFormControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          ScheduleHolidayFormController,
+          AsyncValue<List<ScheduleHolidayFormState>>,
+          List<ScheduleHolidayFormState>,
+          FutureOr<List<ScheduleHolidayFormState>>,
+          ({int categoryId, DateTime? start, DateTime? end, int? scheduleId})
+        > {
+  ScheduleHolidayFormControllerFamily._()
+    : super(
+        retry: null,
+        name: r'scheduleHolidayFormControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ScheduleHolidayFormControllerProvider call({
+    required int categoryId,
+    required DateTime? start,
+    required DateTime? end,
+    int? scheduleId,
+  }) => ScheduleHolidayFormControllerProvider._(
+    argument: (
+      categoryId: categoryId,
+      start: start,
+      end: end,
+      scheduleId: scheduleId,
+    ),
+    from: this,
+  );
+
+  @override
+  String toString() => r'scheduleHolidayFormControllerProvider';
+}
+
+abstract class _$ScheduleHolidayFormController
+    extends $AsyncNotifier<List<ScheduleHolidayFormState>> {
+  late final _$args =
+      ref.$arg
+          as ({
+            int categoryId,
+            DateTime? start,
+            DateTime? end,
+            int? scheduleId,
+          });
+  int get categoryId => _$args.categoryId;
+  DateTime? get start => _$args.start;
+  DateTime? get end => _$args.end;
+  int? get scheduleId => _$args.scheduleId;
+
+  FutureOr<List<ScheduleHolidayFormState>> build({
+    required int categoryId,
+    required DateTime? start,
+    required DateTime? end,
+    int? scheduleId,
+  });
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<List<ScheduleHolidayFormState>>,
+              List<ScheduleHolidayFormState>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<List<ScheduleHolidayFormState>>,
+                List<ScheduleHolidayFormState>
+              >,
+              AsyncValue<List<ScheduleHolidayFormState>>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(
+      ref,
+      () => build(
+        categoryId: _$args.categoryId,
+        start: _$args.start,
+        end: _$args.end,
+        scheduleId: _$args.scheduleId,
+      ),
+    );
+  }
+}
+
 @ProviderFor(ScheduleListController)
 final scheduleListControllerProvider = ScheduleListControllerFamily._();
 
@@ -2618,7 +2990,7 @@ final class ScheduleListControllerProvider
 }
 
 String _$scheduleListControllerHash() =>
-    r'a952b4550136c6b3e4425ce40340de39086adf86';
+    r'dfdd66d1bf83e568649be6728763aa0247bb3418';
 
 final class ScheduleListControllerFamily extends $Family
     with
@@ -2688,61 +3060,6 @@ abstract class _$ScheduleListController
   }
 }
 
-@ProviderFor(ScheduleOptionsController)
-final scheduleOptionsControllerProvider = ScheduleOptionsControllerProvider._();
-
-final class ScheduleOptionsControllerProvider
-    extends
-        $AsyncNotifierProvider<
-          ScheduleOptionsController,
-          ScheduleOptionsState
-        > {
-  ScheduleOptionsControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'scheduleOptionsControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$scheduleOptionsControllerHash();
-
-  @$internal
-  @override
-  ScheduleOptionsController create() => ScheduleOptionsController();
-}
-
-String _$scheduleOptionsControllerHash() =>
-    r'1cebe4137bb97751b62197bee44282b0a7da7585';
-
-abstract class _$ScheduleOptionsController
-    extends $AsyncNotifier<ScheduleOptionsState> {
-  FutureOr<ScheduleOptionsState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref
-            as $Ref<AsyncValue<ScheduleOptionsState>, ScheduleOptionsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<ScheduleOptionsState>,
-                ScheduleOptionsState
-              >,
-              AsyncValue<ScheduleOptionsState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
 @ProviderFor(ScheduleSubmitController)
 final scheduleSubmitControllerProvider = ScheduleSubmitControllerProvider._();
 
@@ -2776,7 +3093,7 @@ final class ScheduleSubmitControllerProvider
 }
 
 String _$scheduleSubmitControllerHash() =>
-    r'6c3b5077cc57e516e1ec12b898de9f8493479a1b';
+    r'da2366abfef11cf6f3a6b8deac0e2b2fa7e50318';
 
 abstract class _$ScheduleSubmitController
     extends $Notifier<ScheduleSubmitState> {
@@ -2940,7 +3257,7 @@ final class SupplierFormControllerProvider
 }
 
 String _$supplierFormControllerHash() =>
-    r'2c2b763768ef0e2da11dc39510bb642918a7de6d';
+    r'c475f6e9563a97a08f23920090311d5238f35994';
 
 final class SupplierFormControllerFamily extends $Family
     with
@@ -3033,7 +3350,7 @@ final class SupplierListControllerProvider
 }
 
 String _$supplierListControllerHash() =>
-    r'511eb4e4444dc7da620b58b226fc84dd6e012144';
+    r'2f42f747c3fd64664fe5e289ce16e8b220adc429';
 
 final class SupplierListControllerFamily extends $Family
     with
@@ -3116,7 +3433,7 @@ final class SupplierSubmitControllerProvider
 }
 
 String _$supplierSubmitControllerHash() =>
-    r'a3f5234a210f3934e4711804c60dc1f0aa5858a3';
+    r'1753553fb6dbee93b0bd45ba5ef96c88b54f6e14';
 
 abstract class _$SupplierSubmitController
     extends $Notifier<SupplierSubmitState> {
@@ -3179,7 +3496,7 @@ final class ReportFormControllerProvider
 }
 
 String _$reportFormControllerHash() =>
-    r'1b63f75594206872b036e42ec9e2723d68b60bdf';
+    r'e8c35aa1a55225fb0768747c85041feaaa34a1a1';
 
 final class ReportFormControllerFamily extends $Family
     with
@@ -3293,7 +3610,7 @@ final class ReportListControllerProvider
 }
 
 String _$reportListControllerHash() =>
-    r'ddf3c4d2133da23d90df957322ce3e7c374df491';
+    r'417e88563413be7b2fd326cc4b53b9e363cbb341';
 
 final class ReportListControllerFamily extends $Family
     with
@@ -3374,7 +3691,7 @@ final class ReportSubmitControllerProvider
 }
 
 String _$reportSubmitControllerHash() =>
-    r'f872887ef1df7de8427174f9d3388d8ebdfafddb';
+    r'45fbeea2104a6f5fc1d0e0bfc880b6215d9a597c';
 
 abstract class _$ReportSubmitController extends $Notifier<ReportSubmitState> {
   ReportSubmitState build();
@@ -3429,7 +3746,7 @@ final class ReportValidationControllerProvider
 }
 
 String _$reportValidationControllerHash() =>
-    r'f0a26b304c3d374d9a80eaeb8c292f8e031a1dbf';
+    r'6c09dfbf03cc2f9f09a5ab2fa74983c218c0f932';
 
 abstract class _$ReportValidationController
     extends $Notifier<ReportValidationState> {
@@ -3500,98 +3817,6 @@ abstract class _$TripExportController extends $Notifier<TripExportState> {
               Object?
             >;
     element.handleCreate(ref, build);
-  }
-}
-
-@ProviderFor(TripOptionsController)
-final tripOptionsControllerProvider = TripOptionsControllerFamily._();
-
-final class TripOptionsControllerProvider
-    extends $AsyncNotifierProvider<TripOptionsController, TripOptionsState> {
-  TripOptionsControllerProvider._({
-    required TripOptionsControllerFamily super.from,
-    required int? super.argument,
-  }) : super(
-         retry: null,
-         name: r'tripOptionsControllerProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$tripOptionsControllerHash();
-
-  @override
-  String toString() {
-    return r'tripOptionsControllerProvider'
-        ''
-        '($argument)';
-  }
-
-  @$internal
-  @override
-  TripOptionsController create() => TripOptionsController();
-
-  @override
-  bool operator ==(Object other) {
-    return other is TripOptionsControllerProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$tripOptionsControllerHash() =>
-    r'cc222fb0da167c378d126f08f40bd8ad3ade32d4';
-
-final class TripOptionsControllerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          TripOptionsController,
-          AsyncValue<TripOptionsState>,
-          TripOptionsState,
-          FutureOr<TripOptionsState>,
-          int?
-        > {
-  TripOptionsControllerFamily._()
-    : super(
-        retry: null,
-        name: r'tripOptionsControllerProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  TripOptionsControllerProvider call({int? categoryId}) =>
-      TripOptionsControllerProvider._(argument: categoryId, from: this);
-
-  @override
-  String toString() => r'tripOptionsControllerProvider';
-}
-
-abstract class _$TripOptionsController
-    extends $AsyncNotifier<TripOptionsState> {
-  late final _$args = ref.$arg as int?;
-  int? get categoryId => _$args;
-
-  FutureOr<TripOptionsState> build({int? categoryId});
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<TripOptionsState>, TripOptionsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<TripOptionsState>, TripOptionsState>,
-              AsyncValue<TripOptionsState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(categoryId: _$args));
   }
 }
 
@@ -3698,7 +3923,7 @@ final class UserFilterControllerProvider
 }
 
 String _$userFilterControllerHash() =>
-    r'68db498d4a06c1fe45fea85edfcfad08ebe47049';
+    r'4bf8820b69fe1741e482a9ec7e78c6b61d22666a';
 
 final class UserFilterControllerFamily extends $Family
     with
@@ -3746,96 +3971,6 @@ abstract class _$UserFilterController extends $Notifier<UserFilterState> {
   }
 }
 
-@ProviderFor(UserFormController)
-final userFormControllerProvider = UserFormControllerFamily._();
-
-final class UserFormControllerProvider
-    extends $AsyncNotifierProvider<UserFormController, UserFormState> {
-  UserFormControllerProvider._({
-    required UserFormControllerFamily super.from,
-    required int super.argument,
-  }) : super(
-         retry: null,
-         name: r'userFormControllerProvider',
-         isAutoDispose: true,
-         dependencies: null,
-         $allTransitiveDependencies: null,
-       );
-
-  @override
-  String debugGetCreateSourceHash() => _$userFormControllerHash();
-
-  @override
-  String toString() {
-    return r'userFormControllerProvider'
-        ''
-        '($argument)';
-  }
-
-  @$internal
-  @override
-  UserFormController create() => UserFormController();
-
-  @override
-  bool operator ==(Object other) {
-    return other is UserFormControllerProvider && other.argument == argument;
-  }
-
-  @override
-  int get hashCode {
-    return argument.hashCode;
-  }
-}
-
-String _$userFormControllerHash() =>
-    r'acf63190e61d301af7156f19abf73fe12e6c1a92';
-
-final class UserFormControllerFamily extends $Family
-    with
-        $ClassFamilyOverride<
-          UserFormController,
-          AsyncValue<UserFormState>,
-          UserFormState,
-          FutureOr<UserFormState>,
-          int
-        > {
-  UserFormControllerFamily._()
-    : super(
-        retry: null,
-        name: r'userFormControllerProvider',
-        dependencies: null,
-        $allTransitiveDependencies: null,
-        isAutoDispose: true,
-      );
-
-  UserFormControllerProvider call({required int userId}) =>
-      UserFormControllerProvider._(argument: userId, from: this);
-
-  @override
-  String toString() => r'userFormControllerProvider';
-}
-
-abstract class _$UserFormController extends $AsyncNotifier<UserFormState> {
-  late final _$args = ref.$arg as int;
-  int get userId => _$args;
-
-  FutureOr<UserFormState> build({required int userId});
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<UserFormState>, UserFormState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<UserFormState>, UserFormState>,
-              AsyncValue<UserFormState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, () => build(userId: _$args));
-  }
-}
-
 @ProviderFor(UserListController)
 final userListControllerProvider = UserListControllerFamily._();
 
@@ -3878,7 +4013,7 @@ final class UserListControllerProvider
 }
 
 String _$userListControllerHash() =>
-    r'b5cce98ab2fcfd5a5cb312dcfeff8668c1a3737f';
+    r'e0bf33e9e3192da3f41aa47ecc75e889ae6446e7';
 
 final class UserListControllerFamily extends $Family
     with
@@ -3926,53 +4061,6 @@ abstract class _$UserListController extends $AsyncNotifier<UserListState> {
   }
 }
 
-@ProviderFor(UserOptionsController)
-final userOptionsControllerProvider = UserOptionsControllerProvider._();
-
-final class UserOptionsControllerProvider
-    extends $AsyncNotifierProvider<UserOptionsController, UserOptionsState> {
-  UserOptionsControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'userOptionsControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$userOptionsControllerHash();
-
-  @$internal
-  @override
-  UserOptionsController create() => UserOptionsController();
-}
-
-String _$userOptionsControllerHash() =>
-    r'f375af9c900b06c6a7bdcbae357eab177bf8931b';
-
-abstract class _$UserOptionsController
-    extends $AsyncNotifier<UserOptionsState> {
-  FutureOr<UserOptionsState> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<UserOptionsState>, UserOptionsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<UserOptionsState>, UserOptionsState>,
-              AsyncValue<UserOptionsState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
-
 @ProviderFor(UserSubmitController)
 final userSubmitControllerProvider = UserSubmitControllerProvider._();
 
@@ -4006,7 +4094,7 @@ final class UserSubmitControllerProvider
 }
 
 String _$userSubmitControllerHash() =>
-    r'b3b8e7fed9d96bdc5e45dbca0b58a6089fe1df74';
+    r'a735652654ab042ab54891f8d3c020e40779de41';
 
 abstract class _$UserSubmitController extends $Notifier<UserSubmitState> {
   UserSubmitState build();
@@ -4112,7 +4200,7 @@ final class WorkIssueFilterControllerProvider
 }
 
 String _$workIssueFilterControllerHash() =>
-    r'b27eb45993f0820842d3608616dc180dde966712';
+    r'7aa7e2eea796c61657b0db86bbc3dc7abe06e5f4';
 
 abstract class _$WorkIssueFilterController
     extends $Notifier<WorkIssueFilterState> {
@@ -4159,7 +4247,7 @@ final class WorkIssueListControllerProvider
 }
 
 String _$workIssueListControllerHash() =>
-    r'a0c73683068e1a6374a9e2ab6d86bfbff8e59263';
+    r'c02c1a50fe000ad5778c00d2a1ea827e96bc3011';
 
 abstract class _$WorkIssueListController
     extends $AsyncNotifier<WorkIssueListState> {
@@ -4216,7 +4304,7 @@ final class WorkProjectFilterControllerProvider
 }
 
 String _$workProjectFilterControllerHash() =>
-    r'a81e5bc485debca278f4a63c7a42defc21042946';
+    r'bbf7bf91f53779ee2a64b7cc3bd4846193696ca3';
 
 abstract class _$WorkProjectFilterController
     extends $Notifier<WorkProjectFilterState> {
@@ -4267,7 +4355,7 @@ final class WorkProjectListControllerProvider
 }
 
 String _$workProjectListControllerHash() =>
-    r'2808cfccedc4774de5e0d7de3e6da5f85705377d';
+    r'517824d560dafea846a7f626dbaafc51283c9c96';
 
 abstract class _$WorkProjectListController
     extends $AsyncNotifier<WorkProjectListState> {
@@ -4328,7 +4416,7 @@ final class WorkReportFilterControllerProvider
 }
 
 String _$workReportFilterControllerHash() =>
-    r'956fcaae78809ed1141027a06c0a5bf17924f7bf';
+    r'905ec7a398d4f025e9f3ff8c7e4de037f1bbfa6f';
 
 abstract class _$WorkReportFilterController
     extends $Notifier<WorkReportFilterState> {
@@ -4375,7 +4463,7 @@ final class WorkReportListControllerProvider
 }
 
 String _$workReportListControllerHash() =>
-    r'f371a9113091963739f91293ebbd4bced93865a6';
+    r'5b37446df6c0f308cb2d8d4fe58df12975d6c159';
 
 abstract class _$WorkReportListController
     extends $AsyncNotifier<WorkReportListState> {
@@ -4397,58 +4485,898 @@ abstract class _$WorkReportListController
   }
 }
 
-@ProviderFor(WorkReportOptionsController)
-final workReportOptionsControllerProvider =
-    WorkReportOptionsControllerProvider._();
+@ProviderFor(calendar)
+final calendarProvider = CalendarProvider._();
 
-final class WorkReportOptionsControllerProvider
+final class CalendarProvider
     extends
-        $AsyncNotifierProvider<
-          WorkReportOptionsController,
-          WorkReportOptionsState
-        > {
-  WorkReportOptionsControllerProvider._()
+        $FunctionalProvider<
+          AsyncValue<List<TodaySchedule>>,
+          List<TodaySchedule>,
+          FutureOr<List<TodaySchedule>>
+        >
+    with
+        $FutureModifier<List<TodaySchedule>>,
+        $FutureProvider<List<TodaySchedule>> {
+  CalendarProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'workReportOptionsControllerProvider',
+        name: r'calendarProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$workReportOptionsControllerHash();
+  String debugGetCreateSourceHash() => _$calendarHash();
 
   @$internal
   @override
-  WorkReportOptionsController create() => WorkReportOptionsController();
-}
+  $FutureProviderElement<List<TodaySchedule>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
-String _$workReportOptionsControllerHash() =>
-    r'54d5a75d6381f7fad85cbb2564acbda80c0107e0';
-
-abstract class _$WorkReportOptionsController
-    extends $AsyncNotifier<WorkReportOptionsState> {
-  FutureOr<WorkReportOptionsState> build();
-  @$mustCallSuper
   @override
-  void runBuild() {
-    final ref =
-        this.ref
-            as $Ref<AsyncValue<WorkReportOptionsState>, WorkReportOptionsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<
-                AsyncValue<WorkReportOptionsState>,
-                WorkReportOptionsState
-              >,
-              AsyncValue<WorkReportOptionsState>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
+  FutureOr<List<TodaySchedule>> create(Ref ref) {
+    return calendar(ref);
   }
 }
+
+String _$calendarHash() => r'64a52e798d2712425c5ec6a7f53c350a590108e6';
+
+@ProviderFor(latestUpdate)
+final latestUpdateProvider = LatestUpdateProvider._();
+
+final class LatestUpdateProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<LatestIssue>>,
+          List<LatestIssue>,
+          FutureOr<List<LatestIssue>>
+        >
+    with
+        $FutureModifier<List<LatestIssue>>,
+        $FutureProvider<List<LatestIssue>> {
+  LatestUpdateProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'latestUpdateProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$latestUpdateHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<LatestIssue>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<LatestIssue>> create(Ref ref) {
+    return latestUpdate(ref);
+  }
+}
+
+String _$latestUpdateHash() => r'9c20600fe90362800aaa2b670a8315ecf83c5a5e';
+
+@ProviderFor(projectStats)
+final projectStatsProvider = ProjectStatsFamily._();
+
+final class ProjectStatsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<Result<ProjectStats>>,
+          Result<ProjectStats>,
+          FutureOr<Result<ProjectStats>>
+        >
+    with
+        $FutureModifier<Result<ProjectStats>>,
+        $FutureProvider<Result<ProjectStats>> {
+  ProjectStatsProvider._({
+    required ProjectStatsFamily super.from,
+    required ({DateTime start, DateTime end}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'projectStatsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$projectStatsHash();
+
+  @override
+  String toString() {
+    return r'projectStatsProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<Result<ProjectStats>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Result<ProjectStats>> create(Ref ref) {
+    final argument = this.argument as ({DateTime start, DateTime end});
+    return projectStats(ref, start: argument.start, end: argument.end);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProjectStatsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$projectStatsHash() => r'cf5b055096816ea9bb09fd5e60364bbac41551b2';
+
+final class ProjectStatsFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<Result<ProjectStats>>,
+          ({DateTime start, DateTime end})
+        > {
+  ProjectStatsFamily._()
+    : super(
+        retry: null,
+        name: r'projectStatsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  ProjectStatsProvider call({required DateTime start, required DateTime end}) =>
+      ProjectStatsProvider._(argument: (start: start, end: end), from: this);
+
+  @override
+  String toString() => r'projectStatsProvider';
+}
+
+@ProviderFor(summary)
+final summaryProvider = SummaryFamily._();
+
+final class SummaryProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<ProjectSummary>,
+          ProjectSummary,
+          FutureOr<ProjectSummary>
+        >
+    with $FutureModifier<ProjectSummary>, $FutureProvider<ProjectSummary> {
+  SummaryProvider._({
+    required SummaryFamily super.from,
+    required ({DateTime start, DateTime end}) super.argument,
+  }) : super(
+         retry: null,
+         name: r'summaryProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$summaryHash();
+
+  @override
+  String toString() {
+    return r'summaryProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<ProjectSummary> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<ProjectSummary> create(Ref ref) {
+    final argument = this.argument as ({DateTime start, DateTime end});
+    return summary(ref, start: argument.start, end: argument.end);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SummaryProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$summaryHash() => r'ce454bb1ce497cf22ab366a5e7fbba3be958a06f';
+
+final class SummaryFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<ProjectSummary>,
+          ({DateTime start, DateTime end})
+        > {
+  SummaryFamily._()
+    : super(
+        retry: null,
+        name: r'summaryProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  SummaryProvider call({required DateTime start, required DateTime end}) =>
+      SummaryProvider._(argument: (start: start, end: end), from: this);
+
+  @override
+  String toString() => r'summaryProvider';
+}
+
+@ProviderFor(worldMap)
+final worldMapProvider = WorldMapProvider._();
+
+final class WorldMapProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<ClientCount>>,
+          List<ClientCount>,
+          FutureOr<List<ClientCount>>
+        >
+    with
+        $FutureModifier<List<ClientCount>>,
+        $FutureProvider<List<ClientCount>> {
+  WorldMapProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'worldMapProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$worldMapHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<ClientCount>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<ClientCount>> create(Ref ref) {
+    return worldMap(ref);
+  }
+}
+
+String _$worldMapHash() => r'5df82f659d14e2983013f4fa414f3b95f7008ceb';
+
+@ProviderFor(documentDetail)
+final documentDetailProvider = DocumentDetailFamily._();
+
+final class DocumentDetailProvider
+    extends
+        $FunctionalProvider<AsyncValue<Document>, Document, FutureOr<Document>>
+    with $FutureModifier<Document>, $FutureProvider<Document> {
+  DocumentDetailProvider._({
+    required DocumentDetailFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'documentDetailProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$documentDetailHash();
+
+  @override
+  String toString() {
+    return r'documentDetailProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<Document> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<Document> create(Ref ref) {
+    final argument = this.argument as int;
+    return documentDetail(ref, documentId: argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DocumentDetailProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$documentDetailHash() => r'f051e751291209adf302fca7bffd96a164f22784';
+
+final class DocumentDetailFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<Document>, int> {
+  DocumentDetailFamily._()
+    : super(
+        retry: null,
+        name: r'documentDetailProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  DocumentDetailProvider call({required int documentId}) =>
+      DocumentDetailProvider._(argument: documentId, from: this);
+
+  @override
+  String toString() => r'documentDetailProvider';
+}
+
+@ProviderFor(issueOptions)
+final issueOptionsProvider = IssueOptionsProvider._();
+
+final class IssueOptionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<IssueOptionsState>,
+          IssueOptionsState,
+          FutureOr<IssueOptionsState>
+        >
+    with
+        $FutureModifier<IssueOptionsState>,
+        $FutureProvider<IssueOptionsState> {
+  IssueOptionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'issueOptionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$issueOptionsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<IssueOptionsState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<IssueOptionsState> create(Ref ref) {
+    return issueOptions(ref);
+  }
+}
+
+String _$issueOptionsHash() => r'5b290a9b6b3f7cf263ed6b196f2e6955bf171a71';
+
+@ProviderFor(navigationSearch)
+final navigationSearchProvider = NavigationSearchProvider._();
+
+final class NavigationSearchProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<DashboardSearchResult>,
+          DashboardSearchResult,
+          FutureOr<DashboardSearchResult>
+        >
+    with
+        $FutureModifier<DashboardSearchResult>,
+        $FutureProvider<DashboardSearchResult> {
+  NavigationSearchProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'navigationSearchProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$navigationSearchHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<DashboardSearchResult> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<DashboardSearchResult> create(Ref ref) {
+    return navigationSearch(ref);
+  }
+}
+
+String _$navigationSearchHash() => r'ca38e73ec456d9ac5dfbf38d0fdfe4159b49a80e';
+
+@ProviderFor(organization)
+final organizationProvider = OrganizationProvider._();
+
+final class OrganizationProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<OrganizationState>,
+          OrganizationState,
+          FutureOr<OrganizationState>
+        >
+    with
+        $FutureModifier<OrganizationState>,
+        $FutureProvider<OrganizationState> {
+  OrganizationProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'organizationProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$organizationHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<OrganizationState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<OrganizationState> create(Ref ref) {
+    return organization(ref);
+  }
+}
+
+String _$organizationHash() => r'ca426e1549db224499a2d0b4965e2860530e251f';
+
+@ProviderFor(projectOptions)
+final projectOptionsProvider = ProjectOptionsProvider._();
+
+final class ProjectOptionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<ProjectOptionsState>,
+          ProjectOptionsState,
+          FutureOr<ProjectOptionsState>
+        >
+    with
+        $FutureModifier<ProjectOptionsState>,
+        $FutureProvider<ProjectOptionsState> {
+  ProjectOptionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'projectOptionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$projectOptionsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<ProjectOptionsState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<ProjectOptionsState> create(Ref ref) {
+    return projectOptions(ref);
+  }
+}
+
+String _$projectOptionsHash() => r'eaca59219720e40958b4a7c06134b00e3efc368b';
+
+@ProviderFor(scheduleOptions)
+final scheduleOptionsProvider = ScheduleOptionsProvider._();
+
+final class ScheduleOptionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<ScheduleOptionsState>,
+          ScheduleOptionsState,
+          FutureOr<ScheduleOptionsState>
+        >
+    with
+        $FutureModifier<ScheduleOptionsState>,
+        $FutureProvider<ScheduleOptionsState> {
+  ScheduleOptionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'scheduleOptionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$scheduleOptionsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<ScheduleOptionsState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<ScheduleOptionsState> create(Ref ref) {
+    return scheduleOptions(ref);
+  }
+}
+
+String _$scheduleOptionsHash() => r'45826088a8487b4362e2402c54618935adaf40d6';
+
+@ProviderFor(dailyAllowancePreview)
+final dailyAllowancePreviewProvider = DailyAllowancePreviewFamily._();
+
+final class DailyAllowancePreviewProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<DailyAllowancePreview>,
+          DailyAllowancePreview,
+          FutureOr<DailyAllowancePreview>
+        >
+    with
+        $FutureModifier<DailyAllowancePreview>,
+        $FutureProvider<DailyAllowancePreview> {
+  DailyAllowancePreviewProvider._({
+    required DailyAllowancePreviewFamily super.from,
+    required ({
+      int scheduleId,
+      List<ScheduleHoliday>? holidays,
+      List<TripActualExpense>? expenses,
+    })
+    super.argument,
+  }) : super(
+         retry: null,
+         name: r'dailyAllowancePreviewProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$dailyAllowancePreviewHash();
+
+  @override
+  String toString() {
+    return r'dailyAllowancePreviewProvider'
+        ''
+        '$argument';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<DailyAllowancePreview> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<DailyAllowancePreview> create(Ref ref) {
+    final argument =
+        this.argument
+            as ({
+              int scheduleId,
+              List<ScheduleHoliday>? holidays,
+              List<TripActualExpense>? expenses,
+            });
+    return dailyAllowancePreview(
+      ref,
+      scheduleId: argument.scheduleId,
+      holidays: argument.holidays,
+      expenses: argument.expenses,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DailyAllowancePreviewProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$dailyAllowancePreviewHash() =>
+    r'bf4d890a580a79cbd7273dd60ce8862d16417280';
+
+final class DailyAllowancePreviewFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<DailyAllowancePreview>,
+          ({
+            int scheduleId,
+            List<ScheduleHoliday>? holidays,
+            List<TripActualExpense>? expenses,
+          })
+        > {
+  DailyAllowancePreviewFamily._()
+    : super(
+        retry: null,
+        name: r'dailyAllowancePreviewProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  DailyAllowancePreviewProvider call({
+    required int scheduleId,
+    List<ScheduleHoliday>? holidays,
+    List<TripActualExpense>? expenses,
+  }) => DailyAllowancePreviewProvider._(
+    argument: (scheduleId: scheduleId, holidays: holidays, expenses: expenses),
+    from: this,
+  );
+
+  @override
+  String toString() => r'dailyAllowancePreviewProvider';
+}
+
+@ProviderFor(tripOptions)
+final tripOptionsProvider = TripOptionsFamily._();
+
+final class TripOptionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<TripOptionsState>,
+          TripOptionsState,
+          FutureOr<TripOptionsState>
+        >
+    with $FutureModifier<TripOptionsState>, $FutureProvider<TripOptionsState> {
+  TripOptionsProvider._({
+    required TripOptionsFamily super.from,
+    required int? super.argument,
+  }) : super(
+         retry: null,
+         name: r'tripOptionsProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$tripOptionsHash();
+
+  @override
+  String toString() {
+    return r'tripOptionsProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<TripOptionsState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<TripOptionsState> create(Ref ref) {
+    final argument = this.argument as int?;
+    return tripOptions(ref, categoryId: argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TripOptionsProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$tripOptionsHash() => r'3148e9e1c28669afd9ed4368d8b317a216af53b9';
+
+final class TripOptionsFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<TripOptionsState>, int?> {
+  TripOptionsFamily._()
+    : super(
+        retry: null,
+        name: r'tripOptionsProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  TripOptionsProvider call({int? categoryId}) =>
+      TripOptionsProvider._(argument: categoryId, from: this);
+
+  @override
+  String toString() => r'tripOptionsProvider';
+}
+
+@ProviderFor(userForm)
+final userFormProvider = UserFormFamily._();
+
+final class UserFormProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<UserFormState>,
+          UserFormState,
+          FutureOr<UserFormState>
+        >
+    with $FutureModifier<UserFormState>, $FutureProvider<UserFormState> {
+  UserFormProvider._({
+    required UserFormFamily super.from,
+    required int super.argument,
+  }) : super(
+         retry: null,
+         name: r'userFormProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$userFormHash();
+
+  @override
+  String toString() {
+    return r'userFormProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<UserFormState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<UserFormState> create(Ref ref) {
+    final argument = this.argument as int;
+    return userForm(ref, userId: argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is UserFormProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$userFormHash() => r'8d982eb8919ddeceb1745acb72a5b740cb697edd';
+
+final class UserFormFamily extends $Family
+    with $FunctionalFamilyOverride<FutureOr<UserFormState>, int> {
+  UserFormFamily._()
+    : super(
+        retry: null,
+        name: r'userFormProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  UserFormProvider call({required int userId}) =>
+      UserFormProvider._(argument: userId, from: this);
+
+  @override
+  String toString() => r'userFormProvider';
+}
+
+@ProviderFor(userOptions)
+final userOptionsProvider = UserOptionsProvider._();
+
+final class UserOptionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<UserOptionsState>,
+          UserOptionsState,
+          FutureOr<UserOptionsState>
+        >
+    with $FutureModifier<UserOptionsState>, $FutureProvider<UserOptionsState> {
+  UserOptionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userOptionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$userOptionsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<UserOptionsState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<UserOptionsState> create(Ref ref) {
+    return userOptions(ref);
+  }
+}
+
+String _$userOptionsHash() => r'0b23a3512b82bcf22c64434c18fc52fccdd0c64a';
+
+@ProviderFor(workReportOptions)
+final workReportOptionsProvider = WorkReportOptionsProvider._();
+
+final class WorkReportOptionsProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<WorkReportOptionsState>,
+          WorkReportOptionsState,
+          FutureOr<WorkReportOptionsState>
+        >
+    with
+        $FutureModifier<WorkReportOptionsState>,
+        $FutureProvider<WorkReportOptionsState> {
+  WorkReportOptionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'workReportOptionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$workReportOptionsHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<WorkReportOptionsState> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<WorkReportOptionsState> create(Ref ref) {
+    return workReportOptions(ref);
+  }
+}
+
+String _$workReportOptionsHash() => r'dedd0fe014e37caec7b98914c5a4178ba6e31956';

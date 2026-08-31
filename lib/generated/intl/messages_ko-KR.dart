@@ -22,29 +22,31 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(supplier) => "${supplier} 수정";
 
-  static String m1(seconds) => "${seconds}초 후 재시도 가능";
+  static String m1(length) => "임시 저장된 작성 내용이 ${length}개 있습니다.";
 
-  static String m2(file) => "${file} 파일은 올바른 현대/기아 견적서 양식이 아닙니다.";
+  static String m2(seconds) => "${seconds}초 후 재시도 가능";
 
-  static String m3(file, limit) => "${file} 파일은 크기 제한을 초과했습니다. (최대 ${limit}MB)";
+  static String m3(file) => "${file} 파일은 올바른 현대/기아 견적서 양식이 아닙니다.";
 
-  static String m4(file) => "${file} 파일은 유효한 이미지 파일이 아닙니다.";
+  static String m4(file, limit) => "${file} 파일은 크기 제한을 초과했습니다. (최대 ${limit}MB)";
 
-  static String m5(days) => "${days}일 전";
+  static String m5(file) => "${file} 파일은 유효한 이미지 파일이 아닙니다.";
 
-  static String m6(hours) => "${hours}시간 전";
+  static String m6(days) => "${days}일 전";
 
-  static String m7(minutes) => "${minutes}분 전";
+  static String m7(hours) => "${hours}시간 전";
 
-  static String m8(month) => "${month}달 전";
+  static String m8(minutes) => "${minutes}분 전";
 
-  static String m9(weeks) => "${weeks}주 전";
+  static String m9(month) => "${month}달 전";
 
-  static String m10(years) => "${years}년 전";
+  static String m10(weeks) => "${weeks}주 전";
 
-  static String m11(step) => "${step} 금액을 빈 칸 없이 입력해 주세요";
+  static String m11(years) => "${years}년 전";
 
-  static String m12(step) => "${step} 일 수를 입력해 주세요";
+  static String m12(step) => "${step} 금액을 빈 칸 없이 입력해 주세요";
+
+  static String m13(step) => "${step} 일 수를 입력해 주세요";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -54,27 +56,70 @@ class MessageLookup extends MessageLookupByLibrary {
     "bad_certificate": MessageLookupByLibrary.simpleMessage(
       "보안 인증서가 유효하지 않습니다. 서버를 확인하세요.",
     ),
-    "bad_request": MessageLookupByLibrary.simpleMessage("잘못된 요청입니다."),
+    "bad_request_compensatory_leave_date_duplicate":
+        MessageLookupByLibrary.simpleMessage("동일한 휴일 대체일을 중복으로 선택할 수 없습니다."),
+    "bad_request_currency_invalid": MessageLookupByLibrary.simpleMessage(
+      "유효하지 않은 통화입니다.",
+    ),
+    "bad_request_exchange_date_invalid": MessageLookupByLibrary.simpleMessage(
+      "환율 조회 날짜가 올바르지 않습니다.",
+    ),
+    "bad_request_expense_currency_required":
+        MessageLookupByLibrary.simpleMessage("출장 경비의 통화를 선택해 주세요."),
+    "bad_request_expense_payment_date_required":
+        MessageLookupByLibrary.simpleMessage("출장 경비의 결제일을 입력해 주세요."),
+    "bad_request_folder_id_duplicate": MessageLookupByLibrary.simpleMessage(
+      "동일한 폴더가 중복되어 있습니다.",
+    ),
+    "bad_request_holiday_date_invalid": MessageLookupByLibrary.simpleMessage(
+      "공휴일 날짜가 올바르지 않습니다.",
+    ),
+    "bad_request_holiday_date_range_invalid":
+        MessageLookupByLibrary.simpleMessage("공휴일 조회 시작일은 종료일보다 늦을 수 없습니다."),
+    "bad_request_holiday_month_invalid": MessageLookupByLibrary.simpleMessage(
+      "공휴일 조회 월이 올바르지 않습니다.",
+    ),
+    "bad_request_holiday_year_invalid": MessageLookupByLibrary.simpleMessage(
+      "공휴일 조회 연도가 올바르지 않습니다.",
+    ),
+    "bad_request_issue_category_invalid": MessageLookupByLibrary.simpleMessage(
+      "업무 종류가 올바르지 않습니다.",
+    ),
+    "bad_request_resource_id_invalid": MessageLookupByLibrary.simpleMessage(
+      "리소스 ID가 올바르지 않습니다.",
+    ),
+    "bad_request_schedule_holiday_dates_invalid":
+        MessageLookupByLibrary.simpleMessage("입력한 휴일·공휴일이 출장 일정과 일치하지 않습니다."),
+    "bad_request_schedule_holidays_not_allowed":
+        MessageLookupByLibrary.simpleMessage(
+          "휴일·공휴일 정보는 국내 출장 일정에만 입력할 수 있습니다.",
+        ),
+    "bad_request_sftp_path_invalid": MessageLookupByLibrary.simpleMessage(
+      "파일 저장 경로가 올바르지 않습니다.",
+    ),
+    "bad_request_trip_holiday_date_duplicate":
+        MessageLookupByLibrary.simpleMessage("동일한 주말 또는 공휴일이 중복되어 있습니다."),
+    "bad_request_trip_holiday_dates_invalid":
+        MessageLookupByLibrary.simpleMessage("입력한 휴일·공휴일이 출장 일정과 일치하지 않습니다."),
+    "bad_request_trip_holidays_not_allowed":
+        MessageLookupByLibrary.simpleMessage("휴일·공휴일 정보는 국내 출장에만 입력할 수 있습니다."),
+    "bad_request_trip_schedule_category_invalid":
+        MessageLookupByLibrary.simpleMessage("출장 일정 종류가 올바르지 않습니다."),
+    "bad_request_trip_schedule_range_invalid":
+        MessageLookupByLibrary.simpleMessage("출장 일정의 시작일과 종료일이 올바르지 않습니다."),
+    "bad_request_trip_step_invalid": MessageLookupByLibrary.simpleMessage(
+      "출장 경비 항목이 올바르지 않습니다.",
+    ),
     "bad_response": MessageLookupByLibrary.simpleMessage(
       "서버에서 잘못된 응답을 받았습니다. 다시 시도하세요.",
     ),
-    "bookmark_exists": MessageLookupByLibrary.simpleMessage("이미 북마크한 프로젝트입니다."),
-    "bookmark_not_found": MessageLookupByLibrary.simpleMessage(
-      "북마크를 찾을 수 없습니다.",
-    ),
-    "category_not_found": MessageLookupByLibrary.simpleMessage(
-      "업무 종류를 찾을 수 없습니다.",
-    ),
-    "ceo_approval_required": MessageLookupByLibrary.simpleMessage(
-      "승인권자의 승인이 필요합니다.",
-    ),
-    "client_not_found": MessageLookupByLibrary.simpleMessage("고객사를 찾을 수 없습니다."),
     "common_apply": MessageLookupByLibrary.simpleMessage("적용하기"),
     "common_bookmark": MessageLookupByLibrary.simpleMessage("북마크"),
     "common_cancel": MessageLookupByLibrary.simpleMessage("취소"),
     "common_close": MessageLookupByLibrary.simpleMessage("닫기"),
     "common_copied": MessageLookupByLibrary.simpleMessage("클립보드에 내용을 복사했습니다."),
     "common_created_at": MessageLookupByLibrary.simpleMessage("생성"),
+    "common_days": MessageLookupByLibrary.simpleMessage("일"),
     "common_delete": MessageLookupByLibrary.simpleMessage("삭제하기"),
     "common_download_1": MessageLookupByLibrary.simpleMessage("다운로드가 진행 중입니다."),
     "common_download_2": MessageLookupByLibrary.simpleMessage(
@@ -88,6 +133,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "common_edit_by": MessageLookupByLibrary.simpleMessage("최종 편집"),
     "common_fold": MessageLookupByLibrary.simpleMessage("닫기"),
     "common_forward": MessageLookupByLibrary.simpleMessage("포워딩"),
+    "common_image_copied": MessageLookupByLibrary.simpleMessage(
+      "이미지를 클립보드에 복사했습니다.",
+    ),
     "common_leave": MessageLookupByLibrary.simpleMessage("나가기"),
     "common_link_copied": MessageLookupByLibrary.simpleMessage(
       "클립보드에 링크를 복사했습니다.",
@@ -97,6 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "common_ok": MessageLookupByLibrary.simpleMessage("확인"),
     "common_open": MessageLookupByLibrary.simpleMessage("열기"),
     "common_post": MessageLookupByLibrary.simpleMessage("등록하기"),
+    "common_previous": MessageLookupByLibrary.simpleMessage("뒤로가기"),
     "common_print": MessageLookupByLibrary.simpleMessage("출력하기"),
     "common_send_all": MessageLookupByLibrary.simpleMessage("전체 발송"),
     "common_share": MessageLookupByLibrary.simpleMessage("공유"),
@@ -104,14 +153,40 @@ class MessageLookup extends MessageLookupByLibrary {
     "common_unfold": MessageLookupByLibrary.simpleMessage("펼쳐보기"),
     "common_updated_at": MessageLookupByLibrary.simpleMessage("수정"),
     "common_view": MessageLookupByLibrary.simpleMessage("조회"),
+    "conflict_bookmark_already_exists": MessageLookupByLibrary.simpleMessage(
+      "이미 북마크한 프로젝트입니다.",
+    ),
+    "conflict_contract_issue_already_exists":
+        MessageLookupByLibrary.simpleMessage("이미 생성된 계약 및 수주 업무가 있습니다."),
+    "conflict_fixed_document_limit_exceeded":
+        MessageLookupByLibrary.simpleMessage("고정할 수 있는 문서는 최대 5개입니다."),
+    "conflict_kickoff_issue_already_exists":
+        MessageLookupByLibrary.simpleMessage("이미 생성된 킥오프 업무가 있습니다."),
+    "conflict_payment_issue_already_exists":
+        MessageLookupByLibrary.simpleMessage("이미 생성된 지급 청구 업무가 있습니다."),
+    "conflict_project_code_already_exists":
+        MessageLookupByLibrary.simpleMessage(
+          "이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.",
+        ),
+    "conflict_report_already_exists": MessageLookupByLibrary.simpleMessage(
+      "이미 해당 근무 일정으로 작성된 보고서가 있습니다.",
+    ),
+    "conflict_schedule_report_exists": MessageLookupByLibrary.simpleMessage(
+      "해당 근무 일정으로 작성된 보고서가 있어 변경할 수 없습니다.",
+    ),
+    "conflict_supplier_already_exists": MessageLookupByLibrary.simpleMessage(
+      "이미 생성된 협력업체가 있습니다.",
+    ),
+    "conflict_transaction_issue_already_exists":
+        MessageLookupByLibrary.simpleMessage("이미 생성된 거래 명세/인보이스 업무가 있습니다."),
+    "conflict_user_email_already_exists": MessageLookupByLibrary.simpleMessage(
+      "해당 이메일로 이미 가입된 사용자가 있습니다.\n다른 이메일 주소를 사용해 주세요.",
+    ),
     "connection_error": MessageLookupByLibrary.simpleMessage(
       "연결 오류가 발생했습니다. 네트워크를 확인하세요.",
     ),
     "connection_timeout": MessageLookupByLibrary.simpleMessage(
       "연결 시간이 초과되었습니다. 나중에 다시 시도하세요.",
-    ),
-    "contract_issue_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 생성된 계약 및 수주 업무가 있습니다.",
     ),
     "dashboard": MessageLookupByLibrary.simpleMessage("대시보드"),
     "dashboard_functions_1": MessageLookupByLibrary.simpleMessage("근무 일정 등록"),
@@ -144,7 +219,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "dashboard_schedule_vacation": MessageLookupByLibrary.simpleMessage("휴가"),
     "dashboard_summary_1": MessageLookupByLibrary.simpleMessage("전체 프로젝트"),
     "dashboard_summary_2": MessageLookupByLibrary.simpleMessage("종결된 프로젝트"),
-    "dashboard_summary_3": MessageLookupByLibrary.simpleMessage("킥어프"),
+    "dashboard_summary_3": MessageLookupByLibrary.simpleMessage("선진행"),
     "dashboard_summary_4": MessageLookupByLibrary.simpleMessage("실무 진행 중"),
     "dashboard_world_map_1": MessageLookupByLibrary.simpleMessage("함께하는 지점"),
     "dashboard_world_map_1_1": MessageLookupByLibrary.simpleMessage("개 지점"),
@@ -236,10 +311,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "data_user_column_1": MessageLookupByLibrary.simpleMessage("이름"),
     "data_user_column_2": MessageLookupByLibrary.simpleMessage("이메일"),
     "data_user_column_3": MessageLookupByLibrary.simpleMessage("직급"),
-    "data_user_column_4": MessageLookupByLibrary.simpleMessage("부서"),
-    "data_user_column_5": MessageLookupByLibrary.simpleMessage("관리자"),
-    "data_user_column_6": MessageLookupByLibrary.simpleMessage("사용 승인"),
-    "data_user_column_7": MessageLookupByLibrary.simpleMessage("관리"),
+    "data_user_column_4": MessageLookupByLibrary.simpleMessage("직책"),
+    "data_user_column_5": MessageLookupByLibrary.simpleMessage("부서"),
+    "data_user_column_6": MessageLookupByLibrary.simpleMessage("관리자"),
+    "data_user_column_7": MessageLookupByLibrary.simpleMessage("사용 승인"),
+    "data_user_column_8": MessageLookupByLibrary.simpleMessage("관리"),
     "data_user_delete_dialog_1": MessageLookupByLibrary.simpleMessage(
       "사용자를 삭제하시겠습니까?",
     ),
@@ -311,9 +387,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "document_mail": MessageLookupByLibrary.simpleMessage("문서 공유"),
     "document_no_item": MessageLookupByLibrary.simpleMessage("문서가 없습니다."),
-    "document_not_found": MessageLookupByLibrary.simpleMessage(
-      "문서를 찾을 수 없습니다.",
-    ),
     "document_parent_folder_hint": MessageLookupByLibrary.simpleMessage(
       "상위 폴더 선택",
     ),
@@ -334,6 +407,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "문서가 정상적으로 변경되었습니다.",
     ),
     "document_updated_by": MessageLookupByLibrary.simpleMessage("최종 편집"),
+    "draft_delete_all": MessageLookupByLibrary.simpleMessage("모두 지우기"),
+    "draft_dialog_title": MessageLookupByLibrary.simpleMessage("임시 저장 목록"),
+    "draft_list": m1,
+    "draft_no_preview": MessageLookupByLibrary.simpleMessage("내용 없음"),
+    "draft_no_schedule": MessageLookupByLibrary.simpleMessage("근무 일정 없는 보고서"),
+    "draft_restore_failed": MessageLookupByLibrary.simpleMessage(
+      "임시 저장 내용을 복구할 수 없습니다.",
+    ),
+    "draft_saving": MessageLookupByLibrary.simpleMessage("임시 저장 중입니다"),
     "error_clipboard_image_paste": MessageLookupByLibrary.simpleMessage(
       "이미지 붙여넣기에 실패했습니다.",
     ),
@@ -344,12 +426,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "error_unexpected": MessageLookupByLibrary.simpleMessage(
       "예상치 못한 오류가 발생했습니다.",
     ),
-    "exchange_not_found": MessageLookupByLibrary.simpleMessage(
-      "환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.",
-    ),
     "export_loading_1": MessageLookupByLibrary.simpleMessage("데이터 로딩 중입니다"),
     "export_loading_2": MessageLookupByLibrary.simpleMessage("PDF 변환 중입니다"),
-    "file_not_found": MessageLookupByLibrary.simpleMessage("파일을 찾을 수 없습니다."),
     "filter_all_selected": MessageLookupByLibrary.simpleMessage("모두 선택됨"),
     "filter_applied": MessageLookupByLibrary.simpleMessage("적용중"),
     "filter_ascending": MessageLookupByLibrary.simpleMessage("오름차순"),
@@ -361,12 +439,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "filter_sort_1": MessageLookupByLibrary.simpleMessage("정렬 기준"),
     "filter_suffix": MessageLookupByLibrary.simpleMessage("선택됨"),
     "filter_unselect_all": MessageLookupByLibrary.simpleMessage("모두 선택 해제"),
-    "fixed_document_limit_exceeded": MessageLookupByLibrary.simpleMessage(
-      "고정할 수 있는 문서는 최대 5개입니다.",
+    "forbidden_access_denied": MessageLookupByLibrary.simpleMessage(
+      "이 페이지에 접근할 권한이 없습니다.",
     ),
-    "folder_not_found": MessageLookupByLibrary.simpleMessage("폴더를 찾을 수 없습니다."),
+    "forbidden_ceo_approval_required": MessageLookupByLibrary.simpleMessage(
+      "승인권자의 승인이 필요합니다.",
+    ),
+    "forbidden_domestic_trip_required": MessageLookupByLibrary.simpleMessage(
+      "국내 출장에서만 사용할 수 있습니다.",
+    ),
+    "forbidden_fixed_folder_move_not_allowed":
+        MessageLookupByLibrary.simpleMessage("고정 폴더는 이동할 수 없습니다."),
+    "forbidden_guest_write_not_allowed": MessageLookupByLibrary.simpleMessage(
+      "읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.",
+    ),
+    "forbidden_overseas_trip_required": MessageLookupByLibrary.simpleMessage(
+      "해외 출장에서만 사용할 수 있습니다.",
+    ),
+    "forbidden_user_not_approved": MessageLookupByLibrary.simpleMessage(
+      "관리자의 승인을 받지 않은 계정입니다.",
+    ),
     "forgot_password_button": MessageLookupByLibrary.simpleMessage("요청하기"),
-    "forgot_password_delay": m1,
+    "forgot_password_delay": m2,
     "forgot_password_email": MessageLookupByLibrary.simpleMessage("이메일"),
     "forgot_password_headline": MessageLookupByLibrary.simpleMessage(
       "비밀번호 재설정하기",
@@ -377,11 +471,60 @@ class MessageLookup extends MessageLookupByLibrary {
     "forgot_password_title": MessageLookupByLibrary.simpleMessage(
       "이메일 주소를 입력하면, 비밀번호를 재설정 메일을 보내드립니다.",
     ),
-    "guest_read_only": MessageLookupByLibrary.simpleMessage(
-      "읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.",
-    ),
     "highlight_color": MessageLookupByLibrary.simpleMessage("배경 색상"),
     "hyundai": MessageLookupByLibrary.simpleMessage("현대자동차"),
+    "image_detail_clipboard_tooltip": MessageLookupByLibrary.simpleMessage(
+      "이미지 복사",
+    ),
+    "image_detail_close_tooltip": MessageLookupByLibrary.simpleMessage(
+      "이미지 닫기 (Esc)",
+    ),
+    "image_detail_download_tooltip": MessageLookupByLibrary.simpleMessage(
+      "이미지 다운로드",
+    ),
+    "image_detail_reset_tooltip": MessageLookupByLibrary.simpleMessage(
+      "이미지 초기화",
+    ),
+    "image_detail_zoom_in_tooltip": MessageLookupByLibrary.simpleMessage(
+      "확대 (+)",
+    ),
+    "image_detail_zoom_out_tooltip": MessageLookupByLibrary.simpleMessage(
+      "축소 (-)",
+    ),
+    "internal_server_error_address_api_request_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "주소 검색 서버 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        ),
+    "internal_server_error_exchange_api_request_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "환율 정보 조회에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        ),
+    "internal_server_error_exchange_processing_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "환율 정보를 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.",
+        ),
+    "internal_server_error_holiday_api_date_invalid":
+        MessageLookupByLibrary.simpleMessage("공휴일 서버에서 올바르지 않은 날짜 정보를 받았습니다."),
+    "internal_server_error_holiday_api_not_configured":
+        MessageLookupByLibrary.simpleMessage("공휴일 API 설정이 누락되었습니다."),
+    "internal_server_error_holiday_api_request_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "공휴일 정보 조회에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        ),
+    "internal_server_error_holiday_api_response_invalid":
+        MessageLookupByLibrary.simpleMessage("공휴일 서버에서 올바르지 않은 응답을 받았습니다."),
+    "internal_server_error_krw_currency_not_found":
+        MessageLookupByLibrary.simpleMessage(
+          "원화 통화 정보를 찾을 수 없습니다. 관리자에게 문의해 주세요.",
+        ),
+    "internal_server_error_sftp_connection_failed":
+        MessageLookupByLibrary.simpleMessage(
+          "파일 서버 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        ),
+    "internal_server_error_sftp_url_invalid":
+        MessageLookupByLibrary.simpleMessage(
+          "파일 다운로드 주소를 생성할 수 없습니다. 관리자에게 문의해 주세요.",
+        ),
     "issue_edit": MessageLookupByLibrary.simpleMessage("업무 수정"),
     "issue_form_attachment": MessageLookupByLibrary.simpleMessage("첨부파일"),
     "issue_form_attachment_drop": MessageLookupByLibrary.simpleMessage(
@@ -412,7 +555,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_contract_drop": MessageLookupByLibrary.simpleMessage(
       "견적서 여기에 놓기",
     ),
-    "issue_form_contract_format_invalid": m2,
+    "issue_form_contract_format_invalid": m3,
     "issue_form_contract_invalid": MessageLookupByLibrary.simpleMessage(
       "견적서 파일은 엑셀(.xlsx) 파일만 업로드 할 수 있습니다.",
     ),
@@ -438,7 +581,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "업무를 삭제하면 모든 내용과 첨부 파일이 함께 삭제됩니다.",
     ),
     "issue_form_deleted": MessageLookupByLibrary.simpleMessage("업무가 삭제되었습니다."),
-    "issue_form_file_size_limit": m3,
+    "issue_form_file_size_limit": m4,
     "issue_form_image_1": MessageLookupByLibrary.simpleMessage("새 이미지 업로드"),
     "issue_form_image_2": MessageLookupByLibrary.simpleMessage("이미지 선택"),
     "issue_form_image_dialog_1": MessageLookupByLibrary.simpleMessage(
@@ -450,7 +593,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_form_image_drop": MessageLookupByLibrary.simpleMessage(
       "이미지를 여기에 놓기",
     ),
-    "issue_form_image_invalid": m4,
+    "issue_form_image_invalid": m5,
     "issue_form_image_upload": MessageLookupByLibrary.simpleMessage("이미지 선택"),
     "issue_form_invalid_1": MessageLookupByLibrary.simpleMessage("내용을 입력해 주세요"),
     "issue_form_kickoff_1": MessageLookupByLibrary.simpleMessage("프로젝트 착수일"),
@@ -638,7 +781,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "issue_new_choose_7_created": MessageLookupByLibrary.simpleMessage(
       "프로젝트가 정상적으로 종결되었습니다.",
     ),
-    "issue_not_found": MessageLookupByLibrary.simpleMessage("업무를 찾을 수 없습니다."),
     "issue_procurement_request_edit": MessageLookupByLibrary.simpleMessage(
       "구매 조달 발주 수정",
     ),
@@ -646,9 +788,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "구매 조달 발주 등록",
     ),
     "kia": MessageLookupByLibrary.simpleMessage("기아"),
-    "kickoff_issue_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 생성된 킥어프 업무가 있습니다.",
-    ),
     "lab_and_other": MessageLookupByLibrary.simpleMessage("연구소 및 기타"),
     "login_button": MessageLookupByLibrary.simpleMessage("로그인"),
     "login_create_account_1": MessageLookupByLibrary.simpleMessage(
@@ -673,7 +812,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "login_title": MessageLookupByLibrary.simpleMessage("이메일과 비밀번호를 입력해주세요"),
     "logout": MessageLookupByLibrary.simpleMessage("로그아웃"),
-    "manager_not_found": MessageLookupByLibrary.simpleMessage("PM을 찾을 수 없습니다."),
     "navigation_search": MessageLookupByLibrary.simpleMessage("검색"),
     "navigation_search_keyword": MessageLookupByLibrary.simpleMessage("최근 검색어"),
     "navigation_search_keyword_empty": MessageLookupByLibrary.simpleMessage(
@@ -698,14 +836,59 @@ class MessageLookup extends MessageLookupByLibrary {
     "navigation_title_1": MessageLookupByLibrary.simpleMessage("WORKSPACES"),
     "navigation_title_2": MessageLookupByLibrary.simpleMessage("OTHER"),
     "navigation_title_3": MessageLookupByLibrary.simpleMessage("ADMIN"),
-    "no_permission": MessageLookupByLibrary.simpleMessage(
-      "이 페이지에 접근할 권한이 없습니다.",
+    "not_found_attachment": MessageLookupByLibrary.simpleMessage(
+      "첨부파일을 찾을 수 없습니다.",
     ),
+    "not_found_bookmark": MessageLookupByLibrary.simpleMessage(
+      "북마크를 찾을 수 없습니다.",
+    ),
+    "not_found_category": MessageLookupByLibrary.simpleMessage(
+      "업무 종류를 찾을 수 없습니다.",
+    ),
+    "not_found_client": MessageLookupByLibrary.simpleMessage("고객사를 찾을 수 없습니다."),
+    "not_found_document": MessageLookupByLibrary.simpleMessage(
+      "문서를 찾을 수 없습니다.",
+    ),
+    "not_found_domestic_daily_allowance_regulation":
+        MessageLookupByLibrary.simpleMessage("국내 출장 일비 규정을 찾을 수 없습니다."),
+    "not_found_exchange": MessageLookupByLibrary.simpleMessage(
+      "환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.",
+    ),
+    "not_found_file": MessageLookupByLibrary.simpleMessage("파일을 찾을 수 없습니다."),
+    "not_found_folder": MessageLookupByLibrary.simpleMessage("폴더를 찾을 수 없습니다."),
+    "not_found_holiday_special_allowance_regulation":
+        MessageLookupByLibrary.simpleMessage("휴일 특별 수당 규정을 찾을 수 없습니다."),
+    "not_found_issue": MessageLookupByLibrary.simpleMessage("업무를 찾을 수 없습니다."),
+    "not_found_manager": MessageLookupByLibrary.simpleMessage("PM을 찾을 수 없습니다."),
+    "not_found_overseas_daily_allowance_regulation":
+        MessageLookupByLibrary.simpleMessage("해외 출장 일비 규정을 찾을 수 없습니다."),
+    "not_found_overseas_holiday_special_allowance_regulation":
+        MessageLookupByLibrary.simpleMessage("해외 출장 휴일 특별 수당 규정을 찾을 수 없습니다."),
+    "not_found_parent_client": MessageLookupByLibrary.simpleMessage(
+      "상위 고객사를 찾을 수 없습니다.",
+    ),
+    "not_found_parent_folder": MessageLookupByLibrary.simpleMessage(
+      "상위 폴더를 찾을 수 없습니다.",
+    ),
+    "not_found_path": MessageLookupByLibrary.simpleMessage("경로를 찾을 수 없습니다."),
+    "not_found_procurement_request": MessageLookupByLibrary.simpleMessage(
+      "발주 항목을 찾을 수 없습니다.",
+    ),
+    "not_found_project": MessageLookupByLibrary.simpleMessage(
+      "프로젝트를 찾을 수 없습니다.",
+    ),
+    "not_found_report": MessageLookupByLibrary.simpleMessage("보고서를 찾을 수 없습니다."),
+    "not_found_schedule": MessageLookupByLibrary.simpleMessage(
+      "근무 일정을 찾을 수 없습니다.",
+    ),
+    "not_found_supplier": MessageLookupByLibrary.simpleMessage(
+      "협력업체를 찾을 수 없습니다.",
+    ),
+    "not_found_trip_data": MessageLookupByLibrary.simpleMessage(
+      "출장 명령서 데이터를 찾을 수 없습니다.",
+    ),
+    "not_found_user": MessageLookupByLibrary.simpleMessage("사용자를 찾을 수 없습니다."),
     "organization": MessageLookupByLibrary.simpleMessage("조직도"),
-    "path_not_found": MessageLookupByLibrary.simpleMessage("경로를 찾을 수 없습니다."),
-    "payment_issue_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 생성된 지급 청구 업무가 있습니다.",
-    ),
     "pop_scope_content": MessageLookupByLibrary.simpleMessage(
       "작성 중인 내용이 저장되지 않고 모두 사라집니다.\n계속하시겠습니까?",
     ),
@@ -719,6 +902,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "project_action_2": MessageLookupByLibrary.simpleMessage("보고서 등록"),
     "project_action_2_1": MessageLookupByLibrary.simpleMessage(
       "출장 명령 또는 업무 수행 결과를 기록 및 보고",
+    ),
+    "project_action_closed": MessageLookupByLibrary.simpleMessage(
+      "프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.",
     ),
     "project_closed": MessageLookupByLibrary.simpleMessage("종결"),
     "project_column_1": MessageLookupByLibrary.simpleMessage("고객사"),
@@ -763,9 +949,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "종결 사유 안내",
     ),
     "project_edit": MessageLookupByLibrary.simpleMessage("프로젝트 수정"),
-    "project_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.",
-    ),
     "project_filter_1": MessageLookupByLibrary.simpleMessage("고객사"),
     "project_filter_1_1": MessageLookupByLibrary.simpleMessage("고객사 선택"),
     "project_filter_2": MessageLookupByLibrary.simpleMessage("지점"),
@@ -820,7 +1003,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "project_form_user_empty": MessageLookupByLibrary.simpleMessage(
       "사용자가 없습니다",
     ),
-    "project_form_user_position": MessageLookupByLibrary.simpleMessage("직급"),
+    "project_form_user_position": MessageLookupByLibrary.simpleMessage("직책"),
     "project_form_user_search": MessageLookupByLibrary.simpleMessage("사용자 검색"),
     "project_in_progress": MessageLookupByLibrary.simpleMessage("진행 중"),
     "project_issue_mail": MessageLookupByLibrary.simpleMessage("업무 내용 공유"),
@@ -833,9 +1016,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "project_new": MessageLookupByLibrary.simpleMessage("프로젝트 등록"),
     "project_no_item": MessageLookupByLibrary.simpleMessage("프로젝트를 찾을 수 없습니다"),
-    "project_not_found": MessageLookupByLibrary.simpleMessage(
-      "프로젝트를 찾을 수 없습니다.",
-    ),
     "project_preexecuted": MessageLookupByLibrary.simpleMessage("선진행"),
     "project_report_mail": MessageLookupByLibrary.simpleMessage("보고서 공유"),
     "project_search": MessageLookupByLibrary.simpleMessage("프로젝트 검색"),
@@ -849,9 +1029,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "project_sort_4": MessageLookupByLibrary.simpleMessage("프로젝트 이름"),
     "receive_timeout": MessageLookupByLibrary.simpleMessage(
       "서버 응답 시간이 초과되었습니다. 다시 시도하세요.",
-    ),
-    "refresh_token_expired": MessageLookupByLibrary.simpleMessage(
-      "로그인 세션이 만료되었습니다. 다시 로그인해 주세요.",
     ),
     "register_agreement_1": MessageLookupByLibrary.simpleMessage("이용 약관"),
     "register_agreement_2": MessageLookupByLibrary.simpleMessage("과 "),
@@ -882,22 +1059,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "계정은 관리자의 승인 후 사용할 수 있습니다",
     ),
     "register_username": MessageLookupByLibrary.simpleMessage("본명"),
-    "relative_data_days_ago": m5,
+    "relative_data_days_ago": m6,
     "relative_data_hour_ago": MessageLookupByLibrary.simpleMessage("한 시간 전"),
-    "relative_data_hours_ago": m6,
+    "relative_data_hours_ago": m7,
     "relative_data_just_now": MessageLookupByLibrary.simpleMessage("방금"),
     "relative_data_minute_ago": MessageLookupByLibrary.simpleMessage("1분 전"),
-    "relative_data_minutes_ago": m7,
-    "relative_data_month_ago": m8,
+    "relative_data_minutes_ago": m8,
+    "relative_data_month_ago": m9,
     "relative_data_week_ago": MessageLookupByLibrary.simpleMessage("한 주 전"),
-    "relative_data_weeks_ago": m9,
+    "relative_data_weeks_ago": m10,
     "relative_data_year_ago": MessageLookupByLibrary.simpleMessage("1년 전"),
-    "relative_data_years_ago": m10,
+    "relative_data_years_ago": m11,
     "relative_data_yesterday": MessageLookupByLibrary.simpleMessage("어제"),
     "report_edit": MessageLookupByLibrary.simpleMessage("보고서 수정"),
-    "report_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 해당 근무 일정으로 작성된 보고서가 있습니다.",
-    ),
     "report_form_1": MessageLookupByLibrary.simpleMessage("교통비"),
     "report_form_2": MessageLookupByLibrary.simpleMessage("현지 교통비"),
     "report_form_3": MessageLookupByLibrary.simpleMessage("숙박비"),
@@ -905,44 +1079,55 @@ class MessageLookup extends MessageLookupByLibrary {
     "report_form_5": MessageLookupByLibrary.simpleMessage("기타"),
     "report_form_accommodation": MessageLookupByLibrary.simpleMessage("숙박비"),
     "report_form_attachment": MessageLookupByLibrary.simpleMessage("첨부파일"),
-    "report_form_column_1": MessageLookupByLibrary.simpleMessage("사용 금액"),
-    "report_form_column_2": MessageLookupByLibrary.simpleMessage("내역 (설명)"),
-    "report_form_column_3": MessageLookupByLibrary.simpleMessage("단가"),
-    "report_form_column_4": MessageLookupByLibrary.simpleMessage("일"),
-    "report_form_column_5": MessageLookupByLibrary.simpleMessage(
-      "렌탈, 택시 실비 처리",
-    ),
-    "report_form_column_6": MessageLookupByLibrary.simpleMessage("개인 차량 유류비"),
-    "report_form_column_7": MessageLookupByLibrary.simpleMessage("유류단가"),
-    "report_form_column_8": MessageLookupByLibrary.simpleMessage("연비"),
-    "report_form_column_9": MessageLookupByLibrary.simpleMessage("운행거리"),
     "report_form_created": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서가 정상적으로 등록되었습니다.",
+      "보고서가 정상적으로 등록되었습니다.",
     ),
+    "report_form_daily_amount": MessageLookupByLibrary.simpleMessage("기본 일비"),
     "report_form_daily_expense": MessageLookupByLibrary.simpleMessage("일비"),
+    "report_form_days": MessageLookupByLibrary.simpleMessage("일"),
     "report_form_deducted_1": MessageLookupByLibrary.simpleMessage(
       "렌탈, 택시 실비 처리",
     ),
     "report_form_deducted_2": MessageLookupByLibrary.simpleMessage("일비 -10%"),
-    "report_form_delete": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서가 삭제되었습니다.",
+    "report_form_deduction_rate": MessageLookupByLibrary.simpleMessage(
+      "일비 공제율",
     ),
+    "report_form_delete": MessageLookupByLibrary.simpleMessage("보고서가 삭제되었습니다."),
     "report_form_delete_dialog_1": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서를 삭제하시겠습니까?",
+      "보고서를 삭제하시겠습니까?",
     ),
     "report_form_delete_dialog_2": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서를 삭제하면 모든 내용이 삭제됩니다.",
+      "보고서를 삭제하면 모든 내용이 삭제됩니다.",
     ),
     "report_form_description": MessageLookupByLibrary.simpleMessage(
       "설명 및 첨부파일",
     ),
     "report_form_description_1": MessageLookupByLibrary.simpleMessage("설명"),
+    "report_form_domestic_holiday_travel_days":
+        MessageLookupByLibrary.simpleMessage("휴일·공휴일 이동 일수"),
+    "report_form_domestic_holiday_work_days":
+        MessageLookupByLibrary.simpleMessage("휴일·공휴일 근무 일수"),
+    "report_form_driving_distance": MessageLookupByLibrary.simpleMessage(
+      "운행거리",
+    ),
     "report_form_exchange_rate": MessageLookupByLibrary.simpleMessage("환율"),
+    "report_form_expense_amount": MessageLookupByLibrary.simpleMessage("사용 금액"),
+    "report_form_expense_details": MessageLookupByLibrary.simpleMessage(
+      "내역 (설명)",
+    ),
+    "report_form_expense_payment_date": MessageLookupByLibrary.simpleMessage(
+      "결제일 선택",
+    ),
+    "report_form_fuel_efficiency": MessageLookupByLibrary.simpleMessage("연비"),
+    "report_form_fuel_unit_price": MessageLookupByLibrary.simpleMessage("유류단가"),
+    "report_form_holiday_work_type": MessageLookupByLibrary.simpleMessage(
+      "휴일 근무 구분",
+    ),
     "report_form_invalid_1": MessageLookupByLibrary.simpleMessage(
       "일정을 선택해 주세요",
     ),
-    "report_form_invalid_2": m11,
-    "report_form_invalid_3": m12,
+    "report_form_invalid_2": m12,
+    "report_form_invalid_3": m13,
     "report_form_invalid_4": MessageLookupByLibrary.simpleMessage(
       "모든 내용을 빠짐없이 입력해 주세요",
     ),
@@ -956,12 +1141,21 @@ class MessageLookup extends MessageLookupByLibrary {
       "(비과세) 수령 금액",
     ),
     "report_form_other": MessageLookupByLibrary.simpleMessage("기타"),
+    "report_form_overseas_special_days": MessageLookupByLibrary.simpleMessage(
+      "설날·추석 포함 일수",
+    ),
+    "report_form_personal_vehicle_fuel_expense":
+        MessageLookupByLibrary.simpleMessage("개인 차량 유류비"),
     "report_form_project": MessageLookupByLibrary.simpleMessage("프로젝트 정보"),
     "report_form_regulation": MessageLookupByLibrary.simpleMessage("규정 금액"),
+    "report_form_rental_taxi_expense": MessageLookupByLibrary.simpleMessage(
+      "렌탈, 택시 실비 처리",
+    ),
     "report_form_schedule": MessageLookupByLibrary.simpleMessage("일정"),
     "report_form_schedule_add": MessageLookupByLibrary.simpleMessage(
       "새 근무 일정 생성 >",
     ),
+    "report_form_schedule_days": MessageLookupByLibrary.simpleMessage("일"),
     "report_form_schedule_description_empty":
         MessageLookupByLibrary.simpleMessage("설명 없음"),
     "report_form_schedule_empty": MessageLookupByLibrary.simpleMessage(
@@ -970,6 +1164,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "report_form_schedule_in_progress": MessageLookupByLibrary.simpleMessage(
       "진행 중",
     ),
+    "report_form_schedule_nights": MessageLookupByLibrary.simpleMessage("박"),
     "report_form_schedule_no_schedule": MessageLookupByLibrary.simpleMessage(
       "일정 없이 보고서 작성 >",
     ),
@@ -980,6 +1175,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "일정 검색",
     ),
     "report_form_settlement": MessageLookupByLibrary.simpleMessage("정산 금액"),
+    "report_form_special_allowance_amount":
+        MessageLookupByLibrary.simpleMessage("특별 수당"),
     "report_form_step": MessageLookupByLibrary.simpleMessage("단계"),
     "report_form_taxable_amount": MessageLookupByLibrary.simpleMessage(
       "(과세) 수령 금액",
@@ -989,9 +1186,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "report_form_title_2": MessageLookupByLibrary.simpleMessage("해외 출장 명령서 등록"),
     "report_form_total": MessageLookupByLibrary.simpleMessage("총 사용 금액"),
     "report_form_total_cost": MessageLookupByLibrary.simpleMessage("전체 비용 합계"),
+    "report_form_total_daily_amount": MessageLookupByLibrary.simpleMessage(
+      "총 일비",
+    ),
+    "report_form_total_trip_days": MessageLookupByLibrary.simpleMessage(
+      "총 출장 일수",
+    ),
     "report_form_transportation": MessageLookupByLibrary.simpleMessage("교통비"),
+    "report_form_travel_only": MessageLookupByLibrary.simpleMessage(
+      "업무 없이 이동만 함",
+    ),
+    "report_form_unit_price": MessageLookupByLibrary.simpleMessage("단가"),
     "report_form_updated": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서 정보가 정상적으로 변경되었습니다.",
+      "보고서 정보가 정상적으로 변경되었습니다.",
     ),
     "report_list_non_taxable_amount": MessageLookupByLibrary.simpleMessage(
       "(비과세) 수령금액",
@@ -1002,10 +1209,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "report_list_total_cost": MessageLookupByLibrary.simpleMessage("전체 비용 합계"),
     "report_new": MessageLookupByLibrary.simpleMessage("보고서 등록"),
     "report_new_choose": MessageLookupByLibrary.simpleMessage("보고서 등록"),
-    "report_not_found": MessageLookupByLibrary.simpleMessage("보고서를 찾을 수 없습니다."),
-    "request_not_found": MessageLookupByLibrary.simpleMessage(
-      "발주 항목을 찾을 수 없습니다.",
-    ),
     "reset_password_button": MessageLookupByLibrary.simpleMessage("요청하기"),
     "reset_password_headline": MessageLookupByLibrary.simpleMessage(
       "새 비밀번호 설정하기",
@@ -1032,8 +1235,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_column_4": MessageLookupByLibrary.simpleMessage("담당자"),
     "schedule_column_5": MessageLookupByLibrary.simpleMessage("기간"),
     "schedule_edit": MessageLookupByLibrary.simpleMessage("근무 일정 수정"),
-    "schedule_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 생성된 근무 일정이 있습니다.",
+    "schedule_form_compensatory_leave": MessageLookupByLibrary.simpleMessage(
+      "휴일 대체일 선택",
     ),
     "schedule_form_created": MessageLookupByLibrary.simpleMessage(
       "일정이 정상적으로 등록되었습니다.",
@@ -1050,6 +1253,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "일정이 삭제되었습니다.",
     ),
     "schedule_form_description": MessageLookupByLibrary.simpleMessage("설명"),
+    "schedule_form_holidays": MessageLookupByLibrary.simpleMessage("휴일·공휴일"),
     "schedule_form_invalid_1": MessageLookupByLibrary.simpleMessage(
       "프로젝트를 선택해 주세요",
     ),
@@ -1059,6 +1263,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_form_invalid_3": MessageLookupByLibrary.simpleMessage(
       "출장 목적을 입력해 주세요",
     ),
+    "schedule_form_invalid_4": MessageLookupByLibrary.simpleMessage(
+      "설명을 입력해 주세요",
+    ),
+    "schedule_form_invalid_5": MessageLookupByLibrary.simpleMessage(
+      "모든 휴일·공휴일의 휴일 대체일을 선택해 주세요",
+    ),
     "schedule_form_project": MessageLookupByLibrary.simpleMessage("프로젝트"),
     "schedule_form_project_emtpy": MessageLookupByLibrary.simpleMessage(
       "프로젝트가 없습니다",
@@ -1066,7 +1276,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_form_project_search": MessageLookupByLibrary.simpleMessage(
       "프로젝트 검색",
     ),
+    "schedule_form_reported": MessageLookupByLibrary.simpleMessage(
+      "보고서 작성이 완료된 일정은 수정 및 삭제가 불가능합니다",
+    ),
     "schedule_form_summary": MessageLookupByLibrary.simpleMessage("출장 목적"),
+    "schedule_form_travel_only": MessageLookupByLibrary.simpleMessage(
+      "업무 없이 이동만 함",
+    ),
     "schedule_form_updated": MessageLookupByLibrary.simpleMessage(
       "일정 정보가 정상적으로 변경되었습니다.",
     ),
@@ -1097,9 +1313,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "schedule_new_choose_5_2": MessageLookupByLibrary.simpleMessage(
       "새로운 회의 또는 협의 일정을 등록합니다",
     ),
-    "schedule_not_found": MessageLookupByLibrary.simpleMessage(
-      "근무 일정을 찾을 수 없습니다.",
-    ),
     "schedule_search": MessageLookupByLibrary.simpleMessage("일정 검색"),
     "schedule_search_empty": MessageLookupByLibrary.simpleMessage(
       "검색 결과가 없습니다.",
@@ -1109,30 +1322,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "send_timeout": MessageLookupByLibrary.simpleMessage(
       "요청을 보내는 도중 시간이 초과되었습니다.",
     ),
-    "supplier_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 생성된 협력업체가 있습니다.",
-    ),
-    "supplier_not_found": MessageLookupByLibrary.simpleMessage(
-      "협력업체를 찾을 수 없습니다.",
-    ),
     "text_color": MessageLookupByLibrary.simpleMessage("텍스트 색상"),
-    "too_many_forgot_password_requests": MessageLookupByLibrary.simpleMessage(
-      "비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.",
+    "too_many_requests_forgot_password": MessageLookupByLibrary.simpleMessage(
+      "비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해 주세요.",
     ),
-    "transaction_issue_exists": MessageLookupByLibrary.simpleMessage(
-      "이미 생성된 거래 명세/인보이스 업무가 있습니다.",
+    "unauthorized_access_token_expired": MessageLookupByLibrary.simpleMessage(
+      "로그인 세션이 만료되었습니다. 다시 로그인해 주세요.",
     ),
-    "trip_data_not_found": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서 데이터를 찾을 수 없습니다.",
+    "unauthorized_credentials_invalid": MessageLookupByLibrary.simpleMessage(
+      "이메일 또는 비밀번호가 일치하지 않습니다.",
+    ),
+    "unauthorized_refresh_token_expired": MessageLookupByLibrary.simpleMessage(
+      "로그인 세션이 만료되었습니다. 다시 로그인해 주세요.",
+    ),
+    "unauthorized_reset_token_invalid_or_expired":
+        MessageLookupByLibrary.simpleMessage(
+          "비밀번호 재설정 링크가 만료되었거나 유효하지 않습니다. 다시 요청해 주세요.",
+        ),
+    "unauthorized_user_not_found": MessageLookupByLibrary.simpleMessage(
+      "사용자 인증 정보를 확인할 수 없습니다. 다시 로그인해 주세요.",
     ),
     "unknown_step": MessageLookupByLibrary.simpleMessage("알 수 없는 단계입니다"),
     "unspecified": MessageLookupByLibrary.simpleMessage("미지정"),
-    "user_exists": MessageLookupByLibrary.simpleMessage(
-      "해당 이메일로 이미 가입된 사용자가 있습니다.\n다른 이메일 주소를 사용해 주세요.",
-    ),
-    "user_not_found": MessageLookupByLibrary.simpleMessage(
-      "입력한 이메일이 존재하지 않습니다.\n정보를 확인하고 다시 시도하세요.",
-    ),
     "work": MessageLookupByLibrary.simpleMessage("업무"),
     "work_issue_column_1": MessageLookupByLibrary.simpleMessage("카테고리"),
     "work_issue_column_2": MessageLookupByLibrary.simpleMessage("고객사"),

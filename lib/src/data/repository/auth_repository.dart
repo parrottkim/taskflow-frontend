@@ -7,6 +7,8 @@ abstract class AuthRepository {
 
   Future<Token> refresh();
 
+  Future<void> logout();
+
   Future<void> forgotPassword({required ForgotPasswordRequest request});
 
   Future<void> resetPassword({required ResetPasswordRequest request});

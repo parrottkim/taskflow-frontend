@@ -3,18 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/schedule/screen/schedule_list/widget/schedule_list_item_widget.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/router/router.dart';
-import 'package:taskflow/src/core/core.dart';
-import 'package:taskflow/src/shared/tool/functions.dart';
 
 class ScheduleListScreen extends ConsumerWidget {
   const ScheduleListScreen({super.key});
@@ -59,7 +55,7 @@ class ScheduleListScreen extends ConsumerWidget {
             hasNext: value.hasNext,
             hasPrevious: value.hasPrevious,
           ),
-          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+          AsyncError(:final error, :final stackTrace) => ErrorStateView(
             error: error,
             stackTrace: stackTrace,
           ),
@@ -102,6 +98,9 @@ class _DesktopWidget extends HookConsumerWidget {
     );
 
     final throttleTimer = useRef<Timer?>(null);
+    final isLoadingPrevious = useRef(false);
+    final isLoadingNext = useRef(false);
+    final didScrollToToday = useRef(false);
 
     bool canLoad() {
       if (throttleTimer.value?.isActive ?? false) return false;
@@ -110,7 +109,20 @@ class _DesktopWidget extends HookConsumerWidget {
     }
 
     useEffect(() {
-      Future.microtask(() async {
+      if (userId == null) {
+        didScrollToToday.value = false;
+        return null;
+      }
+
+      if (items.isEmpty || didScrollToToday.value) {
+        return null;
+      }
+
+      didScrollToToday.value = true;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted || !controller.hasClients) return;
+
         final today = DateTime(
           DateTime.now().year,
           DateTime.now().month,
@@ -132,52 +144,82 @@ class _DesktopWidget extends HookConsumerWidget {
         }
 
         if (items.isEmpty || initialIndex >= items.length) return;
-        if (!context.mounted) return;
 
         final key = headerKeys[initialIndex];
+        final targetContext = key.currentContext;
+        if (targetContext == null) return;
 
-        // ⭐️ 3. key.currentContext가 아닌 RenderBox를 통해 위치를 계산합니다.
-        if (key.currentContext != null) {
-          final renderBox = key.currentContext!.findRenderObject() as RenderBox;
-
-          // ⭐️ 4. 현재 스크롤 뷰의 RenderBox를 찾습니다.
-          final viewport = context.findRenderObject() as RenderBox;
-
-          // ⭐️ 5. 목표 헤더의 절대 위치를 스크롤 뷰 내에서의 상대적인 위치(offset)로 변환합니다.
-          final offset = renderBox
-              .localToGlobal(Offset.zero, ancestor: viewport)
-              .dy;
-
-          // 6. 계산된 offset으로 스크롤을 이동시킵니다.
-          controller.animateTo(
-            offset + controller.offset, // 현재 스크롤 위치 + 상대 위치
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOut,
-          );
-        }
+        Scrollable.ensureVisible(
+          targetContext,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+          alignment: 0,
+        );
       });
 
       return null;
-    }, [items]);
+    }, [userId, items]);
+
+    useEffect(() {
+      return () => throttleTimer.value?.cancel();
+    }, const []);
+
+    Future<void> loadPrevious() async {
+      if (isLoadingPrevious.value || !controller.hasClients) return;
+
+      isLoadingPrevious.value = true;
+      final previousMaxScrollExtent = controller.position.maxScrollExtent;
+
+      try {
+        await ref
+            .read(
+              scheduleListControllerProvider(
+                scope: ScheduleFilterScope.schedulePage,
+                userId: userId,
+              ).notifier,
+            )
+            .loadPrevious();
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!controller.hasClients) return;
+
+          final addedExtent =
+              controller.position.maxScrollExtent - previousMaxScrollExtent;
+          if (addedExtent > 0) {
+            controller.jumpTo(
+              (controller.offset + addedExtent).clamp(
+                controller.position.minScrollExtent,
+                controller.position.maxScrollExtent,
+              ),
+            );
+          }
+        });
+      } finally {
+        isLoadingPrevious.value = false;
+      }
+    }
+
+    Future<void> loadNext() async {
+      if (isLoadingNext.value) return;
+
+      isLoadingNext.value = true;
+      try {
+        await ref
+            .read(
+              scheduleListControllerProvider(
+                scope: ScheduleFilterScope.schedulePage,
+                userId: userId,
+              ).notifier,
+            )
+            .loadNext();
+      } finally {
+        isLoadingNext.value = false;
+      }
+    }
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('report_form_schedule_empty')),
-          ],
-        ),
+      return EmptyStateView(
+        message: Intl.message('report_form_schedule_empty'),
       );
     }
 
@@ -188,27 +230,13 @@ class _DesktopWidget extends HookConsumerWidget {
         if (metrics.pixels <= metrics.minScrollExtent + 20 &&
             hasPrevious &&
             canLoad()) {
-          ref
-              .read(
-                scheduleListControllerProvider(
-                  scope: ScheduleFilterScope.schedulePage,
-                  userId: userId,
-                ).notifier,
-              )
-              .loadPrevious();
+          unawaited(loadPrevious());
         }
         // 하단 로드
         else if (metrics.pixels >= metrics.maxScrollExtent - 20 &&
             hasNext &&
             canLoad()) {
-          ref
-              .read(
-                scheduleListControllerProvider(
-                  scope: ScheduleFilterScope.schedulePage,
-                  userId: userId,
-                ).notifier,
-              )
-              .loadNext();
+          unawaited(loadNext());
         }
 
         return false; // 이벤트를 소비하지 않고 상위 위젯으로 전달
@@ -235,9 +263,7 @@ class _DesktopWidget extends HookConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
                 decoration: BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
-                    ),
+                    bottom: BorderSide(color: colorScheme.outline.subtle),
                   ),
                   color: colorScheme.surfaceContainerLow,
                 ),
@@ -246,7 +272,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   style: textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: isPast
-                        ? colorScheme.onSurface.withValues(alpha: 0.4)
+                        ? colorScheme.onSurface.muted
                         : colorScheme.primary,
                   ),
                 ),
@@ -258,179 +284,10 @@ class _DesktopWidget extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     final schedule = group.items[index];
 
-                    return Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 24.0,
-                            right: 12.0,
-                            top: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Row(
-                            children: [
-                              Skeleton.unite(
-                                child: Opacity(
-                                  opacity: isPast ? 0.4 : 1.0,
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 8.0),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0,
-                                      vertical: 2.0,
-                                    ),
-                                    decoration: ShapeDecoration(
-                                      shape: StadiumBorder(
-                                        side: BorderSide(
-                                          color: Functions(context)
-                                              .generateColorFromId(
-                                                schedule.category.id,
-                                              ),
-                                        ),
-                                      ),
-                                      color: Functions(context)
-                                          .generateColorFromId(
-                                            schedule.category.id,
-                                          )
-                                          .withValues(alpha: 0.2),
-                                    ),
-                                    child: Text(
-                                      schedule.category.name,
-                                      style: textTheme.labelMedium?.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: Functions(context)
-                                            .generateColorFromId(
-                                              schedule.category.id,
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  schedule.summary,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textTheme.titleSmall?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: isPast
-                                        ? colorScheme.onSurface.withValues(
-                                            alpha: 0.4,
-                                          ) // 지난 날짜는 흐리게
-                                        : colorScheme.onSurface,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 4.0),
-                                child: Text(
-                                  '${DateFormat('MM/dd').format(schedule.start)} - ${DateFormat('MM/dd').format(schedule.end)}',
-                                  style: textTheme.bodySmall?.copyWith(
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned.fill(
-                          child: AnimatedOpacity(
-                            duration: Duration(milliseconds: 300),
-                            opacity:
-                                selectedSchedule.value != null &&
-                                    selectedSchedule.value == schedule
-                                ? 1.0
-                                : 0.0,
-                            child: ColoredBox(
-                              color: Colors.black87.withValues(alpha: 0.2),
-                              child: InkWell(
-                                onTap: () {
-                                  if (selectedSchedule.value == null) {
-                                    selectedSchedule.value = schedule;
-                                  } else {
-                                    selectedSchedule.value = null;
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Spacer(),
-                                      IgnorePointer(
-                                        ignoring:
-                                            selectedSchedule.value == null,
-                                        child: ElevatedIconButton(
-                                          onTap: () {
-                                            context.goNamed(
-                                              RouteNames.scheduleEdit,
-                                              pathParameters: {
-                                                'schedule_id': schedule.id
-                                                    .toString(),
-                                              },
-                                              queryParameters: {
-                                                'category': schedule.category.id
-                                                    .toString(),
-                                              },
-                                            );
-                                          },
-                                          padding: EdgeInsets.all(4.0),
-                                          borderRadius: BorderRadius.circular(
-                                            4.0,
-                                          ),
-                                          icon: Symbols.edit_square_rounded,
-                                          size: 16.0,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 4.0),
-                                        child: IgnorePointer(
-                                          ignoring:
-                                              selectedSchedule.value == null,
-                                          child: ElevatedIconButton(
-                                            onTap: () async {
-                                              final result = await showDialog(
-                                                context: context,
-                                                builder: (_) => DeleteDialog(
-                                                  title: Intl.message(
-                                                    'schedule_form_delete_dialog_1',
-                                                  ),
-                                                  content: Intl.message(
-                                                    'schedule_form_delete_dialog_2',
-                                                  ),
-                                                ),
-                                              );
-
-                                              if (result) {
-                                                await ref
-                                                    .read(
-                                                      scheduleSubmitControllerProvider
-                                                          .notifier,
-                                                    )
-                                                    .deleteSchedule(
-                                                      scheduleId: schedule.id,
-                                                    );
-                                              }
-                                            },
-                                            padding: EdgeInsets.all(4.0),
-                                            borderRadius: BorderRadius.circular(
-                                              4.0,
-                                            ),
-                                            icon: Symbols.delete_rounded,
-                                            size: 16.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    return ScheduleListItemWidget(
+                      schedule: schedule,
+                      isPast: isPast,
+                      selectedSchedule: selectedSchedule,
                     );
                   },
                 ),

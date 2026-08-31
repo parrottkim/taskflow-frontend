@@ -14,10 +14,7 @@ class BufferConverter
 
   @override
   Map<String, dynamic> toJson(Uint8List object) {
-    return {
-      'type': 'Buffer',
-      'data': object.toList(),
-    };
+    return {'type': 'Buffer', 'data': object.toList()};
   }
 }
 
@@ -34,17 +31,15 @@ class BufferListConverter
         return Uint8List.fromList(List<int>.from(item['data']));
       }
       return Uint8List(
-          0); // Return an empty Uint8List if the structure doesn't match
+        0,
+      ); // Return an empty Uint8List if the structure doesn't match
     }).toList();
   }
 
   @override
   List<dynamic> toJson(List<Uint8List> object) {
     return object.map((buffer) {
-      return {
-        'type': 'Buffer',
-        'data': buffer.toList(),
-      };
+      return {'type': 'Buffer', 'data': buffer.toList()};
     }).toList();
   }
 }

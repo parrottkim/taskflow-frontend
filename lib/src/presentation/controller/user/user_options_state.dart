@@ -5,6 +5,7 @@ abstract class UserOptionsState with _$UserOptionsState {
   factory UserOptionsState({
     @Default([]) List<UserDepartmentGroup> departmentGroups,
     @Default([]) List<UserDepartment> departmentItems,
+    @Default([]) List<UserRank> rankItems,
     @Default([]) List<UserPosition> positionItems,
   }) = _UserOptionsState;
 }

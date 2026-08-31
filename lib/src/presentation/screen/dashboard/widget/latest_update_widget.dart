@@ -20,11 +20,11 @@ class LatestUpdateWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
 
-    final state = ref.watch(latestUpdateControllerProvider);
+    final state = ref.watch(latestUpdateProvider);
     final dummy = List.filled(3, LatestIssue.dummy());
 
     return LayoutBuilder(
-      builder: (context, constraints) => ContainerWidget(
+      builder: (context, constraints) => ContentContainer(
         padding: EdgeInsets.symmetric(vertical: 24.0),
         height: Responsive.isDesktop(context) ? constraints.maxHeight : 340.0,
         child: Column(
@@ -42,9 +42,11 @@ class LatestUpdateWidget extends ConsumerWidget {
             SizedBox(height: 12.0),
             Expanded(
               child: switch (state) {
-                AsyncData(:final value) => _DesktopWidget(items: value.items),
-                AsyncError(:final error, :final stackTrace) =>
-                  ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                AsyncData(:final value) => _DesktopWidget(items: value),
+                AsyncError(:final error, :final stackTrace) => ErrorStateView(
+                  error: error,
+                  stackTrace: stackTrace,
+                ),
                 _ => Skeletonizer(child: _DesktopWidget(items: dummy)),
               },
             ),
@@ -66,24 +68,7 @@ class _DesktopWidget extends HookWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('dashboard_no_issue')),
-          ],
-        ),
-      );
+      return EmptyStateView(message: Intl.message('dashboard_no_issue'));
     }
 
     return LayoutBuilder(
@@ -109,13 +94,13 @@ class _DesktopWidget extends HookWidget {
               );
             },
             borderRadius: BorderRadius.circular(16.0),
-            child: ContainerWidget(
+            child: ContentContainer(
               padding: EdgeInsets.all(16.0),
               color: Colors.transparent,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryWidget(item: items[index].category),
+                  IssueCategoryBadge(item: items[index].category),
                   SizedBox(height: 16.0),
                   Row(
                     children: [
@@ -125,7 +110,7 @@ class _DesktopWidget extends HookWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: Color(
-                              ClientType.fromKey(
+                              ClientBrand.fromKey(
                                 items[index].clients.first.id,
                               ).color,
                             ),
@@ -134,7 +119,7 @@ class _DesktopWidget extends HookWidget {
                             width: 16.0,
                             height: 16.0,
                             child: SvgPicture.asset(
-                              ClientType.fromKey(
+                              ClientBrand.fromKey(
                                 items[index].clients.first.id,
                               ).asset,
                               colorFilter: ColorFilter.mode(
@@ -162,9 +147,7 @@ class _DesktopWidget extends HookWidget {
                   ),
                   Text(
                     items[index].projectCode,
-                    style: TextStyle(
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
+                    style: TextStyle(color: colorScheme.onSurface.strong),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -175,14 +158,14 @@ class _DesktopWidget extends HookWidget {
                       Icon(
                         Symbols.calendar_today_rounded,
                         size: 18.0,
-                        color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: colorScheme.onSurface.strong,
                       ),
                       SizedBox(width: 4.0),
                       Text(
                         '${formatRelativeDate(items[index].createdAt)}, ${DateFormat.MMMd(Intl.getCurrentLocale()).format(items[index].createdAt)} ${DateFormat.jm(Intl.getCurrentLocale()).format(items[index].createdAt)}',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ],
@@ -193,14 +176,14 @@ class _DesktopWidget extends HookWidget {
                       Icon(
                         Symbols.person_rounded,
                         size: 18.0,
-                        color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: colorScheme.onSurface.strong,
                       ),
                       SizedBox(width: 4.0),
                       Text(
                         items[index].createdBy.username,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ],

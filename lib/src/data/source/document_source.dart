@@ -3,7 +3,7 @@ part of '../data.dart';
 class DocumentDataSource implements DocumentRepository {
   final DocumentService _service;
 
-  DocumentDataSource({required DocumentService service}) : _service = service;
+  DocumentDataSource({required this._service});
 
   @override
   Future<Document> getDocumentForEdit({required int id}) =>
