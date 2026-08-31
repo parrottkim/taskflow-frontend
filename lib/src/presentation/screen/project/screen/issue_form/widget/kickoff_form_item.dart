@@ -3,26 +3,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_scope.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class KickoffFormItem extends ConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final DateTime? kickoffDate;
-  final ValueNotifier<bool> isKickoffDateEmpty;
 
-  const KickoffFormItem({
-    super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
-    this.kickoffDate,
-    required this.isKickoffDateEmpty,
-  });
+  const KickoffFormItem({super.key, this.kickoffDate});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scope = IssueFormScope.of(context);
+    final projectId = scope.projectId;
+    final categoryId = scope.categoryId;
+    final issueId = scope.issueId;
+    final validation = ref.watch(issueValidationControllerProvider);
+    final validationController = ref.read(
+      issueValidationControllerProvider.notifier,
+    );
     final textTheme = Theme.of(context).textTheme;
 
     return Column(
@@ -36,7 +34,7 @@ class KickoffFormItem extends ConsumerWidget {
         SizedBox(height: 8.0),
         ElevatedButton.icon(
           onPressed: () async {
-            isKickoffDateEmpty.value = false;
+            validationController.clearKickoff();
 
             final result = await showDialog(
               context: context,
@@ -82,8 +80,8 @@ class KickoffFormItem extends ConsumerWidget {
             ],
           ),
         ),
-        InvalidWidget(
-          visible: isKickoffDateEmpty.value,
+        ValidationErrorMessage(
+          visible: validation.kickoffDateMissing,
           text: Intl.message('issue_form_kickoff_invalid'),
         ),
       ],

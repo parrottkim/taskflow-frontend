@@ -20,10 +20,10 @@ class ScheduleWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final calendar = ref.watch(calendarControllerProvider);
+    final calendar = ref.watch(calendarProvider);
 
     return LayoutBuilder(
-      builder: (context, constraints) => ContainerWidget(
+      builder: (context, constraints) => ContentContainer(
         height: Responsive.isDesktop(context) ? constraints.maxHeight : 300.0,
         padding: EdgeInsets.only(top: 20.0),
         child: Column(
@@ -66,9 +66,7 @@ class ScheduleWidget extends ConsumerWidget {
                         DateFormat.yMMMd(
                           Intl.getCurrentLocale(),
                         ).format(DateTime.now()),
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
+                        style: TextStyle(color: colorScheme.onSurface.strong),
                       ),
                     ],
                   ),
@@ -78,13 +76,10 @@ class ScheduleWidget extends ConsumerWidget {
             SizedBox(height: 12.0),
             Expanded(
               child: switch (calendar) {
-                AsyncData(:final value) => _DesktopWidget(items: value.items),
+                AsyncData(:final value) => _DesktopWidget(items: value),
                 AsyncError(:final error, :final stackTrace) => Padding(
                   padding: const EdgeInsets.only(top: 40.0),
-                  child: ErrorContainerWidget(
-                    error: error,
-                    stackTrace: stackTrace,
-                  ),
+                  child: ErrorStateView(error: error, stackTrace: stackTrace),
                 ),
                 _ => Skeletonizer(
                   child: _DesktopWidget(
@@ -124,7 +119,7 @@ class _DesktopWidget extends HookWidget {
               Icon(
                 Symbols.nights_stay_rounded,
                 size: 40.0,
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                color: colorScheme.onSurface.strong,
               ),
               const SizedBox(height: 8.0),
               Text(Intl.message('dashboard_no_schedule')),
@@ -159,7 +154,7 @@ class _DesktopWidget extends HookWidget {
                     shape: StadiumBorder(),
                     color: Functions(
                       context,
-                    ).generateColorFromId(category.id).withValues(alpha: 0.2),
+                    ).generateColorFromId(category.id).subtle,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -207,7 +202,7 @@ class _DesktopWidget extends HookWidget {
                       borderRadius: BorderRadius.circular(8.0),
                       color: Functions(
                         context,
-                      ).generateColorFromId(category.id).withValues(alpha: 0.1),
+                      ).generateColorFromId(category.id).faint,
                     ),
                     child: IntrinsicHeight(
                       child: Padding(
@@ -248,7 +243,7 @@ class _DesktopWidget extends HookWidget {
                                         weight: 700.0,
                                         color: Functions(context)
                                             .generateColorFromId(category.id)
-                                            .withValues(alpha: 0.7),
+                                            .strong,
                                       ),
                                       SizedBox(width: 4.0),
                                       Text(
@@ -273,7 +268,7 @@ class _DesktopWidget extends HookWidget {
                                         size: 16.0,
                                         color: Functions(context)
                                             .generateColorFromId(category.id)
-                                            .withValues(alpha: 0.7),
+                                            .strong,
                                       ),
                                       SizedBox(width: 4.0),
                                       Text(
@@ -287,7 +282,7 @@ class _DesktopWidget extends HookWidget {
                                           fontWeight: FontWeight.w500,
                                           color: Functions(context)
                                               .generateColorFromId(category.id)
-                                              .withValues(alpha: 0.7),
+                                              .strong,
                                         ),
                                       ),
                                     ],
@@ -300,7 +295,7 @@ class _DesktopWidget extends HookWidget {
                                         size: 16.0,
                                         color: Functions(context)
                                             .generateColorFromId(category.id)
-                                            .withValues(alpha: 0.7),
+                                            .strong,
                                       ),
                                       SizedBox(width: 4.0),
                                       Text(
@@ -309,7 +304,7 @@ class _DesktopWidget extends HookWidget {
                                           fontWeight: FontWeight.w500,
                                           color: Functions(context)
                                               .generateColorFromId(category.id)
-                                              .withValues(alpha: 0.7),
+                                              .strong,
                                         ),
                                       ),
                                     ],

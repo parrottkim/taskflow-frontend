@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +22,7 @@ class DocumentListWidget extends ConsumerWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
-        child: ContainerWidget(
+        child: ContentContainer(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
           child: switch (list) {
@@ -31,7 +30,7 @@ class DocumentListWidget extends ConsumerWidget {
               desktop: _DesktopWidget(items: value.items),
               mobile: _MobileWidget(items: value.items),
             ),
-            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            AsyncError(:final error, :final stackTrace) => ErrorStateView(
               error: error,
               stackTrace: stackTrace,
             ),
@@ -139,7 +138,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
-                            color: colorScheme.error.withValues(alpha: 0.6),
+                            color: colorScheme.error.strong,
                           ),
                           child: Text(
                             Intl.message('document_fixed'),
@@ -161,7 +160,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   ],
                 ),
               ),
-              DataCell(UserInformation.compact(user: item.createdBy)),
+              DataCell(UserInfo.compact(user: item.createdBy)),
               DataCell(
                 Row(
                   children: [
@@ -170,7 +169,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         Symbols.attachment_rounded,
                         size: 20.0,
                         weight: 300.0,
-                        color: colorScheme.outline.withValues(alpha: 0.7),
+                        color: colorScheme.outline.strong,
                       ),
                     ),
                     SizedBox(width: 8.0),
@@ -178,7 +177,7 @@ class _DesktopWidget extends HookConsumerWidget {
                       child: Text(
                         '${item.attachmentCount >= 10 ? '10+' : item.attachmentCount}',
                         style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ),
@@ -190,9 +189,7 @@ class _DesktopWidget extends HookConsumerWidget {
                   item.createdAt == item.updatedAt
                       ? '${formatRelativeDate(item.createdAt)} ${Intl.message('common_created_at')}'
                       : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
-                  style: TextStyle(
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
                 ),
               ),
               DataCell(
@@ -249,7 +246,7 @@ class _DesktopWidget extends HookConsumerWidget {
             ],
           ),
       ],
-      empty: DataTableEmpty(message: Intl.message('document_no_item')),
+      empty: EmptyStateView(message: Intl.message('document_no_item')),
       onLoadMore: () =>
           ref.read(documentListControllerProvider.notifier).load(),
     );
@@ -263,30 +260,12 @@ class _MobileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = Theme.of(context).colorScheme;
     final fixedItems = items.where((item) => item.fixed).toList();
     final normalItems = items.where((item) => !item.fixed).toList();
     final orderedItems = [...fixedItems, ...normalItems];
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('document_no_item')),
-          ],
-        ),
-      );
+      return EmptyStateView(message: Intl.message('document_no_item'));
     }
 
     return NotificationListener<ScrollNotification>(
@@ -403,7 +382,7 @@ class _MobileDocumentItem extends ConsumerWidget {
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4.0),
-                                color: colorScheme.error.withValues(alpha: 0.6),
+                                color: colorScheme.error.strong,
                               ),
                               child: Text(
                                 Intl.message('document_fixed'),
@@ -428,7 +407,7 @@ class _MobileDocumentItem extends ConsumerWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  UserInformation.compact(user: item.createdBy),
+                  UserInfo.compact(user: item.createdBy),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.0),
                     child: Divider(),
@@ -438,7 +417,7 @@ class _MobileDocumentItem extends ConsumerWidget {
                       Icon(
                         Symbols.calendar_today_rounded,
                         size: 18.0,
-                        color: colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: colorScheme.onSurface.strong,
                       ),
                       const SizedBox(width: 4.0),
                       Expanded(
@@ -448,7 +427,7 @@ class _MobileDocumentItem extends ConsumerWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: colorScheme.onSurface.withValues(alpha: 0.6),
+                            color: colorScheme.onSurface.strong,
                           ),
                         ),
                       ),

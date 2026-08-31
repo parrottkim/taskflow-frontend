@@ -126,15 +126,13 @@ class UserDepartmentFilterWidget extends HookWidget {
     final parentId = _getParentId(selectedItem);
     if (parentId == null) return null;
 
-    return departmentItems.where((item) => item.id == parentId).firstOrNull;
+    return departmentItems.firstWhereOrNull((item) => item.id == parentId);
   }
 
   int? _getParentId(UserDepartment item) {
-    final itemGroup = departmentGroups
-        .where(
-          (group) => group.items.any((department) => department.id == item.id),
-        )
-        .firstOrNull;
+    final itemGroup = departmentGroups.firstWhereOrNull(
+      (group) => group.items.any((department) => department.id == item.id),
+    );
 
     if (itemGroup == null || itemGroup.depth == 0) return null;
 
@@ -223,7 +221,7 @@ class UserSelectorDialog extends HookConsumerWidget {
     final filter = ref.watch(
       userFilterControllerProvider(UserFilterScope.userSelectorDialog),
     );
-    final options = ref.watch(userOptionsControllerProvider);
+    final options = ref.watch(userOptionsProvider);
     final user = ref.watch(
       userListControllerProvider(UserFilterScope.userSelectorDialog),
     );
@@ -286,7 +284,7 @@ class UserSelectorDialog extends HookConsumerWidget {
         visibleItems.every((item) => selectedIds.contains(item.id));
 
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: EdgeInsets.zero,
         borderRadius: BorderRadius.circular(8.0),
         constraints: const BoxConstraints(maxWidth: 430.0, maxHeight: 600.0),
@@ -312,7 +310,7 @@ class UserSelectorDialog extends HookConsumerWidget {
                     width: 20.0,
                     height: 20.0,
                     colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
+                      colorScheme.onSurface.strong,
                       BlendMode.srcIn,
                     ),
                     semanticsLabel: 'Search Icon',
@@ -394,8 +392,10 @@ class UserSelectorDialog extends HookConsumerWidget {
                   ),
                 ],
               ),
-              AsyncError(:final error, :final stackTrace) =>
-                ErrorContainerWidget(error: error, stackTrace: stackTrace),
+              AsyncError(:final error, :final stackTrace) => ErrorStateView(
+                error: error,
+                stackTrace: stackTrace,
+              ),
               _ => Skeletonizer(
                 child: Column(
                   children: [
@@ -461,8 +461,10 @@ class UserSelectorDialog extends HookConsumerWidget {
                     },
                     onToggled: toggleUser,
                   ),
-                  AsyncError(:final error, :final stackTrace) =>
-                    ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                  AsyncError(:final error, :final stackTrace) => ErrorStateView(
+                    error: error,
+                    stackTrace: stackTrace,
+                  ),
                   _ => Skeletonizer(
                     child: UserListDialogWidget(
                       items: List.filled(5, User.dummy()),
@@ -533,29 +535,11 @@ class UserListDialogWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = Theme.of(context).colorScheme;
     final isSelectableMode =
         selectable || selectionType == UserSelectionType.multiple;
 
     if (items.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/icons/empty.svg',
-              width: 40.0,
-              height: 40.0,
-              colorFilter: ColorFilter.mode(
-                colorScheme.onSurface.withValues(alpha: 0.7),
-                BlendMode.srcIn,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Text(Intl.message('project_form_user_empty')),
-          ],
-        ),
-      );
+      return EmptyStateView(message: Intl.message('project_form_user_empty'));
     }
 
     return NotificationListener<ScrollNotification>(
@@ -588,12 +572,12 @@ class UserListDialogWidget extends HookConsumerWidget {
               onSelected?.call(item);
             },
             leading: isSelectableMode
-                ? CustomToggleButton(
+                ? AppToggleButton(
                     value: isSelected,
                     onChanged: (_) => onToggled?.call(item),
                   )
                 : null,
-            title: UserInformation(
+            title: UserInfo(
               user: item,
               showDepartment: true,
               showPosition: true,

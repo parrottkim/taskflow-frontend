@@ -103,12 +103,12 @@ abstract class ProjectSummary with _$ProjectSummary {
   factory ProjectSummary({
     required int total,
     required int closed,
-    required int kickedOff,
+    required int preexecuted,
     required int active,
   }) = _ProjectSummary;
 
   factory ProjectSummary.dummy() =>
-      ProjectSummary(total: 100, closed: 50, kickedOff: 20, active: 30);
+      ProjectSummary(total: 100, closed: 50, preexecuted: 20, active: 30);
 
   factory ProjectSummary.fromJson(Map<String, dynamic> json) =>
       _$ProjectSummaryFromJson(json);

@@ -18,15 +18,12 @@ class ProjectStatsWidget extends ConsumerWidget {
 
     final dateSelection = ref.watch(dateSelectionControllerProvider);
     final state = ref.watch(
-      projectStatsControllerProvider(
-        start: dateSelection.start,
-        end: dateSelection.end,
-      ),
+      projectStatsProvider(start: dateSelection.start, end: dateSelection.end),
     );
     final dummy = List.filled(4, ProjectStats.dummy());
 
     return LayoutBuilder(
-      builder: (context, constraints) => ContainerWidget(
+      builder: (context, constraints) => ContentContainer(
         height: Responsive.isDesktop(context) ? constraints.maxHeight : 300.0,
         padding: EdgeInsets.only(top: 20.0),
         child: Column(
@@ -45,8 +42,10 @@ class ProjectStatsWidget extends ConsumerWidget {
             Expanded(
               child: switch (state) {
                 AsyncData(:final value) => _DesktopWidget(items: value.items),
-                AsyncError(:final error, :final stackTrace) =>
-                  ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                AsyncError(:final error, :final stackTrace) => ErrorStateView(
+                  error: error,
+                  stackTrace: stackTrace,
+                ),
                 _ => Skeletonizer(child: _DesktopWidget(items: dummy)),
               },
             ),
@@ -93,15 +92,13 @@ class _DesktopWidget extends StatelessWidget {
               );
             },
             cells: [
-              DataCell(UserInformation(user: item.user)),
+              DataCell(UserInfo(user: item.user)),
               DataCell(
                 Align(
                   alignment: Alignment.center,
                   child: Text(
                     '${item.valid}',
-                    style: TextStyle(
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
-                    ),
+                    style: TextStyle(color: colorScheme.onSurface.strong),
                   ),
                 ),
               ),
@@ -110,9 +107,7 @@ class _DesktopWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     '${item.total}',
-                    style: TextStyle(
-                      color: colorScheme.onSurface.withValues(alpha: 0.6),
-                    ),
+                    style: TextStyle(color: colorScheme.onSurface.strong),
                   ),
                 ),
               ),

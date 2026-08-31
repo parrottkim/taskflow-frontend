@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -22,12 +21,12 @@ class SupplierListWidget extends ConsumerWidget {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: ContainerWidget(
+        child: ContentContainer(
           padding: EdgeInsets.zero,
           borderRadius: BorderRadius.circular(8.0),
           child: switch (list) {
             AsyncData(:final value) => _DesktopWidget(items: value.items),
-            AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+            AsyncError(:final error, :final stackTrace) => ErrorStateView(
               error: error,
               stackTrace: stackTrace,
             ),
@@ -65,7 +64,7 @@ class _DesktopWidget extends ConsumerWidget {
                   Intl.message('data_supplier_column_1'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ),
@@ -75,7 +74,7 @@ class _DesktopWidget extends ConsumerWidget {
                   Intl.message('data_supplier_column_2'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ),
@@ -85,7 +84,7 @@ class _DesktopWidget extends ConsumerWidget {
                   Intl.message('data_supplier_column_3'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ),
@@ -95,7 +94,7 @@ class _DesktopWidget extends ConsumerWidget {
                   Intl.message('data_supplier_column_4'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ),
@@ -105,7 +104,7 @@ class _DesktopWidget extends ConsumerWidget {
                   Intl.message('data_supplier_column_5'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ),
@@ -115,7 +114,7 @@ class _DesktopWidget extends ConsumerWidget {
                   Intl.message('data_supplier_column_6'),
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface.withValues(alpha: 0.7),
+                    color: colorScheme.onSurface.strong,
                   ),
                 ),
               ),
@@ -126,23 +125,8 @@ class _DesktopWidget extends ConsumerWidget {
         Divider(),
         if (items.isEmpty)
           Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/empty.svg',
-                    width: 40.0,
-                    height: 40.0,
-                    colorFilter: ColorFilter.mode(
-                      colorScheme.onSurface.withValues(alpha: 0.7),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Text(Intl.message('data_supplier_no_item')),
-                ],
-              ),
+            child: EmptyStateView(
+              message: Intl.message('data_supplier_no_item'),
             ),
           )
         else
@@ -192,7 +176,7 @@ class _DesktopWidget extends ConsumerWidget {
                         Intl.message('data_supplier_column_6'),
                         style: textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.onSurface.strong,
                         ),
                       ),
                     ),

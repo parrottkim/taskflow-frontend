@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:js_interop';
 
 import 'package:appflowy_editor/appflowy_editor.dart' as appflowy hide Document;
+import 'package:uuid/uuid.dart';
 import 'package:web/web.dart' hide ResponseType, Client, Report, Document;
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
@@ -19,6 +20,7 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/shared/tool/jwt_decoder.dart';
+import 'package:taskflow/src/shared/tool/draft_content_codec.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
 
@@ -33,19 +35,18 @@ part 'address/address_state.dart';
 
 part 'auth/auth_controller.dart';
 part 'auth/auth_state.dart';
+part 'auth/login_controller.dart';
+part 'auth/login_state.dart';
+part 'auth/token_controller.dart';
+part 'auth/token_state.dart';
 
 part 'dashboard/calendar_controller.dart';
-part 'dashboard/calendar_state.dart';
 part 'dashboard/date_selection_controller.dart';
 part 'dashboard/date_selection_state.dart';
 part 'dashboard/latest_update_controller.dart';
-part 'dashboard/latest_update_state.dart';
 part 'dashboard/project_stats_controller.dart';
-part 'dashboard/project_stats_state.dart';
 part 'dashboard/summary_controller.dart';
-part 'dashboard/summary_state.dart';
 part 'dashboard/world_map_controller.dart';
-part 'dashboard/world_map_state.dart';
 
 part 'data/data_filter_controller.dart';
 part 'data/data_filter_state.dart';
@@ -53,7 +54,6 @@ part 'data/data_filter_state.dart';
 part 'document/document_filter_controller.dart';
 part 'document/document_filter_state.dart';
 part 'document/document_detail_controller.dart';
-part 'document/document_detail_state.dart';
 part 'document/document_form_controller.dart';
 part 'document/document_form_state.dart';
 part 'document/document_list_controller.dart';
@@ -65,6 +65,17 @@ part 'document/document_submit_state.dart';
 
 part 'download/download_controller.dart';
 part 'download/download_state.dart';
+
+part 'draft/document_draft_autosave_controller.dart';
+part 'draft/document_draft_controller.dart';
+part 'draft/issue_draft_autosave_controller.dart';
+part 'draft/issue_draft_controller.dart';
+part 'draft/draft_autosave_state.dart';
+part 'draft/draft_restore_controller.dart';
+part 'draft/draft_restore_state.dart';
+part 'draft/report_draft_autosave_controller.dart';
+part 'draft/report_draft_controller.dart';
+part 'draft/draft_state.dart';
 
 part 'error/error_controller.dart';
 part 'error/error_state.dart';
@@ -79,6 +90,8 @@ part 'issue/issue_options_controller.dart';
 part 'issue/issue_options_state.dart';
 part 'issue/issue_submit_controller.dart';
 part 'issue/issue_submit_state.dart';
+part 'issue/issue_validation_controller.dart';
+part 'issue/issue_validation_state.dart';
 part 'issue/procurement_issue_form_controller.dart';
 part 'issue/procurement_issue_form_state.dart';
 
@@ -88,7 +101,6 @@ part 'local/local_state.dart';
 part 'navigation/navigation_filter_controller.dart';
 part 'navigation/navigation_filter_state.dart';
 part 'navigation/navigation_search_controller.dart';
-part 'navigation/navigation_search_state.dart';
 
 part 'organization/organization_controller.dart';
 part 'organization/organization_state.dart';
@@ -112,6 +124,8 @@ part 'schedule/schedule_filter_controller.dart';
 part 'schedule/schedule_filter_state.dart';
 part 'schedule/schedule_form_controller.dart';
 part 'schedule/schedule_form_state.dart';
+part 'schedule/schedule_holiday_form_controller.dart';
+part 'schedule/schedule_holiday_form_state.dart';
 part 'schedule/schedule_list_controller.dart';
 part 'schedule/schedule_list_state.dart';
 part 'schedule/schedule_options_controller.dart';
@@ -128,6 +142,7 @@ part 'supplier/supplier_list_state.dart';
 part 'supplier/supplier_submit_controller.dart';
 part 'supplier/supplier_submit_state.dart';
 
+part 'report/daily_allowance_preview_controller.dart';
 part 'report/report_form_controller.dart';
 part 'report/report_form_state.dart';
 part 'report/report_list_controller.dart';

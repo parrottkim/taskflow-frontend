@@ -6,9 +6,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
   ProjectSubmitState build() => ProjectSubmitState.idle();
 
   Future<void> createProject() async {
-    final value = ref.read(projectFormControllerProvider()).value;
-
-    if (value == null) return;
+    final value = ref.read(projectFormControllerProvider()).requireValue;
 
     state = const ProjectSubmitState.pending();
 
@@ -42,9 +40,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
   Future<void> updateProject({required int projectId}) async {
     final value = ref
         .read(projectFormControllerProvider(projectId: projectId))
-        .value;
-
-    if (value == null) return;
+        .requireValue;
 
     state = const ProjectSubmitState.pending();
 
@@ -105,7 +101,7 @@ class ProjectSubmitController extends _$ProjectSubmitController {
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);
 
-      state = ProjectSubmitState.created(project);
+      state = ProjectSubmitState.closed(project);
     } catch (e) {
       state = ProjectSubmitState.failure(e.toString());
     }

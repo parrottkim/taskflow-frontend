@@ -61,7 +61,7 @@ class MobileDateRangeFilterWidget extends StatelessWidget {
                         ? Symbols.calendar_today_rounded
                         : Symbols.event_available_rounded,
                     color: start == null || end == null
-                        ? colorScheme.onSurface.withValues(alpha: 0.7)
+                        ? colorScheme.onSurface.strong
                         : colorScheme.onSurface,
                     size: 20.0,
                   ),
@@ -80,10 +80,10 @@ class MobileDateRangeFilterWidget extends StatelessWidget {
                           child: Icon(
                             Symbols.chevron_right_rounded,
                             size: 20.0,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                           ),
                         )
-                      : CustomIconButton(
+                      : AppIconButton(
                           onTap: () {
                             selectedStartDate.value = null;
                             selectedEndDate.value = null;

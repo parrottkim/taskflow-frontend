@@ -7,7 +7,7 @@ abstract class DocumentFormState with _$DocumentFormState {
     String? content,
     int? folderId,
     @Default(false) bool fixed,
-    List<DocumentAttachment>? attachments,
-    List<XFile>? files,
+    @Default(<DocumentAttachment>[]) List<DocumentAttachment> attachments,
+    @Default(<XFile>[]) List<XFile> files,
   }) = _DocumentFormState;
 }

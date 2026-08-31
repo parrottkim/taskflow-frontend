@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
-import 'package:super_clipboard/super_clipboard.dart';
+import 'package:idb_shim/idb_browser.dart';
 import 'package:taskflow/src/shared/tool/converter.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -16,7 +17,10 @@ part 'data.freezed.dart';
 part 'model/bookmark.dart';
 part 'model/address.dart';
 part 'model/currency.dart';
+part 'model/dashboard.dart';
 part 'model/document.dart';
+part 'model/draft.dart';
+part 'model/holiday.dart';
 part 'model/issue.dart';
 part 'model/project.dart';
 part 'model/request/auth_request.dart';
@@ -61,9 +65,17 @@ part 'repository/document_folder_repository.dart';
 part 'service/document_folder_service.dart';
 part 'source/document_folder_source.dart';
 
+part 'repository/draft_repository.dart';
+part 'service/draft_service.dart';
+part 'source/draft_source.dart';
+
 part 'repository/document_repository.dart';
 part 'service/document_service.dart';
 part 'source/document_source.dart';
+
+part 'repository/holiday_repository.dart';
+part 'service/holiday_service.dart';
+part 'source/holiday_source.dart';
 
 part 'repository/schedule_repository.dart';
 part 'service/schedule_service.dart';

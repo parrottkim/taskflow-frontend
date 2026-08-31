@@ -86,7 +86,7 @@ class ToolbarWidget extends HookConsumerWidget {
           ),
         ),
         const SizedBox(width: 8.0),
-        CustomIconButton(
+        AppIconButton(
           onTap: () async {
             final path = GoRouter.of(
               context,
@@ -123,7 +123,7 @@ class ToolbarWidget extends HookConsumerWidget {
             child: const Icon(Symbols.share_rounded, size: 20.0, weight: 500.0),
           ),
         ),
-        CustomIconButton(
+        AppIconButton(
           onTap: () async {
             showDialog(
               context: context,
@@ -143,7 +143,7 @@ class ToolbarWidget extends HookConsumerWidget {
         ),
         MenuAnchor(
           alignmentOffset: Offset(-140.0, 0.0),
-          builder: (context, controller, child) => CustomIconButton(
+          builder: (context, controller, child) => AppIconButton(
             onTap:
                 detail is AsyncData &&
                     detail.value != null &&
@@ -167,7 +167,7 @@ class ToolbarWidget extends HookConsumerWidget {
                         auth is AuthAuthenticated &&
                             auth.user.id == createdBy.id
                     ? () {
-                        context.goNamed(
+                        context.pushNamed(
                           RouteNames.issueEdit,
                           pathParameters: {
                             'category_id': categoryId.toString(),
@@ -249,7 +249,7 @@ class ToolbarWidget extends HookConsumerWidget {
                 '${updatedBy?.username ?? createdBy.username} ${Intl.message('common_edit_by')}',
                 style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: colorScheme.outline.withValues(alpha: 0.7),
+                  color: colorScheme.outline.strong,
                 ),
               ),
             ),
@@ -259,7 +259,7 @@ class ToolbarWidget extends HookConsumerWidget {
                 relativeDate,
                 style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: colorScheme.outline.withValues(alpha: 0.7),
+                  color: colorScheme.outline.strong,
                 ),
               ),
             ),

@@ -115,7 +115,7 @@ class NavigationRailHeader extends StatelessWidget {
           opacity: expanded.value ? 1.0 : 0.0,
           child: const Align(
             alignment: Alignment.centerLeft,
-            child: Logo(size: 40.0),
+            child: AppLogo(size: 40.0),
           ),
         ),
         if (Responsive.isDesktop(context))
@@ -166,6 +166,19 @@ class NavigationRailSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final usesCommandKey = switch (defaultTargetPlatform) {
+      TargetPlatform.macOS || TargetPlatform.iOS => true,
+      TargetPlatform.windows ||
+      TargetPlatform.linux ||
+      TargetPlatform.android => false,
+      _ => null,
+    };
+    final shortcutStyle = TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: 10.0,
+      color: colorScheme.outline.strong,
+      textBaseline: TextBaseline.ideographic,
+    );
 
     return InkWell(
       onTap: () => showDialog(
@@ -178,7 +191,7 @@ class NavigationRailSearch extends StatelessWidget {
           child: TextField(
             decoration: InputDecoration(
               filled: true,
-              fillColor: colorScheme.onSurface.withValues(alpha: 0.1),
+              fillColor: colorScheme.onSurface.faint,
               label: AnimatedOpacity(
                 duration: duration,
                 curve: curve,
@@ -192,12 +205,45 @@ class NavigationRailSearch extends StatelessWidget {
                   width: 20.0,
                   height: 20.0,
                   colorFilter: ColorFilter.mode(
-                    colorScheme.onSurface.withValues(alpha: 0.7),
+                    colorScheme.onSurface.strong,
                     BlendMode.srcIn,
                   ),
                   semanticsLabel: 'Search Icon',
                 ),
               ),
+              suffixIcon: usesCommandKey == null
+                  ? null
+                  : Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 8.0),
+                      child: ContentContainer(
+                        elevation: 1.0,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 3.0,
+                          vertical: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(4.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (usesCommandKey)
+                              Icon(
+                                Symbols.keyboard_command_key_rounded,
+                                size: 12.0,
+                                color: colorScheme.outline.strong,
+                              )
+                            else
+                              Text('Ctrl', style: shortcutStyle),
+                            const SizedBox(width: 2.0),
+                            SizedBox(
+                              width: 12.0,
+                              child: Center(
+                                child: Text('K', style: shortcutStyle),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
             ),
           ),
         ),
@@ -223,7 +269,7 @@ class NavigationRailList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authControllerProvider);
-    final items = WidgetPreset(context).navigationItems;
+    final items = UiConfiguration(context).navigationItems;
 
     // isAdmin 속성을 확인하여 items 필터링
     final filteredItems = items.where((item) {
@@ -301,7 +347,7 @@ class NavigationRailTitle extends StatelessWidget {
           style: textTheme.labelMedium?.copyWith(
             fontWeight: FontWeight.w600,
             letterSpacing: 2.0,
-            color: colorScheme.onSurface.withValues(alpha: 0.6),
+            color: colorScheme.onSurface.strong,
           ),
         ),
       ),
@@ -352,7 +398,7 @@ class NavigationRailButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(
               color: isSelected
-                  ? colorScheme.outline.withValues(alpha: 0.2)
+                  ? colorScheme.outline.subtle
                   : Colors.transparent,
             ),
           ),
@@ -364,7 +410,7 @@ class NavigationRailButton extends StatelessWidget {
                 fill: isSelected ? 1.0 : 0.0,
                 color: isSelected
                     ? colorScheme.onSurface
-                    : colorScheme.onSurface.withValues(alpha: 0.7),
+                    : colorScheme.onSurface.strong,
               ),
               Flexible(
                 child: AnimatedOpacity(
@@ -383,7 +429,7 @@ class NavigationRailButton extends StatelessWidget {
                             : FontWeight.w500,
                         color: isSelected
                             ? colorScheme.onSurface
-                            : colorScheme.onSurface.withValues(alpha: 0.7),
+                            : colorScheme.onSurface.strong,
                       ),
                     ),
                   ),
@@ -469,9 +515,7 @@ class DashboardUserTile extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.fade,
                             style: textTheme.bodySmall?.copyWith(
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],

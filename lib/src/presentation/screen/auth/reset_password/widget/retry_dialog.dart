@@ -12,7 +12,7 @@ class RetryDialog extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         constraints: const BoxConstraints(maxWidth: 430.0),
         child: Column(

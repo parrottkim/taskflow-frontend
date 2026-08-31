@@ -4,8 +4,8 @@ part of '../controller.dart';
 abstract class ProjectFilterState with _$ProjectFilterState {
   const factory ProjectFilterState({
     String? view,
-    ProjectSort? sort,
-    Order? order,
+    ProjectSortOption? sort,
+    SortDirection? order,
     String? search,
     bool? bookmark,
     List<int>? clients,

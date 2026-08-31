@@ -3,12 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/core/core.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/procurement_request_form/widget/procurement_request_form_actions.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_request_form/widget/request_form_section.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
@@ -42,7 +42,7 @@ class ProcurementRequestFormScreen extends ConsumerWidget {
         value: value,
       ),
       AsyncError(:final error, :final stackTrace) => BranchLayout(
-        child: ErrorContainerWidget(error: error, stackTrace: stackTrace),
+        child: ErrorStateView(error: error, stackTrace: stackTrace),
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
@@ -73,7 +73,6 @@ class _DesktopWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colorScheme = Theme.of(context).colorScheme;
     final formProvider = procurementIssueFormControllerProvider(
       issueId: issueId,
       requestId: requestId,
@@ -359,164 +358,124 @@ class _DesktopWidget extends HookConsumerWidget {
                   },
             ),
           ),
-          Divider(),
-          Container(
-            padding: EdgeInsets.only(
-              left: 24.0,
-              right: 24.0,
-              top: 16.0,
-              bottom: 32.0,
-            ),
-            constraints: BoxConstraints(maxWidth: 430.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    onPressed: () async {
-                      if (value.selectedSupplierIds.isEmpty) {
-                        isSelectedSupplierEmpty.value = true;
-                        return;
-                      }
+          ProcurementRequestFormActions(
+            onPressed: () async {
+              if (value.selectedSupplierIds.isEmpty) {
+                isSelectedSupplierEmpty.value = true;
+                return;
+              }
 
-                      if (isLastStep) {
-                        final supplierItemsMap = {
-                          for (final id in value.selectedSupplierIds)
-                            id: value.items
-                                .where((item) => item.supplier?.id == id)
-                                .toList(),
-                        };
+              if (isLastStep) {
+                final supplierItemsMap = {
+                  for (final id in value.selectedSupplierIds)
+                    id: value.items
+                        .where((item) => item.supplier?.id == id)
+                        .toList(),
+                };
 
-                        final emptyItemSuppliers = supplierItemsMap.entries
-                            .where((entry) => entry.value.isEmpty)
-                            .map((entry) => entry.key)
-                            .toSet();
-                        final invalidItemSuppliers = supplierItemsMap.entries
-                            .where(
-                              (entry) => entry.value.any(
-                                (item) =>
-                                    item.item.trim().isEmpty ||
-                                    item.spec.trim().isEmpty ||
-                                    item.quantity.trim().isEmpty ||
-                                    item.unitPrice.trim().isEmpty ||
-                                    item.totalAmount.trim().isEmpty ||
-                                    (item.isOnlinePurchase &&
-                                        (item.purchaseUrl?.trim().isEmpty ??
-                                            true)),
-                              ),
-                            )
-                            .map((entry) => entry.key)
-                            .toSet();
+                final emptyItemSuppliers = supplierItemsMap.entries
+                    .where((entry) => entry.value.isEmpty)
+                    .map((entry) => entry.key)
+                    .toSet();
+                final invalidItemSuppliers = supplierItemsMap.entries
+                    .where(
+                      (entry) => entry.value.any(
+                        (item) =>
+                            item.item.trim().isEmpty ||
+                            item.spec.trim().isEmpty ||
+                            item.quantity.trim().isEmpty ||
+                            item.unitPrice.trim().isEmpty ||
+                            item.totalAmount.trim().isEmpty ||
+                            (item.isOnlinePurchase &&
+                                (item.purchaseUrl?.trim().isEmpty ?? true)),
+                      ),
+                    )
+                    .map((entry) => entry.key)
+                    .toSet();
 
-                        hasProcurementIssueItems.value = emptyItemSuppliers;
-                        isProcurementIssueItemEmpty.value =
-                            invalidItemSuppliers;
+                hasProcurementIssueItems.value = emptyItemSuppliers;
+                isProcurementIssueItemEmpty.value = invalidItemSuppliers;
 
-                        final invalidTitles = value.selectedSupplierIds
-                            .where(
-                              (id) =>
-                                  (value.titles[id]?.trim().isEmpty ?? true),
-                            )
-                            .toSet();
-                        final invalidDelivery = value.selectedSupplierIds
-                            .where(
-                              (id) =>
-                                  !nullableDeliverySupplierIds.value.contains(
-                                    id,
-                                  ) &&
-                                  value.deliveryDates[id] == null,
-                            )
-                            .toSet();
-                        final invalidPaymentTerms = value.selectedSupplierIds
-                            .where(
-                              (id) =>
-                                  !nullablePaymentTermsSupplierIds.value
-                                      .contains(id) &&
-                                  (value.paymentTerms[id]?.trim().isEmpty ??
-                                      true),
-                            )
-                            .toSet();
+                final invalidTitles = value.selectedSupplierIds
+                    .where((id) => (value.titles[id]?.trim().isEmpty ?? true))
+                    .toSet();
+                final invalidDelivery = value.selectedSupplierIds
+                    .where(
+                      (id) =>
+                          !nullableDeliverySupplierIds.value.contains(id) &&
+                          value.deliveryDates[id] == null,
+                    )
+                    .toSet();
+                final invalidPaymentTerms = value.selectedSupplierIds
+                    .where(
+                      (id) =>
+                          !nullablePaymentTermsSupplierIds.value.contains(id) &&
+                          (value.paymentTerms[id]?.trim().isEmpty ?? true),
+                    )
+                    .toSet();
 
-                        invalidTitleSupplierIds.value = invalidTitles;
-                        invalidDeliverySupplierIds.value = invalidDelivery;
-                        invalidPaymentTermsSupplierIds.value =
-                            invalidPaymentTerms;
+                invalidTitleSupplierIds.value = invalidTitles;
+                invalidDeliverySupplierIds.value = invalidDelivery;
+                invalidPaymentTermsSupplierIds.value = invalidPaymentTerms;
 
-                        if (invalidTitles.isNotEmpty ||
-                            invalidDelivery.isNotEmpty ||
-                            invalidPaymentTerms.isNotEmpty ||
-                            emptyItemSuppliers.isNotEmpty ||
-                            invalidItemSuppliers.isNotEmpty) {
-                          return;
-                        }
+                if (invalidTitles.isNotEmpty ||
+                    invalidDelivery.isNotEmpty ||
+                    invalidPaymentTerms.isNotEmpty ||
+                    emptyItemSuppliers.isNotEmpty ||
+                    invalidItemSuppliers.isNotEmpty) {
+                  return;
+                }
 
-                        if (requestId == null) {
-                          await ref
-                              .read(issueSubmitControllerProvider.notifier)
-                              .createProcurementRequests(
-                                projectId: projectId,
-                                issueId: issueId,
-                              );
-                        } else {
-                          await ref
-                              .read(issueSubmitControllerProvider.notifier)
-                              .updateProcurementRequest(
-                                projectId: projectId,
-                                issueId: issueId,
-                                requestId: requestId!,
-                              );
-                        }
-                        return;
-                      }
+                if (requestId == null) {
+                  await ref
+                      .read(issueSubmitControllerProvider.notifier)
+                      .createProcurementRequests(
+                        projectId: projectId,
+                        issueId: issueId,
+                      );
+                } else {
+                  await ref
+                      .read(issueSubmitControllerProvider.notifier)
+                      .updateProcurementRequest(
+                        projectId: projectId,
+                        issueId: issueId,
+                        requestId: requestId!,
+                      );
+                }
+                return;
+              }
 
-                      currentIndex.value = currentIndex.value + 1;
-                    },
-                    child: Text(
-                      isLastStep
-                          ? requestId == null
-                                ? Intl.message('common_post')
-                                : Intl.message('common_edit')
-                          : Intl.message('common_next'),
-                    ),
-                  ),
-                ),
-                if (requestId != null)
-                  Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: FilledButton(
-                      onPressed: () async {
-                        final shouldDelete = await showDialog<bool>(
-                          context: context,
-                          builder: (_) => DeleteDialog(
-                            title: Intl.message(
-                              'issue_form_procurement_delete_dialog_1',
-                            ),
-                            content: Intl.message(
-                              'issue_form_procurement_delete_dialog_2',
-                            ),
-                          ),
+              currentIndex.value = currentIndex.value + 1;
+            },
+            label: isLastStep
+                ? requestId == null
+                      ? Intl.message('common_post')
+                      : Intl.message('common_edit')
+                : Intl.message('common_next'),
+            onDelete: requestId == null
+                ? null
+                : () async {
+                    final shouldDelete = await showDialog<bool>(
+                      context: context,
+                      builder: (_) => DeleteDialog(
+                        title: Intl.message(
+                          'issue_form_procurement_delete_dialog_1',
+                        ),
+                        content: Intl.message(
+                          'issue_form_procurement_delete_dialog_2',
+                        ),
+                      ),
+                    );
+
+                    if (shouldDelete != true) return;
+
+                    await ref
+                        .read(issueSubmitControllerProvider.notifier)
+                        .deleteProcurementRequest(
+                          projectId: projectId,
+                          requestId: requestId!,
                         );
-
-                        if (shouldDelete != true) return;
-
-                        await ref
-                            .read(issueSubmitControllerProvider.notifier)
-                            .deleteProcurementRequest(
-                              projectId: projectId,
-                              requestId: requestId!,
-                            );
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor: colorScheme.error,
-                        iconColor: colorScheme.onError,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Icon(Symbols.delete_rounded, size: 19.0),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+                  },
           ),
         ],
       ),

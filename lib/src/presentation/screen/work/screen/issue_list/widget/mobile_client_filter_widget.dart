@@ -79,7 +79,7 @@ class MobileClientFilterWidget extends ConsumerWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4.0),
                             color: Color(
-                              ClientType.fromKey(
+                              ClientBrand.fromKey(
                                 selectedClients.value[depth],
                               ).color,
                             ),
@@ -88,7 +88,7 @@ class MobileClientFilterWidget extends ConsumerWidget {
                             width: 13.0,
                             height: 13.0,
                             child: SvgPicture.asset(
-                              ClientType.fromKey(
+                              ClientBrand.fromKey(
                                 selectedClients.value[depth],
                               ).asset,
                               colorFilter: const ColorFilter.mode(

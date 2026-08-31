@@ -17,15 +17,13 @@ class IssueSubmitController extends _$IssueSubmitController {
             categoryId: categoryId,
           ),
         )
-        .value;
-
-    if (value == null) return;
+        .requireValue;
 
     state = const IssueSubmitState.pending();
 
     try {
       late Issue issue;
-      final initialContent = appflowy.documentToMarkdown(editorState.document);
+      final initialContent = value.content ?? '';
 
       if (value.category is IssueContract) {
         final contractItems = value.contractItems
@@ -236,9 +234,7 @@ class IssueSubmitController extends _$IssueSubmitController {
             issueId: issueId,
           ),
         )
-        .value;
-
-    if (value == null) return;
+        .requireValue;
 
     state = const IssueSubmitState.pending();
 
@@ -677,9 +673,7 @@ class IssueSubmitController extends _$IssueSubmitController {
   }) async {
     final value = ref
         .read(procurementIssueFormControllerProvider(issueId: issueId))
-        .value;
-
-    if (value == null) return;
+        .requireValue;
 
     state = const IssueSubmitState.pending();
 
@@ -754,9 +748,9 @@ class IssueSubmitController extends _$IssueSubmitController {
             requestId: requestId,
           ),
         )
-        .value;
+        .requireValue;
 
-    if (value == null || value.selectedSupplierIds.isEmpty) return;
+    if (value.selectedSupplierIds.isEmpty) return;
 
     state = const IssueSubmitState.pending();
 

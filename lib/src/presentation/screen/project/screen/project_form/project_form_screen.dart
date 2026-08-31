@@ -9,6 +9,7 @@ import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/layout/branch_layout.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/client_select_widget.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/manager_select_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_form/widget/project_form_actions.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/core/core.dart';
@@ -29,7 +30,7 @@ class ProjectFormScreen extends ConsumerWidget {
           projectId: projectId,
           value: value,
         ),
-        AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+        AsyncError(:final error, :final stackTrace) => ErrorStateView(
           error: error,
           stackTrace: stackTrace,
         ),
@@ -140,7 +141,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         clients: value.clients,
                         isClientsEmpty: isClientsEmpty,
                       ),
-                      InvalidWidget(
+                      ValidationErrorMessage(
                         visible: isClientsEmpty.value,
                         text: Intl.message('project_form_invalid_1'),
                       ),
@@ -193,7 +194,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           ),
                         ],
                       ),
-                      InvalidWidget(
+                      ValidationErrorMessage(
                         visible: isCodeEmpty.value,
                         text: Intl.message('project_form_invalid_2'),
                       ),
@@ -222,7 +223,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           decoration: InputDecoration(filled: true),
                         ),
                       ),
-                      InvalidWidget(
+                      ValidationErrorMessage(
                         visible: isNameEmpty.value,
                         text: Intl.message('project_form_invalid_3'),
                       ),
@@ -252,7 +253,7 @@ class _DesktopWidget extends HookConsumerWidget {
                       if (auth is AuthAuthenticated && auth.user.isAdmin)
                         Row(
                           children: [
-                            CustomToggleButton(
+                            AppToggleButton(
                               value: value.isPreexecuted,
                               onChanged: !value.isContracted
                                   ? (value) {
@@ -263,7 +264,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                             ).notifier,
                                           )
                                           .setIsPreexecuted(
-                                            isPreexecuted: value ?? false,
+                                            isPreexecuted: value,
                                           );
                                     }
                                   : null,
@@ -280,9 +281,7 @@ class _DesktopWidget extends HookConsumerWidget {
                               child: Icon(
                                 Symbols.info_rounded,
                                 size: 18.0,
-                                color: colorScheme.outline.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.outline.strong,
                               ),
                             ),
                           ],
@@ -294,93 +293,63 @@ class _DesktopWidget extends HookConsumerWidget {
             ),
           ),
         ),
-        Divider(),
-        Container(
-          padding: EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-            top: 16.0,
-            bottom: 32.0,
-          ),
-          constraints: BoxConstraints(maxWidth: 430.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: FilledButton(
-                  onPressed: () async {
-                    isClientsEmpty.value = !value.isAllClientSelected;
-                    isCodeEmpty.value = code.text.isEmpty;
-                    isNameEmpty.value = name.text.isEmpty;
+        ProjectFormActions(
+          label: projectId != null
+              ? Intl.message('common_edit')
+              : Intl.message('common_post'),
+          onPressed: () async {
+            isClientsEmpty.value = !value.isAllClientSelected;
+            isCodeEmpty.value = code.text.isEmpty;
+            isNameEmpty.value = name.text.isEmpty;
 
-                    if (isClientsEmpty.value ||
-                        isCodeEmpty.value ||
-                        isNameEmpty.value) {
-                      return;
-                    }
+            if (isClientsEmpty.value ||
+                isCodeEmpty.value ||
+                isNameEmpty.value) {
+              return;
+            }
 
-                    if (projectId == null) {
-                      await ref
-                          .read(projectSubmitControllerProvider.notifier)
-                          .createProject();
-                    } else {
-                      await ref
-                          .read(projectSubmitControllerProvider.notifier)
-                          .updateProject(projectId: projectId!);
-                    }
-                  },
-                  child: Text(
-                    projectId != null
-                        ? Intl.message('common_edit')
-                        : Intl.message('common_post'),
-                  ),
-                ),
-              ),
-              if (projectId != null)
-                Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: FilledButton(
-                    onPressed: () async {
-                      final result = await showDialog(
-                        context: context,
-                        builder: (_) => DeleteDialog(
-                          title: Intl.message('project_form_delete_dialog_1'),
-                          content: Intl.message('project_form_delete_dialog_2'),
+            if (projectId == null) {
+              await ref
+                  .read(projectSubmitControllerProvider.notifier)
+                  .createProject();
+            } else {
+              await ref
+                  .read(projectSubmitControllerProvider.notifier)
+                  .updateProject(projectId: projectId!);
+            }
+          },
+          onDelete: projectId == null
+              ? null
+              : () async {
+                  final result = await showDialog<bool>(
+                    context: context,
+                    builder: (_) => DeleteDialog(
+                      title: Intl.message('project_form_delete_dialog_1'),
+                      content: Intl.message('project_form_delete_dialog_2'),
+                    ),
+                  );
+
+                  if (!context.mounted || result != true) return;
+
+                  context.pop();
+
+                  await ref
+                      .read(
+                        projectFormControllerProvider(
+                          projectId: projectId,
+                        ).notifier,
+                      )
+                      .deleteProject();
+
+                  ref
+                      .read(toastProvider)
+                      .showToast(
+                        child: Toast(
+                          type: ToastType.standard,
+                          message: Intl.message('project_form_delete'),
                         ),
                       );
-
-                      if (result) {
-                        context.pop();
-
-                        await ref
-                            .read(
-                              projectFormControllerProvider(
-                                projectId: projectId,
-                              ).notifier,
-                            )
-                            .deleteProject();
-
-                        ref
-                            .read(toastProvider)
-                            .showToast(
-                              child: Toast(
-                                type: ToastType.standard,
-                                message: Intl.message('project_form_delete'),
-                              ),
-                            );
-                      }
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: colorScheme.error,
-                      iconColor: colorScheme.onError,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
-                      child: Icon(Symbols.delete_rounded, size: 19.0),
-                    ),
-                  ),
-                ),
-            ],
-          ),
+                },
         ),
       ],
     );

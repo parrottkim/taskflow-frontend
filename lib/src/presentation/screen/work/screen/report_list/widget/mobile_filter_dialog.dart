@@ -13,8 +13,8 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 
 typedef WorkReportFilterApplyCallback =
     void Function(
-      WorkReportSort? sort,
-      Order? order,
+      WorkReportSortOption? sort,
+      SortDirection? order,
       List<int>? clients,
       List<int>? categories,
       DateTime? start,
@@ -22,8 +22,8 @@ typedef WorkReportFilterApplyCallback =
     );
 
 class MobileFilterDialog extends HookWidget {
-  final WorkReportSort? sort;
-  final Order? order;
+  final WorkReportSortOption? sort;
+  final SortDirection? order;
   final List<int>? clients;
   final List<int>? categories;
   final DateTime? start;
@@ -51,8 +51,8 @@ class MobileFilterDialog extends HookWidget {
   Widget build(BuildContext context) {
     final controller = usePageController();
 
-    final selectedSort = useState<WorkReportSort?>(sort);
-    final selectedOrder = useState<Order?>(order);
+    final selectedSort = useState<WorkReportSortOption?>(sort);
+    final selectedOrder = useState<SortDirection?>(order);
     final selectedClients = useState<List<int>>(clients ?? []);
     final selectedCategories = useState<List<int>>(categories ?? []);
     final selectedStartDate = useState<DateTime?>(start);
@@ -63,7 +63,7 @@ class MobileFilterDialog extends HookWidget {
     );
 
     return Dialog(
-      child: ContainerWidget(
+      child: ContentContainer(
         padding: EdgeInsets.zero,
         constraints: BoxConstraints(maxWidth: 430.0, maxHeight: 600.0),
         child: Padding(
@@ -113,8 +113,8 @@ class MobileFilterDialog extends HookWidget {
 
 class MainFilterPage extends StatelessWidget {
   final PageController controller;
-  final ValueNotifier<WorkReportSort?> selectedSort;
-  final ValueNotifier<Order?> selectedOrder;
+  final ValueNotifier<WorkReportSortOption?> selectedSort;
+  final ValueNotifier<SortDirection?> selectedOrder;
   final ValueNotifier<List<int>> selectedClients;
   final ValueNotifier<List<int>> selectedCategories;
   final ValueNotifier<DateTime?> selectedStartDate;
@@ -274,7 +274,7 @@ class ClientFilterPage extends StatelessWidget {
           padding: const EdgeInsets.only(left: 16.0, right: 24.0),
           child: Row(
             children: [
-              CustomIconButton(
+              AppIconButton(
                 onTap: () => controller.animateToPage(
                   0,
                   duration: Duration(milliseconds: 300),
@@ -325,13 +325,13 @@ class ClientFilterPage extends StatelessWidget {
                         padding: const EdgeInsets.all(3.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4.0),
-                          color: Color(ClientType.fromKey(client.id).color),
+                          color: Color(ClientBrand.fromKey(client.id).color),
                         ),
                         child: SizedBox(
                           width: 13.0,
                           height: 13.0,
                           child: SvgPicture.asset(
-                            ClientType.fromKey(client.id).asset,
+                            ClientBrand.fromKey(client.id).asset,
                             colorFilter: const ColorFilter.mode(
                               Colors.white,
                               BlendMode.srcIn,

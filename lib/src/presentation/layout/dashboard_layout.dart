@@ -30,9 +30,9 @@ class DashboardLayout extends ConsumerWidget {
                 fontWeight: FontWeight.w800,
               ),
               leading: isSubRoute
-                  ? CustomIconButton(
+                  ? AppIconButton(
                       onTap: () {
-                        context.pop(context);
+                        branch.navigatorKey.currentState?.maybePop();
                       },
                       icon: Icon(Symbols.chevron_left_rounded),
                     )

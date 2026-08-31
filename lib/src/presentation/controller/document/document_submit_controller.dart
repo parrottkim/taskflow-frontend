@@ -8,20 +8,18 @@ class DocumentSubmitController extends _$DocumentSubmitController {
   Future<void> createDocument({
     required appflowy.EditorState editorState,
   }) async {
-    final value = ref.read(documentFormControllerProvider()).value;
-
-    if (value == null) return;
+    final value = ref.read(documentFormControllerProvider()).requireValue;
 
     state = const DocumentSubmitState.pending();
 
     try {
-      final initialContent = appflowy.documentToMarkdown(editorState.document);
+      final initialContent = value.content ?? '';
       final request = CreateDocumentRequest(
         title: value.title ?? '',
         content: initialContent,
         folderId: value.folderId!,
         fixed: value.fixed,
-        attachments: value.attachments ?? [],
+        attachments: value.attachments,
       );
 
       Document document = await ref
@@ -41,9 +39,9 @@ class DocumentSubmitController extends _$DocumentSubmitController {
             );
       }
 
-      if (value.files != null && value.files!.isNotEmpty) {
+      if (value.files.isNotEmpty) {
         List<MultipartFile> files = [];
-        for (final file in value.files!) {
+        for (final file in value.files) {
           final bytes = await file.readAsBytes();
           final mimeType =
               lookupMimeType('', headerBytes: bytes) ??
@@ -70,6 +68,15 @@ class DocumentSubmitController extends _$DocumentSubmitController {
           .read(documentListControllerProvider.notifier)
           .addListItem(item: DocumentListItem.fromDocument(document));
 
+      try {
+        await ref
+            .read(documentDraftControllerProvider.notifier)
+            .deleteCurrent();
+      } catch (error, stackTrace) {
+        debugPrint('Document draft cleanup failed: $error');
+        debugPrintStack(stackTrace: stackTrace);
+      }
+
       state = DocumentSubmitState.documentCreated();
     } catch (e) {
       state = DocumentSubmitState.failure(e.toString());
@@ -82,9 +89,7 @@ class DocumentSubmitController extends _$DocumentSubmitController {
   }) async {
     final value = ref
         .read(documentFormControllerProvider(documentId: documentId))
-        .value;
-
-    if (value == null) return;
+        .requireValue;
 
     state = const DocumentSubmitState.pending();
 
@@ -98,16 +103,16 @@ class DocumentSubmitController extends _$DocumentSubmitController {
         content: content,
         folderId: value.folderId!,
         fixed: value.fixed,
-        attachments: value.attachments ?? [],
+        attachments: value.attachments,
       );
 
       Document document = await ref
           .read(documentRepositoryProvider)
           .updateDocument(id: documentId, request: request);
 
-      if (value.files != null && value.files!.isNotEmpty) {
+      if (value.files.isNotEmpty) {
         List<MultipartFile> files = [];
-        for (final file in value.files!) {
+        for (final file in value.files) {
           final bytes = await file.readAsBytes();
           final mimeType =
               lookupMimeType('', headerBytes: bytes) ??
@@ -133,7 +138,16 @@ class DocumentSubmitController extends _$DocumentSubmitController {
       ref
           .read(documentListControllerProvider.notifier)
           .updateListItem(item: DocumentListItem.fromDocument(document));
-      ref.invalidate(documentDetailControllerProvider(documentId: documentId));
+      ref.invalidate(documentDetailProvider(documentId: documentId));
+
+      try {
+        await ref
+            .read(documentDraftControllerProvider.notifier)
+            .deleteCurrent();
+      } catch (error, stackTrace) {
+        debugPrint('Document draft cleanup failed: $error');
+        debugPrintStack(stackTrace: stackTrace);
+      }
 
       state = DocumentSubmitState.documentUpdated();
     } catch (e) {

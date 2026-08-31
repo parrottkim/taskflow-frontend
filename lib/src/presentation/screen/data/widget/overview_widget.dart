@@ -14,21 +14,21 @@ class OverviewWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(dataFilterControllerProvider);
-    final selectedItem = useState<DataSegment>(
-      DataSegment.fromKey(filter.view ?? ''),
+    final selectedItem = useState<AdminDataSection>(
+      AdminDataSection.fromKey(filter.view ?? ''),
     );
 
     final controller = useTabController(
-      initialLength: DataSegment.values.length,
-      initialIndex: DataSegment.values.indexOf(selectedItem.value),
+      initialLength: AdminDataSection.values.length,
+      initialIndex: AdminDataSection.values.indexOf(selectedItem.value),
     );
 
     useEffect(() {
-      final newItem = DataSegment.fromKey(filter.view ?? '');
+      final newItem = AdminDataSection.fromKey(filter.view ?? '');
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
-        controller.animateTo(DataSegment.values.indexOf(newItem));
+        controller.animateTo(AdminDataSection.values.indexOf(newItem));
       }
 
       return null;
@@ -39,7 +39,7 @@ class OverviewWidget extends HookConsumerWidget {
         TabBar(
           controller: controller,
           onTap: (index) {
-            selectedItem.value = DataSegment.values[index];
+            selectedItem.value = AdminDataSection.values[index];
 
             ref
                 .read(dataFilterControllerProvider.notifier)
@@ -61,10 +61,10 @@ class OverviewWidget extends HookConsumerWidget {
           isScrollable: true,
           labelPadding: EdgeInsets.symmetric(horizontal: 24.0),
           tabs: List.generate(
-            DataSegment.values.length,
+            AdminDataSection.values.length,
             (index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(DataSegment.values[index].label),
+              child: Text(AdminDataSection.values[index].label),
             ),
           ),
         ),

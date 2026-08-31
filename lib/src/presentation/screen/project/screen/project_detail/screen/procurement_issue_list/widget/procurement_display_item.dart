@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
+import 'package:taskflow/src/shared/tool/functions.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -82,7 +84,7 @@ class ProcurementDisplayItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: colorScheme.outline.withValues(alpha: 0.2),
+                        color: colorScheme.outline.subtle,
                         width: 1.0,
                       ),
                     ),
@@ -132,17 +134,14 @@ class _DesktopWidget extends StatelessWidget {
       showBottomBorder: true,
       border: TableBorder(
         verticalInside: BorderSide(
-          color: colorScheme.outline.withValues(alpha: 0.2),
+          color: colorScheme.outline.subtle,
           width: 1.0,
         ),
         horizontalInside: BorderSide(
-          color: colorScheme.outline.withValues(alpha: 0.2),
+          color: colorScheme.outline.subtle,
           width: 1.0,
         ),
-        bottom: BorderSide(
-          color: colorScheme.outline.withValues(alpha: 0.2),
-          width: 1.0,
-        ),
+        bottom: BorderSide(color: colorScheme.outline.subtle, width: 1.0),
       ),
       columns: [
         _buildHeaderColumn(
@@ -238,17 +237,14 @@ class _MobileWidget extends StatelessWidget {
         showBottomBorder: true,
         border: TableBorder(
           verticalInside: BorderSide(
-            color: colorScheme.outline.withValues(alpha: 0.2),
+            color: colorScheme.outline.subtle,
             width: 1.0,
           ),
           horizontalInside: BorderSide(
-            color: colorScheme.outline.withValues(alpha: 0.2),
+            color: colorScheme.outline.subtle,
             width: 1.0,
           ),
-          bottom: BorderSide(
-            color: colorScheme.outline.withValues(alpha: 0.2),
-            width: 1.0,
-          ),
+          bottom: BorderSide(color: colorScheme.outline.subtle, width: 1.0),
         ),
         columns: [
           _buildHeaderColumn(
@@ -374,7 +370,7 @@ class _SupplierCell extends StatelessWidget {
         Icon(
           Symbols.shopping_cart_rounded,
           size: 20.0,
-          color: colorScheme.onSurface.withValues(alpha: 0.7),
+          color: colorScheme.onSurface.strong,
         ),
         const SizedBox(width: 4.0),
         Text.rich(
@@ -392,12 +388,10 @@ class _SupplierCell extends StatelessWidget {
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () async {
-                    final url = item.purchaseUrl;
-                    if (url == null || url.trim().isEmpty) {
-                      return;
-                    }
+                    final uri = parseSafeWebUrl(item.purchaseUrl);
+                    if (uri == null) return;
 
-                    await launchUrl(Uri.parse(url));
+                    await launchUrl(uri);
                   },
               ),
             ],
@@ -421,17 +415,13 @@ DataColumn _buildHeaderColumn({
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         children: [
-          Icon(
-            icon,
-            color: colorScheme.onSurface.withValues(alpha: 0.7),
-            size: 16.0,
-          ),
+          Icon(icon, color: colorScheme.onSurface.strong, size: 16.0),
           const SizedBox(width: 4.0),
           Text(
             label,
             style: textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
+              color: colorScheme.onSurface.strong,
             ),
           ),
         ],

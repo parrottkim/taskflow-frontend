@@ -12,9 +12,8 @@ class DocumentOptionsController extends _$DocumentOptionsController {
   }
 
   void setFolderItems({required List<DocumentFolder> items}) {
-    final value = state.value;
-
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     state = AsyncData(value.copyWith(folderItems: items));
   }

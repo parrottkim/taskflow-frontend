@@ -23,10 +23,10 @@ class WorldMapWidget extends HookConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final state = ref.watch(worldMapControllerProvider);
-    final dummy = WidgetPreset(context).dummyClientCount;
+    final state = ref.watch(worldMapProvider);
+    final dummy = UiConfiguration(context).dummyClientCount;
 
-    final markers = WidgetPreset(context).markers;
+    final markers = UiConfiguration(context).markers;
 
     final parser = useState<GeoJsonParser>(GeoJsonParser());
     final selectedMarker = useState<ClientMarker?>(null);
@@ -55,7 +55,7 @@ class WorldMapWidget extends HookConsumerWidget {
                         .map<LatLng>((coord) => LatLng(coord[1], coord[0]))
                         .toList(),
                     borderColor: colorScheme.outline,
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     borderStrokeWidth: 0.4, // 경계선 두께
                   ),
                 );
@@ -87,14 +87,16 @@ class WorldMapWidget extends HookConsumerWidget {
         // 선형 보간을 통해 줌 계산
         final initialZoom = minZoom + (maxZoom - minZoom) * normalizedWidth;
 
-        return ContainerWidget(
+        return ContentContainer(
           padding: EdgeInsets.zero,
           child: Stack(
             children: [
               switch (state) {
-                AsyncData(:final value) => _DesktopWidget(items: value.items),
-                AsyncError(:final error, :final stackTrace) =>
-                  ErrorContainerWidget(error: error, stackTrace: stackTrace),
+                AsyncData(:final value) => _DesktopWidget(items: value),
+                AsyncError(:final error, :final stackTrace) => ErrorStateView(
+                  error: error,
+                  stackTrace: stackTrace,
+                ),
                 _ => Skeletonizer(child: _DesktopWidget(items: dummy)),
               },
               FlutterMap(
@@ -161,7 +163,7 @@ class WorldMapWidget extends HookConsumerWidget {
                                                         4.0,
                                                       ),
                                                   color: Color(
-                                                    ClientType.fromKey(
+                                                    ClientBrand.fromKey(
                                                       marker
                                                           .items[index]
                                                           .type
@@ -173,7 +175,7 @@ class WorldMapWidget extends HookConsumerWidget {
                                                   width: 12.0,
                                                   height: 12.0,
                                                   child: SvgPicture.asset(
-                                                    ClientType.fromKey(
+                                                    ClientBrand.fromKey(
                                                       marker
                                                           .items[index]
                                                           .type
@@ -249,9 +251,7 @@ class _DesktopWidget extends StatelessWidget {
         children: [
           Text(
             Intl.message('dashboard_world_map_1'),
-            style: TextStyle(
-              color: colorScheme.onSurface.withValues(alpha: 0.6),
-            ),
+            style: TextStyle(color: colorScheme.onSurface.strong),
           ),
           Text.rich(
             style: textTheme.headlineSmall?.copyWith(
@@ -273,9 +273,7 @@ class _DesktopWidget extends StatelessWidget {
           SizedBox(height: 24.0),
           Text(
             Intl.message('dashboard_world_map_2'),
-            style: TextStyle(
-              color: colorScheme.onSurface.withValues(alpha: 0.6),
-            ),
+            style: TextStyle(color: colorScheme.onSurface.strong),
           ),
           Text.rich(
             style: textTheme.headlineSmall?.copyWith(

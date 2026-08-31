@@ -59,7 +59,9 @@ abstract class Schedule with _$Schedule {
     required String projectClientName,
     required String eventId,
     required ScheduleCategory category,
+    int? reportId,
     required User user,
+    @Default([]) List<ScheduleHoliday> holidays,
     @Default('') String summary,
     String? description,
     @Default('') String url,
@@ -68,18 +70,18 @@ abstract class Schedule with _$Schedule {
   }) = _Schedule;
 
   factory Schedule.dummy() => Schedule(
-        id: 0,
-        eventId: '임시 ID',
-        projectId: 0,
-        projectCode: '프로젝트 코드',
-        projectName: '프로젝트 이름',
-        projectClientId: 1,
-        projectClientName: '공장명',
-        category: ScheduleCategory.dummy(),
-        user: User.dummy(),
-        start: DateTime.now(),
-        end: DateTime.now(),
-      );
+    id: 0,
+    eventId: '임시 ID',
+    projectId: 0,
+    projectCode: '프로젝트 코드',
+    projectName: '프로젝트 이름',
+    projectClientId: 1,
+    projectClientName: '공장명',
+    category: ScheduleCategory.dummy(),
+    user: User.dummy(),
+    start: DateTime.now(),
+    end: DateTime.now(),
+  );
 
   factory Schedule.fromJson(Map<String, dynamic> json) =>
       _$ScheduleFromJson(json);
@@ -100,11 +102,11 @@ abstract class TodaySchedule with _$TodaySchedule {
       _$TodayScheduleFromJson(json);
 
   factory TodaySchedule.dummy() => TodaySchedule(
-        summary: '제목',
-        category: ScheduleCategory.dummy(),
-        start: DateTime.now(),
-        end: DateTime.now(),
-        projectClientName: '고객사',
-        user: User.dummy(),
-      );
+    summary: '제목',
+    category: ScheduleCategory.dummy(),
+    start: DateTime.now(),
+    end: DateTime.now(),
+    projectClientName: '고객사',
+    user: User.dummy(),
+  );
 }

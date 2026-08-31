@@ -14,27 +14,27 @@ class SegmentWidget extends HookConsumerWidget {
     final filter = ref.watch(
       projectFilterControllerProvider(ProjectFilterScope.projectPage),
     );
-    final selectedItem = useState<ProjectSegment>(
-      ProjectSegment.values.firstWhere(
+    final selectedItem = useState<ProjectStatusFilter>(
+      ProjectStatusFilter.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => ProjectSegment.values.first,
+        orElse: () => ProjectStatusFilter.values.first,
       ),
     );
 
     final controller = useTabController(
-      initialLength: ProjectSegment.values.length,
-      initialIndex: ProjectSegment.values.indexOf(selectedItem.value),
+      initialLength: ProjectStatusFilter.values.length,
+      initialIndex: ProjectStatusFilter.values.indexOf(selectedItem.value),
     );
 
     useEffect(() {
-      final newItem = ProjectSegment.values.firstWhere(
+      final newItem = ProjectStatusFilter.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => ProjectSegment.values.first,
+        orElse: () => ProjectStatusFilter.values.first,
       );
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
-        controller.animateTo(ProjectSegment.values.indexOf(newItem));
+        controller.animateTo(ProjectStatusFilter.values.indexOf(newItem));
       }
 
       return null;
@@ -43,7 +43,7 @@ class SegmentWidget extends HookConsumerWidget {
     return TabBar(
       controller: controller,
       onTap: (index) {
-        selectedItem.value = ProjectSegment.values[index];
+        selectedItem.value = ProjectStatusFilter.values[index];
 
         ref
             .read(
@@ -66,10 +66,10 @@ class SegmentWidget extends HookConsumerWidget {
       isScrollable: true,
       labelPadding: EdgeInsets.symmetric(horizontal: 24.0),
       tabs: List.generate(
-        ProjectSegment.values.length,
+        ProjectStatusFilter.values.length,
         (index) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(ProjectSegment.values[index].label),
+          child: Text(ProjectStatusFilter.values[index].label),
         ),
       ),
     );

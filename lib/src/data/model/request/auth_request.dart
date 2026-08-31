@@ -2,8 +2,11 @@ part of '../../data.dart';
 
 @freezed
 abstract class LoginRequest with _$LoginRequest {
-  factory LoginRequest({required String email, required String password}) =
-      _LoginRequest;
+  factory LoginRequest({
+    required String email,
+    required String password,
+    bool? persistLogin,
+  }) = _LoginRequest;
 
   factory LoginRequest.fromJson(Map<String, dynamic> json) =>
       _$LoginRequestFromJson(json);

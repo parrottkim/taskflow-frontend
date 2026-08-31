@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BackgroundWidget extends StatelessWidget {
@@ -26,7 +27,7 @@ class BackgroundWidget extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     Color(0xff304352),
-                    Color(0xffd7d2cc).withValues(alpha: 0.2),
+                    Color(0xffd7d2cc).subtle,
                   ],
                   stops: [0, 1],
                   begin: Alignment.bottomLeft,

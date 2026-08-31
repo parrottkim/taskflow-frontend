@@ -20,32 +20,7 @@ class IssueCategoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(issueOptionsControllerProvider);
-
-    ref.listen(projectSubmitControllerProvider, (_, state) {
-      if (state is ProjectSubmitPending) {
-        LoadingOverlay.show(context);
-      } else {
-        LoadingOverlay.hide();
-
-        if (state is ProjectSubmitCreated) {
-          ref
-              .read(toastProvider)
-              .showToast(
-                child: Toast(
-                  type: ToastType.verified,
-                  message: Intl.message('issue_new_choose_7_created'),
-                ),
-              );
-
-          context.pop();
-          context.goNamed(
-            RouteNames.projectDetail,
-            pathParameters: {'project_id': projectId.toString()},
-          );
-        }
-      }
-    });
+    final filter = ref.watch(issueOptionsProvider);
 
     return BranchLayout(
       child: ConstrainedBox(
@@ -55,7 +30,7 @@ class IssueCategoryScreen extends ConsumerWidget {
             projectId: projectId,
             categories: value.categories,
           ),
-          AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+          AsyncError(:final error, :final stackTrace) => ErrorStateView(
             error: error,
             stackTrace: stackTrace,
           ),
@@ -89,18 +64,38 @@ class _DesktopWidget extends ConsumerWidget {
         children: [
           CategoryListWidget(projectId: projectId, categories: categories),
           SizedBox(height: 16.0),
-          ContainerWidget(
+          ContentContainer(
+            elevation: 1.0,
             padding: EdgeInsets.zero,
             color: colorScheme.errorContainer,
+            borderColor: colorScheme.error.subtle,
             child: InkWell(
               onTap: () async {
                 final project = await ref.read(
                   projectDetailControllerProvider(projectId: projectId).future,
                 );
 
-                showDialog(
+                if (!context.mounted) return;
+
+                final closed = await showDialog<bool>(
                   context: context,
                   builder: (_) => ClosureDialog(project: project.project),
+                );
+
+                if (!context.mounted || closed != true) return;
+
+                ref
+                    .read(toastProvider)
+                    .showToast(
+                      child: Toast(
+                        type: ToastType.verified,
+                        message: Intl.message('issue_new_choose_7_created'),
+                      ),
+                    );
+
+                context.goNamed(
+                  RouteNames.projectDetail,
+                  pathParameters: {'project_id': projectId.toString()},
                 );
               },
               child: Padding(
@@ -128,7 +123,7 @@ class _DesktopWidget extends ConsumerWidget {
                         Icon(
                           Symbols.arrow_right_alt_rounded,
                           size: 20.0,
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
+                          color: colorScheme.error.strong,
                         ),
                       ],
                     ),
@@ -136,7 +131,7 @@ class _DesktopWidget extends ConsumerWidget {
                     Text(
                       Intl.message('issue_new_choose_7_1'),
                       style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.error.withValues(alpha: 0.7),
+                        color: colorScheme.error.strong,
                       ),
                     ),
                   ],

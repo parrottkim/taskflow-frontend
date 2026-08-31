@@ -18,6 +18,40 @@ class ReportDataSource implements ReportRepository {
       _service.getAllTripRegulations(id: id);
 
   @override
+  Future<DailyAllowancePreview> previewDailyAllowance({
+    required int scheduleId,
+    List<ScheduleHoliday>? holidays,
+    List<TripActualExpense>? expenses,
+  }) => _service.previewDailyAllowance(
+    request: {
+      'scheduleId': scheduleId,
+      if (holidays != null)
+        'holidays': holidays
+            .map(
+              (holiday) => UpdateScheduleHolidayRequest(
+                date: holiday.date,
+                isTravelOnly: holiday.isTravelOnly,
+                compensatoryLeaveDate: holiday.compensatoryLeaveDate,
+              ).toJson(),
+            )
+            .toList(),
+      if (expenses != null)
+        'expenses': expenses
+            .map(
+              (expense) => {
+                'stepId': expense.stepId,
+                'price':
+                    double.tryParse(
+                      (expense.price ?? '').replaceAll(',', ''),
+                    ) ??
+                    0,
+              },
+            )
+            .toList(),
+    },
+  );
+
+  @override
   Future<HttpResponse<List<int>>> exportTrip({required int id}) =>
       _service.exportTrip(id: id);
 

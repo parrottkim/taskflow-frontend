@@ -9,7 +9,7 @@ class BranchLayout extends StatelessWidget {
   final Widget child;
   final Widget? title;
   final List<Widget> actions;
-  final Function()? onTap;
+  final VoidCallback? onTap;
 
   const BranchLayout({
     super.key,
@@ -49,7 +49,7 @@ class BranchLayout extends StatelessWidget {
                     if (canPopRoute)
                       Padding(
                         padding: const EdgeInsets.only(right: 12.0),
-                        child: CustomIconButton(
+                        child: AppIconButton(
                           onTap: onTap ?? () => context.pop(),
                           icon: Icon(Symbols.chevron_left, size: 24.0),
                         ),

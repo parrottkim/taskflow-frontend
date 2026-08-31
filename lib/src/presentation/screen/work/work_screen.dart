@@ -47,7 +47,7 @@ class WorkScreen extends HookConsumerWidget {
       Future.microtask(() {
         ref.read(workFilterControllerProvider.notifier).init(view: view);
 
-        if (view == WorkSegment.project.key) {
+        if (view == WorkSection.project.key) {
           ref
               .read(workProjectFilterControllerProvider.notifier)
               .init(
@@ -58,7 +58,7 @@ class WorkScreen extends HookConsumerWidget {
                 clients: clients,
                 categories: categories,
               );
-        } else if (view == WorkSegment.issue.key) {
+        } else if (view == WorkSection.issue.key) {
           ref
               .read(workIssueFilterControllerProvider.notifier)
               .init(

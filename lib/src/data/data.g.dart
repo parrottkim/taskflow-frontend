@@ -48,6 +48,98 @@ Map<String, dynamic> _$CurrencyToJson(_Currency instance) => <String, dynamic>{
   'symbol': instance.symbol,
 };
 
+_DashboardSearchItem _$DashboardSearchItemFromJson(Map<String, dynamic> json) =>
+    _DashboardSearchItem(
+      type: $enumDecode(_$DashboardSearchItemTypeEnumMap, json['type']),
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String,
+      subtitle: json['subtitle'] as String?,
+      projectId: (json['projectId'] as num?)?.toInt(),
+      projectCode: json['projectCode'] as String?,
+      projectName: json['projectName'] as String?,
+      folderId: (json['folderId'] as num?)?.toInt(),
+      folderName: json['folderName'] as String?,
+      categoryId: (json['categoryId'] as num?)?.toInt(),
+      categoryName: json['categoryName'] as String?,
+      categoryType: json['categoryType'] as String?,
+      start: json['start'] == null
+          ? null
+          : DateTime.parse(json['start'] as String),
+      end: json['end'] == null ? null : DateTime.parse(json['end'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$DashboardSearchItemToJson(
+  _DashboardSearchItem instance,
+) => <String, dynamic>{
+  'type': _$DashboardSearchItemTypeEnumMap[instance.type]!,
+  'id': instance.id,
+  'title': instance.title,
+  'subtitle': instance.subtitle,
+  'projectId': instance.projectId,
+  'projectCode': instance.projectCode,
+  'projectName': instance.projectName,
+  'folderId': instance.folderId,
+  'folderName': instance.folderName,
+  'categoryId': instance.categoryId,
+  'categoryName': instance.categoryName,
+  'categoryType': instance.categoryType,
+  'start': instance.start?.toIso8601String(),
+  'end': instance.end?.toIso8601String(),
+  'updatedAt': instance.updatedAt.toIso8601String(),
+};
+
+const _$DashboardSearchItemTypeEnumMap = {
+  DashboardSearchItemType.project: 'project',
+  DashboardSearchItemType.document: 'document',
+  DashboardSearchItemType.schedule: 'schedule',
+  DashboardSearchItemType.issue: 'issue',
+  DashboardSearchItemType.report: 'report',
+};
+
+_DashboardSearchGroup _$DashboardSearchGroupFromJson(
+  Map<String, dynamic> json,
+) => _DashboardSearchGroup(
+  items:
+      (json['items'] as List<dynamic>?)
+          ?.map((e) => DashboardSearchItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  total: (json['total'] as num?)?.toInt() ?? 0,
+);
+
+Map<String, dynamic> _$DashboardSearchGroupToJson(
+  _DashboardSearchGroup instance,
+) => <String, dynamic>{'items': instance.items, 'total': instance.total};
+
+_DashboardSearchResult _$DashboardSearchResultFromJson(
+  Map<String, dynamic> json,
+) => _DashboardSearchResult(
+  projects: DashboardSearchGroup.fromJson(
+    json['projects'] as Map<String, dynamic>,
+  ),
+  documents: DashboardSearchGroup.fromJson(
+    json['documents'] as Map<String, dynamic>,
+  ),
+  schedules: DashboardSearchGroup.fromJson(
+    json['schedules'] as Map<String, dynamic>,
+  ),
+  issues: DashboardSearchGroup.fromJson(json['issues'] as Map<String, dynamic>),
+  reports: DashboardSearchGroup.fromJson(
+    json['reports'] as Map<String, dynamic>,
+  ),
+);
+
+Map<String, dynamic> _$DashboardSearchResultToJson(
+  _DashboardSearchResult instance,
+) => <String, dynamic>{
+  'projects': instance.projects,
+  'documents': instance.documents,
+  'schedules': instance.schedules,
+  'issues': instance.issues,
+  'reports': instance.reports,
+};
+
 _DocumentListItem _$DocumentListItemFromJson(Map<String, dynamic> json) =>
     _DocumentListItem(
       id: (json['id'] as num).toInt(),
@@ -155,6 +247,205 @@ Map<String, dynamic> _$DocumentAttachmentToJson(_DocumentAttachment instance) =>
       'path': instance.path,
       'createdAt': instance.createdAt.toIso8601String(),
     };
+
+_Draft _$DraftFromJson(Map<String, dynamic> json) => _Draft(
+  id: json['id'] as String,
+  userId: (json['userId'] as num).toInt(),
+  type: $enumDecode(_$DraftFormTypeEnumMap, json['type']),
+  mode: $enumDecode(_$DraftModeEnumMap, json['mode']),
+  version: (json['version'] as num).toInt(),
+  context: json['context'] as Map<String, dynamic>,
+  payload: json['payload'] as Map<String, dynamic>,
+  status:
+      $enumDecodeNullable(_$DraftSyncStatusEnumMap, json['status']) ??
+      DraftSyncStatus.pending,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  entityId: (json['entityId'] as num?)?.toInt(),
+  revision: (json['revision'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$DraftToJson(_Draft instance) => <String, dynamic>{
+  'id': instance.id,
+  'userId': instance.userId,
+  'type': _$DraftFormTypeEnumMap[instance.type]!,
+  'mode': _$DraftModeEnumMap[instance.mode]!,
+  'version': instance.version,
+  'context': instance.context,
+  'payload': instance.payload,
+  'status': _$DraftSyncStatusEnumMap[instance.status]!,
+  'createdAt': instance.createdAt.toIso8601String(),
+  'updatedAt': instance.updatedAt.toIso8601String(),
+  'entityId': instance.entityId,
+  'revision': instance.revision,
+};
+
+const _$DraftFormTypeEnumMap = {
+  DraftFormType.report: 'report',
+  DraftFormType.issue: 'issue',
+  DraftFormType.procurementIssue: 'procurementIssue',
+  DraftFormType.document: 'document',
+};
+
+const _$DraftModeEnumMap = {DraftMode.create: 'create', DraftMode.edit: 'edit'};
+
+const _$DraftSyncStatusEnumMap = {
+  DraftSyncStatus.pending: 'pending',
+  DraftSyncStatus.syncing: 'syncing',
+  DraftSyncStatus.synced: 'synced',
+  DraftSyncStatus.failed: 'failed',
+};
+
+_DraftAsset _$DraftAssetFromJson(Map<String, dynamic> json) => _DraftAsset(
+  id: json['id'] as String,
+  draftId: json['draftId'] as String,
+  bytes: const BufferConverter().fromJson(
+    json['bytes'] as Map<String, dynamic>,
+  ),
+  mime: json['mime'] as String,
+  type: $enumDecode(_$DraftAssetTypeEnumMap, json['type']),
+  status:
+      $enumDecodeNullable(_$DraftAssetUploadStatusEnumMap, json['status']) ??
+      DraftAssetUploadStatus.pending,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  fileName: json['fileName'] as String?,
+  remoteUrl: json['remoteUrl'] as String?,
+);
+
+Map<String, dynamic> _$DraftAssetToJson(_DraftAsset instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'draftId': instance.draftId,
+      'bytes': const BufferConverter().toJson(instance.bytes),
+      'mime': instance.mime,
+      'type': _$DraftAssetTypeEnumMap[instance.type]!,
+      'status': _$DraftAssetUploadStatusEnumMap[instance.status]!,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'fileName': instance.fileName,
+      'remoteUrl': instance.remoteUrl,
+    };
+
+const _$DraftAssetTypeEnumMap = {
+  DraftAssetType.inlineImage: 'inlineImage',
+  DraftAssetType.attachment: 'attachment',
+};
+
+const _$DraftAssetUploadStatusEnumMap = {
+  DraftAssetUploadStatus.pending: 'pending',
+  DraftAssetUploadStatus.uploading: 'uploading',
+  DraftAssetUploadStatus.uploaded: 'uploaded',
+  DraftAssetUploadStatus.failed: 'failed',
+};
+
+_IssueDraftPayload _$IssueDraftPayloadFromJson(
+  Map<String, dynamic> json,
+) => _IssueDraftPayload(
+  category: IssueCategory.fromJson(json['category'] as Map<String, dynamic>),
+  content: json['content'] as String?,
+  currency: json['currency'] == null
+      ? null
+      : Currency.fromJson(json['currency'] as Map<String, dynamic>),
+  kickoffDate: json['kickoffDate'] == null
+      ? null
+      : DateTime.parse(json['kickoffDate'] as String),
+  contractItems:
+      (json['contractItems'] as List<dynamic>?)
+          ?.map((e) => ContractIssueItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  transactionItems:
+      (json['transactionItems'] as List<dynamic>?)
+          ?.map((e) => TransactionIssueItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  procurementItems:
+      (json['procurementItems'] as List<dynamic>?)
+          ?.map((e) => ProcurementIssueItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+);
+
+Map<String, dynamic> _$IssueDraftPayloadToJson(_IssueDraftPayload instance) =>
+    <String, dynamic>{
+      'category': instance.category,
+      'content': instance.content,
+      'currency': instance.currency,
+      'kickoffDate': instance.kickoffDate?.toIso8601String(),
+      'contractItems': instance.contractItems,
+      'transactionItems': instance.transactionItems,
+      'procurementItems': instance.procurementItems,
+    };
+
+_ReportDraftPayload _$ReportDraftPayloadFromJson(Map<String, dynamic> json) =>
+    _ReportDraftPayload(
+      trip: TripReport.fromJson(json['trip'] as Map<String, dynamic>),
+      content: json['content'] as String?,
+      schedule: json['schedule'] == null
+          ? null
+          : Schedule.fromJson(json['schedule'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ReportDraftPayloadToJson(_ReportDraftPayload instance) =>
+    <String, dynamic>{
+      'trip': instance.trip,
+      'content': instance.content,
+      'schedule': instance.schedule,
+    };
+
+_DocumentDraftPayload _$DocumentDraftPayloadFromJson(
+  Map<String, dynamic> json,
+) => _DocumentDraftPayload(
+  folderId: (json['folderId'] as num?)?.toInt(),
+  title: json['title'] as String?,
+  content: json['content'] as String?,
+  fixed: json['fixed'] as bool? ?? false,
+);
+
+Map<String, dynamic> _$DocumentDraftPayloadToJson(
+  _DocumentDraftPayload instance,
+) => <String, dynamic>{
+  'folderId': instance.folderId,
+  'title': instance.title,
+  'content': instance.content,
+  'fixed': instance.fixed,
+};
+
+_KoreanHoliday _$KoreanHolidayFromJson(Map<String, dynamic> json) =>
+    _KoreanHoliday(
+      date: DateTime.parse(json['date'] as String),
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$KoreanHolidayToJson(_KoreanHoliday instance) =>
+    <String, dynamic>{
+      'date': instance.date.toIso8601String(),
+      'name': instance.name,
+    };
+
+_ScheduleHoliday _$ScheduleHolidayFromJson(Map<String, dynamic> json) =>
+    _ScheduleHoliday(
+      id: (json['id'] as num?)?.toInt(),
+      type: json['type'] as String,
+      date: DateTime.parse(json['date'] as String),
+      name: json['name'] as String?,
+      isTravelOnly: json['isTravelOnly'] as bool,
+      compensatoryLeaveDate: json['compensatoryLeaveDate'] == null
+          ? null
+          : DateTime.parse(json['compensatoryLeaveDate'] as String),
+    );
+
+Map<String, dynamic> _$ScheduleHolidayToJson(
+  _ScheduleHoliday instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'type': instance.type,
+  'date': instance.date.toIso8601String(),
+  'name': instance.name,
+  'isTravelOnly': instance.isTravelOnly,
+  'compensatoryLeaveDate': instance.compensatoryLeaveDate?.toIso8601String(),
+};
 
 _LatestIssue _$LatestIssueFromJson(Map<String, dynamic> json) => _LatestIssue(
   id: (json['id'] as num).toInt(),
@@ -857,7 +1148,7 @@ _ProjectSummary _$ProjectSummaryFromJson(Map<String, dynamic> json) =>
     _ProjectSummary(
       total: (json['total'] as num).toInt(),
       closed: (json['closed'] as num).toInt(),
-      kickedOff: (json['kickedOff'] as num).toInt(),
+      preexecuted: (json['preexecuted'] as num).toInt(),
       active: (json['active'] as num).toInt(),
     );
 
@@ -865,7 +1156,7 @@ Map<String, dynamic> _$ProjectSummaryToJson(_ProjectSummary instance) =>
     <String, dynamic>{
       'total': instance.total,
       'closed': instance.closed,
-      'kickedOff': instance.kickedOff,
+      'preexecuted': instance.preexecuted,
       'active': instance.active,
     };
 
@@ -926,10 +1217,15 @@ _LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) =>
     _LoginRequest(
       email: json['email'] as String,
       password: json['password'] as String,
+      persistLogin: json['persistLogin'] as bool?,
     );
 
 Map<String, dynamic> _$LoginRequestToJson(_LoginRequest instance) =>
-    <String, dynamic>{'email': instance.email, 'password': instance.password};
+    <String, dynamic>{
+      'email': instance.email,
+      'password': instance.password,
+      'persistLogin': instance.persistLogin,
+    };
 
 _RegisterRequest _$RegisterRequestFromJson(Map<String, dynamic> json) =>
     _RegisterRequest(
@@ -987,6 +1283,7 @@ _UpdateUserPermissionRequest _$UpdateUserPermissionRequestFromJson(
   isAdmin: json['isAdmin'] as bool?,
   isAuthorized: json['isAuthorized'] as bool?,
   isGuest: json['isGuest'] as bool?,
+  rankId: (json['rankId'] as num?)?.toInt(),
   positionId: (json['positionId'] as num?)?.toInt(),
   departmentId: (json['departmentId'] as num?)?.toInt(),
 );
@@ -997,6 +1294,7 @@ Map<String, dynamic> _$UpdateUserPermissionRequestToJson(
   'isAdmin': instance.isAdmin,
   'isAuthorized': instance.isAuthorized,
   'isGuest': instance.isGuest,
+  'rankId': instance.rankId,
   'positionId': instance.positionId,
   'departmentId': instance.departmentId,
 };
@@ -1574,6 +1872,11 @@ _UpsertScheduleRequest _$UpsertScheduleRequestFromJson(
   categoryId: (json['categoryId'] as num).toInt(),
   start: DateTime.parse(json['start'] as String),
   end: DateTime.parse(json['end'] as String),
+  holidays: (json['holidays'] as List<dynamic>?)
+      ?.map(
+        (e) => UpdateScheduleHolidayRequest.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
 );
 
 Map<String, dynamic> _$UpsertScheduleRequestToJson(
@@ -1586,6 +1889,25 @@ Map<String, dynamic> _$UpsertScheduleRequestToJson(
   'categoryId': instance.categoryId,
   'start': instance.start.toIso8601String(),
   'end': instance.end.toIso8601String(),
+  'holidays': instance.holidays,
+};
+
+_UpdateScheduleHolidayRequest _$UpdateScheduleHolidayRequestFromJson(
+  Map<String, dynamic> json,
+) => _UpdateScheduleHolidayRequest(
+  date: DateTime.parse(json['date'] as String),
+  isTravelOnly: json['isTravelOnly'] as bool,
+  compensatoryLeaveDate: json['compensatoryLeaveDate'] == null
+      ? null
+      : DateTime.parse(json['compensatoryLeaveDate'] as String),
+);
+
+Map<String, dynamic> _$UpdateScheduleHolidayRequestToJson(
+  _UpdateScheduleHolidayRequest instance,
+) => <String, dynamic>{
+  'date': instance.date.toIso8601String(),
+  'isTravelOnly': instance.isTravelOnly,
+  'compensatoryLeaveDate': instance.compensatoryLeaveDate?.toIso8601String(),
 };
 
 _CreateReportRequest _$CreateReportRequestFromJson(Map<String, dynamic> json) =>
@@ -1630,6 +1952,11 @@ _CreateTripReportRequest _$CreateTripReportRequestFromJson(
       ? null
       : CreateFuelExpenseRequest.fromJson(json['fuel'] as Map<String, dynamic>),
   isDeducted: json['isDeducted'] as bool?,
+  holidays: (json['holidays'] as List<dynamic>?)
+      ?.map(
+        (e) => UpdateScheduleHolidayRequest.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
 );
 
 Map<String, dynamic> _$CreateTripReportRequestToJson(
@@ -1639,6 +1966,7 @@ Map<String, dynamic> _$CreateTripReportRequestToJson(
   'rates': instance.rates,
   'fuel': instance.fuel,
   'isDeducted': instance.isDeducted,
+  'holidays': instance.holidays,
 };
 
 _CreateFuelExpenseRequest _$CreateFuelExpenseRequestFromJson(
@@ -1661,7 +1989,11 @@ _CreateActualExpenseRequest _$CreateActualExpenseRequestFromJson(
   Map<String, dynamic> json,
 ) => _CreateActualExpenseRequest(
   stepId: (json['stepId'] as num).toInt(),
+  currencyId: (json['currencyId'] as num?)?.toInt(),
   price: json['price'] as String,
+  paymentDate: json['paymentDate'] == null
+      ? null
+      : DateTime.parse(json['paymentDate'] as String),
   details: json['details'] as String?,
 );
 
@@ -1669,7 +2001,9 @@ Map<String, dynamic> _$CreateActualExpenseRequestToJson(
   _CreateActualExpenseRequest instance,
 ) => <String, dynamic>{
   'stepId': instance.stepId,
+  'currencyId': instance.currencyId,
   'price': instance.price,
+  'paymentDate': instance.paymentDate?.toIso8601String(),
   'details': instance.details,
 };
 
@@ -1733,6 +2067,11 @@ _UpdateTripReportRequest _$UpdateTripReportRequestFromJson(
       ? null
       : UpdateFuelExpenseRequest.fromJson(json['fuel'] as Map<String, dynamic>),
   isDeducted: json['isDeducted'] as bool?,
+  holidays: (json['holidays'] as List<dynamic>?)
+      ?.map(
+        (e) => UpdateScheduleHolidayRequest.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
 );
 
 Map<String, dynamic> _$UpdateTripReportRequestToJson(
@@ -1742,6 +2081,7 @@ Map<String, dynamic> _$UpdateTripReportRequestToJson(
   'rates': instance.rates,
   'fuel': instance.fuel,
   'isDeducted': instance.isDeducted,
+  'holidays': instance.holidays,
 };
 
 _UpdateFuelExpenseRequest _$UpdateFuelExpenseRequestFromJson(
@@ -1767,7 +2107,11 @@ _UpdateActualExpenseRequest _$UpdateActualExpenseRequestFromJson(
 ) => _UpdateActualExpenseRequest(
   id: (json['id'] as num?)?.toInt(),
   stepId: (json['stepId'] as num).toInt(),
+  currencyId: (json['currencyId'] as num?)?.toInt(),
   price: json['price'] as String,
+  paymentDate: json['paymentDate'] == null
+      ? null
+      : DateTime.parse(json['paymentDate'] as String),
   details: json['details'] as String?,
 );
 
@@ -1776,7 +2120,9 @@ Map<String, dynamic> _$UpdateActualExpenseRequestToJson(
 ) => <String, dynamic>{
   'id': instance.id,
   'stepId': instance.stepId,
+  'currencyId': instance.currencyId,
   'price': instance.price,
+  'paymentDate': instance.paymentDate?.toIso8601String(),
   'details': instance.details,
 };
 
@@ -1974,7 +2320,13 @@ _Schedule _$ScheduleFromJson(Map<String, dynamic> json) => _Schedule(
   projectClientName: json['projectClientName'] as String,
   eventId: json['eventId'] as String,
   category: ScheduleCategory.fromJson(json['category'] as Map<String, dynamic>),
+  reportId: (json['reportId'] as num?)?.toInt(),
   user: User.fromJson(json['user'] as Map<String, dynamic>),
+  holidays:
+      (json['holidays'] as List<dynamic>?)
+          ?.map((e) => ScheduleHoliday.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
   summary: json['summary'] as String? ?? '',
   description: json['description'] as String?,
   url: json['url'] as String? ?? '',
@@ -1991,7 +2343,9 @@ Map<String, dynamic> _$ScheduleToJson(_Schedule instance) => <String, dynamic>{
   'projectClientName': instance.projectClientName,
   'eventId': instance.eventId,
   'category': instance.category,
+  'reportId': instance.reportId,
   'user': instance.user,
+  'holidays': instance.holidays,
   'summary': instance.summary,
   'description': instance.description,
   'url': instance.url,
@@ -2088,14 +2442,11 @@ Map<String, dynamic> _$SupplierLogoToJson(_SupplierLogo instance) =>
       'url': instance.url,
     };
 
-_Token _$TokenFromJson(Map<String, dynamic> json) => _Token(
-  accessToken: json['accessToken'] as String,
-  refreshToken: json['refreshToken'] as String,
-);
+_Token _$TokenFromJson(Map<String, dynamic> json) =>
+    _Token(accessToken: json['accessToken'] as String);
 
 Map<String, dynamic> _$TokenToJson(_Token instance) => <String, dynamic>{
   'accessToken': instance.accessToken,
-  'refreshToken': instance.refreshToken,
 };
 
 _Report _$ReportFromJson(Map<String, dynamic> json) => _Report(
@@ -2196,6 +2547,7 @@ _TripStep _$TripStepFromJson(Map<String, dynamic> json) => _TripStep(
   categoryId: (json['categoryId'] as num).toInt(),
   name: json['name'] as String,
   description: json['description'] as String?,
+  requiresExpenseCurrency: json['requiresExpenseCurrency'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$TripStepToJson(_TripStep instance) => <String, dynamic>{
@@ -2203,13 +2555,23 @@ Map<String, dynamic> _$TripStepToJson(_TripStep instance) => <String, dynamic>{
   'categoryId': instance.categoryId,
   'name': instance.name,
   'description': instance.description,
+  'requiresExpenseCurrency': instance.requiresExpenseCurrency,
 };
 
 _TripActualExpense _$TripActualExpenseFromJson(Map<String, dynamic> json) =>
     _TripActualExpense(
       id: (json['id'] as num?)?.toInt(),
       stepId: (json['stepId'] as num).toInt(),
+      currencyId: (json['currencyId'] as num?)?.toInt(),
       price: json['price'] as String?,
+      paymentDate: json['paymentDate'] == null
+          ? null
+          : DateTime.parse(json['paymentDate'] as String),
+      exchangeRate: (json['exchangeRate'] as num?)?.toDouble(),
+      exchangeRateAppliedDate: json['exchangeRateAppliedDate'] == null
+          ? null
+          : DateTime.parse(json['exchangeRateAppliedDate'] as String),
+      convertedPrice: (json['convertedPrice'] as num?)?.toDouble(),
       details: json['details'] as String?,
     );
 
@@ -2217,9 +2579,78 @@ Map<String, dynamic> _$TripActualExpenseToJson(_TripActualExpense instance) =>
     <String, dynamic>{
       'id': instance.id,
       'stepId': instance.stepId,
+      'currencyId': instance.currencyId,
       'price': instance.price,
+      'paymentDate': instance.paymentDate?.toIso8601String(),
+      'exchangeRate': instance.exchangeRate,
+      'exchangeRateAppliedDate': instance.exchangeRateAppliedDate
+          ?.toIso8601String(),
+      'convertedPrice': instance.convertedPrice,
       'details': instance.details,
     };
+
+_DailyAllowancePreview _$DailyAllowancePreviewFromJson(
+  Map<String, dynamic> json,
+) => _DailyAllowancePreview(
+  totalTripDays: (json['totalTripDays'] as num).toInt(),
+  domestic: json['domestic'] == null
+      ? null
+      : DomesticHolidayDays.fromJson(json['domestic'] as Map<String, dynamic>),
+  overseas: json['overseas'] == null
+      ? null
+      : OverseasSpecialAllowance.fromJson(
+          json['overseas'] as Map<String, dynamic>,
+        ),
+  dailyRate: (json['dailyRate'] as num).toDouble(),
+  dailyAmount: (json['dailyAmount'] as num).toDouble(),
+  deductionRate: (json['deductionRate'] as num).toDouble(),
+  exchangeRate: (json['exchangeRate'] as num).toDouble(),
+  totalAmount: (json['totalAmount'] as num).toDouble(),
+  currencyCode: json['currencyCode'] as String,
+);
+
+Map<String, dynamic> _$DailyAllowancePreviewToJson(
+  _DailyAllowancePreview instance,
+) => <String, dynamic>{
+  'totalTripDays': instance.totalTripDays,
+  'domestic': instance.domestic,
+  'overseas': instance.overseas,
+  'dailyRate': instance.dailyRate,
+  'dailyAmount': instance.dailyAmount,
+  'deductionRate': instance.deductionRate,
+  'exchangeRate': instance.exchangeRate,
+  'totalAmount': instance.totalAmount,
+  'currencyCode': instance.currencyCode,
+};
+
+_DomesticHolidayDays _$DomesticHolidayDaysFromJson(Map<String, dynamic> json) =>
+    _DomesticHolidayDays(
+      workDays: (json['workDays'] as num).toInt(),
+      travelDays: (json['travelDays'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$DomesticHolidayDaysToJson(
+  _DomesticHolidayDays instance,
+) => <String, dynamic>{
+  'workDays': instance.workDays,
+  'travelDays': instance.travelDays,
+};
+
+_OverseasSpecialAllowance _$OverseasSpecialAllowanceFromJson(
+  Map<String, dynamic> json,
+) => _OverseasSpecialAllowance(
+  days: (json['days'] as num).toInt(),
+  rate: (json['rate'] as num).toDouble(),
+  amount: (json['amount'] as num).toDouble(),
+);
+
+Map<String, dynamic> _$OverseasSpecialAllowanceToJson(
+  _OverseasSpecialAllowance instance,
+) => <String, dynamic>{
+  'days': instance.days,
+  'rate': instance.rate,
+  'amount': instance.amount,
+};
 
 _TripRegulationRate _$TripRegulationRateFromJson(Map<String, dynamic> json) =>
     _TripRegulationRate(
@@ -2274,7 +2705,7 @@ _TripCalculations _$TripCalculationsFromJson(Map<String, dynamic> json) =>
       totalCost: (json['totalCost'] as num).toInt(),
       taxableAmount: (json['taxableAmount'] as num?)?.toInt(),
       nonTaxableAmount: (json['nonTaxableAmount'] as num?)?.toInt(),
-      exchangeRate: (json['exchangeRate'] as num?)?.toInt(),
+      exchangeRate: (json['exchangeRate'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$TripCalculationsToJson(_TripCalculations instance) =>
@@ -2291,6 +2722,9 @@ _User _$UserFromJson(Map<String, dynamic> json) => _User(
   username: json['username'] as String,
   isAdmin: json['isAdmin'] as bool? ?? false,
   isAuthorized: json['isAuthorized'] as bool? ?? false,
+  rank: json['rank'] == null
+      ? null
+      : UserRank.fromJson(json['rank'] as Map<String, dynamic>),
   position: json['position'] == null
       ? null
       : UserPosition.fromJson(json['position'] as Map<String, dynamic>),
@@ -2305,8 +2739,17 @@ Map<String, dynamic> _$UserToJson(_User instance) => <String, dynamic>{
   'username': instance.username,
   'isAdmin': instance.isAdmin,
   'isAuthorized': instance.isAuthorized,
+  'rank': instance.rank,
   'position': instance.position,
   'department': instance.department,
+};
+
+_UserRank _$UserRankFromJson(Map<String, dynamic> json) =>
+    _UserRank(id: (json['id'] as num).toInt(), name: json['name'] as String);
+
+Map<String, dynamic> _$UserRankToJson(_UserRank instance) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
 };
 
 _UserPosition _$UserPositionFromJson(Map<String, dynamic> json) =>
@@ -2523,6 +2966,25 @@ class _AuthService implements AuthService {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<void> logout() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'auth/logout',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
   }
 
   @override
@@ -2969,6 +3431,39 @@ class _DashboardService implements DashboardService {
     return _value;
   }
 
+  @override
+  Future<DashboardSearchResult> search({
+    required String search,
+    int limit = 5,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'search': search,
+      r'limit': limit,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<DashboardSearchResult>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'dashboard/search',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DashboardSearchResult _value;
+    try {
+      _value = DashboardSearchResult.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
@@ -3070,6 +3565,118 @@ class _DocumentFolderService implements DocumentFolderService {
       rethrow;
     }
     return _value;
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
+
+  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
+  }
+}
+
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+
+class _DraftService implements DraftService {
+  _DraftService(this._dio, {this.baseUrl, this.errorLogger});
+
+  final Dio _dio;
+
+  String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<Draft?> getDraft({required String id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Draft?>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drafts/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
+    late Draft? _value;
+    try {
+      _value = _result.data == null ? null : Draft.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Draft> saveDraft({required String id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<Draft>(
+      Options(method: 'PUT', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drafts/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Draft _value;
+    try {
+      _value = Draft.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<void> deleteDraft({required String id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drafts/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -3371,6 +3978,81 @@ class _DocumentService implements DocumentService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     await _dio.fetch<void>(_options);
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+    if (T != dynamic &&
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
+      if (T == String) {
+        requestOptions.responseType = ResponseType.plain;
+      } else {
+        requestOptions.responseType = ResponseType.json;
+      }
+    }
+    return requestOptions;
+  }
+
+  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
+  }
+}
+
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+
+class _HolidayService implements HolidayService {
+  _HolidayService(this._dio, {this.baseUrl, this.errorLogger});
+
+  final Dio _dio;
+
+  String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
+
+  @override
+  Future<List<KoreanHoliday>> getDaysOffBetween({
+    DateTime? start,
+    DateTime? end,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'start': start?.toIso8601String(),
+      r'end': end?.toIso8601String(),
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<KoreanHoliday>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'holiday/days-off',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<KoreanHoliday> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => KoreanHoliday.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
@@ -5651,6 +6333,36 @@ class _ReportService implements ReportService {
   }
 
   @override
+  Future<DailyAllowancePreview> previewDailyAllowance({
+    required Map<String, dynamic> request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request);
+    final _options = _setStreamType<DailyAllowancePreview>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'report/trip/daily-allowance/preview',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DailyAllowancePreview _value;
+    try {
+      _value = DailyAllowancePreview.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<HttpResponse<List<int>>> exportTrip({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -5998,6 +6710,35 @@ class _UserService implements UserService {
             (dynamic i) =>
                 UserDepartmentGroup.fromJson(i as Map<String, dynamic>),
           )
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<UserRank>> getAllRanks() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<UserRank>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'user/rank',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<UserRank> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => UserRank.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -6716,6 +7457,48 @@ final class DocumentFolderRepositoryProvider
 String _$documentFolderRepositoryHash() =>
     r'acb0f33ab6acea08b14d2ae16df1e47a2bbe563d';
 
+@ProviderFor(draftRepository)
+final draftRepositoryProvider = DraftRepositoryProvider._();
+
+final class DraftRepositoryProvider
+    extends
+        $FunctionalProvider<DraftRepository, DraftRepository, DraftRepository>
+    with $Provider<DraftRepository> {
+  DraftRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'draftRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$draftRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<DraftRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  DraftRepository create(Ref ref) {
+    return draftRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(DraftRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<DraftRepository>(value),
+    );
+  }
+}
+
+String _$draftRepositoryHash() => r'1d909e7dfe293a3225761f18ac481850f458dcff';
+
 @ProviderFor(documentRepository)
 final documentRepositoryProvider = DocumentRepositoryProvider._();
 
@@ -6763,6 +7546,53 @@ final class DocumentRepositoryProvider
 
 String _$documentRepositoryHash() =>
     r'df1efbbdba883c322c7fec9c7e3dd296be8fcbb5';
+
+@ProviderFor(holidayRepository)
+final holidayRepositoryProvider = HolidayRepositoryProvider._();
+
+final class HolidayRepositoryProvider
+    extends
+        $FunctionalProvider<
+          HolidayRepository,
+          HolidayRepository,
+          HolidayRepository
+        >
+    with $Provider<HolidayRepository> {
+  HolidayRepositoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'holidayRepositoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$holidayRepositoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<HolidayRepository> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  HolidayRepository create(Ref ref) {
+    return holidayRepository(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(HolidayRepository value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<HolidayRepository>(value),
+    );
+  }
+}
+
+String _$holidayRepositoryHash() => r'17658906c1aaba3a4cc3263bd829aa1c08c3aa93';
 
 @ProviderFor(scheduleRepository)
 final scheduleRepositoryProvider = ScheduleRepositoryProvider._();
@@ -6894,7 +7724,7 @@ final class LocalRepositoryProvider
   }
 }
 
-String _$localRepositoryHash() => r'31a4ead89575ae1bd67ce2649f9b20387ae4b304';
+String _$localRepositoryHash() => r'222ecf20565efb763e24bff15a0cc534157afc67';
 
 @ProviderFor(projectClientRepository)
 final projectClientRepositoryProvider = ProjectClientRepositoryProvider._();

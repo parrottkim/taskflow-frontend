@@ -24,8 +24,8 @@ class SupplierListController extends _$SupplierListController {
 
   Future<void> load() async {
     final filter = ref.watch(supplierFilterControllerProvider(scope));
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
@@ -43,8 +43,8 @@ class SupplierListController extends _$SupplierListController {
   }
 
   Future<void> addListItem({required Supplier item}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedSuppliers = [item, ...value.items];
 
@@ -52,8 +52,8 @@ class SupplierListController extends _$SupplierListController {
   }
 
   Future<void> updateListItem({required Supplier item}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedSuppliers = value.items.map((issue) {
       return issue.id == item.id ? item : issue;
@@ -63,8 +63,8 @@ class SupplierListController extends _$SupplierListController {
   }
 
   Future<void> removeListItem({required int id}) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final updatedSuppliers = value.items
         .where((project) => project.id != id)

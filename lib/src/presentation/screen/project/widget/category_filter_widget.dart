@@ -16,13 +16,13 @@ class CategoryFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final options = ref.watch(projectOptionsControllerProvider);
+    final options = ref.watch(projectOptionsProvider);
 
     return switch (options) {
       AsyncData(value: final options) => _DesktopWidget(
         items: options.categoryItems,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),

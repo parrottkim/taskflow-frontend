@@ -7,75 +7,44 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_scope.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ContractFormItem extends ConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final Currency? currency;
   final List<ContractIssueItem> contractItems;
   final List<TransactionIssueItem> transactionItems;
-  final ValueNotifier<bool> hasContractIssueItems;
-  final ValueNotifier<bool> isContractIssueItemEmpty;
-  final ValueNotifier<bool> hasTransactionIssueItems;
-  final ValueNotifier<bool> isTransactionIssueItemEmpty;
-  final ValueNotifier<bool> isRatioInvalid;
 
   const ContractFormItem({
     super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
     this.currency,
     required this.contractItems,
     required this.transactionItems,
-    required this.hasContractIssueItems,
-    required this.isContractIssueItemEmpty,
-    required this.hasTransactionIssueItems,
-    required this.isTransactionIssueItemEmpty,
-    required this.isRatioInvalid,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filter = ref.watch(issueOptionsControllerProvider);
+    final filter = ref.watch(issueOptionsProvider);
 
     return switch (filter) {
       AsyncData(:final value) => _DesktopWidget(
-        projectId: projectId,
-        categoryId: categoryId,
-        issueId: issueId,
         currency: currency,
         currencies: value.currencies,
         contractItems: contractItems,
         transactionItems: transactionItems,
-        hasContractIssueItems: hasContractIssueItems,
-        isContractIssueItemEmpty: isContractIssueItemEmpty,
-        hasTransactionIssueItems: hasTransactionIssueItems,
-        isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
-        isRatioInvalid: isRatioInvalid,
         categories: value.transactionCategories,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),
       _ => Skeletonizer(
         child: _DesktopWidget(
-          projectId: projectId,
-          categoryId: categoryId,
-          issueId: issueId,
           currency: Currency.empty(),
           currencies: [],
           contractItems: [],
           transactionItems: [],
-          hasContractIssueItems: hasContractIssueItems,
-          isContractIssueItemEmpty: isContractIssueItemEmpty,
-          hasTransactionIssueItems: hasTransactionIssueItems,
-          isTransactionIssueItemEmpty: isTransactionIssueItemEmpty,
-          isRatioInvalid: isRatioInvalid,
           categories: [],
         ),
       ),
@@ -84,38 +53,30 @@ class ContractFormItem extends ConsumerWidget {
 }
 
 class _DesktopWidget extends HookConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final Currency? currency;
   final List<Currency> currencies;
   final List<ContractIssueItem> contractItems;
   final List<TransactionIssueItem> transactionItems;
-  final ValueNotifier<bool> hasContractIssueItems;
-  final ValueNotifier<bool> isContractIssueItemEmpty;
-  final ValueNotifier<bool> hasTransactionIssueItems;
-  final ValueNotifier<bool> isTransactionIssueItemEmpty;
-  final ValueNotifier<bool> isRatioInvalid;
   final List<TransactionIssueItemCategory> categories;
 
   const _DesktopWidget({
     this.currency,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
     required this.currencies,
     required this.contractItems,
     required this.transactionItems,
-    required this.hasContractIssueItems,
-    required this.isContractIssueItemEmpty,
-    required this.hasTransactionIssueItems,
-    required this.isTransactionIssueItemEmpty,
-    required this.isRatioInvalid,
     required this.categories,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scope = IssueFormScope.of(context);
+    final projectId = scope.projectId;
+    final categoryId = scope.categoryId;
+    final issueId = scope.issueId;
+    final validation = ref.watch(issueValidationControllerProvider);
+    final validationController = ref.read(
+      issueValidationControllerProvider.notifier,
+    );
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -246,8 +207,7 @@ class _DesktopWidget extends HookConsumerWidget {
           SizedBox(height: 8.0),
           TextButton.icon(
             onPressed: () {
-              hasContractIssueItems.value = false;
-              isContractIssueItemEmpty.value = false;
+              validationController.clearContract();
 
               ref
                   .read(
@@ -330,15 +290,15 @@ class _DesktopWidget extends HookConsumerWidget {
                         showBottomBorder: true,
                         border: TableBorder(
                           verticalInside: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                           horizontalInside: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                           bottom: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                         ),
@@ -353,9 +313,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.text_fields_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -363,9 +321,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_contract_3'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -382,9 +338,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.numbers_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -392,9 +346,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_contract_4'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -444,7 +396,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       ),
                                     ),
                                     onChanged: (value) {
-                                      isContractIssueItemEmpty.value = false;
+                                      validationController.clearContract();
 
                                       ref
                                           .read(
@@ -459,9 +411,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                             item: value,
                                           );
                                     },
-                                    onSubmitted: (_) => FocusScope.of(
-                                      context,
-                                    ).requestFocus(contractPriceFocuses[index]),
+                                    onSubmitted: (_) =>
+                                        contractPriceFocuses[index]
+                                            .requestFocus(),
                                   ),
                                 ),
                               ),
@@ -516,8 +468,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                                 selectedCurrency.value.symbol,
                                           ),
                                           onChanged: (value) {
-                                            isContractIssueItemEmpty.value =
-                                                false;
+                                            validationController
+                                                .clearContract();
 
                                             ref
                                                 .read(
@@ -540,9 +492,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                       child: ElevatedIconButton(
                                         onTap: () async {
                                           if (contractItems.length == 1) {
-                                            hasContractIssueItems.value = false;
-                                            isContractIssueItemEmpty.value =
-                                                false;
+                                            validationController
+                                                .clearContract();
 
                                             await contractOpacityController
                                                 .reverse();
@@ -585,7 +536,7 @@ class _DesktopWidget extends HookConsumerWidget {
                         decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: colorScheme.outline.withValues(alpha: 0.2),
+                              color: colorScheme.outline.subtle,
                               width: 1.0,
                             ),
                           ),
@@ -613,12 +564,12 @@ class _DesktopWidget extends HookConsumerWidget {
                 ),
               ),
             ),
-          InvalidWidget(
-            visible: hasContractIssueItems.value,
+          ValidationErrorMessage(
+            visible: validation.contractItemsMissing,
             text: Intl.message('issue_form_contract_item_invalid_1'),
           ),
-          InvalidWidget(
-            visible: isContractIssueItemEmpty.value,
+          ValidationErrorMessage(
+            visible: validation.contractItemInvalid,
             text: Intl.message('issue_form_contract_item_invalid_2'),
           ),
           SizedBox(height: 24.0),
@@ -629,8 +580,7 @@ class _DesktopWidget extends HookConsumerWidget {
           SizedBox(height: 8.0),
           TextButton.icon(
             onPressed: () {
-              hasTransactionIssueItems.value = false;
-              isTransactionIssueItemEmpty.value = false;
+              validationController.clearTransaction();
 
               ref
                   .read(
@@ -668,15 +618,15 @@ class _DesktopWidget extends HookConsumerWidget {
                         showBottomBorder: true,
                         border: TableBorder(
                           verticalInside: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                           horizontalInside: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                           bottom: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
+                            color: colorScheme.outline.subtle,
                             width: 1.0,
                           ),
                         ),
@@ -691,9 +641,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.checkbook_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -701,9 +649,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_3'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -720,9 +666,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.pie_chart_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -730,9 +674,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_4'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -747,9 +689,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                 children: [
                                   Icon(
                                     Symbols.attach_money_rounded,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
+                                    color: colorScheme.onSurface.strong,
                                     size: 16.0,
                                   ),
                                   SizedBox(width: 4.0),
@@ -757,9 +697,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     Intl.message('issue_form_transaction_5'),
                                     style: textTheme.bodyMedium?.copyWith(
                                       fontWeight: FontWeight.w600,
-                                      color: colorScheme.onSurface.withValues(
-                                        alpha: 0.7,
-                                      ),
+                                      color: colorScheme.onSurface.strong,
                                     ),
                                   ),
                                 ],
@@ -794,11 +732,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                         onChanged: (value) {
                                           selectedCategories[index].value =
                                               value;
-                                          hasTransactionIssueItems.value =
-                                              false;
-                                          isTransactionIssueItemEmpty.value =
-                                              false;
-                                          isRatioInvalid.value = false;
+                                          validationController
+                                              .clearTransaction();
                                           ref
                                               .read(
                                                 issueFormControllerProvider(
@@ -815,11 +750,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                         onClear: () {
                                           selectedCategories[index].value =
                                               null;
-                                          hasTransactionIssueItems.value =
-                                              false;
-                                          isTransactionIssueItemEmpty.value =
-                                              false;
-                                          isRatioInvalid.value = false;
+                                          validationController
+                                              .clearTransaction();
                                           ref
                                               .read(
                                                 issueFormControllerProvider(
@@ -880,9 +812,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       suffixText: '%',
                                     ),
                                     onChanged: (value) {
-                                      hasTransactionIssueItems.value = false;
-                                      isTransactionIssueItemEmpty.value = false;
-                                      isRatioInvalid.value = false;
+                                      validationController.clearTransaction();
 
                                       try {
                                         final ratio =
@@ -961,11 +891,8 @@ class _DesktopWidget extends HookConsumerWidget {
                                       child: ElevatedIconButton(
                                         onTap: () async {
                                           if (transactionItems.length == 1) {
-                                            hasTransactionIssueItems.value =
-                                                false;
-                                            isTransactionIssueItemEmpty.value =
-                                                false;
-                                            isRatioInvalid.value = false;
+                                            validationController
+                                                .clearTransaction();
 
                                             await transactionOpacityController
                                                 .reverse();
@@ -1005,16 +932,16 @@ class _DesktopWidget extends HookConsumerWidget {
                 ),
               ),
             ),
-          InvalidWidget(
-            visible: hasTransactionIssueItems.value,
+          ValidationErrorMessage(
+            visible: validation.transactionItemsMissing,
             text: Intl.message('issue_form_transaction_item_invalid_1'),
           ),
-          InvalidWidget(
-            visible: isTransactionIssueItemEmpty.value,
+          ValidationErrorMessage(
+            visible: validation.transactionItemInvalid,
             text: Intl.message('issue_form_transaction_item_invalid_2'),
           ),
-          InvalidWidget(
-            visible: isRatioInvalid.value,
+          ValidationErrorMessage(
+            visible: validation.ratioInvalid,
             text: Intl.message('issue_form_transaction_item_invalid_3'),
           ),
         ],

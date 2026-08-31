@@ -9,15 +9,18 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     final auth = ref.read(authControllerProvider);
     final value = ref
         .read(scheduleFormControllerProvider(categoryId: categoryId))
-        .value;
-
-    if (value == null) return;
+        .requireValue;
     if (auth is! AuthAuthenticated) return;
 
     state = ScheduleSubmitState.pending();
 
     try {
       final clientUrl = ref.read(clientUrlProvider);
+      final holidays = await _buildHolidayRequests(
+        categoryId: categoryId,
+        start: value.start!,
+        end: value.end!,
+      );
 
       final request = UpsertScheduleRequest(
         summary: value.summary!,
@@ -27,6 +30,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
         categoryId: categoryId,
         start: value.start!,
         end: value.end!,
+        holidays: holidays,
       );
 
       final schedule = await ref
@@ -65,15 +69,19 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
             scheduleId: scheduleId,
           ),
         )
-        .value;
-
-    if (value == null) return;
+        .requireValue;
     if (auth is! AuthAuthenticated) return;
 
     state = ScheduleSubmitState.pending();
 
     try {
       final clientUrl = ref.read(clientUrlProvider);
+      final holidays = await _buildHolidayRequests(
+        categoryId: categoryId,
+        scheduleId: scheduleId,
+        start: value.start!,
+        end: value.end!,
+      );
 
       final request = UpsertScheduleRequest(
         summary: value.summary!,
@@ -83,6 +91,7 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
         categoryId: categoryId,
         start: value.start!,
         end: value.end!,
+        holidays: holidays,
       );
 
       final schedule = await ref
@@ -107,6 +116,71 @@ class ScheduleSubmitController extends _$ScheduleSubmitController {
     } catch (e) {
       state = ScheduleSubmitState.failure(e.toString());
     }
+  }
+
+  Future<List<UpdateScheduleHolidayRequest>?> _buildHolidayRequests({
+    required int categoryId,
+    required DateTime start,
+    required DateTime end,
+    int? scheduleId,
+  }) async {
+    if (categoryId != 1) return null;
+
+    final holidays = await ref.read(
+      scheduleHolidayFormControllerProvider(
+        categoryId: categoryId,
+        scheduleId: scheduleId,
+        start: start,
+        end: end,
+      ).future,
+    );
+
+    if (holidays.any(
+      (holiday) => _isInvalidScheduleCompensatoryLeaveDate(
+        holiday.compensatoryLeaveDate,
+        start,
+        end,
+      ),
+    )) {
+      throw StateError('schedule_form_invalid_5');
+    }
+
+    final compensatoryLeaveDates = holidays
+        .map((holiday) => holiday.compensatoryLeaveDate!)
+        .map((date) => DateTime(date.year, date.month, date.day))
+        .toList();
+    if (compensatoryLeaveDates.toSet().length !=
+        compensatoryLeaveDates.length) {
+      throw StateError('bad_request_compensatory_leave_date_duplicate');
+    }
+
+    return holidays
+        .map(
+          (holiday) => UpdateScheduleHolidayRequest(
+            date: holiday.date,
+            isTravelOnly: holiday.isTravelOnly,
+            compensatoryLeaveDate: holiday.compensatoryLeaveDate,
+          ),
+        )
+        .toList();
+  }
+
+  bool _isInvalidScheduleCompensatoryLeaveDate(
+    DateTime? date,
+    DateTime start,
+    DateTime end,
+  ) {
+    if (date == null) return true;
+
+    final now = DateTime.now();
+    final normalizedDate = DateTime(date.year, date.month, date.day);
+    final normalizedStart = DateTime(start.year, start.month, start.day);
+    final normalizedEnd = DateTime(end.year, end.month, end.day);
+    return normalizedDate.isBefore(DateTime(now.year, now.month, now.day)) ||
+        normalizedDate.weekday == DateTime.saturday ||
+        normalizedDate.weekday == DateTime.sunday ||
+        (!normalizedDate.isBefore(normalizedStart) &&
+            !normalizedDate.isAfter(normalizedEnd));
   }
 
   Future<void> deleteSchedule({required int scheduleId}) async {

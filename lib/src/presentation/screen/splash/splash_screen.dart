@@ -11,10 +11,7 @@ class SplashScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      Future.delayed(
-        Duration(milliseconds: 2000),
-        () => ref.read(authControllerProvider.notifier).init(),
-      );
+      Future.microtask(() => ref.read(authControllerProvider.notifier).init());
       return null;
     }, []);
 
@@ -22,7 +19,7 @@ class SplashScreen extends HookConsumerWidget {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Center(child: Logo()),
+          Center(child: AppLogo()),
           Padding(
             padding: const EdgeInsets.only(bottom: 32.0),
             child: SvgPicture.asset(

@@ -1,19 +1,8 @@
 part of '../controller.dart';
 
 @riverpod
-class NavigationSearchController extends _$NavigationSearchController {
-  @override
-  Future<NavigationSearchState> build() async {
-    return _init();
-  }
+Future<DashboardSearchResult> navigationSearch(Ref ref) async {
+  final filter = ref.watch(navigationFilterControllerProvider);
 
-  Future<NavigationSearchState> _init() async {
-    final filter = ref.watch(navigationFilterControllerProvider);
-
-    final result = await ref
-        .read(projectRepositoryProvider)
-        .getProjects(search: filter.search, limit: 5);
-
-    return NavigationSearchState(projects: result.items);
-  }
+  return ref.read(dashboardRepositoryProvider).search(search: filter.search);
 }

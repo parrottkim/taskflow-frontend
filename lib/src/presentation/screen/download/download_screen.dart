@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -24,7 +22,7 @@ class DownloadScreen extends ConsumerWidget {
     ) {
       final downloadState = state.value;
 
-      if (downloadState is DownloadSuccess) {
+      if (downloadState is DownloadSuccess && !_isIOSBrowser) {
         web.window.close();
       }
     });
@@ -34,14 +32,14 @@ class DownloadScreen extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Logo(),
+            AppLogo(),
             SizedBox(height: 24.0),
             Text(
               Intl.message('common_download_1'),
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 4.0),
-            Text(Intl.message('common_download_2')),
+            if (!_isIOSBrowser) Text(Intl.message('common_download_2')),
             Container(
               padding: EdgeInsets.symmetric(vertical: 24.0),
               constraints: BoxConstraints(maxWidth: 400.0),
@@ -62,5 +60,16 @@ class DownloadScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  bool get _isIOSBrowser {
+    final navigator = web.window.navigator;
+    final userAgent = navigator.userAgent.toLowerCase();
+    final platform = navigator.platform.toLowerCase();
+
+    return userAgent.contains('iphone') ||
+        userAgent.contains('ipad') ||
+        userAgent.contains('ipod') ||
+        (platform == 'macintel' && navigator.maxTouchPoints > 1);
   }
 }

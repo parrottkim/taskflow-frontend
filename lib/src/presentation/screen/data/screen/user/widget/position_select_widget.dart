@@ -26,10 +26,16 @@ class PositionSelectWidget extends ConsumerWidget {
         child: ElevatedDropdownButton<UserPosition>(
           isExpanded: true,
           showClose: false,
+          allowNull: true,
           items: items,
           value: user.position,
-          label: Text(Intl.message('data_user_column_3')),
+          label: Text(Intl.message('data_user_column_4')),
           itemBuilder: (value) => Text(value.name),
+          onClear: () async {
+            await ref
+                .read(userSubmitControllerProvider.notifier)
+                .updateUser(userId: user.id, positionId: null);
+          },
           onChanged: (value) async {
             await ref
                 .read(userSubmitControllerProvider.notifier)

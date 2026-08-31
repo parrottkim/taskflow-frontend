@@ -66,7 +66,7 @@ class ToolbarWidget extends HookConsumerWidget {
           ),
         ),
         const SizedBox(width: 8.0),
-        CustomIconButton(
+        AppIconButton(
           onTap: () async {
             final path = GoRouter.of(
               context,
@@ -101,7 +101,7 @@ class ToolbarWidget extends HookConsumerWidget {
           weight: 600.0,
           icon: const Icon(Symbols.share_rounded),
         ),
-        CustomIconButton(
+        AppIconButton(
           onTap: () async {
             showDialog(
               context: context,
@@ -121,7 +121,7 @@ class ToolbarWidget extends HookConsumerWidget {
         ),
         MenuAnchor(
           alignmentOffset: Offset(-140.0, 0.0),
-          builder: (context, controller, child) => CustomIconButton(
+          builder: (context, controller, child) => AppIconButton(
             onTap: () {
               if (controller.isOpen) {
                 controller.close();
@@ -223,7 +223,7 @@ class ToolbarWidget extends HookConsumerWidget {
                 '${item.updatedBy?.username ?? item.updatedBy?.username} ${Intl.message('common_edit_by')}',
                 style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: colorScheme.outline.withValues(alpha: 0.7),
+                  color: colorScheme.outline.strong,
                 ),
               ),
             ),
@@ -235,7 +235,7 @@ class ToolbarWidget extends HookConsumerWidget {
                     : '${formatRelativeDate(item.updatedAt)} ${Intl.message('common_updated_at')}',
                 style: textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: colorScheme.outline.withValues(alpha: 0.7),
+                  color: colorScheme.outline.strong,
                 ),
               ),
             ),

@@ -3,30 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
-import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_scope.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
 
 class AttachmentItemWidget extends HookConsumerWidget {
-  final int projectId;
-  final int categoryId;
-  final int? issueId;
   final IssueAttachment attachment;
 
-  const AttachmentItemWidget({
-    super.key,
-    required this.projectId,
-    required this.categoryId,
-    this.issueId,
-    required this.attachment,
-  });
+  const AttachmentItemWidget({super.key, required this.attachment});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final formController = IssueFormScope.of(context).controller(ref);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return ContainerWidget(
+    return ContentContainer(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       borderRadius: BorderRadius.circular(8.0),
       child: Row(
@@ -38,7 +30,7 @@ class AttachmentItemWidget extends HookConsumerWidget {
               Icon(
                 Symbols.draft_rounded,
                 size: 24.0,
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                color: colorScheme.onSurface.strong,
               ),
               Positioned(
                 bottom: 4.0,
@@ -46,7 +38,7 @@ class AttachmentItemWidget extends HookConsumerWidget {
                   width: 20.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(2.0),
-                    color: colorScheme.primary.withValues(alpha: 0.7),
+                    color: colorScheme.primary.strong,
                   ),
                   child: Text(
                     extension(attachment.filename).substring(1),
@@ -72,21 +64,13 @@ class AttachmentItemWidget extends HookConsumerWidget {
             formatBytes(attachment.size),
             style: textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w500,
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
+              color: colorScheme.onSurface.strong,
             ),
           ),
           SizedBox(width: 8.0),
-          CustomIconButton(
+          AppIconButton(
             onTap: () {
-              ref
-                  .read(
-                    issueFormControllerProvider(
-                      projectId: projectId,
-                      categoryId: categoryId,
-                      issueId: issueId,
-                    ).notifier,
-                  )
-                  .removeAttachment(attachment: attachment);
+              formController.removeAttachment(attachment: attachment);
             },
             icon: Icon(Symbols.delete_rounded, size: 20.0),
           ),

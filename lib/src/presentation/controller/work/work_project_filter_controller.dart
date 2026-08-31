@@ -22,9 +22,11 @@ class WorkProjectFilterController extends _$WorkProjectFilterController {
         .toList();
 
     final nextValue = value.copyWith(
-      status: status != null ? ProjectSegment.fromKey(status) : state.status,
-      sort: sort != null ? WorkProjectSort.formKey(sort) : null,
-      order: order != null ? Order.fromKey(order) : null,
+      status: status != null
+          ? ProjectStatusFilter.fromKey(status)
+          : state.status,
+      sort: sort != null ? WorkProjectSortOption.formKey(sort) : null,
+      order: order != null ? SortDirection.fromKey(order) : null,
       search: search,
       clients: nextClients == null || nextClients.isEmpty ? null : nextClients,
       categories: categories
@@ -39,15 +41,15 @@ class WorkProjectFilterController extends _$WorkProjectFilterController {
     state = nextValue;
   }
 
-  void setStaus({required ProjectSegment status}) {
+  void setStaus({required ProjectStatusFilter status}) {
     state = state.copyWith(status: status);
   }
 
-  void setSort({WorkProjectSort? sort}) {
+  void setSort({WorkProjectSortOption? sort}) {
     state = state.copyWith(sort: sort);
   }
 
-  void setOrder({Order? order}) {
+  void setOrder({SortDirection? order}) {
     state = state.copyWith(order: order);
   }
 

@@ -3,7 +3,7 @@ part of '../data.dart';
 class IssueDataSource implements IssueRepository {
   final IssueService _service;
 
-  IssueDataSource({required IssueService service}) : _service = service;
+  IssueDataSource({required this._service});
 
   // --- 공통 & 글로벌 마스터 (최상단 고정 주소 매핑) ---
   @override

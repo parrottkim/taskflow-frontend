@@ -13,6 +13,11 @@ abstract class ReportService {
   @GET('report/trip/regulations/{id}')
   Future<List<TripRegulation>> getAllTripRegulations({@Path() required int id});
 
+  @POST('report/trip/daily-allowance/preview')
+  Future<DailyAllowancePreview> previewDailyAllowance({
+    @Body() required Map<String, dynamic> request,
+  });
+
   @GET('report/trip/export/{id}')
   @DioResponseType(ResponseType.bytes)
   Future<HttpResponse<List<int>>> exportTrip({@Path() required int id});

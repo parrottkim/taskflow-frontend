@@ -30,9 +30,8 @@ class WorkProjectListController extends _$WorkProjectListController {
   Future<void> load() async {
     final filter = ref.watch(workProjectFilterControllerProvider);
 
-    final value = state.value;
-
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {

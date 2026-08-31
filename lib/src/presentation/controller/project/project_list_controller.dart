@@ -33,9 +33,8 @@ class ProjectListController extends _$ProjectListController {
   Future<void> load() async {
     final filter = ref.watch(projectFilterControllerProvider(scope));
 
-    final value = state.value;
-
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
@@ -65,8 +64,8 @@ class ProjectListController extends _$ProjectListController {
     required int id,
     required bool bookmarked,
   }) async {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final projects = value.items.map((project) {
       if (project.id == id) {
@@ -86,16 +85,16 @@ class ProjectListController extends _$ProjectListController {
   }
 
   void addListItem({required ProjectListItem item}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final projects = [item, ...value.items];
     state = AsyncValue.data(value.copyWith(items: projects));
   }
 
   void updateListItem({required ProjectListItem item}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final projects = value.items.map((project) {
       return project.id == item.id ? item : project;
@@ -105,8 +104,8 @@ class ProjectListController extends _$ProjectListController {
   }
 
   void removeListItem({required int id}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final projects = value.items.where((project) => project.id != id).toList();
 

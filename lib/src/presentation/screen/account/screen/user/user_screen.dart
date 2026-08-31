@@ -38,7 +38,7 @@ class _DesktopWidget extends ConsumerWidget {
         Expanded(
           child: SingleChildScrollView(
             padding: EdgeInsets.all(24.0),
-            child: ContainerWidget(
+            child: ContentContainer(
               elevation: 0.0,
               constraints: BoxConstraints(maxWidth: 430.0),
               child: Row(
@@ -63,15 +63,11 @@ class _DesktopWidget extends ConsumerWidget {
                       SizedBox(height: 8.0),
                       Text(
                         user.position?.name ?? '',
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
-                        ),
+                        style: TextStyle(color: colorScheme.onSurface.strong),
                       ),
                       Text(
                         user.department?.name ?? '',
-                        style: TextStyle(
-                          color: colorScheme.onSurface.withValues(alpha: 0.7),
-                        ),
+                        style: TextStyle(color: colorScheme.onSurface.strong),
                       ),
                     ],
                   ),

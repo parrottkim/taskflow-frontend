@@ -12,46 +12,46 @@ part of 'widget.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$BottomSheetItem implements DiagnosticableTreeMixin {
+mixin _$ActionMenuItem implements DiagnosticableTreeMixin {
 
- VoidCallback get onTap; String get label;
-/// Create a copy of BottomSheetItem
+ IconData get icon; String get label; String get description; VoidCallback? get onPressed;
+/// Create a copy of ActionMenuItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$BottomSheetItemCopyWith<BottomSheetItem> get copyWith => _$BottomSheetItemCopyWithImpl<BottomSheetItem>(this as BottomSheetItem, _$identity);
+$ActionMenuItemCopyWith<ActionMenuItem> get copyWith => _$ActionMenuItemCopyWithImpl<ActionMenuItem>(this as ActionMenuItem, _$identity);
 
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'BottomSheetItem'))
-    ..add(DiagnosticsProperty('onTap', onTap))..add(DiagnosticsProperty('label', label));
+    ..add(DiagnosticsProperty('type', 'ActionMenuItem'))
+    ..add(DiagnosticsProperty('icon', icon))..add(DiagnosticsProperty('label', label))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('onPressed', onPressed));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BottomSheetItem&&(identical(other.onTap, onTap) || other.onTap == onTap)&&(identical(other.label, label) || other.label == label));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActionMenuItem&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.label, label) || other.label == label)&&(identical(other.description, description) || other.description == description)&&(identical(other.onPressed, onPressed) || other.onPressed == onPressed));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,onTap,label);
+int get hashCode => Object.hash(runtimeType,icon,label,description,onPressed);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'BottomSheetItem(onTap: $onTap, label: $label)';
+  return 'ActionMenuItem(icon: $icon, label: $label, description: $description, onPressed: $onPressed)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $BottomSheetItemCopyWith<$Res>  {
-  factory $BottomSheetItemCopyWith(BottomSheetItem value, $Res Function(BottomSheetItem) _then) = _$BottomSheetItemCopyWithImpl;
+abstract mixin class $ActionMenuItemCopyWith<$Res>  {
+  factory $ActionMenuItemCopyWith(ActionMenuItem value, $Res Function(ActionMenuItem) _then) = _$ActionMenuItemCopyWithImpl;
 @useResult
 $Res call({
- VoidCallback onTap, String label
+ IconData icon, String label, String description, VoidCallback? onPressed
 });
 
 
@@ -59,28 +59,30 @@ $Res call({
 
 }
 /// @nodoc
-class _$BottomSheetItemCopyWithImpl<$Res>
-    implements $BottomSheetItemCopyWith<$Res> {
-  _$BottomSheetItemCopyWithImpl(this._self, this._then);
+class _$ActionMenuItemCopyWithImpl<$Res>
+    implements $ActionMenuItemCopyWith<$Res> {
+  _$ActionMenuItemCopyWithImpl(this._self, this._then);
 
-  final BottomSheetItem _self;
-  final $Res Function(BottomSheetItem) _then;
+  final ActionMenuItem _self;
+  final $Res Function(ActionMenuItem) _then;
 
-/// Create a copy of BottomSheetItem
+/// Create a copy of ActionMenuItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? onTap = null,Object? label = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? icon = null,Object? label = null,Object? description = null,Object? onPressed = freezed,}) {
   return _then(_self.copyWith(
-onTap: null == onTap ? _self.onTap : onTap // ignore: cast_nullable_to_non_nullable
-as VoidCallback,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
-as String,
+icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
+as IconData,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,onPressed: freezed == onPressed ? _self.onPressed : onPressed // ignore: cast_nullable_to_non_nullable
+as VoidCallback?,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [BottomSheetItem].
-extension BottomSheetItemPatterns on BottomSheetItem {
+/// Adds pattern-matching-related methods to [ActionMenuItem].
+extension ActionMenuItemPatterns on ActionMenuItem {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -93,10 +95,10 @@ extension BottomSheetItemPatterns on BottomSheetItem {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BottomSheetItem value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ActionMenuItem value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _BottomSheetItem() when $default != null:
+case _ActionMenuItem() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -115,10 +117,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BottomSheetItem value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ActionMenuItem value)  $default,){
 final _that = this;
 switch (_that) {
-case _BottomSheetItem():
+case _ActionMenuItem():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -136,10 +138,286 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BottomSheetItem value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ActionMenuItem value)?  $default,){
 final _that = this;
 switch (_that) {
-case _BottomSheetItem() when $default != null:
+case _ActionMenuItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IconData icon,  String label,  String description,  VoidCallback? onPressed)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ActionMenuItem() when $default != null:
+return $default(_that.icon,_that.label,_that.description,_that.onPressed);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IconData icon,  String label,  String description,  VoidCallback? onPressed)  $default,) {final _that = this;
+switch (_that) {
+case _ActionMenuItem():
+return $default(_that.icon,_that.label,_that.description,_that.onPressed);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IconData icon,  String label,  String description,  VoidCallback? onPressed)?  $default,) {final _that = this;
+switch (_that) {
+case _ActionMenuItem() when $default != null:
+return $default(_that.icon,_that.label,_that.description,_that.onPressed);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _ActionMenuItem with DiagnosticableTreeMixin implements ActionMenuItem {
+   _ActionMenuItem({required this.icon, required this.label, this.description = '', required this.onPressed});
+  
+
+@override final  IconData icon;
+@override final  String label;
+@override@JsonKey() final  String description;
+@override final  VoidCallback? onPressed;
+
+/// Create a copy of ActionMenuItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ActionMenuItemCopyWith<_ActionMenuItem> get copyWith => __$ActionMenuItemCopyWithImpl<_ActionMenuItem>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ActionMenuItem'))
+    ..add(DiagnosticsProperty('icon', icon))..add(DiagnosticsProperty('label', label))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('onPressed', onPressed));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActionMenuItem&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.label, label) || other.label == label)&&(identical(other.description, description) || other.description == description)&&(identical(other.onPressed, onPressed) || other.onPressed == onPressed));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,icon,label,description,onPressed);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ActionMenuItem(icon: $icon, label: $label, description: $description, onPressed: $onPressed)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ActionMenuItemCopyWith<$Res> implements $ActionMenuItemCopyWith<$Res> {
+  factory _$ActionMenuItemCopyWith(_ActionMenuItem value, $Res Function(_ActionMenuItem) _then) = __$ActionMenuItemCopyWithImpl;
+@override @useResult
+$Res call({
+ IconData icon, String label, String description, VoidCallback? onPressed
+});
+
+
+
+
+}
+/// @nodoc
+class __$ActionMenuItemCopyWithImpl<$Res>
+    implements _$ActionMenuItemCopyWith<$Res> {
+  __$ActionMenuItemCopyWithImpl(this._self, this._then);
+
+  final _ActionMenuItem _self;
+  final $Res Function(_ActionMenuItem) _then;
+
+/// Create a copy of ActionMenuItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? icon = null,Object? label = null,Object? description = null,Object? onPressed = freezed,}) {
+  return _then(_ActionMenuItem(
+icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
+as IconData,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,onPressed: freezed == onPressed ? _self.onPressed : onPressed // ignore: cast_nullable_to_non_nullable
+as VoidCallback?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$BottomSheetAction implements DiagnosticableTreeMixin {
+
+ VoidCallback get onTap; String get label;
+/// Create a copy of BottomSheetAction
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BottomSheetActionCopyWith<BottomSheetAction> get copyWith => _$BottomSheetActionCopyWithImpl<BottomSheetAction>(this as BottomSheetAction, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'BottomSheetAction'))
+    ..add(DiagnosticsProperty('onTap', onTap))..add(DiagnosticsProperty('label', label));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BottomSheetAction&&(identical(other.onTap, onTap) || other.onTap == onTap)&&(identical(other.label, label) || other.label == label));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,onTap,label);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'BottomSheetAction(onTap: $onTap, label: $label)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BottomSheetActionCopyWith<$Res>  {
+  factory $BottomSheetActionCopyWith(BottomSheetAction value, $Res Function(BottomSheetAction) _then) = _$BottomSheetActionCopyWithImpl;
+@useResult
+$Res call({
+ VoidCallback onTap, String label
+});
+
+
+
+
+}
+/// @nodoc
+class _$BottomSheetActionCopyWithImpl<$Res>
+    implements $BottomSheetActionCopyWith<$Res> {
+  _$BottomSheetActionCopyWithImpl(this._self, this._then);
+
+  final BottomSheetAction _self;
+  final $Res Function(BottomSheetAction) _then;
+
+/// Create a copy of BottomSheetAction
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? onTap = null,Object? label = null,}) {
+  return _then(_self.copyWith(
+onTap: null == onTap ? _self.onTap : onTap // ignore: cast_nullable_to_non_nullable
+as VoidCallback,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BottomSheetAction].
+extension BottomSheetActionPatterns on BottomSheetAction {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BottomSheetAction value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BottomSheetAction() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BottomSheetAction value)  $default,){
+final _that = this;
+switch (_that) {
+case _BottomSheetAction():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BottomSheetAction value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BottomSheetAction() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -159,7 +437,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( VoidCallback onTap,  String label)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _BottomSheetItem() when $default != null:
+case _BottomSheetAction() when $default != null:
 return $default(_that.onTap,_that.label);case _:
   return orElse();
 
@@ -180,7 +458,7 @@ return $default(_that.onTap,_that.label);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( VoidCallback onTap,  String label)  $default,) {final _that = this;
 switch (_that) {
-case _BottomSheetItem():
+case _BottomSheetAction():
 return $default(_that.onTap,_that.label);case _:
   throw StateError('Unexpected subclass');
 
@@ -200,7 +478,7 @@ return $default(_that.onTap,_that.label);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( VoidCallback onTap,  String label)?  $default,) {final _that = this;
 switch (_that) {
-case _BottomSheetItem() when $default != null:
+case _BottomSheetAction() when $default != null:
 return $default(_that.onTap,_that.label);case _:
   return null;
 
@@ -212,30 +490,30 @@ return $default(_that.onTap,_that.label);case _:
 /// @nodoc
 
 
-class _BottomSheetItem with DiagnosticableTreeMixin implements BottomSheetItem {
-   _BottomSheetItem({required this.onTap, required this.label});
+class _BottomSheetAction with DiagnosticableTreeMixin implements BottomSheetAction {
+   _BottomSheetAction({required this.onTap, required this.label});
   
 
 @override final  VoidCallback onTap;
 @override final  String label;
 
-/// Create a copy of BottomSheetItem
+/// Create a copy of BottomSheetAction
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$BottomSheetItemCopyWith<_BottomSheetItem> get copyWith => __$BottomSheetItemCopyWithImpl<_BottomSheetItem>(this, _$identity);
+_$BottomSheetActionCopyWith<_BottomSheetAction> get copyWith => __$BottomSheetActionCopyWithImpl<_BottomSheetAction>(this, _$identity);
 
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'BottomSheetItem'))
+    ..add(DiagnosticsProperty('type', 'BottomSheetAction'))
     ..add(DiagnosticsProperty('onTap', onTap))..add(DiagnosticsProperty('label', label));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BottomSheetItem&&(identical(other.onTap, onTap) || other.onTap == onTap)&&(identical(other.label, label) || other.label == label));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BottomSheetAction&&(identical(other.onTap, onTap) || other.onTap == onTap)&&(identical(other.label, label) || other.label == label));
 }
 
 
@@ -244,15 +522,15 @@ int get hashCode => Object.hash(runtimeType,onTap,label);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'BottomSheetItem(onTap: $onTap, label: $label)';
+  return 'BottomSheetAction(onTap: $onTap, label: $label)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$BottomSheetItemCopyWith<$Res> implements $BottomSheetItemCopyWith<$Res> {
-  factory _$BottomSheetItemCopyWith(_BottomSheetItem value, $Res Function(_BottomSheetItem) _then) = __$BottomSheetItemCopyWithImpl;
+abstract mixin class _$BottomSheetActionCopyWith<$Res> implements $BottomSheetActionCopyWith<$Res> {
+  factory _$BottomSheetActionCopyWith(_BottomSheetAction value, $Res Function(_BottomSheetAction) _then) = __$BottomSheetActionCopyWithImpl;
 @override @useResult
 $Res call({
  VoidCallback onTap, String label
@@ -263,17 +541,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$BottomSheetItemCopyWithImpl<$Res>
-    implements _$BottomSheetItemCopyWith<$Res> {
-  __$BottomSheetItemCopyWithImpl(this._self, this._then);
+class __$BottomSheetActionCopyWithImpl<$Res>
+    implements _$BottomSheetActionCopyWith<$Res> {
+  __$BottomSheetActionCopyWithImpl(this._self, this._then);
 
-  final _BottomSheetItem _self;
-  final $Res Function(_BottomSheetItem) _then;
+  final _BottomSheetAction _self;
+  final $Res Function(_BottomSheetAction) _then;
 
-/// Create a copy of BottomSheetItem
+/// Create a copy of BottomSheetAction
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? onTap = null,Object? label = null,}) {
-  return _then(_BottomSheetItem(
+  return _then(_BottomSheetAction(
 onTap: null == onTap ? _self.onTap : onTap // ignore: cast_nullable_to_non_nullable
 as VoidCallback,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,
@@ -567,7 +845,7 @@ as List<ClientMarkerTooltip>,
 /// @nodoc
 mixin _$ClientMarkerTooltip implements DiagnosticableTreeMixin {
 
- ClientType get type; String get name;
+ ClientBrand get type; String get name;
 /// Create a copy of ClientMarkerTooltip
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -604,7 +882,7 @@ abstract mixin class $ClientMarkerTooltipCopyWith<$Res>  {
   factory $ClientMarkerTooltipCopyWith(ClientMarkerTooltip value, $Res Function(ClientMarkerTooltip) _then) = _$ClientMarkerTooltipCopyWithImpl;
 @useResult
 $Res call({
- ClientType type, String name
+ ClientBrand type, String name
 });
 
 
@@ -624,7 +902,7 @@ class _$ClientMarkerTooltipCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? name = null,}) {
   return _then(_self.copyWith(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as ClientType,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as ClientBrand,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -710,7 +988,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ClientType type,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ClientBrand type,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ClientMarkerTooltip() when $default != null:
 return $default(_that.type,_that.name);case _:
@@ -731,7 +1009,7 @@ return $default(_that.type,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ClientType type,  String name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ClientBrand type,  String name)  $default,) {final _that = this;
 switch (_that) {
 case _ClientMarkerTooltip():
 return $default(_that.type,_that.name);case _:
@@ -751,7 +1029,7 @@ return $default(_that.type,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ClientType type,  String name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ClientBrand type,  String name)?  $default,) {final _that = this;
 switch (_that) {
 case _ClientMarkerTooltip() when $default != null:
 return $default(_that.type,_that.name);case _:
@@ -769,7 +1047,7 @@ class _ClientMarkerTooltip with DiagnosticableTreeMixin implements ClientMarkerT
    _ClientMarkerTooltip({required this.type, required this.name});
   
 
-@override final  ClientType type;
+@override final  ClientBrand type;
 @override final  String name;
 
 /// Create a copy of ClientMarkerTooltip
@@ -808,7 +1086,7 @@ abstract mixin class _$ClientMarkerTooltipCopyWith<$Res> implements $ClientMarke
   factory _$ClientMarkerTooltipCopyWith(_ClientMarkerTooltip value, $Res Function(_ClientMarkerTooltip) _then) = __$ClientMarkerTooltipCopyWithImpl;
 @override @useResult
 $Res call({
- ClientType type, String name
+ ClientBrand type, String name
 });
 
 
@@ -828,286 +1106,8 @@ class __$ClientMarkerTooltipCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? name = null,}) {
   return _then(_ClientMarkerTooltip(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as ClientType,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as ClientBrand,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,
-  ));
-}
-
-
-}
-
-/// @nodoc
-mixin _$MenuOption implements DiagnosticableTreeMixin {
-
- IconData get icon; String get label; String get description; VoidCallback? get onPressed;
-/// Create a copy of MenuOption
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$MenuOptionCopyWith<MenuOption> get copyWith => _$MenuOptionCopyWithImpl<MenuOption>(this as MenuOption, _$identity);
-
-
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'MenuOption'))
-    ..add(DiagnosticsProperty('icon', icon))..add(DiagnosticsProperty('label', label))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('onPressed', onPressed));
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MenuOption&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.label, label) || other.label == label)&&(identical(other.description, description) || other.description == description)&&(identical(other.onPressed, onPressed) || other.onPressed == onPressed));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,icon,label,description,onPressed);
-
-@override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'MenuOption(icon: $icon, label: $label, description: $description, onPressed: $onPressed)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $MenuOptionCopyWith<$Res>  {
-  factory $MenuOptionCopyWith(MenuOption value, $Res Function(MenuOption) _then) = _$MenuOptionCopyWithImpl;
-@useResult
-$Res call({
- IconData icon, String label, String description, VoidCallback? onPressed
-});
-
-
-
-
-}
-/// @nodoc
-class _$MenuOptionCopyWithImpl<$Res>
-    implements $MenuOptionCopyWith<$Res> {
-  _$MenuOptionCopyWithImpl(this._self, this._then);
-
-  final MenuOption _self;
-  final $Res Function(MenuOption) _then;
-
-/// Create a copy of MenuOption
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? icon = null,Object? label = null,Object? description = null,Object? onPressed = freezed,}) {
-  return _then(_self.copyWith(
-icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
-as IconData,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,onPressed: freezed == onPressed ? _self.onPressed : onPressed // ignore: cast_nullable_to_non_nullable
-as VoidCallback?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [MenuOption].
-extension MenuOptionPatterns on MenuOption {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _MenuOption value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _MenuOption() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _MenuOption value)  $default,){
-final _that = this;
-switch (_that) {
-case _MenuOption():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _MenuOption value)?  $default,){
-final _that = this;
-switch (_that) {
-case _MenuOption() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IconData icon,  String label,  String description,  VoidCallback? onPressed)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _MenuOption() when $default != null:
-return $default(_that.icon,_that.label,_that.description,_that.onPressed);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IconData icon,  String label,  String description,  VoidCallback? onPressed)  $default,) {final _that = this;
-switch (_that) {
-case _MenuOption():
-return $default(_that.icon,_that.label,_that.description,_that.onPressed);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IconData icon,  String label,  String description,  VoidCallback? onPressed)?  $default,) {final _that = this;
-switch (_that) {
-case _MenuOption() when $default != null:
-return $default(_that.icon,_that.label,_that.description,_that.onPressed);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-
-
-class _MenuOption with DiagnosticableTreeMixin implements MenuOption {
-   _MenuOption({required this.icon, required this.label, this.description = '', required this.onPressed});
-  
-
-@override final  IconData icon;
-@override final  String label;
-@override@JsonKey() final  String description;
-@override final  VoidCallback? onPressed;
-
-/// Create a copy of MenuOption
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$MenuOptionCopyWith<_MenuOption> get copyWith => __$MenuOptionCopyWithImpl<_MenuOption>(this, _$identity);
-
-
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'MenuOption'))
-    ..add(DiagnosticsProperty('icon', icon))..add(DiagnosticsProperty('label', label))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('onPressed', onPressed));
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MenuOption&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.label, label) || other.label == label)&&(identical(other.description, description) || other.description == description)&&(identical(other.onPressed, onPressed) || other.onPressed == onPressed));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,icon,label,description,onPressed);
-
-@override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'MenuOption(icon: $icon, label: $label, description: $description, onPressed: $onPressed)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$MenuOptionCopyWith<$Res> implements $MenuOptionCopyWith<$Res> {
-  factory _$MenuOptionCopyWith(_MenuOption value, $Res Function(_MenuOption) _then) = __$MenuOptionCopyWithImpl;
-@override @useResult
-$Res call({
- IconData icon, String label, String description, VoidCallback? onPressed
-});
-
-
-
-
-}
-/// @nodoc
-class __$MenuOptionCopyWithImpl<$Res>
-    implements _$MenuOptionCopyWith<$Res> {
-  __$MenuOptionCopyWithImpl(this._self, this._then);
-
-  final _MenuOption _self;
-  final $Res Function(_MenuOption) _then;
-
-/// Create a copy of MenuOption
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? icon = null,Object? label = null,Object? description = null,Object? onPressed = freezed,}) {
-  return _then(_MenuOption(
-icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
-as IconData,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
-as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,onPressed: freezed == onPressed ? _self.onPressed : onPressed // ignore: cast_nullable_to_non_nullable
-as VoidCallback?,
   ));
 }
 
@@ -1477,26 +1477,26 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 
 
 /// @nodoc
-mixin _$ValidationItem implements DiagnosticableTreeMixin {
+mixin _$ValidationRule implements DiagnosticableTreeMixin {
 
  String get label; RegExp get regex; bool get flag;
-/// Create a copy of ValidationItem
+/// Create a copy of ValidationRule
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ValidationItemCopyWith<ValidationItem> get copyWith => _$ValidationItemCopyWithImpl<ValidationItem>(this as ValidationItem, _$identity);
+$ValidationRuleCopyWith<ValidationRule> get copyWith => _$ValidationRuleCopyWithImpl<ValidationRule>(this as ValidationRule, _$identity);
 
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'ValidationItem'))
+    ..add(DiagnosticsProperty('type', 'ValidationRule'))
     ..add(DiagnosticsProperty('label', label))..add(DiagnosticsProperty('regex', regex))..add(DiagnosticsProperty('flag', flag));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ValidationItem&&(identical(other.label, label) || other.label == label)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.flag, flag) || other.flag == flag));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ValidationRule&&(identical(other.label, label) || other.label == label)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.flag, flag) || other.flag == flag));
 }
 
 
@@ -1505,15 +1505,15 @@ int get hashCode => Object.hash(runtimeType,label,regex,flag);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ValidationItem(label: $label, regex: $regex, flag: $flag)';
+  return 'ValidationRule(label: $label, regex: $regex, flag: $flag)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ValidationItemCopyWith<$Res>  {
-  factory $ValidationItemCopyWith(ValidationItem value, $Res Function(ValidationItem) _then) = _$ValidationItemCopyWithImpl;
+abstract mixin class $ValidationRuleCopyWith<$Res>  {
+  factory $ValidationRuleCopyWith(ValidationRule value, $Res Function(ValidationRule) _then) = _$ValidationRuleCopyWithImpl;
 @useResult
 $Res call({
  String label, RegExp regex, bool flag
@@ -1524,14 +1524,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$ValidationItemCopyWithImpl<$Res>
-    implements $ValidationItemCopyWith<$Res> {
-  _$ValidationItemCopyWithImpl(this._self, this._then);
+class _$ValidationRuleCopyWithImpl<$Res>
+    implements $ValidationRuleCopyWith<$Res> {
+  _$ValidationRuleCopyWithImpl(this._self, this._then);
 
-  final ValidationItem _self;
-  final $Res Function(ValidationItem) _then;
+  final ValidationRule _self;
+  final $Res Function(ValidationRule) _then;
 
-/// Create a copy of ValidationItem
+/// Create a copy of ValidationRule
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? label = null,Object? regex = null,Object? flag = null,}) {
   return _then(_self.copyWith(
@@ -1545,8 +1545,8 @@ as bool,
 }
 
 
-/// Adds pattern-matching-related methods to [ValidationItem].
-extension ValidationItemPatterns on ValidationItem {
+/// Adds pattern-matching-related methods to [ValidationRule].
+extension ValidationRulePatterns on ValidationRule {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1559,10 +1559,10 @@ extension ValidationItemPatterns on ValidationItem {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ValidationItem value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ValidationRule value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _ValidationItem() when $default != null:
+case _ValidationRule() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1581,10 +1581,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ValidationItem value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ValidationRule value)  $default,){
 final _that = this;
 switch (_that) {
-case _ValidationItem():
+case _ValidationRule():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -1602,10 +1602,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ValidationItem value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ValidationRule value)?  $default,){
 final _that = this;
 switch (_that) {
-case _ValidationItem() when $default != null:
+case _ValidationRule() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1625,7 +1625,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String label,  RegExp regex,  bool flag)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _ValidationItem() when $default != null:
+case _ValidationRule() when $default != null:
 return $default(_that.label,_that.regex,_that.flag);case _:
   return orElse();
 
@@ -1646,7 +1646,7 @@ return $default(_that.label,_that.regex,_that.flag);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String label,  RegExp regex,  bool flag)  $default,) {final _that = this;
 switch (_that) {
-case _ValidationItem():
+case _ValidationRule():
 return $default(_that.label,_that.regex,_that.flag);case _:
   throw StateError('Unexpected subclass');
 
@@ -1666,7 +1666,7 @@ return $default(_that.label,_that.regex,_that.flag);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String label,  RegExp regex,  bool flag)?  $default,) {final _that = this;
 switch (_that) {
-case _ValidationItem() when $default != null:
+case _ValidationRule() when $default != null:
 return $default(_that.label,_that.regex,_that.flag);case _:
   return null;
 
@@ -1678,31 +1678,31 @@ return $default(_that.label,_that.regex,_that.flag);case _:
 /// @nodoc
 
 
-class _ValidationItem with DiagnosticableTreeMixin implements ValidationItem {
-   _ValidationItem({required this.label, required this.regex, required this.flag});
+class _ValidationRule with DiagnosticableTreeMixin implements ValidationRule {
+   _ValidationRule({required this.label, required this.regex, required this.flag});
   
 
 @override final  String label;
 @override final  RegExp regex;
 @override final  bool flag;
 
-/// Create a copy of ValidationItem
+/// Create a copy of ValidationRule
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$ValidationItemCopyWith<_ValidationItem> get copyWith => __$ValidationItemCopyWithImpl<_ValidationItem>(this, _$identity);
+_$ValidationRuleCopyWith<_ValidationRule> get copyWith => __$ValidationRuleCopyWithImpl<_ValidationRule>(this, _$identity);
 
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'ValidationItem'))
+    ..add(DiagnosticsProperty('type', 'ValidationRule'))
     ..add(DiagnosticsProperty('label', label))..add(DiagnosticsProperty('regex', regex))..add(DiagnosticsProperty('flag', flag));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ValidationItem&&(identical(other.label, label) || other.label == label)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.flag, flag) || other.flag == flag));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ValidationRule&&(identical(other.label, label) || other.label == label)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.flag, flag) || other.flag == flag));
 }
 
 
@@ -1711,15 +1711,15 @@ int get hashCode => Object.hash(runtimeType,label,regex,flag);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ValidationItem(label: $label, regex: $regex, flag: $flag)';
+  return 'ValidationRule(label: $label, regex: $regex, flag: $flag)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ValidationItemCopyWith<$Res> implements $ValidationItemCopyWith<$Res> {
-  factory _$ValidationItemCopyWith(_ValidationItem value, $Res Function(_ValidationItem) _then) = __$ValidationItemCopyWithImpl;
+abstract mixin class _$ValidationRuleCopyWith<$Res> implements $ValidationRuleCopyWith<$Res> {
+  factory _$ValidationRuleCopyWith(_ValidationRule value, $Res Function(_ValidationRule) _then) = __$ValidationRuleCopyWithImpl;
 @override @useResult
 $Res call({
  String label, RegExp regex, bool flag
@@ -1730,17 +1730,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$ValidationItemCopyWithImpl<$Res>
-    implements _$ValidationItemCopyWith<$Res> {
-  __$ValidationItemCopyWithImpl(this._self, this._then);
+class __$ValidationRuleCopyWithImpl<$Res>
+    implements _$ValidationRuleCopyWith<$Res> {
+  __$ValidationRuleCopyWithImpl(this._self, this._then);
 
-  final _ValidationItem _self;
-  final $Res Function(_ValidationItem) _then;
+  final _ValidationRule _self;
+  final $Res Function(_ValidationRule) _then;
 
-/// Create a copy of ValidationItem
+/// Create a copy of ValidationRule
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? label = null,Object? regex = null,Object? flag = null,}) {
-  return _then(_ValidationItem(
+  return _then(_ValidationRule(
 label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,regex: null == regex ? _self.regex : regex // ignore: cast_nullable_to_non_nullable
 as RegExp,flag: null == flag ? _self.flag : flag // ignore: cast_nullable_to_non_nullable

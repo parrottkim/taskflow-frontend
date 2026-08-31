@@ -158,7 +158,7 @@ class _DialogWidget extends HookConsumerWidget {
                         children: [
                           const SizedBox(width: 24.0),
                           const SizedBox(width: 8.0),
-                          CustomIconButton(
+                          AppIconButton(
                             onTap: () => openAddFolder(null),
                             padding: 3.0,
                             icon: const Icon(Symbols.add_rounded, size: 16.0),
@@ -229,9 +229,7 @@ class _DialogWidget extends HookConsumerWidget {
                       return DecoratedBox(
                         decoration: BoxDecoration(
                           color: isChildDropActive
-                              ? colorScheme.primaryContainer.withValues(
-                                  alpha: 0.36,
-                                )
+                              ? colorScheme.primaryContainer.muted
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(4.0),
                         ),
@@ -250,9 +248,7 @@ class _DialogWidget extends HookConsumerWidget {
                                     : Symbols.folder_open_rounded,
                                 fill: 1.0,
                                 size: 18.0,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                               const SizedBox(width: 8.0),
                               Expanded(
@@ -273,15 +269,13 @@ class _DialogWidget extends HookConsumerWidget {
                                       Icon(
                                         Symbols.lock_rounded,
                                         size: 14.0,
-                                        color: colorScheme.onSurface.withValues(
-                                          alpha: 0.42,
-                                        ),
+                                        color: colorScheme.onSurface.muted,
                                       ),
                                     ],
                                   ],
                                 ),
                               ),
-                              CustomIconButton(
+                              AppIconButton(
                                 onTap: () => openAddFolder(folder.id),
                                 padding: 3.0,
                                 icon: const Icon(
@@ -293,7 +287,7 @@ class _DialogWidget extends HookConsumerWidget {
                               MenuAnchor(
                                 alignmentOffset: const Offset(-112.0, 0.0),
                                 builder: (context, controller, child) {
-                                  return CustomIconButton(
+                                  return AppIconButton(
                                     onTap: canManage
                                         ? () {
                                             if (controller.isOpen) {
@@ -442,7 +436,7 @@ class _DialogWidget extends HookConsumerWidget {
                   : Symbols.folder_open_rounded,
               fill: 1.0,
               size: 18.0,
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
+              color: colorScheme.onSurface.strong,
             ),
             const SizedBox(width: 8.0),
             Expanded(
@@ -759,7 +753,9 @@ class _FolderDragHandle extends StatelessWidget {
     final icon = Icon(
       Symbols.drag_indicator_rounded,
       size: 18.0,
-      color: colorScheme.onSurface.withValues(alpha: enabled ? 0.54 : 0.22),
+      color: enabled
+          ? colorScheme.onSurface.strong
+          : colorScheme.onSurface.subtle,
     );
 
     if (!enabled) {
@@ -858,7 +854,7 @@ class _FolderNameInput extends HookWidget {
                     bottom: BorderSide(
                       color: hasError.value
                           ? colorScheme.error
-                          : colorScheme.outline.withValues(alpha: 0.12),
+                          : colorScheme.outline.faint,
                     ),
                   ),
                 ),
@@ -885,9 +881,7 @@ class _FolderNameInput extends HookWidget {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: textTheme.bodyMedium?.copyWith(
-                                  color: colorScheme.onSurface.withValues(
-                                    alpha: 0.42,
-                                  ),
+                                  color: colorScheme.onSurface.muted,
                                 ),
                               ),
                             EditableText(
@@ -902,8 +896,7 @@ class _FolderNameInput extends HookWidget {
                                     fontWeight: FontWeight.w500,
                                   ),
                               cursorColor: colorScheme.primary,
-                              backgroundCursorColor: colorScheme.primary
-                                  .withValues(alpha: 0.24),
+                              backgroundCursorColor: colorScheme.primary.subtle,
                               textInputAction: TextInputAction.done,
                               maxLines: 1,
                               onChanged: (_) {
@@ -915,7 +908,7 @@ class _FolderNameInput extends HookWidget {
                         ),
                       ),
                       const SizedBox(width: 8.0),
-                      CustomIconButton(
+                      AppIconButton(
                         onTap: submit,
                         padding: 3.0,
                         icon: Icon(
@@ -925,7 +918,7 @@ class _FolderNameInput extends HookWidget {
                         ),
                       ),
                       const SizedBox(width: 4.0),
-                      CustomIconButton(
+                      AppIconButton(
                         onTap: onCancel,
                         padding: 3.0,
                         icon: const Icon(Symbols.close_rounded, size: 16.0),

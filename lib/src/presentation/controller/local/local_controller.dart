@@ -2,6 +2,8 @@ part of '../controller.dart';
 
 @riverpod
 class LocalController extends _$LocalController {
+  static const _maxKeywordCount = 5;
+
   @override
   FutureOr<LocalState> build() async {
     return init();
@@ -12,7 +14,10 @@ class LocalController extends _$LocalController {
         .watch(localRepositoryProvider)
         .getPersistLogin();
     final keywords = await ref.watch(localRepositoryProvider).getKeywords();
-    return LocalState(persistLogin: persistLogin, keywords: keywords);
+    return LocalState(
+      persistLogin: persistLogin,
+      keywords: keywords.take(_maxKeywordCount).toList(),
+    );
   }
 
   Future<void> getPersistLogin() =>
@@ -31,17 +36,16 @@ class LocalController extends _$LocalController {
 
   Future<void> addKeywords({required String text}) async {
     final value = state.value;
+    final nextText = text.trim();
 
-    if (value != null) {
+    if (value != null && nextText.isNotEmpty) {
       state = await AsyncValue.guard(() async {
-        final keyword = Keyword(keyword: text, date: DateTime.now());
-        final List<Keyword> list =
-            value.keywords.isNotEmpty && value.keywords.first.keyword == text
-            ? value.keywords
-            : [keyword, ...value.keywords];
-        if (list.length > 5) {
-          list.removeLast();
-        }
+        final keyword = Keyword(keyword: nextText, date: DateTime.now());
+        final list = [
+          keyword,
+          ...value.keywords.where((item) => item.keyword != nextText),
+        ].take(_maxKeywordCount).toList();
+
         await ref.watch(localRepositoryProvider).setKeyword(keywords: list);
         return value.copyWith(keywords: list);
       });

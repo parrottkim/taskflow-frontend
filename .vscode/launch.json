@@ -19,9 +19,10 @@
       "flutterMode": "debug",
       "args": [
         "--web-port=8080",
+        "--web-hostname=192.168.150.87",
+        "--web-tls-cert-path=.cert/localhost.pem",
+        "--web-tls-cert-key-path=.cert/localhost-key.pem",
         "--dart-define=ENVIRONMENT=local",
-        // "--web-browser-flag",
-        // "--disable-web-security",
       ]
     },
     {

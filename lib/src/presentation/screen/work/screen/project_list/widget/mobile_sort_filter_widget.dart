@@ -5,8 +5,8 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class MobileSortFilterWidget extends ConsumerWidget {
-  final ValueNotifier<WorkProjectSort?> selectedSort;
-  final ValueNotifier<Order?> selectedOrder;
+  final ValueNotifier<WorkProjectSortOption?> selectedSort;
+  final ValueNotifier<SortDirection?> selectedOrder;
 
   const MobileSortFilterWidget({
     super.key,
@@ -32,9 +32,9 @@ class MobileSortFilterWidget extends ConsumerWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: WorkProjectSort.values.length,
+          itemCount: WorkProjectSortOption.values.length,
           itemBuilder: (context, index) {
-            final sort = WorkProjectSort.values[index];
+            final sort = WorkProjectSortOption.values[index];
 
             return Material(
               color: Colors.transparent,
@@ -42,10 +42,10 @@ class MobileSortFilterWidget extends ConsumerWidget {
                 onTap: () {
                   final isSelected = selectedSort.value == sort;
                   final nextOrder = isSelected
-                      ? (selectedOrder.value == Order.asc
-                            ? Order.desc
-                            : Order.asc)
-                      : Order.desc;
+                      ? (selectedOrder.value == SortDirection.asc
+                            ? SortDirection.desc
+                            : SortDirection.asc)
+                      : SortDirection.desc;
 
                   selectedSort.value = sort;
                   selectedOrder.value = nextOrder;
@@ -76,7 +76,9 @@ class MobileSortFilterWidget extends ConsumerWidget {
                           opacity: selectedSort.value == sort ? 1.0 : 0.0,
                           child: AnimatedRotation(
                             duration: Duration(milliseconds: 200),
-                            turns: selectedOrder.value == Order.asc ? 0.0 : 0.5,
+                            turns: selectedOrder.value == SortDirection.asc
+                                ? 0.0
+                                : 0.5,
                             child: Icon(
                               Symbols.arrow_drop_up_rounded,
                               size: 20.0,

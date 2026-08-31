@@ -18,7 +18,7 @@ class TripExportWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(
-      tripOptionsControllerProvider(categoryId: item.schedule?.category.id),
+      tripOptionsProvider(categoryId: item.schedule?.category.id),
     );
 
     ref.listen(tripExportControllerProvider, (_, state) {
@@ -37,9 +37,10 @@ class TripExportWidget extends HookConsumerWidget {
         item: item,
         categories: value.categories,
         steps: value.steps,
+        currencies: value.currencies,
         regulations: value.regulations,
       ),
-      AsyncError(:final error, :final stackTrace) => ErrorContainerWidget(
+      AsyncError(:final error, :final stackTrace) => ErrorStateView(
         error: error,
         stackTrace: stackTrace,
       ),
@@ -48,6 +49,7 @@ class TripExportWidget extends HookConsumerWidget {
           item: item,
           categories: [],
           steps: [],
+          currencies: [],
           regulations: [],
         ),
       ),
@@ -59,12 +61,14 @@ class _DesktopWidget extends HookConsumerWidget {
   final Report item;
   final List<TripCategory> categories;
   final List<TripStep> steps;
+  final List<Currency> currencies;
   final List<TripRegulation> regulations;
 
   const _DesktopWidget({
     required this.item,
     required this.categories,
     required this.steps,
+    required this.currencies,
     required this.regulations,
   });
 
@@ -146,6 +150,7 @@ class _DesktopWidget extends HookConsumerWidget {
                           steps: steps
                               .where((e) => e.categoryId == index + 1)
                               .toList(),
+                          currencies: currencies,
                           regulations: regulations,
                           expenses: item.trip!.expenses,
                           rates: item.trip!.rates,

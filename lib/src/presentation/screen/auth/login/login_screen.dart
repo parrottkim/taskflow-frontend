@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 import 'package:taskflow/src/presentation/screen/auth/login/widget/background_widget.dart';
 import 'package:taskflow/src/presentation/screen/auth/login/widget/login_form_widget.dart';
-import 'package:taskflow/src/router/router.dart';
 import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -15,29 +13,16 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(authControllerProvider, (_, state) {
-      if (state is AuthPending) {
+    ref.listen(loginControllerProvider, (_, state) {
+      if (state is LoginPending) {
         LoadingOverlay.show(context);
       } else {
         LoadingOverlay.hide();
-        if (state is AuthForbidden) {
+        if (state is LoginForbidden) {
           showDialog(
             context: context,
             builder: (_) => const LoginForbiddenDialog(),
           );
-        }
-        if (state is AuthRequest) {
-          context.goNamed(
-            RouteNames.login,
-            queryParameters: {if (path != null) 'redirect_to': path},
-          );
-
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            showDialog(
-              context: context,
-              builder: (_) => const LoginRequestDialog(),
-            );
-          });
         }
       }
     });

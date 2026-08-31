@@ -34,22 +34,6 @@ abstract class Result<T> with _$Result<T> {
   }
 }
 
-enum ImageExtension {
-  png(format: Formats.png, mime: ['image/png']),
-  jpg(format: Formats.jpeg, mime: ['image/jpeg', 'image/jpg']),
-  gif(format: Formats.gif, mime: ['image/gif']),
-  webp(format: Formats.webp, mime: ['image/webp']);
-
-  final SimpleFileFormat format;
-  final List<String> mime;
-
-  const ImageExtension({required this.format, required this.mime});
-
-  factory ImageExtension.getExtension(String type) {
-    return ImageExtension.values.firstWhere((e) => e.mime.contains(type));
-  }
-}
-
 @freezed
 abstract class UploadedFile with _$UploadedFile {
   factory UploadedFile({required String path, required String url}) =

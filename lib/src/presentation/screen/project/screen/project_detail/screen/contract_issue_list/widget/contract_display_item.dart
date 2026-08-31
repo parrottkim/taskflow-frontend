@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
@@ -45,15 +46,15 @@ class ContractDisplayItem extends StatelessWidget {
                 showBottomBorder: true,
                 border: TableBorder(
                   verticalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   horizontalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   bottom: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                 ),
@@ -66,7 +67,7 @@ class ContractDisplayItem extends StatelessWidget {
                         children: [
                           Icon(
                             Symbols.text_fields_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -74,9 +75,7 @@ class ContractDisplayItem extends StatelessWidget {
                             Intl.message('issue_form_contract_3'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -91,7 +90,7 @@ class ContractDisplayItem extends StatelessWidget {
                         children: [
                           Icon(
                             Symbols.numbers_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -99,9 +98,7 @@ class ContractDisplayItem extends StatelessWidget {
                             Intl.message('issue_form_contract_4'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -152,15 +149,15 @@ class ContractDisplayItem extends StatelessWidget {
                   showBottomBorder: true,
                   border: TableBorder(
                     verticalInside: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
+                      color: colorScheme.outline.subtle,
                       width: 1.0,
                     ),
                     horizontalInside: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
+                      color: colorScheme.outline.subtle,
                       width: 1.0,
                     ),
                     bottom: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
+                      color: colorScheme.outline.subtle,
                       width: 1.0,
                     ),
                   ),
@@ -173,9 +170,7 @@ class ContractDisplayItem extends StatelessWidget {
                           children: [
                             Icon(
                               Symbols.text_fields_rounded,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                               size: 16.0,
                             ),
                             SizedBox(width: 4.0),
@@ -183,9 +178,7 @@ class ContractDisplayItem extends StatelessWidget {
                               Intl.message('issue_form_contract_3'),
                               style: textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                             ),
                           ],
@@ -200,9 +193,7 @@ class ContractDisplayItem extends StatelessWidget {
                           children: [
                             Icon(
                               Symbols.numbers_rounded,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                               size: 16.0,
                             ),
                             SizedBox(width: 4.0),
@@ -210,9 +201,7 @@ class ContractDisplayItem extends StatelessWidget {
                               Intl.message('issue_form_contract_4'),
                               style: textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                             ),
                           ],
@@ -260,7 +249,7 @@ class ContractDisplayItem extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                 ),
@@ -307,15 +296,15 @@ class ContractDisplayItem extends StatelessWidget {
                 showBottomBorder: true,
                 border: TableBorder(
                   verticalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   horizontalInside: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                   bottom: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 0.2),
+                    color: colorScheme.outline.subtle,
                     width: 1.0,
                   ),
                 ),
@@ -328,7 +317,7 @@ class ContractDisplayItem extends StatelessWidget {
                         children: [
                           Icon(
                             Symbols.checkbook_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -336,9 +325,7 @@ class ContractDisplayItem extends StatelessWidget {
                             Intl.message('issue_form_transaction_3'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -353,7 +340,7 @@ class ContractDisplayItem extends StatelessWidget {
                         children: [
                           Icon(
                             Symbols.pie_chart_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -361,9 +348,7 @@ class ContractDisplayItem extends StatelessWidget {
                             Intl.message('issue_form_transaction_4'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -378,7 +363,7 @@ class ContractDisplayItem extends StatelessWidget {
                         children: [
                           Icon(
                             Symbols.attach_money_rounded,
-                            color: colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: colorScheme.onSurface.strong,
                             size: 16.0,
                           ),
                           SizedBox(width: 4.0),
@@ -386,9 +371,7 @@ class ContractDisplayItem extends StatelessWidget {
                             Intl.message('issue_form_transaction_5'),
                             style: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                             ),
                           ),
                         ],
@@ -443,15 +426,15 @@ class ContractDisplayItem extends StatelessWidget {
                   showBottomBorder: true,
                   border: TableBorder(
                     verticalInside: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
+                      color: colorScheme.outline.subtle,
                       width: 1.0,
                     ),
                     horizontalInside: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
+                      color: colorScheme.outline.subtle,
                       width: 1.0,
                     ),
                     bottom: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
+                      color: colorScheme.outline.subtle,
                       width: 1.0,
                     ),
                   ),
@@ -464,9 +447,7 @@ class ContractDisplayItem extends StatelessWidget {
                           children: [
                             Icon(
                               Symbols.checkbook_rounded,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                               size: 16.0,
                             ),
                             SizedBox(width: 4.0),
@@ -474,9 +455,7 @@ class ContractDisplayItem extends StatelessWidget {
                               Intl.message('issue_form_transaction_3'),
                               style: textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                             ),
                           ],
@@ -491,9 +470,7 @@ class ContractDisplayItem extends StatelessWidget {
                           children: [
                             Icon(
                               Symbols.pie_chart_rounded,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                               size: 16.0,
                             ),
                             SizedBox(width: 4.0),
@@ -501,9 +478,7 @@ class ContractDisplayItem extends StatelessWidget {
                               Intl.message('issue_form_transaction_4'),
                               style: textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                             ),
                           ],
@@ -518,9 +493,7 @@ class ContractDisplayItem extends StatelessWidget {
                           children: [
                             Icon(
                               Symbols.attach_money_rounded,
-                              color: colorScheme.onSurface.withValues(
-                                alpha: 0.7,
-                              ),
+                              color: colorScheme.onSurface.strong,
                               size: 16.0,
                             ),
                             SizedBox(width: 4.0),
@@ -528,9 +501,7 @@ class ContractDisplayItem extends StatelessWidget {
                               Intl.message('issue_form_transaction_5'),
                               style: textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.7,
-                                ),
+                                color: colorScheme.onSurface.strong,
                               ),
                             ),
                           ],

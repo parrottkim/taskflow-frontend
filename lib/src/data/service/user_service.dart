@@ -7,6 +7,9 @@ abstract class UserService {
   @GET('user/department')
   Future<List<UserDepartmentGroup>> getAllDepartments();
 
+  @GET('user/rank')
+  Future<List<UserRank>> getAllRanks();
+
   @GET('user/position')
   Future<List<UserPosition>> getAllPositions();
 

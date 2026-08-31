@@ -30,9 +30,8 @@ class DocumentListController extends _$DocumentListController {
   Future<void> load() async {
     final filter = ref.watch(documentFilterControllerProvider);
 
-    final value = state.value;
-
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
     if (value.hasReachEnd) return;
 
     state = await AsyncValue.guard(() async {
@@ -56,8 +55,8 @@ class DocumentListController extends _$DocumentListController {
   }
 
   void addListItem({required DocumentListItem item}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final folderId = ref.read(documentFilterControllerProvider).folderId;
     if (item.folderId != folderId) return;
@@ -66,8 +65,8 @@ class DocumentListController extends _$DocumentListController {
   }
 
   void updateListItem({required DocumentListItem item}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final folderId = ref.read(documentFilterControllerProvider).folderId;
     final documents = item.folderId == folderId
@@ -80,8 +79,8 @@ class DocumentListController extends _$DocumentListController {
   }
 
   void removeListItem({required int id}) {
-    final value = state.value;
-    if (value == null) return;
+    if (!state.hasValue) return;
+    final value = state.requireValue;
 
     final documents = value.items
         .where((document) => document.id != id)

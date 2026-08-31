@@ -15,27 +15,27 @@ class OverviewWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(workFilterControllerProvider);
-    final selectedItem = useState<WorkSegment>(
-      WorkSegment.values.firstWhere(
+    final selectedItem = useState<WorkSection>(
+      WorkSection.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => WorkSegment.values.first,
+        orElse: () => WorkSection.values.first,
       ),
     );
 
     final controller = useTabController(
-      initialLength: WorkSegment.values.length,
-      initialIndex: WorkSegment.values.indexOf(selectedItem.value),
+      initialLength: WorkSection.values.length,
+      initialIndex: WorkSection.values.indexOf(selectedItem.value),
     );
 
     useEffect(() {
-      final newItem = WorkSegment.values.firstWhere(
+      final newItem = WorkSection.values.firstWhere(
         (e) => e.name == filter.view,
-        orElse: () => WorkSegment.values.first,
+        orElse: () => WorkSection.values.first,
       );
 
       if (selectedItem.value != newItem) {
         selectedItem.value = newItem;
-        controller.animateTo(WorkSegment.values.indexOf(newItem));
+        controller.animateTo(WorkSection.values.indexOf(newItem));
       }
 
       return null;
@@ -46,7 +46,7 @@ class OverviewWidget extends HookConsumerWidget {
         TabBar(
           controller: controller,
           onTap: (index) {
-            selectedItem.value = WorkSegment.values[index];
+            selectedItem.value = WorkSection.values[index];
 
             ref
                 .read(workFilterControllerProvider.notifier)
@@ -65,10 +65,10 @@ class OverviewWidget extends HookConsumerWidget {
           isScrollable: true,
           labelPadding: EdgeInsets.symmetric(horizontal: 24.0),
           tabs: List.generate(
-            WorkSegment.values.length,
+            WorkSection.values.length,
             (index) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(WorkSegment.values[index].label),
+              child: Text(WorkSection.values[index].label),
             ),
           ),
         ),

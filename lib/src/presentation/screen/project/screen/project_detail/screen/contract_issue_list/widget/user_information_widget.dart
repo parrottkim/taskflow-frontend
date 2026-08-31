@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/shared/tool/functions.dart';
@@ -40,7 +41,7 @@ class UserInformationWidget extends StatelessWidget {
         if (Responsive.isDesktop(context))
           Text.rich(
             style: textTheme.labelMedium?.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
+              color: colorScheme.onSurface.strong,
             ),
             TextSpan(
               children: [

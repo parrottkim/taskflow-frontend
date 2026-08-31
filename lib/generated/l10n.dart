@@ -124,6 +124,11 @@ class S {
     return Intl.message('다음', name: 'common_next', desc: '', args: []);
   }
 
+  /// `뒤로가기`
+  String get common_previous {
+    return Intl.message('뒤로가기', name: 'common_previous', desc: '', args: []);
+  }
+
   /// `생성`
   String get common_created_at {
     return Intl.message('생성', name: 'common_created_at', desc: '', args: []);
@@ -149,6 +154,16 @@ class S {
     return Intl.message(
       '클립보드에 링크를 복사했습니다.',
       name: 'common_link_copied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미지를 클립보드에 복사했습니다.`
+  String get common_image_copied {
+    return Intl.message(
+      '이미지를 클립보드에 복사했습니다.',
+      name: 'common_image_copied',
       desc: '',
       args: [],
     );
@@ -217,6 +232,11 @@ class S {
   /// `비고`
   String get common_note {
     return Intl.message('비고', name: 'common_note', desc: '', args: []);
+  }
+
+  /// `일`
+  String get common_days {
+    return Intl.message('일', name: 'common_days', desc: '', args: []);
   }
 
   /// `조회`
@@ -294,6 +314,121 @@ class S {
     return Intl.message(
       '알 수 없는 단계입니다',
       name: 'unknown_step',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `확대 (+)`
+  String get image_detail_zoom_in_tooltip {
+    return Intl.message(
+      '확대 (+)',
+      name: 'image_detail_zoom_in_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `축소 (-)`
+  String get image_detail_zoom_out_tooltip {
+    return Intl.message(
+      '축소 (-)',
+      name: 'image_detail_zoom_out_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미지 초기화`
+  String get image_detail_reset_tooltip {
+    return Intl.message(
+      '이미지 초기화',
+      name: 'image_detail_reset_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미지 복사`
+  String get image_detail_clipboard_tooltip {
+    return Intl.message(
+      '이미지 복사',
+      name: 'image_detail_clipboard_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미지 다운로드`
+  String get image_detail_download_tooltip {
+    return Intl.message(
+      '이미지 다운로드',
+      name: 'image_detail_download_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미지 닫기 (Esc)`
+  String get image_detail_close_tooltip {
+    return Intl.message(
+      '이미지 닫기 (Esc)',
+      name: 'image_detail_close_tooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `임시 저장된 작성 내용이 {length}개 있습니다.`
+  String draft_list(Object length) {
+    return Intl.message(
+      '임시 저장된 작성 내용이 $length개 있습니다.',
+      name: 'draft_list',
+      desc: '',
+      args: [length],
+    );
+  }
+
+  /// `임시 저장 목록`
+  String get draft_dialog_title {
+    return Intl.message(
+      '임시 저장 목록',
+      name: 'draft_dialog_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `근무 일정 없는 보고서`
+  String get draft_no_schedule {
+    return Intl.message(
+      '근무 일정 없는 보고서',
+      name: 'draft_no_schedule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `내용 없음`
+  String get draft_no_preview {
+    return Intl.message('내용 없음', name: 'draft_no_preview', desc: '', args: []);
+  }
+
+  /// `임시 저장 중입니다`
+  String get draft_saving {
+    return Intl.message('임시 저장 중입니다', name: 'draft_saving', desc: '', args: []);
+  }
+
+  /// `모두 지우기`
+  String get draft_delete_all {
+    return Intl.message('모두 지우기', name: 'draft_delete_all', desc: '', args: []);
+  }
+
+  /// `임시 저장 내용을 복구할 수 없습니다.`
+  String get draft_restore_failed {
+    return Intl.message(
+      '임시 저장 내용을 복구할 수 없습니다.',
+      name: 'draft_restore_failed',
       desc: '',
       args: [],
     );
@@ -479,341 +614,6 @@ class S {
     );
   }
 
-  /// `잘못된 요청입니다.`
-  String get bad_request {
-    return Intl.message('잘못된 요청입니다.', name: 'bad_request', desc: '', args: []);
-  }
-
-  /// `로그인 세션이 만료되었습니다. 다시 로그인해 주세요.`
-  String get refresh_token_expired {
-    return Intl.message(
-      '로그인 세션이 만료되었습니다. 다시 로그인해 주세요.',
-      name: 'refresh_token_expired',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `해당 이메일로 이미 가입된 사용자가 있습니다.\n다른 이메일 주소를 사용해 주세요.`
-  String get user_exists {
-    return Intl.message(
-      '해당 이메일로 이미 가입된 사용자가 있습니다.\n다른 이메일 주소를 사용해 주세요.',
-      name: 'user_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 북마크한 프로젝트입니다.`
-  String get bookmark_exists {
-    return Intl.message(
-      '이미 북마크한 프로젝트입니다.',
-      name: 'bookmark_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.`
-  String get project_exists {
-    return Intl.message(
-      '이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.',
-      name: 'project_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 생성된 근무 일정이 있습니다.`
-  String get schedule_exists {
-    return Intl.message(
-      '이미 생성된 근무 일정이 있습니다.',
-      name: 'schedule_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 해당 근무 일정으로 작성된 보고서가 있습니다.`
-  String get report_exists {
-    return Intl.message(
-      '이미 해당 근무 일정으로 작성된 보고서가 있습니다.',
-      name: 'report_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 생성된 계약 및 수주 업무가 있습니다.`
-  String get contract_issue_exists {
-    return Intl.message(
-      '이미 생성된 계약 및 수주 업무가 있습니다.',
-      name: 'contract_issue_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 생성된 킥어프 업무가 있습니다.`
-  String get kickoff_issue_exists {
-    return Intl.message(
-      '이미 생성된 킥어프 업무가 있습니다.',
-      name: 'kickoff_issue_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 생성된 거래 명세/인보이스 업무가 있습니다.`
-  String get transaction_issue_exists {
-    return Intl.message(
-      '이미 생성된 거래 명세/인보이스 업무가 있습니다.',
-      name: 'transaction_issue_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 생성된 지급 청구 업무가 있습니다.`
-  String get payment_issue_exists {
-    return Intl.message(
-      '이미 생성된 지급 청구 업무가 있습니다.',
-      name: 'payment_issue_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이미 생성된 협력업체가 있습니다.`
-  String get supplier_exists {
-    return Intl.message(
-      '이미 생성된 협력업체가 있습니다.',
-      name: 'supplier_exists',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.`
-  String get too_many_forgot_password_requests {
-    return Intl.message(
-      '비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해주세요.',
-      name: 'too_many_forgot_password_requests',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `입력한 이메일이 존재하지 않습니다.\n정보를 확인하고 다시 시도하세요.`
-  String get user_not_found {
-    return Intl.message(
-      '입력한 이메일이 존재하지 않습니다.\n정보를 확인하고 다시 시도하세요.',
-      name: 'user_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `프로젝트를 찾을 수 없습니다.`
-  String get project_not_found {
-    return Intl.message(
-      '프로젝트를 찾을 수 없습니다.',
-      name: 'project_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `고객사를 찾을 수 없습니다.`
-  String get client_not_found {
-    return Intl.message(
-      '고객사를 찾을 수 없습니다.',
-      name: 'client_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `PM을 찾을 수 없습니다.`
-  String get manager_not_found {
-    return Intl.message(
-      'PM을 찾을 수 없습니다.',
-      name: 'manager_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `북마크를 찾을 수 없습니다.`
-  String get bookmark_not_found {
-    return Intl.message(
-      '북마크를 찾을 수 없습니다.',
-      name: 'bookmark_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `업무를 찾을 수 없습니다.`
-  String get issue_not_found {
-    return Intl.message(
-      '업무를 찾을 수 없습니다.',
-      name: 'issue_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `업무 종류를 찾을 수 없습니다.`
-  String get category_not_found {
-    return Intl.message(
-      '업무 종류를 찾을 수 없습니다.',
-      name: 'category_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `근무 일정을 찾을 수 없습니다.`
-  String get schedule_not_found {
-    return Intl.message(
-      '근무 일정을 찾을 수 없습니다.',
-      name: 'schedule_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `보고서를 찾을 수 없습니다.`
-  String get report_not_found {
-    return Intl.message(
-      '보고서를 찾을 수 없습니다.',
-      name: 'report_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `출장 명령서 데이터를 찾을 수 없습니다.`
-  String get trip_data_not_found {
-    return Intl.message(
-      '출장 명령서 데이터를 찾을 수 없습니다.',
-      name: 'trip_data_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.`
-  String get exchange_not_found {
-    return Intl.message(
-      '환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.',
-      name: 'exchange_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `발주 항목을 찾을 수 없습니다.`
-  String get request_not_found {
-    return Intl.message(
-      '발주 항목을 찾을 수 없습니다.',
-      name: 'request_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `폴더를 찾을 수 없습니다.`
-  String get folder_not_found {
-    return Intl.message(
-      '폴더를 찾을 수 없습니다.',
-      name: 'folder_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `문서를 찾을 수 없습니다.`
-  String get document_not_found {
-    return Intl.message(
-      '문서를 찾을 수 없습니다.',
-      name: 'document_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `협력업체를 찾을 수 없습니다.`
-  String get supplier_not_found {
-    return Intl.message(
-      '협력업체를 찾을 수 없습니다.',
-      name: 'supplier_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `파일을 찾을 수 없습니다.`
-  String get file_not_found {
-    return Intl.message(
-      '파일을 찾을 수 없습니다.',
-      name: 'file_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `경로를 찾을 수 없습니다.`
-  String get path_not_found {
-    return Intl.message(
-      '경로를 찾을 수 없습니다.',
-      name: 'path_not_found',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `승인권자의 승인이 필요합니다.`
-  String get ceo_approval_required {
-    return Intl.message(
-      '승인권자의 승인이 필요합니다.',
-      name: 'ceo_approval_required',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `이 페이지에 접근할 권한이 없습니다.`
-  String get no_permission {
-    return Intl.message(
-      '이 페이지에 접근할 권한이 없습니다.',
-      name: 'no_permission',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `고정할 수 있는 문서는 최대 5개입니다.`
-  String get fixed_document_limit_exceeded {
-    return Intl.message(
-      '고정할 수 있는 문서는 최대 5개입니다.',
-      name: 'fixed_document_limit_exceeded',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.`
-  String get guest_read_only {
-    return Intl.message(
-      '읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.',
-      name: 'guest_read_only',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `문제가 발생했습니다`
   String get error_title {
     return Intl.message('문제가 발생했습니다', name: 'error_title', desc: '', args: []);
@@ -839,6 +639,796 @@ class S {
     return Intl.message(
       '이미지 붙여넣기에 실패했습니다.',
       name: 'error_clipboard_image_paste',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `동일한 휴일 대체일을 중복으로 선택할 수 없습니다.`
+  String get bad_request_compensatory_leave_date_duplicate {
+    return Intl.message(
+      '동일한 휴일 대체일을 중복으로 선택할 수 없습니다.',
+      name: 'bad_request_compensatory_leave_date_duplicate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `유효하지 않은 통화입니다.`
+  String get bad_request_currency_invalid {
+    return Intl.message(
+      '유효하지 않은 통화입니다.',
+      name: 'bad_request_currency_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `환율 조회 날짜가 올바르지 않습니다.`
+  String get bad_request_exchange_date_invalid {
+    return Intl.message(
+      '환율 조회 날짜가 올바르지 않습니다.',
+      name: 'bad_request_exchange_date_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 경비의 통화를 선택해 주세요.`
+  String get bad_request_expense_currency_required {
+    return Intl.message(
+      '출장 경비의 통화를 선택해 주세요.',
+      name: 'bad_request_expense_currency_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 경비의 결제일을 입력해 주세요.`
+  String get bad_request_expense_payment_date_required {
+    return Intl.message(
+      '출장 경비의 결제일을 입력해 주세요.',
+      name: 'bad_request_expense_payment_date_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `동일한 폴더가 중복되어 있습니다.`
+  String get bad_request_folder_id_duplicate {
+    return Intl.message(
+      '동일한 폴더가 중복되어 있습니다.',
+      name: 'bad_request_folder_id_duplicate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 날짜가 올바르지 않습니다.`
+  String get bad_request_holiday_date_invalid {
+    return Intl.message(
+      '공휴일 날짜가 올바르지 않습니다.',
+      name: 'bad_request_holiday_date_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 조회 시작일은 종료일보다 늦을 수 없습니다.`
+  String get bad_request_holiday_date_range_invalid {
+    return Intl.message(
+      '공휴일 조회 시작일은 종료일보다 늦을 수 없습니다.',
+      name: 'bad_request_holiday_date_range_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 조회 월이 올바르지 않습니다.`
+  String get bad_request_holiday_month_invalid {
+    return Intl.message(
+      '공휴일 조회 월이 올바르지 않습니다.',
+      name: 'bad_request_holiday_month_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 조회 연도가 올바르지 않습니다.`
+  String get bad_request_holiday_year_invalid {
+    return Intl.message(
+      '공휴일 조회 연도가 올바르지 않습니다.',
+      name: 'bad_request_holiday_year_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무 종류가 올바르지 않습니다.`
+  String get bad_request_issue_category_invalid {
+    return Intl.message(
+      '업무 종류가 올바르지 않습니다.',
+      name: 'bad_request_issue_category_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `리소스 ID가 올바르지 않습니다.`
+  String get bad_request_resource_id_invalid {
+    return Intl.message(
+      '리소스 ID가 올바르지 않습니다.',
+      name: 'bad_request_resource_id_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `입력한 휴일·공휴일이 출장 일정과 일치하지 않습니다.`
+  String get bad_request_schedule_holiday_dates_invalid {
+    return Intl.message(
+      '입력한 휴일·공휴일이 출장 일정과 일치하지 않습니다.',
+      name: 'bad_request_schedule_holiday_dates_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴일·공휴일 정보는 국내 출장 일정에만 입력할 수 있습니다.`
+  String get bad_request_schedule_holidays_not_allowed {
+    return Intl.message(
+      '휴일·공휴일 정보는 국내 출장 일정에만 입력할 수 있습니다.',
+      name: 'bad_request_schedule_holidays_not_allowed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `파일 저장 경로가 올바르지 않습니다.`
+  String get bad_request_sftp_path_invalid {
+    return Intl.message(
+      '파일 저장 경로가 올바르지 않습니다.',
+      name: 'bad_request_sftp_path_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `동일한 주말 또는 공휴일이 중복되어 있습니다.`
+  String get bad_request_trip_holiday_date_duplicate {
+    return Intl.message(
+      '동일한 주말 또는 공휴일이 중복되어 있습니다.',
+      name: 'bad_request_trip_holiday_date_duplicate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `입력한 휴일·공휴일이 출장 일정과 일치하지 않습니다.`
+  String get bad_request_trip_holiday_dates_invalid {
+    return Intl.message(
+      '입력한 휴일·공휴일이 출장 일정과 일치하지 않습니다.',
+      name: 'bad_request_trip_holiday_dates_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴일·공휴일 정보는 국내 출장에만 입력할 수 있습니다.`
+  String get bad_request_trip_holidays_not_allowed {
+    return Intl.message(
+      '휴일·공휴일 정보는 국내 출장에만 입력할 수 있습니다.',
+      name: 'bad_request_trip_holidays_not_allowed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 일정 종류가 올바르지 않습니다.`
+  String get bad_request_trip_schedule_category_invalid {
+    return Intl.message(
+      '출장 일정 종류가 올바르지 않습니다.',
+      name: 'bad_request_trip_schedule_category_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 일정의 시작일과 종료일이 올바르지 않습니다.`
+  String get bad_request_trip_schedule_range_invalid {
+    return Intl.message(
+      '출장 일정의 시작일과 종료일이 올바르지 않습니다.',
+      name: 'bad_request_trip_schedule_range_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 경비 항목이 올바르지 않습니다.`
+  String get bad_request_trip_step_invalid {
+    return Intl.message(
+      '출장 경비 항목이 올바르지 않습니다.',
+      name: 'bad_request_trip_step_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `로그인 세션이 만료되었습니다. 다시 로그인해 주세요.`
+  String get unauthorized_access_token_expired {
+    return Intl.message(
+      '로그인 세션이 만료되었습니다. 다시 로그인해 주세요.',
+      name: 'unauthorized_access_token_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이메일 또는 비밀번호가 일치하지 않습니다.`
+  String get unauthorized_credentials_invalid {
+    return Intl.message(
+      '이메일 또는 비밀번호가 일치하지 않습니다.',
+      name: 'unauthorized_credentials_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `로그인 세션이 만료되었습니다. 다시 로그인해 주세요.`
+  String get unauthorized_refresh_token_expired {
+    return Intl.message(
+      '로그인 세션이 만료되었습니다. 다시 로그인해 주세요.',
+      name: 'unauthorized_refresh_token_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비밀번호 재설정 링크가 만료되었거나 유효하지 않습니다. 다시 요청해 주세요.`
+  String get unauthorized_reset_token_invalid_or_expired {
+    return Intl.message(
+      '비밀번호 재설정 링크가 만료되었거나 유효하지 않습니다. 다시 요청해 주세요.',
+      name: 'unauthorized_reset_token_invalid_or_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용자 인증 정보를 확인할 수 없습니다. 다시 로그인해 주세요.`
+  String get unauthorized_user_not_found {
+    return Intl.message(
+      '사용자 인증 정보를 확인할 수 없습니다. 다시 로그인해 주세요.',
+      name: 'unauthorized_user_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이 페이지에 접근할 권한이 없습니다.`
+  String get forbidden_access_denied {
+    return Intl.message(
+      '이 페이지에 접근할 권한이 없습니다.',
+      name: 'forbidden_access_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `승인권자의 승인이 필요합니다.`
+  String get forbidden_ceo_approval_required {
+    return Intl.message(
+      '승인권자의 승인이 필요합니다.',
+      name: 'forbidden_ceo_approval_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `국내 출장에서만 사용할 수 있습니다.`
+  String get forbidden_domestic_trip_required {
+    return Intl.message(
+      '국내 출장에서만 사용할 수 있습니다.',
+      name: 'forbidden_domestic_trip_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `고정 폴더는 이동할 수 없습니다.`
+  String get forbidden_fixed_folder_move_not_allowed {
+    return Intl.message(
+      '고정 폴더는 이동할 수 없습니다.',
+      name: 'forbidden_fixed_folder_move_not_allowed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.`
+  String get forbidden_guest_write_not_allowed {
+    return Intl.message(
+      '읽기 전용 계정은 생성, 수정, 삭제할 수 없습니다.',
+      name: 'forbidden_guest_write_not_allowed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `해외 출장에서만 사용할 수 있습니다.`
+  String get forbidden_overseas_trip_required {
+    return Intl.message(
+      '해외 출장에서만 사용할 수 있습니다.',
+      name: 'forbidden_overseas_trip_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `관리자의 승인을 받지 않은 계정입니다.`
+  String get forbidden_user_not_approved {
+    return Intl.message(
+      '관리자의 승인을 받지 않은 계정입니다.',
+      name: 'forbidden_user_not_approved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `첨부파일을 찾을 수 없습니다.`
+  String get not_found_attachment {
+    return Intl.message(
+      '첨부파일을 찾을 수 없습니다.',
+      name: 'not_found_attachment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `북마크를 찾을 수 없습니다.`
+  String get not_found_bookmark {
+    return Intl.message(
+      '북마크를 찾을 수 없습니다.',
+      name: 'not_found_bookmark',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무 종류를 찾을 수 없습니다.`
+  String get not_found_category {
+    return Intl.message(
+      '업무 종류를 찾을 수 없습니다.',
+      name: 'not_found_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `고객사를 찾을 수 없습니다.`
+  String get not_found_client {
+    return Intl.message(
+      '고객사를 찾을 수 없습니다.',
+      name: 'not_found_client',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `문서를 찾을 수 없습니다.`
+  String get not_found_document {
+    return Intl.message(
+      '문서를 찾을 수 없습니다.',
+      name: 'not_found_document',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `국내 출장 일비 규정을 찾을 수 없습니다.`
+  String get not_found_domestic_daily_allowance_regulation {
+    return Intl.message(
+      '국내 출장 일비 규정을 찾을 수 없습니다.',
+      name: 'not_found_domestic_daily_allowance_regulation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.`
+  String get not_found_exchange {
+    return Intl.message(
+      '환율 정보를 찾을 수 없습니다. 영업일 또는 당일 11시 이후에 다시 요청하세요.',
+      name: 'not_found_exchange',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `파일을 찾을 수 없습니다.`
+  String get not_found_file {
+    return Intl.message(
+      '파일을 찾을 수 없습니다.',
+      name: 'not_found_file',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `폴더를 찾을 수 없습니다.`
+  String get not_found_folder {
+    return Intl.message(
+      '폴더를 찾을 수 없습니다.',
+      name: 'not_found_folder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴일 특별 수당 규정을 찾을 수 없습니다.`
+  String get not_found_holiday_special_allowance_regulation {
+    return Intl.message(
+      '휴일 특별 수당 규정을 찾을 수 없습니다.',
+      name: 'not_found_holiday_special_allowance_regulation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무를 찾을 수 없습니다.`
+  String get not_found_issue {
+    return Intl.message(
+      '업무를 찾을 수 없습니다.',
+      name: 'not_found_issue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PM을 찾을 수 없습니다.`
+  String get not_found_manager {
+    return Intl.message(
+      'PM을 찾을 수 없습니다.',
+      name: 'not_found_manager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `해외 출장 일비 규정을 찾을 수 없습니다.`
+  String get not_found_overseas_daily_allowance_regulation {
+    return Intl.message(
+      '해외 출장 일비 규정을 찾을 수 없습니다.',
+      name: 'not_found_overseas_daily_allowance_regulation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `해외 출장 휴일 특별 수당 규정을 찾을 수 없습니다.`
+  String get not_found_overseas_holiday_special_allowance_regulation {
+    return Intl.message(
+      '해외 출장 휴일 특별 수당 규정을 찾을 수 없습니다.',
+      name: 'not_found_overseas_holiday_special_allowance_regulation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상위 고객사를 찾을 수 없습니다.`
+  String get not_found_parent_client {
+    return Intl.message(
+      '상위 고객사를 찾을 수 없습니다.',
+      name: 'not_found_parent_client',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상위 폴더를 찾을 수 없습니다.`
+  String get not_found_parent_folder {
+    return Intl.message(
+      '상위 폴더를 찾을 수 없습니다.',
+      name: 'not_found_parent_folder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `경로를 찾을 수 없습니다.`
+  String get not_found_path {
+    return Intl.message(
+      '경로를 찾을 수 없습니다.',
+      name: 'not_found_path',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `발주 항목을 찾을 수 없습니다.`
+  String get not_found_procurement_request {
+    return Intl.message(
+      '발주 항목을 찾을 수 없습니다.',
+      name: 'not_found_procurement_request',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트를 찾을 수 없습니다.`
+  String get not_found_project {
+    return Intl.message(
+      '프로젝트를 찾을 수 없습니다.',
+      name: 'not_found_project',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `보고서를 찾을 수 없습니다.`
+  String get not_found_report {
+    return Intl.message(
+      '보고서를 찾을 수 없습니다.',
+      name: 'not_found_report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `근무 일정을 찾을 수 없습니다.`
+  String get not_found_schedule {
+    return Intl.message(
+      '근무 일정을 찾을 수 없습니다.',
+      name: 'not_found_schedule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `협력업체를 찾을 수 없습니다.`
+  String get not_found_supplier {
+    return Intl.message(
+      '협력업체를 찾을 수 없습니다.',
+      name: 'not_found_supplier',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 명령서 데이터를 찾을 수 없습니다.`
+  String get not_found_trip_data {
+    return Intl.message(
+      '출장 명령서 데이터를 찾을 수 없습니다.',
+      name: 'not_found_trip_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `사용자를 찾을 수 없습니다.`
+  String get not_found_user {
+    return Intl.message(
+      '사용자를 찾을 수 없습니다.',
+      name: 'not_found_user',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 북마크한 프로젝트입니다.`
+  String get conflict_bookmark_already_exists {
+    return Intl.message(
+      '이미 북마크한 프로젝트입니다.',
+      name: 'conflict_bookmark_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 계약 및 수주 업무가 있습니다.`
+  String get conflict_contract_issue_already_exists {
+    return Intl.message(
+      '이미 생성된 계약 및 수주 업무가 있습니다.',
+      name: 'conflict_contract_issue_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `고정할 수 있는 문서는 최대 5개입니다.`
+  String get conflict_fixed_document_limit_exceeded {
+    return Intl.message(
+      '고정할 수 있는 문서는 최대 5개입니다.',
+      name: 'conflict_fixed_document_limit_exceeded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 킥오프 업무가 있습니다.`
+  String get conflict_kickoff_issue_already_exists {
+    return Intl.message(
+      '이미 생성된 킥오프 업무가 있습니다.',
+      name: 'conflict_kickoff_issue_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 지급 청구 업무가 있습니다.`
+  String get conflict_payment_issue_already_exists {
+    return Intl.message(
+      '이미 생성된 지급 청구 업무가 있습니다.',
+      name: 'conflict_payment_issue_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.`
+  String get conflict_project_code_already_exists {
+    return Intl.message(
+      '이미 사용 중인 프로젝트 코드입니다. 다른 코드를 입력해 주세요.',
+      name: 'conflict_project_code_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 해당 근무 일정으로 작성된 보고서가 있습니다.`
+  String get conflict_report_already_exists {
+    return Intl.message(
+      '이미 해당 근무 일정으로 작성된 보고서가 있습니다.',
+      name: 'conflict_report_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `해당 근무 일정으로 작성된 보고서가 있어 변경할 수 없습니다.`
+  String get conflict_schedule_report_exists {
+    return Intl.message(
+      '해당 근무 일정으로 작성된 보고서가 있어 변경할 수 없습니다.',
+      name: 'conflict_schedule_report_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 협력업체가 있습니다.`
+  String get conflict_supplier_already_exists {
+    return Intl.message(
+      '이미 생성된 협력업체가 있습니다.',
+      name: 'conflict_supplier_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이미 생성된 거래 명세/인보이스 업무가 있습니다.`
+  String get conflict_transaction_issue_already_exists {
+    return Intl.message(
+      '이미 생성된 거래 명세/인보이스 업무가 있습니다.',
+      name: 'conflict_transaction_issue_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `해당 이메일로 이미 가입된 사용자가 있습니다.\n다른 이메일 주소를 사용해 주세요.`
+  String get conflict_user_email_already_exists {
+    return Intl.message(
+      '해당 이메일로 이미 가입된 사용자가 있습니다.\n다른 이메일 주소를 사용해 주세요.',
+      name: 'conflict_user_email_already_exists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해 주세요.`
+  String get too_many_requests_forgot_password {
+    return Intl.message(
+      '비밀번호 재설정은 1분에 한 번만 요청할 수 있습니다. 잠시 후 다시 시도해 주세요.',
+      name: 'too_many_requests_forgot_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `주소 검색 서버 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.`
+  String get internal_server_error_address_api_request_failed {
+    return Intl.message(
+      '주소 검색 서버 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+      name: 'internal_server_error_address_api_request_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `환율 정보 조회에 실패했습니다. 잠시 후 다시 시도해 주세요.`
+  String get internal_server_error_exchange_api_request_failed {
+    return Intl.message(
+      '환율 정보 조회에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+      name: 'internal_server_error_exchange_api_request_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `환율 정보를 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.`
+  String get internal_server_error_exchange_processing_failed {
+    return Intl.message(
+      '환율 정보를 처리하는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+      name: 'internal_server_error_exchange_processing_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 서버에서 올바르지 않은 날짜 정보를 받았습니다.`
+  String get internal_server_error_holiday_api_date_invalid {
+    return Intl.message(
+      '공휴일 서버에서 올바르지 않은 날짜 정보를 받았습니다.',
+      name: 'internal_server_error_holiday_api_date_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 API 설정이 누락되었습니다.`
+  String get internal_server_error_holiday_api_not_configured {
+    return Intl.message(
+      '공휴일 API 설정이 누락되었습니다.',
+      name: 'internal_server_error_holiday_api_not_configured',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 정보 조회에 실패했습니다. 잠시 후 다시 시도해 주세요.`
+  String get internal_server_error_holiday_api_request_failed {
+    return Intl.message(
+      '공휴일 정보 조회에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+      name: 'internal_server_error_holiday_api_request_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `공휴일 서버에서 올바르지 않은 응답을 받았습니다.`
+  String get internal_server_error_holiday_api_response_invalid {
+    return Intl.message(
+      '공휴일 서버에서 올바르지 않은 응답을 받았습니다.',
+      name: 'internal_server_error_holiday_api_response_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `원화 통화 정보를 찾을 수 없습니다. 관리자에게 문의해 주세요.`
+  String get internal_server_error_krw_currency_not_found {
+    return Intl.message(
+      '원화 통화 정보를 찾을 수 없습니다. 관리자에게 문의해 주세요.',
+      name: 'internal_server_error_krw_currency_not_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `파일 서버 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.`
+  String get internal_server_error_sftp_connection_failed {
+    return Intl.message(
+      '파일 서버 연결에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+      name: 'internal_server_error_sftp_connection_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `파일 다운로드 주소를 생성할 수 없습니다. 관리자에게 문의해 주세요.`
+  String get internal_server_error_sftp_url_invalid {
+    return Intl.message(
+      '파일 다운로드 주소를 생성할 수 없습니다. 관리자에게 문의해 주세요.',
+      name: 'internal_server_error_sftp_url_invalid',
       desc: '',
       args: [],
     );
@@ -1754,9 +2344,9 @@ class S {
     );
   }
 
-  /// `킥어프`
+  /// `선진행`
   String get dashboard_summary_3 {
-    return Intl.message('킥어프', name: 'dashboard_summary_3', desc: '', args: []);
+    return Intl.message('선진행', name: 'dashboard_summary_3', desc: '', args: []);
   }
 
   /// `실무 진행 중`
@@ -2139,10 +2729,10 @@ class S {
     );
   }
 
-  /// `직급`
+  /// `직책`
   String get project_form_user_position {
     return Intl.message(
-      '직급',
+      '직책',
       name: 'project_form_user_position',
       desc: '',
       args: [],
@@ -2539,6 +3129,16 @@ class S {
     return Intl.message(
       '출장 명령 또는 업무 수행 결과를 기록 및 보고',
       name: 'project_action_2_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.`
+  String get project_action_closed {
+    return Intl.message(
+      '프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.',
+      name: 'project_action_closed',
       desc: '',
       args: [],
     );
@@ -3964,6 +4564,36 @@ class S {
     );
   }
 
+  /// `휴일·공휴일`
+  String get schedule_form_holidays {
+    return Intl.message(
+      '휴일·공휴일',
+      name: 'schedule_form_holidays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무 없이 이동만 함`
+  String get schedule_form_travel_only {
+    return Intl.message(
+      '업무 없이 이동만 함',
+      name: 'schedule_form_travel_only',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴일 대체일 선택`
+  String get schedule_form_compensatory_leave {
+    return Intl.message(
+      '휴일 대체일 선택',
+      name: 'schedule_form_compensatory_leave',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `출장 목적`
   String get schedule_form_summary {
     return Intl.message(
@@ -3979,6 +4609,16 @@ class S {
     return Intl.message(
       '설명',
       name: 'schedule_form_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `보고서 작성이 완료된 일정은 수정 및 삭제가 불가능합니다`
+  String get schedule_form_reported {
+    return Intl.message(
+      '보고서 작성이 완료된 일정은 수정 및 삭제가 불가능합니다',
+      name: 'schedule_form_reported',
       desc: '',
       args: [],
     );
@@ -4029,6 +4669,26 @@ class S {
     return Intl.message(
       '출장 목적을 입력해 주세요',
       name: 'schedule_form_invalid_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `설명을 입력해 주세요`
+  String get schedule_form_invalid_4 {
+    return Intl.message(
+      '설명을 입력해 주세요',
+      name: 'schedule_form_invalid_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `모든 휴일·공휴일의 휴일 대체일을 선택해 주세요`
+  String get schedule_form_invalid_5 {
+    return Intl.message(
+      '모든 휴일·공휴일의 휴일 대체일을 선택해 주세요',
+      name: 'schedule_form_invalid_5',
       desc: '',
       args: [],
     );
@@ -4204,6 +4864,26 @@ class S {
     );
   }
 
+  /// `박`
+  String get report_form_schedule_nights {
+    return Intl.message(
+      '박',
+      name: 'report_form_schedule_nights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `일`
+  String get report_form_schedule_days {
+    return Intl.message(
+      '일',
+      name: 'report_form_schedule_days',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `단계`
   String get report_form_step {
     return Intl.message('단계', name: 'report_form_step', desc: '', args: []);
@@ -4265,75 +4945,95 @@ class S {
   }
 
   /// `사용 금액`
-  String get report_form_column_1 {
+  String get report_form_expense_amount {
     return Intl.message(
       '사용 금액',
-      name: 'report_form_column_1',
+      name: 'report_form_expense_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `결제일 선택`
+  String get report_form_expense_payment_date {
+    return Intl.message(
+      '결제일 선택',
+      name: 'report_form_expense_payment_date',
       desc: '',
       args: [],
     );
   }
 
   /// `내역 (설명)`
-  String get report_form_column_2 {
+  String get report_form_expense_details {
     return Intl.message(
       '내역 (설명)',
-      name: 'report_form_column_2',
+      name: 'report_form_expense_details',
       desc: '',
       args: [],
     );
   }
 
   /// `단가`
-  String get report_form_column_3 {
-    return Intl.message('단가', name: 'report_form_column_3', desc: '', args: []);
+  String get report_form_unit_price {
+    return Intl.message(
+      '단가',
+      name: 'report_form_unit_price',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일`
-  String get report_form_column_4 {
-    return Intl.message('일', name: 'report_form_column_4', desc: '', args: []);
+  String get report_form_days {
+    return Intl.message('일', name: 'report_form_days', desc: '', args: []);
   }
 
   /// `렌탈, 택시 실비 처리`
-  String get report_form_column_5 {
+  String get report_form_rental_taxi_expense {
     return Intl.message(
       '렌탈, 택시 실비 처리',
-      name: 'report_form_column_5',
+      name: 'report_form_rental_taxi_expense',
       desc: '',
       args: [],
     );
   }
 
   /// `개인 차량 유류비`
-  String get report_form_column_6 {
+  String get report_form_personal_vehicle_fuel_expense {
     return Intl.message(
       '개인 차량 유류비',
-      name: 'report_form_column_6',
+      name: 'report_form_personal_vehicle_fuel_expense',
       desc: '',
       args: [],
     );
   }
 
   /// `유류단가`
-  String get report_form_column_7 {
+  String get report_form_fuel_unit_price {
     return Intl.message(
       '유류단가',
-      name: 'report_form_column_7',
+      name: 'report_form_fuel_unit_price',
       desc: '',
       args: [],
     );
   }
 
   /// `연비`
-  String get report_form_column_8 {
-    return Intl.message('연비', name: 'report_form_column_8', desc: '', args: []);
+  String get report_form_fuel_efficiency {
+    return Intl.message(
+      '연비',
+      name: 'report_form_fuel_efficiency',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `운행거리`
-  String get report_form_column_9 {
+  String get report_form_driving_distance {
     return Intl.message(
       '운행거리',
-      name: 'report_form_column_9',
+      name: 'report_form_driving_distance',
       desc: '',
       args: [],
     );
@@ -4409,6 +5109,106 @@ class S {
     );
   }
 
+  /// `총 출장 일수`
+  String get report_form_total_trip_days {
+    return Intl.message(
+      '총 출장 일수',
+      name: 'report_form_total_trip_days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴일·공휴일 근무 일수`
+  String get report_form_domestic_holiday_work_days {
+    return Intl.message(
+      '휴일·공휴일 근무 일수',
+      name: 'report_form_domestic_holiday_work_days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴일·공휴일 이동 일수`
+  String get report_form_domestic_holiday_travel_days {
+    return Intl.message(
+      '휴일·공휴일 이동 일수',
+      name: 'report_form_domestic_holiday_travel_days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `설날·추석 포함 일수`
+  String get report_form_overseas_special_days {
+    return Intl.message(
+      '설날·추석 포함 일수',
+      name: 'report_form_overseas_special_days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `기본 일비`
+  String get report_form_daily_amount {
+    return Intl.message(
+      '기본 일비',
+      name: 'report_form_daily_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `특별 수당`
+  String get report_form_special_allowance_amount {
+    return Intl.message(
+      '특별 수당',
+      name: 'report_form_special_allowance_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `일비 공제율`
+  String get report_form_deduction_rate {
+    return Intl.message(
+      '일비 공제율',
+      name: 'report_form_deduction_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `총 일비`
+  String get report_form_total_daily_amount {
+    return Intl.message(
+      '총 일비',
+      name: 'report_form_total_daily_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `휴일 근무 구분`
+  String get report_form_holiday_work_type {
+    return Intl.message(
+      '휴일 근무 구분',
+      name: 'report_form_holiday_work_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `업무 없이 이동만 함`
+  String get report_form_travel_only {
+    return Intl.message(
+      '업무 없이 이동만 함',
+      name: 'report_form_travel_only',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `설명`
   String get report_form_description_1 {
     return Intl.message(
@@ -4449,50 +5249,50 @@ class S {
     );
   }
 
-  /// `출장 명령서를 삭제하시겠습니까?`
+  /// `보고서를 삭제하시겠습니까?`
   String get report_form_delete_dialog_1 {
     return Intl.message(
-      '출장 명령서를 삭제하시겠습니까?',
+      '보고서를 삭제하시겠습니까?',
       name: 'report_form_delete_dialog_1',
       desc: '',
       args: [],
     );
   }
 
-  /// `출장 명령서를 삭제하면 모든 내용이 삭제됩니다.`
+  /// `보고서를 삭제하면 모든 내용이 삭제됩니다.`
   String get report_form_delete_dialog_2 {
     return Intl.message(
-      '출장 명령서를 삭제하면 모든 내용이 삭제됩니다.',
+      '보고서를 삭제하면 모든 내용이 삭제됩니다.',
       name: 'report_form_delete_dialog_2',
       desc: '',
       args: [],
     );
   }
 
-  /// `출장 명령서가 정상적으로 등록되었습니다.`
+  /// `보고서가 정상적으로 등록되었습니다.`
   String get report_form_created {
     return Intl.message(
-      '출장 명령서가 정상적으로 등록되었습니다.',
+      '보고서가 정상적으로 등록되었습니다.',
       name: 'report_form_created',
       desc: '',
       args: [],
     );
   }
 
-  /// `출장 명령서 정보가 정상적으로 변경되었습니다.`
+  /// `보고서 정보가 정상적으로 변경되었습니다.`
   String get report_form_updated {
     return Intl.message(
-      '출장 명령서 정보가 정상적으로 변경되었습니다.',
+      '보고서 정보가 정상적으로 변경되었습니다.',
       name: 'report_form_updated',
       desc: '',
       args: [],
     );
   }
 
-  /// `출장 명령서가 삭제되었습니다.`
+  /// `보고서가 삭제되었습니다.`
   String get report_form_delete {
     return Intl.message(
-      '출장 명령서가 삭제되었습니다.',
+      '보고서가 삭제되었습니다.',
       name: 'report_form_delete',
       desc: '',
       args: [],
@@ -5284,29 +6084,34 @@ class S {
     return Intl.message('직급', name: 'data_user_column_3', desc: '', args: []);
   }
 
-  /// `부서`
+  /// `직책`
   String get data_user_column_4 {
-    return Intl.message('부서', name: 'data_user_column_4', desc: '', args: []);
+    return Intl.message('직책', name: 'data_user_column_4', desc: '', args: []);
+  }
+
+  /// `부서`
+  String get data_user_column_5 {
+    return Intl.message('부서', name: 'data_user_column_5', desc: '', args: []);
   }
 
   /// `관리자`
-  String get data_user_column_5 {
-    return Intl.message('관리자', name: 'data_user_column_5', desc: '', args: []);
+  String get data_user_column_6 {
+    return Intl.message('관리자', name: 'data_user_column_6', desc: '', args: []);
   }
 
   /// `사용 승인`
-  String get data_user_column_6 {
+  String get data_user_column_7 {
     return Intl.message(
       '사용 승인',
-      name: 'data_user_column_6',
+      name: 'data_user_column_7',
       desc: '',
       args: [],
     );
   }
 
   /// `관리`
-  String get data_user_column_7 {
-    return Intl.message('관리', name: 'data_user_column_7', desc: '', args: []);
+  String get data_user_column_8 {
+    return Intl.message('관리', name: 'data_user_column_8', desc: '', args: []);
   }
 
   /// `관리자 권한을 변경하시겠습니까?`

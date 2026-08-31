@@ -6,26 +6,24 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
 import 'package:taskflow/src/presentation/controller/controller.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/expense_card_list_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/widget/regulation_rate_widget.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/report_form/report_form_scope.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
-import 'package:taskflow/src/shared/tool/formatter.dart';
 
-class ExpenseListWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? reportId;
-  final int? scheduleId;
+class ExpenseListWidget extends ConsumerWidget {
   final Schedule schedule;
   final List<TripStep> steps;
+  final List<Currency> currencies;
   final List<TripRegulation>? regulations;
   final List<TripActualExpense>? expenses;
   final List<TripRegulationRate>? rates;
 
   const ExpenseListWidget({
     super.key,
-    required this.projectId,
-    this.reportId,
-    this.scheduleId,
     required this.schedule,
     required this.steps,
+    required this.currencies,
     this.regulations,
     this.expenses,
     this.rates,
@@ -33,142 +31,147 @@ class ExpenseListWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final actions = _ExpenseActions(
+      controller: ReportFormScope.of(context).controller(ref),
+      expenses: expenses ?? const [],
+      rates: rates ?? const [],
+    );
+    final validation = ref.watch(reportValidationControllerProvider);
+
     return ListView.separated(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: steps.length,
       itemBuilder: (context, index) => _ExpenseItemWidget(
-        projectId: projectId,
-        reportId: reportId,
-        scheduleId: scheduleId,
+        key: ValueKey(steps[index].id),
         schedule: schedule,
         step: steps[index],
+        currencies: currencies,
         regulations: regulations,
         expenses: expenses,
         rates: rates,
+        validation: validation,
+        actions: actions,
       ),
-      separatorBuilder: (_, __) => SizedBox(height: 16.0),
+      separatorBuilder: (_, _) => const SizedBox(height: 16.0),
     );
   }
 }
 
-class _ExpenseItemWidget extends HookConsumerWidget {
-  final int projectId;
-  final int? reportId;
-  final int? scheduleId;
+class _ExpenseItemWidget extends HookWidget {
   final Schedule schedule;
   final TripStep step;
+  final List<Currency> currencies;
   final List<TripRegulation>? regulations;
   final List<TripActualExpense>? expenses;
   final List<TripRegulationRate>? rates;
+  final ReportValidationState validation;
+  final _ExpenseActions actions;
 
   const _ExpenseItemWidget({
-    required this.projectId,
-    this.reportId,
-    this.scheduleId,
+    super.key,
     required this.schedule,
     required this.step,
+    required this.currencies,
     this.regulations,
     this.expenses,
     this.rates,
+    required this.validation,
+    required this.actions,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final filteredItems = expenses
-        ?.where((element) => element.stepId == step.id)
+    final stepExpenses = expenses
+        ?.where((expense) => expense.stepId == step.id)
         .toList();
-
     final regulation = regulations?.firstWhereOrNull(
-      (e) => e.stepId == step.id,
+      (item) => item.stepId == step.id,
     );
-    final rate = rates?.firstWhereOrNull((e) => e.stepId == step.id);
-
-    final rateController = useTextEditingController(text: regulation?.rate);
-    final daysController = useTextEditingController(text: rate?.days);
-
-    final daysFocusNode = useFocusNode();
-
-    useListenable(daysFocusNode);
-
-    final fareControllers = useMemoized(
-      () => filteredItems
-          ?.where((element) => element.stepId == step.id)
-          .map((element) => TextEditingController(text: element.price))
-          .toList(),
-      [filteredItems?.length],
-    );
-    final detailsControllers = useMemoized(
-      () => filteredItems
-          ?.where((element) => element.stepId == step.id)
-          .map((element) => TextEditingController(text: element.details))
-          .toList(),
-      [filteredItems?.length],
+    final regulationRate = rates?.firstWhereOrNull(
+      (item) => item.stepId == step.id,
     );
 
-    final fareFocusNodes = useMemoized(
-      () => filteredItems
-          ?.where((element) => element.stepId == step.id)
-          .map((element) => FocusNode())
-          .toList(),
-      [filteredItems?.length],
-    );
-    final detailsFocusNodes = useMemoized(
-      () => filteredItems
-          ?.where((element) => element.stepId == step.id)
-          .map((element) => FocusNode())
-          .toList(),
-      [filteredItems?.length],
-    );
-
-    final total = useMemoized(() {
-      return filteredItems?.map((e) => e.price).fold(0.0, (sum, priceString) {
-            String cleanedPrice = priceString?.replaceAll(',', '') ?? '0';
-            double price = double.tryParse(cleanedPrice) ?? 0.0;
-            return sum + price;
-          }) ??
-          0.0;
-    }, [filteredItems]);
-
-    final settlement = useMemoized(() {
-      String cleanedPrice = regulation?.rate.replaceAll(',', '') ?? '0';
-      double price = double.tryParse(cleanedPrice) ?? 0.0;
-
-      String cleanedDays = daysController.text.isNotEmpty
-          ? daysController.text.replaceAll(',', '')
-          : '0';
-      double days = double.tryParse(cleanedDays) ?? 0.0;
-
-      return price * days;
-    }, [filteredItems, rate?.days]);
-
-    final opacityController = useAnimationController(
+    final isExpanded =
+        (stepExpenses?.isNotEmpty ?? false) ||
+        (regulation != null && stepExpenses == null);
+    final animationController = useAnimationController(
       duration: const Duration(milliseconds: 150),
-    );
-
-    final sizeController = useAnimationController(
-      duration: const Duration(milliseconds: 150),
+      initialValue: isExpanded ? 1.0 : 0.0,
     );
 
     useEffect(() {
-      if ((filteredItems != null && filteredItems.isNotEmpty) ||
-          (regulation != null && filteredItems == null)) {
-        sizeController.forward().then((_) {
-          opacityController.forward();
-        });
+      if (isExpanded) {
+        animationController.forward();
       } else {
-        opacityController.reverse().then((_) {
-          sizeController.reverse();
-        });
+        animationController.reverse();
       }
       return null;
-    }, [filteredItems?.length]);
+    }, [isExpanded]);
 
-    final validation = ref.watch(reportValidationControllerProvider);
+    final total =
+        stepExpenses?.fold<double>(
+          0,
+          (sum, expense) =>
+              sum +
+              (double.tryParse(expense.price?.replaceAll(',', '') ?? '') ?? 0),
+        ) ??
+        0;
+    final regulationPrice =
+        double.tryParse(regulation?.rate.replaceAll(',', '') ?? '') ?? 0;
+    final regulationDays =
+        double.tryParse(regulationRate?.days?.replaceAll(',', '') ?? '') ?? 0;
+    final settlement = regulationPrice * regulationDays;
+    final requiresCurrency = step.requiresExpenseCurrency;
+    final defaultCurrency = currencies.firstWhere(
+      (currency) => currency.code == 'KRW',
+      orElse: () => currencies.first,
+    );
+    final totalsByCurrency = <Currency, double>{};
+    for (final expense in stepExpenses ?? <TripActualExpense>[]) {
+      final currency = currencies.firstWhere(
+        (currency) => currency.id == expense.currencyId,
+        orElse: () => defaultCurrency,
+      );
+      final price =
+          double.tryParse(expense.price?.replaceAll(',', '') ?? '') ?? 0;
+      totalsByCurrency.update(
+        currency,
+        (total) => total + price,
+        ifAbsent: () => price,
+      );
+    }
+
     final isStepInvalid = validation.stepValidations[step.id] ?? false;
+    final isRegulationRateInvalid =
+        validation.regulationRateValidations[step.id] ?? false;
+    final hasInvalidExpense =
+        stepExpenses?.any(
+          (expense) =>
+              !(expense.price?.trim().isNotEmpty ?? false) ||
+              (requiresCurrency &&
+                  ((expense.currencyId ?? 0) <= 0 ||
+                      expense.paymentDate == null)),
+        ) ??
+        false;
+    final hasInvalidRegulationRate =
+        regulationRate != null &&
+        (!(regulationRate.days?.trim().isNotEmpty ?? false) ||
+            !(regulationRate.rate?.trim().isNotEmpty ?? false));
+
+    Future<void> removeExpense(TripActualExpense expense) async {
+      if (stepExpenses?.length == 1) {
+        await animationController.reverse();
+        if (regulationRate != null) {
+          actions.removeRate(regulationRate);
+        }
+      }
+
+      actions.removeExpense(expense);
+    }
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -180,665 +183,220 @@ class _ExpenseItemWidget extends HookConsumerWidget {
         ),
         if (step.description != null)
           Padding(
-            padding: EdgeInsets.only(top: 4.0),
+            padding: const EdgeInsets.only(top: 4.0),
             child: Text(
               step.description!,
               style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                color: colorScheme.onSurface.strong,
               ),
             ),
           ),
-        if (filteredItems != null)
+        if (stepExpenses != null)
           Padding(
             padding: const EdgeInsets.only(top: 4.0),
             child: TextButton.icon(
-              onPressed: () {
-                ref
-                    .read(
-                      reportFormControllerProvider(
-                        projectId: projectId,
-                        reportId: reportId,
-                        scheduleId: scheduleId,
-                      ).notifier,
-                    )
-                    .addActualExpense(item: TripActualExpense(stepId: step.id));
-              },
-              icon: Icon(Symbols.add_rounded),
+              onPressed: () => actions.addExpense(step, defaultCurrency),
+              icon: const Icon(Symbols.add_rounded),
               label: Text(Intl.message('issue_form_contract_5')),
             ),
           ),
-        if (regulation != null)
-          SizeTransition(
-            sizeFactor: CurvedAnimation(
-              parent: sizeController,
-              curve: Curves.easeInQuad,
-            ),
-            child: FadeTransition(
-              opacity: opacityController,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: 4.0,
-                  bottom: filteredItems != null ? 8.0 : 0.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DataTable(
-                      headingRowHeight: 36.0,
-                      showCheckboxColumn: false,
-                      horizontalMargin: 0.0,
-                      dataRowMinHeight: 34.0,
-                      dataRowMaxHeight: 34.0,
-                      showBottomBorder: true,
-                      border: TableBorder(
-                        verticalInside: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.2),
-                          width: 1.0,
-                        ),
-                        horizontalInside: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.2),
-                          width: 1.0,
-                        ),
-                        bottom: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.2),
-                          width: 1.0,
-                        ),
-                      ),
-                      columns: [
-                        DataColumn(
-                          columnWidth: FlexColumnWidth(0.6),
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Symbols.numbers_rounded,
-                                  color: colorScheme.onSurface.withValues(
-                                    alpha: 0.7,
-                                  ),
-                                  size: 16.0,
-                                ),
-                                SizedBox(width: 4.0),
-                                Text(
-                                  Intl.message('report_form_column_3'),
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          columnWidth: FlexColumnWidth(0.4),
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Symbols.numbers_rounded,
-                                  color: colorScheme.onSurface.withValues(
-                                    alpha: 0.7,
-                                  ),
-                                  size: 16.0,
-                                ),
-                                SizedBox(width: 4.0),
-                                Text(
-                                  Intl.message('report_form_column_4'),
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                      rows: [
-                        DataRow(
-                          cells: [
-                            DataCell(
-                              TextField(
-                                readOnly: true,
-                                controller: rateController,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [DecimalInputFormatter()],
-                                textAlign: TextAlign.end,
-                                style: textTheme.bodyMedium,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                    ),
-                                  ),
-                                  suffixText:
-                                      schedule.category is ScheduleDomestic
-                                      ? '₩'
-                                      : '\$',
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Material(
-                                elevation: daysFocusNode.hasFocus ? 1.0 : 0.0,
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: daysFocusNode.hasFocus
-                                    ? colorScheme.surfaceBright
-                                    : colorScheme.surfaceContainerLow,
-                                child: TextField(
-                                  controller: daysController,
-                                  focusNode: daysFocusNode,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [DecimalInputFormatter()],
-                                  textAlign: TextAlign.end,
-                                  style: textTheme.bodyMedium,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      borderSide: BorderSide(
-                                        width: 2.0,
-                                        color: colorScheme.primary,
-                                      ),
-                                    ),
-                                    suffixText: Intl.message(
-                                      'report_form_column_4',
-                                    ),
-                                  ),
-                                  onChanged: (value) {
-                                    // stepInvalid.value[step.id] = false;
-
-                                    if (rate == null) {
-                                      ref
-                                          .read(
-                                            reportFormControllerProvider(
-                                              projectId: projectId,
-                                              reportId: reportId,
-                                              scheduleId: scheduleId,
-                                            ).notifier,
-                                          )
-                                          .addRegulationRate(
-                                            item: TripRegulationRate(
-                                              stepId: step.id,
-                                              days: value,
-                                              rate: regulation.rate,
-                                            ),
-                                          );
-                                      return;
-                                    }
-
-                                    final itemIndex = rates!.indexOf(rate);
-
-                                    if (value.isEmpty || value == '0') {
-                                      ref
-                                          .read(
-                                            reportFormControllerProvider(
-                                              projectId: projectId,
-                                              reportId: reportId,
-                                              scheduleId: scheduleId,
-                                            ).notifier,
-                                          )
-                                          .removeRegulationRate(
-                                            index: itemIndex,
-                                          );
-                                    }
-
-                                    ref
-                                        .read(
-                                          reportFormControllerProvider(
-                                            projectId: projectId,
-                                            reportId: reportId,
-                                            scheduleId: scheduleId,
-                                          ).notifier,
-                                        )
-                                        .updateRegulationRate(
-                                          index: itemIndex,
-                                          days: value,
-                                          rate: regulation.rate,
-                                        );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+        SizeTransition(
+          sizeFactor: CurvedAnimation(
+            parent: animationController,
+            curve: Curves.easeInQuad,
           ),
-        if (filteredItems != null && filteredItems.isNotEmpty)
-          SizeTransition(
-            sizeFactor: CurvedAnimation(
-              parent: sizeController,
-              curve: Curves.easeInQuad,
-            ),
-            child: FadeTransition(
-              opacity: opacityController,
-              child: Padding(
-                padding: EdgeInsets.only(top: 4.0),
-                child: Column(
-                  children: [
-                    DataTable(
-                      headingRowHeight: 36.0,
-                      showCheckboxColumn: false,
-                      horizontalMargin: 0.0,
-                      dataRowMinHeight: 34.0,
-                      dataRowMaxHeight: 34.0,
-                      showBottomBorder: true,
-                      border: TableBorder(
-                        verticalInside: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.2),
-                          width: 1.0,
-                        ),
-                        horizontalInside: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.2),
-                          width: 1.0,
-                        ),
-                        bottom: BorderSide(
-                          color: colorScheme.outline.withValues(alpha: 0.2),
-                          width: 1.0,
-                        ),
-                      ),
-                      columns: [
-                        DataColumn(
-                          columnWidth: FlexColumnWidth(0.4),
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Symbols.numbers_rounded,
-                                  color: colorScheme.onSurface.withValues(
-                                    alpha: 0.7,
-                                  ),
-                                  size: 16.0,
-                                ),
-                                SizedBox(width: 4.0),
-                                Text(
-                                  Intl.message('report_form_column_1'),
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        DataColumn(
-                          columnWidth: FlexColumnWidth(0.6),
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Symbols.text_fields_rounded,
-                                  color: colorScheme.onSurface.withValues(
-                                    alpha: 0.7,
-                                  ),
-                                  size: 16.0,
-                                ),
-                                SizedBox(width: 4.0),
-                                Text(
-                                  Intl.message('report_form_column_2'),
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.7,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                      rows: List.generate(filteredItems.length, (index) {
-                        useListenable(fareFocusNodes![index]);
-                        useListenable(detailsFocusNodes![index]);
+          child: FadeTransition(
+            opacity: animationController,
+            child: Column(
+              children: [
+                if (regulation != null)
+                  RegulationRateWidget(
+                    schedule: schedule,
+                    regulation: regulation,
+                    rate: regulationRate,
+                    bottomPadding: stepExpenses != null ? 8.0 : 0.0,
+                    onChanged: (value) {
+                      if (regulationRate == null) {
+                        if (value.isNotEmpty && value != '0') {
+                          actions.addRate(step, regulation, value);
+                        }
+                        return;
+                      }
 
-                        return DataRow(
-                          cells: [
-                            DataCell(
-                              Material(
-                                elevation: fareFocusNodes[index].hasFocus
-                                    ? 1.0
-                                    : 0.0,
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: fareFocusNodes[index].hasFocus
-                                    ? colorScheme.surfaceBright
-                                    : colorScheme.surfaceContainerLow,
-                                child: TextField(
-                                  controller: fareControllers![index],
-                                  focusNode: fareFocusNodes[index],
-                                  keyboardType: TextInputType.number,
-                                  textAlign: TextAlign.end,
-                                  inputFormatters: [DecimalInputFormatter()],
-                                  style: textTheme.bodyMedium,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      borderSide: BorderSide(
-                                        width: 2.0,
-                                        color: colorScheme.primary,
-                                      ),
-                                    ),
-                                    suffixText: '₩',
-                                  ),
-                                  onChanged: (value) {
-                                    // stepInvalid.value[step.id] = false;
+                      final index = rates!.indexOf(regulationRate);
+                      if (value.isEmpty || value == '0') {
+                        actions.removeRateAt(index);
+                        return;
+                      }
 
-                                    final itemIndex = expenses!.indexOf(
-                                      filteredItems[index],
-                                    );
-                                    ref
-                                        .read(
-                                          reportFormControllerProvider(
-                                            projectId: projectId,
-                                            reportId: reportId,
-                                            scheduleId: scheduleId,
-                                          ).notifier,
-                                        )
-                                        .updateActualExpense(
-                                          index: itemIndex,
-                                          price: value,
-                                        );
-                                  },
-                                  onSubmitted: (_) => FocusScope.of(
-                                    context,
-                                  ).requestFocus(detailsFocusNodes[index]),
-                                ),
-                              ),
-                            ),
-                            DataCell(
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Material(
-                                      elevation:
-                                          detailsFocusNodes[index].hasFocus
-                                          ? 1.0
-                                          : 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: detailsFocusNodes[index].hasFocus
-                                          ? colorScheme.surfaceBright
-                                          : colorScheme.surfaceContainerLow,
-                                      child: TextField(
-                                        controller: detailsControllers![index],
-                                        focusNode: detailsFocusNodes[index],
-                                        style: textTheme.bodyMedium,
-                                        maxLines: 1,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.transparent,
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.transparent,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              8.0,
-                                            ),
-                                            borderSide: BorderSide(
-                                              width: 2.0,
-                                              color: colorScheme.primary,
-                                            ),
-                                          ),
-                                        ),
-                                        onChanged: (value) {
-                                          // stepInvalid.value[step.id] = false;
-
-                                          final itemIndex = expenses!.indexOf(
-                                            filteredItems[index],
-                                          );
-                                          ref
-                                              .read(
-                                                reportFormControllerProvider(
-                                                  projectId: projectId,
-                                                  reportId: reportId,
-                                                  scheduleId: scheduleId,
-                                                ).notifier,
-                                              )
-                                              .updateActualExpense(
-                                                index: itemIndex,
-                                                details: value,
-                                              );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ElevatedIconButton(
-                                      onTap: () async {
-                                        if (filteredItems.length == 1) {
-                                          // stepInvalid.value[step.id] = false;
-
-                                          await opacityController.reverse();
-                                          await sizeController.reverse();
-
-                                          if (regulation != null &&
-                                              rate != null) {
-                                            final rateIndex = rates!.indexOf(
-                                              rate,
-                                            );
-                                            ref
-                                                .read(
-                                                  reportFormControllerProvider(
-                                                    projectId: projectId,
-                                                    reportId: reportId,
-                                                    scheduleId: scheduleId,
-                                                  ).notifier,
-                                                )
-                                                .removeRegulationRate(
-                                                  index: rateIndex,
-                                                );
-                                          }
-                                        }
-
-                                        final itemIndex = expenses!.indexOf(
-                                          filteredItems[index],
-                                        );
-
-                                        ref
-                                            .read(
-                                              reportFormControllerProvider(
-                                                projectId: projectId,
-                                                reportId: reportId,
-                                                scheduleId: scheduleId,
-                                              ).notifier,
-                                            )
-                                            .removeActualExpense(
-                                              index: itemIndex,
-                                            );
-                                      },
-                                      padding: EdgeInsets.all(4.0),
-                                      borderRadius: BorderRadius.circular(4.0),
-                                      icon: Symbols.delete_rounded,
-                                      size: 16.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 8.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: colorScheme.outline.withValues(alpha: 0.2),
-                            width: 1.0,
-                          ),
-                        ),
-                        color: colorScheme.surfaceContainer,
-                      ),
-                      child: Row(
-                        children: [
-                          Text(
-                            Intl.message('report_form_total'),
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${NumberFormat('#,###').format(total)} ₩',
-                              textAlign: TextAlign.end,
-                              style: TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        if (regulation != null)
-          SizeTransition(
-            sizeFactor: CurvedAnimation(
-              parent: sizeController,
-              curve: Curves.easeInQuad,
-            ),
-            child: FadeTransition(
-              opacity: opacityController,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 8.0,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
-                      width: 1.0,
+                      actions.updateRate(index, regulation, value);
+                    },
+                  ),
+                if (stepExpenses?.isNotEmpty ?? false)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: ExpenseCardListWidget(
+                      expenses: stepExpenses!,
+                      currencies: currencies,
+                      requiresCurrency: requiresCurrency,
+                      onPriceChanged: actions.updatePrice,
+                      onDetailsChanged: actions.updateDetails,
+                      onCurrencyChanged: actions.updateCurrency,
+                      onPaymentDateChanged: actions.updatePaymentDate,
+                      onRemove: removeExpense,
+                      onAdd: () => actions.addExpense(step, defaultCurrency),
                     ),
                   ),
-                  color: colorScheme.surfaceContainer,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      Intl.message('report_form_regulation'),
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                if ((stepExpenses?.isNotEmpty ?? false) && requiresCurrency)
+                  for (final totalByCurrency in totalsByCurrency.entries)
+                    _SummaryRow(
+                      label:
+                          '${Intl.message('report_form_total')} (${totalByCurrency.key.code})',
+                      value: totalByCurrency.value,
+                      currency: totalByCurrency.key,
                     ),
-                    Expanded(
-                      child: Text(
-                        '${NumberFormat('#,###').format(settlement)} ${schedule.category is ScheduleDomestic ? '₩' : '\$'}',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        if (regulation != null && filteredItems != null)
-          SizeTransition(
-            sizeFactor: CurvedAnimation(
-              parent: sizeController,
-              curve: Curves.easeInQuad,
-            ),
-            child: FadeTransition(
-              opacity: opacityController,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 8.0,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: colorScheme.outline.withValues(alpha: 0.2),
-                      width: 1.0,
-                    ),
+                if ((stepExpenses?.isNotEmpty ?? false) && !requiresCurrency)
+                  _SummaryRow(
+                    label: Intl.message('report_form_total'),
+                    value: total,
+                    currency: defaultCurrency,
                   ),
-                  color: colorScheme.surfaceContainer,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      Intl.message('report_form_settlement'),
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    Expanded(
-                      child: Text(
-                        '${NumberFormat('#,###').format(settlement - total)} ${schedule.category is ScheduleDomestic ? '₩' : '\$'}',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                if (regulation != null)
+                  _SummaryRow(
+                    label: Intl.message('report_form_regulation'),
+                    value: settlement,
+                    currency: defaultCurrency,
+                  ),
+                if (regulation != null && stepExpenses != null)
+                  _SummaryRow(
+                    label: Intl.message('report_form_settlement'),
+                    value: settlement - total,
+                    currency: defaultCurrency,
+                  ),
+              ],
             ),
           ),
-        InvalidWidget(
-          visible: isStepInvalid,
+        ),
+        ValidationErrorMessage(
+          visible: isStepInvalid && hasInvalidExpense,
           text: Intl.message('report_form_invalid_2', args: [step.name]),
         ),
+        ValidationErrorMessage(
+          visible: isRegulationRateInvalid && hasInvalidRegulationRate,
+          text: Intl.message('report_form_invalid_3', args: [step.name]),
+        ),
       ],
+    );
+  }
+}
+
+class _ExpenseActions {
+  final ReportFormController controller;
+  final List<TripActualExpense> expenses;
+  final List<TripRegulationRate> rates;
+
+  const _ExpenseActions({
+    required this.controller,
+    required this.expenses,
+    required this.rates,
+  });
+
+  void addExpense(TripStep step, Currency currency) {
+    controller.addActualExpense(
+      item: TripActualExpense(stepId: step.id, currencyId: currency.id),
+    );
+  }
+
+  void removeExpense(TripActualExpense expense) {
+    controller.removeActualExpense(index: expenses.indexOf(expense));
+  }
+
+  void updatePrice(TripActualExpense expense, String value) {
+    controller.updateActualExpense(
+      index: expenses.indexOf(expense),
+      price: value,
+    );
+  }
+
+  void updateDetails(TripActualExpense expense, String value) {
+    controller.updateActualExpense(
+      index: expenses.indexOf(expense),
+      details: value,
+    );
+  }
+
+  void updateCurrency(TripActualExpense expense, Currency currency) {
+    controller.updateActualExpenseCurrency(
+      index: expenses.indexOf(expense),
+      currencyId: currency.id,
+    );
+  }
+
+  void updatePaymentDate(TripActualExpense expense, DateTime? date) {
+    controller.updateActualExpensePaymentDate(
+      index: expenses.indexOf(expense),
+      paymentDate: date,
+    );
+  }
+
+  void addRate(TripStep step, TripRegulation regulation, String days) {
+    controller.addRegulationRate(
+      item: TripRegulationRate(
+        stepId: step.id,
+        days: days,
+        rate: regulation.rate,
+      ),
+    );
+  }
+
+  void updateRate(int index, TripRegulation regulation, String days) {
+    controller.updateRegulationRate(
+      index: index,
+      days: days,
+      rate: regulation.rate,
+    );
+  }
+
+  void removeRate(TripRegulationRate rate) => removeRateAt(rates.indexOf(rate));
+
+  void removeRateAt(int index) {
+    controller.removeRegulationRate(index: index);
+  }
+}
+
+class _SummaryRow extends StatelessWidget {
+  final String label;
+  final double value;
+  final Currency currency;
+
+  const _SummaryRow({
+    required this.label,
+    required this.value,
+    required this.currency,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: colorScheme.outline.subtle)),
+        color: colorScheme.surfaceContainer,
+      ),
+      child: Row(
+        children: [
+          Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+          Expanded(
+            child: Text(
+              '${NumberFormat.currency(locale: Intl.getCurrentLocale(), name: currency.code, symbol: '').format(value)} ${currency.symbol}',
+              textAlign: TextAlign.end,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

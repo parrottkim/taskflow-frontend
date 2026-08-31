@@ -11,8 +11,8 @@ class TermsAndAgreementWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomToggleButton(
-      onChanged: (value) => termsAndAgreement.value = value ?? false,
+    return AppToggleButton(
+      onChanged: (value) => termsAndAgreement.value = value,
       value: termsAndAgreement.value,
       child: Text.rich(
         TextSpan(

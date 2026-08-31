@@ -4,8 +4,8 @@ part of '../controller.dart';
 abstract class DocumentFilterState with _$DocumentFilterState {
   factory DocumentFilterState({
     @Default([1]) List<int> folders,
-    @Default(DocumentSort.recent) DocumentSort sort,
-    @Default(Order.desc) Order order,
+    @Default(DocumentSortOption.recent) DocumentSortOption sort,
+    @Default(SortDirection.desc) SortDirection order,
     String? search,
   }) = _DocumentFilterState;
 }

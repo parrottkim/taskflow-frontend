@@ -15,7 +15,7 @@ class ResetFilterWidget extends ConsumerWidget {
 
     return ElevatedIconButton(
       onTap:
-          filter.status != ProjectSegment.values.first ||
+          filter.status != ProjectStatusFilter.values.first ||
               filter.sort != null ||
               filter.order != null ||
               filter.search != null ||

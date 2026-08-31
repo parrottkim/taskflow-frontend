@@ -27,7 +27,7 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
 
     final passwordVisibility = useState<bool>(false);
     final validationItems = useState(
-      WidgetPreset(context).passwordValidationItems,
+      UiConfiguration(context).passwordValidationItems,
     );
 
     useEffect(() {
@@ -99,7 +99,7 @@ class ResetPasswordFormWidget extends HookConsumerWidget {
               suffixIcon: password.text.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(right: 4.0),
-                      child: CustomIconButton(
+                      child: AppIconButton(
                         onTap: () {
                           passwordVisibility.value = !passwordVisibility.value;
                         },

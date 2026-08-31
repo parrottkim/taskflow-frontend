@@ -119,6 +119,7 @@ abstract class TripStep with _$TripStep {
     required int categoryId,
     required String name,
     String? description,
+    @Default(false) bool requiresExpenseCurrency,
   }) = _TripStep;
 
   factory TripStep.fromJson(Map<String, dynamic> json) =>
@@ -132,7 +133,12 @@ abstract class TripActualExpense with _$TripActualExpense {
   factory TripActualExpense({
     int? id,
     required int stepId,
+    int? currencyId,
     String? price,
+    DateTime? paymentDate,
+    double? exchangeRate,
+    DateTime? exchangeRateAppliedDate,
+    double? convertedPrice,
     String? details,
   }) = _TripActualExpense;
 
@@ -140,6 +146,47 @@ abstract class TripActualExpense with _$TripActualExpense {
       _$TripActualExpenseFromJson(json);
 
   factory TripActualExpense.empty() => TripActualExpense(stepId: 0);
+}
+
+@freezed
+abstract class DailyAllowancePreview with _$DailyAllowancePreview {
+  factory DailyAllowancePreview({
+    required int totalTripDays,
+    DomesticHolidayDays? domestic,
+    OverseasSpecialAllowance? overseas,
+    required double dailyRate,
+    required double dailyAmount,
+    required double deductionRate,
+    required double exchangeRate,
+    required double totalAmount,
+    required String currencyCode,
+  }) = _DailyAllowancePreview;
+
+  factory DailyAllowancePreview.fromJson(Map<String, dynamic> json) =>
+      _$DailyAllowancePreviewFromJson(json);
+}
+
+@freezed
+abstract class DomesticHolidayDays with _$DomesticHolidayDays {
+  factory DomesticHolidayDays({
+    required int workDays,
+    required double travelDays,
+  }) = _DomesticHolidayDays;
+
+  factory DomesticHolidayDays.fromJson(Map<String, dynamic> json) =>
+      _$DomesticHolidayDaysFromJson(json);
+}
+
+@freezed
+abstract class OverseasSpecialAllowance with _$OverseasSpecialAllowance {
+  factory OverseasSpecialAllowance({
+    required int days,
+    required double rate,
+    required double amount,
+  }) = _OverseasSpecialAllowance;
+
+  factory OverseasSpecialAllowance.fromJson(Map<String, dynamic> json) =>
+      _$OverseasSpecialAllowanceFromJson(json);
 }
 
 @freezed
@@ -192,7 +239,7 @@ abstract class TripCalculations with _$TripCalculations {
     required int totalCost,
     int? taxableAmount,
     int? nonTaxableAmount,
-    int? exchangeRate,
+    double? exchangeRate,
   }) = _TripCalculations;
 
   factory TripCalculations.fromJson(Map<String, dynamic> json) =>

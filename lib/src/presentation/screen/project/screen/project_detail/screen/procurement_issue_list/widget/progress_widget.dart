@@ -76,17 +76,17 @@ class ProgressWidget extends ConsumerWidget {
           if (isAllRequested)
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: ContainerWidget(
+              child: ContentContainer(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 borderRadius: BorderRadius.circular(8.0),
-                borderColor: colorScheme.outline.withValues(alpha: 0.2),
+                borderColor: colorScheme.outline.subtle,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
                       Symbols.assignment_turned_in_rounded,
                       size: 18.0,
-                      color: colorScheme.onSurface.withValues(alpha: 0.7),
+                      color: colorScheme.onSurface.strong,
                     ),
                     SizedBox(width: 8.0),
                     Text(Intl.message('issue_form_procurement_requested')),
