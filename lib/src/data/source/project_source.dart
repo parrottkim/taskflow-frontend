@@ -49,6 +49,12 @@ class ProjectDataSource implements ProjectRepository {
   }) => _service.updateProject(id: id, request: request);
 
   @override
+  Future<Project> closeProject({
+    required int id,
+    required CloseProjectRequest request,
+  }) => _service.closeProject(id: id, request: request);
+
+  @override
   Future<void> deleteProject({required int id}) =>
       _service.deleteProject(id: id);
 

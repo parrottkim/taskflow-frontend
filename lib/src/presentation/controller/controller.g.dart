@@ -2506,7 +2506,7 @@ final class ProjectSubmitControllerProvider
 }
 
 String _$projectSubmitControllerHash() =>
-    r'ff15df4b095ae2f406db1e3ae037403cd27f56ad';
+    r'ffa8e0db23c21df7de15136efbb0e03a462896f2';
 
 abstract class _$ProjectSubmitController extends $Notifier<ProjectSubmitState> {
   ProjectSubmitState build();
