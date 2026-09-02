@@ -17,7 +17,7 @@ class ProjectDetailActionButton extends ConsumerWidget {
 
         if (projectId != null) {
           context.pushNamed(
-            RouteNames.projectAction,
+            RouteNames.projectDetailAction,
             pathParameters: {'project_id': projectId},
           );
         }

@@ -2869,26 +2869,6 @@ class S {
     );
   }
 
-  /// `종결된 프로젝트입니다.`
-  String get project_detail_closed_1 {
-    return Intl.message(
-      '종결된 프로젝트입니다.',
-      name: 'project_detail_closed_1',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `출장 명령서 등록을 제외한 모든 기능이 제한됩니다.`
-  String get project_detail_closed_2 {
-    return Intl.message(
-      '출장 명령서 등록을 제외한 모든 기능이 제한됩니다.',
-      name: 'project_detail_closed_2',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `고객사`
   String get project_detail_client {
     return Intl.message(
@@ -3105,290 +3085,370 @@ class S {
   }
 
   /// `업무 등록`
-  String get project_action_1 {
-    return Intl.message('업무 등록', name: 'project_action_1', desc: '', args: []);
+  String get project_detail_action_1 {
+    return Intl.message(
+      '업무 등록',
+      name: 'project_detail_action_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 계약 이행 및 각 수행 단계별 관리`
-  String get project_action_1_1 {
+  String get project_detail_action_1_1 {
     return Intl.message(
       '프로젝트 계약 이행 및 각 수행 단계별 관리',
-      name: 'project_action_1_1',
+      name: 'project_detail_action_1_1',
       desc: '',
       args: [],
     );
   }
 
   /// `보고서 등록`
-  String get project_action_2 {
-    return Intl.message('보고서 등록', name: 'project_action_2', desc: '', args: []);
+  String get project_detail_action_2 {
+    return Intl.message(
+      '보고서 등록',
+      name: 'project_detail_action_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `출장 명령 또는 업무 수행 결과를 기록 및 보고`
-  String get project_action_2_1 {
+  String get project_detail_action_2_1 {
     return Intl.message(
       '출장 명령 또는 업무 수행 결과를 기록 및 보고',
-      name: 'project_action_2_1',
+      name: 'project_detail_action_2_1',
       desc: '',
       args: [],
     );
   }
 
   /// `프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.`
-  String get project_action_closed {
+  String get project_detail_action_closed {
     return Intl.message(
       '프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.',
-      name: 'project_action_closed',
+      name: 'project_detail_action_closed',
       desc: '',
       args: [],
     );
   }
 
   /// `✍️ `
-  String get issue_new_choose_1 {
-    return Intl.message('✍️ ', name: 'issue_new_choose_1', desc: '', args: []);
+  String get issue_category_contract_icon {
+    return Intl.message(
+      '✍️ ',
+      name: 'issue_category_contract_icon',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `계약 및 수주`
-  String get issue_new_choose_1_1 {
+  String get issue_category_contract_title {
     return Intl.message(
       '계약 및 수주',
-      name: 'issue_new_choose_1_1',
+      name: 'issue_category_contract_title',
       desc: '',
       args: [],
     );
   }
 
   /// `계약 조건과 품목·금액을 기록`
-  String get issue_new_choose_1_2 {
+  String get issue_category_contract_description {
     return Intl.message(
       '계약 조건과 품목·금액을 기록',
-      name: 'issue_new_choose_1_2',
+      name: 'issue_category_contract_description',
       desc: '',
       args: [],
     );
   }
 
   /// `⚽ `
-  String get issue_new_choose_2 {
-    return Intl.message('⚽ ', name: 'issue_new_choose_2', desc: '', args: []);
+  String get issue_category_kickoff_icon {
+    return Intl.message(
+      '⚽ ',
+      name: 'issue_category_kickoff_icon',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `킥어프`
-  String get issue_new_choose_2_1 {
+  String get issue_category_kickoff_title {
     return Intl.message(
       '킥어프',
-      name: 'issue_new_choose_2_1',
+      name: 'issue_category_kickoff_title',
       desc: '',
       args: [],
     );
   }
 
   /// `프로젝트 시작 일정과 목표를 공유`
-  String get issue_new_choose_2_2 {
+  String get issue_category_kickoff_description {
     return Intl.message(
       '프로젝트 시작 일정과 목표를 공유',
-      name: 'issue_new_choose_2_2',
+      name: 'issue_category_kickoff_description',
       desc: '',
       args: [],
     );
   }
 
   /// `☑️ `
-  String get issue_new_choose_3 {
-    return Intl.message('☑️ ', name: 'issue_new_choose_3', desc: '', args: []);
+  String get issue_category_approval_icon {
+    return Intl.message(
+      '☑️ ',
+      name: 'issue_category_approval_icon',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `사양 승인`
-  String get issue_new_choose_3_1 {
+  String get issue_category_approval_title {
     return Intl.message(
       '사양 승인',
-      name: 'issue_new_choose_3_1',
+      name: 'issue_category_approval_title',
       desc: '',
       args: [],
     );
   }
 
   /// `확정된 제품·서비스 사양을 기록`
-  String get issue_new_choose_3_2 {
+  String get issue_category_approval_description {
     return Intl.message(
       '확정된 제품·서비스 사양을 기록',
-      name: 'issue_new_choose_3_2',
+      name: 'issue_category_approval_description',
       desc: '',
       args: [],
     );
   }
 
   /// `🛒 `
-  String get issue_new_choose_4 {
-    return Intl.message('🛒 ', name: 'issue_new_choose_4', desc: '', args: []);
+  String get issue_category_procurement_icon {
+    return Intl.message(
+      '🛒 ',
+      name: 'issue_category_procurement_icon',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `구매 조달`
-  String get issue_new_choose_4_1 {
+  String get issue_category_procurement_title {
     return Intl.message(
       '구매 조달',
-      name: 'issue_new_choose_4_1',
+      name: 'issue_category_procurement_title',
       desc: '',
       args: [],
     );
   }
 
   /// `필요 자재·서비스의 상세 정보와 금액을 기록`
-  String get issue_new_choose_4_2 {
+  String get issue_category_procurement_description {
     return Intl.message(
       '필요 자재·서비스의 상세 정보와 금액을 기록',
-      name: 'issue_new_choose_4_2',
+      name: 'issue_category_procurement_description',
       desc: '',
       args: [],
     );
   }
 
   /// `🧾 `
-  String get issue_new_choose_5 {
-    return Intl.message('🧾 ', name: 'issue_new_choose_5', desc: '', args: []);
+  String get issue_category_transaction_icon {
+    return Intl.message(
+      '🧾 ',
+      name: 'issue_category_transaction_icon',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `거래 명세 / 인보이스`
-  String get issue_new_choose_5_1 {
+  String get issue_category_transaction_title {
     return Intl.message(
       '거래 명세 / 인보이스',
-      name: 'issue_new_choose_5_1',
+      name: 'issue_category_transaction_title',
       desc: '',
       args: [],
     );
   }
 
   /// `계약금·중도금·잔금 내역 관리`
-  String get issue_new_choose_5_2 {
+  String get issue_category_transaction_description {
     return Intl.message(
       '계약금·중도금·잔금 내역 관리',
-      name: 'issue_new_choose_5_2',
+      name: 'issue_category_transaction_description',
       desc: '',
       args: [],
     );
   }
 
   /// `🏦 `
-  String get issue_new_choose_6 {
-    return Intl.message('🏦 ', name: 'issue_new_choose_6', desc: '', args: []);
+  String get issue_category_payment_icon {
+    return Intl.message(
+      '🏦 ',
+      name: 'issue_category_payment_icon',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `지급 청구`
-  String get issue_new_choose_6_1 {
+  String get issue_category_payment_title {
     return Intl.message(
       '지급 청구',
-      name: 'issue_new_choose_6_1',
+      name: 'issue_category_payment_title',
       desc: '',
       args: [],
     );
   }
 
   /// `지급 요청 내용과 보고서를 제출`
-  String get issue_new_choose_6_2 {
+  String get issue_category_payment_description {
     return Intl.message(
       '지급 요청 내용과 보고서를 제출',
-      name: 'issue_new_choose_6_2',
+      name: 'issue_category_payment_description',
       desc: '',
       args: [],
     );
   }
 
   /// `프로젝트 종결`
-  String get issue_new_choose_7 {
+  String get project_closure_title {
     return Intl.message(
       '프로젝트 종결',
-      name: 'issue_new_choose_7',
+      name: 'project_closure_title',
       desc: '',
       args: [],
     );
   }
 
   /// `모든 지급 및 회계 완료 처리`
-  String get issue_new_choose_7_1 {
+  String get project_closure_description {
     return Intl.message(
       '모든 지급 및 회계 완료 처리',
-      name: 'issue_new_choose_7_1',
+      name: 'project_closure_description',
       desc: '',
       args: [],
     );
   }
 
   /// `프로젝트 종결 처리는 영구적이며 되돌릴 수 없습니다.`
-  String get issue_new_choose_7_2 {
+  String get project_closure_irreversible_warning {
     return Intl.message(
       '프로젝트 종결 처리는 영구적이며 되돌릴 수 없습니다.',
-      name: 'issue_new_choose_7_2',
+      name: 'project_closure_irreversible_warning',
       desc: '',
       args: [],
     );
   }
 
   /// `이후 보고서 등록을 제외한 모든 기능이 제한됩니다.`
-  String get issue_new_choose_7_3 {
+  String get project_closure_restriction_description {
     return Intl.message(
       '이후 보고서 등록을 제외한 모든 기능이 제한됩니다.',
-      name: 'issue_new_choose_7_3',
+      name: 'project_closure_restriction_description',
       desc: '',
       args: [],
     );
   }
 
   /// `이 작업을 수행하면 다음이 비활성화됩니다.`
-  String get issue_new_choose_7_4 {
+  String get project_closure_disabled_features_title {
     return Intl.message(
       '이 작업을 수행하면 다음이 비활성화됩니다.',
-      name: 'issue_new_choose_7_4',
+      name: 'project_closure_disabled_features_title',
       desc: '',
       args: [],
     );
   }
 
   /// ` ◦ 신규 업무 등록`
-  String get issue_new_choose_7_5 {
+  String get project_closure_new_issue_disabled {
     return Intl.message(
       ' ◦ 신규 업무 등록',
-      name: 'issue_new_choose_7_5',
+      name: 'project_closure_new_issue_disabled',
       desc: '',
       args: [],
     );
   }
 
   /// ` ◦ 기존 업무 수정 및 삭제`
-  String get issue_new_choose_7_6 {
+  String get project_closure_issue_edit_delete_disabled {
     return Intl.message(
       ' ◦ 기존 업무 수정 및 삭제',
-      name: 'issue_new_choose_7_6',
+      name: 'project_closure_issue_edit_delete_disabled',
       desc: '',
       args: [],
     );
   }
 
   /// `종결 후, 공유할 내용을 입력하세요.`
-  String get issue_new_choose_7_7 {
+  String get project_closure_message_hint {
     return Intl.message(
       '종결 후, 공유할 내용을 입력하세요.',
-      name: 'issue_new_choose_7_7',
+      name: 'project_closure_message_hint',
       desc: '',
       args: [],
     );
   }
 
   /// `이 프로젝트를 종결하겠습니다`
-  String get issue_new_choose_7_8 {
+  String get project_closure_confirm {
     return Intl.message(
       '이 프로젝트를 종결하겠습니다',
-      name: 'issue_new_choose_7_8',
+      name: 'project_closure_confirm',
       desc: '',
       args: [],
     );
   }
 
   /// `프로젝트가 정상적으로 종결되었습니다.`
-  String get issue_new_choose_7_created {
+  String get project_closure_success {
     return Intl.message(
       '프로젝트가 정상적으로 종결되었습니다.',
-      name: 'issue_new_choose_7_created',
+      name: 'project_closure_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트를 종결할 수 없습니다.`
+  String get project_closure_not_available_title {
+    return Intl.message(
+      '프로젝트를 종결할 수 없습니다.',
+      name: 'project_closure_not_available_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `프로젝트를 종결하려면 모든 거래 명세 및 인보이스 항목의 지급이 완료되어야 합니다.`
+  String get project_closure_not_available_description {
+    return Intl.message(
+      '프로젝트를 종결하려면 모든 거래 명세 및 인보이스 항목의 지급이 완료되어야 합니다.',
+      name: 'project_closure_not_available_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `종결된 프로젝트입니다.`
+  String get project_closed_title {
+    return Intl.message(
+      '종결된 프로젝트입니다.',
+      name: 'project_closed_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 명령서 등록을 제외한 모든 기능이 제한됩니다.`
+  String get project_closed_description {
+    return Intl.message(
+      '출장 명령서 등록을 제외한 모든 기능이 제한됩니다.',
+      name: 'project_closed_description',
       desc: '',
       args: [],
     );

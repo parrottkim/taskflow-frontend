@@ -1,14 +1,14 @@
 part of '../widget.dart';
 
-extension ProjectActionMenuConfiguration on UiConfiguration {
-  List<ActionMenuItem> projectActionMenu({
+extension ProjectDetailActionMenuConfiguration on UiConfiguration {
+  List<ActionMenuItem> projectDetailActionMenu({
     required int projectId,
     required bool isClosed,
   }) => [
     ActionMenuItem(
       icon: Symbols.task_rounded,
-      label: Intl.message('project_action_1'),
-      description: Intl.message('project_action_1_1'),
+      label: Intl.message('project_detail_action_1'),
+      description: Intl.message('project_detail_action_1_1'),
       onPressed: isClosed
           ? null
           : () {
@@ -20,8 +20,8 @@ extension ProjectActionMenuConfiguration on UiConfiguration {
     ),
     ActionMenuItem(
       icon: Symbols.summarize_rounded,
-      label: Intl.message('project_action_2'),
-      description: Intl.message('project_action_2_1'),
+      label: Intl.message('project_detail_action_2'),
+      description: Intl.message('project_detail_action_2_1'),
       onPressed: () {
         context.pushNamed(
           RouteNames.reportNew,

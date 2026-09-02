@@ -723,63 +723,84 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "issue_new": MessageLookupByLibrary.simpleMessage("업무 등록"),
     "issue_new_choose": MessageLookupByLibrary.simpleMessage("업무 종류 선택"),
-    "issue_new_choose_1": MessageLookupByLibrary.simpleMessage("✍️ "),
-    "issue_new_choose_1_1": MessageLookupByLibrary.simpleMessage("계약 및 수주"),
-    "issue_new_choose_1_2": MessageLookupByLibrary.simpleMessage(
+    "issue_category_contract_icon": MessageLookupByLibrary.simpleMessage("✍️ "),
+    "issue_category_contract_title": MessageLookupByLibrary.simpleMessage(
+      "계약 및 수주",
+    ),
+    "issue_category_contract_description": MessageLookupByLibrary.simpleMessage(
       "계약 조건과 품목·금액을 기록",
     ),
-    "issue_new_choose_2": MessageLookupByLibrary.simpleMessage("⚽ "),
-    "issue_new_choose_2_1": MessageLookupByLibrary.simpleMessage("킥어프"),
-    "issue_new_choose_2_2": MessageLookupByLibrary.simpleMessage(
+    "issue_category_kickoff_icon": MessageLookupByLibrary.simpleMessage("⚽ "),
+    "issue_category_kickoff_title": MessageLookupByLibrary.simpleMessage("킥어프"),
+    "issue_category_kickoff_description": MessageLookupByLibrary.simpleMessage(
       "프로젝트 시작 일정과 목표를 공유",
     ),
-    "issue_new_choose_3": MessageLookupByLibrary.simpleMessage("☑️ "),
-    "issue_new_choose_3_1": MessageLookupByLibrary.simpleMessage("사양 승인"),
-    "issue_new_choose_3_2": MessageLookupByLibrary.simpleMessage(
+    "issue_category_approval_icon": MessageLookupByLibrary.simpleMessage("☑️ "),
+    "issue_category_approval_title": MessageLookupByLibrary.simpleMessage(
+      "사양 승인",
+    ),
+    "issue_category_approval_description": MessageLookupByLibrary.simpleMessage(
       "확정된 제품·서비스 사양을 기록",
     ),
-    "issue_new_choose_4": MessageLookupByLibrary.simpleMessage("🛒 "),
-    "issue_new_choose_4_1": MessageLookupByLibrary.simpleMessage("구매 조달"),
-    "issue_new_choose_4_2": MessageLookupByLibrary.simpleMessage(
-      "필요 자재·서비스의 상세 정보와 금액을 기록",
+    "issue_category_procurement_icon": MessageLookupByLibrary.simpleMessage(
+      "🛒 ",
     ),
-    "issue_new_choose_5": MessageLookupByLibrary.simpleMessage("🧾 "),
-    "issue_new_choose_5_1": MessageLookupByLibrary.simpleMessage(
+    "issue_category_procurement_title": MessageLookupByLibrary.simpleMessage(
+      "구매 조달",
+    ),
+    "issue_category_procurement_description":
+        MessageLookupByLibrary.simpleMessage("필요 자재·서비스의 상세 정보와 금액을 기록"),
+    "issue_category_transaction_icon": MessageLookupByLibrary.simpleMessage(
+      "🧾 ",
+    ),
+    "issue_category_transaction_title": MessageLookupByLibrary.simpleMessage(
       "거래 명세 / 인보이스",
     ),
-    "issue_new_choose_5_2": MessageLookupByLibrary.simpleMessage(
-      "계약금·중도금·잔금 내역 관리",
+    "issue_category_transaction_description":
+        MessageLookupByLibrary.simpleMessage("계약금·중도금·잔금 내역 관리"),
+    "issue_category_payment_icon": MessageLookupByLibrary.simpleMessage("🏦 "),
+    "issue_category_payment_title": MessageLookupByLibrary.simpleMessage(
+      "지급 청구",
     ),
-    "issue_new_choose_6": MessageLookupByLibrary.simpleMessage("🏦 "),
-    "issue_new_choose_6_1": MessageLookupByLibrary.simpleMessage("지급 청구"),
-    "issue_new_choose_6_2": MessageLookupByLibrary.simpleMessage(
+    "issue_category_payment_description": MessageLookupByLibrary.simpleMessage(
       "지급 요청 내용과 보고서를 제출",
     ),
-    "issue_new_choose_7": MessageLookupByLibrary.simpleMessage("프로젝트 종결"),
-    "issue_new_choose_7_1": MessageLookupByLibrary.simpleMessage(
+    "project_closure_title": MessageLookupByLibrary.simpleMessage("프로젝트 종결"),
+    "project_closure_description": MessageLookupByLibrary.simpleMessage(
       "모든 지급 및 회계 완료 처리",
     ),
-    "issue_new_choose_7_2": MessageLookupByLibrary.simpleMessage(
-      "프로젝트 종결 처리는 영구적이며 되돌릴 수 없습니다.",
+    "project_closure_irreversible_warning":
+        MessageLookupByLibrary.simpleMessage("프로젝트 종결 처리는 영구적이며 되돌릴 수 없습니다."),
+    "project_closure_restriction_description":
+        MessageLookupByLibrary.simpleMessage("이후 보고서 등록을 제외한 모든 기능이 제한됩니다."),
+    "project_closure_disabled_features_title":
+        MessageLookupByLibrary.simpleMessage("이 작업을 수행하면 다음이 비활성화됩니다."),
+    "project_closure_new_issue_disabled": MessageLookupByLibrary.simpleMessage(
+      " ◦ 신규 업무 등록",
     ),
-    "issue_new_choose_7_3": MessageLookupByLibrary.simpleMessage(
-      "이후 보고서 등록을 제외한 모든 기능이 제한됩니다.",
-    ),
-    "issue_new_choose_7_4": MessageLookupByLibrary.simpleMessage(
-      "이 작업을 수행하면 다음이 비활성화됩니다.",
-    ),
-    "issue_new_choose_7_5": MessageLookupByLibrary.simpleMessage(" ◦ 신규 업무 등록"),
-    "issue_new_choose_7_6": MessageLookupByLibrary.simpleMessage(
-      " ◦ 기존 업무 수정 및 삭제",
-    ),
-    "issue_new_choose_7_7": MessageLookupByLibrary.simpleMessage(
+    "project_closure_issue_edit_delete_disabled":
+        MessageLookupByLibrary.simpleMessage(" ◦ 기존 업무 수정 및 삭제"),
+    "project_closure_message_hint": MessageLookupByLibrary.simpleMessage(
       "종결 후, 공유할 내용을 입력하세요.",
     ),
-    "issue_new_choose_7_8": MessageLookupByLibrary.simpleMessage(
+    "project_closure_confirm": MessageLookupByLibrary.simpleMessage(
       "이 프로젝트를 종결하겠습니다",
     ),
-    "issue_new_choose_7_created": MessageLookupByLibrary.simpleMessage(
+    "project_closure_success": MessageLookupByLibrary.simpleMessage(
       "프로젝트가 정상적으로 종결되었습니다.",
+    ),
+    "project_closure_not_available_description":
+        MessageLookupByLibrary.simpleMessage(
+          "프로젝트를 종결하려면 모든 거래 명세 및 인보이스 항목의 지급이 완료되어야 합니다.",
+        ),
+    "project_closure_not_available_title": MessageLookupByLibrary.simpleMessage(
+      "프로젝트를 종결할 수 없습니다.",
+    ),
+    "project_closed_title": MessageLookupByLibrary.simpleMessage(
+      "종결된 프로젝트입니다.",
+    ),
+    "project_closed_description": MessageLookupByLibrary.simpleMessage(
+      "출장 명령서 등록을 제외한 모든 기능이 제한됩니다.",
     ),
     "issue_procurement_request_edit": MessageLookupByLibrary.simpleMessage(
       "구매 조달 발주 수정",
@@ -895,17 +916,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "pop_scope_title": MessageLookupByLibrary.simpleMessage("페이지를 나가시겠어요?"),
     "project": MessageLookupByLibrary.simpleMessage("프로젝트"),
     "project_action": MessageLookupByLibrary.simpleMessage("프로젝트 작업"),
-    "project_action_1": MessageLookupByLibrary.simpleMessage("업무 등록"),
-    "project_action_1_1": MessageLookupByLibrary.simpleMessage(
-      "프로젝트 계약 이행 및 각 수행 단계별 관리",
-    ),
-    "project_action_2": MessageLookupByLibrary.simpleMessage("보고서 등록"),
-    "project_action_2_1": MessageLookupByLibrary.simpleMessage(
-      "출장 명령 또는 업무 수행 결과를 기록 및 보고",
-    ),
-    "project_action_closed": MessageLookupByLibrary.simpleMessage(
-      "프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.",
-    ),
     "project_closed": MessageLookupByLibrary.simpleMessage("종결"),
     "project_column_1": MessageLookupByLibrary.simpleMessage("고객사"),
     "project_column_2": MessageLookupByLibrary.simpleMessage("프로젝트 코드"),
@@ -915,13 +925,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "project_column_6": MessageLookupByLibrary.simpleMessage("작성일"),
     "project_column_7": MessageLookupByLibrary.simpleMessage("관리"),
     "project_detail": MessageLookupByLibrary.simpleMessage("프로젝트 상세"),
+    "project_detail_action_1": MessageLookupByLibrary.simpleMessage("업무 등록"),
+    "project_detail_action_1_1": MessageLookupByLibrary.simpleMessage(
+      "프로젝트 계약 이행 및 각 수행 단계별 관리",
+    ),
+    "project_detail_action_2": MessageLookupByLibrary.simpleMessage("보고서 등록"),
+    "project_detail_action_2_1": MessageLookupByLibrary.simpleMessage(
+      "출장 명령 또는 업무 수행 결과를 기록 및 보고",
+    ),
+    "project_detail_action_closed": MessageLookupByLibrary.simpleMessage(
+      "프로젝트가 종결되어 업무 등록은 사용할 수 없습니다.",
+    ),
     "project_detail_client": MessageLookupByLibrary.simpleMessage("고객사"),
-    "project_detail_closed_1": MessageLookupByLibrary.simpleMessage(
-      "종결된 프로젝트입니다.",
-    ),
-    "project_detail_closed_2": MessageLookupByLibrary.simpleMessage(
-      "출장 명령서 등록을 제외한 모든 기능이 제한됩니다.",
-    ),
     "project_detail_kickoff": MessageLookupByLibrary.simpleMessage("착수일"),
     "project_detail_no_approvals": MessageLookupByLibrary.simpleMessage(
       "작성된 사양 승인 내역이 없습니다",

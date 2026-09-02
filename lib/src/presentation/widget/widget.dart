@@ -110,5 +110,5 @@ part 'navigation/dashboard_drawer.dart';
 part 'preset/dashboard_content_presets.dart';
 part 'preset/navigation_items.dart';
 part 'preset/password_validation_rules.dart';
-part 'preset/project_action_menu.dart';
+part 'preset/project_detail_action_menu.dart';
 part 'preset/ui_configuration.dart';
