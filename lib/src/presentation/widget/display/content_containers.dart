@@ -40,7 +40,7 @@ class ContentContainer extends StatelessWidget {
         width: width,
         height: height,
         padding: padding,
-        decoration: BoxDecoration(
+        foregroundDecoration: BoxDecoration(
           borderRadius: borderRadius,
           border: Border.all(
             color: borderColor ?? colorScheme.outline.subtle,
