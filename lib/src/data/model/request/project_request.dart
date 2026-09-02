@@ -24,12 +24,19 @@ abstract class UpdateProjectRequest with _$UpdateProjectRequest {
     bool? isPreexecuted,
     int? categoryId,
     bool? isContracted,
-    bool? isClosed,
-    String? closureMessage,
   }) = _UpdateProjectRequest;
 
   factory UpdateProjectRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateProjectRequestFromJson(json);
+}
+
+@freezed
+abstract class CloseProjectRequest with _$CloseProjectRequest {
+  const factory CloseProjectRequest({required String closureMessage}) =
+      _CloseProjectRequest;
+
+  factory CloseProjectRequest.fromJson(Map<String, dynamic> json) =>
+      _$CloseProjectRequestFromJson(json);
 }
 
 @freezed

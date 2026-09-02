@@ -26,6 +26,11 @@ abstract class ProjectRepository {
     required UpdateProjectRequest request,
   });
 
+  Future<Project> closeProject({
+    required int id,
+    required CloseProjectRequest request,
+  });
+
   Future<void> deleteProject({required int id});
 
   Future<Project> restoreProject({required int id});

@@ -37,6 +37,12 @@ abstract class ProjectService {
     @Body() required UpdateProjectRequest request,
   });
 
+  @PATCH('project/{id}/close')
+  Future<Project> closeProject({
+    @Path('id') required int id,
+    @Body() required CloseProjectRequest request,
+  });
+
   @DELETE('project/{id}')
   Future<void> deleteProject({@Path() required int id});
 

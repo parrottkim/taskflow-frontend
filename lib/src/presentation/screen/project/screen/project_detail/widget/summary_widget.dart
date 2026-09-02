@@ -63,11 +63,11 @@ class SummaryWidget extends HookConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              Intl.message('project_detail_closed_1'),
+                              Intl.message('project_closed_title'),
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                             SizedBox(height: 4.0),
-                            Text(Intl.message('project_detail_closed_2')),
+                            Text(Intl.message('project_closed_description')),
                           ],
                         ),
                       ),

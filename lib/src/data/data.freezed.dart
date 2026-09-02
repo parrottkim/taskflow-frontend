@@ -11157,7 +11157,7 @@ $IssueCategoryCopyWith<$Res>? get latestCategory {
 /// @nodoc
 mixin _$Project {
 
- int get id; String get code; String get name; int get views; User get createdBy; User? get updatedBy; User? get manager; IssueCategory? get latestCategory; List<Client> get clients; bool get isPreexecuted; bool get isContracted; bool get isClosed; String? get closureMessage; bool get isBookmarked; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+ int get id; String get code; String get name; int get views; User get createdBy; User? get updatedBy; User? get manager; IssueCategory? get latestCategory; List<Client> get clients; bool get isPreexecuted; bool get isContracted; bool get isClosed; String? get closureMessage; bool get isBookmarked; bool get isClosable; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
 /// Create a copy of Project
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -11170,16 +11170,16 @@ $ProjectCopyWith<Project> get copyWith => _$ProjectCopyWithImpl<Project>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Project&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.views, views) || other.views == views)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.manager, manager) || other.manager == manager)&&(identical(other.latestCategory, latestCategory) || other.latestCategory == latestCategory)&&const DeepCollectionEquality().equals(other.clients, clients)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Project&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.views, views) || other.views == views)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.manager, manager) || other.manager == manager)&&(identical(other.latestCategory, latestCategory) || other.latestCategory == latestCategory)&&const DeepCollectionEquality().equals(other.clients, clients)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.isClosable, isClosable) || other.isClosable == isClosable)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,code,name,views,createdBy,updatedBy,manager,latestCategory,const DeepCollectionEquality().hash(clients),isPreexecuted,isContracted,isClosed,closureMessage,isBookmarked,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,code,name,views,createdBy,updatedBy,manager,latestCategory,const DeepCollectionEquality().hash(clients),isPreexecuted,isContracted,isClosed,closureMessage,isBookmarked,isClosable,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Project(id: $id, code: $code, name: $name, views: $views, createdBy: $createdBy, updatedBy: $updatedBy, manager: $manager, latestCategory: $latestCategory, clients: $clients, isPreexecuted: $isPreexecuted, isContracted: $isContracted, isClosed: $isClosed, closureMessage: $closureMessage, isBookmarked: $isBookmarked, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Project(id: $id, code: $code, name: $name, views: $views, createdBy: $createdBy, updatedBy: $updatedBy, manager: $manager, latestCategory: $latestCategory, clients: $clients, isPreexecuted: $isPreexecuted, isContracted: $isContracted, isClosed: $isClosed, closureMessage: $closureMessage, isBookmarked: $isBookmarked, isClosable: $isClosable, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -11190,7 +11190,7 @@ abstract mixin class $ProjectCopyWith<$Res>  {
   factory $ProjectCopyWith(Project value, $Res Function(Project) _then) = _$ProjectCopyWithImpl;
 @useResult
 $Res call({
- int id, String code, String name, int views, User createdBy, User? updatedBy, User? manager, IssueCategory? latestCategory, List<Client> clients, bool isPreexecuted, bool isContracted, bool isClosed, String? closureMessage, bool isBookmarked, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, String code, String name, int views, User createdBy, User? updatedBy, User? manager, IssueCategory? latestCategory, List<Client> clients, bool isPreexecuted, bool isContracted, bool isClosed, String? closureMessage, bool isBookmarked, bool isClosable, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -11207,7 +11207,7 @@ class _$ProjectCopyWithImpl<$Res>
 
 /// Create a copy of Project
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? code = null,Object? name = null,Object? views = null,Object? createdBy = null,Object? updatedBy = freezed,Object? manager = freezed,Object? latestCategory = freezed,Object? clients = null,Object? isPreexecuted = null,Object? isContracted = null,Object? isClosed = null,Object? closureMessage = freezed,Object? isBookmarked = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? code = null,Object? name = null,Object? views = null,Object? createdBy = null,Object? updatedBy = freezed,Object? manager = freezed,Object? latestCategory = freezed,Object? clients = null,Object? isPreexecuted = null,Object? isContracted = null,Object? isClosed = null,Object? closureMessage = freezed,Object? isBookmarked = null,Object? isClosable = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
@@ -11223,6 +11223,7 @@ as bool,isContracted: null == isContracted ? _self.isContracted : isContracted /
 as bool,isClosed: null == isClosed ? _self.isClosed : isClosed // ignore: cast_nullable_to_non_nullable
 as bool,closureMessage: freezed == closureMessage ? _self.closureMessage : closureMessage // ignore: cast_nullable_to_non_nullable
 as String?,isBookmarked: null == isBookmarked ? _self.isBookmarked : isBookmarked // ignore: cast_nullable_to_non_nullable
+as bool,isClosable: null == isClosable ? _self.isClosable : isClosable // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -11356,10 +11357,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String code,  String name,  int views,  User createdBy,  User? updatedBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isContracted,  bool isClosed,  String? closureMessage,  bool isBookmarked,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String code,  String name,  int views,  User createdBy,  User? updatedBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isContracted,  bool isClosed,  String? closureMessage,  bool isBookmarked,  bool isClosable,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Project() when $default != null:
-return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that.updatedBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isContracted,_that.isClosed,_that.closureMessage,_that.isBookmarked,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that.updatedBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isContracted,_that.isClosed,_that.closureMessage,_that.isBookmarked,_that.isClosable,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -11377,10 +11378,10 @@ return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String code,  String name,  int views,  User createdBy,  User? updatedBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isContracted,  bool isClosed,  String? closureMessage,  bool isBookmarked,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String code,  String name,  int views,  User createdBy,  User? updatedBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isContracted,  bool isClosed,  String? closureMessage,  bool isBookmarked,  bool isClosable,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Project():
-return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that.updatedBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isContracted,_that.isClosed,_that.closureMessage,_that.isBookmarked,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that.updatedBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isContracted,_that.isClosed,_that.closureMessage,_that.isBookmarked,_that.isClosable,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -11397,10 +11398,10 @@ return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String code,  String name,  int views,  User createdBy,  User? updatedBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isContracted,  bool isClosed,  String? closureMessage,  bool isBookmarked,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String code,  String name,  int views,  User createdBy,  User? updatedBy,  User? manager,  IssueCategory? latestCategory,  List<Client> clients,  bool isPreexecuted,  bool isContracted,  bool isClosed,  String? closureMessage,  bool isBookmarked,  bool isClosable,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Project() when $default != null:
-return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that.updatedBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isContracted,_that.isClosed,_that.closureMessage,_that.isBookmarked,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that.updatedBy,_that.manager,_that.latestCategory,_that.clients,_that.isPreexecuted,_that.isContracted,_that.isClosed,_that.closureMessage,_that.isBookmarked,_that.isClosable,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -11412,7 +11413,7 @@ return $default(_that.id,_that.code,_that.name,_that.views,_that.createdBy,_that
 @JsonSerializable()
 
 class _Project implements Project {
-   _Project({required this.id, required this.code, required this.name, required this.views, required this.createdBy, this.updatedBy, this.manager, this.latestCategory, required final  List<Client> clients, required this.isPreexecuted, required this.isContracted, required this.isClosed, this.closureMessage, required this.isBookmarked, required this.createdAt, required this.updatedAt, this.deletedAt}): _clients = clients;
+   _Project({required this.id, required this.code, required this.name, required this.views, required this.createdBy, this.updatedBy, this.manager, this.latestCategory, required final  List<Client> clients, required this.isPreexecuted, required this.isContracted, required this.isClosed, this.closureMessage, required this.isBookmarked, required this.isClosable, required this.createdAt, required this.updatedAt, this.deletedAt}): _clients = clients;
   factory _Project.fromJson(Map<String, dynamic> json) => _$ProjectFromJson(json);
 
 @override final  int id;
@@ -11435,6 +11436,7 @@ class _Project implements Project {
 @override final  bool isClosed;
 @override final  String? closureMessage;
 @override final  bool isBookmarked;
+@override final  bool isClosable;
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 @override final  DateTime? deletedAt;
@@ -11452,16 +11454,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Project&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.views, views) || other.views == views)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.manager, manager) || other.manager == manager)&&(identical(other.latestCategory, latestCategory) || other.latestCategory == latestCategory)&&const DeepCollectionEquality().equals(other._clients, _clients)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Project&&(identical(other.id, id) || other.id == id)&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.views, views) || other.views == views)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.manager, manager) || other.manager == manager)&&(identical(other.latestCategory, latestCategory) || other.latestCategory == latestCategory)&&const DeepCollectionEquality().equals(other._clients, _clients)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage)&&(identical(other.isBookmarked, isBookmarked) || other.isBookmarked == isBookmarked)&&(identical(other.isClosable, isClosable) || other.isClosable == isClosable)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,code,name,views,createdBy,updatedBy,manager,latestCategory,const DeepCollectionEquality().hash(_clients),isPreexecuted,isContracted,isClosed,closureMessage,isBookmarked,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,code,name,views,createdBy,updatedBy,manager,latestCategory,const DeepCollectionEquality().hash(_clients),isPreexecuted,isContracted,isClosed,closureMessage,isBookmarked,isClosable,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Project(id: $id, code: $code, name: $name, views: $views, createdBy: $createdBy, updatedBy: $updatedBy, manager: $manager, latestCategory: $latestCategory, clients: $clients, isPreexecuted: $isPreexecuted, isContracted: $isContracted, isClosed: $isClosed, closureMessage: $closureMessage, isBookmarked: $isBookmarked, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Project(id: $id, code: $code, name: $name, views: $views, createdBy: $createdBy, updatedBy: $updatedBy, manager: $manager, latestCategory: $latestCategory, clients: $clients, isPreexecuted: $isPreexecuted, isContracted: $isContracted, isClosed: $isClosed, closureMessage: $closureMessage, isBookmarked: $isBookmarked, isClosable: $isClosable, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -11472,7 +11474,7 @@ abstract mixin class _$ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
   factory _$ProjectCopyWith(_Project value, $Res Function(_Project) _then) = __$ProjectCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String code, String name, int views, User createdBy, User? updatedBy, User? manager, IssueCategory? latestCategory, List<Client> clients, bool isPreexecuted, bool isContracted, bool isClosed, String? closureMessage, bool isBookmarked, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, String code, String name, int views, User createdBy, User? updatedBy, User? manager, IssueCategory? latestCategory, List<Client> clients, bool isPreexecuted, bool isContracted, bool isClosed, String? closureMessage, bool isBookmarked, bool isClosable, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -11489,7 +11491,7 @@ class __$ProjectCopyWithImpl<$Res>
 
 /// Create a copy of Project
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? code = null,Object? name = null,Object? views = null,Object? createdBy = null,Object? updatedBy = freezed,Object? manager = freezed,Object? latestCategory = freezed,Object? clients = null,Object? isPreexecuted = null,Object? isContracted = null,Object? isClosed = null,Object? closureMessage = freezed,Object? isBookmarked = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? code = null,Object? name = null,Object? views = null,Object? createdBy = null,Object? updatedBy = freezed,Object? manager = freezed,Object? latestCategory = freezed,Object? clients = null,Object? isPreexecuted = null,Object? isContracted = null,Object? isClosed = null,Object? closureMessage = freezed,Object? isBookmarked = null,Object? isClosable = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_Project(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
@@ -11505,6 +11507,7 @@ as bool,isContracted: null == isContracted ? _self.isContracted : isContracted /
 as bool,isClosed: null == isClosed ? _self.isClosed : isClosed // ignore: cast_nullable_to_non_nullable
 as bool,closureMessage: freezed == closureMessage ? _self.closureMessage : closureMessage // ignore: cast_nullable_to_non_nullable
 as String?,isBookmarked: null == isBookmarked ? _self.isBookmarked : isBookmarked // ignore: cast_nullable_to_non_nullable
+as bool,isClosable: null == isClosable ? _self.isClosable : isClosable // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -14825,7 +14828,7 @@ as bool?,
 /// @nodoc
 mixin _$UpdateProjectRequest {
 
- int? get managerId; int? get clientId; String? get projectCode; String? get projectName; bool? get isPreexecuted; int? get categoryId; bool? get isContracted; bool? get isClosed; String? get closureMessage;
+ int? get managerId; int? get clientId; String? get projectCode; String? get projectName; bool? get isPreexecuted; int? get categoryId; bool? get isContracted;
 /// Create a copy of UpdateProjectRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -14838,16 +14841,16 @@ $UpdateProjectRequestCopyWith<UpdateProjectRequest> get copyWith => _$UpdateProj
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateProjectRequest&&(identical(other.managerId, managerId) || other.managerId == managerId)&&(identical(other.clientId, clientId) || other.clientId == clientId)&&(identical(other.projectCode, projectCode) || other.projectCode == projectCode)&&(identical(other.projectName, projectName) || other.projectName == projectName)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateProjectRequest&&(identical(other.managerId, managerId) || other.managerId == managerId)&&(identical(other.clientId, clientId) || other.clientId == clientId)&&(identical(other.projectCode, projectCode) || other.projectCode == projectCode)&&(identical(other.projectName, projectName) || other.projectName == projectName)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,managerId,clientId,projectCode,projectName,isPreexecuted,categoryId,isContracted,isClosed,closureMessage);
+int get hashCode => Object.hash(runtimeType,managerId,clientId,projectCode,projectName,isPreexecuted,categoryId,isContracted);
 
 @override
 String toString() {
-  return 'UpdateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, categoryId: $categoryId, isContracted: $isContracted, isClosed: $isClosed, closureMessage: $closureMessage)';
+  return 'UpdateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, categoryId: $categoryId, isContracted: $isContracted)';
 }
 
 
@@ -14858,7 +14861,7 @@ abstract mixin class $UpdateProjectRequestCopyWith<$Res>  {
   factory $UpdateProjectRequestCopyWith(UpdateProjectRequest value, $Res Function(UpdateProjectRequest) _then) = _$UpdateProjectRequestCopyWithImpl;
 @useResult
 $Res call({
- int? managerId, int? clientId, String? projectCode, String? projectName, bool? isPreexecuted, int? categoryId, bool? isContracted, bool? isClosed, String? closureMessage
+ int? managerId, int? clientId, String? projectCode, String? projectName, bool? isPreexecuted, int? categoryId, bool? isContracted
 });
 
 
@@ -14875,7 +14878,7 @@ class _$UpdateProjectRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpdateProjectRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? managerId = freezed,Object? clientId = freezed,Object? projectCode = freezed,Object? projectName = freezed,Object? isPreexecuted = freezed,Object? categoryId = freezed,Object? isContracted = freezed,Object? isClosed = freezed,Object? closureMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? managerId = freezed,Object? clientId = freezed,Object? projectCode = freezed,Object? projectName = freezed,Object? isPreexecuted = freezed,Object? categoryId = freezed,Object? isContracted = freezed,}) {
   return _then(_self.copyWith(
 managerId: freezed == managerId ? _self.managerId : managerId // ignore: cast_nullable_to_non_nullable
 as int?,clientId: freezed == clientId ? _self.clientId : clientId // ignore: cast_nullable_to_non_nullable
@@ -14884,9 +14887,7 @@ as String?,projectName: freezed == projectName ? _self.projectName : projectName
 as String?,isPreexecuted: freezed == isPreexecuted ? _self.isPreexecuted : isPreexecuted // ignore: cast_nullable_to_non_nullable
 as bool?,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int?,isContracted: freezed == isContracted ? _self.isContracted : isContracted // ignore: cast_nullable_to_non_nullable
-as bool?,isClosed: freezed == isClosed ? _self.isClosed : isClosed // ignore: cast_nullable_to_non_nullable
-as bool?,closureMessage: freezed == closureMessage ? _self.closureMessage : closureMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as bool?,
   ));
 }
 
@@ -14971,10 +14972,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? managerId,  int? clientId,  String? projectCode,  String? projectName,  bool? isPreexecuted,  int? categoryId,  bool? isContracted,  bool? isClosed,  String? closureMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? managerId,  int? clientId,  String? projectCode,  String? projectName,  bool? isPreexecuted,  int? categoryId,  bool? isContracted)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UpdateProjectRequest() when $default != null:
-return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectName,_that.isPreexecuted,_that.categoryId,_that.isContracted,_that.isClosed,_that.closureMessage);case _:
+return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectName,_that.isPreexecuted,_that.categoryId,_that.isContracted);case _:
   return orElse();
 
 }
@@ -14992,10 +14993,10 @@ return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectNa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? managerId,  int? clientId,  String? projectCode,  String? projectName,  bool? isPreexecuted,  int? categoryId,  bool? isContracted,  bool? isClosed,  String? closureMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? managerId,  int? clientId,  String? projectCode,  String? projectName,  bool? isPreexecuted,  int? categoryId,  bool? isContracted)  $default,) {final _that = this;
 switch (_that) {
 case _UpdateProjectRequest():
-return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectName,_that.isPreexecuted,_that.categoryId,_that.isContracted,_that.isClosed,_that.closureMessage);case _:
+return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectName,_that.isPreexecuted,_that.categoryId,_that.isContracted);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -15012,10 +15013,10 @@ return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectNa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? managerId,  int? clientId,  String? projectCode,  String? projectName,  bool? isPreexecuted,  int? categoryId,  bool? isContracted,  bool? isClosed,  String? closureMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? managerId,  int? clientId,  String? projectCode,  String? projectName,  bool? isPreexecuted,  int? categoryId,  bool? isContracted)?  $default,) {final _that = this;
 switch (_that) {
 case _UpdateProjectRequest() when $default != null:
-return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectName,_that.isPreexecuted,_that.categoryId,_that.isContracted,_that.isClosed,_that.closureMessage);case _:
+return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectName,_that.isPreexecuted,_that.categoryId,_that.isContracted);case _:
   return null;
 
 }
@@ -15027,7 +15028,7 @@ return $default(_that.managerId,_that.clientId,_that.projectCode,_that.projectNa
 @JsonSerializable()
 
 class _UpdateProjectRequest implements UpdateProjectRequest {
-   _UpdateProjectRequest({this.managerId, this.clientId, this.projectCode, this.projectName, this.isPreexecuted, this.categoryId, this.isContracted, this.isClosed, this.closureMessage});
+   _UpdateProjectRequest({this.managerId, this.clientId, this.projectCode, this.projectName, this.isPreexecuted, this.categoryId, this.isContracted});
   factory _UpdateProjectRequest.fromJson(Map<String, dynamic> json) => _$UpdateProjectRequestFromJson(json);
 
 @override final  int? managerId;
@@ -15037,8 +15038,6 @@ class _UpdateProjectRequest implements UpdateProjectRequest {
 @override final  bool? isPreexecuted;
 @override final  int? categoryId;
 @override final  bool? isContracted;
-@override final  bool? isClosed;
-@override final  String? closureMessage;
 
 /// Create a copy of UpdateProjectRequest
 /// with the given fields replaced by the non-null parameter values.
@@ -15053,16 +15052,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateProjectRequest&&(identical(other.managerId, managerId) || other.managerId == managerId)&&(identical(other.clientId, clientId) || other.clientId == clientId)&&(identical(other.projectCode, projectCode) || other.projectCode == projectCode)&&(identical(other.projectName, projectName) || other.projectName == projectName)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted)&&(identical(other.isClosed, isClosed) || other.isClosed == isClosed)&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateProjectRequest&&(identical(other.managerId, managerId) || other.managerId == managerId)&&(identical(other.clientId, clientId) || other.clientId == clientId)&&(identical(other.projectCode, projectCode) || other.projectCode == projectCode)&&(identical(other.projectName, projectName) || other.projectName == projectName)&&(identical(other.isPreexecuted, isPreexecuted) || other.isPreexecuted == isPreexecuted)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.isContracted, isContracted) || other.isContracted == isContracted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,managerId,clientId,projectCode,projectName,isPreexecuted,categoryId,isContracted,isClosed,closureMessage);
+int get hashCode => Object.hash(runtimeType,managerId,clientId,projectCode,projectName,isPreexecuted,categoryId,isContracted);
 
 @override
 String toString() {
-  return 'UpdateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, categoryId: $categoryId, isContracted: $isContracted, isClosed: $isClosed, closureMessage: $closureMessage)';
+  return 'UpdateProjectRequest(managerId: $managerId, clientId: $clientId, projectCode: $projectCode, projectName: $projectName, isPreexecuted: $isPreexecuted, categoryId: $categoryId, isContracted: $isContracted)';
 }
 
 
@@ -15073,7 +15072,7 @@ abstract mixin class _$UpdateProjectRequestCopyWith<$Res> implements $UpdateProj
   factory _$UpdateProjectRequestCopyWith(_UpdateProjectRequest value, $Res Function(_UpdateProjectRequest) _then) = __$UpdateProjectRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int? managerId, int? clientId, String? projectCode, String? projectName, bool? isPreexecuted, int? categoryId, bool? isContracted, bool? isClosed, String? closureMessage
+ int? managerId, int? clientId, String? projectCode, String? projectName, bool? isPreexecuted, int? categoryId, bool? isContracted
 });
 
 
@@ -15090,7 +15089,7 @@ class __$UpdateProjectRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpdateProjectRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? managerId = freezed,Object? clientId = freezed,Object? projectCode = freezed,Object? projectName = freezed,Object? isPreexecuted = freezed,Object? categoryId = freezed,Object? isContracted = freezed,Object? isClosed = freezed,Object? closureMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? managerId = freezed,Object? clientId = freezed,Object? projectCode = freezed,Object? projectName = freezed,Object? isPreexecuted = freezed,Object? categoryId = freezed,Object? isContracted = freezed,}) {
   return _then(_UpdateProjectRequest(
 managerId: freezed == managerId ? _self.managerId : managerId // ignore: cast_nullable_to_non_nullable
 as int?,clientId: freezed == clientId ? _self.clientId : clientId // ignore: cast_nullable_to_non_nullable
@@ -15099,9 +15098,270 @@ as String?,projectName: freezed == projectName ? _self.projectName : projectName
 as String?,isPreexecuted: freezed == isPreexecuted ? _self.isPreexecuted : isPreexecuted // ignore: cast_nullable_to_non_nullable
 as bool?,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int?,isContracted: freezed == isContracted ? _self.isContracted : isContracted // ignore: cast_nullable_to_non_nullable
-as bool?,isClosed: freezed == isClosed ? _self.isClosed : isClosed // ignore: cast_nullable_to_non_nullable
-as bool?,closureMessage: freezed == closureMessage ? _self.closureMessage : closureMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as bool?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$CloseProjectRequest {
+
+ String get closureMessage;
+/// Create a copy of CloseProjectRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CloseProjectRequestCopyWith<CloseProjectRequest> get copyWith => _$CloseProjectRequestCopyWithImpl<CloseProjectRequest>(this as CloseProjectRequest, _$identity);
+
+  /// Serializes this CloseProjectRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CloseProjectRequest&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,closureMessage);
+
+@override
+String toString() {
+  return 'CloseProjectRequest(closureMessage: $closureMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CloseProjectRequestCopyWith<$Res>  {
+  factory $CloseProjectRequestCopyWith(CloseProjectRequest value, $Res Function(CloseProjectRequest) _then) = _$CloseProjectRequestCopyWithImpl;
+@useResult
+$Res call({
+ String closureMessage
+});
+
+
+
+
+}
+/// @nodoc
+class _$CloseProjectRequestCopyWithImpl<$Res>
+    implements $CloseProjectRequestCopyWith<$Res> {
+  _$CloseProjectRequestCopyWithImpl(this._self, this._then);
+
+  final CloseProjectRequest _self;
+  final $Res Function(CloseProjectRequest) _then;
+
+/// Create a copy of CloseProjectRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? closureMessage = null,}) {
+  return _then(_self.copyWith(
+closureMessage: null == closureMessage ? _self.closureMessage : closureMessage // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CloseProjectRequest].
+extension CloseProjectRequestPatterns on CloseProjectRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CloseProjectRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CloseProjectRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CloseProjectRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _CloseProjectRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CloseProjectRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CloseProjectRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String closureMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CloseProjectRequest() when $default != null:
+return $default(_that.closureMessage);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String closureMessage)  $default,) {final _that = this;
+switch (_that) {
+case _CloseProjectRequest():
+return $default(_that.closureMessage);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String closureMessage)?  $default,) {final _that = this;
+switch (_that) {
+case _CloseProjectRequest() when $default != null:
+return $default(_that.closureMessage);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CloseProjectRequest implements CloseProjectRequest {
+  const _CloseProjectRequest({required this.closureMessage});
+  factory _CloseProjectRequest.fromJson(Map<String, dynamic> json) => _$CloseProjectRequestFromJson(json);
+
+@override final  String closureMessage;
+
+/// Create a copy of CloseProjectRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CloseProjectRequestCopyWith<_CloseProjectRequest> get copyWith => __$CloseProjectRequestCopyWithImpl<_CloseProjectRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CloseProjectRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CloseProjectRequest&&(identical(other.closureMessage, closureMessage) || other.closureMessage == closureMessage));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,closureMessage);
+
+@override
+String toString() {
+  return 'CloseProjectRequest(closureMessage: $closureMessage)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CloseProjectRequestCopyWith<$Res> implements $CloseProjectRequestCopyWith<$Res> {
+  factory _$CloseProjectRequestCopyWith(_CloseProjectRequest value, $Res Function(_CloseProjectRequest) _then) = __$CloseProjectRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ String closureMessage
+});
+
+
+
+
+}
+/// @nodoc
+class __$CloseProjectRequestCopyWithImpl<$Res>
+    implements _$CloseProjectRequestCopyWith<$Res> {
+  __$CloseProjectRequestCopyWithImpl(this._self, this._then);
+
+  final _CloseProjectRequest _self;
+  final $Res Function(_CloseProjectRequest) _then;
+
+/// Create a copy of CloseProjectRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? closureMessage = null,}) {
+  return _then(_CloseProjectRequest(
+closureMessage: null == closureMessage ? _self.closureMessage : closureMessage // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

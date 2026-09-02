@@ -1117,6 +1117,7 @@ _Project _$ProjectFromJson(Map<String, dynamic> json) => _Project(
   isClosed: json['isClosed'] as bool,
   closureMessage: json['closureMessage'] as String?,
   isBookmarked: json['isBookmarked'] as bool,
+  isClosable: json['isClosable'] as bool,
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
   deletedAt: json['deletedAt'] == null
@@ -1139,6 +1140,7 @@ Map<String, dynamic> _$ProjectToJson(_Project instance) => <String, dynamic>{
   'isClosed': instance.isClosed,
   'closureMessage': instance.closureMessage,
   'isBookmarked': instance.isBookmarked,
+  'isClosable': instance.isClosable,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),
   'deletedAt': instance.deletedAt?.toIso8601String(),
@@ -1329,8 +1331,6 @@ _UpdateProjectRequest _$UpdateProjectRequestFromJson(
   isPreexecuted: json['isPreexecuted'] as bool?,
   categoryId: (json['categoryId'] as num?)?.toInt(),
   isContracted: json['isContracted'] as bool?,
-  isClosed: json['isClosed'] as bool?,
-  closureMessage: json['closureMessage'] as String?,
 );
 
 Map<String, dynamic> _$UpdateProjectRequestToJson(
@@ -1343,9 +1343,14 @@ Map<String, dynamic> _$UpdateProjectRequestToJson(
   'isPreexecuted': instance.isPreexecuted,
   'categoryId': instance.categoryId,
   'isContracted': instance.isContracted,
-  'isClosed': instance.isClosed,
-  'closureMessage': instance.closureMessage,
 };
+
+_CloseProjectRequest _$CloseProjectRequestFromJson(Map<String, dynamic> json) =>
+    _CloseProjectRequest(closureMessage: json['closureMessage'] as String);
+
+Map<String, dynamic> _$CloseProjectRequestToJson(
+  _CloseProjectRequest instance,
+) => <String, dynamic>{'closureMessage': instance.closureMessage};
 
 _SendMailRequest _$SendMailRequestFromJson(Map<String, dynamic> json) =>
     _SendMailRequest(
@@ -5812,6 +5817,36 @@ class _ProjectService implements ProjectService {
           .compose(
             _dio.options,
             'project/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late Project _value;
+    try {
+      _value = Project.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<Project> closeProject({
+    required int id,
+    required CloseProjectRequest request,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _options = _setStreamType<Project>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'project/${id}/close',
             queryParameters: queryParameters,
             data: _data,
           )

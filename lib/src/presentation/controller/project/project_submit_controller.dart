@@ -81,14 +81,11 @@ class ProjectSubmitController extends _$ProjectSubmitController {
     state = const ProjectSubmitState.pending();
 
     try {
-      final request = UpdateProjectRequest(
-        isClosed: true,
-        closureMessage: closureMessage,
-      );
+      final request = CloseProjectRequest(closureMessage: closureMessage);
 
       final project = await ref
           .read(projectRepositoryProvider)
-          .updateProject(id: projectId, request: request);
+          .closeProject(id: projectId, request: request);
 
       ref
           .read(

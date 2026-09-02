@@ -28,114 +28,157 @@ class CategoryListWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return ContentContainer(
-      elevation: 1.0,
-      padding: EdgeInsets.zero,
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: categories.length,
-        itemBuilder: (context, index) => InkWell(
-          onTap: () {
-            if (issueList case AsyncData(:final value)) {
-              if (categories[index] is IssueContract &&
-                  value.contract != null) {
-                ref
-                    .read(toastProvider)
-                    .showToast(
-                      child: Toast(
-                        message: Intl.message(
-                          'conflict_contract_issue_already_exists',
-                        ),
-                      ),
-                    );
-                return;
-              } else if (categories[index] is IssueKickoff &&
-                  value.kickoff != null) {
-                ref
-                    .read(toastProvider)
-                    .showToast(
-                      child: Toast(
-                        message: Intl.message('kickoff_issue_exists'),
-                      ),
-                    );
-                return;
-              } else if (categories[index] is IssueTransaction &&
-                  value.transaction != null) {
-                ref
-                    .read(toastProvider)
-                    .showToast(
-                      child: Toast(
-                        message: Intl.message('transaction_issue_exists'),
-                      ),
-                    );
-                return;
-              } else if (categories[index] is IssuePayment &&
-                  value.payment != null) {
-                ref
-                    .read(toastProvider)
-                    .showToast(
-                      child: Toast(
-                        message: Intl.message('payment_issue_exists'),
-                      ),
-                    );
-                return;
-              }
-            }
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: ContentContainer(
+        elevation: 1.0,
+        padding: EdgeInsets.zero,
+        child: ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            final category = categories[index];
+            final messages = switch (category) {
+              IssueContract() => (
+                icon: Intl.message('issue_category_contract_icon'),
+                title: Intl.message('issue_category_contract_title'),
+                description: Intl.message(
+                  'issue_category_contract_description',
+                ),
+              ),
+              IssueKickoff() => (
+                icon: Intl.message('issue_category_kickoff_icon'),
+                title: Intl.message('issue_category_kickoff_title'),
+                description: Intl.message('issue_category_kickoff_description'),
+              ),
+              IssueApproval() => (
+                icon: Intl.message('issue_category_approval_icon'),
+                title: Intl.message('issue_category_approval_title'),
+                description: Intl.message(
+                  'issue_category_approval_description',
+                ),
+              ),
+              IssueProcurement() => (
+                icon: Intl.message('issue_category_procurement_icon'),
+                title: Intl.message('issue_category_procurement_title'),
+                description: Intl.message(
+                  'issue_category_procurement_description',
+                ),
+              ),
+              IssueTransaction() => (
+                icon: Intl.message('issue_category_transaction_icon'),
+                title: Intl.message('issue_category_transaction_title'),
+                description: Intl.message(
+                  'issue_category_transaction_description',
+                ),
+              ),
+              IssuePayment() => (
+                icon: Intl.message('issue_category_payment_icon'),
+                title: Intl.message('issue_category_payment_title'),
+                description: Intl.message('issue_category_payment_description'),
+              ),
+              _ => (icon: '', title: category.name, description: ''),
+            };
 
-            ref.read(issueValidationControllerProvider.notifier).reset();
-            context.pushNamed(
-              RouteNames.issueNew,
-              pathParameters: {
-                'project_id': projectId.toString(),
-                'category_id': categories[index].id.toString(),
-              },
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text.rich(
-                      style: textTheme.titleMedium,
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: Intl.message('issue_new_choose_${index + 1}'),
-                          ),
-                          TextSpan(
-                            text: Intl.message(
-                              'issue_new_choose_${index + 1}_1',
+            return InkWell(
+              onTap: () {
+                if (issueList case AsyncData(:final value)) {
+                  if (category is IssueContract && value.contract != null) {
+                    ref
+                        .read(toastProvider)
+                        .showToast(
+                          child: Toast(
+                            message: Intl.message(
+                              'conflict_contract_issue_already_exists',
                             ),
-                            style: TextStyle(fontWeight: FontWeight.w700),
                           ),
-                        ],
-                      ),
+                        );
+                    return;
+                  } else if (category is IssueKickoff &&
+                      value.kickoff != null) {
+                    ref
+                        .read(toastProvider)
+                        .showToast(
+                          child: Toast(
+                            message: Intl.message('kickoff_issue_exists'),
+                          ),
+                        );
+                    return;
+                  } else if (category is IssueTransaction &&
+                      value.transaction != null) {
+                    ref
+                        .read(toastProvider)
+                        .showToast(
+                          child: Toast(
+                            message: Intl.message('transaction_issue_exists'),
+                          ),
+                        );
+                    return;
+                  } else if (category is IssuePayment &&
+                      value.payment != null) {
+                    ref
+                        .read(toastProvider)
+                        .showToast(
+                          child: Toast(
+                            message: Intl.message('payment_issue_exists'),
+                          ),
+                        );
+                    return;
+                  }
+                }
+
+                ref.read(issueValidationControllerProvider.notifier).reset();
+                context.pushNamed(
+                  RouteNames.issueNew,
+                  pathParameters: {
+                    'project_id': projectId.toString(),
+                    'category_id': category.id.toString(),
+                  },
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text.rich(
+                          style: textTheme.titleMedium,
+                          TextSpan(
+                            children: [
+                              TextSpan(text: messages.icon),
+                              TextSpan(
+                                text: messages.title,
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(
+                          Symbols.arrow_right_alt_rounded,
+                          size: 20.0,
+                          color: colorScheme.onSurface.strong,
+                        ),
+                      ],
                     ),
-                    Spacer(),
-                    Icon(
-                      Symbols.arrow_right_alt_rounded,
-                      size: 20.0,
-                      color: colorScheme.onSurface.strong,
+                    SizedBox(height: 4.0),
+                    Text(
+                      messages.description,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurface.strong,
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4.0),
-                Text(
-                  Intl.message('issue_new_choose_${index + 1}_2'),
-                  style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurface.strong,
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
+          separatorBuilder: (_, _) => Divider(),
         ),
-        separatorBuilder: (_, __) => Divider(),
       ),
     );
   }

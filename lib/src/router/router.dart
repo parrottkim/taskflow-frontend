@@ -10,7 +10,7 @@ import 'package:taskflow/src/presentation/screen/auth/forgot_password/forgot_pas
 import 'package:taskflow/src/presentation/screen/project/screen/issue_category/issue_category_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/issue_form/issue_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/procurement_request_form/procurement_request_form_screen.dart';
-import 'package:taskflow/src/presentation/screen/project/screen/project_action/project_action_screen.dart';
+import 'package:taskflow/src/presentation/screen/project/screen/project_detail_action/project_detail_action_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_detail/project_detail_screen.dart';
 import 'package:taskflow/src/presentation/screen/project/screen/project_form/project_form_screen.dart';
 import 'package:taskflow/src/presentation/screen/auth/reset_password/reset_password_screen.dart';
@@ -60,7 +60,7 @@ class RouteNames {
   static const String dashboard = 'dashboard';
   static const String project = 'project';
   static const String projectDetail = 'project_detail';
-  static const String projectAction = 'project_action';
+  static const String projectDetailAction = 'project_action';
   static const String projectNew = 'project_new';
   static const String projectEdit = 'project_edit';
   static const String issueNewChoose = 'issue_new_choose';
@@ -103,7 +103,7 @@ class Routes {
   static const String project = '/project';
   static const String projectNew = 'new';
   static const String projectEdit = 'edit';
-  static const String projectAction = 'action';
+  static const String projectDetailAction = 'action';
   static const String issueBase = 'issue';
   static const String issueNewChoose = 'choose';
   static const String issueNew = 'new';
@@ -395,8 +395,8 @@ class AppRouter {
                     },
                     routes: [
                       GoRoute(
-                        name: RouteNames.projectAction,
-                        path: Routes.projectAction,
+                        name: RouteNames.projectDetailAction,
+                        path: Routes.projectDetailAction,
                         parentNavigatorKey: _projectKey,
                         pageBuilder: (context, state) {
                           final projectId = int.parse(
@@ -406,7 +406,9 @@ class AppRouter {
                           return NoTransitionPage(
                             key: state.pageKey,
                             name: state.name,
-                            child: ProjectActionScreen(projectId: projectId),
+                            child: ProjectDetailActionScreen(
+                              projectId: projectId,
+                            ),
                           );
                         },
                       ),
