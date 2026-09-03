@@ -18,10 +18,8 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(
-      _current != null,
-      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
-    );
+    assert(_current != null,
+        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
     return _current!;
   }
 
@@ -43,10 +41,8 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(
-      instance != null,
-      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
-    );
+    assert(instance != null,
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -56,87 +52,172 @@ class S {
 
   /// `닫기`
   String get common_close {
-    return Intl.message('닫기', name: 'common_close', desc: '', args: []);
+    return Intl.message(
+      '닫기',
+      name: 'common_close',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `확인`
   String get common_ok {
-    return Intl.message('확인', name: 'common_ok', desc: '', args: []);
+    return Intl.message(
+      '확인',
+      name: 'common_ok',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `적용하기`
   String get common_apply {
-    return Intl.message('적용하기', name: 'common_apply', desc: '', args: []);
+    return Intl.message(
+      '적용하기',
+      name: 'common_apply',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `취소`
   String get common_cancel {
-    return Intl.message('취소', name: 'common_cancel', desc: '', args: []);
+    return Intl.message(
+      '취소',
+      name: 'common_cancel',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `나가기`
   String get common_leave {
-    return Intl.message('나가기', name: 'common_leave', desc: '', args: []);
+    return Intl.message(
+      '나가기',
+      name: 'common_leave',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `머무르기`
   String get common_stay {
-    return Intl.message('머무르기', name: 'common_stay', desc: '', args: []);
+    return Intl.message(
+      '머무르기',
+      name: 'common_stay',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `등록하기`
   String get common_post {
-    return Intl.message('등록하기', name: 'common_post', desc: '', args: []);
+    return Intl.message(
+      '등록하기',
+      name: 'common_post',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `수정하기`
   String get common_edit {
-    return Intl.message('수정하기', name: 'common_edit', desc: '', args: []);
+    return Intl.message(
+      '수정하기',
+      name: 'common_edit',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `삭제하기`
   String get common_delete {
-    return Intl.message('삭제하기', name: 'common_delete', desc: '', args: []);
+    return Intl.message(
+      '삭제하기',
+      name: 'common_delete',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `공유`
   String get common_share {
-    return Intl.message('공유', name: 'common_share', desc: '', args: []);
+    return Intl.message(
+      '공유',
+      name: 'common_share',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `북마크`
   String get common_bookmark {
-    return Intl.message('북마크', name: 'common_bookmark', desc: '', args: []);
+    return Intl.message(
+      '북마크',
+      name: 'common_bookmark',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `포워딩`
   String get common_forward {
-    return Intl.message('포워딩', name: 'common_forward', desc: '', args: []);
+    return Intl.message(
+      '포워딩',
+      name: 'common_forward',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `열기`
   String get common_open {
-    return Intl.message('열기', name: 'common_open', desc: '', args: []);
+    return Intl.message(
+      '열기',
+      name: 'common_open',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `다음`
   String get common_next {
-    return Intl.message('다음', name: 'common_next', desc: '', args: []);
+    return Intl.message(
+      '다음',
+      name: 'common_next',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `뒤로가기`
   String get common_previous {
-    return Intl.message('뒤로가기', name: 'common_previous', desc: '', args: []);
+    return Intl.message(
+      '뒤로가기',
+      name: 'common_previous',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `생성`
   String get common_created_at {
-    return Intl.message('생성', name: 'common_created_at', desc: '', args: []);
+    return Intl.message(
+      '생성',
+      name: 'common_created_at',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `수정`
   String get common_updated_at {
-    return Intl.message('수정', name: 'common_updated_at', desc: '', args: []);
+    return Intl.message(
+      '수정',
+      name: 'common_updated_at',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `클립보드에 내용을 복사했습니다.`
@@ -201,62 +282,122 @@ class S {
 
   /// `다운로드`
   String get common_download_4 {
-    return Intl.message('다운로드', name: 'common_download_4', desc: '', args: []);
+    return Intl.message(
+      '다운로드',
+      name: 'common_download_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `펼쳐보기`
   String get common_unfold {
-    return Intl.message('펼쳐보기', name: 'common_unfold', desc: '', args: []);
+    return Intl.message(
+      '펼쳐보기',
+      name: 'common_unfold',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `닫기`
   String get common_fold {
-    return Intl.message('닫기', name: 'common_fold', desc: '', args: []);
+    return Intl.message(
+      '닫기',
+      name: 'common_fold',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `최종 편집`
   String get common_edit_by {
-    return Intl.message('최종 편집', name: 'common_edit_by', desc: '', args: []);
+    return Intl.message(
+      '최종 편집',
+      name: 'common_edit_by',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `출력하기`
   String get common_print {
-    return Intl.message('출력하기', name: 'common_print', desc: '', args: []);
+    return Intl.message(
+      '출력하기',
+      name: 'common_print',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `전체 발송`
   String get common_send_all {
-    return Intl.message('전체 발송', name: 'common_send_all', desc: '', args: []);
+    return Intl.message(
+      '전체 발송',
+      name: 'common_send_all',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `비고`
   String get common_note {
-    return Intl.message('비고', name: 'common_note', desc: '', args: []);
+    return Intl.message(
+      '비고',
+      name: 'common_note',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일`
   String get common_days {
-    return Intl.message('일', name: 'common_days', desc: '', args: []);
+    return Intl.message(
+      '일',
+      name: 'common_days',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `조회`
   String get common_view {
-    return Intl.message('조회', name: 'common_view', desc: '', args: []);
+    return Intl.message(
+      '조회',
+      name: 'common_view',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `텍스트 색상`
   String get text_color {
-    return Intl.message('텍스트 색상', name: 'text_color', desc: '', args: []);
+    return Intl.message(
+      '텍스트 색상',
+      name: 'text_color',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `배경 색상`
   String get highlight_color {
-    return Intl.message('배경 색상', name: 'highlight_color', desc: '', args: []);
+    return Intl.message(
+      '배경 색상',
+      name: 'highlight_color',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `날짜 선택`
   String get date_title {
-    return Intl.message('날짜 선택', name: 'date_title', desc: '', args: []);
+    return Intl.message(
+      '날짜 선택',
+      name: 'date_title',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `날짜 범위 선택`
@@ -411,17 +552,32 @@ class S {
 
   /// `내용 없음`
   String get draft_no_preview {
-    return Intl.message('내용 없음', name: 'draft_no_preview', desc: '', args: []);
+    return Intl.message(
+      '내용 없음',
+      name: 'draft_no_preview',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `임시 저장 중입니다`
   String get draft_saving {
-    return Intl.message('임시 저장 중입니다', name: 'draft_saving', desc: '', args: []);
+    return Intl.message(
+      '임시 저장 중입니다',
+      name: 'draft_saving',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `모두 지우기`
   String get draft_delete_all {
-    return Intl.message('모두 지우기', name: 'draft_delete_all', desc: '', args: []);
+    return Intl.message(
+      '모두 지우기',
+      name: 'draft_delete_all',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `임시 저장 내용을 복구할 수 없습니다.`
@@ -436,42 +592,82 @@ class S {
 
   /// `현대자동차`
   String get hyundai {
-    return Intl.message('현대자동차', name: 'hyundai', desc: '', args: []);
+    return Intl.message(
+      '현대자동차',
+      name: 'hyundai',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `기아`
   String get kia {
-    return Intl.message('기아', name: 'kia', desc: '', args: []);
+    return Intl.message(
+      '기아',
+      name: 'kia',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `연구소 및 기타`
   String get lab_and_other {
-    return Intl.message('연구소 및 기타', name: 'lab_and_other', desc: '', args: []);
+    return Intl.message(
+      '연구소 및 기타',
+      name: 'lab_and_other',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `미지정`
   String get unspecified {
-    return Intl.message('미지정', name: 'unspecified', desc: '', args: []);
+    return Intl.message(
+      '미지정',
+      name: 'unspecified',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `로그아웃`
   String get logout {
-    return Intl.message('로그아웃', name: 'logout', desc: '', args: []);
+    return Intl.message(
+      '로그아웃',
+      name: 'logout',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `선택됨`
   String get filter_suffix {
-    return Intl.message('선택됨', name: 'filter_suffix', desc: '', args: []);
+    return Intl.message(
+      '선택됨',
+      name: 'filter_suffix',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `적용중`
   String get filter_applied {
-    return Intl.message('적용중', name: 'filter_applied', desc: '', args: []);
+    return Intl.message(
+      '적용중',
+      name: 'filter_applied',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `모두 선택`
   String get filter_select_all {
-    return Intl.message('모두 선택', name: 'filter_select_all', desc: '', args: []);
+    return Intl.message(
+      '모두 선택',
+      name: 'filter_select_all',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `모두 선택 해제`
@@ -496,32 +692,62 @@ class S {
 
   /// `정렬`
   String get filter_sort {
-    return Intl.message('정렬', name: 'filter_sort', desc: '', args: []);
+    return Intl.message(
+      '정렬',
+      name: 'filter_sort',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `정렬 기준`
   String get filter_sort_1 {
-    return Intl.message('정렬 기준', name: 'filter_sort_1', desc: '', args: []);
+    return Intl.message(
+      '정렬 기준',
+      name: 'filter_sort_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `순서`
   String get filter_order {
-    return Intl.message('순서', name: 'filter_order', desc: '', args: []);
+    return Intl.message(
+      '순서',
+      name: 'filter_order',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `정렬 방향`
   String get filter_order_1 {
-    return Intl.message('정렬 방향', name: 'filter_order_1', desc: '', args: []);
+    return Intl.message(
+      '정렬 방향',
+      name: 'filter_order_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `오름차순`
   String get filter_ascending {
-    return Intl.message('오름차순', name: 'filter_ascending', desc: '', args: []);
+    return Intl.message(
+      '오름차순',
+      name: 'filter_ascending',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `내림차순`
   String get filter_descending {
-    return Intl.message('내림차순', name: 'filter_descending', desc: '', args: []);
+    return Intl.message(
+      '내림차순',
+      name: 'filter_descending',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `데이터 로딩 중입니다`
@@ -616,22 +842,42 @@ class S {
 
   /// `문제가 발생했습니다`
   String get error_title {
-    return Intl.message('문제가 발생했습니다', name: 'error_title', desc: '', args: []);
+    return Intl.message(
+      '문제가 발생했습니다',
+      name: 'error_title',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `자세히 보기`
   String get error_detail {
-    return Intl.message('자세히 보기', name: 'error_detail', desc: '', args: []);
+    return Intl.message(
+      '자세히 보기',
+      name: 'error_detail',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `에러 상세보기`
   String get error_dialog_1 {
-    return Intl.message('에러 상세보기', name: 'error_dialog_1', desc: '', args: []);
+    return Intl.message(
+      '에러 상세보기',
+      name: 'error_dialog_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `클립보드에 복사`
   String get error_dialog_2 {
-    return Intl.message('클립보드에 복사', name: 'error_dialog_2', desc: '', args: []);
+    return Intl.message(
+      '클립보드에 복사',
+      name: 'error_dialog_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `이미지 붙여넣기에 실패했습니다.`
@@ -1556,7 +1802,12 @@ class S {
 
   /// `로그인`
   String get login_headline {
-    return Intl.message('로그인', name: 'login_headline', desc: '', args: []);
+    return Intl.message(
+      '로그인',
+      name: 'login_headline',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `이메일과 비밀번호를 입력해주세요`
@@ -1571,17 +1822,32 @@ class S {
 
   /// `이메일`
   String get login_email {
-    return Intl.message('이메일', name: 'login_email', desc: '', args: []);
+    return Intl.message(
+      '이메일',
+      name: 'login_email',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `비밀번호`
   String get login_password {
-    return Intl.message('비밀번호', name: 'login_password', desc: '', args: []);
+    return Intl.message(
+      '비밀번호',
+      name: 'login_password',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `자동 로그인`
   String get login_persist {
-    return Intl.message('자동 로그인', name: 'login_persist', desc: '', args: []);
+    return Intl.message(
+      '자동 로그인',
+      name: 'login_persist',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `비밀번호를 잊으셨나요?`
@@ -1596,7 +1862,12 @@ class S {
 
   /// `로그인`
   String get login_button {
-    return Intl.message('로그인', name: 'login_button', desc: '', args: []);
+    return Intl.message(
+      '로그인',
+      name: 'login_button',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `계정이 없으신가요?`
@@ -1691,17 +1962,32 @@ class S {
 
   /// `본명`
   String get register_username {
-    return Intl.message('본명', name: 'register_username', desc: '', args: []);
+    return Intl.message(
+      '본명',
+      name: 'register_username',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `이메일`
   String get register_email {
-    return Intl.message('이메일', name: 'register_email', desc: '', args: []);
+    return Intl.message(
+      '이메일',
+      name: 'register_email',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `비밀번호`
   String get register_password {
-    return Intl.message('비밀번호', name: 'register_password', desc: '', args: []);
+    return Intl.message(
+      '비밀번호',
+      name: 'register_password',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `최소 8글자`
@@ -1766,7 +2052,12 @@ class S {
 
   /// `과 `
   String get register_agreement_2 {
-    return Intl.message('과 ', name: 'register_agreement_2', desc: '', args: []);
+    return Intl.message(
+      '과 ',
+      name: 'register_agreement_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `개인정보 수집 및 이용`
@@ -1791,7 +2082,12 @@ class S {
 
   /// `신청하기`
   String get register_button {
-    return Intl.message('신청하기', name: 'register_button', desc: '', args: []);
+    return Intl.message(
+      '신청하기',
+      name: 'register_button',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `비밀번호 재설정하기`
@@ -1946,7 +2242,12 @@ class S {
 
   /// `검색`
   String get navigation_search {
-    return Intl.message('검색', name: 'navigation_search', desc: '', args: []);
+    return Intl.message(
+      '검색',
+      name: 'navigation_search',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Taskflow에서 검색`
@@ -2061,32 +2362,62 @@ class S {
 
   /// `대시보드`
   String get dashboard {
-    return Intl.message('대시보드', name: 'dashboard', desc: '', args: []);
+    return Intl.message(
+      '대시보드',
+      name: 'dashboard',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트`
   String get project {
-    return Intl.message('프로젝트', name: 'project', desc: '', args: []);
+    return Intl.message(
+      '프로젝트',
+      name: 'project',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 상세`
   String get project_detail {
-    return Intl.message('프로젝트 상세', name: 'project_detail', desc: '', args: []);
+    return Intl.message(
+      '프로젝트 상세',
+      name: 'project_detail',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 등록`
   String get project_new {
-    return Intl.message('프로젝트 등록', name: 'project_new', desc: '', args: []);
+    return Intl.message(
+      '프로젝트 등록',
+      name: 'project_new',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 수정`
   String get project_edit {
-    return Intl.message('프로젝트 수정', name: 'project_edit', desc: '', args: []);
+    return Intl.message(
+      '프로젝트 수정',
+      name: 'project_edit',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 작업`
   String get project_action {
-    return Intl.message('프로젝트 작업', name: 'project_action', desc: '', args: []);
+    return Intl.message(
+      '프로젝트 작업',
+      name: 'project_action',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `업무 종류 선택`
@@ -2101,12 +2432,22 @@ class S {
 
   /// `업무 등록`
   String get issue_new {
-    return Intl.message('업무 등록', name: 'issue_new', desc: '', args: []);
+    return Intl.message(
+      '업무 등록',
+      name: 'issue_new',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `업무 수정`
   String get issue_edit {
-    return Intl.message('업무 수정', name: 'issue_edit', desc: '', args: []);
+    return Intl.message(
+      '업무 수정',
+      name: 'issue_edit',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `구매 조달 발주 등록`
@@ -2141,12 +2482,22 @@ class S {
 
   /// `근무 일정 등록`
   String get schedule_new {
-    return Intl.message('근무 일정 등록', name: 'schedule_new', desc: '', args: []);
+    return Intl.message(
+      '근무 일정 등록',
+      name: 'schedule_new',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `근무 일정 수정`
   String get schedule_edit {
-    return Intl.message('근무 일정 수정', name: 'schedule_edit', desc: '', args: []);
+    return Intl.message(
+      '근무 일정 수정',
+      name: 'schedule_edit',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `보고서 등록`
@@ -2161,52 +2512,102 @@ class S {
 
   /// `보고서 등록`
   String get report_new {
-    return Intl.message('보고서 등록', name: 'report_new', desc: '', args: []);
+    return Intl.message(
+      '보고서 등록',
+      name: 'report_new',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `보고서 수정`
   String get report_edit {
-    return Intl.message('보고서 수정', name: 'report_edit', desc: '', args: []);
+    return Intl.message(
+      '보고서 수정',
+      name: 'report_edit',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `업무`
   String get work {
-    return Intl.message('업무', name: 'work', desc: '', args: []);
+    return Intl.message(
+      '업무',
+      name: 'work',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `문서`
   String get document {
-    return Intl.message('문서', name: 'document', desc: '', args: []);
+    return Intl.message(
+      '문서',
+      name: 'document',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `문서 상세`
   String get document_detail {
-    return Intl.message('문서 상세', name: 'document_detail', desc: '', args: []);
+    return Intl.message(
+      '문서 상세',
+      name: 'document_detail',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `조직도`
   String get organization {
-    return Intl.message('조직도', name: 'organization', desc: '', args: []);
+    return Intl.message(
+      '조직도',
+      name: 'organization',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `데이터 관리`
   String get data {
-    return Intl.message('데이터 관리', name: 'data', desc: '', args: []);
+    return Intl.message(
+      '데이터 관리',
+      name: 'data',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일정`
   String get schedule {
-    return Intl.message('일정', name: 'schedule', desc: '', args: []);
+    return Intl.message(
+      '일정',
+      name: 'schedule',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `통계`
   String get analytics {
-    return Intl.message('통계', name: 'analytics', desc: '', args: []);
+    return Intl.message(
+      '통계',
+      name: 'analytics',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `계정`
   String get account {
-    return Intl.message('계정', name: 'account', desc: '', args: []);
+    return Intl.message(
+      '계정',
+      name: 'account',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `함께하는 지점`
@@ -2251,7 +2652,12 @@ class S {
 
   /// `일정`
   String get dashboard_schedule {
-    return Intl.message('일정', name: 'dashboard_schedule', desc: '', args: []);
+    return Intl.message(
+      '일정',
+      name: 'dashboard_schedule',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `휴가`
@@ -2346,7 +2752,12 @@ class S {
 
   /// `선진행`
   String get dashboard_summary_3 {
-    return Intl.message('선진행', name: 'dashboard_summary_3', desc: '', args: []);
+    return Intl.message(
+      '선진행',
+      name: 'dashboard_summary_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `실무 진행 중`
@@ -2461,27 +2872,52 @@ class S {
 
   /// `전체`
   String get project_segment_1 {
-    return Intl.message('전체', name: 'project_segment_1', desc: '', args: []);
+    return Intl.message(
+      '전체',
+      name: 'project_segment_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `선진행`
   String get project_segment_2 {
-    return Intl.message('선진행', name: 'project_segment_2', desc: '', args: []);
+    return Intl.message(
+      '선진행',
+      name: 'project_segment_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `진행 중`
   String get project_segment_3 {
-    return Intl.message('진행 중', name: 'project_segment_3', desc: '', args: []);
+    return Intl.message(
+      '진행 중',
+      name: 'project_segment_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `종결`
   String get project_segment_4 {
-    return Intl.message('종결', name: 'project_segment_4', desc: '', args: []);
+    return Intl.message(
+      '종결',
+      name: 'project_segment_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `고객사`
   String get project_filter_1 {
-    return Intl.message('고객사', name: 'project_filter_1', desc: '', args: []);
+    return Intl.message(
+      '고객사',
+      name: 'project_filter_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `고객사 선택`
@@ -2496,7 +2932,12 @@ class S {
 
   /// `지점`
   String get project_filter_2 {
-    return Intl.message('지점', name: 'project_filter_2', desc: '', args: []);
+    return Intl.message(
+      '지점',
+      name: 'project_filter_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `지점 선택`
@@ -2511,7 +2952,12 @@ class S {
 
   /// `공장`
   String get project_filter_3 {
-    return Intl.message('공장', name: 'project_filter_3', desc: '', args: []);
+    return Intl.message(
+      '공장',
+      name: 'project_filter_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `공장 선택`
@@ -2526,7 +2972,12 @@ class S {
 
   /// `카테고리`
   String get project_filter_4 {
-    return Intl.message('카테고리', name: 'project_filter_4', desc: '', args: []);
+    return Intl.message(
+      '카테고리',
+      name: 'project_filter_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `카테고리 선택`
@@ -2541,7 +2992,12 @@ class S {
 
   /// `필터`
   String get project_filter_5 {
-    return Intl.message('필터', name: 'project_filter_5', desc: '', args: []);
+    return Intl.message(
+      '필터',
+      name: 'project_filter_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `필터 선택`
@@ -2556,32 +3012,62 @@ class S {
 
   /// `수정일`
   String get project_sort_1 {
-    return Intl.message('수정일', name: 'project_sort_1', desc: '', args: []);
+    return Intl.message(
+      '수정일',
+      name: 'project_sort_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `등록일`
   String get project_sort_2 {
-    return Intl.message('등록일', name: 'project_sort_2', desc: '', args: []);
+    return Intl.message(
+      '등록일',
+      name: 'project_sort_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 코드`
   String get project_sort_3 {
-    return Intl.message('프로젝트 코드', name: 'project_sort_3', desc: '', args: []);
+    return Intl.message(
+      '프로젝트 코드',
+      name: 'project_sort_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 이름`
   String get project_sort_4 {
-    return Intl.message('프로젝트 이름', name: 'project_sort_4', desc: '', args: []);
+    return Intl.message(
+      '프로젝트 이름',
+      name: 'project_sort_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 검색`
   String get project_search {
-    return Intl.message('프로젝트 검색', name: 'project_search', desc: '', args: []);
+    return Intl.message(
+      '프로젝트 검색',
+      name: 'project_search',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `고객사`
   String get project_column_1 {
-    return Intl.message('고객사', name: 'project_column_1', desc: '', args: []);
+    return Intl.message(
+      '고객사',
+      name: 'project_column_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 코드`
@@ -2606,32 +3092,62 @@ class S {
 
   /// `카테고리`
   String get project_column_4 {
-    return Intl.message('카테고리', name: 'project_column_4', desc: '', args: []);
+    return Intl.message(
+      '카테고리',
+      name: 'project_column_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `PM`
   String get project_column_5 {
-    return Intl.message('PM', name: 'project_column_5', desc: '', args: []);
+    return Intl.message(
+      'PM',
+      name: 'project_column_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `작성일`
   String get project_column_6 {
-    return Intl.message('작성일', name: 'project_column_6', desc: '', args: []);
+    return Intl.message(
+      '작성일',
+      name: 'project_column_6',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `관리`
   String get project_column_7 {
-    return Intl.message('관리', name: 'project_column_7', desc: '', args: []);
+    return Intl.message(
+      '관리',
+      name: 'project_column_7',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `선진행`
   String get project_preexecuted {
-    return Intl.message('선진행', name: 'project_preexecuted', desc: '', args: []);
+    return Intl.message(
+      '선진행',
+      name: 'project_preexecuted',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `종결`
   String get project_closed {
-    return Intl.message('종결', name: 'project_closed', desc: '', args: []);
+    return Intl.message(
+      '종결',
+      name: 'project_closed',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `진행 중`
@@ -2716,7 +3232,12 @@ class S {
 
   /// `PM`
   String get project_form_user {
-    return Intl.message('PM', name: 'project_form_user', desc: '', args: []);
+    return Intl.message(
+      'PM',
+      name: 'project_form_user',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `사용자 검색`
@@ -2881,7 +3402,12 @@ class S {
 
   /// `PM`
   String get project_detail_pm {
-    return Intl.message('PM', name: 'project_detail_pm', desc: '', args: []);
+    return Intl.message(
+      'PM',
+      name: 'project_detail_pm',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `PM 지정`
@@ -3456,7 +3982,12 @@ class S {
 
   /// `본문`
   String get issue_form_content {
-    return Intl.message('본문', name: 'issue_form_content', desc: '', args: []);
+    return Intl.message(
+      '본문',
+      name: 'issue_form_content',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `첨부파일`
@@ -3491,12 +4022,22 @@ class S {
 
   /// `URL`
   String get issue_form_link_1 {
-    return Intl.message('URL', name: 'issue_form_link_1', desc: '', args: []);
+    return Intl.message(
+      'URL',
+      name: 'issue_form_link_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `링크 제목`
   String get issue_form_link_2 {
-    return Intl.message('링크 제목', name: 'issue_form_link_2', desc: '', args: []);
+    return Intl.message(
+      '링크 제목',
+      name: 'issue_form_link_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `웹 페이지 링크`
@@ -4611,7 +5152,12 @@ class S {
 
   /// `일정`
   String get schedule_form_date {
-    return Intl.message('일정', name: 'schedule_form_date', desc: '', args: []);
+    return Intl.message(
+      '일정',
+      name: 'schedule_form_date',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일정 선택`
@@ -4816,27 +5362,52 @@ class S {
 
   /// `교통비`
   String get report_form_1 {
-    return Intl.message('교통비', name: 'report_form_1', desc: '', args: []);
+    return Intl.message(
+      '교통비',
+      name: 'report_form_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `현지 교통비`
   String get report_form_2 {
-    return Intl.message('현지 교통비', name: 'report_form_2', desc: '', args: []);
+    return Intl.message(
+      '현지 교통비',
+      name: 'report_form_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `숙박비`
   String get report_form_3 {
-    return Intl.message('숙박비', name: 'report_form_3', desc: '', args: []);
+    return Intl.message(
+      '숙박비',
+      name: 'report_form_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일비`
   String get report_form_4 {
-    return Intl.message('일비', name: 'report_form_4', desc: '', args: []);
+    return Intl.message(
+      '일비',
+      name: 'report_form_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `기타`
   String get report_form_5 {
-    return Intl.message('기타', name: 'report_form_5', desc: '', args: []);
+    return Intl.message(
+      '기타',
+      name: 'report_form_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 정보`
@@ -4851,7 +5422,12 @@ class S {
 
   /// `일정`
   String get report_form_schedule {
-    return Intl.message('일정', name: 'report_form_schedule', desc: '', args: []);
+    return Intl.message(
+      '일정',
+      name: 'report_form_schedule',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일정 검색`
@@ -4946,7 +5522,12 @@ class S {
 
   /// `단계`
   String get report_form_step {
-    return Intl.message('단계', name: 'report_form_step', desc: '', args: []);
+    return Intl.message(
+      '단계',
+      name: 'report_form_step',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `교통비`
@@ -4991,7 +5572,12 @@ class S {
 
   /// `기타`
   String get report_form_other {
-    return Intl.message('기타', name: 'report_form_other', desc: '', args: []);
+    return Intl.message(
+      '기타',
+      name: 'report_form_other',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `설명 및 첨부파일`
@@ -5046,7 +5632,12 @@ class S {
 
   /// `일`
   String get report_form_days {
-    return Intl.message('일', name: 'report_form_days', desc: '', args: []);
+    return Intl.message(
+      '일',
+      name: 'report_form_days',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `렌탈, 택시 실비 처리`
@@ -5441,17 +6032,32 @@ class S {
 
   /// `프로젝트`
   String get work_segment_1 {
-    return Intl.message('프로젝트', name: 'work_segment_1', desc: '', args: []);
+    return Intl.message(
+      '프로젝트',
+      name: 'work_segment_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `업무`
   String get work_segment_2 {
-    return Intl.message('업무', name: 'work_segment_2', desc: '', args: []);
+    return Intl.message(
+      '업무',
+      name: 'work_segment_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `보고서`
   String get work_segment_3 {
-    return Intl.message('보고서', name: 'work_segment_3', desc: '', args: []);
+    return Intl.message(
+      '보고서',
+      name: 'work_segment_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `상태`
@@ -5516,12 +6122,22 @@ class S {
 
   /// `수정일`
   String get work_project_sort_1 {
-    return Intl.message('수정일', name: 'work_project_sort_1', desc: '', args: []);
+    return Intl.message(
+      '수정일',
+      name: 'work_project_sort_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `등록일`
   String get work_project_sort_2 {
-    return Intl.message('등록일', name: 'work_project_sort_2', desc: '', args: []);
+    return Intl.message(
+      '등록일',
+      name: 'work_project_sort_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 코드`
@@ -5576,7 +6192,12 @@ class S {
 
   /// `고객사`
   String get work_issue_column_2 {
-    return Intl.message('고객사', name: 'work_issue_column_2', desc: '', args: []);
+    return Intl.message(
+      '고객사',
+      name: 'work_issue_column_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `프로젝트 코드`
@@ -5601,27 +6222,52 @@ class S {
 
   /// `작성일`
   String get work_issue_column_5 {
-    return Intl.message('작성일', name: 'work_issue_column_5', desc: '', args: []);
+    return Intl.message(
+      '작성일',
+      name: 'work_issue_column_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `수정일`
   String get work_issue_sort_1 {
-    return Intl.message('수정일', name: 'work_issue_sort_1', desc: '', args: []);
+    return Intl.message(
+      '수정일',
+      name: 'work_issue_sort_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `등록일`
   String get work_issue_sort_2 {
-    return Intl.message('등록일', name: 'work_issue_sort_2', desc: '', args: []);
+    return Intl.message(
+      '등록일',
+      name: 'work_issue_sort_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `카테고리`
   String get work_issue_sort_3 {
-    return Intl.message('카테고리', name: 'work_issue_sort_3', desc: '', args: []);
+    return Intl.message(
+      '카테고리',
+      name: 'work_issue_sort_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `업무 검색`
   String get work_issue_search {
-    return Intl.message('업무 검색', name: 'work_issue_search', desc: '', args: []);
+    return Intl.message(
+      '업무 검색',
+      name: 'work_issue_search',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `업무를 찾을 수 없습니다`
@@ -5676,7 +6322,12 @@ class S {
 
   /// `일정`
   String get work_report_column_5 {
-    return Intl.message('일정', name: 'work_report_column_5', desc: '', args: []);
+    return Intl.message(
+      '일정',
+      name: 'work_report_column_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `작성일`
@@ -5691,22 +6342,42 @@ class S {
 
   /// `수정일`
   String get work_report_sort_1 {
-    return Intl.message('수정일', name: 'work_report_sort_1', desc: '', args: []);
+    return Intl.message(
+      '수정일',
+      name: 'work_report_sort_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `등록일`
   String get work_report_sort_2 {
-    return Intl.message('등록일', name: 'work_report_sort_2', desc: '', args: []);
+    return Intl.message(
+      '등록일',
+      name: 'work_report_sort_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `카테고리`
   String get work_report_sort_3 {
-    return Intl.message('카테고리', name: 'work_report_sort_3', desc: '', args: []);
+    return Intl.message(
+      '카테고리',
+      name: 'work_report_sort_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일정`
   String get work_report_sort_4 {
-    return Intl.message('일정', name: 'work_report_sort_4', desc: '', args: []);
+    return Intl.message(
+      '일정',
+      name: 'work_report_sort_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `보고서 검색`
@@ -5731,42 +6402,82 @@ class S {
 
   /// `타임라인`
   String get schedule_segment_1 {
-    return Intl.message('타임라인', name: 'schedule_segment_1', desc: '', args: []);
+    return Intl.message(
+      '타임라인',
+      name: 'schedule_segment_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `내 일정`
   String get schedule_segment_2 {
-    return Intl.message('내 일정', name: 'schedule_segment_2', desc: '', args: []);
+    return Intl.message(
+      '내 일정',
+      name: 'schedule_segment_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `일정 검색`
   String get schedule_search {
-    return Intl.message('일정 검색', name: 'schedule_search', desc: '', args: []);
+    return Intl.message(
+      '일정 검색',
+      name: 'schedule_search',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `고객사`
   String get schedule_column_1 {
-    return Intl.message('고객사', name: 'schedule_column_1', desc: '', args: []);
+    return Intl.message(
+      '고객사',
+      name: 'schedule_column_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `출장 목적`
   String get schedule_column_2 {
-    return Intl.message('출장 목적', name: 'schedule_column_2', desc: '', args: []);
+    return Intl.message(
+      '출장 목적',
+      name: 'schedule_column_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `설명`
   String get schedule_column_3 {
-    return Intl.message('설명', name: 'schedule_column_3', desc: '', args: []);
+    return Intl.message(
+      '설명',
+      name: 'schedule_column_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `담당자`
   String get schedule_column_4 {
-    return Intl.message('담당자', name: 'schedule_column_4', desc: '', args: []);
+    return Intl.message(
+      '담당자',
+      name: 'schedule_column_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `기간`
   String get schedule_column_5 {
-    return Intl.message('기간', name: 'schedule_column_5', desc: '', args: []);
+    return Intl.message(
+      '기간',
+      name: 'schedule_column_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `검색 결과가 없습니다.`
@@ -5781,7 +6492,12 @@ class S {
 
   /// `문서 검색`
   String get document_search {
-    return Intl.message('문서 검색', name: 'document_search', desc: '', args: []);
+    return Intl.message(
+      '문서 검색',
+      name: 'document_search',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `문서가 없습니다.`
@@ -5796,42 +6512,82 @@ class S {
 
   /// `공지`
   String get document_fixed {
-    return Intl.message('공지', name: 'document_fixed', desc: '', args: []);
+    return Intl.message(
+      '공지',
+      name: 'document_fixed',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `문서명`
   String get document_column_1 {
-    return Intl.message('문서명', name: 'document_column_1', desc: '', args: []);
+    return Intl.message(
+      '문서명',
+      name: 'document_column_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `작성자`
   String get document_column_2 {
-    return Intl.message('작성자', name: 'document_column_2', desc: '', args: []);
+    return Intl.message(
+      '작성자',
+      name: 'document_column_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `첨부`
   String get document_column_3 {
-    return Intl.message('첨부', name: 'document_column_3', desc: '', args: []);
+    return Intl.message(
+      '첨부',
+      name: 'document_column_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `작성일`
   String get document_column_4 {
-    return Intl.message('작성일', name: 'document_column_4', desc: '', args: []);
+    return Intl.message(
+      '작성일',
+      name: 'document_column_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `관리`
   String get document_column_5 {
-    return Intl.message('관리', name: 'document_column_5', desc: '', args: []);
+    return Intl.message(
+      '관리',
+      name: 'document_column_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `제목순`
   String get document_sort_1 {
-    return Intl.message('제목순', name: 'document_sort_1', desc: '', args: []);
+    return Intl.message(
+      '제목순',
+      name: 'document_sort_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `최신순`
   String get document_sort_2 {
-    return Intl.message('최신순', name: 'document_sort_2', desc: '', args: []);
+    return Intl.message(
+      '최신순',
+      name: 'document_sort_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `문서 수정`
@@ -5846,22 +6602,42 @@ class S {
 
   /// `문서 추가`
   String get document_add {
-    return Intl.message('문서 추가', name: 'document_add', desc: '', args: []);
+    return Intl.message(
+      '문서 추가',
+      name: 'document_add',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `폴더`
   String get document_form_1 {
-    return Intl.message('폴더', name: 'document_form_1', desc: '', args: []);
+    return Intl.message(
+      '폴더',
+      name: 'document_form_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `문서 제목`
   String get document_form_2 {
-    return Intl.message('문서 제목', name: 'document_form_2', desc: '', args: []);
+    return Intl.message(
+      '문서 제목',
+      name: 'document_form_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `공지로 고정`
   String get document_form_3 {
-    return Intl.message('공지로 고정', name: 'document_form_3', desc: '', args: []);
+    return Intl.message(
+      '공지로 고정',
+      name: 'document_form_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `중요 문서는 목록 상단에 표시합니다.`
@@ -5916,7 +6692,12 @@ class S {
 
   /// `본문`
   String get document_content {
-    return Intl.message('본문', name: 'document_content', desc: '', args: []);
+    return Intl.message(
+      '본문',
+      name: 'document_content',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `첨부파일`
@@ -6021,12 +6802,22 @@ class S {
 
   /// `문서 공유`
   String get document_mail {
-    return Intl.message('문서 공유', name: 'document_mail', desc: '', args: []);
+    return Intl.message(
+      '문서 공유',
+      name: 'document_mail',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `작성자`
   String get document_created_by {
-    return Intl.message('작성자', name: 'document_created_by', desc: '', args: []);
+    return Intl.message(
+      '작성자',
+      name: 'document_created_by',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `최종 편집`
@@ -6121,42 +6912,82 @@ class S {
 
   /// `사용자`
   String get data_segment_1 {
-    return Intl.message('사용자', name: 'data_segment_1', desc: '', args: []);
+    return Intl.message(
+      '사용자',
+      name: 'data_segment_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `협력업체`
   String get data_segment_2 {
-    return Intl.message('협력업체', name: 'data_segment_2', desc: '', args: []);
+    return Intl.message(
+      '협력업체',
+      name: 'data_segment_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `이름`
   String get data_user_column_1 {
-    return Intl.message('이름', name: 'data_user_column_1', desc: '', args: []);
+    return Intl.message(
+      '이름',
+      name: 'data_user_column_1',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `이메일`
   String get data_user_column_2 {
-    return Intl.message('이메일', name: 'data_user_column_2', desc: '', args: []);
+    return Intl.message(
+      '이메일',
+      name: 'data_user_column_2',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `직급`
   String get data_user_column_3 {
-    return Intl.message('직급', name: 'data_user_column_3', desc: '', args: []);
+    return Intl.message(
+      '직급',
+      name: 'data_user_column_3',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `직책`
   String get data_user_column_4 {
-    return Intl.message('직책', name: 'data_user_column_4', desc: '', args: []);
+    return Intl.message(
+      '직책',
+      name: 'data_user_column_4',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `부서`
   String get data_user_column_5 {
-    return Intl.message('부서', name: 'data_user_column_5', desc: '', args: []);
+    return Intl.message(
+      '부서',
+      name: 'data_user_column_5',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `관리자`
   String get data_user_column_6 {
-    return Intl.message('관리자', name: 'data_user_column_6', desc: '', args: []);
+    return Intl.message(
+      '관리자',
+      name: 'data_user_column_6',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `사용 승인`
@@ -6171,7 +7002,12 @@ class S {
 
   /// `관리`
   String get data_user_column_8 {
-    return Intl.message('관리', name: 'data_user_column_8', desc: '', args: []);
+    return Intl.message(
+      '관리',
+      name: 'data_user_column_8',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `관리자 권한을 변경하시겠습니까?`
@@ -6436,7 +7272,12 @@ class S {
 
   /// `로고`
   String get data_supplier_logo {
-    return Intl.message('로고', name: 'data_supplier_logo', desc: '', args: []);
+    return Intl.message(
+      '로고',
+      name: 'data_supplier_logo',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `협력업체 정보가 정상적으로 등록되었습니다.`
@@ -6591,12 +7432,22 @@ class S {
 
   /// `더 보기`
   String get data_address_more {
-    return Intl.message('더 보기', name: 'data_address_more', desc: '', args: []);
+    return Intl.message(
+      '더 보기',
+      name: 'data_address_more',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `내 정보`
   String get account_segment_1 {
-    return Intl.message('내 정보', name: 'account_segment_1', desc: '', args: []);
+    return Intl.message(
+      '내 정보',
+      name: 'account_segment_1',
+      desc: '',
+      args: [],
+    );
   }
 }
 
