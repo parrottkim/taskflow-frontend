@@ -638,6 +638,8 @@
   "report_form_domestic_holiday_travel_days": "휴일·공휴일 이동 일수",
   "report_form_overseas_special_days": "설날·추석 포함 일수",
   "report_form_daily_amount": "기본 일비",
+  "report_form_domestic_same_day_no_daily_allowance": "국내 당일 출장은 일비가 지급되지 않습니다.",
+  "report_form_domestic_executive_no_daily_allowance": "임원은 국내 출장 일비가 지급되지 않습니다.",
   "report_form_special_allowance_amount": "특별 수당",
   "report_form_deduction_rate": "일비 공제율",
   "report_form_total_daily_amount": "총 일비",
