@@ -1118,6 +1118,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "설명 및 첨부파일",
     ),
     "report_form_description_1": MessageLookupByLibrary.simpleMessage("설명"),
+    "report_form_domestic_executive_no_daily_allowance":
+        MessageLookupByLibrary.simpleMessage("임원은 국내 출장 일비가 지급되지 않습니다."),
     "report_form_domestic_holiday_travel_days":
         MessageLookupByLibrary.simpleMessage("휴일·공휴일 이동 일수"),
     "report_form_domestic_holiday_work_days":

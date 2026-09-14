@@ -23,8 +23,10 @@ class DailyExpenseWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authControllerProvider) as AuthAuthenticated;
     final formController = ReportFormScope.of(context).controller(ref);
     final isDomestic = schedule.category is ScheduleDomestic;
+    final isExecutive = [1, 2].contains(auth.user.rank?.id);
     final validation = ref.watch(reportValidationControllerProvider);
     final preview = ref.watch(
       dailyAllowancePreviewProvider(
@@ -51,7 +53,11 @@ class DailyExpenseWidget extends ConsumerWidget {
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 24.0),
-              _DailyAllowancePreview(preview: preview, isDomestic: isDomestic),
+              _DailyAllowancePreview(
+                preview: preview,
+                isDomestic: isDomestic,
+                isExecutive: isExecutive,
+              ),
               if (isDomestic && holidays.isNotEmpty) ...[
                 const SizedBox(height: 16.0),
                 HolidayOptionsWidget(
@@ -87,10 +93,12 @@ class DailyExpenseWidget extends ConsumerWidget {
 class _DailyAllowancePreview extends StatelessWidget {
   final AsyncValue<DailyAllowancePreview> preview;
   final bool isDomestic;
+  final bool isExecutive;
 
   const _DailyAllowancePreview({
     required this.preview,
     required this.isDomestic,
+    required this.isExecutive,
   });
 
   @override
@@ -98,6 +106,7 @@ class _DailyAllowancePreview extends StatelessWidget {
     AsyncData(:final value) => DailyAllowanceSummary(
       value: value,
       isDomestic: isDomestic,
+      isExecutive: isExecutive,
     ),
     AsyncError(:final error, :final stackTrace) => ErrorStateView(
       error: error,
@@ -122,6 +131,7 @@ class _DailyAllowancePreview extends StatelessWidget {
           currencyCode: isDomestic ? 'KRW' : 'USD',
         ),
         isDomestic: isDomestic,
+        isExecutive: isExecutive,
       ),
     ),
   };
