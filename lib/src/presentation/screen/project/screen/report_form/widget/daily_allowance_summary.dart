@@ -6,17 +6,23 @@ import 'package:taskflow/src/presentation/widget/widget.dart';
 class DailyAllowanceSummary extends StatelessWidget {
   final DailyAllowancePreview value;
   final bool isDomestic;
+  final bool isExecutive;
 
   const DailyAllowanceSummary({
     super.key,
     required this.value,
     required this.isDomestic,
+    required this.isExecutive,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final isDomesticSameDay = isDomestic && value.totalTripDays == 1;
+    final dailyAllowanceDescription = isDomestic && value.totalTripDays == 1
+        ? Intl.message('report_form_domestic_same_day_no_daily_allowance')
+        : isDomestic && isExecutive
+        ? Intl.message('report_form_domestic_executive_no_daily_allowance')
+        : '${_formatMoney(value.dailyRate, value.currencyCode)} × ${value.totalTripDays}';
 
     return ContentContainer(
       width: double.infinity,
@@ -63,11 +69,7 @@ class DailyAllowanceSummary extends StatelessWidget {
           _SummaryRow(
             label: Intl.message('report_form_daily_amount'),
             value: _formatMoney(value.dailyAmount, value.currencyCode),
-            valueDescription: isDomesticSameDay
-                ? Intl.message(
-                    'report_form_domestic_same_day_no_daily_allowance',
-                  )
-                : '${_formatMoney(value.dailyRate, value.currencyCode)} × ${value.totalTripDays}',
+            valueDescription: dailyAllowanceDescription,
           ),
           if (value.overseas != null)
             _SummaryRow(
