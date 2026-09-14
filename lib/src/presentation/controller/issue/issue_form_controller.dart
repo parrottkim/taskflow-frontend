@@ -33,15 +33,15 @@ class IssueFormController extends _$IssueFormController {
         .getCategory(id: categoryId);
 
     final contract = await ref
-        .read(issueRepositoryProvider)
+        .read(contractIssueRepositoryProvider)
         .getContractIssue(id: projectId);
 
     final contractItems = await ref
-        .read(issueRepositoryProvider)
+        .read(contractIssueRepositoryProvider)
         .getContractIssueItems(id: projectId);
 
     final transactionItems = await ref
-        .read(issueRepositoryProvider)
+        .read(transactionIssueRepositoryProvider)
         .getTransactionIssueItems(id: projectId);
 
     return IssueFormState(
@@ -319,12 +319,13 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(transactionItems: []));
   }
 
+
   Future<void> removeAttachment({required IssueAttachment attachment}) async {
     final value = state.requireValue;
     if (issueId == null) return;
 
     await ref
-        .read(issueRepositoryProvider)
+        .read(issueAttachmentRepositoryProvider)
         .deleteAttachment(issueId: issueId!, fileId: attachment.id);
 
     state = AsyncData(

@@ -4,7 +4,7 @@ part of '../controller.dart';
 Future<IssueOptionsState> issueOptions(Ref ref) async {
   final categories = await ref.read(issueRepositoryProvider).getAllCategories();
   final transactionCategories = await ref
-      .read(issueRepositoryProvider)
+      .read(transactionIssueRepositoryProvider)
       .getAllTransactionCategories();
   final currencies = await ref
       .read(currencyRepositoryProvider)
