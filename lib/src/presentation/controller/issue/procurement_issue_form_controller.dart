@@ -10,7 +10,7 @@ class ProcurementIssueFormController extends _$ProcurementIssueFormController {
 
   Future<ProcurementIssueFormState> _init() async {
     final issue = await ref
-        .read(issueRepositoryProvider)
+        .read(procurementIssueRepositoryProvider)
         .getIssueForProcurementRequest(id: issueId);
 
     if (requestId != null) {
