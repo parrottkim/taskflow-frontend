@@ -16,6 +16,7 @@ class DailyAllowanceSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isDomesticSameDay = isDomestic && value.totalTripDays == 1;
 
     return ContentContainer(
       width: double.infinity,
@@ -62,8 +63,11 @@ class DailyAllowanceSummary extends StatelessWidget {
           _SummaryRow(
             label: Intl.message('report_form_daily_amount'),
             value: _formatMoney(value.dailyAmount, value.currencyCode),
-            valueDescription:
-                '${_formatMoney(value.dailyRate, value.currencyCode)} × ${value.totalTripDays}',
+            valueDescription: isDomesticSameDay
+                ? Intl.message(
+                    'report_form_domestic_same_day_no_daily_allowance',
+                  )
+                : '${_formatMoney(value.dailyRate, value.currencyCode)} × ${value.totalTripDays}',
           ),
           if (value.overseas != null)
             _SummaryRow(
