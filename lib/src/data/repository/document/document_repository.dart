@@ -1,0 +1,34 @@
+part of '../../data.dart';
+
+abstract class DocumentRepository {
+  Future<Document> getDocumentForEdit({required int id});
+
+  Future<Result<DocumentListItem>> getDocuments({
+    int page = 1,
+    int limit = 10,
+    required int folderId,
+    String? sort,
+    String? order,
+    String? search,
+  });
+
+  Future<Document> getDocumentDetail({required int id});
+
+  Future<void> sendMail({required int id, required SendMailRequest request});
+
+  Future<Document> createDocument({required CreateDocumentRequest request});
+
+  Future<Document> updateDocument({
+    required int id,
+    required CreateDocumentRequest request,
+  });
+
+  Future<void> deleteDocument({required int id});
+
+  Future<List<DocumentAttachment>> uploadAttachments({
+    required int documentId,
+    required List<MultipartFile> files,
+  });
+
+  Future<void> deleteAttachment({required int documentId, required int fileId});
+}

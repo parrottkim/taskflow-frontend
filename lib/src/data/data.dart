@@ -41,77 +41,105 @@ part 'model/local.dart';
 part 'model/project-client.dart';
 part 'model/work.dart';
 
-part 'repository/auth_repository.dart';
-part 'service/auth_service.dart';
-part 'source/auth_source.dart';
+part 'repository/auth/auth_repository.dart';
+part 'service/auth/auth_service.dart';
+part 'source/auth/auth_source.dart';
 
-part 'repository/address_repository.dart';
-part 'service/address_service.dart';
-part 'source/address_source.dart';
+part 'repository/address/address_repository.dart';
+part 'service/address/address_service.dart';
+part 'source/address/address_source.dart';
 
-part 'repository/bookmark_repository.dart';
-part 'service/bookmark_service.dart';
-part 'source/bookmark_source.dart';
+part 'repository/bookmark/bookmark_repository.dart';
+part 'service/bookmark/bookmark_service.dart';
+part 'source/bookmark/bookmark_source.dart';
 
-part 'repository/currency_repository.dart';
-part 'service/currency_service.dart';
-part 'source/currency_source.dart';
+part 'repository/currency/currency_repository.dart';
+part 'service/currency/currency_service.dart';
+part 'source/currency/currency_source.dart';
 
-part 'repository/dashboard_repository.dart';
-part 'service/dashboard_service.dart';
-part 'source/dashboard_source.dart';
+part 'repository/dashboard/dashboard_repository.dart';
+part 'service/dashboard/dashboard_service.dart';
+part 'source/dashboard/dashboard_source.dart';
 
-part 'repository/document_folder_repository.dart';
-part 'service/document_folder_service.dart';
-part 'source/document_folder_source.dart';
+part 'repository/document/document_folder_repository.dart';
+part 'service/document/document_folder_service.dart';
+part 'source/document/document_folder_source.dart';
 
-part 'repository/draft_repository.dart';
-part 'service/draft_service.dart';
-part 'source/draft_source.dart';
+part 'repository/draft/draft_repository.dart';
+part 'service/draft/draft_service.dart';
+part 'source/draft/draft_source.dart';
 
-part 'repository/document_repository.dart';
-part 'service/document_service.dart';
-part 'source/document_source.dart';
+part 'repository/document/document_repository.dart';
+part 'service/document/document_service.dart';
+part 'source/document/document_source.dart';
 
-part 'repository/holiday_repository.dart';
-part 'service/holiday_service.dart';
-part 'source/holiday_source.dart';
+part 'repository/holiday/holiday_repository.dart';
+part 'service/holiday/holiday_service.dart';
+part 'source/holiday/holiday_source.dart';
 
-part 'repository/schedule_repository.dart';
-part 'service/schedule_service.dart';
-part 'source/schedule_source.dart';
+part 'repository/schedule/schedule_repository.dart';
+part 'service/schedule/schedule_service.dart';
+part 'source/schedule/schedule_source.dart';
 
-part 'repository/issue_repository.dart';
-part 'service/issue_service.dart';
-part 'source/issue_source.dart';
+part 'repository/issue/issue_repository.dart';
+part 'service/issue/issue_service.dart';
+part 'source/issue/issue_source.dart';
 
-part 'repository/local_repository.dart';
-part 'source/local_source.dart';
+part 'repository/issue/issue_attachment_repository.dart';
+part 'service/issue/issue_attachment_service.dart';
+part 'source/issue/issue_attachment_source.dart';
 
-part 'repository/project_client_repository.dart';
-part 'service/project_client_service.dart';
-part 'source/project_client_source.dart';
+part 'repository/issue/approval_issue_repository.dart';
+part 'service/issue/approval_issue_service.dart';
+part 'source/issue/approval_issue_source.dart';
 
-part 'repository/project_repository.dart';
-part 'service/project_service.dart';
-part 'source/project_source.dart';
+part 'repository/issue/contract_issue_repository.dart';
+part 'service/issue/contract_issue_service.dart';
+part 'source/issue/contract_issue_source.dart';
 
-part 'repository/sftp_repository.dart';
-part 'service/sftp_service.dart';
-part 'source/sftp_source.dart';
+part 'repository/issue/kickoff_issue_repository.dart';
+part 'service/issue/kickoff_issue_service.dart';
+part 'source/issue/kickoff_issue_source.dart';
 
-part 'repository/supplier_repository.dart';
-part 'service/supplier_service.dart';
-part 'source/supplier_source.dart';
+part 'repository/issue/payment_issue_repository.dart';
+part 'service/issue/payment_issue_service.dart';
+part 'source/issue/payment_issue_source.dart';
 
-part 'repository/report_repository.dart';
-part 'service/report_service.dart';
-part 'source/report_source.dart';
+part 'repository/issue/procurement_issue_repository.dart';
+part 'service/issue/procurement_issue_service.dart';
+part 'source/issue/procurement_issue_source.dart';
 
-part 'repository/user_repository.dart';
-part 'service/user_service.dart';
-part 'source/user_source.dart';
+part 'repository/issue/transaction_issue_repository.dart';
+part 'service/issue/transaction_issue_service.dart';
+part 'source/issue/transaction_issue_source.dart';
 
-part 'repository/work_repository.dart';
-part 'service/work_service.dart';
-part 'source/work_source.dart';
+part 'repository/local/local_repository.dart';
+part 'source/local/local_source.dart';
+
+part 'repository/project/project_client_repository.dart';
+part 'service/project/project_client_service.dart';
+part 'source/project/project_client_source.dart';
+
+part 'repository/project/project_repository.dart';
+part 'service/project/project_service.dart';
+part 'source/project/project_source.dart';
+
+part 'repository/sftp/sftp_repository.dart';
+part 'service/sftp/sftp_service.dart';
+part 'source/sftp/sftp_source.dart';
+
+part 'repository/supplier/supplier_repository.dart';
+part 'service/supplier/supplier_service.dart';
+part 'source/supplier/supplier_source.dart';
+
+part 'repository/report/report_repository.dart';
+part 'service/report/report_service.dart';
+part 'source/report/report_source.dart';
+
+part 'repository/user/user_repository.dart';
+part 'service/user/user_service.dart';
+part 'source/user/user_source.dart';
+
+part 'repository/work/work_repository.dart';
+part 'service/work/work_service.dart';
+part 'source/work/work_source.dart';
