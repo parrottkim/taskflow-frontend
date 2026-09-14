@@ -1122,6 +1122,8 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("휴일·공휴일 이동 일수"),
     "report_form_domestic_holiday_work_days":
         MessageLookupByLibrary.simpleMessage("휴일·공휴일 근무 일수"),
+    "report_form_domestic_same_day_no_daily_allowance":
+        MessageLookupByLibrary.simpleMessage("국내 당일 출장은 일비가 지급되지 않습니다."),
     "report_form_driving_distance": MessageLookupByLibrary.simpleMessage(
       "운행거리",
     ),

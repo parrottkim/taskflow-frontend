@@ -5219,6 +5219,16 @@ class S {
     );
   }
 
+  /// `국내 당일 출장은 일비가 지급되지 않습니다.`
+  String get report_form_domestic_same_day_no_daily_allowance {
+    return Intl.message(
+      '국내 당일 출장은 일비가 지급되지 않습니다.',
+      name: 'report_form_domestic_same_day_no_daily_allowance',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `특별 수당`
   String get report_form_special_allowance_amount {
     return Intl.message(
