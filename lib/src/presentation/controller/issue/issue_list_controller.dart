@@ -27,12 +27,15 @@ class IssueListController extends _$IssueListController {
         .read(procurementIssueRepositoryProvider)
         .getProcurementIssues(page: 1, projectId: projectId);
 
-    final contractItems = await ref
-        .read(contractIssueRepositoryProvider)
-        .getContractIssueItems(id: projectId);
-    final transactionItems = await ref
-        .read(transactionIssueRepositoryProvider)
-        .getTransactionIssueItems(id: projectId);
+    final contractItems =
+        contract.data?.contractItems ??
+        transaction.data?.contractItems ??
+        const [];
+
+    final transactionItems =
+        contract.data?.transactionItems ??
+        transaction.data?.transactionItems ??
+        const [];
 
     return IssueListState(
       contract: contract.data,

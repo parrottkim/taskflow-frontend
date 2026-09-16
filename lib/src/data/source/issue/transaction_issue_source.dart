@@ -10,11 +10,6 @@ class TransactionIssueDataSource implements TransactionIssueRepository {
       _service.getAllTransactionCategories();
 
   @override
-  Future<List<TransactionIssueItem>> getTransactionIssueItems({
-    required int id,
-  }) => _service.getTransactionIssueItems(id: id);
-
-  @override
   Future<HttpResponse<TransactionIssue?>> getTransactionIssue({
     required int id,
   }) => _service.getTransactionIssue(id: id);

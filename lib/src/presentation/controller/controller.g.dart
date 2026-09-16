@@ -1554,7 +1554,7 @@ final class IssueFormControllerProvider
 }
 
 String _$issueFormControllerHash() =>
-    r'2b37e23eed7372be8c5c5eaea456e3ddcb813cae';
+    r'5c4b97f072ce67ca0eb782642a3361b560777598';
 
 final class IssueFormControllerFamily extends $Family
     with
@@ -1664,7 +1664,7 @@ final class IssueListControllerProvider
 }
 
 String _$issueListControllerHash() =>
-    r'98024004daa80bc3da47d90284b653d3f0c2f7bf';
+    r'3c97621e058c89428483f01e78e9c67473a7f147';
 
 final class IssueListControllerFamily extends $Family
     with
