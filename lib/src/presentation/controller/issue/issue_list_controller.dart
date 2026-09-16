@@ -9,30 +9,33 @@ class IssueListController extends _$IssueListController {
 
   Future<IssueListState> _init() async {
     final contract = await ref
-        .read(issueRepositoryProvider)
+        .read(contractIssueRepositoryProvider)
         .getContractIssue(id: projectId);
     final kickoff = await ref
-        .read(issueRepositoryProvider)
+        .read(kickoffIssueRepositoryProvider)
         .getKickoffIssue(id: projectId);
     final transaction = await ref
-        .read(issueRepositoryProvider)
+        .read(transactionIssueRepositoryProvider)
         .getTransactionIssue(id: projectId);
     final payment = await ref
-        .read(issueRepositoryProvider)
+        .read(paymentIssueRepositoryProvider)
         .getPaymentIssue(id: projectId);
     final approvals = await ref
-        .read(issueRepositoryProvider)
+        .read(approvalIssueRepositoryProvider)
         .getApprovalIssues(page: 1, projectId: projectId);
     final procurements = await ref
-        .read(issueRepositoryProvider)
+        .read(procurementIssueRepositoryProvider)
         .getProcurementIssues(page: 1, projectId: projectId);
 
-    final contractItems = await ref
-        .read(issueRepositoryProvider)
-        .getContractIssueItems(id: projectId);
-    final transactionItems = await ref
-        .read(issueRepositoryProvider)
-        .getTransactionIssueItems(id: projectId);
+    final contractItems =
+        contract.data?.contractItems ??
+        transaction.data?.contractItems ??
+        const [];
+
+    final transactionItems =
+        contract.data?.transactionItems ??
+        transaction.data?.transactionItems ??
+        const [];
 
     return IssueListState(
       contract: contract.data,
@@ -60,7 +63,7 @@ class IssueListController extends _$IssueListController {
     state = await AsyncValue.guard(() async {
       final nextPage = value.approvalsPage + 1;
       final result = await ref
-          .read(issueRepositoryProvider)
+          .read(approvalIssueRepositoryProvider)
           .getApprovalIssues(page: nextPage, projectId: projectId);
 
       return value.copyWith(
@@ -81,7 +84,7 @@ class IssueListController extends _$IssueListController {
     state = await AsyncValue.guard(() async {
       final nextPage = value.procurementsPage + 1;
       final result = await ref
-          .read(issueRepositoryProvider)
+          .read(procurementIssueRepositoryProvider)
           .getProcurementIssues(page: nextPage, projectId: projectId);
 
       return value.copyWith(
@@ -99,7 +102,7 @@ class IssueListController extends _$IssueListController {
     final value = state.requireValue;
 
     await ref
-        .read(issueRepositoryProvider)
+        .read(procurementIssueRepositoryProvider)
         .approveProcurementIssueRequest(id: requestId);
 
     state = AsyncValue.data(
@@ -208,6 +211,8 @@ class IssueListController extends _$IssueListController {
           createdBy: item.createdBy,
           content: item.content,
           kickoffDate: item.kickoffDate!,
+          participantItems: item.participantItems,
+          tripItems: item.tripItems,
           attachments: item.attachments,
           createdAt: item.createdAt,
           updatedAt: item.updatedAt,
@@ -315,6 +320,8 @@ class IssueListController extends _$IssueListController {
           updatedBy: issue.updatedBy,
           content: issue.content,
           kickoffDate: issue.kickoffDate!,
+          participantItems: issue.participantItems,
+          tripItems: issue.tripItems,
           attachments: issue.attachments,
           createdAt: issue.createdAt,
           updatedAt: issue.updatedAt,

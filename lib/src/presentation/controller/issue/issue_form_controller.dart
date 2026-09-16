@@ -23,6 +23,8 @@ class IssueFormController extends _$IssueFormController {
         kickoffDate: result.kickoffDate,
         contractItems: result.contractItems,
         transactionItems: result.transactionItems,
+        participantItems: result.participantItems,
+        tripItems: result.tripItems,
         procurementItems: result.procurementItems,
         requests: result.requests,
       );
@@ -33,22 +35,14 @@ class IssueFormController extends _$IssueFormController {
         .getCategory(id: categoryId);
 
     final contract = await ref
-        .read(issueRepositoryProvider)
+        .read(contractIssueRepositoryProvider)
         .getContractIssue(id: projectId);
-
-    final contractItems = await ref
-        .read(issueRepositoryProvider)
-        .getContractIssueItems(id: projectId);
-
-    final transactionItems = await ref
-        .read(issueRepositoryProvider)
-        .getTransactionIssueItems(id: projectId);
 
     return IssueFormState(
       category: category,
       currency: contract.data?.currency,
-      contractItems: contractItems,
-      transactionItems: transactionItems,
+      contractItems: contract.data?.contractItems ?? const [],
+      transactionItems: contract.data?.transactionItems ?? const [],
     );
   }
 
@@ -319,12 +313,127 @@ class IssueFormController extends _$IssueFormController {
     state = AsyncData(value.copyWith(transactionItems: []));
   }
 
+  void addKickoffIssueParticipantItems({KickoffIssueParticipantItem? item}) {
+    final value = state.requireValue;
+
+    state = AsyncData(
+      value.copyWith(
+        participantItems: [
+          ...value.participantItems,
+          item ?? KickoffIssueParticipantItem.empty(),
+        ],
+      ),
+    );
+  }
+
+  void updateKickoffIssueParticipantItems({
+    required int index,
+    User? user,
+    String? role,
+  }) {
+    final value = state.requireValue;
+    final items = [...value.participantItems];
+
+    if (index < 0 || index >= items.length) return;
+
+    final oldItem = items[index];
+    items[index] = oldItem.copyWith(
+      participant: user ?? oldItem.participant,
+      role: role ?? oldItem.role,
+    );
+
+    state = AsyncData(value.copyWith(participantItems: items));
+  }
+
+  void clearKickoffIssueParticipantUser({required int index}) {
+    final value = state.requireValue;
+    final items = [...value.participantItems];
+
+    if (index < 0 || index >= items.length) return;
+
+    items[index] = items[index].copyWith(participant: null);
+    state = AsyncData(value.copyWith(participantItems: items));
+  }
+
+  void removeKickoffIssueParticipantItems({required int index}) {
+    final value = state.requireValue;
+    final items = [...value.participantItems];
+
+    if (index < 0 || index >= items.length) return;
+
+    items.removeAt(index);
+    state = AsyncData(value.copyWith(participantItems: items));
+  }
+
+  void removeAllKickoffIssueParticipantItems() {
+    final value = state.requireValue;
+
+    state = AsyncData(value.copyWith(participantItems: const []));
+  }
+
+  void addKickoffIssueTripItems({KickoffIssueTripItem? item}) {
+    final value = state.requireValue;
+
+    state = AsyncData(
+      value.copyWith(
+        tripItems: [...value.tripItems, item ?? KickoffIssueTripItem.empty()],
+      ),
+    );
+  }
+
+  void updateKickoffIssueTripItems({
+    required int index,
+    KickoffIssueTripItemCategory? category,
+    int? days,
+    String? note,
+  }) {
+    final value = state.requireValue;
+    final items = [...value.tripItems];
+
+    if (index < 0 || index >= items.length) return;
+
+    final oldItem = items[index];
+    items[index] = oldItem.copyWith(
+      category: category ?? oldItem.category,
+      days: days ?? oldItem.days,
+      note: note ?? oldItem.note,
+    );
+
+    state = AsyncData(value.copyWith(tripItems: items));
+  }
+
+  void clearKickoffIssueTripCategory({required int index}) {
+    final value = state.requireValue;
+    final items = [...value.tripItems];
+
+    if (index < 0 || index >= items.length) return;
+
+    items[index] = items[index].copyWith(category: null);
+    state = AsyncData(value.copyWith(tripItems: items));
+  }
+
+  void removeKickoffIssueTripItems({required int index}) {
+    final value = state.requireValue;
+    final items = [...value.tripItems];
+
+    if (index < 0 || index >= items.length) return;
+
+    items.removeAt(index);
+    state = AsyncData(value.copyWith(tripItems: items));
+  }
+
+  void removeAllKickoffIssueTripItems() {
+    final value = state.requireValue;
+
+    state = AsyncData(value.copyWith(tripItems: const []));
+  }
+
   Future<void> removeAttachment({required IssueAttachment attachment}) async {
     final value = state.requireValue;
     if (issueId == null) return;
 
     await ref
-        .read(issueRepositoryProvider)
+        .read(issueAttachmentRepositoryProvider)
         .deleteAttachment(issueId: issueId!, fileId: attachment.id);
 
     state = AsyncData(

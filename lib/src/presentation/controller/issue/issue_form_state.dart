@@ -11,6 +11,8 @@ abstract class IssueFormState with _$IssueFormState {
     DateTime? kickoffDate,
     @Default([]) List<ContractIssueItem> contractItems,
     @Default([]) List<TransactionIssueItem> transactionItems,
+    @Default([]) List<KickoffIssueParticipantItem> participantItems,
+    @Default([]) List<KickoffIssueTripItem> tripItems,
     @Default([]) List<ProcurementIssueItem> procurementItems,
     @Default([]) List<ProcurementIssueRequest> requests,
   }) = _IssueFormState;

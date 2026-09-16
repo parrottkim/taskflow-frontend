@@ -10,7 +10,7 @@ class IssueExportController extends _$IssueExportController {
 
     try {
       final result = await ref
-          .read(issueRepositoryProvider)
+          .read(procurementIssueRepositoryProvider)
           .exportPurchaseRequest(id: issueId);
 
       if (result.data.isEmpty) {
@@ -36,7 +36,7 @@ class IssueExportController extends _$IssueExportController {
 
     try {
       final result = await ref
-          .read(issueRepositoryProvider)
+          .read(procurementIssueRepositoryProvider)
           .exportPurchaseOrder(id: requestId);
 
       if (result.data.isEmpty) {

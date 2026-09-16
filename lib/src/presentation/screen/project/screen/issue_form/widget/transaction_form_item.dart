@@ -37,7 +37,7 @@ class TransactionFormItem extends ConsumerWidget {
           currency: Currency.empty(),
           categories: [],
           currencies: [],
-          items: List.filled(1, TransactionIssueItem.dummy()),
+          items: [],
         ),
       ),
     };

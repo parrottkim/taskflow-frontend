@@ -60,6 +60,8 @@ sealed class Issue with _$Issue {
     DateTime? kickoffDate,
     @Default([]) List<ContractIssueItem> contractItems,
     @Default([]) List<TransactionIssueItem> transactionItems,
+    @Default([]) List<KickoffIssueParticipantItem> participantItems,
+    @Default([]) List<KickoffIssueTripItem> tripItems,
     @Default([]) List<ProcurementIssueItem> procurementItems,
     @Default([]) List<ProcurementIssueRequest> requests,
     required User createdBy,
@@ -107,6 +109,88 @@ abstract class ContractIssueItem with _$ContractIssueItem {
       _$ContractIssueItemFromJson(json);
 
   factory ContractIssueItem.empty() => ContractIssueItem(item: '', price: '');
+}
+
+@freezed
+abstract class KickoffIssueParticipantItem with _$KickoffIssueParticipantItem {
+  const factory KickoffIssueParticipantItem({
+    int? id,
+    User? participant,
+    required String role,
+  }) = _KickoffIssueParticipantItem;
+
+  factory KickoffIssueParticipantItem.fromJson(Map<String, dynamic> json) =>
+      _$KickoffIssueParticipantItemFromJson(json);
+
+  factory KickoffIssueParticipantItem.empty() =>
+      KickoffIssueParticipantItem(role: '');
+}
+
+@freezed
+abstract class KickoffIssueTripItemCategory
+    with _$KickoffIssueTripItemCategory {
+  const factory KickoffIssueTripItemCategory({
+    required int id,
+    required String name,
+  }) = _KickoffIssueTripItemCategory;
+
+  factory KickoffIssueTripItemCategory.fromJson(Map<String, dynamic> json) =>
+      _$KickoffIssueTripItemCategoryFromJson(json);
+}
+
+@freezed
+abstract class KickoffIssueTripItem with _$KickoffIssueTripItem {
+  const factory KickoffIssueTripItem({
+    int? id,
+    KickoffIssueTripItemCategory? category,
+    required int days,
+    String? note,
+  }) = _KickoffIssueTripItem;
+
+  factory KickoffIssueTripItem.fromJson(Map<String, dynamic> json) =>
+      _$KickoffIssueTripItemFromJson(json);
+
+  factory KickoffIssueTripItem.empty() => KickoffIssueTripItem(days: 0);
+}
+
+@freezed
+abstract class TransactionIssueItemCategory
+    with _$TransactionIssueItemCategory {
+  factory TransactionIssueItemCategory({
+    required int id,
+    required String name,
+  }) = _TransactionIssueItemCategory;
+
+  factory TransactionIssueItemCategory.fromJson(Map<String, dynamic> json) =>
+      _$TransactionIssueItemCategoryFromJson(json);
+
+  factory TransactionIssueItemCategory.dummy() =>
+      TransactionIssueItemCategory(id: 0, name: '');
+}
+
+@freezed
+abstract class TransactionIssueItem with _$TransactionIssueItem {
+  factory TransactionIssueItem({
+    int? id,
+    TransactionIssueItemCategory? category,
+    required String price,
+    required String ratio,
+    @Default(false) bool isPaid,
+    DateTime? paidAt,
+    String? note,
+  }) = _TransactionIssueItem;
+
+  factory TransactionIssueItem.fromJson(Map<String, dynamic> json) =>
+      _$TransactionIssueItemFromJson(json);
+
+  factory TransactionIssueItem.empty() =>
+      TransactionIssueItem(category: null, price: '', ratio: '', note: '');
+
+  factory TransactionIssueItem.dummy() => TransactionIssueItem(
+    category: TransactionIssueItemCategory.dummy(),
+    price: '',
+    ratio: '',
+  );
 }
 
 @freezed
@@ -163,46 +247,6 @@ abstract class ProcurementIssueRequestItem with _$ProcurementIssueRequestItem {
 }
 
 @freezed
-abstract class TransactionIssueItemCategory
-    with _$TransactionIssueItemCategory {
-  factory TransactionIssueItemCategory({
-    required int id,
-    required String name,
-  }) = _TransactionIssueItemCategory;
-
-  factory TransactionIssueItemCategory.fromJson(Map<String, dynamic> json) =>
-      _$TransactionIssueItemCategoryFromJson(json);
-
-  factory TransactionIssueItemCategory.empty() =>
-      TransactionIssueItemCategory(id: 0, name: '');
-}
-
-@freezed
-abstract class TransactionIssueItem with _$TransactionIssueItem {
-  factory TransactionIssueItem({
-    int? id,
-    TransactionIssueItemCategory? category,
-    required String price,
-    required String ratio,
-    @Default(false) bool isPaid,
-    DateTime? paidAt,
-    String? note,
-  }) = _TransactionIssueItem;
-
-  factory TransactionIssueItem.fromJson(Map<String, dynamic> json) =>
-      _$TransactionIssueItemFromJson(json);
-
-  factory TransactionIssueItem.empty() =>
-      TransactionIssueItem(category: null, price: '', ratio: '', note: '');
-
-  factory TransactionIssueItem.dummy() => TransactionIssueItem(
-    category: TransactionIssueItemCategory.empty(),
-    price: '',
-    ratio: '',
-  );
-}
-
-@freezed
 abstract class ContractIssue with _$ContractIssue {
   factory ContractIssue({
     required int id,
@@ -211,6 +255,8 @@ abstract class ContractIssue with _$ContractIssue {
     User? updatedBy,
     required String content,
     required Currency currency,
+    @Default([]) List<ContractIssueItem> contractItems,
+    @Default([]) List<TransactionIssueItem> transactionItems,
     @Default([]) List<IssueAttachment> attachments,
     required DateTime createdAt,
     required DateTime updatedAt,
@@ -230,6 +276,8 @@ abstract class KickoffIssue with _$KickoffIssue {
     User? updatedBy,
     required String content,
     required DateTime kickoffDate,
+    @Default([]) List<KickoffIssueParticipantItem> participantItems,
+    @Default([]) List<KickoffIssueTripItem> tripItems,
     @Default([]) List<IssueAttachment> attachments,
     required DateTime createdAt,
     required DateTime updatedAt,
@@ -269,6 +317,8 @@ abstract class TransactionIssue with _$TransactionIssue {
     User? updatedBy,
     required String content,
     Currency? currency,
+    @Default([]) List<ContractIssueItem> contractItems,
+    @Default([]) List<TransactionIssueItem> transactionItems,
     @Default([]) List<IssueAttachment> attachments,
     required DateTime createdAt,
     required DateTime updatedAt,

@@ -23,6 +23,8 @@ abstract class CreateKickoffIssueRequest with _$CreateKickoffIssueRequest {
     required int categoryId,
     required String content,
     required DateTime kickoffDate,
+    required List<CreateKickoffParticipantItemRequest> participantItems,
+    required List<CreateKickoffTripItemRequest> tripItems,
     required List<IssueAttachment> attachments,
   }) = _CreateKickoffIssueRequest;
 
@@ -125,6 +127,8 @@ abstract class UpdateKickoffIssueRequest with _$UpdateKickoffIssueRequest {
     required int categoryId,
     required String content,
     required DateTime kickoffDate,
+    required List<UpdateKickoffParticipantItemRequest> participantItems,
+    required List<UpdateKickoffTripItemRequest> tripItems,
     required List<IssueAttachment> attachments,
   }) = _UpdateKickoffIssueRequest;
 
@@ -201,6 +205,49 @@ abstract class CreateContractIssueItemRequest
 }
 
 @freezed
+abstract class CreateTransactionIssueItemRequest
+    with _$CreateTransactionIssueItemRequest {
+  factory CreateTransactionIssueItemRequest({
+    required int categoryId,
+    required String price,
+    required String ratio,
+    bool? isPaid,
+    DateTime? paidAt,
+    String? note,
+  }) = _CreateTransactionIssueItemRequest;
+
+  factory CreateTransactionIssueItemRequest.fromJson(
+    Map<String, dynamic> json,
+  ) => _$CreateTransactionIssueItemRequestFromJson(json);
+}
+
+@freezed
+abstract class CreateKickoffParticipantItemRequest
+    with _$CreateKickoffParticipantItemRequest {
+  const factory CreateKickoffParticipantItemRequest({
+    required int participantId,
+    required String role,
+  }) = _CreateKickoffParticipantItemRequest;
+
+  factory CreateKickoffParticipantItemRequest.fromJson(
+    Map<String, dynamic> json,
+  ) => _$CreateKickoffParticipantItemRequestFromJson(json);
+}
+
+@freezed
+abstract class CreateKickoffTripItemRequest
+    with _$CreateKickoffTripItemRequest {
+  const factory CreateKickoffTripItemRequest({
+    required int categoryId,
+    required int days,
+    String? note,
+  }) = _CreateKickoffTripItemRequest;
+
+  factory CreateKickoffTripItemRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateKickoffTripItemRequestFromJson(json);
+}
+
+@freezed
 abstract class CreateProcurementIssueItemRequest
     with _$CreateProcurementIssueItemRequest {
   factory CreateProcurementIssueItemRequest({
@@ -221,23 +268,6 @@ abstract class CreateProcurementIssueItemRequest
 }
 
 @freezed
-abstract class CreateTransactionIssueItemRequest
-    with _$CreateTransactionIssueItemRequest {
-  factory CreateTransactionIssueItemRequest({
-    required int categoryId,
-    required String price,
-    required String ratio,
-    bool? isPaid,
-    DateTime? paidAt,
-    String? note,
-  }) = _CreateTransactionIssueItemRequest;
-
-  factory CreateTransactionIssueItemRequest.fromJson(
-    Map<String, dynamic> json,
-  ) => _$CreateTransactionIssueItemRequestFromJson(json);
-}
-
-@freezed
 abstract class UpdateContractIssueItemRequest
     with _$UpdateContractIssueItemRequest {
   factory UpdateContractIssueItemRequest({
@@ -248,6 +278,52 @@ abstract class UpdateContractIssueItemRequest
 
   factory UpdateContractIssueItemRequest.fromJson(Map<String, dynamic> json) =>
       _$UpdateContractIssueItemRequestFromJson(json);
+}
+
+@freezed
+abstract class UpdateTransactionIssueItemRequest
+    with _$UpdateTransactionIssueItemRequest {
+  factory UpdateTransactionIssueItemRequest({
+    int? id,
+    required int categoryId,
+    required String price,
+    required String ratio,
+    bool? isPaid,
+    DateTime? paidAt,
+    String? note,
+  }) = _UpdateTransactionIssueItemRequest;
+
+  factory UpdateTransactionIssueItemRequest.fromJson(
+    Map<String, dynamic> json,
+  ) => _$UpdateTransactionIssueItemRequestFromJson(json);
+}
+
+@freezed
+abstract class UpdateKickoffParticipantItemRequest
+    with _$UpdateKickoffParticipantItemRequest {
+  const factory UpdateKickoffParticipantItemRequest({
+    int? id,
+    required int participantId,
+    required String role,
+  }) = _UpdateKickoffParticipantItemRequest;
+
+  factory UpdateKickoffParticipantItemRequest.fromJson(
+    Map<String, dynamic> json,
+  ) => _$UpdateKickoffParticipantItemRequestFromJson(json);
+}
+
+@freezed
+abstract class UpdateKickoffTripItemRequest
+    with _$UpdateKickoffTripItemRequest {
+  const factory UpdateKickoffTripItemRequest({
+    int? id,
+    required int categoryId,
+    required int days,
+    String? note,
+  }) = _UpdateKickoffTripItemRequest;
+
+  factory UpdateKickoffTripItemRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateKickoffTripItemRequestFromJson(json);
 }
 
 @freezed
@@ -269,22 +345,4 @@ abstract class UpdateProcurementIssueItemRequest
   factory UpdateProcurementIssueItemRequest.fromJson(
     Map<String, dynamic> json,
   ) => _$UpdateProcurementIssueItemRequestFromJson(json);
-}
-
-@freezed
-abstract class UpdateTransactionIssueItemRequest
-    with _$UpdateTransactionIssueItemRequest {
-  factory UpdateTransactionIssueItemRequest({
-    int? id,
-    required int categoryId,
-    required String price,
-    required String ratio,
-    bool? isPaid,
-    DateTime? paidAt,
-    String? note,
-  }) = _UpdateTransactionIssueItemRequest;
-
-  factory UpdateTransactionIssueItemRequest.fromJson(
-    Map<String, dynamic> json,
-  ) => _$UpdateTransactionIssueItemRequestFromJson(json);
 }
