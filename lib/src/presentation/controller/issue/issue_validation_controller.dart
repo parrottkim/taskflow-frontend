@@ -10,6 +10,8 @@ class IssueValidationController extends _$IssueValidationController {
   bool validate({required IssueFormState value, required bool contentIsEmpty}) {
     final contractItems = value.contractItems;
     final transactionItems = value.transactionItems;
+    final participantItems = value.participantItems;
+    final tripItems = value.tripItems;
     final procurementItems = value.procurementItems;
     final transactionItemInvalid = transactionItems.any(
       (item) => item.category == null || item.price.isEmpty,
@@ -41,6 +43,18 @@ class IssueValidationController extends _$IssueValidationController {
           totalRatio != 100,
       kickoffDateMissing:
           value.category is IssueKickoff && value.kickoffDate == null,
+      kickoffParticipantItemsMissing:
+          value.category is IssueKickoff && participantItems.isEmpty,
+      kickoffParticipantItemInvalid:
+          value.category is IssueKickoff &&
+          participantItems.any(
+            (item) => item.participant == null || item.role.trim().isEmpty,
+          ),
+      kickoffTripItemsMissing:
+          value.category is IssueKickoff && tripItems.isEmpty,
+      kickoffTripItemInvalid:
+          value.category is IssueKickoff &&
+          tripItems.any((item) => item.category == null || item.days < 1),
       procurementItemsMissing:
           value.category is IssueProcurement && procurementItems.isEmpty,
       procurementItemInvalid:
@@ -59,6 +73,10 @@ class IssueValidationController extends _$IssueValidationController {
         !state.transactionItemInvalid &&
         !state.ratioInvalid &&
         !state.kickoffDateMissing &&
+        !state.kickoffParticipantItemsMissing &&
+        !state.kickoffParticipantItemInvalid &&
+        !state.kickoffTripItemsMissing &&
+        !state.kickoffTripItemInvalid &&
         !state.procurementItemsMissing &&
         !state.procurementItemInvalid;
   }
@@ -76,7 +94,17 @@ class IssueValidationController extends _$IssueValidationController {
     ratioInvalid: false,
   );
 
-  void clearKickoff() => state = state.copyWith(kickoffDateMissing: false);
+  void clearKickoffDate() => state = state.copyWith(kickoffDateMissing: false);
+
+  void clearKickoffParticipants() => state = state.copyWith(
+    kickoffParticipantItemsMissing: false,
+    kickoffParticipantItemInvalid: false,
+  );
+
+  void clearKickoffTrips() => state = state.copyWith(
+    kickoffTripItemsMissing: false,
+    kickoffTripItemInvalid: false,
+  );
 
   void clearProcurement() => state = state.copyWith(
     procurementItemsMissing: false,

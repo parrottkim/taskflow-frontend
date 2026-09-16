@@ -26,12 +26,14 @@ class UserDataSource implements UserRepository {
     int page = 1,
     int limit = 20,
     int? departmentId,
+    int? rankId,
     int? positionId,
     String? search,
   }) => _service.getUsers(
     page: page,
     limit: limit,
     departmentId: departmentId,
+    rankId: rankId,
     positionId: positionId,
     search: search,
   );

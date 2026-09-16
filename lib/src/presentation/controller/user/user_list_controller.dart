@@ -14,6 +14,7 @@ class UserListController extends _$UserListController {
         .read(userRepositoryProvider)
         .getUsers(
           departmentId: filter.departments?.lastOrNull,
+          rankId: filter.rankId,
           positionId: filter.positionId,
           search: filter.search,
         );
@@ -38,6 +39,7 @@ class UserListController extends _$UserListController {
           .getUsers(
             page: value.page + 1,
             departmentId: filter.departments?.lastOrNull,
+            rankId: filter.rankId,
             positionId: filter.positionId,
             search: filter.search,
           );

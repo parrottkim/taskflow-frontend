@@ -170,6 +170,34 @@ class UserPositionFilterWidget extends StatelessWidget {
   }
 }
 
+class UserRankFilterWidget extends StatelessWidget {
+  final UserRank? rank;
+  final List<UserRank> rankItems;
+  final ValueChanged<UserRank?> onChanged;
+
+  const UserRankFilterWidget({
+    super.key,
+    required this.rank,
+    required this.rankItems,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedDropdownButton(
+      onChanged: onChanged,
+      onClear: () => onChanged(null),
+      items: rankItems,
+      value: rank,
+      icon: const Icon(Symbols.military_tech_rounded),
+      label: Text(
+        rank == null ? Intl.message('data_user_column_3') : rank!.name,
+      ),
+      itemBuilder: (value) => Text(value.name),
+    );
+  }
+}
+
 enum UserSelectionType { single, multiple }
 
 UserDepartment? _findUserDepartment({
@@ -193,6 +221,16 @@ UserPosition? _findUserPosition({
 
   for (final item in items) {
     if (item.id == positionId) return item;
+  }
+
+  return null;
+}
+
+UserRank? _findUserRank({required List<UserRank> items, required int? rankId}) {
+  if (rankId == null) return null;
+
+  for (final item in items) {
+    if (item.id == rankId) return item;
   }
 
   return null;
@@ -361,6 +399,21 @@ class UserSelectorDialog extends HookConsumerWidget {
                     ),
                     child: Row(
                       children: [
+                        UserRankFilterWidget(
+                          rank: _findUserRank(
+                            items: options.rankItems,
+                            rankId: filter.rankId,
+                          ),
+                          rankItems: options.rankItems,
+                          onChanged: (value) => ref
+                              .read(
+                                userFilterControllerProvider(
+                                  UserFilterScope.userSelectorDialog,
+                                ).notifier,
+                              )
+                              .setRank(rank: value),
+                        ),
+                        const SizedBox(width: 8.0),
                         UserPositionFilterWidget(
                           position: _findUserPosition(
                             items: options.positionItems,
@@ -412,6 +465,15 @@ class UserSelectorDialog extends HookConsumerWidget {
                       ),
                       child: Row(
                         children: [
+                          Skeletonizer(
+                            ignoreContainers: true,
+                            child: UserRankFilterWidget(
+                              rank: null,
+                              rankItems: List.filled(4, UserRank.dummy()),
+                              onChanged: (_) {},
+                            ),
+                          ),
+                          const SizedBox(width: 8.0),
                           Skeletonizer(
                             ignoreContainers: true,
                             child: UserPositionFilterWidget(

@@ -517,6 +517,9 @@ class _DesktopWidget extends HookConsumerWidget {
                                     SizedBox(height: 16.0),
                                     KickoffDisplayItem(
                                       kickoffDate: kickoff!.kickoffDate,
+                                      participantItems:
+                                          kickoff!.participantItems,
+                                      tripItems: kickoff!.tripItems,
                                     ),
                                     SizedBox(height: 16.0),
                                     MarkdownWidget(item: kickoff!.content),

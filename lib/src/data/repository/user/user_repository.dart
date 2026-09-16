@@ -15,6 +15,7 @@ abstract class UserRepository {
     int page = 1,
     int limit = 20,
     int? departmentId,
+    int? rankId,
     int? positionId,
     String? search,
   });

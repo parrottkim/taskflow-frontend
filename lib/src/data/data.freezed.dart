@@ -6087,7 +6087,7 @@ as String,
 /// @nodoc
 mixin _$Issue {
 
- int get id; IssueCategory get category; String get content; List<IssueAttachment> get attachments; Currency? get currency; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<ProcurementIssueItem> get procurementItems; List<ProcurementIssueRequest> get requests; User get createdBy; User? get updatedBy; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+ int get id; IssueCategory get category; String get content; List<IssueAttachment> get attachments; Currency? get currency; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<KickoffIssueParticipantItem> get participantItems; List<KickoffIssueTripItem> get tripItems; List<ProcurementIssueItem> get procurementItems; List<ProcurementIssueRequest> get requests; User get createdBy; User? get updatedBy; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
 /// Create a copy of Issue
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -6100,16 +6100,16 @@ $IssueCopyWith<Issue> get copyWith => _$IssueCopyWithImpl<Issue>(this as Issue, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems)&&const DeepCollectionEquality().equals(other.requests, requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.participantItems, participantItems)&&const DeepCollectionEquality().equals(other.tripItems, tripItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems)&&const DeepCollectionEquality().equals(other.requests, requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(attachments),currency,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(procurementItems),const DeepCollectionEquality().hash(requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(attachments),currency,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(participantItems),const DeepCollectionEquality().hash(tripItems),const DeepCollectionEquality().hash(procurementItems),const DeepCollectionEquality().hash(requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -6120,7 +6120,7 @@ abstract mixin class $IssueCopyWith<$Res>  {
   factory $IssueCopyWith(Issue value, $Res Function(Issue) _then) = _$IssueCopyWithImpl;
 @useResult
 $Res call({
- int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -6137,7 +6137,7 @@ class _$IssueCopyWithImpl<$Res>
 
 /// Create a copy of Issue
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
@@ -6147,7 +6147,9 @@ as List<IssueAttachment>,currency: freezed == currency ? _self.currency : curren
 as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self.procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,participantItems: null == participantItems ? _self.participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,tripItems: null == tripItems ? _self.tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItem>,procurementItems: null == procurementItems ? _self.procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueItem>,requests: null == requests ? _self.requests : requests // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequest>,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
@@ -6278,10 +6280,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Issue() when $default != null:
-return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -6299,10 +6301,10 @@ return $default(_that.id,_that.category,_that.content,_that.attachments,_that.cu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Issue():
-return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);}
+return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -6316,10 +6318,10 @@ return $default(_that.id,_that.category,_that.content,_that.attachments,_that.cu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Issue() when $default != null:
-return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -6331,7 +6333,7 @@ return $default(_that.id,_that.category,_that.content,_that.attachments,_that.cu
 @JsonSerializable()
 
 class _Issue implements Issue {
-   _Issue({required this.id, required this.category, required this.content, final  List<IssueAttachment> attachments = const [], this.currency, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<ProcurementIssueItem> procurementItems = const [], final  List<ProcurementIssueRequest> requests = const [], required this.createdBy, this.updatedBy, required this.createdAt, required this.updatedAt, this.deletedAt}): _attachments = attachments,_contractItems = contractItems,_transactionItems = transactionItems,_procurementItems = procurementItems,_requests = requests;
+   _Issue({required this.id, required this.category, required this.content, final  List<IssueAttachment> attachments = const [], this.currency, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<KickoffIssueParticipantItem> participantItems = const [], final  List<KickoffIssueTripItem> tripItems = const [], final  List<ProcurementIssueItem> procurementItems = const [], final  List<ProcurementIssueRequest> requests = const [], required this.createdBy, this.updatedBy, required this.createdAt, required this.updatedAt, this.deletedAt}): _attachments = attachments,_contractItems = contractItems,_transactionItems = transactionItems,_participantItems = participantItems,_tripItems = tripItems,_procurementItems = procurementItems,_requests = requests;
   factory _Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
 
 @override final  int id;
@@ -6358,6 +6360,20 @@ class _Issue implements Issue {
   if (_transactionItems is EqualUnmodifiableListView) return _transactionItems;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_transactionItems);
+}
+
+ final  List<KickoffIssueParticipantItem> _participantItems;
+@override@JsonKey() List<KickoffIssueParticipantItem> get participantItems {
+  if (_participantItems is EqualUnmodifiableListView) return _participantItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_participantItems);
+}
+
+ final  List<KickoffIssueTripItem> _tripItems;
+@override@JsonKey() List<KickoffIssueTripItem> get tripItems {
+  if (_tripItems is EqualUnmodifiableListView) return _tripItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tripItems);
 }
 
  final  List<ProcurementIssueItem> _procurementItems;
@@ -6393,16 +6409,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems)&&const DeepCollectionEquality().equals(other._requests, _requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._participantItems, _participantItems)&&const DeepCollectionEquality().equals(other._tripItems, _tripItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems)&&const DeepCollectionEquality().equals(other._requests, _requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(_attachments),currency,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_procurementItems),const DeepCollectionEquality().hash(_requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(_attachments),currency,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_participantItems),const DeepCollectionEquality().hash(_tripItems),const DeepCollectionEquality().hash(_procurementItems),const DeepCollectionEquality().hash(_requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -6413,7 +6429,7 @@ abstract mixin class _$IssueCopyWith<$Res> implements $IssueCopyWith<$Res> {
   factory _$IssueCopyWith(_Issue value, $Res Function(_Issue) _then) = __$IssueCopyWithImpl;
 @override @useResult
 $Res call({
- int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -6430,7 +6446,7 @@ class __$IssueCopyWithImpl<$Res>
 
 /// Create a copy of Issue
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_Issue(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
@@ -6440,7 +6456,9 @@ as List<IssueAttachment>,currency: freezed == currency ? _self.currency : curren
 as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self._procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,participantItems: null == participantItems ? _self._participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,tripItems: null == tripItems ? _self._tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItem>,procurementItems: null == procurementItems ? _self._procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueItem>,requests: null == requests ? _self._requests : requests // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequest>,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
@@ -7038,6 +7056,1432 @@ as String,
 }
 
 
+}
+
+
+/// @nodoc
+mixin _$KickoffIssueParticipantItem {
+
+ int? get id; User? get participant; String get role;
+/// Create a copy of KickoffIssueParticipantItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$KickoffIssueParticipantItemCopyWith<KickoffIssueParticipantItem> get copyWith => _$KickoffIssueParticipantItemCopyWithImpl<KickoffIssueParticipantItem>(this as KickoffIssueParticipantItem, _$identity);
+
+  /// Serializes this KickoffIssueParticipantItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is KickoffIssueParticipantItem&&(identical(other.id, id) || other.id == id)&&(identical(other.participant, participant) || other.participant == participant)&&(identical(other.role, role) || other.role == role));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,participant,role);
+
+@override
+String toString() {
+  return 'KickoffIssueParticipantItem(id: $id, participant: $participant, role: $role)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $KickoffIssueParticipantItemCopyWith<$Res>  {
+  factory $KickoffIssueParticipantItemCopyWith(KickoffIssueParticipantItem value, $Res Function(KickoffIssueParticipantItem) _then) = _$KickoffIssueParticipantItemCopyWithImpl;
+@useResult
+$Res call({
+ int? id, User? participant, String role
+});
+
+
+$UserCopyWith<$Res>? get participant;
+
+}
+/// @nodoc
+class _$KickoffIssueParticipantItemCopyWithImpl<$Res>
+    implements $KickoffIssueParticipantItemCopyWith<$Res> {
+  _$KickoffIssueParticipantItemCopyWithImpl(this._self, this._then);
+
+  final KickoffIssueParticipantItem _self;
+  final $Res Function(KickoffIssueParticipantItem) _then;
+
+/// Create a copy of KickoffIssueParticipantItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? participant = freezed,Object? role = null,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,participant: freezed == participant ? _self.participant : participant // ignore: cast_nullable_to_non_nullable
+as User?,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+/// Create a copy of KickoffIssueParticipantItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get participant {
+    if (_self.participant == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.participant!, (value) {
+    return _then(_self.copyWith(participant: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [KickoffIssueParticipantItem].
+extension KickoffIssueParticipantItemPatterns on KickoffIssueParticipantItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _KickoffIssueParticipantItem value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _KickoffIssueParticipantItem() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _KickoffIssueParticipantItem value)  $default,){
+final _that = this;
+switch (_that) {
+case _KickoffIssueParticipantItem():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _KickoffIssueParticipantItem value)?  $default,){
+final _that = this;
+switch (_that) {
+case _KickoffIssueParticipantItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  User? participant,  String role)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _KickoffIssueParticipantItem() when $default != null:
+return $default(_that.id,_that.participant,_that.role);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  User? participant,  String role)  $default,) {final _that = this;
+switch (_that) {
+case _KickoffIssueParticipantItem():
+return $default(_that.id,_that.participant,_that.role);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  User? participant,  String role)?  $default,) {final _that = this;
+switch (_that) {
+case _KickoffIssueParticipantItem() when $default != null:
+return $default(_that.id,_that.participant,_that.role);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _KickoffIssueParticipantItem implements KickoffIssueParticipantItem {
+  const _KickoffIssueParticipantItem({this.id, this.participant, required this.role});
+  factory _KickoffIssueParticipantItem.fromJson(Map<String, dynamic> json) => _$KickoffIssueParticipantItemFromJson(json);
+
+@override final  int? id;
+@override final  User? participant;
+@override final  String role;
+
+/// Create a copy of KickoffIssueParticipantItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$KickoffIssueParticipantItemCopyWith<_KickoffIssueParticipantItem> get copyWith => __$KickoffIssueParticipantItemCopyWithImpl<_KickoffIssueParticipantItem>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$KickoffIssueParticipantItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _KickoffIssueParticipantItem&&(identical(other.id, id) || other.id == id)&&(identical(other.participant, participant) || other.participant == participant)&&(identical(other.role, role) || other.role == role));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,participant,role);
+
+@override
+String toString() {
+  return 'KickoffIssueParticipantItem(id: $id, participant: $participant, role: $role)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$KickoffIssueParticipantItemCopyWith<$Res> implements $KickoffIssueParticipantItemCopyWith<$Res> {
+  factory _$KickoffIssueParticipantItemCopyWith(_KickoffIssueParticipantItem value, $Res Function(_KickoffIssueParticipantItem) _then) = __$KickoffIssueParticipantItemCopyWithImpl;
+@override @useResult
+$Res call({
+ int? id, User? participant, String role
+});
+
+
+@override $UserCopyWith<$Res>? get participant;
+
+}
+/// @nodoc
+class __$KickoffIssueParticipantItemCopyWithImpl<$Res>
+    implements _$KickoffIssueParticipantItemCopyWith<$Res> {
+  __$KickoffIssueParticipantItemCopyWithImpl(this._self, this._then);
+
+  final _KickoffIssueParticipantItem _self;
+  final $Res Function(_KickoffIssueParticipantItem) _then;
+
+/// Create a copy of KickoffIssueParticipantItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? participant = freezed,Object? role = null,}) {
+  return _then(_KickoffIssueParticipantItem(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,participant: freezed == participant ? _self.participant : participant // ignore: cast_nullable_to_non_nullable
+as User?,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+/// Create a copy of KickoffIssueParticipantItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get participant {
+    if (_self.participant == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.participant!, (value) {
+    return _then(_self.copyWith(participant: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$KickoffIssueTripItemCategory {
+
+ int get id; String get name;
+/// Create a copy of KickoffIssueTripItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$KickoffIssueTripItemCategoryCopyWith<KickoffIssueTripItemCategory> get copyWith => _$KickoffIssueTripItemCategoryCopyWithImpl<KickoffIssueTripItemCategory>(this as KickoffIssueTripItemCategory, _$identity);
+
+  /// Serializes this KickoffIssueTripItemCategory to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is KickoffIssueTripItemCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'KickoffIssueTripItemCategory(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $KickoffIssueTripItemCategoryCopyWith<$Res>  {
+  factory $KickoffIssueTripItemCategoryCopyWith(KickoffIssueTripItemCategory value, $Res Function(KickoffIssueTripItemCategory) _then) = _$KickoffIssueTripItemCategoryCopyWithImpl;
+@useResult
+$Res call({
+ int id, String name
+});
+
+
+
+
+}
+/// @nodoc
+class _$KickoffIssueTripItemCategoryCopyWithImpl<$Res>
+    implements $KickoffIssueTripItemCategoryCopyWith<$Res> {
+  _$KickoffIssueTripItemCategoryCopyWithImpl(this._self, this._then);
+
+  final KickoffIssueTripItemCategory _self;
+  final $Res Function(KickoffIssueTripItemCategory) _then;
+
+/// Create a copy of KickoffIssueTripItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [KickoffIssueTripItemCategory].
+extension KickoffIssueTripItemCategoryPatterns on KickoffIssueTripItemCategory {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _KickoffIssueTripItemCategory value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _KickoffIssueTripItemCategory() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _KickoffIssueTripItemCategory value)  $default,){
+final _that = this;
+switch (_that) {
+case _KickoffIssueTripItemCategory():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _KickoffIssueTripItemCategory value)?  $default,){
+final _that = this;
+switch (_that) {
+case _KickoffIssueTripItemCategory() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _KickoffIssueTripItemCategory() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name)  $default,) {final _that = this;
+switch (_that) {
+case _KickoffIssueTripItemCategory():
+return $default(_that.id,_that.name);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name)?  $default,) {final _that = this;
+switch (_that) {
+case _KickoffIssueTripItemCategory() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _KickoffIssueTripItemCategory implements KickoffIssueTripItemCategory {
+  const _KickoffIssueTripItemCategory({required this.id, required this.name});
+  factory _KickoffIssueTripItemCategory.fromJson(Map<String, dynamic> json) => _$KickoffIssueTripItemCategoryFromJson(json);
+
+@override final  int id;
+@override final  String name;
+
+/// Create a copy of KickoffIssueTripItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$KickoffIssueTripItemCategoryCopyWith<_KickoffIssueTripItemCategory> get copyWith => __$KickoffIssueTripItemCategoryCopyWithImpl<_KickoffIssueTripItemCategory>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$KickoffIssueTripItemCategoryToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _KickoffIssueTripItemCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'KickoffIssueTripItemCategory(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$KickoffIssueTripItemCategoryCopyWith<$Res> implements $KickoffIssueTripItemCategoryCopyWith<$Res> {
+  factory _$KickoffIssueTripItemCategoryCopyWith(_KickoffIssueTripItemCategory value, $Res Function(_KickoffIssueTripItemCategory) _then) = __$KickoffIssueTripItemCategoryCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String name
+});
+
+
+
+
+}
+/// @nodoc
+class __$KickoffIssueTripItemCategoryCopyWithImpl<$Res>
+    implements _$KickoffIssueTripItemCategoryCopyWith<$Res> {
+  __$KickoffIssueTripItemCategoryCopyWithImpl(this._self, this._then);
+
+  final _KickoffIssueTripItemCategory _self;
+  final $Res Function(_KickoffIssueTripItemCategory) _then;
+
+/// Create a copy of KickoffIssueTripItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,}) {
+  return _then(_KickoffIssueTripItemCategory(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$KickoffIssueTripItem {
+
+ int? get id; KickoffIssueTripItemCategory? get category; int get days; String? get note;
+/// Create a copy of KickoffIssueTripItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$KickoffIssueTripItemCopyWith<KickoffIssueTripItem> get copyWith => _$KickoffIssueTripItemCopyWithImpl<KickoffIssueTripItem>(this as KickoffIssueTripItem, _$identity);
+
+  /// Serializes this KickoffIssueTripItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is KickoffIssueTripItem&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.days, days) || other.days == days)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,category,days,note);
+
+@override
+String toString() {
+  return 'KickoffIssueTripItem(id: $id, category: $category, days: $days, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $KickoffIssueTripItemCopyWith<$Res>  {
+  factory $KickoffIssueTripItemCopyWith(KickoffIssueTripItem value, $Res Function(KickoffIssueTripItem) _then) = _$KickoffIssueTripItemCopyWithImpl;
+@useResult
+$Res call({
+ int? id, KickoffIssueTripItemCategory? category, int days, String? note
+});
+
+
+$KickoffIssueTripItemCategoryCopyWith<$Res>? get category;
+
+}
+/// @nodoc
+class _$KickoffIssueTripItemCopyWithImpl<$Res>
+    implements $KickoffIssueTripItemCopyWith<$Res> {
+  _$KickoffIssueTripItemCopyWithImpl(this._self, this._then);
+
+  final KickoffIssueTripItem _self;
+  final $Res Function(KickoffIssueTripItem) _then;
+
+/// Create a copy of KickoffIssueTripItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? category = freezed,Object? days = null,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as KickoffIssueTripItemCategory?,days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as int,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+/// Create a copy of KickoffIssueTripItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$KickoffIssueTripItemCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $KickoffIssueTripItemCategoryCopyWith<$Res>(_self.category!, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [KickoffIssueTripItem].
+extension KickoffIssueTripItemPatterns on KickoffIssueTripItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _KickoffIssueTripItem value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _KickoffIssueTripItem() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _KickoffIssueTripItem value)  $default,){
+final _that = this;
+switch (_that) {
+case _KickoffIssueTripItem():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _KickoffIssueTripItem value)?  $default,){
+final _that = this;
+switch (_that) {
+case _KickoffIssueTripItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  KickoffIssueTripItemCategory? category,  int days,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _KickoffIssueTripItem() when $default != null:
+return $default(_that.id,_that.category,_that.days,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  KickoffIssueTripItemCategory? category,  int days,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _KickoffIssueTripItem():
+return $default(_that.id,_that.category,_that.days,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  KickoffIssueTripItemCategory? category,  int days,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _KickoffIssueTripItem() when $default != null:
+return $default(_that.id,_that.category,_that.days,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _KickoffIssueTripItem implements KickoffIssueTripItem {
+  const _KickoffIssueTripItem({this.id, this.category, required this.days, this.note});
+  factory _KickoffIssueTripItem.fromJson(Map<String, dynamic> json) => _$KickoffIssueTripItemFromJson(json);
+
+@override final  int? id;
+@override final  KickoffIssueTripItemCategory? category;
+@override final  int days;
+@override final  String? note;
+
+/// Create a copy of KickoffIssueTripItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$KickoffIssueTripItemCopyWith<_KickoffIssueTripItem> get copyWith => __$KickoffIssueTripItemCopyWithImpl<_KickoffIssueTripItem>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$KickoffIssueTripItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _KickoffIssueTripItem&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.days, days) || other.days == days)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,category,days,note);
+
+@override
+String toString() {
+  return 'KickoffIssueTripItem(id: $id, category: $category, days: $days, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$KickoffIssueTripItemCopyWith<$Res> implements $KickoffIssueTripItemCopyWith<$Res> {
+  factory _$KickoffIssueTripItemCopyWith(_KickoffIssueTripItem value, $Res Function(_KickoffIssueTripItem) _then) = __$KickoffIssueTripItemCopyWithImpl;
+@override @useResult
+$Res call({
+ int? id, KickoffIssueTripItemCategory? category, int days, String? note
+});
+
+
+@override $KickoffIssueTripItemCategoryCopyWith<$Res>? get category;
+
+}
+/// @nodoc
+class __$KickoffIssueTripItemCopyWithImpl<$Res>
+    implements _$KickoffIssueTripItemCopyWith<$Res> {
+  __$KickoffIssueTripItemCopyWithImpl(this._self, this._then);
+
+  final _KickoffIssueTripItem _self;
+  final $Res Function(_KickoffIssueTripItem) _then;
+
+/// Create a copy of KickoffIssueTripItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? category = freezed,Object? days = null,Object? note = freezed,}) {
+  return _then(_KickoffIssueTripItem(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as KickoffIssueTripItemCategory?,days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as int,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+/// Create a copy of KickoffIssueTripItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$KickoffIssueTripItemCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $KickoffIssueTripItemCategoryCopyWith<$Res>(_self.category!, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$TransactionIssueItemCategory {
+
+ int get id; String get name;
+/// Create a copy of TransactionIssueItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TransactionIssueItemCategoryCopyWith<TransactionIssueItemCategory> get copyWith => _$TransactionIssueItemCategoryCopyWithImpl<TransactionIssueItemCategory>(this as TransactionIssueItemCategory, _$identity);
+
+  /// Serializes this TransactionIssueItemCategory to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionIssueItemCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'TransactionIssueItemCategory(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TransactionIssueItemCategoryCopyWith<$Res>  {
+  factory $TransactionIssueItemCategoryCopyWith(TransactionIssueItemCategory value, $Res Function(TransactionIssueItemCategory) _then) = _$TransactionIssueItemCategoryCopyWithImpl;
+@useResult
+$Res call({
+ int id, String name
+});
+
+
+
+
+}
+/// @nodoc
+class _$TransactionIssueItemCategoryCopyWithImpl<$Res>
+    implements $TransactionIssueItemCategoryCopyWith<$Res> {
+  _$TransactionIssueItemCategoryCopyWithImpl(this._self, this._then);
+
+  final TransactionIssueItemCategory _self;
+  final $Res Function(TransactionIssueItemCategory) _then;
+
+/// Create a copy of TransactionIssueItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [TransactionIssueItemCategory].
+extension TransactionIssueItemCategoryPatterns on TransactionIssueItemCategory {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TransactionIssueItemCategory value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TransactionIssueItemCategory() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TransactionIssueItemCategory value)  $default,){
+final _that = this;
+switch (_that) {
+case _TransactionIssueItemCategory():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TransactionIssueItemCategory value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TransactionIssueItemCategory() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TransactionIssueItemCategory() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name)  $default,) {final _that = this;
+switch (_that) {
+case _TransactionIssueItemCategory():
+return $default(_that.id,_that.name);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name)?  $default,) {final _that = this;
+switch (_that) {
+case _TransactionIssueItemCategory() when $default != null:
+return $default(_that.id,_that.name);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _TransactionIssueItemCategory implements TransactionIssueItemCategory {
+   _TransactionIssueItemCategory({required this.id, required this.name});
+  factory _TransactionIssueItemCategory.fromJson(Map<String, dynamic> json) => _$TransactionIssueItemCategoryFromJson(json);
+
+@override final  int id;
+@override final  String name;
+
+/// Create a copy of TransactionIssueItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TransactionIssueItemCategoryCopyWith<_TransactionIssueItemCategory> get copyWith => __$TransactionIssueItemCategoryCopyWithImpl<_TransactionIssueItemCategory>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$TransactionIssueItemCategoryToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionIssueItemCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,name);
+
+@override
+String toString() {
+  return 'TransactionIssueItemCategory(id: $id, name: $name)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TransactionIssueItemCategoryCopyWith<$Res> implements $TransactionIssueItemCategoryCopyWith<$Res> {
+  factory _$TransactionIssueItemCategoryCopyWith(_TransactionIssueItemCategory value, $Res Function(_TransactionIssueItemCategory) _then) = __$TransactionIssueItemCategoryCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String name
+});
+
+
+
+
+}
+/// @nodoc
+class __$TransactionIssueItemCategoryCopyWithImpl<$Res>
+    implements _$TransactionIssueItemCategoryCopyWith<$Res> {
+  __$TransactionIssueItemCategoryCopyWithImpl(this._self, this._then);
+
+  final _TransactionIssueItemCategory _self;
+  final $Res Function(_TransactionIssueItemCategory) _then;
+
+/// Create a copy of TransactionIssueItemCategory
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,}) {
+  return _then(_TransactionIssueItemCategory(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$TransactionIssueItem {
+
+ int? get id; TransactionIssueItemCategory? get category; String get price; String get ratio; bool get isPaid; DateTime? get paidAt; String? get note;
+/// Create a copy of TransactionIssueItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TransactionIssueItemCopyWith<TransactionIssueItem> get copyWith => _$TransactionIssueItemCopyWithImpl<TransactionIssueItem>(this as TransactionIssueItem, _$identity);
+
+  /// Serializes this TransactionIssueItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionIssueItem&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,category,price,ratio,isPaid,paidAt,note);
+
+@override
+String toString() {
+  return 'TransactionIssueItem(id: $id, category: $category, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TransactionIssueItemCopyWith<$Res>  {
+  factory $TransactionIssueItemCopyWith(TransactionIssueItem value, $Res Function(TransactionIssueItem) _then) = _$TransactionIssueItemCopyWithImpl;
+@useResult
+$Res call({
+ int? id, TransactionIssueItemCategory? category, String price, String ratio, bool isPaid, DateTime? paidAt, String? note
+});
+
+
+$TransactionIssueItemCategoryCopyWith<$Res>? get category;
+
+}
+/// @nodoc
+class _$TransactionIssueItemCopyWithImpl<$Res>
+    implements $TransactionIssueItemCopyWith<$Res> {
+  _$TransactionIssueItemCopyWithImpl(this._self, this._then);
+
+  final TransactionIssueItem _self;
+  final $Res Function(TransactionIssueItem) _then;
+
+/// Create a copy of TransactionIssueItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? category = freezed,Object? price = null,Object? ratio = null,Object? isPaid = null,Object? paidAt = freezed,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as TransactionIssueItemCategory?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
+as String,isPaid: null == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
+as bool,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+/// Create a copy of TransactionIssueItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TransactionIssueItemCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $TransactionIssueItemCategoryCopyWith<$Res>(_self.category!, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [TransactionIssueItem].
+extension TransactionIssueItemPatterns on TransactionIssueItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TransactionIssueItem value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TransactionIssueItem() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TransactionIssueItem value)  $default,){
+final _that = this;
+switch (_that) {
+case _TransactionIssueItem():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TransactionIssueItem value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TransactionIssueItem() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  TransactionIssueItemCategory? category,  String price,  String ratio,  bool isPaid,  DateTime? paidAt,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TransactionIssueItem() when $default != null:
+return $default(_that.id,_that.category,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  TransactionIssueItemCategory? category,  String price,  String ratio,  bool isPaid,  DateTime? paidAt,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _TransactionIssueItem():
+return $default(_that.id,_that.category,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  TransactionIssueItemCategory? category,  String price,  String ratio,  bool isPaid,  DateTime? paidAt,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _TransactionIssueItem() when $default != null:
+return $default(_that.id,_that.category,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _TransactionIssueItem implements TransactionIssueItem {
+   _TransactionIssueItem({this.id, this.category, required this.price, required this.ratio, this.isPaid = false, this.paidAt, this.note});
+  factory _TransactionIssueItem.fromJson(Map<String, dynamic> json) => _$TransactionIssueItemFromJson(json);
+
+@override final  int? id;
+@override final  TransactionIssueItemCategory? category;
+@override final  String price;
+@override final  String ratio;
+@override@JsonKey() final  bool isPaid;
+@override final  DateTime? paidAt;
+@override final  String? note;
+
+/// Create a copy of TransactionIssueItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TransactionIssueItemCopyWith<_TransactionIssueItem> get copyWith => __$TransactionIssueItemCopyWithImpl<_TransactionIssueItem>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$TransactionIssueItemToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionIssueItem&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,category,price,ratio,isPaid,paidAt,note);
+
+@override
+String toString() {
+  return 'TransactionIssueItem(id: $id, category: $category, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TransactionIssueItemCopyWith<$Res> implements $TransactionIssueItemCopyWith<$Res> {
+  factory _$TransactionIssueItemCopyWith(_TransactionIssueItem value, $Res Function(_TransactionIssueItem) _then) = __$TransactionIssueItemCopyWithImpl;
+@override @useResult
+$Res call({
+ int? id, TransactionIssueItemCategory? category, String price, String ratio, bool isPaid, DateTime? paidAt, String? note
+});
+
+
+@override $TransactionIssueItemCategoryCopyWith<$Res>? get category;
+
+}
+/// @nodoc
+class __$TransactionIssueItemCopyWithImpl<$Res>
+    implements _$TransactionIssueItemCopyWith<$Res> {
+  __$TransactionIssueItemCopyWithImpl(this._self, this._then);
+
+  final _TransactionIssueItem _self;
+  final $Res Function(_TransactionIssueItem) _then;
+
+/// Create a copy of TransactionIssueItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? category = freezed,Object? price = null,Object? ratio = null,Object? isPaid = null,Object? paidAt = freezed,Object? note = freezed,}) {
+  return _then(_TransactionIssueItem(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as TransactionIssueItemCategory?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
+as String,isPaid: null == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
+as bool,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+/// Create a copy of TransactionIssueItem
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TransactionIssueItemCategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $TransactionIssueItemCategoryCopyWith<$Res>(_self.category!, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
 }
 
 
@@ -7643,577 +9087,6 @@ as String?,
 
 
 /// @nodoc
-mixin _$TransactionIssueItemCategory {
-
- int get id; String get name;
-/// Create a copy of TransactionIssueItemCategory
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$TransactionIssueItemCategoryCopyWith<TransactionIssueItemCategory> get copyWith => _$TransactionIssueItemCategoryCopyWithImpl<TransactionIssueItemCategory>(this as TransactionIssueItemCategory, _$identity);
-
-  /// Serializes this TransactionIssueItemCategory to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionIssueItemCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,name);
-
-@override
-String toString() {
-  return 'TransactionIssueItemCategory(id: $id, name: $name)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $TransactionIssueItemCategoryCopyWith<$Res>  {
-  factory $TransactionIssueItemCategoryCopyWith(TransactionIssueItemCategory value, $Res Function(TransactionIssueItemCategory) _then) = _$TransactionIssueItemCategoryCopyWithImpl;
-@useResult
-$Res call({
- int id, String name
-});
-
-
-
-
-}
-/// @nodoc
-class _$TransactionIssueItemCategoryCopyWithImpl<$Res>
-    implements $TransactionIssueItemCategoryCopyWith<$Res> {
-  _$TransactionIssueItemCategoryCopyWithImpl(this._self, this._then);
-
-  final TransactionIssueItemCategory _self;
-  final $Res Function(TransactionIssueItemCategory) _then;
-
-/// Create a copy of TransactionIssueItemCategory
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,}) {
-  return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [TransactionIssueItemCategory].
-extension TransactionIssueItemCategoryPatterns on TransactionIssueItemCategory {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TransactionIssueItemCategory value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _TransactionIssueItemCategory() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TransactionIssueItemCategory value)  $default,){
-final _that = this;
-switch (_that) {
-case _TransactionIssueItemCategory():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TransactionIssueItemCategory value)?  $default,){
-final _that = this;
-switch (_that) {
-case _TransactionIssueItemCategory() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _TransactionIssueItemCategory() when $default != null:
-return $default(_that.id,_that.name);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name)  $default,) {final _that = this;
-switch (_that) {
-case _TransactionIssueItemCategory():
-return $default(_that.id,_that.name);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name)?  $default,) {final _that = this;
-switch (_that) {
-case _TransactionIssueItemCategory() when $default != null:
-return $default(_that.id,_that.name);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _TransactionIssueItemCategory implements TransactionIssueItemCategory {
-   _TransactionIssueItemCategory({required this.id, required this.name});
-  factory _TransactionIssueItemCategory.fromJson(Map<String, dynamic> json) => _$TransactionIssueItemCategoryFromJson(json);
-
-@override final  int id;
-@override final  String name;
-
-/// Create a copy of TransactionIssueItemCategory
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$TransactionIssueItemCategoryCopyWith<_TransactionIssueItemCategory> get copyWith => __$TransactionIssueItemCategoryCopyWithImpl<_TransactionIssueItemCategory>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$TransactionIssueItemCategoryToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionIssueItemCategory&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,name);
-
-@override
-String toString() {
-  return 'TransactionIssueItemCategory(id: $id, name: $name)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$TransactionIssueItemCategoryCopyWith<$Res> implements $TransactionIssueItemCategoryCopyWith<$Res> {
-  factory _$TransactionIssueItemCategoryCopyWith(_TransactionIssueItemCategory value, $Res Function(_TransactionIssueItemCategory) _then) = __$TransactionIssueItemCategoryCopyWithImpl;
-@override @useResult
-$Res call({
- int id, String name
-});
-
-
-
-
-}
-/// @nodoc
-class __$TransactionIssueItemCategoryCopyWithImpl<$Res>
-    implements _$TransactionIssueItemCategoryCopyWith<$Res> {
-  __$TransactionIssueItemCategoryCopyWithImpl(this._self, this._then);
-
-  final _TransactionIssueItemCategory _self;
-  final $Res Function(_TransactionIssueItemCategory) _then;
-
-/// Create a copy of TransactionIssueItemCategory
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,}) {
-  return _then(_TransactionIssueItemCategory(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$TransactionIssueItem {
-
- int? get id; TransactionIssueItemCategory? get category; String get price; String get ratio; bool get isPaid; DateTime? get paidAt; String? get note;
-/// Create a copy of TransactionIssueItem
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$TransactionIssueItemCopyWith<TransactionIssueItem> get copyWith => _$TransactionIssueItemCopyWithImpl<TransactionIssueItem>(this as TransactionIssueItem, _$identity);
-
-  /// Serializes this TransactionIssueItem to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionIssueItem&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,category,price,ratio,isPaid,paidAt,note);
-
-@override
-String toString() {
-  return 'TransactionIssueItem(id: $id, category: $category, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $TransactionIssueItemCopyWith<$Res>  {
-  factory $TransactionIssueItemCopyWith(TransactionIssueItem value, $Res Function(TransactionIssueItem) _then) = _$TransactionIssueItemCopyWithImpl;
-@useResult
-$Res call({
- int? id, TransactionIssueItemCategory? category, String price, String ratio, bool isPaid, DateTime? paidAt, String? note
-});
-
-
-$TransactionIssueItemCategoryCopyWith<$Res>? get category;
-
-}
-/// @nodoc
-class _$TransactionIssueItemCopyWithImpl<$Res>
-    implements $TransactionIssueItemCopyWith<$Res> {
-  _$TransactionIssueItemCopyWithImpl(this._self, this._then);
-
-  final TransactionIssueItem _self;
-  final $Res Function(TransactionIssueItem) _then;
-
-/// Create a copy of TransactionIssueItem
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? category = freezed,Object? price = null,Object? ratio = null,Object? isPaid = null,Object? paidAt = freezed,Object? note = freezed,}) {
-  return _then(_self.copyWith(
-id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as TransactionIssueItemCategory?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
-as String,isPaid: null == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
-as bool,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-/// Create a copy of TransactionIssueItem
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TransactionIssueItemCategoryCopyWith<$Res>? get category {
-    if (_self.category == null) {
-    return null;
-  }
-
-  return $TransactionIssueItemCategoryCopyWith<$Res>(_self.category!, (value) {
-    return _then(_self.copyWith(category: value));
-  });
-}
-}
-
-
-/// Adds pattern-matching-related methods to [TransactionIssueItem].
-extension TransactionIssueItemPatterns on TransactionIssueItem {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TransactionIssueItem value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _TransactionIssueItem() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TransactionIssueItem value)  $default,){
-final _that = this;
-switch (_that) {
-case _TransactionIssueItem():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TransactionIssueItem value)?  $default,){
-final _that = this;
-switch (_that) {
-case _TransactionIssueItem() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  TransactionIssueItemCategory? category,  String price,  String ratio,  bool isPaid,  DateTime? paidAt,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _TransactionIssueItem() when $default != null:
-return $default(_that.id,_that.category,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  TransactionIssueItemCategory? category,  String price,  String ratio,  bool isPaid,  DateTime? paidAt,  String? note)  $default,) {final _that = this;
-switch (_that) {
-case _TransactionIssueItem():
-return $default(_that.id,_that.category,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  TransactionIssueItemCategory? category,  String price,  String ratio,  bool isPaid,  DateTime? paidAt,  String? note)?  $default,) {final _that = this;
-switch (_that) {
-case _TransactionIssueItem() when $default != null:
-return $default(_that.id,_that.category,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _TransactionIssueItem implements TransactionIssueItem {
-   _TransactionIssueItem({this.id, this.category, required this.price, required this.ratio, this.isPaid = false, this.paidAt, this.note});
-  factory _TransactionIssueItem.fromJson(Map<String, dynamic> json) => _$TransactionIssueItemFromJson(json);
-
-@override final  int? id;
-@override final  TransactionIssueItemCategory? category;
-@override final  String price;
-@override final  String ratio;
-@override@JsonKey() final  bool isPaid;
-@override final  DateTime? paidAt;
-@override final  String? note;
-
-/// Create a copy of TransactionIssueItem
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$TransactionIssueItemCopyWith<_TransactionIssueItem> get copyWith => __$TransactionIssueItemCopyWithImpl<_TransactionIssueItem>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$TransactionIssueItemToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TransactionIssueItem&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,category,price,ratio,isPaid,paidAt,note);
-
-@override
-String toString() {
-  return 'TransactionIssueItem(id: $id, category: $category, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$TransactionIssueItemCopyWith<$Res> implements $TransactionIssueItemCopyWith<$Res> {
-  factory _$TransactionIssueItemCopyWith(_TransactionIssueItem value, $Res Function(_TransactionIssueItem) _then) = __$TransactionIssueItemCopyWithImpl;
-@override @useResult
-$Res call({
- int? id, TransactionIssueItemCategory? category, String price, String ratio, bool isPaid, DateTime? paidAt, String? note
-});
-
-
-@override $TransactionIssueItemCategoryCopyWith<$Res>? get category;
-
-}
-/// @nodoc
-class __$TransactionIssueItemCopyWithImpl<$Res>
-    implements _$TransactionIssueItemCopyWith<$Res> {
-  __$TransactionIssueItemCopyWithImpl(this._self, this._then);
-
-  final _TransactionIssueItem _self;
-  final $Res Function(_TransactionIssueItem) _then;
-
-/// Create a copy of TransactionIssueItem
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? category = freezed,Object? price = null,Object? ratio = null,Object? isPaid = null,Object? paidAt = freezed,Object? note = freezed,}) {
-  return _then(_TransactionIssueItem(
-id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as TransactionIssueItemCategory?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
-as String,isPaid: null == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
-as bool,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-/// Create a copy of TransactionIssueItem
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$TransactionIssueItemCategoryCopyWith<$Res>? get category {
-    if (_self.category == null) {
-    return null;
-  }
-
-  return $TransactionIssueItemCategoryCopyWith<$Res>(_self.category!, (value) {
-    return _then(_self.copyWith(category: value));
-  });
-}
-}
-
-
-/// @nodoc
 mixin _$ContractIssue {
 
  int get id; IssueCategory get category; User get createdBy; User? get updatedBy; String get content; Currency get currency; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<IssueAttachment> get attachments; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
@@ -8608,7 +9481,7 @@ $CurrencyCopyWith<$Res> get currency {
 /// @nodoc
 mixin _$KickoffIssue {
 
- int get id; IssueCategory get category; User get createdBy; User? get updatedBy; String get content; DateTime get kickoffDate; List<IssueAttachment> get attachments; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+ int get id; IssueCategory get category; User get createdBy; User? get updatedBy; String get content; DateTime get kickoffDate; List<KickoffIssueParticipantItem> get participantItems; List<KickoffIssueTripItem> get tripItems; List<IssueAttachment> get attachments; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
 /// Create a copy of KickoffIssue
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -8621,16 +9494,16 @@ $KickoffIssueCopyWith<KickoffIssue> get copyWith => _$KickoffIssueCopyWithImpl<K
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is KickoffIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is KickoffIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.participantItems, participantItems)&&const DeepCollectionEquality().equals(other.tripItems, tripItems)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,kickoffDate,const DeepCollectionEquality().hash(attachments),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,kickoffDate,const DeepCollectionEquality().hash(participantItems),const DeepCollectionEquality().hash(tripItems),const DeepCollectionEquality().hash(attachments),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'KickoffIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, kickoffDate: $kickoffDate, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'KickoffIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, kickoffDate: $kickoffDate, participantItems: $participantItems, tripItems: $tripItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -8641,7 +9514,7 @@ abstract mixin class $KickoffIssueCopyWith<$Res>  {
   factory $KickoffIssueCopyWith(KickoffIssue value, $Res Function(KickoffIssue) _then) = _$KickoffIssueCopyWithImpl;
 @useResult
 $Res call({
- int id, IssueCategory category, User createdBy, User? updatedBy, String content, DateTime kickoffDate, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, User createdBy, User? updatedBy, String content, DateTime kickoffDate, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -8658,7 +9531,7 @@ class _$KickoffIssueCopyWithImpl<$Res>
 
 /// Create a copy of KickoffIssue
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? kickoffDate = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? kickoffDate = null,Object? participantItems = null,Object? tripItems = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
@@ -8666,7 +9539,9 @@ as IssueCategory,createdBy: null == createdBy ? _self.createdBy : createdBy // i
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
 as User?,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,kickoffDate: null == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
+as DateTime,participantItems: null == participantItems ? _self.participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,tripItems: null == tripItems ? _self.tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItem>,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -8785,10 +9660,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  DateTime kickoffDate,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _KickoffIssue() when $default != null:
-return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.kickoffDate,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -8806,10 +9681,10 @@ return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.co
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  DateTime kickoffDate,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _KickoffIssue():
-return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.kickoffDate,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -8826,10 +9701,10 @@ return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.co
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  DateTime kickoffDate,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _KickoffIssue() when $default != null:
-return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.kickoffDate,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -8841,7 +9716,7 @@ return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.co
 @JsonSerializable()
 
 class _KickoffIssue implements KickoffIssue {
-   _KickoffIssue({required this.id, required this.category, required this.createdBy, this.updatedBy, required this.content, required this.kickoffDate, final  List<IssueAttachment> attachments = const [], required this.createdAt, required this.updatedAt, this.deletedAt}): _attachments = attachments;
+   _KickoffIssue({required this.id, required this.category, required this.createdBy, this.updatedBy, required this.content, required this.kickoffDate, final  List<KickoffIssueParticipantItem> participantItems = const [], final  List<KickoffIssueTripItem> tripItems = const [], final  List<IssueAttachment> attachments = const [], required this.createdAt, required this.updatedAt, this.deletedAt}): _participantItems = participantItems,_tripItems = tripItems,_attachments = attachments;
   factory _KickoffIssue.fromJson(Map<String, dynamic> json) => _$KickoffIssueFromJson(json);
 
 @override final  int id;
@@ -8850,6 +9725,20 @@ class _KickoffIssue implements KickoffIssue {
 @override final  User? updatedBy;
 @override final  String content;
 @override final  DateTime kickoffDate;
+ final  List<KickoffIssueParticipantItem> _participantItems;
+@override@JsonKey() List<KickoffIssueParticipantItem> get participantItems {
+  if (_participantItems is EqualUnmodifiableListView) return _participantItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_participantItems);
+}
+
+ final  List<KickoffIssueTripItem> _tripItems;
+@override@JsonKey() List<KickoffIssueTripItem> get tripItems {
+  if (_tripItems is EqualUnmodifiableListView) return _tripItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tripItems);
+}
+
  final  List<IssueAttachment> _attachments;
 @override@JsonKey() List<IssueAttachment> get attachments {
   if (_attachments is EqualUnmodifiableListView) return _attachments;
@@ -8874,16 +9763,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _KickoffIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _KickoffIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._participantItems, _participantItems)&&const DeepCollectionEquality().equals(other._tripItems, _tripItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,kickoffDate,const DeepCollectionEquality().hash(_attachments),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,kickoffDate,const DeepCollectionEquality().hash(_participantItems),const DeepCollectionEquality().hash(_tripItems),const DeepCollectionEquality().hash(_attachments),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'KickoffIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, kickoffDate: $kickoffDate, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'KickoffIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, kickoffDate: $kickoffDate, participantItems: $participantItems, tripItems: $tripItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -8894,7 +9783,7 @@ abstract mixin class _$KickoffIssueCopyWith<$Res> implements $KickoffIssueCopyWi
   factory _$KickoffIssueCopyWith(_KickoffIssue value, $Res Function(_KickoffIssue) _then) = __$KickoffIssueCopyWithImpl;
 @override @useResult
 $Res call({
- int id, IssueCategory category, User createdBy, User? updatedBy, String content, DateTime kickoffDate, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, User createdBy, User? updatedBy, String content, DateTime kickoffDate, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -8911,7 +9800,7 @@ class __$KickoffIssueCopyWithImpl<$Res>
 
 /// Create a copy of KickoffIssue
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? kickoffDate = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? kickoffDate = null,Object? participantItems = null,Object? tripItems = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_KickoffIssue(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
@@ -8919,7 +9808,9 @@ as IssueCategory,createdBy: null == createdBy ? _self.createdBy : createdBy // i
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
 as User?,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,kickoffDate: null == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
+as DateTime,participantItems: null == participantItems ? _self._participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,tripItems: null == tripItems ? _self._tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItem>,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,deletedAt: freezed == deletedAt ? _self.deletedAt : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -15978,7 +16869,7 @@ as List<IssueAttachment>,
 /// @nodoc
 mixin _$CreateKickoffIssueRequest {
 
- int get projectId; int get categoryId; String get content; DateTime get kickoffDate; List<IssueAttachment> get attachments;
+ int get projectId; int get categoryId; String get content; DateTime get kickoffDate; List<CreateKickoffParticipantItemRequest> get participantItems; List<CreateKickoffTripItemRequest> get tripItems; List<IssueAttachment> get attachments;
 /// Create a copy of CreateKickoffIssueRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -15991,16 +16882,16 @@ $CreateKickoffIssueRequestCopyWith<CreateKickoffIssueRequest> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.attachments, attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.participantItems, participantItems)&&const DeepCollectionEquality().equals(other.tripItems, tripItems)&&const DeepCollectionEquality().equals(other.attachments, attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(participantItems),const DeepCollectionEquality().hash(tripItems),const DeepCollectionEquality().hash(attachments));
 
 @override
 String toString() {
-  return 'CreateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, attachments: $attachments)';
+  return 'CreateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, participantItems: $participantItems, tripItems: $tripItems, attachments: $attachments)';
 }
 
 
@@ -16011,7 +16902,7 @@ abstract mixin class $CreateKickoffIssueRequestCopyWith<$Res>  {
   factory $CreateKickoffIssueRequestCopyWith(CreateKickoffIssueRequest value, $Res Function(CreateKickoffIssueRequest) _then) = _$CreateKickoffIssueRequestCopyWithImpl;
 @useResult
 $Res call({
- int projectId, int categoryId, String content, DateTime kickoffDate, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, DateTime kickoffDate, List<CreateKickoffParticipantItemRequest> participantItems, List<CreateKickoffTripItemRequest> tripItems, List<IssueAttachment> attachments
 });
 
 
@@ -16028,13 +16919,15 @@ class _$CreateKickoffIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateKickoffIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? attachments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? participantItems = null,Object? tripItems = null,Object? attachments = null,}) {
   return _then(_self.copyWith(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,kickoffDate: null == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
+as DateTime,participantItems: null == participantItems ? _self.participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<CreateKickoffParticipantItemRequest>,tripItems: null == tripItems ? _self.tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<CreateKickoffTripItemRequest>,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
   ));
 }
@@ -16120,10 +17013,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<CreateKickoffParticipantItemRequest> participantItems,  List<CreateKickoffTripItemRequest> tripItems,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateKickoffIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments);case _:
   return orElse();
 
 }
@@ -16141,10 +17034,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<CreateKickoffParticipantItemRequest> participantItems,  List<CreateKickoffTripItemRequest> tripItems,  List<IssueAttachment> attachments)  $default,) {final _that = this;
 switch (_that) {
 case _CreateKickoffIssueRequest():
-return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -16161,10 +17054,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<CreateKickoffParticipantItemRequest> participantItems,  List<CreateKickoffTripItemRequest> tripItems,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateKickoffIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments);case _:
   return null;
 
 }
@@ -16176,13 +17069,27 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate
 @JsonSerializable()
 
 class _CreateKickoffIssueRequest implements CreateKickoffIssueRequest {
-   _CreateKickoffIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.kickoffDate, required final  List<IssueAttachment> attachments}): _attachments = attachments;
+   _CreateKickoffIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.kickoffDate, required final  List<CreateKickoffParticipantItemRequest> participantItems, required final  List<CreateKickoffTripItemRequest> tripItems, required final  List<IssueAttachment> attachments}): _participantItems = participantItems,_tripItems = tripItems,_attachments = attachments;
   factory _CreateKickoffIssueRequest.fromJson(Map<String, dynamic> json) => _$CreateKickoffIssueRequestFromJson(json);
 
 @override final  int projectId;
 @override final  int categoryId;
 @override final  String content;
 @override final  DateTime kickoffDate;
+ final  List<CreateKickoffParticipantItemRequest> _participantItems;
+@override List<CreateKickoffParticipantItemRequest> get participantItems {
+  if (_participantItems is EqualUnmodifiableListView) return _participantItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_participantItems);
+}
+
+ final  List<CreateKickoffTripItemRequest> _tripItems;
+@override List<CreateKickoffTripItemRequest> get tripItems {
+  if (_tripItems is EqualUnmodifiableListView) return _tripItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tripItems);
+}
+
  final  List<IssueAttachment> _attachments;
 @override List<IssueAttachment> get attachments {
   if (_attachments is EqualUnmodifiableListView) return _attachments;
@@ -16204,16 +17111,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._participantItems, _participantItems)&&const DeepCollectionEquality().equals(other._tripItems, _tripItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(_attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(_participantItems),const DeepCollectionEquality().hash(_tripItems),const DeepCollectionEquality().hash(_attachments));
 
 @override
 String toString() {
-  return 'CreateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, attachments: $attachments)';
+  return 'CreateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, participantItems: $participantItems, tripItems: $tripItems, attachments: $attachments)';
 }
 
 
@@ -16224,7 +17131,7 @@ abstract mixin class _$CreateKickoffIssueRequestCopyWith<$Res> implements $Creat
   factory _$CreateKickoffIssueRequestCopyWith(_CreateKickoffIssueRequest value, $Res Function(_CreateKickoffIssueRequest) _then) = __$CreateKickoffIssueRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int projectId, int categoryId, String content, DateTime kickoffDate, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, DateTime kickoffDate, List<CreateKickoffParticipantItemRequest> participantItems, List<CreateKickoffTripItemRequest> tripItems, List<IssueAttachment> attachments
 });
 
 
@@ -16241,13 +17148,15 @@ class __$CreateKickoffIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateKickoffIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? attachments = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? participantItems = null,Object? tripItems = null,Object? attachments = null,}) {
   return _then(_CreateKickoffIssueRequest(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,kickoffDate: null == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
+as DateTime,participantItems: null == participantItems ? _self._participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<CreateKickoffParticipantItemRequest>,tripItems: null == tripItems ? _self._tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<CreateKickoffTripItemRequest>,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
   ));
 }
@@ -17975,7 +18884,7 @@ as List<IssueAttachment>,
 /// @nodoc
 mixin _$UpdateKickoffIssueRequest {
 
- int get projectId; int get categoryId; String get content; DateTime get kickoffDate; List<IssueAttachment> get attachments;
+ int get projectId; int get categoryId; String get content; DateTime get kickoffDate; List<UpdateKickoffParticipantItemRequest> get participantItems; List<UpdateKickoffTripItemRequest> get tripItems; List<IssueAttachment> get attachments;
 /// Create a copy of UpdateKickoffIssueRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -17988,16 +18897,16 @@ $UpdateKickoffIssueRequestCopyWith<UpdateKickoffIssueRequest> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.attachments, attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.participantItems, participantItems)&&const DeepCollectionEquality().equals(other.tripItems, tripItems)&&const DeepCollectionEquality().equals(other.attachments, attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(participantItems),const DeepCollectionEquality().hash(tripItems),const DeepCollectionEquality().hash(attachments));
 
 @override
 String toString() {
-  return 'UpdateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, attachments: $attachments)';
+  return 'UpdateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, participantItems: $participantItems, tripItems: $tripItems, attachments: $attachments)';
 }
 
 
@@ -18008,7 +18917,7 @@ abstract mixin class $UpdateKickoffIssueRequestCopyWith<$Res>  {
   factory $UpdateKickoffIssueRequestCopyWith(UpdateKickoffIssueRequest value, $Res Function(UpdateKickoffIssueRequest) _then) = _$UpdateKickoffIssueRequestCopyWithImpl;
 @useResult
 $Res call({
- int projectId, int categoryId, String content, DateTime kickoffDate, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, DateTime kickoffDate, List<UpdateKickoffParticipantItemRequest> participantItems, List<UpdateKickoffTripItemRequest> tripItems, List<IssueAttachment> attachments
 });
 
 
@@ -18025,13 +18934,15 @@ class _$UpdateKickoffIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpdateKickoffIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? attachments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? participantItems = null,Object? tripItems = null,Object? attachments = null,}) {
   return _then(_self.copyWith(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,kickoffDate: null == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
+as DateTime,participantItems: null == participantItems ? _self.participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<UpdateKickoffParticipantItemRequest>,tripItems: null == tripItems ? _self.tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<UpdateKickoffTripItemRequest>,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
   ));
 }
@@ -18117,10 +19028,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<UpdateKickoffParticipantItemRequest> participantItems,  List<UpdateKickoffTripItemRequest> tripItems,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UpdateKickoffIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments);case _:
   return orElse();
 
 }
@@ -18138,10 +19049,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<UpdateKickoffParticipantItemRequest> participantItems,  List<UpdateKickoffTripItemRequest> tripItems,  List<IssueAttachment> attachments)  $default,) {final _that = this;
 switch (_that) {
 case _UpdateKickoffIssueRequest():
-return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -18158,10 +19069,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  DateTime kickoffDate,  List<UpdateKickoffParticipantItemRequest> participantItems,  List<UpdateKickoffTripItemRequest> tripItems,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
 switch (_that) {
 case _UpdateKickoffIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate,_that.participantItems,_that.tripItems,_that.attachments);case _:
   return null;
 
 }
@@ -18173,13 +19084,27 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.kickoffDate
 @JsonSerializable()
 
 class _UpdateKickoffIssueRequest implements UpdateKickoffIssueRequest {
-   _UpdateKickoffIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.kickoffDate, required final  List<IssueAttachment> attachments}): _attachments = attachments;
+   _UpdateKickoffIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.kickoffDate, required final  List<UpdateKickoffParticipantItemRequest> participantItems, required final  List<UpdateKickoffTripItemRequest> tripItems, required final  List<IssueAttachment> attachments}): _participantItems = participantItems,_tripItems = tripItems,_attachments = attachments;
   factory _UpdateKickoffIssueRequest.fromJson(Map<String, dynamic> json) => _$UpdateKickoffIssueRequestFromJson(json);
 
 @override final  int projectId;
 @override final  int categoryId;
 @override final  String content;
 @override final  DateTime kickoffDate;
+ final  List<UpdateKickoffParticipantItemRequest> _participantItems;
+@override List<UpdateKickoffParticipantItemRequest> get participantItems {
+  if (_participantItems is EqualUnmodifiableListView) return _participantItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_participantItems);
+}
+
+ final  List<UpdateKickoffTripItemRequest> _tripItems;
+@override List<UpdateKickoffTripItemRequest> get tripItems {
+  if (_tripItems is EqualUnmodifiableListView) return _tripItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tripItems);
+}
+
  final  List<IssueAttachment> _attachments;
 @override List<IssueAttachment> get attachments {
   if (_attachments is EqualUnmodifiableListView) return _attachments;
@@ -18201,16 +19126,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateKickoffIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._participantItems, _participantItems)&&const DeepCollectionEquality().equals(other._tripItems, _tripItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(_attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,kickoffDate,const DeepCollectionEquality().hash(_participantItems),const DeepCollectionEquality().hash(_tripItems),const DeepCollectionEquality().hash(_attachments));
 
 @override
 String toString() {
-  return 'UpdateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, attachments: $attachments)';
+  return 'UpdateKickoffIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, kickoffDate: $kickoffDate, participantItems: $participantItems, tripItems: $tripItems, attachments: $attachments)';
 }
 
 
@@ -18221,7 +19146,7 @@ abstract mixin class _$UpdateKickoffIssueRequestCopyWith<$Res> implements $Updat
   factory _$UpdateKickoffIssueRequestCopyWith(_UpdateKickoffIssueRequest value, $Res Function(_UpdateKickoffIssueRequest) _then) = __$UpdateKickoffIssueRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int projectId, int categoryId, String content, DateTime kickoffDate, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, DateTime kickoffDate, List<UpdateKickoffParticipantItemRequest> participantItems, List<UpdateKickoffTripItemRequest> tripItems, List<IssueAttachment> attachments
 });
 
 
@@ -18238,13 +19163,15 @@ class __$UpdateKickoffIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpdateKickoffIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? attachments = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? kickoffDate = null,Object? participantItems = null,Object? tripItems = null,Object? attachments = null,}) {
   return _then(_UpdateKickoffIssueRequest(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,kickoffDate: null == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
-as DateTime,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
+as DateTime,participantItems: null == participantItems ? _self._participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<UpdateKickoffParticipantItemRequest>,tripItems: null == tripItems ? _self._tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<UpdateKickoffTripItemRequest>,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
   ));
 }
@@ -19650,6 +20577,819 @@ as String,
 
 
 /// @nodoc
+mixin _$CreateTransactionIssueItemRequest {
+
+ int get categoryId; String get price; String get ratio; bool? get isPaid; DateTime? get paidAt; String? get note;
+/// Create a copy of CreateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreateTransactionIssueItemRequestCopyWith<CreateTransactionIssueItemRequest> get copyWith => _$CreateTransactionIssueItemRequestCopyWithImpl<CreateTransactionIssueItemRequest>(this as CreateTransactionIssueItemRequest, _$identity);
+
+  /// Serializes this CreateTransactionIssueItemRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateTransactionIssueItemRequest&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,categoryId,price,ratio,isPaid,paidAt,note);
+
+@override
+String toString() {
+  return 'CreateTransactionIssueItemRequest(categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreateTransactionIssueItemRequestCopyWith<$Res>  {
+  factory $CreateTransactionIssueItemRequestCopyWith(CreateTransactionIssueItemRequest value, $Res Function(CreateTransactionIssueItemRequest) _then) = _$CreateTransactionIssueItemRequestCopyWithImpl;
+@useResult
+$Res call({
+ int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class _$CreateTransactionIssueItemRequestCopyWithImpl<$Res>
+    implements $CreateTransactionIssueItemRequestCopyWith<$Res> {
+  _$CreateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
+
+  final CreateTransactionIssueItemRequest _self;
+  final $Res Function(CreateTransactionIssueItemRequest) _then;
+
+/// Create a copy of CreateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
+as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
+as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CreateTransactionIssueItemRequest].
+extension CreateTransactionIssueItemRequestPatterns on CreateTransactionIssueItemRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CreateTransactionIssueItemRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CreateTransactionIssueItemRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CreateTransactionIssueItemRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _CreateTransactionIssueItemRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CreateTransactionIssueItemRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CreateTransactionIssueItemRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CreateTransactionIssueItemRequest() when $default != null:
+return $default(_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _CreateTransactionIssueItemRequest():
+return $default(_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _CreateTransactionIssueItemRequest() when $default != null:
+return $default(_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CreateTransactionIssueItemRequest implements CreateTransactionIssueItemRequest {
+   _CreateTransactionIssueItemRequest({required this.categoryId, required this.price, required this.ratio, this.isPaid, this.paidAt, this.note});
+  factory _CreateTransactionIssueItemRequest.fromJson(Map<String, dynamic> json) => _$CreateTransactionIssueItemRequestFromJson(json);
+
+@override final  int categoryId;
+@override final  String price;
+@override final  String ratio;
+@override final  bool? isPaid;
+@override final  DateTime? paidAt;
+@override final  String? note;
+
+/// Create a copy of CreateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CreateTransactionIssueItemRequestCopyWith<_CreateTransactionIssueItemRequest> get copyWith => __$CreateTransactionIssueItemRequestCopyWithImpl<_CreateTransactionIssueItemRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CreateTransactionIssueItemRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateTransactionIssueItemRequest&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,categoryId,price,ratio,isPaid,paidAt,note);
+
+@override
+String toString() {
+  return 'CreateTransactionIssueItemRequest(categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CreateTransactionIssueItemRequestCopyWith<$Res> implements $CreateTransactionIssueItemRequestCopyWith<$Res> {
+  factory _$CreateTransactionIssueItemRequestCopyWith(_CreateTransactionIssueItemRequest value, $Res Function(_CreateTransactionIssueItemRequest) _then) = __$CreateTransactionIssueItemRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class __$CreateTransactionIssueItemRequestCopyWithImpl<$Res>
+    implements _$CreateTransactionIssueItemRequestCopyWith<$Res> {
+  __$CreateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
+
+  final _CreateTransactionIssueItemRequest _self;
+  final $Res Function(_CreateTransactionIssueItemRequest) _then;
+
+/// Create a copy of CreateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
+  return _then(_CreateTransactionIssueItemRequest(
+categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
+as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
+as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$CreateKickoffParticipantItemRequest {
+
+ int get participantId; String get role;
+/// Create a copy of CreateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreateKickoffParticipantItemRequestCopyWith<CreateKickoffParticipantItemRequest> get copyWith => _$CreateKickoffParticipantItemRequestCopyWithImpl<CreateKickoffParticipantItemRequest>(this as CreateKickoffParticipantItemRequest, _$identity);
+
+  /// Serializes this CreateKickoffParticipantItemRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateKickoffParticipantItemRequest&&(identical(other.participantId, participantId) || other.participantId == participantId)&&(identical(other.role, role) || other.role == role));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,participantId,role);
+
+@override
+String toString() {
+  return 'CreateKickoffParticipantItemRequest(participantId: $participantId, role: $role)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreateKickoffParticipantItemRequestCopyWith<$Res>  {
+  factory $CreateKickoffParticipantItemRequestCopyWith(CreateKickoffParticipantItemRequest value, $Res Function(CreateKickoffParticipantItemRequest) _then) = _$CreateKickoffParticipantItemRequestCopyWithImpl;
+@useResult
+$Res call({
+ int participantId, String role
+});
+
+
+
+
+}
+/// @nodoc
+class _$CreateKickoffParticipantItemRequestCopyWithImpl<$Res>
+    implements $CreateKickoffParticipantItemRequestCopyWith<$Res> {
+  _$CreateKickoffParticipantItemRequestCopyWithImpl(this._self, this._then);
+
+  final CreateKickoffParticipantItemRequest _self;
+  final $Res Function(CreateKickoffParticipantItemRequest) _then;
+
+/// Create a copy of CreateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? participantId = null,Object? role = null,}) {
+  return _then(_self.copyWith(
+participantId: null == participantId ? _self.participantId : participantId // ignore: cast_nullable_to_non_nullable
+as int,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CreateKickoffParticipantItemRequest].
+extension CreateKickoffParticipantItemRequestPatterns on CreateKickoffParticipantItemRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CreateKickoffParticipantItemRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CreateKickoffParticipantItemRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CreateKickoffParticipantItemRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _CreateKickoffParticipantItemRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CreateKickoffParticipantItemRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CreateKickoffParticipantItemRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int participantId,  String role)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CreateKickoffParticipantItemRequest() when $default != null:
+return $default(_that.participantId,_that.role);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int participantId,  String role)  $default,) {final _that = this;
+switch (_that) {
+case _CreateKickoffParticipantItemRequest():
+return $default(_that.participantId,_that.role);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int participantId,  String role)?  $default,) {final _that = this;
+switch (_that) {
+case _CreateKickoffParticipantItemRequest() when $default != null:
+return $default(_that.participantId,_that.role);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CreateKickoffParticipantItemRequest implements CreateKickoffParticipantItemRequest {
+  const _CreateKickoffParticipantItemRequest({required this.participantId, required this.role});
+  factory _CreateKickoffParticipantItemRequest.fromJson(Map<String, dynamic> json) => _$CreateKickoffParticipantItemRequestFromJson(json);
+
+@override final  int participantId;
+@override final  String role;
+
+/// Create a copy of CreateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CreateKickoffParticipantItemRequestCopyWith<_CreateKickoffParticipantItemRequest> get copyWith => __$CreateKickoffParticipantItemRequestCopyWithImpl<_CreateKickoffParticipantItemRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CreateKickoffParticipantItemRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateKickoffParticipantItemRequest&&(identical(other.participantId, participantId) || other.participantId == participantId)&&(identical(other.role, role) || other.role == role));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,participantId,role);
+
+@override
+String toString() {
+  return 'CreateKickoffParticipantItemRequest(participantId: $participantId, role: $role)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CreateKickoffParticipantItemRequestCopyWith<$Res> implements $CreateKickoffParticipantItemRequestCopyWith<$Res> {
+  factory _$CreateKickoffParticipantItemRequestCopyWith(_CreateKickoffParticipantItemRequest value, $Res Function(_CreateKickoffParticipantItemRequest) _then) = __$CreateKickoffParticipantItemRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ int participantId, String role
+});
+
+
+
+
+}
+/// @nodoc
+class __$CreateKickoffParticipantItemRequestCopyWithImpl<$Res>
+    implements _$CreateKickoffParticipantItemRequestCopyWith<$Res> {
+  __$CreateKickoffParticipantItemRequestCopyWithImpl(this._self, this._then);
+
+  final _CreateKickoffParticipantItemRequest _self;
+  final $Res Function(_CreateKickoffParticipantItemRequest) _then;
+
+/// Create a copy of CreateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? participantId = null,Object? role = null,}) {
+  return _then(_CreateKickoffParticipantItemRequest(
+participantId: null == participantId ? _self.participantId : participantId // ignore: cast_nullable_to_non_nullable
+as int,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$CreateKickoffTripItemRequest {
+
+ int get categoryId; int get days; String? get note;
+/// Create a copy of CreateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreateKickoffTripItemRequestCopyWith<CreateKickoffTripItemRequest> get copyWith => _$CreateKickoffTripItemRequestCopyWithImpl<CreateKickoffTripItemRequest>(this as CreateKickoffTripItemRequest, _$identity);
+
+  /// Serializes this CreateKickoffTripItemRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateKickoffTripItemRequest&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.days, days) || other.days == days)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,categoryId,days,note);
+
+@override
+String toString() {
+  return 'CreateKickoffTripItemRequest(categoryId: $categoryId, days: $days, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreateKickoffTripItemRequestCopyWith<$Res>  {
+  factory $CreateKickoffTripItemRequestCopyWith(CreateKickoffTripItemRequest value, $Res Function(CreateKickoffTripItemRequest) _then) = _$CreateKickoffTripItemRequestCopyWithImpl;
+@useResult
+$Res call({
+ int categoryId, int days, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class _$CreateKickoffTripItemRequestCopyWithImpl<$Res>
+    implements $CreateKickoffTripItemRequestCopyWith<$Res> {
+  _$CreateKickoffTripItemRequestCopyWithImpl(this._self, this._then);
+
+  final CreateKickoffTripItemRequest _self;
+  final $Res Function(CreateKickoffTripItemRequest) _then;
+
+/// Create a copy of CreateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? categoryId = null,Object? days = null,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as int,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CreateKickoffTripItemRequest].
+extension CreateKickoffTripItemRequestPatterns on CreateKickoffTripItemRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CreateKickoffTripItemRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CreateKickoffTripItemRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CreateKickoffTripItemRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _CreateKickoffTripItemRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CreateKickoffTripItemRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CreateKickoffTripItemRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int categoryId,  int days,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CreateKickoffTripItemRequest() when $default != null:
+return $default(_that.categoryId,_that.days,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int categoryId,  int days,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _CreateKickoffTripItemRequest():
+return $default(_that.categoryId,_that.days,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int categoryId,  int days,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _CreateKickoffTripItemRequest() when $default != null:
+return $default(_that.categoryId,_that.days,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CreateKickoffTripItemRequest implements CreateKickoffTripItemRequest {
+  const _CreateKickoffTripItemRequest({required this.categoryId, required this.days, this.note});
+  factory _CreateKickoffTripItemRequest.fromJson(Map<String, dynamic> json) => _$CreateKickoffTripItemRequestFromJson(json);
+
+@override final  int categoryId;
+@override final  int days;
+@override final  String? note;
+
+/// Create a copy of CreateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CreateKickoffTripItemRequestCopyWith<_CreateKickoffTripItemRequest> get copyWith => __$CreateKickoffTripItemRequestCopyWithImpl<_CreateKickoffTripItemRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CreateKickoffTripItemRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateKickoffTripItemRequest&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.days, days) || other.days == days)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,categoryId,days,note);
+
+@override
+String toString() {
+  return 'CreateKickoffTripItemRequest(categoryId: $categoryId, days: $days, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CreateKickoffTripItemRequestCopyWith<$Res> implements $CreateKickoffTripItemRequestCopyWith<$Res> {
+  factory _$CreateKickoffTripItemRequestCopyWith(_CreateKickoffTripItemRequest value, $Res Function(_CreateKickoffTripItemRequest) _then) = __$CreateKickoffTripItemRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ int categoryId, int days, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class __$CreateKickoffTripItemRequestCopyWithImpl<$Res>
+    implements _$CreateKickoffTripItemRequestCopyWith<$Res> {
+  __$CreateKickoffTripItemRequestCopyWithImpl(this._self, this._then);
+
+  final _CreateKickoffTripItemRequest _self;
+  final $Res Function(_CreateKickoffTripItemRequest) _then;
+
+/// Create a copy of CreateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? categoryId = null,Object? days = null,Object? note = freezed,}) {
+  return _then(_CreateKickoffTripItemRequest(
+categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as int,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$CreateProcurementIssueItemRequest {
 
  String get item; String get spec; String get quantity; String get unitPrice; String get totalAmount; bool get isOnlinePurchase; String? get purchaseUrl; int? get supplierId; String? get note;
@@ -19937,284 +21677,6 @@ as String?,
 
 
 /// @nodoc
-mixin _$CreateTransactionIssueItemRequest {
-
- int get categoryId; String get price; String get ratio; bool? get isPaid; DateTime? get paidAt; String? get note;
-/// Create a copy of CreateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$CreateTransactionIssueItemRequestCopyWith<CreateTransactionIssueItemRequest> get copyWith => _$CreateTransactionIssueItemRequestCopyWithImpl<CreateTransactionIssueItemRequest>(this as CreateTransactionIssueItemRequest, _$identity);
-
-  /// Serializes this CreateTransactionIssueItemRequest to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateTransactionIssueItemRequest&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,categoryId,price,ratio,isPaid,paidAt,note);
-
-@override
-String toString() {
-  return 'CreateTransactionIssueItemRequest(categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $CreateTransactionIssueItemRequestCopyWith<$Res>  {
-  factory $CreateTransactionIssueItemRequestCopyWith(CreateTransactionIssueItemRequest value, $Res Function(CreateTransactionIssueItemRequest) _then) = _$CreateTransactionIssueItemRequestCopyWithImpl;
-@useResult
-$Res call({
- int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
-});
-
-
-
-
-}
-/// @nodoc
-class _$CreateTransactionIssueItemRequestCopyWithImpl<$Res>
-    implements $CreateTransactionIssueItemRequestCopyWith<$Res> {
-  _$CreateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
-
-  final CreateTransactionIssueItemRequest _self;
-  final $Res Function(CreateTransactionIssueItemRequest) _then;
-
-/// Create a copy of CreateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
-  return _then(_self.copyWith(
-categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
-as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
-as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
-as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [CreateTransactionIssueItemRequest].
-extension CreateTransactionIssueItemRequestPatterns on CreateTransactionIssueItemRequest {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CreateTransactionIssueItemRequest value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _CreateTransactionIssueItemRequest() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CreateTransactionIssueItemRequest value)  $default,){
-final _that = this;
-switch (_that) {
-case _CreateTransactionIssueItemRequest():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CreateTransactionIssueItemRequest value)?  $default,){
-final _that = this;
-switch (_that) {
-case _CreateTransactionIssueItemRequest() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _CreateTransactionIssueItemRequest() when $default != null:
-return $default(_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)  $default,) {final _that = this;
-switch (_that) {
-case _CreateTransactionIssueItemRequest():
-return $default(_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,) {final _that = this;
-switch (_that) {
-case _CreateTransactionIssueItemRequest() when $default != null:
-return $default(_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _CreateTransactionIssueItemRequest implements CreateTransactionIssueItemRequest {
-   _CreateTransactionIssueItemRequest({required this.categoryId, required this.price, required this.ratio, this.isPaid, this.paidAt, this.note});
-  factory _CreateTransactionIssueItemRequest.fromJson(Map<String, dynamic> json) => _$CreateTransactionIssueItemRequestFromJson(json);
-
-@override final  int categoryId;
-@override final  String price;
-@override final  String ratio;
-@override final  bool? isPaid;
-@override final  DateTime? paidAt;
-@override final  String? note;
-
-/// Create a copy of CreateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$CreateTransactionIssueItemRequestCopyWith<_CreateTransactionIssueItemRequest> get copyWith => __$CreateTransactionIssueItemRequestCopyWithImpl<_CreateTransactionIssueItemRequest>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$CreateTransactionIssueItemRequestToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateTransactionIssueItemRequest&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,categoryId,price,ratio,isPaid,paidAt,note);
-
-@override
-String toString() {
-  return 'CreateTransactionIssueItemRequest(categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$CreateTransactionIssueItemRequestCopyWith<$Res> implements $CreateTransactionIssueItemRequestCopyWith<$Res> {
-  factory _$CreateTransactionIssueItemRequestCopyWith(_CreateTransactionIssueItemRequest value, $Res Function(_CreateTransactionIssueItemRequest) _then) = __$CreateTransactionIssueItemRequestCopyWithImpl;
-@override @useResult
-$Res call({
- int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
-});
-
-
-
-
-}
-/// @nodoc
-class __$CreateTransactionIssueItemRequestCopyWithImpl<$Res>
-    implements _$CreateTransactionIssueItemRequestCopyWith<$Res> {
-  __$CreateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
-
-  final _CreateTransactionIssueItemRequest _self;
-  final $Res Function(_CreateTransactionIssueItemRequest) _then;
-
-/// Create a copy of CreateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
-  return _then(_CreateTransactionIssueItemRequest(
-categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
-as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
-as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
-as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
 mixin _$UpdateContractIssueItemRequest {
 
  int? get id; String get item; String get price;
@@ -20476,6 +21938,828 @@ id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,item: null == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
 as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$UpdateTransactionIssueItemRequest {
+
+ int? get id; int get categoryId; String get price; String get ratio; bool? get isPaid; DateTime? get paidAt; String? get note;
+/// Create a copy of UpdateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateTransactionIssueItemRequestCopyWith<UpdateTransactionIssueItemRequest> get copyWith => _$UpdateTransactionIssueItemRequestCopyWithImpl<UpdateTransactionIssueItemRequest>(this as UpdateTransactionIssueItemRequest, _$identity);
+
+  /// Serializes this UpdateTransactionIssueItemRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateTransactionIssueItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,categoryId,price,ratio,isPaid,paidAt,note);
+
+@override
+String toString() {
+  return 'UpdateTransactionIssueItemRequest(id: $id, categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateTransactionIssueItemRequestCopyWith<$Res>  {
+  factory $UpdateTransactionIssueItemRequestCopyWith(UpdateTransactionIssueItemRequest value, $Res Function(UpdateTransactionIssueItemRequest) _then) = _$UpdateTransactionIssueItemRequestCopyWithImpl;
+@useResult
+$Res call({
+ int? id, int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class _$UpdateTransactionIssueItemRequestCopyWithImpl<$Res>
+    implements $UpdateTransactionIssueItemRequestCopyWith<$Res> {
+  _$UpdateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
+
+  final UpdateTransactionIssueItemRequest _self;
+  final $Res Function(UpdateTransactionIssueItemRequest) _then;
+
+/// Create a copy of UpdateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
+as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
+as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UpdateTransactionIssueItemRequest].
+extension UpdateTransactionIssueItemRequestPatterns on UpdateTransactionIssueItemRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UpdateTransactionIssueItemRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UpdateTransactionIssueItemRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UpdateTransactionIssueItemRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateTransactionIssueItemRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UpdateTransactionIssueItemRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateTransactionIssueItemRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UpdateTransactionIssueItemRequest() when $default != null:
+return $default(_that.id,_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _UpdateTransactionIssueItemRequest():
+return $default(_that.id,_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _UpdateTransactionIssueItemRequest() when $default != null:
+return $default(_that.id,_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UpdateTransactionIssueItemRequest implements UpdateTransactionIssueItemRequest {
+   _UpdateTransactionIssueItemRequest({this.id, required this.categoryId, required this.price, required this.ratio, this.isPaid, this.paidAt, this.note});
+  factory _UpdateTransactionIssueItemRequest.fromJson(Map<String, dynamic> json) => _$UpdateTransactionIssueItemRequestFromJson(json);
+
+@override final  int? id;
+@override final  int categoryId;
+@override final  String price;
+@override final  String ratio;
+@override final  bool? isPaid;
+@override final  DateTime? paidAt;
+@override final  String? note;
+
+/// Create a copy of UpdateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpdateTransactionIssueItemRequestCopyWith<_UpdateTransactionIssueItemRequest> get copyWith => __$UpdateTransactionIssueItemRequestCopyWithImpl<_UpdateTransactionIssueItemRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UpdateTransactionIssueItemRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateTransactionIssueItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,categoryId,price,ratio,isPaid,paidAt,note);
+
+@override
+String toString() {
+  return 'UpdateTransactionIssueItemRequest(id: $id, categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpdateTransactionIssueItemRequestCopyWith<$Res> implements $UpdateTransactionIssueItemRequestCopyWith<$Res> {
+  factory _$UpdateTransactionIssueItemRequestCopyWith(_UpdateTransactionIssueItemRequest value, $Res Function(_UpdateTransactionIssueItemRequest) _then) = __$UpdateTransactionIssueItemRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ int? id, int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpdateTransactionIssueItemRequestCopyWithImpl<$Res>
+    implements _$UpdateTransactionIssueItemRequestCopyWith<$Res> {
+  __$UpdateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
+
+  final _UpdateTransactionIssueItemRequest _self;
+  final $Res Function(_UpdateTransactionIssueItemRequest) _then;
+
+/// Create a copy of UpdateTransactionIssueItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
+  return _then(_UpdateTransactionIssueItemRequest(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
+as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
+as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$UpdateKickoffParticipantItemRequest {
+
+ int? get id; int get participantId; String get role;
+/// Create a copy of UpdateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateKickoffParticipantItemRequestCopyWith<UpdateKickoffParticipantItemRequest> get copyWith => _$UpdateKickoffParticipantItemRequestCopyWithImpl<UpdateKickoffParticipantItemRequest>(this as UpdateKickoffParticipantItemRequest, _$identity);
+
+  /// Serializes this UpdateKickoffParticipantItemRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateKickoffParticipantItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.participantId, participantId) || other.participantId == participantId)&&(identical(other.role, role) || other.role == role));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,participantId,role);
+
+@override
+String toString() {
+  return 'UpdateKickoffParticipantItemRequest(id: $id, participantId: $participantId, role: $role)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateKickoffParticipantItemRequestCopyWith<$Res>  {
+  factory $UpdateKickoffParticipantItemRequestCopyWith(UpdateKickoffParticipantItemRequest value, $Res Function(UpdateKickoffParticipantItemRequest) _then) = _$UpdateKickoffParticipantItemRequestCopyWithImpl;
+@useResult
+$Res call({
+ int? id, int participantId, String role
+});
+
+
+
+
+}
+/// @nodoc
+class _$UpdateKickoffParticipantItemRequestCopyWithImpl<$Res>
+    implements $UpdateKickoffParticipantItemRequestCopyWith<$Res> {
+  _$UpdateKickoffParticipantItemRequestCopyWithImpl(this._self, this._then);
+
+  final UpdateKickoffParticipantItemRequest _self;
+  final $Res Function(UpdateKickoffParticipantItemRequest) _then;
+
+/// Create a copy of UpdateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? participantId = null,Object? role = null,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,participantId: null == participantId ? _self.participantId : participantId // ignore: cast_nullable_to_non_nullable
+as int,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UpdateKickoffParticipantItemRequest].
+extension UpdateKickoffParticipantItemRequestPatterns on UpdateKickoffParticipantItemRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UpdateKickoffParticipantItemRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UpdateKickoffParticipantItemRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UpdateKickoffParticipantItemRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateKickoffParticipantItemRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UpdateKickoffParticipantItemRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateKickoffParticipantItemRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int participantId,  String role)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UpdateKickoffParticipantItemRequest() when $default != null:
+return $default(_that.id,_that.participantId,_that.role);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int participantId,  String role)  $default,) {final _that = this;
+switch (_that) {
+case _UpdateKickoffParticipantItemRequest():
+return $default(_that.id,_that.participantId,_that.role);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int participantId,  String role)?  $default,) {final _that = this;
+switch (_that) {
+case _UpdateKickoffParticipantItemRequest() when $default != null:
+return $default(_that.id,_that.participantId,_that.role);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UpdateKickoffParticipantItemRequest implements UpdateKickoffParticipantItemRequest {
+  const _UpdateKickoffParticipantItemRequest({this.id, required this.participantId, required this.role});
+  factory _UpdateKickoffParticipantItemRequest.fromJson(Map<String, dynamic> json) => _$UpdateKickoffParticipantItemRequestFromJson(json);
+
+@override final  int? id;
+@override final  int participantId;
+@override final  String role;
+
+/// Create a copy of UpdateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpdateKickoffParticipantItemRequestCopyWith<_UpdateKickoffParticipantItemRequest> get copyWith => __$UpdateKickoffParticipantItemRequestCopyWithImpl<_UpdateKickoffParticipantItemRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UpdateKickoffParticipantItemRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateKickoffParticipantItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.participantId, participantId) || other.participantId == participantId)&&(identical(other.role, role) || other.role == role));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,participantId,role);
+
+@override
+String toString() {
+  return 'UpdateKickoffParticipantItemRequest(id: $id, participantId: $participantId, role: $role)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpdateKickoffParticipantItemRequestCopyWith<$Res> implements $UpdateKickoffParticipantItemRequestCopyWith<$Res> {
+  factory _$UpdateKickoffParticipantItemRequestCopyWith(_UpdateKickoffParticipantItemRequest value, $Res Function(_UpdateKickoffParticipantItemRequest) _then) = __$UpdateKickoffParticipantItemRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ int? id, int participantId, String role
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpdateKickoffParticipantItemRequestCopyWithImpl<$Res>
+    implements _$UpdateKickoffParticipantItemRequestCopyWith<$Res> {
+  __$UpdateKickoffParticipantItemRequestCopyWithImpl(this._self, this._then);
+
+  final _UpdateKickoffParticipantItemRequest _self;
+  final $Res Function(_UpdateKickoffParticipantItemRequest) _then;
+
+/// Create a copy of UpdateKickoffParticipantItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? participantId = null,Object? role = null,}) {
+  return _then(_UpdateKickoffParticipantItemRequest(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,participantId: null == participantId ? _self.participantId : participantId // ignore: cast_nullable_to_non_nullable
+as int,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$UpdateKickoffTripItemRequest {
+
+ int? get id; int get categoryId; int get days; String? get note;
+/// Create a copy of UpdateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UpdateKickoffTripItemRequestCopyWith<UpdateKickoffTripItemRequest> get copyWith => _$UpdateKickoffTripItemRequestCopyWithImpl<UpdateKickoffTripItemRequest>(this as UpdateKickoffTripItemRequest, _$identity);
+
+  /// Serializes this UpdateKickoffTripItemRequest to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateKickoffTripItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.days, days) || other.days == days)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,categoryId,days,note);
+
+@override
+String toString() {
+  return 'UpdateKickoffTripItemRequest(id: $id, categoryId: $categoryId, days: $days, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UpdateKickoffTripItemRequestCopyWith<$Res>  {
+  factory $UpdateKickoffTripItemRequestCopyWith(UpdateKickoffTripItemRequest value, $Res Function(UpdateKickoffTripItemRequest) _then) = _$UpdateKickoffTripItemRequestCopyWithImpl;
+@useResult
+$Res call({
+ int? id, int categoryId, int days, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class _$UpdateKickoffTripItemRequestCopyWithImpl<$Res>
+    implements $UpdateKickoffTripItemRequestCopyWith<$Res> {
+  _$UpdateKickoffTripItemRequestCopyWithImpl(this._self, this._then);
+
+  final UpdateKickoffTripItemRequest _self;
+  final $Res Function(UpdateKickoffTripItemRequest) _then;
+
+/// Create a copy of UpdateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? categoryId = null,Object? days = null,Object? note = freezed,}) {
+  return _then(_self.copyWith(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as int,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UpdateKickoffTripItemRequest].
+extension UpdateKickoffTripItemRequestPatterns on UpdateKickoffTripItemRequest {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UpdateKickoffTripItemRequest value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UpdateKickoffTripItemRequest() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UpdateKickoffTripItemRequest value)  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateKickoffTripItemRequest():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UpdateKickoffTripItemRequest value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UpdateKickoffTripItemRequest() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int categoryId,  int days,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UpdateKickoffTripItemRequest() when $default != null:
+return $default(_that.id,_that.categoryId,_that.days,_that.note);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int categoryId,  int days,  String? note)  $default,) {final _that = this;
+switch (_that) {
+case _UpdateKickoffTripItemRequest():
+return $default(_that.id,_that.categoryId,_that.days,_that.note);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int categoryId,  int days,  String? note)?  $default,) {final _that = this;
+switch (_that) {
+case _UpdateKickoffTripItemRequest() when $default != null:
+return $default(_that.id,_that.categoryId,_that.days,_that.note);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UpdateKickoffTripItemRequest implements UpdateKickoffTripItemRequest {
+  const _UpdateKickoffTripItemRequest({this.id, required this.categoryId, required this.days, this.note});
+  factory _UpdateKickoffTripItemRequest.fromJson(Map<String, dynamic> json) => _$UpdateKickoffTripItemRequestFromJson(json);
+
+@override final  int? id;
+@override final  int categoryId;
+@override final  int days;
+@override final  String? note;
+
+/// Create a copy of UpdateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UpdateKickoffTripItemRequestCopyWith<_UpdateKickoffTripItemRequest> get copyWith => __$UpdateKickoffTripItemRequestCopyWithImpl<_UpdateKickoffTripItemRequest>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UpdateKickoffTripItemRequestToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateKickoffTripItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.days, days) || other.days == days)&&(identical(other.note, note) || other.note == note));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,categoryId,days,note);
+
+@override
+String toString() {
+  return 'UpdateKickoffTripItemRequest(id: $id, categoryId: $categoryId, days: $days, note: $note)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UpdateKickoffTripItemRequestCopyWith<$Res> implements $UpdateKickoffTripItemRequestCopyWith<$Res> {
+  factory _$UpdateKickoffTripItemRequestCopyWith(_UpdateKickoffTripItemRequest value, $Res Function(_UpdateKickoffTripItemRequest) _then) = __$UpdateKickoffTripItemRequestCopyWithImpl;
+@override @useResult
+$Res call({
+ int? id, int categoryId, int days, String? note
+});
+
+
+
+
+}
+/// @nodoc
+class __$UpdateKickoffTripItemRequestCopyWithImpl<$Res>
+    implements _$UpdateKickoffTripItemRequestCopyWith<$Res> {
+  __$UpdateKickoffTripItemRequestCopyWithImpl(this._self, this._then);
+
+  final _UpdateKickoffTripItemRequest _self;
+  final $Res Function(_UpdateKickoffTripItemRequest) _then;
+
+/// Create a copy of UpdateKickoffTripItemRequest
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? categoryId = null,Object? days = null,Object? note = freezed,}) {
+  return _then(_UpdateKickoffTripItemRequest(
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as int,days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
+as int,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -20765,287 +23049,6 @@ as String,isOnlinePurchase: null == isOnlinePurchase ? _self.isOnlinePurchase : 
 as bool,purchaseUrl: freezed == purchaseUrl ? _self.purchaseUrl : purchaseUrl // ignore: cast_nullable_to_non_nullable
 as String?,supplierId: freezed == supplierId ? _self.supplierId : supplierId // ignore: cast_nullable_to_non_nullable
 as int?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-
-}
-
-
-/// @nodoc
-mixin _$UpdateTransactionIssueItemRequest {
-
- int? get id; int get categoryId; String get price; String get ratio; bool? get isPaid; DateTime? get paidAt; String? get note;
-/// Create a copy of UpdateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$UpdateTransactionIssueItemRequestCopyWith<UpdateTransactionIssueItemRequest> get copyWith => _$UpdateTransactionIssueItemRequestCopyWithImpl<UpdateTransactionIssueItemRequest>(this as UpdateTransactionIssueItemRequest, _$identity);
-
-  /// Serializes this UpdateTransactionIssueItemRequest to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateTransactionIssueItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,categoryId,price,ratio,isPaid,paidAt,note);
-
-@override
-String toString() {
-  return 'UpdateTransactionIssueItemRequest(id: $id, categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $UpdateTransactionIssueItemRequestCopyWith<$Res>  {
-  factory $UpdateTransactionIssueItemRequestCopyWith(UpdateTransactionIssueItemRequest value, $Res Function(UpdateTransactionIssueItemRequest) _then) = _$UpdateTransactionIssueItemRequestCopyWithImpl;
-@useResult
-$Res call({
- int? id, int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
-});
-
-
-
-
-}
-/// @nodoc
-class _$UpdateTransactionIssueItemRequestCopyWithImpl<$Res>
-    implements $UpdateTransactionIssueItemRequestCopyWith<$Res> {
-  _$UpdateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
-
-  final UpdateTransactionIssueItemRequest _self;
-  final $Res Function(UpdateTransactionIssueItemRequest) _then;
-
-/// Create a copy of UpdateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
-  return _then(_self.copyWith(
-id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
-as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
-as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
-as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [UpdateTransactionIssueItemRequest].
-extension UpdateTransactionIssueItemRequestPatterns on UpdateTransactionIssueItemRequest {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UpdateTransactionIssueItemRequest value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _UpdateTransactionIssueItemRequest() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UpdateTransactionIssueItemRequest value)  $default,){
-final _that = this;
-switch (_that) {
-case _UpdateTransactionIssueItemRequest():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UpdateTransactionIssueItemRequest value)?  $default,){
-final _that = this;
-switch (_that) {
-case _UpdateTransactionIssueItemRequest() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _UpdateTransactionIssueItemRequest() when $default != null:
-return $default(_that.id,_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)  $default,) {final _that = this;
-switch (_that) {
-case _UpdateTransactionIssueItemRequest():
-return $default(_that.id,_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  throw StateError('Unexpected subclass');
-
-}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  int categoryId,  String price,  String ratio,  bool? isPaid,  DateTime? paidAt,  String? note)?  $default,) {final _that = this;
-switch (_that) {
-case _UpdateTransactionIssueItemRequest() when $default != null:
-return $default(_that.id,_that.categoryId,_that.price,_that.ratio,_that.isPaid,_that.paidAt,_that.note);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _UpdateTransactionIssueItemRequest implements UpdateTransactionIssueItemRequest {
-   _UpdateTransactionIssueItemRequest({this.id, required this.categoryId, required this.price, required this.ratio, this.isPaid, this.paidAt, this.note});
-  factory _UpdateTransactionIssueItemRequest.fromJson(Map<String, dynamic> json) => _$UpdateTransactionIssueItemRequestFromJson(json);
-
-@override final  int? id;
-@override final  int categoryId;
-@override final  String price;
-@override final  String ratio;
-@override final  bool? isPaid;
-@override final  DateTime? paidAt;
-@override final  String? note;
-
-/// Create a copy of UpdateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$UpdateTransactionIssueItemRequestCopyWith<_UpdateTransactionIssueItemRequest> get copyWith => __$UpdateTransactionIssueItemRequestCopyWithImpl<_UpdateTransactionIssueItemRequest>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$UpdateTransactionIssueItemRequestToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateTransactionIssueItemRequest&&(identical(other.id, id) || other.id == id)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.price, price) || other.price == price)&&(identical(other.ratio, ratio) || other.ratio == ratio)&&(identical(other.isPaid, isPaid) || other.isPaid == isPaid)&&(identical(other.paidAt, paidAt) || other.paidAt == paidAt)&&(identical(other.note, note) || other.note == note));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,id,categoryId,price,ratio,isPaid,paidAt,note);
-
-@override
-String toString() {
-  return 'UpdateTransactionIssueItemRequest(id: $id, categoryId: $categoryId, price: $price, ratio: $ratio, isPaid: $isPaid, paidAt: $paidAt, note: $note)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$UpdateTransactionIssueItemRequestCopyWith<$Res> implements $UpdateTransactionIssueItemRequestCopyWith<$Res> {
-  factory _$UpdateTransactionIssueItemRequestCopyWith(_UpdateTransactionIssueItemRequest value, $Res Function(_UpdateTransactionIssueItemRequest) _then) = __$UpdateTransactionIssueItemRequestCopyWithImpl;
-@override @useResult
-$Res call({
- int? id, int categoryId, String price, String ratio, bool? isPaid, DateTime? paidAt, String? note
-});
-
-
-
-
-}
-/// @nodoc
-class __$UpdateTransactionIssueItemRequestCopyWithImpl<$Res>
-    implements _$UpdateTransactionIssueItemRequestCopyWith<$Res> {
-  __$UpdateTransactionIssueItemRequestCopyWithImpl(this._self, this._then);
-
-  final _UpdateTransactionIssueItemRequest _self;
-  final $Res Function(_UpdateTransactionIssueItemRequest) _then;
-
-/// Create a copy of UpdateTransactionIssueItemRequest
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? categoryId = null,Object? price = null,Object? ratio = null,Object? isPaid = freezed,Object? paidAt = freezed,Object? note = freezed,}) {
-  return _then(_UpdateTransactionIssueItemRequest(
-id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
-as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as String,ratio: null == ratio ? _self.ratio : ratio // ignore: cast_nullable_to_non_nullable
-as String,isPaid: freezed == isPaid ? _self.isPaid : isPaid // ignore: cast_nullable_to_non_nullable
-as bool?,paidAt: freezed == paidAt ? _self.paidAt : paidAt // ignore: cast_nullable_to_non_nullable
-as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

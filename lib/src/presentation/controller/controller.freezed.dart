@@ -6475,7 +6475,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 mixin _$IssueFormState implements DiagnosticableTreeMixin {
 
- IssueCategory get category; String? get content; List<IssueAttachment> get attachments; List<XFile> get files; Currency? get currency; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<ProcurementIssueItem> get procurementItems; List<ProcurementIssueRequest> get requests;
+ IssueCategory get category; String? get content; List<IssueAttachment> get attachments; List<XFile> get files; Currency? get currency; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<KickoffIssueParticipantItem> get participantItems; List<KickoffIssueTripItem> get tripItems; List<ProcurementIssueItem> get procurementItems; List<ProcurementIssueRequest> get requests;
 /// Create a copy of IssueFormState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -6487,21 +6487,21 @@ $IssueFormStateCopyWith<IssueFormState> get copyWith => _$IssueFormStateCopyWith
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueFormState'))
-    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('transactionItems', transactionItems))..add(DiagnosticsProperty('procurementItems', procurementItems))..add(DiagnosticsProperty('requests', requests));
+    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('transactionItems', transactionItems))..add(DiagnosticsProperty('participantItems', participantItems))..add(DiagnosticsProperty('tripItems', tripItems))..add(DiagnosticsProperty('procurementItems', procurementItems))..add(DiagnosticsProperty('requests', requests));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&const DeepCollectionEquality().equals(other.files, files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems)&&const DeepCollectionEquality().equals(other.requests, requests));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&const DeepCollectionEquality().equals(other.files, files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.participantItems, participantItems)&&const DeepCollectionEquality().equals(other.tripItems, tripItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems)&&const DeepCollectionEquality().equals(other.requests, requests));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(attachments),const DeepCollectionEquality().hash(files),currency,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(procurementItems),const DeepCollectionEquality().hash(requests));
+int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(attachments),const DeepCollectionEquality().hash(files),currency,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(participantItems),const DeepCollectionEquality().hash(tripItems),const DeepCollectionEquality().hash(procurementItems),const DeepCollectionEquality().hash(requests));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems, requests: $requests)';
+  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests)';
 }
 
 
@@ -6512,7 +6512,7 @@ abstract mixin class $IssueFormStateCopyWith<$Res>  {
   factory $IssueFormStateCopyWith(IssueFormState value, $Res Function(IssueFormState) _then) = _$IssueFormStateCopyWithImpl;
 @useResult
 $Res call({
- IssueCategory category, String? content, List<IssueAttachment> attachments, List<XFile> files, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests
+ IssueCategory category, String? content, List<IssueAttachment> attachments, List<XFile> files, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests
 });
 
 
@@ -6529,7 +6529,7 @@ class _$IssueFormStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueFormState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? category = null,Object? content = freezed,Object? attachments = null,Object? files = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,Object? requests = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? category = null,Object? content = freezed,Object? attachments = null,Object? files = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,}) {
   return _then(_self.copyWith(
 category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
@@ -6539,7 +6539,9 @@ as List<XFile>,currency: freezed == currency ? _self.currency : currency // igno
 as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self.procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,participantItems: null == participantItems ? _self.participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,tripItems: null == tripItems ? _self.tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItem>,procurementItems: null == procurementItems ? _self.procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueItem>,requests: null == requests ? _self.requests : requests // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequest>,
   ));
@@ -6647,10 +6649,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  List<IssueAttachment> attachments,  List<XFile> files,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  List<IssueAttachment> attachments,  List<XFile> files,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IssueFormState() when $default != null:
-return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems,_that.requests);case _:
+return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests);case _:
   return orElse();
 
 }
@@ -6668,10 +6670,10 @@ return $default(_that.category,_that.content,_that.attachments,_that.files,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  List<IssueAttachment> attachments,  List<XFile> files,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  List<IssueAttachment> attachments,  List<XFile> files,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests)  $default,) {final _that = this;
 switch (_that) {
 case _IssueFormState():
-return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems,_that.requests);case _:
+return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -6688,10 +6690,10 @@ return $default(_that.category,_that.content,_that.attachments,_that.files,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IssueCategory category,  String? content,  List<IssueAttachment> attachments,  List<XFile> files,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IssueCategory category,  String? content,  List<IssueAttachment> attachments,  List<XFile> files,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests)?  $default,) {final _that = this;
 switch (_that) {
 case _IssueFormState() when $default != null:
-return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems,_that.requests);case _:
+return $default(_that.category,_that.content,_that.attachments,_that.files,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests);case _:
   return null;
 
 }
@@ -6703,7 +6705,7 @@ return $default(_that.category,_that.content,_that.attachments,_that.files,_that
 
 
 class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
-  const _IssueFormState({required this.category, this.content, final  List<IssueAttachment> attachments = const <IssueAttachment>[], final  List<XFile> files = const <XFile>[], this.currency, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<ProcurementIssueItem> procurementItems = const [], final  List<ProcurementIssueRequest> requests = const []}): _attachments = attachments,_files = files,_contractItems = contractItems,_transactionItems = transactionItems,_procurementItems = procurementItems,_requests = requests;
+  const _IssueFormState({required this.category, this.content, final  List<IssueAttachment> attachments = const <IssueAttachment>[], final  List<XFile> files = const <XFile>[], this.currency, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<KickoffIssueParticipantItem> participantItems = const [], final  List<KickoffIssueTripItem> tripItems = const [], final  List<ProcurementIssueItem> procurementItems = const [], final  List<ProcurementIssueRequest> requests = const []}): _attachments = attachments,_files = files,_contractItems = contractItems,_transactionItems = transactionItems,_participantItems = participantItems,_tripItems = tripItems,_procurementItems = procurementItems,_requests = requests;
   
 
 @override final  IssueCategory category;
@@ -6738,6 +6740,20 @@ class _IssueFormState with DiagnosticableTreeMixin implements IssueFormState {
   return EqualUnmodifiableListView(_transactionItems);
 }
 
+ final  List<KickoffIssueParticipantItem> _participantItems;
+@override@JsonKey() List<KickoffIssueParticipantItem> get participantItems {
+  if (_participantItems is EqualUnmodifiableListView) return _participantItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_participantItems);
+}
+
+ final  List<KickoffIssueTripItem> _tripItems;
+@override@JsonKey() List<KickoffIssueTripItem> get tripItems {
+  if (_tripItems is EqualUnmodifiableListView) return _tripItems;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tripItems);
+}
+
  final  List<ProcurementIssueItem> _procurementItems;
 @override@JsonKey() List<ProcurementIssueItem> get procurementItems {
   if (_procurementItems is EqualUnmodifiableListView) return _procurementItems;
@@ -6764,21 +6780,21 @@ _$IssueFormStateCopyWith<_IssueFormState> get copyWith => __$IssueFormStateCopyW
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueFormState'))
-    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('transactionItems', transactionItems))..add(DiagnosticsProperty('procurementItems', procurementItems))..add(DiagnosticsProperty('requests', requests));
+    ..add(DiagnosticsProperty('category', category))..add(DiagnosticsProperty('content', content))..add(DiagnosticsProperty('attachments', attachments))..add(DiagnosticsProperty('files', files))..add(DiagnosticsProperty('currency', currency))..add(DiagnosticsProperty('kickoffDate', kickoffDate))..add(DiagnosticsProperty('contractItems', contractItems))..add(DiagnosticsProperty('transactionItems', transactionItems))..add(DiagnosticsProperty('participantItems', participantItems))..add(DiagnosticsProperty('tripItems', tripItems))..add(DiagnosticsProperty('procurementItems', procurementItems))..add(DiagnosticsProperty('requests', requests));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&const DeepCollectionEquality().equals(other._files, _files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems)&&const DeepCollectionEquality().equals(other._requests, _requests));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueFormState&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&const DeepCollectionEquality().equals(other._files, _files)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._participantItems, _participantItems)&&const DeepCollectionEquality().equals(other._tripItems, _tripItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems)&&const DeepCollectionEquality().equals(other._requests, _requests));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(_attachments),const DeepCollectionEquality().hash(_files),currency,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_procurementItems),const DeepCollectionEquality().hash(_requests));
+int get hashCode => Object.hash(runtimeType,category,content,const DeepCollectionEquality().hash(_attachments),const DeepCollectionEquality().hash(_files),currency,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_participantItems),const DeepCollectionEquality().hash(_tripItems),const DeepCollectionEquality().hash(_procurementItems),const DeepCollectionEquality().hash(_requests));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems, requests: $requests)';
+  return 'IssueFormState(category: $category, content: $content, attachments: $attachments, files: $files, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests)';
 }
 
 
@@ -6789,7 +6805,7 @@ abstract mixin class _$IssueFormStateCopyWith<$Res> implements $IssueFormStateCo
   factory _$IssueFormStateCopyWith(_IssueFormState value, $Res Function(_IssueFormState) _then) = __$IssueFormStateCopyWithImpl;
 @override @useResult
 $Res call({
- IssueCategory category, String? content, List<IssueAttachment> attachments, List<XFile> files, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests
+ IssueCategory category, String? content, List<IssueAttachment> attachments, List<XFile> files, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests
 });
 
 
@@ -6806,7 +6822,7 @@ class __$IssueFormStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueFormState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? category = null,Object? content = freezed,Object? attachments = null,Object? files = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,Object? requests = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? category = null,Object? content = freezed,Object? attachments = null,Object? files = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,}) {
   return _then(_IssueFormState(
 category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
@@ -6816,7 +6832,9 @@ as List<XFile>,currency: freezed == currency ? _self.currency : currency // igno
 as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
-as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self._procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
+as List<TransactionIssueItem>,participantItems: null == participantItems ? _self._participantItems : participantItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,tripItems: null == tripItems ? _self._tripItems : tripItems // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItem>,procurementItems: null == procurementItems ? _self._procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueItem>,requests: null == requests ? _self._requests : requests // ignore: cast_nullable_to_non_nullable
 as List<ProcurementIssueRequest>,
   ));
@@ -7277,7 +7295,7 @@ $PaymentIssueCopyWith<$Res>? get payment {
 /// @nodoc
 mixin _$IssueOptionsState implements DiagnosticableTreeMixin {
 
- List<IssueCategory> get categories; List<TransactionIssueItemCategory> get transactionCategories; List<Currency> get currencies;
+ List<IssueCategory> get categories; List<KickoffIssueTripItemCategory> get tripCategories; List<TransactionIssueItemCategory> get transactionCategories; List<Currency> get currencies;
 /// Create a copy of IssueOptionsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -7289,21 +7307,21 @@ $IssueOptionsStateCopyWith<IssueOptionsState> get copyWith => _$IssueOptionsStat
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueOptionsState'))
-    ..add(DiagnosticsProperty('categories', categories))..add(DiagnosticsProperty('transactionCategories', transactionCategories))..add(DiagnosticsProperty('currencies', currencies));
+    ..add(DiagnosticsProperty('categories', categories))..add(DiagnosticsProperty('tripCategories', tripCategories))..add(DiagnosticsProperty('transactionCategories', transactionCategories))..add(DiagnosticsProperty('currencies', currencies));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueOptionsState&&const DeepCollectionEquality().equals(other.categories, categories)&&const DeepCollectionEquality().equals(other.transactionCategories, transactionCategories)&&const DeepCollectionEquality().equals(other.currencies, currencies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueOptionsState&&const DeepCollectionEquality().equals(other.categories, categories)&&const DeepCollectionEquality().equals(other.tripCategories, tripCategories)&&const DeepCollectionEquality().equals(other.transactionCategories, transactionCategories)&&const DeepCollectionEquality().equals(other.currencies, currencies));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(categories),const DeepCollectionEquality().hash(transactionCategories),const DeepCollectionEquality().hash(currencies));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(categories),const DeepCollectionEquality().hash(tripCategories),const DeepCollectionEquality().hash(transactionCategories),const DeepCollectionEquality().hash(currencies));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueOptionsState(categories: $categories, transactionCategories: $transactionCategories, currencies: $currencies)';
+  return 'IssueOptionsState(categories: $categories, tripCategories: $tripCategories, transactionCategories: $transactionCategories, currencies: $currencies)';
 }
 
 
@@ -7314,7 +7332,7 @@ abstract mixin class $IssueOptionsStateCopyWith<$Res>  {
   factory $IssueOptionsStateCopyWith(IssueOptionsState value, $Res Function(IssueOptionsState) _then) = _$IssueOptionsStateCopyWithImpl;
 @useResult
 $Res call({
- List<IssueCategory> categories, List<TransactionIssueItemCategory> transactionCategories, List<Currency> currencies
+ List<IssueCategory> categories, List<KickoffIssueTripItemCategory> tripCategories, List<TransactionIssueItemCategory> transactionCategories, List<Currency> currencies
 });
 
 
@@ -7331,10 +7349,11 @@ class _$IssueOptionsStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueOptionsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? categories = null,Object? transactionCategories = null,Object? currencies = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? categories = null,Object? tripCategories = null,Object? transactionCategories = null,Object? currencies = null,}) {
   return _then(_self.copyWith(
 categories: null == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
-as List<IssueCategory>,transactionCategories: null == transactionCategories ? _self.transactionCategories : transactionCategories // ignore: cast_nullable_to_non_nullable
+as List<IssueCategory>,tripCategories: null == tripCategories ? _self.tripCategories : tripCategories // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItemCategory>,transactionCategories: null == transactionCategories ? _self.transactionCategories : transactionCategories // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItemCategory>,currencies: null == currencies ? _self.currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,
   ));
@@ -7421,10 +7440,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<KickoffIssueTripItemCategory> tripCategories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IssueOptionsState() when $default != null:
-return $default(_that.categories,_that.transactionCategories,_that.currencies);case _:
+return $default(_that.categories,_that.tripCategories,_that.transactionCategories,_that.currencies);case _:
   return orElse();
 
 }
@@ -7442,10 +7461,10 @@ return $default(_that.categories,_that.transactionCategories,_that.currencies);c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<IssueCategory> categories,  List<KickoffIssueTripItemCategory> tripCategories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)  $default,) {final _that = this;
 switch (_that) {
 case _IssueOptionsState():
-return $default(_that.categories,_that.transactionCategories,_that.currencies);case _:
+return $default(_that.categories,_that.tripCategories,_that.transactionCategories,_that.currencies);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -7462,10 +7481,10 @@ return $default(_that.categories,_that.transactionCategories,_that.currencies);c
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<IssueCategory> categories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<IssueCategory> categories,  List<KickoffIssueTripItemCategory> tripCategories,  List<TransactionIssueItemCategory> transactionCategories,  List<Currency> currencies)?  $default,) {final _that = this;
 switch (_that) {
 case _IssueOptionsState() when $default != null:
-return $default(_that.categories,_that.transactionCategories,_that.currencies);case _:
+return $default(_that.categories,_that.tripCategories,_that.transactionCategories,_that.currencies);case _:
   return null;
 
 }
@@ -7477,7 +7496,7 @@ return $default(_that.categories,_that.transactionCategories,_that.currencies);c
 
 
 class _IssueOptionsState with DiagnosticableTreeMixin implements IssueOptionsState {
-   _IssueOptionsState({final  List<IssueCategory> categories = const [], final  List<TransactionIssueItemCategory> transactionCategories = const [], final  List<Currency> currencies = const []}): _categories = categories,_transactionCategories = transactionCategories,_currencies = currencies;
+   _IssueOptionsState({final  List<IssueCategory> categories = const [], final  List<KickoffIssueTripItemCategory> tripCategories = const [], final  List<TransactionIssueItemCategory> transactionCategories = const [], final  List<Currency> currencies = const []}): _categories = categories,_tripCategories = tripCategories,_transactionCategories = transactionCategories,_currencies = currencies;
   
 
  final  List<IssueCategory> _categories;
@@ -7485,6 +7504,13 @@ class _IssueOptionsState with DiagnosticableTreeMixin implements IssueOptionsSta
   if (_categories is EqualUnmodifiableListView) return _categories;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_categories);
+}
+
+ final  List<KickoffIssueTripItemCategory> _tripCategories;
+@override@JsonKey() List<KickoffIssueTripItemCategory> get tripCategories {
+  if (_tripCategories is EqualUnmodifiableListView) return _tripCategories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tripCategories);
 }
 
  final  List<TransactionIssueItemCategory> _transactionCategories;
@@ -7513,21 +7539,21 @@ _$IssueOptionsStateCopyWith<_IssueOptionsState> get copyWith => __$IssueOptionsS
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueOptionsState'))
-    ..add(DiagnosticsProperty('categories', categories))..add(DiagnosticsProperty('transactionCategories', transactionCategories))..add(DiagnosticsProperty('currencies', currencies));
+    ..add(DiagnosticsProperty('categories', categories))..add(DiagnosticsProperty('tripCategories', tripCategories))..add(DiagnosticsProperty('transactionCategories', transactionCategories))..add(DiagnosticsProperty('currencies', currencies));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueOptionsState&&const DeepCollectionEquality().equals(other._categories, _categories)&&const DeepCollectionEquality().equals(other._transactionCategories, _transactionCategories)&&const DeepCollectionEquality().equals(other._currencies, _currencies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueOptionsState&&const DeepCollectionEquality().equals(other._categories, _categories)&&const DeepCollectionEquality().equals(other._tripCategories, _tripCategories)&&const DeepCollectionEquality().equals(other._transactionCategories, _transactionCategories)&&const DeepCollectionEquality().equals(other._currencies, _currencies));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_transactionCategories),const DeepCollectionEquality().hash(_currencies));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_tripCategories),const DeepCollectionEquality().hash(_transactionCategories),const DeepCollectionEquality().hash(_currencies));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueOptionsState(categories: $categories, transactionCategories: $transactionCategories, currencies: $currencies)';
+  return 'IssueOptionsState(categories: $categories, tripCategories: $tripCategories, transactionCategories: $transactionCategories, currencies: $currencies)';
 }
 
 
@@ -7538,7 +7564,7 @@ abstract mixin class _$IssueOptionsStateCopyWith<$Res> implements $IssueOptionsS
   factory _$IssueOptionsStateCopyWith(_IssueOptionsState value, $Res Function(_IssueOptionsState) _then) = __$IssueOptionsStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<IssueCategory> categories, List<TransactionIssueItemCategory> transactionCategories, List<Currency> currencies
+ List<IssueCategory> categories, List<KickoffIssueTripItemCategory> tripCategories, List<TransactionIssueItemCategory> transactionCategories, List<Currency> currencies
 });
 
 
@@ -7555,10 +7581,11 @@ class __$IssueOptionsStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueOptionsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? categories = null,Object? transactionCategories = null,Object? currencies = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? categories = null,Object? tripCategories = null,Object? transactionCategories = null,Object? currencies = null,}) {
   return _then(_IssueOptionsState(
 categories: null == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
-as List<IssueCategory>,transactionCategories: null == transactionCategories ? _self._transactionCategories : transactionCategories // ignore: cast_nullable_to_non_nullable
+as List<IssueCategory>,tripCategories: null == tripCategories ? _self._tripCategories : tripCategories // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueTripItemCategory>,transactionCategories: null == transactionCategories ? _self._transactionCategories : transactionCategories // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItemCategory>,currencies: null == currencies ? _self._currencies : currencies // ignore: cast_nullable_to_non_nullable
 as List<Currency>,
   ));
@@ -8152,7 +8179,7 @@ as String,
 /// @nodoc
 mixin _$IssueValidationState implements DiagnosticableTreeMixin {
 
- bool get contentInvalid; bool get contractItemsMissing; bool get contractItemInvalid; bool get transactionItemsMissing; bool get transactionItemInvalid; bool get ratioInvalid; bool get kickoffDateMissing; bool get procurementItemsMissing; bool get procurementItemInvalid;
+ bool get contentInvalid; bool get contractItemsMissing; bool get contractItemInvalid; bool get transactionItemsMissing; bool get transactionItemInvalid; bool get ratioInvalid; bool get kickoffDateMissing; bool get kickoffParticipantItemsMissing; bool get kickoffParticipantItemInvalid; bool get kickoffTripItemsMissing; bool get kickoffTripItemInvalid; bool get procurementItemsMissing; bool get procurementItemInvalid;
 /// Create a copy of IssueValidationState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -8164,21 +8191,21 @@ $IssueValidationStateCopyWith<IssueValidationState> get copyWith => _$IssueValid
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueValidationState'))
-    ..add(DiagnosticsProperty('contentInvalid', contentInvalid))..add(DiagnosticsProperty('contractItemsMissing', contractItemsMissing))..add(DiagnosticsProperty('contractItemInvalid', contractItemInvalid))..add(DiagnosticsProperty('transactionItemsMissing', transactionItemsMissing))..add(DiagnosticsProperty('transactionItemInvalid', transactionItemInvalid))..add(DiagnosticsProperty('ratioInvalid', ratioInvalid))..add(DiagnosticsProperty('kickoffDateMissing', kickoffDateMissing))..add(DiagnosticsProperty('procurementItemsMissing', procurementItemsMissing))..add(DiagnosticsProperty('procurementItemInvalid', procurementItemInvalid));
+    ..add(DiagnosticsProperty('contentInvalid', contentInvalid))..add(DiagnosticsProperty('contractItemsMissing', contractItemsMissing))..add(DiagnosticsProperty('contractItemInvalid', contractItemInvalid))..add(DiagnosticsProperty('transactionItemsMissing', transactionItemsMissing))..add(DiagnosticsProperty('transactionItemInvalid', transactionItemInvalid))..add(DiagnosticsProperty('ratioInvalid', ratioInvalid))..add(DiagnosticsProperty('kickoffDateMissing', kickoffDateMissing))..add(DiagnosticsProperty('kickoffParticipantItemsMissing', kickoffParticipantItemsMissing))..add(DiagnosticsProperty('kickoffParticipantItemInvalid', kickoffParticipantItemInvalid))..add(DiagnosticsProperty('kickoffTripItemsMissing', kickoffTripItemsMissing))..add(DiagnosticsProperty('kickoffTripItemInvalid', kickoffTripItemInvalid))..add(DiagnosticsProperty('procurementItemsMissing', procurementItemsMissing))..add(DiagnosticsProperty('procurementItemInvalid', procurementItemInvalid));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueValidationState&&(identical(other.contentInvalid, contentInvalid) || other.contentInvalid == contentInvalid)&&(identical(other.contractItemsMissing, contractItemsMissing) || other.contractItemsMissing == contractItemsMissing)&&(identical(other.contractItemInvalid, contractItemInvalid) || other.contractItemInvalid == contractItemInvalid)&&(identical(other.transactionItemsMissing, transactionItemsMissing) || other.transactionItemsMissing == transactionItemsMissing)&&(identical(other.transactionItemInvalid, transactionItemInvalid) || other.transactionItemInvalid == transactionItemInvalid)&&(identical(other.ratioInvalid, ratioInvalid) || other.ratioInvalid == ratioInvalid)&&(identical(other.kickoffDateMissing, kickoffDateMissing) || other.kickoffDateMissing == kickoffDateMissing)&&(identical(other.procurementItemsMissing, procurementItemsMissing) || other.procurementItemsMissing == procurementItemsMissing)&&(identical(other.procurementItemInvalid, procurementItemInvalid) || other.procurementItemInvalid == procurementItemInvalid));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueValidationState&&(identical(other.contentInvalid, contentInvalid) || other.contentInvalid == contentInvalid)&&(identical(other.contractItemsMissing, contractItemsMissing) || other.contractItemsMissing == contractItemsMissing)&&(identical(other.contractItemInvalid, contractItemInvalid) || other.contractItemInvalid == contractItemInvalid)&&(identical(other.transactionItemsMissing, transactionItemsMissing) || other.transactionItemsMissing == transactionItemsMissing)&&(identical(other.transactionItemInvalid, transactionItemInvalid) || other.transactionItemInvalid == transactionItemInvalid)&&(identical(other.ratioInvalid, ratioInvalid) || other.ratioInvalid == ratioInvalid)&&(identical(other.kickoffDateMissing, kickoffDateMissing) || other.kickoffDateMissing == kickoffDateMissing)&&(identical(other.kickoffParticipantItemsMissing, kickoffParticipantItemsMissing) || other.kickoffParticipantItemsMissing == kickoffParticipantItemsMissing)&&(identical(other.kickoffParticipantItemInvalid, kickoffParticipantItemInvalid) || other.kickoffParticipantItemInvalid == kickoffParticipantItemInvalid)&&(identical(other.kickoffTripItemsMissing, kickoffTripItemsMissing) || other.kickoffTripItemsMissing == kickoffTripItemsMissing)&&(identical(other.kickoffTripItemInvalid, kickoffTripItemInvalid) || other.kickoffTripItemInvalid == kickoffTripItemInvalid)&&(identical(other.procurementItemsMissing, procurementItemsMissing) || other.procurementItemsMissing == procurementItemsMissing)&&(identical(other.procurementItemInvalid, procurementItemInvalid) || other.procurementItemInvalid == procurementItemInvalid));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,contentInvalid,contractItemsMissing,contractItemInvalid,transactionItemsMissing,transactionItemInvalid,ratioInvalid,kickoffDateMissing,procurementItemsMissing,procurementItemInvalid);
+int get hashCode => Object.hash(runtimeType,contentInvalid,contractItemsMissing,contractItemInvalid,transactionItemsMissing,transactionItemInvalid,ratioInvalid,kickoffDateMissing,kickoffParticipantItemsMissing,kickoffParticipantItemInvalid,kickoffTripItemsMissing,kickoffTripItemInvalid,procurementItemsMissing,procurementItemInvalid);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueValidationState(contentInvalid: $contentInvalid, contractItemsMissing: $contractItemsMissing, contractItemInvalid: $contractItemInvalid, transactionItemsMissing: $transactionItemsMissing, transactionItemInvalid: $transactionItemInvalid, ratioInvalid: $ratioInvalid, kickoffDateMissing: $kickoffDateMissing, procurementItemsMissing: $procurementItemsMissing, procurementItemInvalid: $procurementItemInvalid)';
+  return 'IssueValidationState(contentInvalid: $contentInvalid, contractItemsMissing: $contractItemsMissing, contractItemInvalid: $contractItemInvalid, transactionItemsMissing: $transactionItemsMissing, transactionItemInvalid: $transactionItemInvalid, ratioInvalid: $ratioInvalid, kickoffDateMissing: $kickoffDateMissing, kickoffParticipantItemsMissing: $kickoffParticipantItemsMissing, kickoffParticipantItemInvalid: $kickoffParticipantItemInvalid, kickoffTripItemsMissing: $kickoffTripItemsMissing, kickoffTripItemInvalid: $kickoffTripItemInvalid, procurementItemsMissing: $procurementItemsMissing, procurementItemInvalid: $procurementItemInvalid)';
 }
 
 
@@ -8189,7 +8216,7 @@ abstract mixin class $IssueValidationStateCopyWith<$Res>  {
   factory $IssueValidationStateCopyWith(IssueValidationState value, $Res Function(IssueValidationState) _then) = _$IssueValidationStateCopyWithImpl;
 @useResult
 $Res call({
- bool contentInvalid, bool contractItemsMissing, bool contractItemInvalid, bool transactionItemsMissing, bool transactionItemInvalid, bool ratioInvalid, bool kickoffDateMissing, bool procurementItemsMissing, bool procurementItemInvalid
+ bool contentInvalid, bool contractItemsMissing, bool contractItemInvalid, bool transactionItemsMissing, bool transactionItemInvalid, bool ratioInvalid, bool kickoffDateMissing, bool kickoffParticipantItemsMissing, bool kickoffParticipantItemInvalid, bool kickoffTripItemsMissing, bool kickoffTripItemInvalid, bool procurementItemsMissing, bool procurementItemInvalid
 });
 
 
@@ -8206,7 +8233,7 @@ class _$IssueValidationStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueValidationState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? contentInvalid = null,Object? contractItemsMissing = null,Object? contractItemInvalid = null,Object? transactionItemsMissing = null,Object? transactionItemInvalid = null,Object? ratioInvalid = null,Object? kickoffDateMissing = null,Object? procurementItemsMissing = null,Object? procurementItemInvalid = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? contentInvalid = null,Object? contractItemsMissing = null,Object? contractItemInvalid = null,Object? transactionItemsMissing = null,Object? transactionItemInvalid = null,Object? ratioInvalid = null,Object? kickoffDateMissing = null,Object? kickoffParticipantItemsMissing = null,Object? kickoffParticipantItemInvalid = null,Object? kickoffTripItemsMissing = null,Object? kickoffTripItemInvalid = null,Object? procurementItemsMissing = null,Object? procurementItemInvalid = null,}) {
   return _then(_self.copyWith(
 contentInvalid: null == contentInvalid ? _self.contentInvalid : contentInvalid // ignore: cast_nullable_to_non_nullable
 as bool,contractItemsMissing: null == contractItemsMissing ? _self.contractItemsMissing : contractItemsMissing // ignore: cast_nullable_to_non_nullable
@@ -8215,6 +8242,10 @@ as bool,transactionItemsMissing: null == transactionItemsMissing ? _self.transac
 as bool,transactionItemInvalid: null == transactionItemInvalid ? _self.transactionItemInvalid : transactionItemInvalid // ignore: cast_nullable_to_non_nullable
 as bool,ratioInvalid: null == ratioInvalid ? _self.ratioInvalid : ratioInvalid // ignore: cast_nullable_to_non_nullable
 as bool,kickoffDateMissing: null == kickoffDateMissing ? _self.kickoffDateMissing : kickoffDateMissing // ignore: cast_nullable_to_non_nullable
+as bool,kickoffParticipantItemsMissing: null == kickoffParticipantItemsMissing ? _self.kickoffParticipantItemsMissing : kickoffParticipantItemsMissing // ignore: cast_nullable_to_non_nullable
+as bool,kickoffParticipantItemInvalid: null == kickoffParticipantItemInvalid ? _self.kickoffParticipantItemInvalid : kickoffParticipantItemInvalid // ignore: cast_nullable_to_non_nullable
+as bool,kickoffTripItemsMissing: null == kickoffTripItemsMissing ? _self.kickoffTripItemsMissing : kickoffTripItemsMissing // ignore: cast_nullable_to_non_nullable
+as bool,kickoffTripItemInvalid: null == kickoffTripItemInvalid ? _self.kickoffTripItemInvalid : kickoffTripItemInvalid // ignore: cast_nullable_to_non_nullable
 as bool,procurementItemsMissing: null == procurementItemsMissing ? _self.procurementItemsMissing : procurementItemsMissing // ignore: cast_nullable_to_non_nullable
 as bool,procurementItemInvalid: null == procurementItemInvalid ? _self.procurementItemInvalid : procurementItemInvalid // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -8302,10 +8333,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool contentInvalid,  bool contractItemsMissing,  bool contractItemInvalid,  bool transactionItemsMissing,  bool transactionItemInvalid,  bool ratioInvalid,  bool kickoffDateMissing,  bool procurementItemsMissing,  bool procurementItemInvalid)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool contentInvalid,  bool contractItemsMissing,  bool contractItemInvalid,  bool transactionItemsMissing,  bool transactionItemInvalid,  bool ratioInvalid,  bool kickoffDateMissing,  bool kickoffParticipantItemsMissing,  bool kickoffParticipantItemInvalid,  bool kickoffTripItemsMissing,  bool kickoffTripItemInvalid,  bool procurementItemsMissing,  bool procurementItemInvalid)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IssueValidationState() when $default != null:
-return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractItemInvalid,_that.transactionItemsMissing,_that.transactionItemInvalid,_that.ratioInvalid,_that.kickoffDateMissing,_that.procurementItemsMissing,_that.procurementItemInvalid);case _:
+return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractItemInvalid,_that.transactionItemsMissing,_that.transactionItemInvalid,_that.ratioInvalid,_that.kickoffDateMissing,_that.kickoffParticipantItemsMissing,_that.kickoffParticipantItemInvalid,_that.kickoffTripItemsMissing,_that.kickoffTripItemInvalid,_that.procurementItemsMissing,_that.procurementItemInvalid);case _:
   return orElse();
 
 }
@@ -8323,10 +8354,10 @@ return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractIt
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool contentInvalid,  bool contractItemsMissing,  bool contractItemInvalid,  bool transactionItemsMissing,  bool transactionItemInvalid,  bool ratioInvalid,  bool kickoffDateMissing,  bool procurementItemsMissing,  bool procurementItemInvalid)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool contentInvalid,  bool contractItemsMissing,  bool contractItemInvalid,  bool transactionItemsMissing,  bool transactionItemInvalid,  bool ratioInvalid,  bool kickoffDateMissing,  bool kickoffParticipantItemsMissing,  bool kickoffParticipantItemInvalid,  bool kickoffTripItemsMissing,  bool kickoffTripItemInvalid,  bool procurementItemsMissing,  bool procurementItemInvalid)  $default,) {final _that = this;
 switch (_that) {
 case _IssueValidationState():
-return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractItemInvalid,_that.transactionItemsMissing,_that.transactionItemInvalid,_that.ratioInvalid,_that.kickoffDateMissing,_that.procurementItemsMissing,_that.procurementItemInvalid);case _:
+return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractItemInvalid,_that.transactionItemsMissing,_that.transactionItemInvalid,_that.ratioInvalid,_that.kickoffDateMissing,_that.kickoffParticipantItemsMissing,_that.kickoffParticipantItemInvalid,_that.kickoffTripItemsMissing,_that.kickoffTripItemInvalid,_that.procurementItemsMissing,_that.procurementItemInvalid);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -8343,10 +8374,10 @@ return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractIt
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool contentInvalid,  bool contractItemsMissing,  bool contractItemInvalid,  bool transactionItemsMissing,  bool transactionItemInvalid,  bool ratioInvalid,  bool kickoffDateMissing,  bool procurementItemsMissing,  bool procurementItemInvalid)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool contentInvalid,  bool contractItemsMissing,  bool contractItemInvalid,  bool transactionItemsMissing,  bool transactionItemInvalid,  bool ratioInvalid,  bool kickoffDateMissing,  bool kickoffParticipantItemsMissing,  bool kickoffParticipantItemInvalid,  bool kickoffTripItemsMissing,  bool kickoffTripItemInvalid,  bool procurementItemsMissing,  bool procurementItemInvalid)?  $default,) {final _that = this;
 switch (_that) {
 case _IssueValidationState() when $default != null:
-return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractItemInvalid,_that.transactionItemsMissing,_that.transactionItemInvalid,_that.ratioInvalid,_that.kickoffDateMissing,_that.procurementItemsMissing,_that.procurementItemInvalid);case _:
+return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractItemInvalid,_that.transactionItemsMissing,_that.transactionItemInvalid,_that.ratioInvalid,_that.kickoffDateMissing,_that.kickoffParticipantItemsMissing,_that.kickoffParticipantItemInvalid,_that.kickoffTripItemsMissing,_that.kickoffTripItemInvalid,_that.procurementItemsMissing,_that.procurementItemInvalid);case _:
   return null;
 
 }
@@ -8358,7 +8389,7 @@ return $default(_that.contentInvalid,_that.contractItemsMissing,_that.contractIt
 
 
 class _IssueValidationState with DiagnosticableTreeMixin implements IssueValidationState {
-   _IssueValidationState({this.contentInvalid = false, this.contractItemsMissing = false, this.contractItemInvalid = false, this.transactionItemsMissing = false, this.transactionItemInvalid = false, this.ratioInvalid = false, this.kickoffDateMissing = false, this.procurementItemsMissing = false, this.procurementItemInvalid = false});
+   _IssueValidationState({this.contentInvalid = false, this.contractItemsMissing = false, this.contractItemInvalid = false, this.transactionItemsMissing = false, this.transactionItemInvalid = false, this.ratioInvalid = false, this.kickoffDateMissing = false, this.kickoffParticipantItemsMissing = false, this.kickoffParticipantItemInvalid = false, this.kickoffTripItemsMissing = false, this.kickoffTripItemInvalid = false, this.procurementItemsMissing = false, this.procurementItemInvalid = false});
   
 
 @override@JsonKey() final  bool contentInvalid;
@@ -8368,6 +8399,10 @@ class _IssueValidationState with DiagnosticableTreeMixin implements IssueValidat
 @override@JsonKey() final  bool transactionItemInvalid;
 @override@JsonKey() final  bool ratioInvalid;
 @override@JsonKey() final  bool kickoffDateMissing;
+@override@JsonKey() final  bool kickoffParticipantItemsMissing;
+@override@JsonKey() final  bool kickoffParticipantItemInvalid;
+@override@JsonKey() final  bool kickoffTripItemsMissing;
+@override@JsonKey() final  bool kickoffTripItemInvalid;
 @override@JsonKey() final  bool procurementItemsMissing;
 @override@JsonKey() final  bool procurementItemInvalid;
 
@@ -8382,21 +8417,21 @@ _$IssueValidationStateCopyWith<_IssueValidationState> get copyWith => __$IssueVa
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'IssueValidationState'))
-    ..add(DiagnosticsProperty('contentInvalid', contentInvalid))..add(DiagnosticsProperty('contractItemsMissing', contractItemsMissing))..add(DiagnosticsProperty('contractItemInvalid', contractItemInvalid))..add(DiagnosticsProperty('transactionItemsMissing', transactionItemsMissing))..add(DiagnosticsProperty('transactionItemInvalid', transactionItemInvalid))..add(DiagnosticsProperty('ratioInvalid', ratioInvalid))..add(DiagnosticsProperty('kickoffDateMissing', kickoffDateMissing))..add(DiagnosticsProperty('procurementItemsMissing', procurementItemsMissing))..add(DiagnosticsProperty('procurementItemInvalid', procurementItemInvalid));
+    ..add(DiagnosticsProperty('contentInvalid', contentInvalid))..add(DiagnosticsProperty('contractItemsMissing', contractItemsMissing))..add(DiagnosticsProperty('contractItemInvalid', contractItemInvalid))..add(DiagnosticsProperty('transactionItemsMissing', transactionItemsMissing))..add(DiagnosticsProperty('transactionItemInvalid', transactionItemInvalid))..add(DiagnosticsProperty('ratioInvalid', ratioInvalid))..add(DiagnosticsProperty('kickoffDateMissing', kickoffDateMissing))..add(DiagnosticsProperty('kickoffParticipantItemsMissing', kickoffParticipantItemsMissing))..add(DiagnosticsProperty('kickoffParticipantItemInvalid', kickoffParticipantItemInvalid))..add(DiagnosticsProperty('kickoffTripItemsMissing', kickoffTripItemsMissing))..add(DiagnosticsProperty('kickoffTripItemInvalid', kickoffTripItemInvalid))..add(DiagnosticsProperty('procurementItemsMissing', procurementItemsMissing))..add(DiagnosticsProperty('procurementItemInvalid', procurementItemInvalid));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueValidationState&&(identical(other.contentInvalid, contentInvalid) || other.contentInvalid == contentInvalid)&&(identical(other.contractItemsMissing, contractItemsMissing) || other.contractItemsMissing == contractItemsMissing)&&(identical(other.contractItemInvalid, contractItemInvalid) || other.contractItemInvalid == contractItemInvalid)&&(identical(other.transactionItemsMissing, transactionItemsMissing) || other.transactionItemsMissing == transactionItemsMissing)&&(identical(other.transactionItemInvalid, transactionItemInvalid) || other.transactionItemInvalid == transactionItemInvalid)&&(identical(other.ratioInvalid, ratioInvalid) || other.ratioInvalid == ratioInvalid)&&(identical(other.kickoffDateMissing, kickoffDateMissing) || other.kickoffDateMissing == kickoffDateMissing)&&(identical(other.procurementItemsMissing, procurementItemsMissing) || other.procurementItemsMissing == procurementItemsMissing)&&(identical(other.procurementItemInvalid, procurementItemInvalid) || other.procurementItemInvalid == procurementItemInvalid));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueValidationState&&(identical(other.contentInvalid, contentInvalid) || other.contentInvalid == contentInvalid)&&(identical(other.contractItemsMissing, contractItemsMissing) || other.contractItemsMissing == contractItemsMissing)&&(identical(other.contractItemInvalid, contractItemInvalid) || other.contractItemInvalid == contractItemInvalid)&&(identical(other.transactionItemsMissing, transactionItemsMissing) || other.transactionItemsMissing == transactionItemsMissing)&&(identical(other.transactionItemInvalid, transactionItemInvalid) || other.transactionItemInvalid == transactionItemInvalid)&&(identical(other.ratioInvalid, ratioInvalid) || other.ratioInvalid == ratioInvalid)&&(identical(other.kickoffDateMissing, kickoffDateMissing) || other.kickoffDateMissing == kickoffDateMissing)&&(identical(other.kickoffParticipantItemsMissing, kickoffParticipantItemsMissing) || other.kickoffParticipantItemsMissing == kickoffParticipantItemsMissing)&&(identical(other.kickoffParticipantItemInvalid, kickoffParticipantItemInvalid) || other.kickoffParticipantItemInvalid == kickoffParticipantItemInvalid)&&(identical(other.kickoffTripItemsMissing, kickoffTripItemsMissing) || other.kickoffTripItemsMissing == kickoffTripItemsMissing)&&(identical(other.kickoffTripItemInvalid, kickoffTripItemInvalid) || other.kickoffTripItemInvalid == kickoffTripItemInvalid)&&(identical(other.procurementItemsMissing, procurementItemsMissing) || other.procurementItemsMissing == procurementItemsMissing)&&(identical(other.procurementItemInvalid, procurementItemInvalid) || other.procurementItemInvalid == procurementItemInvalid));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,contentInvalid,contractItemsMissing,contractItemInvalid,transactionItemsMissing,transactionItemInvalid,ratioInvalid,kickoffDateMissing,procurementItemsMissing,procurementItemInvalid);
+int get hashCode => Object.hash(runtimeType,contentInvalid,contractItemsMissing,contractItemInvalid,transactionItemsMissing,transactionItemInvalid,ratioInvalid,kickoffDateMissing,kickoffParticipantItemsMissing,kickoffParticipantItemInvalid,kickoffTripItemsMissing,kickoffTripItemInvalid,procurementItemsMissing,procurementItemInvalid);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'IssueValidationState(contentInvalid: $contentInvalid, contractItemsMissing: $contractItemsMissing, contractItemInvalid: $contractItemInvalid, transactionItemsMissing: $transactionItemsMissing, transactionItemInvalid: $transactionItemInvalid, ratioInvalid: $ratioInvalid, kickoffDateMissing: $kickoffDateMissing, procurementItemsMissing: $procurementItemsMissing, procurementItemInvalid: $procurementItemInvalid)';
+  return 'IssueValidationState(contentInvalid: $contentInvalid, contractItemsMissing: $contractItemsMissing, contractItemInvalid: $contractItemInvalid, transactionItemsMissing: $transactionItemsMissing, transactionItemInvalid: $transactionItemInvalid, ratioInvalid: $ratioInvalid, kickoffDateMissing: $kickoffDateMissing, kickoffParticipantItemsMissing: $kickoffParticipantItemsMissing, kickoffParticipantItemInvalid: $kickoffParticipantItemInvalid, kickoffTripItemsMissing: $kickoffTripItemsMissing, kickoffTripItemInvalid: $kickoffTripItemInvalid, procurementItemsMissing: $procurementItemsMissing, procurementItemInvalid: $procurementItemInvalid)';
 }
 
 
@@ -8407,7 +8442,7 @@ abstract mixin class _$IssueValidationStateCopyWith<$Res> implements $IssueValid
   factory _$IssueValidationStateCopyWith(_IssueValidationState value, $Res Function(_IssueValidationState) _then) = __$IssueValidationStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool contentInvalid, bool contractItemsMissing, bool contractItemInvalid, bool transactionItemsMissing, bool transactionItemInvalid, bool ratioInvalid, bool kickoffDateMissing, bool procurementItemsMissing, bool procurementItemInvalid
+ bool contentInvalid, bool contractItemsMissing, bool contractItemInvalid, bool transactionItemsMissing, bool transactionItemInvalid, bool ratioInvalid, bool kickoffDateMissing, bool kickoffParticipantItemsMissing, bool kickoffParticipantItemInvalid, bool kickoffTripItemsMissing, bool kickoffTripItemInvalid, bool procurementItemsMissing, bool procurementItemInvalid
 });
 
 
@@ -8424,7 +8459,7 @@ class __$IssueValidationStateCopyWithImpl<$Res>
 
 /// Create a copy of IssueValidationState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? contentInvalid = null,Object? contractItemsMissing = null,Object? contractItemInvalid = null,Object? transactionItemsMissing = null,Object? transactionItemInvalid = null,Object? ratioInvalid = null,Object? kickoffDateMissing = null,Object? procurementItemsMissing = null,Object? procurementItemInvalid = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? contentInvalid = null,Object? contractItemsMissing = null,Object? contractItemInvalid = null,Object? transactionItemsMissing = null,Object? transactionItemInvalid = null,Object? ratioInvalid = null,Object? kickoffDateMissing = null,Object? kickoffParticipantItemsMissing = null,Object? kickoffParticipantItemInvalid = null,Object? kickoffTripItemsMissing = null,Object? kickoffTripItemInvalid = null,Object? procurementItemsMissing = null,Object? procurementItemInvalid = null,}) {
   return _then(_IssueValidationState(
 contentInvalid: null == contentInvalid ? _self.contentInvalid : contentInvalid // ignore: cast_nullable_to_non_nullable
 as bool,contractItemsMissing: null == contractItemsMissing ? _self.contractItemsMissing : contractItemsMissing // ignore: cast_nullable_to_non_nullable
@@ -8433,6 +8468,10 @@ as bool,transactionItemsMissing: null == transactionItemsMissing ? _self.transac
 as bool,transactionItemInvalid: null == transactionItemInvalid ? _self.transactionItemInvalid : transactionItemInvalid // ignore: cast_nullable_to_non_nullable
 as bool,ratioInvalid: null == ratioInvalid ? _self.ratioInvalid : ratioInvalid // ignore: cast_nullable_to_non_nullable
 as bool,kickoffDateMissing: null == kickoffDateMissing ? _self.kickoffDateMissing : kickoffDateMissing // ignore: cast_nullable_to_non_nullable
+as bool,kickoffParticipantItemsMissing: null == kickoffParticipantItemsMissing ? _self.kickoffParticipantItemsMissing : kickoffParticipantItemsMissing // ignore: cast_nullable_to_non_nullable
+as bool,kickoffParticipantItemInvalid: null == kickoffParticipantItemInvalid ? _self.kickoffParticipantItemInvalid : kickoffParticipantItemInvalid // ignore: cast_nullable_to_non_nullable
+as bool,kickoffTripItemsMissing: null == kickoffTripItemsMissing ? _self.kickoffTripItemsMissing : kickoffTripItemsMissing // ignore: cast_nullable_to_non_nullable
+as bool,kickoffTripItemInvalid: null == kickoffTripItemInvalid ? _self.kickoffTripItemInvalid : kickoffTripItemInvalid // ignore: cast_nullable_to_non_nullable
 as bool,procurementItemsMissing: null == procurementItemsMissing ? _self.procurementItemsMissing : procurementItemsMissing // ignore: cast_nullable_to_non_nullable
 as bool,procurementItemInvalid: null == procurementItemInvalid ? _self.procurementItemInvalid : procurementItemInvalid // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -17849,7 +17888,7 @@ as int,
 /// @nodoc
 mixin _$UserFilterState implements DiagnosticableTreeMixin {
 
- String? get search; List<int>? get departments; int? get positionId;
+ String? get search; List<int>? get departments; int? get rankId; int? get positionId;
 /// Create a copy of UserFilterState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -17861,21 +17900,21 @@ $UserFilterStateCopyWith<UserFilterState> get copyWith => _$UserFilterStateCopyW
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'UserFilterState'))
-    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments))..add(DiagnosticsProperty('positionId', positionId));
+    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments))..add(DiagnosticsProperty('rankId', rankId))..add(DiagnosticsProperty('positionId', positionId));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserFilterState&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other.departments, departments)&&(identical(other.positionId, positionId) || other.positionId == positionId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserFilterState&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other.departments, departments)&&(identical(other.rankId, rankId) || other.rankId == rankId)&&(identical(other.positionId, positionId) || other.positionId == positionId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,search,const DeepCollectionEquality().hash(departments),positionId);
+int get hashCode => Object.hash(runtimeType,search,const DeepCollectionEquality().hash(departments),rankId,positionId);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'UserFilterState(search: $search, departments: $departments, positionId: $positionId)';
+  return 'UserFilterState(search: $search, departments: $departments, rankId: $rankId, positionId: $positionId)';
 }
 
 
@@ -17886,7 +17925,7 @@ abstract mixin class $UserFilterStateCopyWith<$Res>  {
   factory $UserFilterStateCopyWith(UserFilterState value, $Res Function(UserFilterState) _then) = _$UserFilterStateCopyWithImpl;
 @useResult
 $Res call({
- String? search, List<int>? departments, int? positionId
+ String? search, List<int>? departments, int? rankId, int? positionId
 });
 
 
@@ -17903,11 +17942,12 @@ class _$UserFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of UserFilterState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? search = freezed,Object? departments = freezed,Object? positionId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? search = freezed,Object? departments = freezed,Object? rankId = freezed,Object? positionId = freezed,}) {
   return _then(_self.copyWith(
 search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,departments: freezed == departments ? _self.departments : departments // ignore: cast_nullable_to_non_nullable
-as List<int>?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
+as List<int>?,rankId: freezed == rankId ? _self.rankId : rankId // ignore: cast_nullable_to_non_nullable
+as int?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }
@@ -17993,10 +18033,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  int? positionId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  int? rankId,  int? positionId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserFilterState() when $default != null:
-return $default(_that.search,_that.departments,_that.positionId);case _:
+return $default(_that.search,_that.departments,_that.rankId,_that.positionId);case _:
   return orElse();
 
 }
@@ -18014,10 +18054,10 @@ return $default(_that.search,_that.departments,_that.positionId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  int? positionId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? search,  List<int>? departments,  int? rankId,  int? positionId)  $default,) {final _that = this;
 switch (_that) {
 case _UserFilterState():
-return $default(_that.search,_that.departments,_that.positionId);case _:
+return $default(_that.search,_that.departments,_that.rankId,_that.positionId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -18034,10 +18074,10 @@ return $default(_that.search,_that.departments,_that.positionId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? search,  List<int>? departments,  int? positionId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? search,  List<int>? departments,  int? rankId,  int? positionId)?  $default,) {final _that = this;
 switch (_that) {
 case _UserFilterState() when $default != null:
-return $default(_that.search,_that.departments,_that.positionId);case _:
+return $default(_that.search,_that.departments,_that.rankId,_that.positionId);case _:
   return null;
 
 }
@@ -18049,7 +18089,7 @@ return $default(_that.search,_that.departments,_that.positionId);case _:
 
 
 class _UserFilterState with DiagnosticableTreeMixin implements UserFilterState {
-   _UserFilterState({this.search, final  List<int>? departments, this.positionId}): _departments = departments;
+   _UserFilterState({this.search, final  List<int>? departments, this.rankId, this.positionId}): _departments = departments;
   
 
 @override final  String? search;
@@ -18062,6 +18102,7 @@ class _UserFilterState with DiagnosticableTreeMixin implements UserFilterState {
   return EqualUnmodifiableListView(value);
 }
 
+@override final  int? rankId;
 @override final  int? positionId;
 
 /// Create a copy of UserFilterState
@@ -18075,21 +18116,21 @@ _$UserFilterStateCopyWith<_UserFilterState> get copyWith => __$UserFilterStateCo
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'UserFilterState'))
-    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments))..add(DiagnosticsProperty('positionId', positionId));
+    ..add(DiagnosticsProperty('search', search))..add(DiagnosticsProperty('departments', departments))..add(DiagnosticsProperty('rankId', rankId))..add(DiagnosticsProperty('positionId', positionId));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserFilterState&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other._departments, _departments)&&(identical(other.positionId, positionId) || other.positionId == positionId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserFilterState&&(identical(other.search, search) || other.search == search)&&const DeepCollectionEquality().equals(other._departments, _departments)&&(identical(other.rankId, rankId) || other.rankId == rankId)&&(identical(other.positionId, positionId) || other.positionId == positionId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,search,const DeepCollectionEquality().hash(_departments),positionId);
+int get hashCode => Object.hash(runtimeType,search,const DeepCollectionEquality().hash(_departments),rankId,positionId);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'UserFilterState(search: $search, departments: $departments, positionId: $positionId)';
+  return 'UserFilterState(search: $search, departments: $departments, rankId: $rankId, positionId: $positionId)';
 }
 
 
@@ -18100,7 +18141,7 @@ abstract mixin class _$UserFilterStateCopyWith<$Res> implements $UserFilterState
   factory _$UserFilterStateCopyWith(_UserFilterState value, $Res Function(_UserFilterState) _then) = __$UserFilterStateCopyWithImpl;
 @override @useResult
 $Res call({
- String? search, List<int>? departments, int? positionId
+ String? search, List<int>? departments, int? rankId, int? positionId
 });
 
 
@@ -18117,11 +18158,12 @@ class __$UserFilterStateCopyWithImpl<$Res>
 
 /// Create a copy of UserFilterState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? search = freezed,Object? departments = freezed,Object? positionId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? search = freezed,Object? departments = freezed,Object? rankId = freezed,Object? positionId = freezed,}) {
   return _then(_UserFilterState(
 search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,departments: freezed == departments ? _self._departments : departments // ignore: cast_nullable_to_non_nullable
-as List<int>?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
+as List<int>?,rankId: freezed == rankId ? _self.rankId : rankId // ignore: cast_nullable_to_non_nullable
+as int?,positionId: freezed == positionId ? _self.positionId : positionId // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }

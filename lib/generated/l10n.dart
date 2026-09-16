@@ -4320,11 +4320,171 @@ class S {
     );
   }
 
+  /// `참여자`
+  String get issue_form_kickoff_3 {
+    return Intl.message(
+      '참여자',
+      name: 'issue_form_kickoff_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `예비 포함`
+  String get issue_form_kickoff_4 {
+    return Intl.message(
+      '예비 포함',
+      name: 'issue_form_kickoff_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `참여자`
+  String get issue_form_kickoff_5 {
+    return Intl.message(
+      '참여자',
+      name: 'issue_form_kickoff_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `역할`
+  String get issue_form_kickoff_6 {
+    return Intl.message(
+      '역할',
+      name: 'issue_form_kickoff_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `참여자 선택`
+  String get issue_form_kickoff_7 {
+    return Intl.message(
+      '참여자 선택',
+      name: 'issue_form_kickoff_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장일수`
+  String get issue_form_kickoff_8 {
+    return Intl.message(
+      '출장일수',
+      name: 'issue_form_kickoff_8',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `종류`
+  String get issue_form_kickoff_9 {
+    return Intl.message(
+      '종류',
+      name: 'issue_form_kickoff_9',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장일수`
+  String get issue_form_kickoff_10 {
+    return Intl.message(
+      '출장일수',
+      name: 'issue_form_kickoff_10',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `내역`
+  String get issue_form_kickoff_11 {
+    return Intl.message(
+      '내역',
+      name: 'issue_form_kickoff_11',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `카테고리 선택`
+  String get issue_form_kickoff_12 {
+    return Intl.message(
+      '카테고리 선택',
+      name: 'issue_form_kickoff_12',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `합계`
+  String get issue_form_kickoff_13 {
+    return Intl.message(
+      '합계',
+      name: 'issue_form_kickoff_13',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `일`
+  String get issue_form_kickoff_14 {
+    return Intl.message(
+      '일',
+      name: 'issue_form_kickoff_14',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `착수일을 선택해 주세요`
   String get issue_form_kickoff_invalid {
     return Intl.message(
       '착수일을 선택해 주세요',
       name: 'issue_form_kickoff_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `참여자를 최소 한 명 이상 추가해 주세요`
+  String get issue_form_kickoff_participant_missing {
+    return Intl.message(
+      '참여자를 최소 한 명 이상 추가해 주세요',
+      name: 'issue_form_kickoff_participant_missing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `참여자와 역할을 빈 칸 없이 입력해 주세요`
+  String get issue_form_kickoff_participant_invalid {
+    return Intl.message(
+      '참여자와 역할을 빈 칸 없이 입력해 주세요',
+      name: 'issue_form_kickoff_participant_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 항목을 최소 하나 이상 추가해 주세요`
+  String get issue_form_kickoff_trip_missing {
+    return Intl.message(
+      '출장 항목을 최소 하나 이상 추가해 주세요',
+      name: 'issue_form_kickoff_trip_missing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장 카테고리와 출장일수를 입력해 주세요`
+  String get issue_form_kickoff_trip_invalid {
+    return Intl.message(
+      '출장 카테고리와 출장일수를 입력해 주세요',
+      name: 'issue_form_kickoff_trip_invalid',
       desc: '',
       args: [],
     );
