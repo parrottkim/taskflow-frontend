@@ -74,10 +74,15 @@ class _FormWidget extends ConsumerWidget {
           const SizedBox(height: 24.0),
           switch (value.category) {
             IssueContract() => ContractFormItem(
+              currency: value.currency,
               contractItems: value.contractItems,
               transactionItems: value.transactionItems,
             ),
-            IssueKickoff() => KickoffFormItem(kickoffDate: value.kickoffDate),
+            IssueKickoff() => KickoffFormItem(
+              kickoffDate: value.kickoffDate,
+              participantItems: value.participantItems,
+              tripItems: value.tripItems,
+            ),
             IssueProcurement() => ProcurementFormItem(
               items: value.procurementItems,
               requests: value.requests,

@@ -246,7 +246,6 @@ class _DesktopWidget extends HookConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 4.0),
                       ElevatedDropdownButton<Currency>(
                         showClose: false,
                         items: currencies,

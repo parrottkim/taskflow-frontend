@@ -24,6 +24,7 @@ abstract class UserService {
     @Query('page') int page = 1,
     @Query('limit') int limit = 20,
     @Query('department_id') int? departmentId,
+    @Query('rank_id') int? rankId,
     @Query('position_id') int? positionId,
     @Query('search') String? search,
   });

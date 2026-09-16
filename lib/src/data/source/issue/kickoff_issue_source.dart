@@ -6,6 +6,10 @@ class KickoffIssueDataSource implements KickoffIssueRepository {
   KickoffIssueDataSource({required this._service});
 
   @override
+  Future<List<KickoffIssueTripItemCategory>> getAllTripCategories() =>
+      _service.getAllTripCategories();
+
+  @override
   Future<HttpResponse<KickoffIssue?>> getKickoffIssue({required int id}) =>
       _service.getKickoffIssue(id: id);
 

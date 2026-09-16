@@ -14,6 +14,7 @@ class UserFilterController extends _$UserFilterController {
   Future<void> init({
     String? search,
     String? departments,
+    int? rankId,
     int? positionId,
   }) async {
     final value = state;
@@ -33,10 +34,16 @@ class UserFilterController extends _$UserFilterController {
         : value.positionId == positionId
         ? value.positionId
         : null;
+    final nextRankId = options.rankItems.any((item) => item.id == rankId)
+        ? rankId
+        : value.rankId == rankId
+        ? value.rankId
+        : null;
 
     final nextValue = value.copyWith(
       search: nextSearch,
       departments: nextDepartments,
+      rankId: nextRankId,
       positionId: nextPositionId,
     );
 
@@ -67,6 +74,14 @@ class UserFilterController extends _$UserFilterController {
 
   void setPositionId({int? positionId}) {
     state = state.copyWith(positionId: positionId);
+  }
+
+  void setRank({UserRank? rank}) {
+    setRankId(rankId: rank?.id);
+  }
+
+  void setRankId({int? rankId}) {
+    state = state.copyWith(rankId: rankId);
   }
 
   void setDepartment({UserDepartment? department}) {

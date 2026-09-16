@@ -10,7 +10,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     required int categoryId,
     required appflowy.EditorState editorState,
   }) async {
-    final form = ref
+    final value = ref
         .read(
           issueFormControllerProvider(
             projectId: projectId,
@@ -18,129 +18,156 @@ class IssueSubmitController extends _$IssueSubmitController {
           ),
         )
         .requireValue;
-    final initialContent = form.content ?? '';
 
     state = const IssueSubmitState.pending();
 
     try {
       late Issue issue;
+      final initialContent = value.content ?? '';
 
-      if (form.category is IssueContract) {
+      if (value.category is IssueContract) {
+        final contractItems = value.contractItems
+            .map(
+              (e) =>
+                  CreateContractIssueItemRequest(item: e.item, price: e.price),
+            )
+            .toList();
+
+        final transactionItems = value.transactionItems
+            .map(
+              (e) => CreateTransactionIssueItemRequest(
+                categoryId: e.category!.id,
+                price: e.price,
+                ratio: e.ratio,
+                isPaid: false,
+              ),
+            )
+            .toList();
+
         final request = CreateContractIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
-          currencyId: form.currency!.id,
-          contractItems: form.contractItems
-              .map(
-                (item) => CreateContractIssueItemRequest(
-                  item: item.item,
-                  price: item.price,
-                ),
-              )
-              .toList(),
-          transactionItems: form.transactionItems
-              .map(
-                (item) => CreateTransactionIssueItemRequest(
-                  categoryId: item.category!.id,
-                  price: item.price,
-                  ratio: item.ratio,
-                  isPaid: false,
-                ),
-              )
-              .toList(),
-          attachments: form.attachments,
+          currencyId: value.currency!.id,
+          contractItems: contractItems,
+          transactionItems: transactionItems,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(contractIssueRepositoryProvider)
             .createContractIssue(request: request);
-      } else if (form.category is IssueKickoff) {
+      } else if (value.category is IssueKickoff) {
+        final participantItems = value.participantItems
+            .map(
+              (e) => CreateKickoffParticipantItemRequest(
+                participantId: e.participant!.id,
+                role: e.role,
+              ),
+            )
+            .toList();
+
+        final tripItems = value.tripItems
+            .map(
+              (e) => CreateKickoffTripItemRequest(
+                categoryId: e.category!.id,
+                days: e.days,
+                note: e.note,
+              ),
+            )
+            .toList();
+
         final request = CreateKickoffIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
-          kickoffDate: form.kickoffDate!,
-          attachments: form.attachments,
+          kickoffDate: value.kickoffDate!,
+          participantItems: participantItems,
+          tripItems: tripItems,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(kickoffIssueRepositoryProvider)
             .createKickoffIssue(request: request);
-      } else if (form.category is IssueTransaction) {
+      } else if (value.category is IssueTransaction) {
+        final items = value.transactionItems
+            .map(
+              (e) => UpdateTransactionIssueItemRequest(
+                id: e.id,
+                categoryId: e.category!.id,
+                price: e.price,
+                ratio: e.ratio,
+                note: e.note,
+                isPaid: e.isPaid,
+                paidAt: e.paidAt,
+              ),
+            )
+            .toList();
+
         final request = CreateTransactionIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
-          transactionItems: form.transactionItems
-              .map(
-                (item) => UpdateTransactionIssueItemRequest(
-                  id: item.id,
-                  categoryId: item.category!.id,
-                  price: item.price,
-                  ratio: item.ratio,
-                  note: item.note,
-                  isPaid: item.isPaid,
-                  paidAt: item.paidAt,
-                ),
-              )
-              .toList(),
-          attachments: form.attachments,
+          transactionItems: items,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(transactionIssueRepositoryProvider)
             .createTransactionIssue(request: request);
-      } else if (form.category is IssueApproval) {
+      } else if (value.category is IssueApproval) {
         final request = CreateApprovalIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
-          attachments: form.attachments,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(approvalIssueRepositoryProvider)
             .createApprovalIssue(request: request);
-      } else if (form.category is IssueProcurement) {
+      } else if (value.category is IssueProcurement) {
+        final items = value.procurementItems
+            .map(
+              (e) => CreateProcurementIssueItemRequest(
+                item: e.item,
+                spec: e.spec,
+                quantity: e.quantity,
+                unitPrice: e.unitPrice,
+                totalAmount: e.totalAmount,
+                isOnlinePurchase: e.isOnlinePurchase,
+                purchaseUrl: e.purchaseUrl,
+                supplierId: e.supplier?.id,
+                note: e.note,
+              ),
+            )
+            .toList();
+
         final request = CreateProcurementIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
-          procurementItems: form.procurementItems
-              .map(
-                (item) => CreateProcurementIssueItemRequest(
-                  item: item.item,
-                  spec: item.spec,
-                  quantity: item.quantity,
-                  unitPrice: item.unitPrice,
-                  totalAmount: item.totalAmount,
-                  isOnlinePurchase: item.isOnlinePurchase,
-                  purchaseUrl: item.purchaseUrl,
-                  supplierId: item.supplier?.id,
-                  note: item.note,
-                ),
-              )
-              .toList(),
-          attachments: form.attachments,
+          procurementItems: items,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(procurementIssueRepositoryProvider)
             .createProcurementIssue(request: request);
-      } else if (form.category is IssuePayment) {
+      } else if (value.category is IssuePayment) {
         final request = CreatePaymentIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: initialContent,
-          attachments: form.attachments,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(paymentIssueRepositoryProvider)
             .createPaymentIssue(request: request);
       } else {
-        throw UnsupportedError('Unknown issue category: ${form.category}');
+        throw Exception('Unknown issue category');
       }
 
       if (!ref.mounted) return;
@@ -151,7 +178,7 @@ class IssueSubmitController extends _$IssueSubmitController {
       );
       if (content != initialContent) {
         issue = await _updateCreatedIssue(
-          form: form,
+          value: value,
           issue: issue,
           projectId: projectId,
           categoryId: categoryId,
@@ -159,9 +186,9 @@ class IssueSubmitController extends _$IssueSubmitController {
         );
       }
 
-      if (form.files.isNotEmpty) {
-        final files = <MultipartFile>[];
-        for (final file in form.files) {
+      if (value.files.isNotEmpty) {
+        List<MultipartFile> files = [];
+        for (final file in value.files) {
           final bytes = await file.readAsBytes();
           final mimeType =
               lookupMimeType('', headerBytes: bytes) ??
@@ -198,6 +225,13 @@ class IssueSubmitController extends _$IssueSubmitController {
           .read(projectDetailControllerProvider(projectId: projectId).notifier)
           .updateProject(project: project);
       ref
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
+          .updateListItem(item: ProjectListItem.fromProject(project));
+      ref
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .addListItem(item: issue);
 
@@ -213,7 +247,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     required int issueId,
     required appflowy.EditorState editorState,
   }) async {
-    final form = ref
+    final value = ref
         .read(
           issueFormControllerProvider(
             projectId: projectId,
@@ -232,132 +266,163 @@ class IssueSubmitController extends _$IssueSubmitController {
         resourceId: issueId,
       );
 
-      if (form.category is IssueContract) {
+      if (value.category is IssueContract) {
+        final contractItems = value.contractItems
+            .map(
+              (e) => UpdateContractIssueItemRequest(
+                id: e.id,
+                item: e.item,
+                price: e.price,
+              ),
+            )
+            .toList();
+
+        final transactionItems = value.transactionItems
+            .map(
+              (e) => UpdateTransactionIssueItemRequest(
+                id: e.id,
+                categoryId: e.category!.id,
+                price: e.price,
+                ratio: e.ratio,
+                note: e.note,
+                isPaid: e.isPaid,
+                paidAt: e.paidAt,
+              ),
+            )
+            .toList();
+
         final request = UpdateContractIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
-          currencyId: form.currency!.id,
-          contractItems: form.contractItems
-              .map(
-                (item) => UpdateContractIssueItemRequest(
-                  id: item.id,
-                  item: item.item,
-                  price: item.price,
-                ),
-              )
-              .toList(),
-          transactionItems: form.transactionItems
-              .map(
-                (item) => UpdateTransactionIssueItemRequest(
-                  id: item.id,
-                  categoryId: item.category!.id,
-                  price: item.price,
-                  ratio: item.ratio,
-                  note: item.note,
-                  isPaid: item.isPaid,
-                  paidAt: item.paidAt,
-                ),
-              )
-              .toList(),
-          attachments: form.attachments,
+          currencyId: value.currency!.id,
+          contractItems: contractItems,
+          transactionItems: transactionItems,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(contractIssueRepositoryProvider)
             .updateContractIssue(id: issueId, request: request);
-      } else if (form.category is IssueKickoff) {
+      } else if (value.category is IssueKickoff) {
+        final participantItems = value.participantItems
+            .map(
+              (e) => UpdateKickoffParticipantItemRequest(
+                id: e.id,
+                participantId: e.participant!.id,
+                role: e.role,
+              ),
+            )
+            .toList();
+
+        final tripItems = value.tripItems
+            .map(
+              (e) => UpdateKickoffTripItemRequest(
+                id: e.id,
+                categoryId: e.category!.id,
+                days: e.days,
+                note: e.note,
+              ),
+            )
+            .toList();
+
         final request = UpdateKickoffIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
-          kickoffDate: form.kickoffDate!,
-          attachments: form.attachments,
+          kickoffDate: value.kickoffDate!,
+          participantItems: participantItems,
+          tripItems: tripItems,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(kickoffIssueRepositoryProvider)
             .updateKickoffIssue(id: issueId, request: request);
-      } else if (form.category is IssueApproval) {
+      } else if (value.category is IssueApproval) {
         final request = UpdateApprovalIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
-          attachments: form.attachments,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(approvalIssueRepositoryProvider)
             .updateApprovalIssue(id: issueId, request: request);
-      } else if (form.category is IssueProcurement) {
+      } else if (value.category is IssueProcurement) {
+        final items = value.procurementItems
+            .map(
+              (e) => UpdateProcurementIssueItemRequest(
+                id: e.id,
+                item: e.item,
+                spec: e.spec,
+                quantity: e.quantity,
+                unitPrice: e.unitPrice,
+                totalAmount: e.totalAmount,
+                isOnlinePurchase: e.isOnlinePurchase,
+                purchaseUrl: e.purchaseUrl,
+                supplierId: e.supplier?.id,
+                note: e.note,
+              ),
+            )
+            .toList();
+
         final request = UpdateProcurementIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
-          procurementItems: form.procurementItems
-              .map(
-                (item) => UpdateProcurementIssueItemRequest(
-                  id: item.id,
-                  item: item.item,
-                  spec: item.spec,
-                  quantity: item.quantity,
-                  unitPrice: item.unitPrice,
-                  totalAmount: item.totalAmount,
-                  isOnlinePurchase: item.isOnlinePurchase,
-                  purchaseUrl: item.purchaseUrl,
-                  supplierId: item.supplier?.id,
-                  note: item.note,
-                ),
-              )
-              .toList(),
-          attachments: form.attachments,
+          procurementItems: items,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(procurementIssueRepositoryProvider)
             .updateProcurementIssue(id: issueId, request: request);
-      } else if (form.category is IssueTransaction) {
+      } else if (value.category is IssueTransaction) {
+        final items = value.transactionItems
+            .map(
+              (e) => UpdateTransactionIssueItemRequest(
+                id: e.id,
+                categoryId: e.category!.id,
+                price: e.price,
+                ratio: e.ratio,
+                note: e.note,
+                isPaid: e.isPaid,
+                paidAt: e.paidAt,
+              ),
+            )
+            .toList();
+
         final request = UpdateTransactionIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
-          transactionItems: form.transactionItems
-              .map(
-                (item) => UpdateTransactionIssueItemRequest(
-                  id: item.id,
-                  categoryId: item.category!.id,
-                  price: item.price,
-                  ratio: item.ratio,
-                  note: item.note,
-                  isPaid: item.isPaid,
-                  paidAt: item.paidAt,
-                ),
-              )
-              .toList(),
-          attachments: form.attachments,
+          transactionItems: items,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(transactionIssueRepositoryProvider)
             .updateTransactionIssue(id: issueId, request: request);
-      } else if (form.category is IssuePayment) {
+      } else if (value.category is IssuePayment) {
         final request = UpdatePaymentIssueRequest(
           projectId: projectId,
           categoryId: categoryId,
           content: content,
-          attachments: form.attachments,
+          attachments: value.attachments,
         );
 
         issue = await ref
             .read(paymentIssueRepositoryProvider)
             .updatePaymentIssue(id: issueId, request: request);
       } else {
-        throw UnsupportedError('Unknown issue category: ${form.category}');
+        throw Exception('Unknown issue category');
       }
 
-      if (form.files.isNotEmpty) {
-        final files = <MultipartFile>[];
-        for (final file in form.files) {
+      if (value.files.isNotEmpty) {
+        List<MultipartFile> files = [];
+        for (final file in value.files) {
           final bytes = await file.readAsBytes();
           final mimeType =
               lookupMimeType('', headerBytes: bytes) ??
@@ -404,139 +469,164 @@ class IssueSubmitController extends _$IssueSubmitController {
   }
 
   Future<Issue> _updateCreatedIssue({
-    required IssueFormState form,
+    required IssueFormState value,
     required Issue issue,
     required int projectId,
     required int categoryId,
     required String content,
   }) {
-    if (form.category is IssueContract) {
-      final request = UpdateContractIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: content,
-        currencyId: form.currency!.id,
-        contractItems: issue.contractItems
-            .map(
-              (item) => UpdateContractIssueItemRequest(
-                id: item.id,
-                item: item.item,
-                price: item.price,
-              ),
-            )
-            .toList(),
-        transactionItems: issue.transactionItems
-            .map(
-              (item) => UpdateTransactionIssueItemRequest(
-                id: item.id,
-                categoryId: item.category!.id,
-                price: item.price,
-                ratio: item.ratio,
-                note: item.note,
-                isPaid: item.isPaid,
-                paidAt: item.paidAt,
-              ),
-            )
-            .toList(),
-        attachments: issue.attachments,
-      );
-
+    if (value.category is IssueContract) {
       return ref
           .read(contractIssueRepositoryProvider)
-          .updateContractIssue(id: issue.id, request: request);
+          .updateContractIssue(
+            id: issue.id,
+            request: UpdateContractIssueRequest(
+              projectId: projectId,
+              categoryId: categoryId,
+              content: content,
+              currencyId: value.currency!.id,
+              contractItems: issue.contractItems
+                  .map(
+                    (item) => UpdateContractIssueItemRequest(
+                      id: item.id,
+                      item: item.item,
+                      price: item.price,
+                    ),
+                  )
+                  .toList(),
+              transactionItems: issue.transactionItems
+                  .map(
+                    (item) => UpdateTransactionIssueItemRequest(
+                      id: item.id,
+                      categoryId: item.category!.id,
+                      price: item.price,
+                      ratio: item.ratio,
+                      note: item.note,
+                      isPaid: item.isPaid,
+                      paidAt: item.paidAt,
+                    ),
+                  )
+                  .toList(),
+              attachments: issue.attachments,
+            ),
+          );
     }
-    if (form.category is IssueKickoff) {
-      final request = UpdateKickoffIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: content,
-        kickoffDate: form.kickoffDate!,
-        attachments: issue.attachments,
-      );
-
+    if (value.category is IssueKickoff) {
       return ref
           .read(kickoffIssueRepositoryProvider)
-          .updateKickoffIssue(id: issue.id, request: request);
+          .updateKickoffIssue(
+            id: issue.id,
+            request: UpdateKickoffIssueRequest(
+              projectId: projectId,
+              categoryId: categoryId,
+              content: content,
+              kickoffDate: value.kickoffDate!,
+              participantItems: issue.participantItems
+                  .map(
+                    (item) => UpdateKickoffParticipantItemRequest(
+                      id: item.id,
+                      participantId: item.participant!.id,
+                      role: item.role,
+                    ),
+                  )
+                  .toList(),
+              tripItems: issue.tripItems
+                  .map(
+                    (item) => UpdateKickoffTripItemRequest(
+                      id: item.id,
+                      categoryId: item.category!.id,
+                      days: item.days,
+                      note: item.note,
+                    ),
+                  )
+                  .toList(),
+              attachments: issue.attachments,
+            ),
+          );
     }
-    if (form.category is IssueApproval) {
-      final request = UpdateApprovalIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: content,
-        attachments: issue.attachments,
-      );
-
+    if (value.category is IssueApproval) {
       return ref
           .read(approvalIssueRepositoryProvider)
-          .updateApprovalIssue(id: issue.id, request: request);
+          .updateApprovalIssue(
+            id: issue.id,
+            request: UpdateApprovalIssueRequest(
+              projectId: projectId,
+              categoryId: categoryId,
+              content: content,
+              attachments: issue.attachments,
+            ),
+          );
     }
-    if (form.category is IssueProcurement) {
-      final request = UpdateProcurementIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: content,
-        procurementItems: issue.procurementItems
-            .map(
-              (item) => UpdateProcurementIssueItemRequest(
-                id: item.id,
-                item: item.item,
-                spec: item.spec,
-                quantity: item.quantity,
-                unitPrice: item.unitPrice,
-                totalAmount: item.totalAmount,
-                isOnlinePurchase: item.isOnlinePurchase,
-                purchaseUrl: item.purchaseUrl,
-                supplierId: item.supplier?.id,
-                note: item.note,
-              ),
-            )
-            .toList(),
-        attachments: issue.attachments,
-      );
-
+    if (value.category is IssueProcurement) {
       return ref
           .read(procurementIssueRepositoryProvider)
-          .updateProcurementIssue(id: issue.id, request: request);
+          .updateProcurementIssue(
+            id: issue.id,
+            request: UpdateProcurementIssueRequest(
+              projectId: projectId,
+              categoryId: categoryId,
+              content: content,
+              procurementItems: issue.procurementItems
+                  .map(
+                    (item) => UpdateProcurementIssueItemRequest(
+                      id: item.id,
+                      item: item.item,
+                      spec: item.spec,
+                      quantity: item.quantity,
+                      unitPrice: item.unitPrice,
+                      totalAmount: item.totalAmount,
+                      isOnlinePurchase: item.isOnlinePurchase,
+                      purchaseUrl: item.purchaseUrl,
+                      supplierId: item.supplier?.id,
+                      note: item.note,
+                    ),
+                  )
+                  .toList(),
+              attachments: issue.attachments,
+            ),
+          );
     }
-    if (form.category is IssueTransaction) {
-      final request = UpdateTransactionIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: content,
-        transactionItems: issue.transactionItems
-            .map(
-              (item) => UpdateTransactionIssueItemRequest(
-                id: item.id,
-                categoryId: item.category!.id,
-                price: item.price,
-                ratio: item.ratio,
-                note: item.note,
-                isPaid: item.isPaid,
-                paidAt: item.paidAt,
-              ),
-            )
-            .toList(),
-        attachments: issue.attachments,
-      );
-
+    if (value.category is IssueTransaction) {
       return ref
           .read(transactionIssueRepositoryProvider)
-          .updateTransactionIssue(id: issue.id, request: request);
+          .updateTransactionIssue(
+            id: issue.id,
+            request: UpdateTransactionIssueRequest(
+              projectId: projectId,
+              categoryId: categoryId,
+              content: content,
+              transactionItems: issue.transactionItems
+                  .map(
+                    (item) => UpdateTransactionIssueItemRequest(
+                      id: item.id,
+                      categoryId: item.category!.id,
+                      price: item.price,
+                      ratio: item.ratio,
+                      note: item.note,
+                      isPaid: item.isPaid,
+                      paidAt: item.paidAt,
+                    ),
+                  )
+                  .toList(),
+              attachments: issue.attachments,
+            ),
+          );
     }
-    if (form.category is IssuePayment) {
-      final request = UpdatePaymentIssueRequest(
-        projectId: projectId,
-        categoryId: categoryId,
-        content: content,
-        attachments: issue.attachments,
-      );
-
+    if (value.category is IssuePayment) {
       return ref
           .read(paymentIssueRepositoryProvider)
-          .updatePaymentIssue(id: issue.id, request: request);
+          .updatePaymentIssue(
+            id: issue.id,
+            request: UpdatePaymentIssueRequest(
+              projectId: projectId,
+              categoryId: categoryId,
+              content: content,
+              attachments: issue.attachments,
+            ),
+          );
     }
 
-    throw UnsupportedError('Unknown issue category: ${form.category}');
+    throw Exception('Unknown issue category');
   }
 
   Future<String> _uploadInlineImages({
@@ -544,7 +634,7 @@ class IssueSubmitController extends _$IssueSubmitController {
     required int resourceId,
   }) async {
     final document = editorState.document;
-    final filesByNode = <appflowy.Node, MultipartFile>{};
+    final map = <appflowy.Node, MultipartFile>{};
 
     void traverseNodes(appflowy.Node node) {
       if (node.type == appflowy.ImageBlockKeys.type) {
@@ -559,7 +649,7 @@ class IssueSubmitController extends _$IssueSubmitController {
                 lookupMimeType('', headerBytes: bytes) ??
                 'application/octet-stream';
             final extension = extensionFromMime(mimeType) ?? 'jpeg';
-            filesByNode[node] = MultipartFile.fromBytes(
+            map[node] = MultipartFile.fromBytes(
               bytes,
               filename: '${node.id}.$extension',
               contentType: MediaType.parse(mimeType),
@@ -581,15 +671,15 @@ class IssueSubmitController extends _$IssueSubmitController {
       traverseNodes(node);
     }
 
-    if (filesByNode.isNotEmpty) {
+    if (map.isNotEmpty) {
       final uploadResults = await ref
           .read(sftpRepositoryProvider)
           .uploadInlineImage(
             path: 'report',
             resourceId: resourceId,
-            files: filesByNode.values.toList(),
+            files: map.values.toList(),
           );
-      final nodes = filesByNode.keys.toList();
+      final nodes = map.keys.toList();
 
       for (
         var index = 0;

@@ -10,6 +10,10 @@ abstract class IssueValidationState with _$IssueValidationState {
     @Default(false) bool transactionItemInvalid,
     @Default(false) bool ratioInvalid,
     @Default(false) bool kickoffDateMissing,
+    @Default(false) bool kickoffParticipantItemsMissing,
+    @Default(false) bool kickoffParticipantItemInvalid,
+    @Default(false) bool kickoffTripItemsMissing,
+    @Default(false) bool kickoffTripItemInvalid,
     @Default(false) bool procurementItemsMissing,
     @Default(false) bool procurementItemInvalid,
   }) = _IssueValidationState;

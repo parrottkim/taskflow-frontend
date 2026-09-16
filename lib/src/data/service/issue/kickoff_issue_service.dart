@@ -4,6 +4,9 @@ part of '../../data.dart';
 abstract class KickoffIssueService {
   factory KickoffIssueService(Dio dio, {String baseUrl}) = _KickoffIssueService;
 
+  @GET('issue/kickoff/categories')
+  Future<List<KickoffIssueTripItemCategory>> getAllTripCategories();
+
   @GET('issue/kickoff/{id}')
   Future<HttpResponse<KickoffIssue?>> getKickoffIssue({
     @Path('id') required int id,

@@ -551,9 +551,30 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("내용을 입력해 주세요"),
         "issue_form_kickoff_1":
             MessageLookupByLibrary.simpleMessage("프로젝트 착수일"),
+        "issue_form_kickoff_10": MessageLookupByLibrary.simpleMessage("출장일수"),
+        "issue_form_kickoff_11": MessageLookupByLibrary.simpleMessage("내역"),
+        "issue_form_kickoff_12":
+            MessageLookupByLibrary.simpleMessage("카테고리 선택"),
+        "issue_form_kickoff_13": MessageLookupByLibrary.simpleMessage("합계"),
+        "issue_form_kickoff_14": MessageLookupByLibrary.simpleMessage("일"),
         "issue_form_kickoff_2": MessageLookupByLibrary.simpleMessage("착수일 선택"),
+        "issue_form_kickoff_3": MessageLookupByLibrary.simpleMessage("참여자"),
+        "issue_form_kickoff_4": MessageLookupByLibrary.simpleMessage("예비 포함"),
+        "issue_form_kickoff_5": MessageLookupByLibrary.simpleMessage("참여자"),
+        "issue_form_kickoff_6": MessageLookupByLibrary.simpleMessage("역할"),
+        "issue_form_kickoff_7": MessageLookupByLibrary.simpleMessage("참여자 선택"),
+        "issue_form_kickoff_8": MessageLookupByLibrary.simpleMessage("출장일수"),
+        "issue_form_kickoff_9": MessageLookupByLibrary.simpleMessage("종류"),
         "issue_form_kickoff_invalid":
             MessageLookupByLibrary.simpleMessage("착수일을 선택해 주세요"),
+        "issue_form_kickoff_participant_invalid":
+            MessageLookupByLibrary.simpleMessage("참여자와 역할을 빈 칸 없이 입력해 주세요"),
+        "issue_form_kickoff_participant_missing":
+            MessageLookupByLibrary.simpleMessage("참여자를 최소 한 명 이상 추가해 주세요"),
+        "issue_form_kickoff_trip_invalid":
+            MessageLookupByLibrary.simpleMessage("출장 카테고리와 출장일수를 입력해 주세요"),
+        "issue_form_kickoff_trip_missing":
+            MessageLookupByLibrary.simpleMessage("출장 항목을 최소 하나 이상 추가해 주세요"),
         "issue_form_link_1": MessageLookupByLibrary.simpleMessage("URL"),
         "issue_form_link_2": MessageLookupByLibrary.simpleMessage("링크 제목"),
         "issue_form_link_3": MessageLookupByLibrary.simpleMessage("웹 페이지 링크"),
