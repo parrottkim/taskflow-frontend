@@ -2,9 +2,6 @@ part of '../../data.dart';
 
 abstract class TransactionIssueRepository {
   Future<List<TransactionIssueItemCategory>> getAllTransactionCategories();
-  Future<List<TransactionIssueItem>> getTransactionIssueItems({
-    required int id,
-  });
   Future<HttpResponse<TransactionIssue?>> getTransactionIssue({
     required int id,
   });

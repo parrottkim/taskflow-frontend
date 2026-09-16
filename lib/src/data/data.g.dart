@@ -753,29 +753,38 @@ Map<String, dynamic> _$TransactionIssueItemToJson(
   'note': instance.note,
 };
 
-_ContractIssue _$ContractIssueFromJson(Map<String, dynamic> json) =>
-    _ContractIssue(
-      id: (json['id'] as num).toInt(),
-      category: IssueCategory.fromJson(
-        json['category'] as Map<String, dynamic>,
-      ),
-      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
-      updatedBy: json['updatedBy'] == null
-          ? null
-          : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
-      content: json['content'] as String,
-      currency: Currency.fromJson(json['currency'] as Map<String, dynamic>),
-      attachments:
-          (json['attachments'] as List<dynamic>?)
-              ?.map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-      deletedAt: json['deletedAt'] == null
-          ? null
-          : DateTime.parse(json['deletedAt'] as String),
-    );
+_ContractIssue _$ContractIssueFromJson(
+  Map<String, dynamic> json,
+) => _ContractIssue(
+  id: (json['id'] as num).toInt(),
+  category: IssueCategory.fromJson(json['category'] as Map<String, dynamic>),
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  updatedBy: json['updatedBy'] == null
+      ? null
+      : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
+  content: json['content'] as String,
+  currency: Currency.fromJson(json['currency'] as Map<String, dynamic>),
+  contractItems:
+      (json['contractItems'] as List<dynamic>?)
+          ?.map((e) => ContractIssueItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  transactionItems:
+      (json['transactionItems'] as List<dynamic>?)
+          ?.map((e) => TransactionIssueItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  attachments:
+      (json['attachments'] as List<dynamic>?)
+          ?.map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  deletedAt: json['deletedAt'] == null
+      ? null
+      : DateTime.parse(json['deletedAt'] as String),
+);
 
 Map<String, dynamic> _$ContractIssueToJson(_ContractIssue instance) =>
     <String, dynamic>{
@@ -785,6 +794,8 @@ Map<String, dynamic> _$ContractIssueToJson(_ContractIssue instance) =>
       'updatedBy': instance.updatedBy,
       'content': instance.content,
       'currency': instance.currency,
+      'contractItems': instance.contractItems,
+      'transactionItems': instance.transactionItems,
       'attachments': instance.attachments,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
@@ -878,31 +889,40 @@ Map<String, dynamic> _$ProcurementIssueToJson(_ProcurementIssue instance) =>
       'deletedAt': instance.deletedAt?.toIso8601String(),
     };
 
-_TransactionIssue _$TransactionIssueFromJson(Map<String, dynamic> json) =>
-    _TransactionIssue(
-      id: (json['id'] as num).toInt(),
-      category: IssueCategory.fromJson(
-        json['category'] as Map<String, dynamic>,
-      ),
-      createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
-      updatedBy: json['updatedBy'] == null
-          ? null
-          : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
-      content: json['content'] as String,
-      currency: json['currency'] == null
-          ? null
-          : Currency.fromJson(json['currency'] as Map<String, dynamic>),
-      attachments:
-          (json['attachments'] as List<dynamic>?)
-              ?.map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-      deletedAt: json['deletedAt'] == null
-          ? null
-          : DateTime.parse(json['deletedAt'] as String),
-    );
+_TransactionIssue _$TransactionIssueFromJson(
+  Map<String, dynamic> json,
+) => _TransactionIssue(
+  id: (json['id'] as num).toInt(),
+  category: IssueCategory.fromJson(json['category'] as Map<String, dynamic>),
+  createdBy: User.fromJson(json['createdBy'] as Map<String, dynamic>),
+  updatedBy: json['updatedBy'] == null
+      ? null
+      : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
+  content: json['content'] as String,
+  currency: json['currency'] == null
+      ? null
+      : Currency.fromJson(json['currency'] as Map<String, dynamic>),
+  contractItems:
+      (json['contractItems'] as List<dynamic>?)
+          ?.map((e) => ContractIssueItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  transactionItems:
+      (json['transactionItems'] as List<dynamic>?)
+          ?.map((e) => TransactionIssueItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  attachments:
+      (json['attachments'] as List<dynamic>?)
+          ?.map((e) => IssueAttachment.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  deletedAt: json['deletedAt'] == null
+      ? null
+      : DateTime.parse(json['deletedAt'] as String),
+);
 
 Map<String, dynamic> _$TransactionIssueToJson(_TransactionIssue instance) =>
     <String, dynamic>{
@@ -912,6 +932,8 @@ Map<String, dynamic> _$TransactionIssueToJson(_TransactionIssue instance) =>
       'updatedBy': instance.updatedBy,
       'content': instance.content,
       'currency': instance.currency,
+      'contractItems': instance.contractItems,
+      'transactionItems': instance.transactionItems,
       'attachments': instance.attachments,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
@@ -4842,40 +4864,6 @@ class _ContractIssueService implements ContractIssueService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<ContractIssueItem>> getContractIssueItems({
-    required int id,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<ContractIssueItem>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            'issue/contract/${id}/items',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<ContractIssueItem> _value;
-    try {
-      _value = _result.data!
-          .map(
-            (dynamic i) =>
-                ContractIssueItem.fromJson(i as Map<String, dynamic>),
-          )
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
   Future<HttpResponse<ContractIssue?>> getContractIssue({
     required int id,
   }) async {
@@ -5615,40 +5603,6 @@ class _TransactionIssueService implements TransactionIssueService {
             (dynamic i) => TransactionIssueItemCategory.fromJson(
               i as Map<String, dynamic>,
             ),
-          )
-          .toList();
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
-  Future<List<TransactionIssueItem>> getTransactionIssueItems({
-    required int id,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<TransactionIssueItem>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            'issue/transaction/${id}/items',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<TransactionIssueItem> _value;
-    try {
-      _value = _result.data!
-          .map(
-            (dynamic i) =>
-                TransactionIssueItem.fromJson(i as Map<String, dynamic>),
           )
           .toList();
     } on Object catch (e, s) {

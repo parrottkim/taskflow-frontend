@@ -6,10 +6,6 @@ class ContractIssueDataSource implements ContractIssueRepository {
   ContractIssueDataSource({required this._service});
 
   @override
-  Future<List<ContractIssueItem>> getContractIssueItems({required int id}) =>
-      _service.getContractIssueItems(id: id);
-
-  @override
   Future<HttpResponse<ContractIssue?>> getContractIssue({required int id}) =>
       _service.getContractIssue(id: id);
 

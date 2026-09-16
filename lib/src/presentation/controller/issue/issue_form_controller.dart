@@ -36,19 +36,11 @@ class IssueFormController extends _$IssueFormController {
         .read(contractIssueRepositoryProvider)
         .getContractIssue(id: projectId);
 
-    final contractItems = await ref
-        .read(contractIssueRepositoryProvider)
-        .getContractIssueItems(id: projectId);
-
-    final transactionItems = await ref
-        .read(transactionIssueRepositoryProvider)
-        .getTransactionIssueItems(id: projectId);
-
     return IssueFormState(
       category: category,
       currency: contract.data?.currency,
-      contractItems: contractItems,
-      transactionItems: transactionItems,
+      contractItems: contract.data?.contractItems ?? const [],
+      transactionItems: contract.data?.transactionItems ?? const [],
     );
   }
 
