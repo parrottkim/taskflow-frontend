@@ -3,7 +3,7 @@ part of '../../data.dart';
 class ClientDataSource implements ClientRepository {
   final ClientService _service;
 
-  ClientDataSource({required ClientService service}) : _service = service;
+  ClientDataSource({required this._service});
 
   @override
   Future<List<ClientGroup>> getAllClients() => _service.getAllClients();
