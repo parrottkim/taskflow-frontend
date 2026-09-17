@@ -3,7 +3,7 @@ part of '../../data.dart';
 class ScheduleDataSource implements ScheduleRepository {
   final ScheduleService _service;
 
-  ScheduleDataSource({required ScheduleService service}) : _service = service;
+  ScheduleDataSource({required this._service});
 
   @override
   Future<List<ScheduleCategory>> getAllCategories() =>

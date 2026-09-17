@@ -3,7 +3,7 @@ part of '../../data.dart';
 class HolidayDataSource implements HolidayRepository {
   final HolidayService _service;
 
-  HolidayDataSource({required HolidayService service}) : _service = service;
+  HolidayDataSource({required this._service});
 
   @override
   Future<List<KoreanHoliday>> getDaysOffBetween({

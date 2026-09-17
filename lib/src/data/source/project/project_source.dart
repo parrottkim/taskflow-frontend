@@ -3,7 +3,7 @@ part of '../../data.dart';
 class ProjectDataSource implements ProjectRepository {
   final ProjectService _service;
 
-  ProjectDataSource({required ProjectService service}) : _service = service;
+  ProjectDataSource({required this._service});
 
   @override
   Future<ProjectItemCount> getProjectItemCount({required int id}) =>

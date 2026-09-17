@@ -3,7 +3,7 @@ part of '../../data.dart';
 class SupplierDataSource implements SupplierRepository {
   final SupplierService _service;
 
-  SupplierDataSource({required SupplierService service}) : _service = service;
+  SupplierDataSource({required this._service});
 
   @override
   Future<Supplier> getSupplier({required int id}) =>

@@ -3,7 +3,7 @@ part of '../../data.dart';
 class WorkDataSource implements WorkRepository {
   final WorkService _service;
 
-  WorkDataSource({required WorkService service}) : _service = service;
+  WorkDataSource({required this._service});
 
   @override
   Future<Result<WorkProjectListItem>> getProjects({
