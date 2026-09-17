@@ -9662,7 +9662,7 @@ as List<User>,
 /// @nodoc
 mixin _$ProjectDetailState implements DiagnosticableTreeMixin {
 
- Project get project; dynamic get contracts; dynamic get approvals; dynamic get procurements; dynamic get reports;
+ Project get project; ProjectCostSummary get costSummary; dynamic get contracts; dynamic get approvals; dynamic get procurements; dynamic get reports;
 /// Create a copy of ProjectDetailState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -9674,21 +9674,21 @@ $ProjectDetailStateCopyWith<ProjectDetailState> get copyWith => _$ProjectDetailS
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ProjectDetailState'))
-    ..add(DiagnosticsProperty('project', project))..add(DiagnosticsProperty('contracts', contracts))..add(DiagnosticsProperty('approvals', approvals))..add(DiagnosticsProperty('procurements', procurements))..add(DiagnosticsProperty('reports', reports));
+    ..add(DiagnosticsProperty('project', project))..add(DiagnosticsProperty('costSummary', costSummary))..add(DiagnosticsProperty('contracts', contracts))..add(DiagnosticsProperty('approvals', approvals))..add(DiagnosticsProperty('procurements', procurements))..add(DiagnosticsProperty('reports', reports));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProjectDetailState&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other.contracts, contracts)&&const DeepCollectionEquality().equals(other.approvals, approvals)&&const DeepCollectionEquality().equals(other.procurements, procurements)&&const DeepCollectionEquality().equals(other.reports, reports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProjectDetailState&&(identical(other.project, project) || other.project == project)&&(identical(other.costSummary, costSummary) || other.costSummary == costSummary)&&const DeepCollectionEquality().equals(other.contracts, contracts)&&const DeepCollectionEquality().equals(other.approvals, approvals)&&const DeepCollectionEquality().equals(other.procurements, procurements)&&const DeepCollectionEquality().equals(other.reports, reports));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(contracts),const DeepCollectionEquality().hash(approvals),const DeepCollectionEquality().hash(procurements),const DeepCollectionEquality().hash(reports));
+int get hashCode => Object.hash(runtimeType,project,costSummary,const DeepCollectionEquality().hash(contracts),const DeepCollectionEquality().hash(approvals),const DeepCollectionEquality().hash(procurements),const DeepCollectionEquality().hash(reports));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ProjectDetailState(project: $project, contracts: $contracts, approvals: $approvals, procurements: $procurements, reports: $reports)';
+  return 'ProjectDetailState(project: $project, costSummary: $costSummary, contracts: $contracts, approvals: $approvals, procurements: $procurements, reports: $reports)';
 }
 
 
@@ -9699,11 +9699,11 @@ abstract mixin class $ProjectDetailStateCopyWith<$Res>  {
   factory $ProjectDetailStateCopyWith(ProjectDetailState value, $Res Function(ProjectDetailState) _then) = _$ProjectDetailStateCopyWithImpl;
 @useResult
 $Res call({
- Project project, dynamic contracts, dynamic approvals, dynamic procurements, dynamic reports
+ Project project, ProjectCostSummary costSummary, dynamic contracts, dynamic approvals, dynamic procurements, dynamic reports
 });
 
 
-$ProjectCopyWith<$Res> get project;
+$ProjectCopyWith<$Res> get project;$ProjectCostSummaryCopyWith<$Res> get costSummary;
 
 }
 /// @nodoc
@@ -9716,10 +9716,11 @@ class _$ProjectDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of ProjectDetailState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? contracts = freezed,Object? approvals = freezed,Object? procurements = freezed,Object? reports = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? costSummary = null,Object? contracts = freezed,Object? approvals = freezed,Object? procurements = freezed,Object? reports = freezed,}) {
   return _then(_self.copyWith(
 project: null == project ? _self.project : project // ignore: cast_nullable_to_non_nullable
-as Project,contracts: freezed == contracts ? _self.contracts : contracts // ignore: cast_nullable_to_non_nullable
+as Project,costSummary: null == costSummary ? _self.costSummary : costSummary // ignore: cast_nullable_to_non_nullable
+as ProjectCostSummary,contracts: freezed == contracts ? _self.contracts : contracts // ignore: cast_nullable_to_non_nullable
 as dynamic,approvals: freezed == approvals ? _self.approvals : approvals // ignore: cast_nullable_to_non_nullable
 as dynamic,procurements: freezed == procurements ? _self.procurements : procurements // ignore: cast_nullable_to_non_nullable
 as dynamic,reports: freezed == reports ? _self.reports : reports // ignore: cast_nullable_to_non_nullable
@@ -9734,6 +9735,15 @@ $ProjectCopyWith<$Res> get project {
   
   return $ProjectCopyWith<$Res>(_self.project, (value) {
     return _then(_self.copyWith(project: value));
+  });
+}/// Create a copy of ProjectDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProjectCostSummaryCopyWith<$Res> get costSummary {
+  
+  return $ProjectCostSummaryCopyWith<$Res>(_self.costSummary, (value) {
+    return _then(_self.copyWith(costSummary: value));
   });
 }
 }
@@ -9817,10 +9827,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Project project,  dynamic contracts,  dynamic approvals,  dynamic procurements,  dynamic reports)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Project project,  ProjectCostSummary costSummary,  dynamic contracts,  dynamic approvals,  dynamic procurements,  dynamic reports)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProjectDetailState() when $default != null:
-return $default(_that.project,_that.contracts,_that.approvals,_that.procurements,_that.reports);case _:
+return $default(_that.project,_that.costSummary,_that.contracts,_that.approvals,_that.procurements,_that.reports);case _:
   return orElse();
 
 }
@@ -9838,10 +9848,10 @@ return $default(_that.project,_that.contracts,_that.approvals,_that.procurements
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Project project,  dynamic contracts,  dynamic approvals,  dynamic procurements,  dynamic reports)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Project project,  ProjectCostSummary costSummary,  dynamic contracts,  dynamic approvals,  dynamic procurements,  dynamic reports)  $default,) {final _that = this;
 switch (_that) {
 case _ProjectDetailState():
-return $default(_that.project,_that.contracts,_that.approvals,_that.procurements,_that.reports);case _:
+return $default(_that.project,_that.costSummary,_that.contracts,_that.approvals,_that.procurements,_that.reports);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -9858,10 +9868,10 @@ return $default(_that.project,_that.contracts,_that.approvals,_that.procurements
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Project project,  dynamic contracts,  dynamic approvals,  dynamic procurements,  dynamic reports)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Project project,  ProjectCostSummary costSummary,  dynamic contracts,  dynamic approvals,  dynamic procurements,  dynamic reports)?  $default,) {final _that = this;
 switch (_that) {
 case _ProjectDetailState() when $default != null:
-return $default(_that.project,_that.contracts,_that.approvals,_that.procurements,_that.reports);case _:
+return $default(_that.project,_that.costSummary,_that.contracts,_that.approvals,_that.procurements,_that.reports);case _:
   return null;
 
 }
@@ -9873,10 +9883,11 @@ return $default(_that.project,_that.contracts,_that.approvals,_that.procurements
 
 
 class _ProjectDetailState with DiagnosticableTreeMixin implements ProjectDetailState {
-   _ProjectDetailState({required this.project, this.contracts = 0, this.approvals = 0, this.procurements = 0, this.reports = 0});
+   _ProjectDetailState({required this.project, required this.costSummary, this.contracts = 0, this.approvals = 0, this.procurements = 0, this.reports = 0});
   
 
 @override final  Project project;
+@override final  ProjectCostSummary costSummary;
 @override@JsonKey() final  dynamic contracts;
 @override@JsonKey() final  dynamic approvals;
 @override@JsonKey() final  dynamic procurements;
@@ -9893,21 +9904,21 @@ _$ProjectDetailStateCopyWith<_ProjectDetailState> get copyWith => __$ProjectDeta
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'ProjectDetailState'))
-    ..add(DiagnosticsProperty('project', project))..add(DiagnosticsProperty('contracts', contracts))..add(DiagnosticsProperty('approvals', approvals))..add(DiagnosticsProperty('procurements', procurements))..add(DiagnosticsProperty('reports', reports));
+    ..add(DiagnosticsProperty('project', project))..add(DiagnosticsProperty('costSummary', costSummary))..add(DiagnosticsProperty('contracts', contracts))..add(DiagnosticsProperty('approvals', approvals))..add(DiagnosticsProperty('procurements', procurements))..add(DiagnosticsProperty('reports', reports));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProjectDetailState&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other.contracts, contracts)&&const DeepCollectionEquality().equals(other.approvals, approvals)&&const DeepCollectionEquality().equals(other.procurements, procurements)&&const DeepCollectionEquality().equals(other.reports, reports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProjectDetailState&&(identical(other.project, project) || other.project == project)&&(identical(other.costSummary, costSummary) || other.costSummary == costSummary)&&const DeepCollectionEquality().equals(other.contracts, contracts)&&const DeepCollectionEquality().equals(other.approvals, approvals)&&const DeepCollectionEquality().equals(other.procurements, procurements)&&const DeepCollectionEquality().equals(other.reports, reports));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(contracts),const DeepCollectionEquality().hash(approvals),const DeepCollectionEquality().hash(procurements),const DeepCollectionEquality().hash(reports));
+int get hashCode => Object.hash(runtimeType,project,costSummary,const DeepCollectionEquality().hash(contracts),const DeepCollectionEquality().hash(approvals),const DeepCollectionEquality().hash(procurements),const DeepCollectionEquality().hash(reports));
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'ProjectDetailState(project: $project, contracts: $contracts, approvals: $approvals, procurements: $procurements, reports: $reports)';
+  return 'ProjectDetailState(project: $project, costSummary: $costSummary, contracts: $contracts, approvals: $approvals, procurements: $procurements, reports: $reports)';
 }
 
 
@@ -9918,11 +9929,11 @@ abstract mixin class _$ProjectDetailStateCopyWith<$Res> implements $ProjectDetai
   factory _$ProjectDetailStateCopyWith(_ProjectDetailState value, $Res Function(_ProjectDetailState) _then) = __$ProjectDetailStateCopyWithImpl;
 @override @useResult
 $Res call({
- Project project, dynamic contracts, dynamic approvals, dynamic procurements, dynamic reports
+ Project project, ProjectCostSummary costSummary, dynamic contracts, dynamic approvals, dynamic procurements, dynamic reports
 });
 
 
-@override $ProjectCopyWith<$Res> get project;
+@override $ProjectCopyWith<$Res> get project;@override $ProjectCostSummaryCopyWith<$Res> get costSummary;
 
 }
 /// @nodoc
@@ -9935,10 +9946,11 @@ class __$ProjectDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of ProjectDetailState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? project = null,Object? contracts = freezed,Object? approvals = freezed,Object? procurements = freezed,Object? reports = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? project = null,Object? costSummary = null,Object? contracts = freezed,Object? approvals = freezed,Object? procurements = freezed,Object? reports = freezed,}) {
   return _then(_ProjectDetailState(
 project: null == project ? _self.project : project // ignore: cast_nullable_to_non_nullable
-as Project,contracts: freezed == contracts ? _self.contracts : contracts // ignore: cast_nullable_to_non_nullable
+as Project,costSummary: null == costSummary ? _self.costSummary : costSummary // ignore: cast_nullable_to_non_nullable
+as ProjectCostSummary,contracts: freezed == contracts ? _self.contracts : contracts // ignore: cast_nullable_to_non_nullable
 as dynamic,approvals: freezed == approvals ? _self.approvals : approvals // ignore: cast_nullable_to_non_nullable
 as dynamic,procurements: freezed == procurements ? _self.procurements : procurements // ignore: cast_nullable_to_non_nullable
 as dynamic,reports: freezed == reports ? _self.reports : reports // ignore: cast_nullable_to_non_nullable
@@ -9954,6 +9966,15 @@ $ProjectCopyWith<$Res> get project {
   
   return $ProjectCopyWith<$Res>(_self.project, (value) {
     return _then(_self.copyWith(project: value));
+  });
+}/// Create a copy of ProjectDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProjectCostSummaryCopyWith<$Res> get costSummary {
+  
+  return $ProjectCostSummaryCopyWith<$Res>(_self.costSummary, (value) {
+    return _then(_self.copyWith(costSummary: value));
   });
 }
 }

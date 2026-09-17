@@ -10,6 +10,10 @@ class ProjectDataSource implements ProjectRepository {
       _service.getProjectItemCount(id: id);
 
   @override
+  Future<ProjectCostSummary> getProjectCostSummary({required int id}) =>
+      _service.getProjectCostSummary(id: id);
+
+  @override
   Future<Project> getProjectForEdit({required int id}) =>
       _service.getProjectForEdit(id: id);
   @override

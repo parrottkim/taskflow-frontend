@@ -7,9 +7,15 @@ class ProjectDetailController extends _$ProjectDetailController {
 
   Future<ProjectDetailState> _init() async {
     if (projectId == 0) {
-      return ProjectDetailState(project: Project.dummy());
+      return ProjectDetailState(
+        project: Project.dummy(),
+        costSummary: ProjectCostSummary.dummy(),
+      );
     }
 
+    final costSummary = await ref
+        .read(projectRepositoryProvider)
+        .getProjectCostSummary(id: projectId);
     final result = await ref
         .read(projectRepositoryProvider)
         .getProject(id: projectId);
@@ -19,6 +25,7 @@ class ProjectDetailController extends _$ProjectDetailController {
 
     return ProjectDetailState(
       project: result,
+      costSummary: costSummary,
       contracts: counts.contracts,
       approvals: counts.approvals,
       procurements: counts.procurements,

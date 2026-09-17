@@ -4,17 +4,25 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:taskflow/src/data/data.dart';
+import 'package:taskflow/src/presentation/controller/controller.dart';
 import 'package:taskflow/src/presentation/widget/widget.dart';
 
 class SummaryWidget extends HookConsumerWidget {
   final Project project;
+  final ProjectCostSummary costSummary;
 
-  const SummaryWidget({super.key, required this.project});
+  const SummaryWidget({
+    super.key,
+    required this.project,
+    required this.costSummary,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    final auth = ref.watch(authControllerProvider);
 
     final opacityController = useAnimationController(
       duration: const Duration(milliseconds: 150),
@@ -118,6 +126,224 @@ class SummaryWidget extends HookConsumerWidget {
               ],
             ),
           ),
+          if (auth is AuthAuthenticated && auth.user.isAdmin)
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ContentContainer(
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        Intl.message('project_detail_summary_3'),
+                        style: textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 140.0,
+                            child: Text(
+                              Intl.message('project_detail_summary_3_1'),
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              '${NumberFormat('#,###').format(costSummary.contractAmount)} ₩',
+                              textAlign: TextAlign.end,
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 12.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 140.0,
+                            child: Text(
+                              Intl.message('project_detail_summary_3_2'),
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              '${NumberFormat('#,###').format(costSummary.purchaseAmount)} ₩',
+                              textAlign: TextAlign.end,
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 12.0),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 140.0,
+                            child: Text(
+                              Intl.message('project_detail_summary_3_3'),
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              '${NumberFormat('#,###').format(costSummary.tripSettlementAmount)} ₩',
+                              textAlign: TextAlign.end,
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(height: 32.0, color: colorScheme.outline.subtle),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 140.0,
+                            child: Text(
+                              Intl.message('project_detail_summary_3_4'),
+                              style: textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${NumberFormat('#,###').format(costSummary.totalCost)} ₩',
+                                  textAlign: TextAlign.end,
+                                  style: textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: colorScheme.onSurface.strong,
+                                  ),
+                                ),
+                                SizedBox(height: 2.0),
+                                Text(
+                                  Intl.message(
+                                    'project_detail_summary_3_4_subtitle',
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.outline.strong,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12.0,
+                        horizontal: 16.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surfaceContainerLow,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(12.0),
+                          bottomRight: Radius.circular(12.0),
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 140.0,
+                            child: Text(
+                              Intl.message('project_detail_summary_3_5'),
+                              style: textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: colorScheme.onSurface.strong,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.0),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${NumberFormat('#,###').format(costSummary.profitAmount)} ₩',
+                                  textAlign: TextAlign.end,
+                                  style: textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: colorScheme.primary,
+                                  ),
+                                ),
+                                SizedBox(height: 2.0),
+                                Text(
+                                  Intl.message(
+                                    'project_detail_summary_3_5_subtitle',
+                                  ),
+                                  textAlign: TextAlign.end,
+                                  style: textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.outline.strong,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
