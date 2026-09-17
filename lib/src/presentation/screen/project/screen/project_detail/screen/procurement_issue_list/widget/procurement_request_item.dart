@@ -970,7 +970,7 @@ class ProcurementRequestItem extends ConsumerWidget {
                                         DataCell(
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
-                                              horizontal: 8.0,
+                                              horizontal: 12.0,
                                             ),
                                             child: hasUrl
                                                 ? Row(

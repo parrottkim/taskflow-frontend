@@ -204,7 +204,7 @@ class _DesktopWidget extends StatelessWidget {
             _buildTextCell('${items[index].totalAmount} ₩', alignEnd: true),
             DataCell(
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: _SupplierCell(item: items[index]),
               ),
             ),
@@ -307,7 +307,7 @@ class _MobileWidget extends StatelessWidget {
               _buildTextCell('${items[index].totalAmount} ₩', alignEnd: true),
               DataCell(
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: _SupplierCell(item: items[index]),
                 ),
               ),

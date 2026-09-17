@@ -386,14 +386,14 @@ class ContractDisplayItem extends StatelessWidget {
                       DataCell(
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(transactionItems[index].category!.name),
                         ),
                       ),
                       DataCell(
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(
                             '${transactionItems[index].ratio} %',
                             textAlign: TextAlign.end,
@@ -403,7 +403,7 @@ class ContractDisplayItem extends StatelessWidget {
                       DataCell(
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Text(
                             '${transactionItems[index].price} ${currency.symbol}',
                             textAlign: TextAlign.end,
@@ -516,14 +516,18 @@ class ContractDisplayItem extends StatelessWidget {
                         DataCell(
                           Container(
                             width: double.infinity,
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
                             child: Text(transactionItems[index].category!.name),
                           ),
                         ),
                         DataCell(
                           Container(
                             width: double.infinity,
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
                             child: Text(
                               '${transactionItems[index].ratio} %',
                               textAlign: TextAlign.end,
@@ -533,7 +537,9 @@ class ContractDisplayItem extends StatelessWidget {
                         DataCell(
                           Container(
                             width: double.infinity,
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                            ),
                             child: Text(
                               '${transactionItems[index].price} ${currency.symbol}',
                               textAlign: TextAlign.end,
