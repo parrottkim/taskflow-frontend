@@ -3560,6 +3560,86 @@ class S {
     );
   }
 
+  /// `비용 요약`
+  String get project_detail_summary_3 {
+    return Intl.message(
+      '비용 요약',
+      name: 'project_detail_summary_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `계약금액`
+  String get project_detail_summary_3_1 {
+    return Intl.message(
+      '계약금액',
+      name: 'project_detail_summary_3_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `구매금액`
+  String get project_detail_summary_3_2 {
+    return Intl.message(
+      '구매금액',
+      name: 'project_detail_summary_3_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `출장비 정산액`
+  String get project_detail_summary_3_3 {
+    return Intl.message(
+      '출장비 정산액',
+      name: 'project_detail_summary_3_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `비용 합계`
+  String get project_detail_summary_3_4 {
+    return Intl.message(
+      '비용 합계',
+      name: 'project_detail_summary_3_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(구매금액 + 출장비 정산액)`
+  String get project_detail_summary_3_4_subtitle {
+    return Intl.message(
+      '(구매금액 + 출장비 정산액)',
+      name: 'project_detail_summary_3_4_subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이익`
+  String get project_detail_summary_3_5 {
+    return Intl.message(
+      '이익',
+      name: 'project_detail_summary_3_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(계약금액 - 비용 합계)`
+  String get project_detail_summary_3_5_subtitle {
+    return Intl.message(
+      '(계약금액 - 비용 합계)',
+      name: 'project_detail_summary_3_5_subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `업무 내용 공유`
   String get project_issue_mail {
     return Intl.message(

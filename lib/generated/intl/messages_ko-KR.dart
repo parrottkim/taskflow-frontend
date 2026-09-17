@@ -875,6 +875,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "project_detail_summary_1": MessageLookupByLibrary.simpleMessage("작성자"),
         "project_detail_summary_2":
             MessageLookupByLibrary.simpleMessage("종결 사유 안내"),
+        "project_detail_summary_3":
+            MessageLookupByLibrary.simpleMessage("비용 요약"),
+        "project_detail_summary_3_1":
+            MessageLookupByLibrary.simpleMessage("계약금액"),
+        "project_detail_summary_3_2":
+            MessageLookupByLibrary.simpleMessage("구매금액"),
+        "project_detail_summary_3_3":
+            MessageLookupByLibrary.simpleMessage("출장비 정산액"),
+        "project_detail_summary_3_4":
+            MessageLookupByLibrary.simpleMessage("비용 합계"),
+        "project_detail_summary_3_4_subtitle":
+            MessageLookupByLibrary.simpleMessage("(구매금액 + 출장비 정산액)"),
+        "project_detail_summary_3_5":
+            MessageLookupByLibrary.simpleMessage("이익"),
+        "project_detail_summary_3_5_subtitle":
+            MessageLookupByLibrary.simpleMessage("(계약금액 - 비용 합계)"),
         "project_edit": MessageLookupByLibrary.simpleMessage("프로젝트 수정"),
         "project_filter_1": MessageLookupByLibrary.simpleMessage("고객사"),
         "project_filter_1_1": MessageLookupByLibrary.simpleMessage("고객사 선택"),

@@ -3,6 +3,8 @@ part of '../../data.dart';
 abstract class ProjectRepository {
   Future<ProjectItemCount> getProjectItemCount({required int id});
 
+  Future<ProjectCostSummary> getProjectCostSummary({required int id});
+
   Future<Project> getProjectForEdit({required int id});
 
   Future<Project> getProject({required int id});

@@ -1264,6 +1264,24 @@ Map<String, dynamic> _$ProjectSummaryToJson(_ProjectSummary instance) =>
       'active': instance.active,
     };
 
+_ProjectCostSummary _$ProjectCostSummaryFromJson(Map<String, dynamic> json) =>
+    _ProjectCostSummary(
+      contractAmount: (json['contractAmount'] as num).toInt(),
+      purchaseAmount: (json['purchaseAmount'] as num).toInt(),
+      tripSettlementAmount: (json['tripSettlementAmount'] as num).toInt(),
+      totalCost: (json['totalCost'] as num).toInt(),
+      profitAmount: (json['profitAmount'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$ProjectCostSummaryToJson(_ProjectCostSummary instance) =>
+    <String, dynamic>{
+      'contractAmount': instance.contractAmount,
+      'purchaseAmount': instance.purchaseAmount,
+      'tripSettlementAmount': instance.tripSettlementAmount,
+      'totalCost': instance.totalCost,
+      'profitAmount': instance.profitAmount,
+    };
+
 _Client _$ClientFromJson(Map<String, dynamic> json) =>
     _Client(id: (json['id'] as num).toInt(), name: json['name'] as String);
 
@@ -6104,6 +6122,33 @@ class _ProjectService implements ProjectService {
   }
 
   @override
+  Future<ProjectCostSummary> getProjectCostSummary({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ProjectCostSummary>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'project/${id}/cost-summary',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ProjectCostSummary _value;
+    try {
+      _value = ProjectCostSummary.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<Project> getProjectForEdit({required int id}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -8061,7 +8106,7 @@ final class HolidayRepositoryProvider
   }
 }
 
-String _$holidayRepositoryHash() => r'fdd9c75139144f8d8b5fdf310650e3ee985ec6cd';
+String _$holidayRepositoryHash() => r'17658906c1aaba3a4cc3263bd829aa1c08c3aa93';
 
 @ProviderFor(scheduleRepository)
 final scheduleRepositoryProvider = ScheduleRepositoryProvider._();
@@ -8109,7 +8154,7 @@ final class ScheduleRepositoryProvider
 }
 
 String _$scheduleRepositoryHash() =>
-    r'09708709a8ba26695e34fa314565be5ad37052a4';
+    r'cbbd0adadc392e36de981842db8c5b60ed3f977c';
 
 @ProviderFor(issueRepository)
 final issueRepositoryProvider = IssueRepositoryProvider._();
@@ -8578,7 +8623,7 @@ final class ProjectClientRepositoryProvider
 }
 
 String _$projectClientRepositoryHash() =>
-    r'e23f11500383c44c6d2bef2c654ec096d9ddc1ef';
+    r'f7f0d5b7ddbc6d4ee6b9126a8c9cfd4d253ee720';
 
 @ProviderFor(projectRepository)
 final projectRepositoryProvider = ProjectRepositoryProvider._();
@@ -8625,7 +8670,7 @@ final class ProjectRepositoryProvider
   }
 }
 
-String _$projectRepositoryHash() => r'b0324fdaf9885a4f2a49f69c997b58c1fcb3fe62';
+String _$projectRepositoryHash() => r'38c84479cde03ce04d0affc1440c64a10c74f640';
 
 @ProviderFor(sftpRepository)
 final sftpRepositoryProvider = SftpRepositoryProvider._();
@@ -8666,7 +8711,7 @@ final class SftpRepositoryProvider
   }
 }
 
-String _$sftpRepositoryHash() => r'1e9dbfac9f05a2a0cd909f407c657ea48133b255';
+String _$sftpRepositoryHash() => r'98ad3f21aae2fd7585b3407c4e4a9e702e672b2f';
 
 @ProviderFor(supplierRepository)
 final supplierRepositoryProvider = SupplierRepositoryProvider._();
@@ -8714,7 +8759,7 @@ final class SupplierRepositoryProvider
 }
 
 String _$supplierRepositoryHash() =>
-    r'12f42fb06efa58dd0deb73850d9748d8b357f136';
+    r'3430dde8cd9b5d3e53cb6c70ef1edc022e199bc5';
 
 @ProviderFor(reportRepository)
 final reportRepositoryProvider = ReportRepositoryProvider._();
@@ -8760,7 +8805,7 @@ final class ReportRepositoryProvider
   }
 }
 
-String _$reportRepositoryHash() => r'd5a27a8f4117e71b601e08342358f2ecb4804ab7';
+String _$reportRepositoryHash() => r'3920fb52839d3449ae8dfaa643b2ba95155ccc52';
 
 @ProviderFor(userRepository)
 final userRepositoryProvider = UserRepositoryProvider._();
@@ -8801,7 +8846,7 @@ final class UserRepositoryProvider
   }
 }
 
-String _$userRepositoryHash() => r'b53d2f9245ad1f28d00cd609dd568bc60cacbcce';
+String _$userRepositoryHash() => r'76ac51c907be91a7f185aeb1aac239ed05d0f6c1';
 
 @ProviderFor(workRepository)
 final workRepositoryProvider = WorkRepositoryProvider._();
@@ -8842,4 +8887,4 @@ final class WorkRepositoryProvider
   }
 }
 
-String _$workRepositoryHash() => r'13ba37217418d9f290e5cf710d9e2b3b03adc468';
+String _$workRepositoryHash() => r'd82b27c0b56b3da34e02cef65af630771592e10d';
