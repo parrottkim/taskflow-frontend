@@ -12764,6 +12764,281 @@ as int,
 
 
 /// @nodoc
+mixin _$ProjectCostSummary {
+
+ int get contractAmount; int get purchaseAmount; int get tripSettlementAmount; int get totalCost; int get profitAmount;
+/// Create a copy of ProjectCostSummary
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProjectCostSummaryCopyWith<ProjectCostSummary> get copyWith => _$ProjectCostSummaryCopyWithImpl<ProjectCostSummary>(this as ProjectCostSummary, _$identity);
+
+  /// Serializes this ProjectCostSummary to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProjectCostSummary&&(identical(other.contractAmount, contractAmount) || other.contractAmount == contractAmount)&&(identical(other.purchaseAmount, purchaseAmount) || other.purchaseAmount == purchaseAmount)&&(identical(other.tripSettlementAmount, tripSettlementAmount) || other.tripSettlementAmount == tripSettlementAmount)&&(identical(other.totalCost, totalCost) || other.totalCost == totalCost)&&(identical(other.profitAmount, profitAmount) || other.profitAmount == profitAmount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,contractAmount,purchaseAmount,tripSettlementAmount,totalCost,profitAmount);
+
+@override
+String toString() {
+  return 'ProjectCostSummary(contractAmount: $contractAmount, purchaseAmount: $purchaseAmount, tripSettlementAmount: $tripSettlementAmount, totalCost: $totalCost, profitAmount: $profitAmount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProjectCostSummaryCopyWith<$Res>  {
+  factory $ProjectCostSummaryCopyWith(ProjectCostSummary value, $Res Function(ProjectCostSummary) _then) = _$ProjectCostSummaryCopyWithImpl;
+@useResult
+$Res call({
+ int contractAmount, int purchaseAmount, int tripSettlementAmount, int totalCost, int profitAmount
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProjectCostSummaryCopyWithImpl<$Res>
+    implements $ProjectCostSummaryCopyWith<$Res> {
+  _$ProjectCostSummaryCopyWithImpl(this._self, this._then);
+
+  final ProjectCostSummary _self;
+  final $Res Function(ProjectCostSummary) _then;
+
+/// Create a copy of ProjectCostSummary
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? contractAmount = null,Object? purchaseAmount = null,Object? tripSettlementAmount = null,Object? totalCost = null,Object? profitAmount = null,}) {
+  return _then(_self.copyWith(
+contractAmount: null == contractAmount ? _self.contractAmount : contractAmount // ignore: cast_nullable_to_non_nullable
+as int,purchaseAmount: null == purchaseAmount ? _self.purchaseAmount : purchaseAmount // ignore: cast_nullable_to_non_nullable
+as int,tripSettlementAmount: null == tripSettlementAmount ? _self.tripSettlementAmount : tripSettlementAmount // ignore: cast_nullable_to_non_nullable
+as int,totalCost: null == totalCost ? _self.totalCost : totalCost // ignore: cast_nullable_to_non_nullable
+as int,profitAmount: null == profitAmount ? _self.profitAmount : profitAmount // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ProjectCostSummary].
+extension ProjectCostSummaryPatterns on ProjectCostSummary {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProjectCostSummary value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ProjectCostSummary() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProjectCostSummary value)  $default,){
+final _that = this;
+switch (_that) {
+case _ProjectCostSummary():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProjectCostSummary value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ProjectCostSummary() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int contractAmount,  int purchaseAmount,  int tripSettlementAmount,  int totalCost,  int profitAmount)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ProjectCostSummary() when $default != null:
+return $default(_that.contractAmount,_that.purchaseAmount,_that.tripSettlementAmount,_that.totalCost,_that.profitAmount);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int contractAmount,  int purchaseAmount,  int tripSettlementAmount,  int totalCost,  int profitAmount)  $default,) {final _that = this;
+switch (_that) {
+case _ProjectCostSummary():
+return $default(_that.contractAmount,_that.purchaseAmount,_that.tripSettlementAmount,_that.totalCost,_that.profitAmount);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int contractAmount,  int purchaseAmount,  int tripSettlementAmount,  int totalCost,  int profitAmount)?  $default,) {final _that = this;
+switch (_that) {
+case _ProjectCostSummary() when $default != null:
+return $default(_that.contractAmount,_that.purchaseAmount,_that.tripSettlementAmount,_that.totalCost,_that.profitAmount);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ProjectCostSummary implements ProjectCostSummary {
+  const _ProjectCostSummary({required this.contractAmount, required this.purchaseAmount, required this.tripSettlementAmount, required this.totalCost, required this.profitAmount});
+  factory _ProjectCostSummary.fromJson(Map<String, dynamic> json) => _$ProjectCostSummaryFromJson(json);
+
+@override final  int contractAmount;
+@override final  int purchaseAmount;
+@override final  int tripSettlementAmount;
+@override final  int totalCost;
+@override final  int profitAmount;
+
+/// Create a copy of ProjectCostSummary
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ProjectCostSummaryCopyWith<_ProjectCostSummary> get copyWith => __$ProjectCostSummaryCopyWithImpl<_ProjectCostSummary>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ProjectCostSummaryToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProjectCostSummary&&(identical(other.contractAmount, contractAmount) || other.contractAmount == contractAmount)&&(identical(other.purchaseAmount, purchaseAmount) || other.purchaseAmount == purchaseAmount)&&(identical(other.tripSettlementAmount, tripSettlementAmount) || other.tripSettlementAmount == tripSettlementAmount)&&(identical(other.totalCost, totalCost) || other.totalCost == totalCost)&&(identical(other.profitAmount, profitAmount) || other.profitAmount == profitAmount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,contractAmount,purchaseAmount,tripSettlementAmount,totalCost,profitAmount);
+
+@override
+String toString() {
+  return 'ProjectCostSummary(contractAmount: $contractAmount, purchaseAmount: $purchaseAmount, tripSettlementAmount: $tripSettlementAmount, totalCost: $totalCost, profitAmount: $profitAmount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ProjectCostSummaryCopyWith<$Res> implements $ProjectCostSummaryCopyWith<$Res> {
+  factory _$ProjectCostSummaryCopyWith(_ProjectCostSummary value, $Res Function(_ProjectCostSummary) _then) = __$ProjectCostSummaryCopyWithImpl;
+@override @useResult
+$Res call({
+ int contractAmount, int purchaseAmount, int tripSettlementAmount, int totalCost, int profitAmount
+});
+
+
+
+
+}
+/// @nodoc
+class __$ProjectCostSummaryCopyWithImpl<$Res>
+    implements _$ProjectCostSummaryCopyWith<$Res> {
+  __$ProjectCostSummaryCopyWithImpl(this._self, this._then);
+
+  final _ProjectCostSummary _self;
+  final $Res Function(_ProjectCostSummary) _then;
+
+/// Create a copy of ProjectCostSummary
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? contractAmount = null,Object? purchaseAmount = null,Object? tripSettlementAmount = null,Object? totalCost = null,Object? profitAmount = null,}) {
+  return _then(_ProjectCostSummary(
+contractAmount: null == contractAmount ? _self.contractAmount : contractAmount // ignore: cast_nullable_to_non_nullable
+as int,purchaseAmount: null == purchaseAmount ? _self.purchaseAmount : purchaseAmount // ignore: cast_nullable_to_non_nullable
+as int,tripSettlementAmount: null == tripSettlementAmount ? _self.tripSettlementAmount : tripSettlementAmount // ignore: cast_nullable_to_non_nullable
+as int,totalCost: null == totalCost ? _self.totalCost : totalCost // ignore: cast_nullable_to_non_nullable
+as int,profitAmount: null == profitAmount ? _self.profitAmount : profitAmount // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$Client {
 
  int get id; String get name;

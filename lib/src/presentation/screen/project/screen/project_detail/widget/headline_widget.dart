@@ -48,13 +48,15 @@ class HeadlineWidget extends HookConsumerWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  project.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: Responsive.isMobile(context) ? 20.0 : 28.0,
-                    fontWeight: FontWeight.w600,
+                Flexible(
+                  child: Text(
+                    project.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: Responsive.isMobile(context) ? 20.0 : 28.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 if (isNameHovered.value)
