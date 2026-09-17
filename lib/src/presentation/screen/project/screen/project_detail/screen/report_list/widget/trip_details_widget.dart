@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/data/data.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class TripDetailsWidget extends StatelessWidget {
   final Schedule schedule;
@@ -71,184 +72,208 @@ class TripDetailsWidget extends StatelessWidget {
           return sum + convertedPrice;
         });
 
+    final isDesktop = Responsive.isDesktop(context);
+
+    Widget buildResponsiveTable(Widget table) {
+      if (isDesktop) return table;
+
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: table,
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        DataTable(
-          headingRowHeight: 36.0,
-          showCheckboxColumn: false,
-          horizontalMargin: 12.0,
-          dataRowMinHeight: 34.0,
-          dataRowMaxHeight: double.infinity,
-          headingRowColor: WidgetStatePropertyAll(colorScheme.surfaceContainer),
-          columns: [
-            DataColumn(
-              columnWidth: FlexColumnWidth(1.0),
-              label: Text(
-                Intl.message('report_form_${category.id}'),
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
+        buildResponsiveTable(
+          DataTable(
+            headingRowHeight: 36.0,
+            showCheckboxColumn: false,
+            horizontalMargin: 12.0,
+            dataRowMinHeight: 34.0,
+            dataRowMaxHeight: double.infinity,
+            headingRowColor: WidgetStatePropertyAll(
+              colorScheme.surfaceContainer,
             ),
-            DataColumn(
-              columnWidth: FlexColumnWidth(0.4),
-              label: Text(
-                Intl.message('report_form_regulation'),
-                style: TextStyle(color: colorScheme.onSurface.strong),
+            columns: [
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(1.0)
+                    : const FixedColumnWidth(200.0),
+                label: Text(
+                  Intl.message('report_form_${category.id}'),
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
               ),
-            ),
-            DataColumn(
-              columnWidth: FlexColumnWidth(0.4),
-              label: Text(
-                Intl.message('report_form_expense_amount'),
-                style: TextStyle(color: colorScheme.onSurface.strong),
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(0.4)
+                    : const FixedColumnWidth(160.0),
+                label: Text(
+                  Intl.message('report_form_regulation'),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
+                ),
               ),
-            ),
-            DataColumn(
-              columnWidth: FlexColumnWidth(0.4),
-              label: Text(
-                Intl.message('report_form_expense_details'),
-                style: TextStyle(color: colorScheme.onSurface.strong),
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(0.4)
+                    : const FixedColumnWidth(220.0),
+                label: Text(
+                  Intl.message('report_form_expense_amount'),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
+                ),
               ),
-            ),
-          ],
-          rows: List.generate(steps.length, (index) {
-            final step = steps[index];
-            final stepExpenses = expenses
-                .where((expense) => expense.stepId == step.id)
-                .toList();
-            final itemHeight = step.requiresExpenseCurrency ? 70.0 : 34.0;
-            final double height = max(34.0, itemHeight * stepExpenses.length);
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(0.4)
+                    : const FixedColumnWidth(220.0),
+                label: Text(
+                  Intl.message('report_form_expense_details'),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
+                ),
+              ),
+            ],
+            rows: List.generate(steps.length, (index) {
+              final step = steps[index];
+              final stepExpenses = expenses
+                  .where((expense) => expense.stepId == step.id)
+                  .toList();
+              final itemHeight = step.requiresExpenseCurrency ? 70.0 : 34.0;
+              final double height = max(34.0, itemHeight * stepExpenses.length);
 
-            return DataRow(
-              cells: [
-                DataCell(
-                  SizedBox(
-                    height: height,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          step.name,
-                          style: TextStyle(fontWeight: FontWeight.w600),
+              return DataRow(
+                cells: [
+                  DataCell(
+                    SizedBox(
+                      height: height,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            step.name,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                DataCell(
-                  SizedBox(
-                    height: height,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          regulations.firstWhereOrNull(
-                                        (e) => e.stepId == step.id,
-                                      ) !=
-                                      null &&
-                                  rates.firstWhereOrNull(
-                                        (e) => e.stepId == step.id,
-                                      ) !=
-                                      null
-                              ? '${regulations.firstWhereOrNull((e) => e.stepId == step.id)!.rate} ${schedule.category is ScheduleDomestic ? '₩' : '\$'} × ${rates.firstWhereOrNull((e) => e.stepId == step.id)!.days} 일'
-                              : '',
+                  DataCell(
+                    SizedBox(
+                      height: height,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            regulations.firstWhereOrNull(
+                                          (e) => e.stepId == step.id,
+                                        ) !=
+                                        null &&
+                                    rates.firstWhereOrNull(
+                                          (e) => e.stepId == step.id,
+                                        ) !=
+                                        null
+                                ? '${regulations.firstWhereOrNull((e) => e.stepId == step.id)!.rate} ${schedule.category is ScheduleDomestic ? '₩' : '\$'} × ${rates.firstWhereOrNull((e) => e.stepId == step.id)!.days} 일'
+                                : '',
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                DataCell(
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: stepExpenses.length,
-                    itemBuilder: (context, itemIndex) {
-                      final expense = stepExpenses[itemIndex];
-                      final currency = currencies.firstWhereOrNull(
-                        (currency) => currency.id == expense.currencyId,
-                      );
+                  DataCell(
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: stepExpenses.length,
+                      itemBuilder: (context, itemIndex) {
+                        final expense = stepExpenses[itemIndex];
+                        final currency = currencies.firstWhereOrNull(
+                          (currency) => currency.id == expense.currencyId,
+                        );
 
-                      return SizedBox(
-                        height: itemHeight,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${expense.price ?? 0} ${step.requiresExpenseCurrency ? currency?.symbol ?? '-' : '₩'}',
-                              ),
-                              if (step.requiresExpenseCurrency &&
-                                  expense.convertedPrice != null)
+                        return SizedBox(
+                          height: itemHeight,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Text(
-                                  '${NumberFormat('#,###').format(expense.convertedPrice)} ₩',
-                                  style: textTheme.bodySmall?.copyWith(
-                                    color: colorScheme.onSurface.strong,
-                                  ),
+                                  '${expense.price ?? 0} ${step.requiresExpenseCurrency ? currency?.symbol ?? '-' : '₩'}',
                                 ),
-                              if (step.requiresExpenseCurrency &&
-                                  expense.exchangeRate != null)
-                                Text(
-                                  [
-                                    '${NumberFormat('#,###.##').format(expense.exchangeRate)} ₩',
-                                    if (expense.exchangeRateAppliedDate != null)
-                                      DateFormat.yMMMd(
-                                        Intl.getCurrentLocale(),
-                                      ).format(
-                                        expense.exchangeRateAppliedDate!,
-                                      ),
-                                  ].join(' · '),
-                                  style: textTheme.labelSmall?.copyWith(
-                                    color: colorScheme.onSurface.strong,
+                                if (step.requiresExpenseCurrency &&
+                                    expense.convertedPrice != null)
+                                  Text(
+                                    '${NumberFormat('#,###').format(expense.convertedPrice)} ₩',
+                                    style: textTheme.bodySmall?.copyWith(
+                                      color: colorScheme.onSurface.strong,
+                                    ),
                                   ),
-                                ),
-                            ],
+                                if (step.requiresExpenseCurrency &&
+                                    expense.exchangeRate != null)
+                                  Text(
+                                    [
+                                      '${NumberFormat('#,###.##').format(expense.exchangeRate)} ₩',
+                                      if (expense.exchangeRateAppliedDate !=
+                                          null)
+                                        DateFormat.yMMMd(
+                                          Intl.getCurrentLocale(),
+                                        ).format(
+                                          expense.exchangeRateAppliedDate!,
+                                        ),
+                                    ].join(' · '),
+                                    style: textTheme.labelSmall?.copyWith(
+                                      color: colorScheme.onSurface.strong,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                DataCell(
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: stepExpenses.length,
-                    itemBuilder: (context, itemIndex) {
-                      final expense = stepExpenses[itemIndex];
+                  DataCell(
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: stepExpenses.length,
+                      itemBuilder: (context, itemIndex) {
+                        final expense = stepExpenses[itemIndex];
 
-                      return SizedBox(
-                        height: itemHeight,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(expense.details ?? ''),
-                              if (step.requiresExpenseCurrency &&
-                                  expense.paymentDate != null)
-                                Text(
-                                  DateFormat.yMMMd(
-                                    Intl.getCurrentLocale(),
-                                  ).format(expense.paymentDate!),
-                                  style: textTheme.bodySmall?.copyWith(
-                                    color: colorScheme.onSurface.strong,
+                        return SizedBox(
+                          height: itemHeight,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(expense.details ?? ''),
+                                if (step.requiresExpenseCurrency &&
+                                    expense.paymentDate != null)
+                                  Text(
+                                    DateFormat.yMMMd(
+                                      Intl.getCurrentLocale(),
+                                    ).format(expense.paymentDate!),
+                                    style: textTheme.bodySmall?.copyWith(
+                                      color: colorScheme.onSurface.strong,
+                                    ),
                                   ),
-                                ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            );
-          }),
+                ],
+              );
+            }),
+          ),
         ),
         if (category.id != 4)
           Container(

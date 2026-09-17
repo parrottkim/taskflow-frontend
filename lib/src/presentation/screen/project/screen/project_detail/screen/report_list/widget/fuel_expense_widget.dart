@@ -3,6 +3,7 @@ import 'package:taskflow/src/shared/theme/color_extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
 import 'package:taskflow/src/data/data.dart';
+import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class FuelExpenseWidget extends HookWidget {
   final TripFuelExpense fuel;
@@ -30,62 +31,79 @@ class FuelExpenseWidget extends HookWidget {
       return rate * (distance / mileage);
     }, [fuel]);
 
+    final isDesktop = Responsive.isDesktop(context);
+
+    Widget buildResponsiveTable(Widget table) {
+      if (isDesktop) return table;
+
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: table,
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        DataTable(
-          headingRowHeight: 36.0,
-          showCheckboxColumn: false,
-          horizontalMargin: 12.0,
-          dataRowMinHeight: 34.0,
-          dataRowMaxHeight: double.infinity,
-          headingRowColor: WidgetStatePropertyAll(colorScheme.surfaceContainer),
-          columns: [
-            DataColumn(
-              columnWidth: FlexColumnWidth(1.0),
-              label: Text(
-                Intl.message('report_form_personal_vehicle_fuel_expense'),
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
+        buildResponsiveTable(
+          DataTable(
+            headingRowHeight: 36.0,
+            showCheckboxColumn: false,
+            horizontalMargin: 12.0,
+            dataRowMinHeight: 34.0,
+            dataRowMaxHeight: double.infinity,
+            headingRowColor: WidgetStatePropertyAll(
+              colorScheme.surfaceContainer,
             ),
-            DataColumn(
-              columnWidth: FlexColumnWidth(0.4),
-              label: Text(
-                Intl.message('report_form_fuel_unit_price'),
-                style: TextStyle(
-                  color: colorScheme.onSurface.strong,
+            columns: [
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(1.0)
+                    : const FixedColumnWidth(220.0),
+                label: Text(
+                  Intl.message('report_form_personal_vehicle_fuel_expense'),
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
-            ),
-            DataColumn(
-              columnWidth: FlexColumnWidth(0.4),
-              label: Text(
-                Intl.message('report_form_fuel_efficiency'),
-                style: TextStyle(
-                  color: colorScheme.onSurface.strong,
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(0.4)
+                    : const FixedColumnWidth(140.0),
+                label: Text(
+                  Intl.message('report_form_fuel_unit_price'),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
                 ),
               ),
-            ),
-            DataColumn(
-              columnWidth: FlexColumnWidth(0.4),
-              label: Text(
-                Intl.message('report_form_driving_distance'),
-                style: TextStyle(
-                  color: colorScheme.onSurface.strong,
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(0.4)
+                    : const FixedColumnWidth(140.0),
+                label: Text(
+                  Intl.message('report_form_fuel_efficiency'),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
                 ),
               ),
-            ),
-          ],
-          rows: [
-            DataRow(
-              cells: [
-                DataCell(SizedBox()),
-                DataCell(Text('${fuel.rate ?? 0} ₩')),
-                DataCell(Text('${fuel.mileage ?? 0} km/L')),
-                DataCell(Text('${fuel.distance ?? 0} km')),
-              ],
-            ),
-          ],
+              DataColumn(
+                columnWidth: isDesktop
+                    ? const FlexColumnWidth(0.4)
+                    : const FixedColumnWidth(160.0),
+                label: Text(
+                  Intl.message('report_form_driving_distance'),
+                  style: TextStyle(color: colorScheme.onSurface.strong),
+                ),
+              ),
+            ],
+            rows: [
+              DataRow(
+                cells: [
+                  DataCell(SizedBox()),
+                  DataCell(Text('${fuel.rate ?? 0} ₩')),
+                  DataCell(Text('${fuel.mileage ?? 0} km/L')),
+                  DataCell(Text('${fuel.distance ?? 0} km')),
+                ],
+              ),
+            ],
+          ),
         ),
         Divider(),
         Container(
