@@ -25,7 +25,11 @@ class TripCostWidget extends HookConsumerWidget {
               item.schedule != null &&
               item.trip!.calculations != null)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                bottom: 16.0,
+              ),
               child: BentoGrid(
                 rows: 1,
                 columns: 3,
@@ -166,7 +170,11 @@ class TripCostWidget extends HookConsumerWidget {
               item.schedule != null &&
               item.trip!.calculations != null)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                bottom: 16.0,
+              ),
               child: Column(
                 children: [
                   Row(
