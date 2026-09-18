@@ -3,7 +3,7 @@ part of '../../data.dart';
 class SftpDataSource implements SftpRepository {
   final SftpService _service;
 
-  SftpDataSource({required SftpService service}) : _service = service;
+  SftpDataSource({required this._service});
 
   @override
   Future<List<UploadedFile>> uploadInlineImage({

@@ -3,7 +3,7 @@ part of '../../data.dart';
 class UserDataSource implements UserRepository {
   final UserService _service;
 
-  UserDataSource({required UserService service}) : _service = service;
+  UserDataSource({required this._service});
 
   @override
   Future<List<UserDepartmentGroup>> getAllDepartments() =>

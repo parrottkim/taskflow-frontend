@@ -49,6 +49,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
             issueId: issueId,
             reportId: reportId,
             project: value.project,
+            costSummary: value.costSummary,
             contracts: value.contracts,
             approvals: value.approvals,
             procurements: value.procurements,
@@ -59,6 +60,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
             issueId: issueId,
             reportId: reportId,
             project: value.project,
+            costSummary: value.costSummary,
             contracts: value.contracts,
             approvals: value.approvals,
             procurements: value.procurements,
@@ -76,12 +78,14 @@ class ProjectDetailScreen extends HookConsumerWidget {
               issueId: issueId,
               reportId: reportId,
               project: Project.dummy(),
+              costSummary: ProjectCostSummary.dummy(),
             ),
             mobile: _MobileWidget(
               projectId: projectId,
               issueId: issueId,
               reportId: reportId,
               project: Project.dummy(),
+              costSummary: ProjectCostSummary.dummy(),
             ),
           ),
         ),
@@ -95,6 +99,7 @@ class _DesktopWidget extends StatelessWidget {
   final int? issueId;
   final int? reportId;
   final Project project;
+  final ProjectCostSummary costSummary;
   final int contracts;
   final int approvals;
   final int procurements;
@@ -105,6 +110,7 @@ class _DesktopWidget extends StatelessWidget {
     this.issueId,
     this.reportId,
     required this.project,
+    required this.costSummary,
     this.contracts = 0,
     this.approvals = 0,
     this.procurements = 0,
@@ -124,6 +130,7 @@ class _DesktopWidget extends StatelessWidget {
               issueId: issueId,
               reportId: reportId,
               project: project,
+              costSummary: costSummary,
               contracts: contracts,
               approvals: approvals,
               procurements: procurements,
@@ -131,7 +138,7 @@ class _DesktopWidget extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.0),
-          SummaryWidget(project: project),
+          SummaryWidget(project: project, costSummary: costSummary),
         ],
       ),
     );
@@ -143,6 +150,7 @@ class _MobileWidget extends StatelessWidget {
   final int? issueId;
   final int? reportId;
   final Project project;
+  final ProjectCostSummary costSummary;
   final int contracts;
   final int approvals;
   final int procurements;
@@ -153,6 +161,7 @@ class _MobileWidget extends StatelessWidget {
     this.issueId,
     this.reportId,
     required this.project,
+    required this.costSummary,
     this.contracts = 0,
     this.approvals = 0,
     this.procurements = 0,
@@ -173,6 +182,7 @@ class _MobileWidget extends StatelessWidget {
               issueId: issueId,
               reportId: reportId,
               project: project,
+              costSummary: costSummary,
               contracts: contracts,
               approvals: approvals,
               procurements: procurements,

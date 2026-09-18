@@ -3,7 +3,7 @@ part of '../../data.dart';
 class ReportDataSource implements ReportRepository {
   final ReportService _service;
 
-  ReportDataSource({required ReportService service}) : _service = service;
+  ReportDataSource({required this._service});
 
   @override
   Future<List<TripCategory>> getAllTripCategories() =>

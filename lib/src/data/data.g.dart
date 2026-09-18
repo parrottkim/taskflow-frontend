@@ -1264,6 +1264,24 @@ Map<String, dynamic> _$ProjectSummaryToJson(_ProjectSummary instance) =>
       'active': instance.active,
     };
 
+_ProjectCostSummary _$ProjectCostSummaryFromJson(Map<String, dynamic> json) =>
+    _ProjectCostSummary(
+      contractAmount: (json['contractAmount'] as num).toInt(),
+      purchaseAmount: (json['purchaseAmount'] as num).toInt(),
+      tripSettlementAmount: (json['tripSettlementAmount'] as num).toInt(),
+      totalCost: (json['totalCost'] as num).toInt(),
+      profitAmount: (json['profitAmount'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$ProjectCostSummaryToJson(_ProjectCostSummary instance) =>
+    <String, dynamic>{
+      'contractAmount': instance.contractAmount,
+      'purchaseAmount': instance.purchaseAmount,
+      'tripSettlementAmount': instance.tripSettlementAmount,
+      'totalCost': instance.totalCost,
+      'profitAmount': instance.profitAmount,
+    };
+
 _Client _$ClientFromJson(Map<String, dynamic> json) =>
     _Client(id: (json['id'] as num).toInt(), name: json['name'] as String);
 
@@ -6096,6 +6114,33 @@ class _ProjectService implements ProjectService {
     late ProjectItemCount _value;
     try {
       _value = ProjectItemCount.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ProjectCostSummary> getProjectCostSummary({required int id}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ProjectCostSummary>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'project/${id}/cost-summary',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ProjectCostSummary _value;
+    try {
+      _value = ProjectCostSummary.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

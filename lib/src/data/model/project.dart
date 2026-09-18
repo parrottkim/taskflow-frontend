@@ -117,6 +117,28 @@ abstract class ProjectSummary with _$ProjectSummary {
 }
 
 @freezed
+abstract class ProjectCostSummary with _$ProjectCostSummary {
+  const factory ProjectCostSummary({
+    required int contractAmount,
+    required int purchaseAmount,
+    required int tripSettlementAmount,
+    required int totalCost,
+    required int profitAmount,
+  }) = _ProjectCostSummary;
+
+  factory ProjectCostSummary.dummy() => ProjectCostSummary(
+    contractAmount: 0,
+    purchaseAmount: 0,
+    tripSettlementAmount: 0,
+    totalCost: 0,
+    profitAmount: 0,
+  );
+
+  factory ProjectCostSummary.fromJson(Map<String, dynamic> json) =>
+      _$ProjectCostSummaryFromJson(json);
+}
+
+@freezed
 abstract class Client with _$Client {
   factory Client({required int id, required String name}) = _Client;
 
