@@ -3620,10 +3620,10 @@ class S {
     );
   }
 
-  /// `이익`
+  /// `프로젝트 손익`
   String get project_detail_summary_3_5 {
     return Intl.message(
-      '이익',
+      '프로젝트 손익',
       name: 'project_detail_summary_3_5',
       desc: '',
       args: [],

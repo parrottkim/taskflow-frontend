@@ -189,7 +189,12 @@ class _DesktopWidget extends HookConsumerWidget {
           children: [
             if (payment != null)
               Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
+                padding: EdgeInsets.only(
+                  bottom:
+                      transaction != null || kickoff != null || contract != null
+                      ? 8.0
+                      : 0.0,
+                ),
                 child: Row(
                   key: itemKeys[payment!.id],
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,7 +306,9 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             if (transaction != null)
               Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
+                padding: EdgeInsets.only(
+                  bottom: kickoff != null || contract != null ? 8.0 : 0.0,
+                ),
                 child: Row(
                   key: itemKeys[transaction!.id],
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,7 +402,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       ),
                                       item: transaction!.category,
                                     ),
-                                    SizedBox(height: 8.0),
+                                    SizedBox(height: 16.0),
                                     TransactionDisplayItem(
                                       projectId: projectId,
                                       currency: transaction!.currency,
@@ -403,7 +410,6 @@ class _DesktopWidget extends HookConsumerWidget {
                                     ),
                                     SizedBox(height: 16.0),
                                     MarkdownWidget(item: transaction!.content),
-                                    SizedBox(height: 16.0),
                                     if (transaction!.attachments.isNotEmpty)
                                       AttachmentListWidget<IssueAttachment>(
                                         attachments: transaction!.attachments,
@@ -421,7 +427,7 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             if (kickoff != null)
               Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
+                padding: EdgeInsets.only(bottom: contract != null ? 8.0 : 0.0),
                 child: Row(
                   key: itemKeys[kickoff!.id],
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -540,7 +546,7 @@ class _DesktopWidget extends HookConsumerWidget {
               ),
             if (contract != null)
               Padding(
-                padding: EdgeInsets.only(bottom: 8.0),
+                padding: EdgeInsets.zero,
                 child: Row(
                   key: itemKeys[contract!.id],
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -633,7 +639,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                       ),
                                       item: contract!.category,
                                     ),
-                                    SizedBox(height: 8.0),
+                                    SizedBox(height: 16.0),
                                     ContractDisplayItem(
                                       currency: contract!.currency,
                                       contractItems: contractItems,
