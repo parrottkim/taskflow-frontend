@@ -19,6 +19,7 @@ class OverviewWidget extends HookConsumerWidget {
   final int? issueId;
   final int? reportId;
   final Project project;
+  final ProjectCostSummary costSummary;
   final int contracts;
   final int approvals;
   final int procurements;
@@ -30,6 +31,7 @@ class OverviewWidget extends HookConsumerWidget {
     this.issueId,
     this.reportId,
     required this.project,
+    required this.costSummary,
     this.contracts = 0,
     this.approvals = 0,
     this.procurements = 0,
@@ -161,7 +163,10 @@ class OverviewWidget extends HookConsumerWidget {
                           ToolbarWidget(project: project),
                           HeadlineWidget(project: project),
                           SizedBox(height: 32.0),
-                          InfoWidget(project: project),
+                          InfoWidget(
+                            project: project,
+                            costSummary: costSummary,
+                          ),
                           SizedBox(height: 16.0),
                         ],
                       ),
