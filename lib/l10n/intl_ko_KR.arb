@@ -407,7 +407,7 @@
   "project_detail_summary_3_3": "출장비 정산액",
   "project_detail_summary_3_4": "비용 합계",
   "project_detail_summary_3_4_subtitle": "(구매금액 + 출장비 정산액)",
-  "project_detail_summary_3_5": "이익",
+  "project_detail_summary_3_5": "프로젝트 손익",
   "project_detail_summary_3_5_subtitle": "(계약금액 - 비용 합계)",
   "project_issue_mail": "업무 내용 공유",
   "project_report_mail": "보고서 공유",

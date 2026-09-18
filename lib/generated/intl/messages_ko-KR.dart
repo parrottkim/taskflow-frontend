@@ -888,7 +888,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "project_detail_summary_3_4_subtitle":
             MessageLookupByLibrary.simpleMessage("(구매금액 + 출장비 정산액)"),
         "project_detail_summary_3_5":
-            MessageLookupByLibrary.simpleMessage("이익"),
+            MessageLookupByLibrary.simpleMessage("프로젝트 손익"),
         "project_detail_summary_3_5_subtitle":
             MessageLookupByLibrary.simpleMessage("(계약금액 - 비용 합계)"),
         "project_edit": MessageLookupByLibrary.simpleMessage("프로젝트 수정"),
