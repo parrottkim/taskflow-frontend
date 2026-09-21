@@ -20,6 +20,7 @@ class IssueFormController extends _$IssueFormController {
         content: result.content,
         attachments: result.attachments,
         currency: result.currency,
+        contractDate: result.contractDate,
         kickoffDate: result.kickoffDate,
         contractItems: result.contractItems,
         transactionItems: result.transactionItems,
@@ -50,6 +51,12 @@ class IssueFormController extends _$IssueFormController {
     final value = state.requireValue;
 
     state = AsyncData(value.copyWith(content: content));
+  }
+
+  void setContractDate({required DateTime date}) {
+    final value = state.requireValue;
+
+    state = AsyncData(value.copyWith(contractDate: date));
   }
 
   void setContractCurrency({required Currency currency}) {
@@ -468,6 +475,7 @@ class IssueFormController extends _$IssueFormController {
       category: value.category,
       content: value.content,
       currency: value.currency,
+      contractDate: value.contractDate,
       kickoffDate: value.kickoffDate,
       contractItems: value.contractItems,
       transactionItems: value.transactionItems,
@@ -484,6 +492,7 @@ class IssueFormController extends _$IssueFormController {
         category: payload.category,
         content: payload.content,
         currency: payload.currency,
+        contractDate: payload.contractDate,
         kickoffDate: payload.kickoffDate,
         contractItems: payload.contractItems,
         transactionItems: payload.transactionItems,
