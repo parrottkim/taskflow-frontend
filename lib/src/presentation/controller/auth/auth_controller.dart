@@ -7,6 +7,13 @@ class AuthController extends _$AuthController {
     return const AuthInitial();
   }
 
+  bool _isUnauthorizedRefresh(DioException error) {
+    final requestPath = error.requestOptions.path.split('?').first;
+
+    return error.response?.statusCode == 401 &&
+        requestPath.endsWith('auth/refresh');
+  }
+
   Future<void> init() async {
     try {
       final token = await ref.read(authRepositoryProvider).refresh();
@@ -18,9 +25,10 @@ class AuthController extends _$AuthController {
           .getUser(id: decoded['sub']);
 
       state = AuthAuthenticated(user: user);
-    } on DioException {
-      ref.read(tokenControllerProvider.notifier).clear();
-      state = const AuthUnauthenticated();
+    } on DioException catch (error) {
+      if (_isUnauthorizedRefresh(error)) {
+        expireSession();
+      }
     }
   }
 
