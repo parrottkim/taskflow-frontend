@@ -121,7 +121,14 @@ class HttpInterceptor extends Interceptor {
     final requestPath = err.requestOptions.path;
     final isAuthRequest = _isAuthRequest(requestPath);
 
-    // 로그인/refresh/logout 자체의 인증 오류는 호출자가 처리합니다.
+    // refresh 401은 쿠키 기반 세션이 더 이상 유효하지 않은 경우입니다.
+    if (statusCode == 401 && _isRefreshRequest(requestPath)) {
+      container.read(authControllerProvider.notifier).expireSession();
+
+      return handler.next(err);
+    }
+
+    // 로그인/logout 자체의 인증 오류는 호출자가 처리합니다.
     if (statusCode == 401 && isAuthRequest) {
       return handler.next(err);
     }
@@ -139,14 +146,16 @@ class HttpInterceptor extends Interceptor {
 
           final response = await dio.fetch(err.requestOptions);
           return handler.resolve(response);
+        } on DioException catch (refreshError) {
+          return handler.next(refreshError);
         } catch (_) {
-          container.read(authControllerProvider.notifier).expireSession();
-
           return handler.next(err);
         }
       }
 
-      container.read(authControllerProvider.notifier).expireSession();
+      container
+          .read(errorControllerProvider.notifier)
+          .handleException(err, StackTrace.current);
 
       return handler.next(err);
     }
