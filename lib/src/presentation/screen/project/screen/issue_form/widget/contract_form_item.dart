@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide DatePickerDialog;
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,12 +13,14 @@ import 'package:taskflow/src/shared/tool/formatter.dart';
 
 class ContractFormItem extends ConsumerWidget {
   final Currency? currency;
+  final DateTime? contractDate;
   final List<ContractIssueItem> contractItems;
   final List<TransactionIssueItem> transactionItems;
 
   const ContractFormItem({
     super.key,
     this.currency,
+    this.contractDate,
     required this.contractItems,
     required this.transactionItems,
   });
@@ -31,6 +33,7 @@ class ContractFormItem extends ConsumerWidget {
       AsyncData(:final value) => _DesktopWidget(
         currency: currency,
         currencies: value.currencies,
+        contractDate: contractDate,
         contractItems: contractItems,
         transactionItems: transactionItems,
         categories: value.transactionCategories,
@@ -55,6 +58,7 @@ class ContractFormItem extends ConsumerWidget {
 class _DesktopWidget extends HookConsumerWidget {
   final Currency? currency;
   final List<Currency> currencies;
+  final DateTime? contractDate;
   final List<ContractIssueItem> contractItems;
   final List<TransactionIssueItem> transactionItems;
   final List<TransactionIssueItemCategory> categories;
@@ -62,6 +66,7 @@ class _DesktopWidget extends HookConsumerWidget {
   const _DesktopWidget({
     this.currency,
     required this.currencies,
+    this.contractDate,
     required this.contractItems,
     required this.transactionItems,
     required this.categories,
@@ -200,6 +205,69 @@ class _DesktopWidget extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            Intl.message('issue_form_contract_9'),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          SizedBox(height: 8.0),
+          Skeleton.unite(
+            child: ElevatedButton.icon(
+              onPressed: () async {
+                validationController.clearContractDate();
+
+                final result = await showDialog(
+                  context: context,
+                  builder: (_) => DatePickerDialog(
+                    initialDate: contractDate,
+                    title: Intl.message('issue_form_contract_10'),
+                    selectableDatePredicate: (date) => !DateUtils.dateOnly(
+                      date,
+                    ).isAfter(DateUtils.dateOnly(DateTime.now())),
+                  ),
+                );
+
+                if (result != null) {
+                  ref
+                      .read(
+                        issueFormControllerProvider(
+                          projectId: projectId,
+                          categoryId: categoryId,
+                          issueId: issueId,
+                        ).notifier,
+                      )
+                      .setContractDate(date: result);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.only(
+                  left: 16.0,
+                  right: 12.0,
+                  top: 16.0,
+                  bottom: 16.0,
+                ),
+              ),
+              icon: Icon(Symbols.event_rounded),
+              label: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    contractDate == null
+                        ? Intl.message('issue_form_contract_10')
+                        : DateFormat.yMMMd(
+                            Intl.getCurrentLocale(),
+                          ).format(contractDate!),
+                  ),
+                  SizedBox(width: 8.0),
+                  Icon(Symbols.chevron_right_rounded),
+                ],
+              ),
+            ),
+          ),
+          ValidationErrorMessage(
+            visible: validation.contractDateMissing,
+            text: Intl.message('issue_form_contract_date_invalid'),
+          ),
+          SizedBox(height: 24.0),
           Text(
             Intl.message('issue_form_contract_1'),
             style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),

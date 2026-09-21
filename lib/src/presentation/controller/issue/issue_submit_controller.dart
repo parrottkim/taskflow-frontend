@@ -49,6 +49,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           categoryId: categoryId,
           content: initialContent,
           currencyId: value.currency!.id,
+          contractDate: value.contractDate!,
           contractItems: contractItems,
           transactionItems: transactionItems,
           attachments: value.attachments,
@@ -234,6 +235,9 @@ class IssueSubmitController extends _$IssueSubmitController {
       ref
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .addListItem(item: issue);
+      if (value.category is IssueContract) {
+        await _refreshProjectCostSummary(projectId: projectId);
+      }
 
       state = IssueSubmitState.created(issue);
     } catch (e) {
@@ -296,6 +300,7 @@ class IssueSubmitController extends _$IssueSubmitController {
           categoryId: categoryId,
           content: content,
           currencyId: value.currency!.id,
+          contractDate: value.contractDate!,
           contractItems: contractItems,
           transactionItems: transactionItems,
           attachments: value.attachments,
@@ -461,6 +466,9 @@ class IssueSubmitController extends _$IssueSubmitController {
       ref
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .updateListItem(issue);
+      if (value.category is IssueContract) {
+        await _refreshProjectCostSummary(projectId: projectId);
+      }
 
       state = IssueSubmitState.updated(issue);
     } catch (e) {
@@ -485,6 +493,7 @@ class IssueSubmitController extends _$IssueSubmitController {
               categoryId: categoryId,
               content: content,
               currencyId: value.currency!.id,
+              contractDate: value.contractDate!,
               contractItems: issue.contractItems
                   .map(
                     (item) => UpdateContractIssueItemRequest(
@@ -709,6 +718,9 @@ class IssueSubmitController extends _$IssueSubmitController {
       ref
           .read(issueListControllerProvider(projectId: projectId).notifier)
           .removeListItem(id: issueId, category: issue.category);
+      if (issue.category is IssueContract) {
+        await _refreshProjectCostSummary(projectId: projectId);
+      }
 
       state = IssueSubmitState.deleted();
     } catch (e) {
@@ -900,6 +912,22 @@ class IssueSubmitController extends _$IssueSubmitController {
       state = IssueSubmitState.deleted();
     } catch (e) {
       state = IssueSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> _refreshProjectCostSummary({required int projectId}) async {
+    try {
+      final costSummary = await ref
+          .read(projectRepositoryProvider)
+          .getProjectCostSummary(id: projectId);
+      if (!ref.mounted) return;
+
+      ref
+          .read(projectDetailControllerProvider(projectId: projectId).notifier)
+          .updateCostSummary(costSummary: costSummary);
+    } catch (error, stackTrace) {
+      debugPrint('Project cost summary refresh failed: $error');
+      debugPrintStack(stackTrace: stackTrace);
     }
   }
 }

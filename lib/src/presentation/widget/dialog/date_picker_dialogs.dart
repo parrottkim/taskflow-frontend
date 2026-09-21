@@ -3,6 +3,7 @@ part of '../widget.dart';
 class DatePickerDialog extends HookWidget {
   final DateTime? initialDate;
   final DateTime? minimumDate;
+  final DateTime? maximumDate;
   final SelectableDayPredicate? selectableDatePredicate;
   final String? title;
 
@@ -10,6 +11,7 @@ class DatePickerDialog extends HookWidget {
     super.key,
     this.initialDate,
     this.minimumDate,
+    this.maximumDate,
     this.selectableDatePredicate,
     this.title,
   });
@@ -22,12 +24,17 @@ class DatePickerDialog extends HookWidget {
     final normalizedMinimumDate = minimumDate == null
         ? null
         : DateUtils.dateOnly(minimumDate!);
+    final normalizedMaximumDate = maximumDate == null
+        ? null
+        : DateUtils.dateOnly(maximumDate!);
     final initialDateIsSelectable =
         initialDate != null &&
         (normalizedMinimumDate == null ||
             !DateUtils.dateOnly(
               initialDate!,
             ).isBefore(normalizedMinimumDate)) &&
+        (normalizedMaximumDate == null ||
+            !DateUtils.dateOnly(initialDate!).isAfter(normalizedMaximumDate)) &&
         (selectableDatePredicate?.call(initialDate!) ?? true);
     final selectedDate = useState<DateTime?>(
       initialDateIsSelectable ? initialDate : null,
@@ -61,6 +68,7 @@ class DatePickerDialog extends HookWidget {
                 child: Calendar.day(
                   initialDate: initialDate,
                   minimumDate: minimumDate,
+                  maximumDate: maximumDate,
                   selectableDatePredicate: selectableDatePredicate,
                   onDateSelected: (value) {
                     selectedDate.value = value;
@@ -117,6 +125,7 @@ class DateRangePickerDialog extends HookConsumerWidget {
   final DateTime? startDate;
   final DateTime? endDate;
   final DateTime? minimumDate;
+  final DateTime? maximumDate;
   final SelectableDayPredicate? selectableDatePredicate;
   final String? title;
 
@@ -125,6 +134,7 @@ class DateRangePickerDialog extends HookConsumerWidget {
     this.startDate,
     this.endDate,
     this.minimumDate,
+    this.maximumDate,
     this.selectableDatePredicate,
     this.title,
   });
@@ -137,10 +147,15 @@ class DateRangePickerDialog extends HookConsumerWidget {
     final normalizedMinimumDate = minimumDate == null
         ? null
         : DateUtils.dateOnly(minimumDate!);
+    final normalizedMaximumDate = maximumDate == null
+        ? null
+        : DateUtils.dateOnly(maximumDate!);
     bool isSelectableDate(DateTime? date) =>
         date != null &&
         (normalizedMinimumDate == null ||
             !DateUtils.dateOnly(date).isBefore(normalizedMinimumDate)) &&
+        (normalizedMaximumDate == null ||
+            !DateUtils.dateOnly(date).isAfter(normalizedMaximumDate)) &&
         (selectableDatePredicate?.call(date) ?? true);
     final rangeStartDate = useState<DateTime?>(
       isSelectableDate(startDate) ? startDate : null,
@@ -178,6 +193,7 @@ class DateRangePickerDialog extends HookConsumerWidget {
                   initialStartDate: startDate,
                   initialEndDate: endDate,
                   minimumDate: minimumDate,
+                  maximumDate: maximumDate,
                   selectableDatePredicate: selectableDatePredicate,
                   onDateRangeSelected: (value) {
                     rangeStartDate.value = value.start;

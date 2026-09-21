@@ -347,6 +347,9 @@ _IssueDraftPayload _$IssueDraftPayloadFromJson(
   currency: json['currency'] == null
       ? null
       : Currency.fromJson(json['currency'] as Map<String, dynamic>),
+  contractDate: json['contractDate'] == null
+      ? null
+      : DateTime.parse(json['contractDate'] as String),
   kickoffDate: json['kickoffDate'] == null
       ? null
       : DateTime.parse(json['kickoffDate'] as String),
@@ -372,6 +375,7 @@ Map<String, dynamic> _$IssueDraftPayloadToJson(_IssueDraftPayload instance) =>
       'category': instance.category,
       'content': instance.content,
       'currency': instance.currency,
+      'contractDate': instance.contractDate?.toIso8601String(),
       'kickoffDate': instance.kickoffDate?.toIso8601String(),
       'contractItems': instance.contractItems,
       'transactionItems': instance.transactionItems,
@@ -566,6 +570,9 @@ _Issue _$IssueFromJson(Map<String, dynamic> json) => _Issue(
   currency: json['currency'] == null
       ? null
       : Currency.fromJson(json['currency'] as Map<String, dynamic>),
+  contractDate: json['contractDate'] == null
+      ? null
+      : DateTime.parse(json['contractDate'] as String),
   kickoffDate: json['kickoffDate'] == null
       ? null
       : DateTime.parse(json['kickoffDate'] as String),
@@ -621,6 +628,7 @@ Map<String, dynamic> _$IssueToJson(_Issue instance) => <String, dynamic>{
   'content': instance.content,
   'attachments': instance.attachments,
   'currency': instance.currency,
+  'contractDate': instance.contractDate?.toIso8601String(),
   'kickoffDate': instance.kickoffDate?.toIso8601String(),
   'contractItems': instance.contractItems,
   'transactionItems': instance.transactionItems,
@@ -830,6 +838,7 @@ _ContractIssue _$ContractIssueFromJson(
       : User.fromJson(json['updatedBy'] as Map<String, dynamic>),
   content: json['content'] as String,
   currency: Currency.fromJson(json['currency'] as Map<String, dynamic>),
+  contractDate: DateTime.parse(json['contractDate'] as String),
   contractItems:
       (json['contractItems'] as List<dynamic>?)
           ?.map((e) => ContractIssueItem.fromJson(e as Map<String, dynamic>))
@@ -860,6 +869,7 @@ Map<String, dynamic> _$ContractIssueToJson(_ContractIssue instance) =>
       'updatedBy': instance.updatedBy,
       'content': instance.content,
       'currency': instance.currency,
+      'contractDate': instance.contractDate.toIso8601String(),
       'contractItems': instance.contractItems,
       'transactionItems': instance.transactionItems,
       'attachments': instance.attachments,
@@ -1489,6 +1499,7 @@ _CreateContractIssueRequest _$CreateContractIssueRequestFromJson(
   categoryId: (json['categoryId'] as num).toInt(),
   content: json['content'] as String,
   currencyId: (json['currencyId'] as num).toInt(),
+  contractDate: DateTime.parse(json['contractDate'] as String),
   contractItems: (json['contractItems'] as List<dynamic>)
       .map(
         (e) =>
@@ -1514,6 +1525,7 @@ Map<String, dynamic> _$CreateContractIssueRequestToJson(
   'categoryId': instance.categoryId,
   'content': instance.content,
   'currencyId': instance.currencyId,
+  'contractDate': instance.contractDate.toIso8601String(),
   'contractItems': instance.contractItems,
   'transactionItems': instance.transactionItems,
   'attachments': instance.attachments,
@@ -1690,6 +1702,7 @@ _UpdateContractIssueRequest _$UpdateContractIssueRequestFromJson(
   categoryId: (json['categoryId'] as num).toInt(),
   content: json['content'] as String,
   currencyId: (json['currencyId'] as num).toInt(),
+  contractDate: DateTime.parse(json['contractDate'] as String),
   contractItems: (json['contractItems'] as List<dynamic>)
       .map(
         (e) =>
@@ -1715,6 +1728,7 @@ Map<String, dynamic> _$UpdateContractIssueRequestToJson(
   'categoryId': instance.categoryId,
   'content': instance.content,
   'currencyId': instance.currencyId,
+  'contractDate': instance.contractDate.toIso8601String(),
   'contractItems': instance.contractItems,
   'transactionItems': instance.transactionItems,
   'attachments': instance.attachments,

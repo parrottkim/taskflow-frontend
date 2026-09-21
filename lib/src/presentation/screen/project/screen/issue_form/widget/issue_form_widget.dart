@@ -75,6 +75,7 @@ class _FormWidget extends ConsumerWidget {
           switch (value.category) {
             IssueContract() => ContractFormItem(
               currency: value.currency,
+              contractDate: value.contractDate,
               contractItems: value.contractItems,
               transactionItems: value.transactionItems,
             ),

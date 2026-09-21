@@ -73,6 +73,7 @@ class ContractIssueListScreen extends ConsumerWidget {
             createdBy: User.dummy(),
             content: '',
             currency: Currency.empty(),
+            contractDate: DateTime.now(),
             createdAt: DateTime.now(),
             updatedAt: DateTime.now(),
           ),
@@ -642,6 +643,7 @@ class _DesktopWidget extends HookConsumerWidget {
                                     SizedBox(height: 16.0),
                                     ContractDisplayItem(
                                       currency: contract!.currency,
+                                      contractDate: contract!.contractDate,
                                       contractItems: contractItems,
                                       transactionItems: transactionItems,
                                     ),

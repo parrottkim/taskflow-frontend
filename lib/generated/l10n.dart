@@ -3530,6 +3530,16 @@ class S {
     );
   }
 
+  /// `계약 체결일`
+  String get project_detail_contract {
+    return Intl.message(
+      '계약 체결일',
+      name: 'project_detail_contract',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `착수일`
   String get project_detail_kickoff {
     return Intl.message(
@@ -4310,6 +4320,26 @@ class S {
     );
   }
 
+  /// `계약 체결일`
+  String get issue_form_contract_9 {
+    return Intl.message(
+      '계약 체결일',
+      name: 'issue_form_contract_9',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `체결일 선택`
+  String get issue_form_contract_10 {
+    return Intl.message(
+      '체결일 선택',
+      name: 'issue_form_contract_10',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `견적서 여기에 놓기`
   String get issue_form_contract_drop {
     return Intl.message(
@@ -4345,6 +4375,16 @@ class S {
     return Intl.message(
       '견적서 파일은 엑셀(.xlsx) 파일만 업로드 할 수 있습니다.',
       name: 'issue_form_contract_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `계약 체결일을 선택해 주세요`
+  String get issue_form_contract_date_invalid {
+    return Intl.message(
+      '계약 체결일을 선택해 주세요',
+      name: 'issue_form_contract_date_invalid',
       desc: '',
       args: [],
     );

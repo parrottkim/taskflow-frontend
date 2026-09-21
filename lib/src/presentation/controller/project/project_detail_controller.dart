@@ -40,6 +40,13 @@ class ProjectDetailController extends _$ProjectDetailController {
     state = AsyncValue.data(value.copyWith(project: project));
   }
 
+  void updateCostSummary({required ProjectCostSummary costSummary}) {
+    if (!state.hasValue) return;
+    final value = state.requireValue;
+
+    state = AsyncValue.data(value.copyWith(costSummary: costSummary));
+  }
+
   Future<void> toggleBookmark({required bool bookmarked}) async {
     if (!state.hasValue) return;
     final value = state.requireValue;

@@ -19,6 +19,7 @@ class Calendar extends HookWidget {
   final DateTime? initialStartDate;
   final DateTime? initialEndDate;
   final DateTime? minimumDate;
+  final DateTime? maximumDate;
   final SelectableDayPredicate? selectableDatePredicate;
   final ValueChanged<DateTime>? onDateSelected;
   final ValueChanged<DateTimeRange>? onDateRangeSelected;
@@ -31,6 +32,7 @@ class Calendar extends HookWidget {
     this.initialStartDate,
     this.initialEndDate,
     this.minimumDate,
+    this.maximumDate,
     this.selectableDatePredicate,
     this.onDateSelected,
     this.onDateRangeSelected,
@@ -46,6 +48,7 @@ class Calendar extends HookWidget {
     Key? key,
     DateTime? initialDate,
     DateTime? minimumDate,
+    DateTime? maximumDate,
     SelectableDayPredicate? selectableDatePredicate,
     ValueChanged<DateTime>? onDateSelected,
   }) {
@@ -54,6 +57,7 @@ class Calendar extends HookWidget {
       mode: SelectionMode.day,
       initialDate: initialDate,
       minimumDate: minimumDate,
+      maximumDate: maximumDate,
       selectableDatePredicate: selectableDatePredicate,
       onDateSelected: onDateSelected,
     );
@@ -70,6 +74,7 @@ class Calendar extends HookWidget {
     DateTime? initialStartDate,
     DateTime? initialEndDate,
     DateTime? minimumDate,
+    DateTime? maximumDate,
     SelectableDayPredicate? selectableDatePredicate,
     ValueChanged<DateTimeRange>? onDateRangeSelected,
   }) {
@@ -79,6 +84,7 @@ class Calendar extends HookWidget {
       initialStartDate: initialStartDate,
       initialEndDate: initialEndDate,
       minimumDate: minimumDate,
+      maximumDate: maximumDate,
       selectableDatePredicate: selectableDatePredicate,
       onDateRangeSelected: onDateRangeSelected,
     );
@@ -92,10 +98,15 @@ class Calendar extends HookWidget {
     final normalizedMinimumDate = minimumDate == null
         ? null
         : DateUtils.dateOnly(minimumDate!);
+    final normalizedMaximumDate = maximumDate == null
+        ? null
+        : DateUtils.dateOnly(maximumDate!);
 
     bool isSelectableDate(DateTime date) =>
         (normalizedMinimumDate == null ||
             !DateUtils.dateOnly(date).isBefore(normalizedMinimumDate)) &&
+        (normalizedMaximumDate == null ||
+            !DateUtils.dateOnly(date).isAfter(normalizedMaximumDate)) &&
         (selectableDatePredicate?.call(date) ?? true);
 
     final effectiveInitialDate =
@@ -448,8 +459,14 @@ class Calendar extends HookWidget {
             itemBuilder: (context, idx) {
               final year = years[idx];
               final isSelectable =
-                  normalizedMinimumDate == null ||
-                  !DateTime(year, 12, 31).isBefore(normalizedMinimumDate);
+                  (normalizedMinimumDate == null ||
+                      !DateTime(
+                        year,
+                        12,
+                        31,
+                      ).isBefore(normalizedMinimumDate)) &&
+                  (normalizedMaximumDate == null ||
+                      !DateTime(year, 1, 1).isAfter(normalizedMaximumDate));
 
               final bool isTodayYear = year == DateTime.now().year;
 
@@ -657,12 +674,14 @@ class Calendar extends HookWidget {
             itemBuilder: (context, index) {
               final monthDate = DateTime(yearToShow, index + 1, 1);
               final isSelectable =
-                  normalizedMinimumDate == null ||
-                  !DateTime(
-                    monthDate.year,
-                    monthDate.month + 1,
-                    0,
-                  ).isBefore(normalizedMinimumDate);
+                  (normalizedMinimumDate == null ||
+                      !DateTime(
+                        monthDate.year,
+                        monthDate.month + 1,
+                        0,
+                      ).isBefore(normalizedMinimumDate)) &&
+                  (normalizedMaximumDate == null ||
+                      !monthDate.isAfter(normalizedMaximumDate));
 
               // 상태 계산
               final bool isTodayMonth =

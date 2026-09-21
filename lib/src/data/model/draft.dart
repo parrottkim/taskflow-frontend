@@ -68,6 +68,7 @@ abstract class IssueDraftPayload with _$IssueDraftPayload {
     required IssueCategory category,
     String? content,
     Currency? currency,
+    DateTime? contractDate,
     DateTime? kickoffDate,
     @Default([]) List<ContractIssueItem> contractItems,
     @Default([]) List<TransactionIssueItem> transactionItems,

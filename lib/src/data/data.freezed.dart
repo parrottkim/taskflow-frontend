@@ -3579,7 +3579,7 @@ as String?,
 /// @nodoc
 mixin _$IssueDraftPayload {
 
- IssueCategory get category; String? get content; Currency? get currency; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<ProcurementIssueItem> get procurementItems;
+ IssueCategory get category; String? get content; Currency? get currency; DateTime? get contractDate; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<ProcurementIssueItem> get procurementItems;
 /// Create a copy of IssueDraftPayload
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3592,16 +3592,16 @@ $IssueDraftPayloadCopyWith<IssueDraftPayload> get copyWith => _$IssueDraftPayloa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueDraftPayload&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IssueDraftPayload&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,content,currency,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(procurementItems));
+int get hashCode => Object.hash(runtimeType,category,content,currency,contractDate,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(procurementItems));
 
 @override
 String toString() {
-  return 'IssueDraftPayload(category: $category, content: $content, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems)';
+  return 'IssueDraftPayload(category: $category, content: $content, currency: $currency, contractDate: $contractDate, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems)';
 }
 
 
@@ -3612,7 +3612,7 @@ abstract mixin class $IssueDraftPayloadCopyWith<$Res>  {
   factory $IssueDraftPayloadCopyWith(IssueDraftPayload value, $Res Function(IssueDraftPayload) _then) = _$IssueDraftPayloadCopyWithImpl;
 @useResult
 $Res call({
- IssueCategory category, String? content, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems
+ IssueCategory category, String? content, Currency? currency, DateTime? contractDate, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems
 });
 
 
@@ -3629,12 +3629,13 @@ class _$IssueDraftPayloadCopyWithImpl<$Res>
 
 /// Create a copy of IssueDraftPayload
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? category = null,Object? content = freezed,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? category = null,Object? content = freezed,Object? currency = freezed,Object? contractDate = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,}) {
   return _then(_self.copyWith(
 category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
-as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
+as Currency?,contractDate: freezed == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self.procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
@@ -3744,10 +3745,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  Currency? currency,  DateTime? contractDate,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _IssueDraftPayload() when $default != null:
-return $default(_that.category,_that.content,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
+return $default(_that.category,_that.content,_that.currency,_that.contractDate,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
   return orElse();
 
 }
@@ -3765,10 +3766,10 @@ return $default(_that.category,_that.content,_that.currency,_that.kickoffDate,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( IssueCategory category,  String? content,  Currency? currency,  DateTime? contractDate,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)  $default,) {final _that = this;
 switch (_that) {
 case _IssueDraftPayload():
-return $default(_that.category,_that.content,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
+return $default(_that.category,_that.content,_that.currency,_that.contractDate,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -3785,10 +3786,10 @@ return $default(_that.category,_that.content,_that.currency,_that.kickoffDate,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IssueCategory category,  String? content,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( IssueCategory category,  String? content,  Currency? currency,  DateTime? contractDate,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<ProcurementIssueItem> procurementItems)?  $default,) {final _that = this;
 switch (_that) {
 case _IssueDraftPayload() when $default != null:
-return $default(_that.category,_that.content,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
+return $default(_that.category,_that.content,_that.currency,_that.contractDate,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.procurementItems);case _:
   return null;
 
 }
@@ -3800,12 +3801,13 @@ return $default(_that.category,_that.content,_that.currency,_that.kickoffDate,_t
 @JsonSerializable()
 
 class _IssueDraftPayload implements IssueDraftPayload {
-  const _IssueDraftPayload({required this.category, this.content, this.currency, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<ProcurementIssueItem> procurementItems = const []}): _contractItems = contractItems,_transactionItems = transactionItems,_procurementItems = procurementItems;
+  const _IssueDraftPayload({required this.category, this.content, this.currency, this.contractDate, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<ProcurementIssueItem> procurementItems = const []}): _contractItems = contractItems,_transactionItems = transactionItems,_procurementItems = procurementItems;
   factory _IssueDraftPayload.fromJson(Map<String, dynamic> json) => _$IssueDraftPayloadFromJson(json);
 
 @override final  IssueCategory category;
 @override final  String? content;
 @override final  Currency? currency;
+@override final  DateTime? contractDate;
 @override final  DateTime? kickoffDate;
  final  List<ContractIssueItem> _contractItems;
 @override@JsonKey() List<ContractIssueItem> get contractItems {
@@ -3842,16 +3844,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueDraftPayload&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IssueDraftPayload&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,category,content,currency,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_procurementItems));
+int get hashCode => Object.hash(runtimeType,category,content,currency,contractDate,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_procurementItems));
 
 @override
 String toString() {
-  return 'IssueDraftPayload(category: $category, content: $content, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems)';
+  return 'IssueDraftPayload(category: $category, content: $content, currency: $currency, contractDate: $contractDate, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, procurementItems: $procurementItems)';
 }
 
 
@@ -3862,7 +3864,7 @@ abstract mixin class _$IssueDraftPayloadCopyWith<$Res> implements $IssueDraftPay
   factory _$IssueDraftPayloadCopyWith(_IssueDraftPayload value, $Res Function(_IssueDraftPayload) _then) = __$IssueDraftPayloadCopyWithImpl;
 @override @useResult
 $Res call({
- IssueCategory category, String? content, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems
+ IssueCategory category, String? content, Currency? currency, DateTime? contractDate, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<ProcurementIssueItem> procurementItems
 });
 
 
@@ -3879,12 +3881,13 @@ class __$IssueDraftPayloadCopyWithImpl<$Res>
 
 /// Create a copy of IssueDraftPayload
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? category = null,Object? content = freezed,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? category = null,Object? content = freezed,Object? currency = freezed,Object? contractDate = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? procurementItems = null,}) {
   return _then(_IssueDraftPayload(
 category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory,content: freezed == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String?,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
-as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
+as Currency?,contractDate: freezed == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItem>,procurementItems: null == procurementItems ? _self._procurementItems : procurementItems // ignore: cast_nullable_to_non_nullable
@@ -6087,7 +6090,7 @@ as String,
 /// @nodoc
 mixin _$Issue {
 
- int get id; IssueCategory get category; String get content; List<IssueAttachment> get attachments; Currency? get currency; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<KickoffIssueParticipantItem> get participantItems; List<KickoffIssueTripItem> get tripItems; List<ProcurementIssueItem> get procurementItems; List<ProcurementIssueRequest> get requests; User get createdBy; User? get updatedBy; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+ int get id; IssueCategory get category; String get content; List<IssueAttachment> get attachments; Currency? get currency; DateTime? get contractDate; DateTime? get kickoffDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<KickoffIssueParticipantItem> get participantItems; List<KickoffIssueTripItem> get tripItems; List<ProcurementIssueItem> get procurementItems; List<ProcurementIssueRequest> get requests; User get createdBy; User? get updatedBy; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
 /// Create a copy of Issue
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -6100,16 +6103,16 @@ $IssueCopyWith<Issue> get copyWith => _$IssueCopyWithImpl<Issue>(this as Issue, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.participantItems, participantItems)&&const DeepCollectionEquality().equals(other.tripItems, tripItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems)&&const DeepCollectionEquality().equals(other.requests, requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.participantItems, participantItems)&&const DeepCollectionEquality().equals(other.tripItems, tripItems)&&const DeepCollectionEquality().equals(other.procurementItems, procurementItems)&&const DeepCollectionEquality().equals(other.requests, requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(attachments),currency,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(participantItems),const DeepCollectionEquality().hash(tripItems),const DeepCollectionEquality().hash(procurementItems),const DeepCollectionEquality().hash(requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(attachments),currency,contractDate,kickoffDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(participantItems),const DeepCollectionEquality().hash(tripItems),const DeepCollectionEquality().hash(procurementItems),const DeepCollectionEquality().hash(requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, contractDate: $contractDate, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -6120,7 +6123,7 @@ abstract mixin class $IssueCopyWith<$Res>  {
   factory $IssueCopyWith(Issue value, $Res Function(Issue) _then) = _$IssueCopyWithImpl;
 @useResult
 $Res call({
- int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? contractDate, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -6137,14 +6140,15 @@ class _$IssueCopyWithImpl<$Res>
 
 /// Create a copy of Issue
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? contractDate = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
-as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
+as Currency?,contractDate: freezed == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItem>,participantItems: null == participantItems ? _self.participantItems : participantItems // ignore: cast_nullable_to_non_nullable
@@ -6280,10 +6284,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? contractDate,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Issue() when $default != null:
-return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.contractDate,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -6301,10 +6305,10 @@ return $default(_that.id,_that.category,_that.content,_that.attachments,_that.cu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? contractDate,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Issue():
-return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);}
+return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.contractDate,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -6318,10 +6322,10 @@ return $default(_that.id,_that.category,_that.content,_that.attachments,_that.cu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  String content,  List<IssueAttachment> attachments,  Currency? currency,  DateTime? contractDate,  DateTime? kickoffDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<KickoffIssueParticipantItem> participantItems,  List<KickoffIssueTripItem> tripItems,  List<ProcurementIssueItem> procurementItems,  List<ProcurementIssueRequest> requests,  User createdBy,  User? updatedBy,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Issue() when $default != null:
-return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.content,_that.attachments,_that.currency,_that.contractDate,_that.kickoffDate,_that.contractItems,_that.transactionItems,_that.participantItems,_that.tripItems,_that.procurementItems,_that.requests,_that.createdBy,_that.updatedBy,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -6333,7 +6337,7 @@ return $default(_that.id,_that.category,_that.content,_that.attachments,_that.cu
 @JsonSerializable()
 
 class _Issue implements Issue {
-   _Issue({required this.id, required this.category, required this.content, final  List<IssueAttachment> attachments = const [], this.currency, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<KickoffIssueParticipantItem> participantItems = const [], final  List<KickoffIssueTripItem> tripItems = const [], final  List<ProcurementIssueItem> procurementItems = const [], final  List<ProcurementIssueRequest> requests = const [], required this.createdBy, this.updatedBy, required this.createdAt, required this.updatedAt, this.deletedAt}): _attachments = attachments,_contractItems = contractItems,_transactionItems = transactionItems,_participantItems = participantItems,_tripItems = tripItems,_procurementItems = procurementItems,_requests = requests;
+   _Issue({required this.id, required this.category, required this.content, final  List<IssueAttachment> attachments = const [], this.currency, this.contractDate, this.kickoffDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<KickoffIssueParticipantItem> participantItems = const [], final  List<KickoffIssueTripItem> tripItems = const [], final  List<ProcurementIssueItem> procurementItems = const [], final  List<ProcurementIssueRequest> requests = const [], required this.createdBy, this.updatedBy, required this.createdAt, required this.updatedAt, this.deletedAt}): _attachments = attachments,_contractItems = contractItems,_transactionItems = transactionItems,_participantItems = participantItems,_tripItems = tripItems,_procurementItems = procurementItems,_requests = requests;
   factory _Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
 
 @override final  int id;
@@ -6347,6 +6351,7 @@ class _Issue implements Issue {
 }
 
 @override final  Currency? currency;
+@override final  DateTime? contractDate;
 @override final  DateTime? kickoffDate;
  final  List<ContractIssueItem> _contractItems;
 @override@JsonKey() List<ContractIssueItem> get contractItems {
@@ -6409,16 +6414,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._participantItems, _participantItems)&&const DeepCollectionEquality().equals(other._tripItems, _tripItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems)&&const DeepCollectionEquality().equals(other._requests, _requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Issue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.content, content) || other.content == content)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&(identical(other.kickoffDate, kickoffDate) || other.kickoffDate == kickoffDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._participantItems, _participantItems)&&const DeepCollectionEquality().equals(other._tripItems, _tripItems)&&const DeepCollectionEquality().equals(other._procurementItems, _procurementItems)&&const DeepCollectionEquality().equals(other._requests, _requests)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(_attachments),currency,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_participantItems),const DeepCollectionEquality().hash(_tripItems),const DeepCollectionEquality().hash(_procurementItems),const DeepCollectionEquality().hash(_requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,content,const DeepCollectionEquality().hash(_attachments),currency,contractDate,kickoffDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_participantItems),const DeepCollectionEquality().hash(_tripItems),const DeepCollectionEquality().hash(_procurementItems),const DeepCollectionEquality().hash(_requests),createdBy,updatedBy,createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'Issue(id: $id, category: $category, content: $content, attachments: $attachments, currency: $currency, contractDate: $contractDate, kickoffDate: $kickoffDate, contractItems: $contractItems, transactionItems: $transactionItems, participantItems: $participantItems, tripItems: $tripItems, procurementItems: $procurementItems, requests: $requests, createdBy: $createdBy, updatedBy: $updatedBy, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -6429,7 +6434,7 @@ abstract mixin class _$IssueCopyWith<$Res> implements $IssueCopyWith<$Res> {
   factory _$IssueCopyWith(_Issue value, $Res Function(_Issue) _then) = __$IssueCopyWithImpl;
 @override @useResult
 $Res call({
- int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, String content, List<IssueAttachment> attachments, Currency? currency, DateTime? contractDate, DateTime? kickoffDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<KickoffIssueParticipantItem> participantItems, List<KickoffIssueTripItem> tripItems, List<ProcurementIssueItem> procurementItems, List<ProcurementIssueRequest> requests, User createdBy, User? updatedBy, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -6446,14 +6451,15 @@ class __$IssueCopyWithImpl<$Res>
 
 /// Create a copy of Issue
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? content = null,Object? attachments = null,Object? currency = freezed,Object? contractDate = freezed,Object? kickoffDate = freezed,Object? contractItems = null,Object? transactionItems = null,Object? participantItems = null,Object? tripItems = null,Object? procurementItems = null,Object? requests = null,Object? createdBy = null,Object? updatedBy = freezed,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_Issue(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as IssueCategory,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,currency: freezed == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
-as Currency?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
+as Currency?,contractDate: freezed == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime?,kickoffDate: freezed == kickoffDate ? _self.kickoffDate : kickoffDate // ignore: cast_nullable_to_non_nullable
 as DateTime?,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItem>,participantItems: null == participantItems ? _self._participantItems : participantItems // ignore: cast_nullable_to_non_nullable
@@ -9089,7 +9095,7 @@ as String?,
 /// @nodoc
 mixin _$ContractIssue {
 
- int get id; IssueCategory get category; User get createdBy; User? get updatedBy; String get content; Currency get currency; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<IssueAttachment> get attachments; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
+ int get id; IssueCategory get category; User get createdBy; User? get updatedBy; String get content; Currency get currency; DateTime get contractDate; List<ContractIssueItem> get contractItems; List<TransactionIssueItem> get transactionItems; List<IssueAttachment> get attachments; DateTime get createdAt; DateTime get updatedAt; DateTime? get deletedAt;
 /// Create a copy of ContractIssue
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -9102,16 +9108,16 @@ $ContractIssueCopyWith<ContractIssue> get copyWith => _$ContractIssueCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ContractIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ContractIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,currency,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(attachments),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,currency,contractDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(attachments),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'ContractIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, currency: $currency, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'ContractIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, currency: $currency, contractDate: $contractDate, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -9122,7 +9128,7 @@ abstract mixin class $ContractIssueCopyWith<$Res>  {
   factory $ContractIssueCopyWith(ContractIssue value, $Res Function(ContractIssue) _then) = _$ContractIssueCopyWithImpl;
 @useResult
 $Res call({
- int id, IssueCategory category, User createdBy, User? updatedBy, String content, Currency currency, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, User createdBy, User? updatedBy, String content, Currency currency, DateTime contractDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -9139,7 +9145,7 @@ class _$ContractIssueCopyWithImpl<$Res>
 
 /// Create a copy of ContractIssue
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? currency = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? currency = null,Object? contractDate = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
@@ -9147,7 +9153,8 @@ as IssueCategory,createdBy: null == createdBy ? _self.createdBy : createdBy // i
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
 as User?,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,currency: null == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
-as Currency,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as Currency,contractDate: null == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItem>,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -9277,10 +9284,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  Currency currency,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  Currency currency,  DateTime contractDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ContractIssue() when $default != null:
-return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.currency,_that.contractItems,_that.transactionItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.currency,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return orElse();
 
 }
@@ -9298,10 +9305,10 @@ return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.co
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  Currency currency,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  Currency currency,  DateTime contractDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ContractIssue():
-return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.currency,_that.contractItems,_that.transactionItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.currency,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -9318,10 +9325,10 @@ return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.co
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  Currency currency,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  IssueCategory category,  User createdBy,  User? updatedBy,  String content,  Currency currency,  DateTime contractDate,  List<ContractIssueItem> contractItems,  List<TransactionIssueItem> transactionItems,  List<IssueAttachment> attachments,  DateTime createdAt,  DateTime updatedAt,  DateTime? deletedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ContractIssue() when $default != null:
-return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.currency,_that.contractItems,_that.transactionItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
+return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.content,_that.currency,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments,_that.createdAt,_that.updatedAt,_that.deletedAt);case _:
   return null;
 
 }
@@ -9333,7 +9340,7 @@ return $default(_that.id,_that.category,_that.createdBy,_that.updatedBy,_that.co
 @JsonSerializable()
 
 class _ContractIssue implements ContractIssue {
-   _ContractIssue({required this.id, required this.category, required this.createdBy, this.updatedBy, required this.content, required this.currency, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<IssueAttachment> attachments = const [], required this.createdAt, required this.updatedAt, this.deletedAt}): _contractItems = contractItems,_transactionItems = transactionItems,_attachments = attachments;
+   _ContractIssue({required this.id, required this.category, required this.createdBy, this.updatedBy, required this.content, required this.currency, required this.contractDate, final  List<ContractIssueItem> contractItems = const [], final  List<TransactionIssueItem> transactionItems = const [], final  List<IssueAttachment> attachments = const [], required this.createdAt, required this.updatedAt, this.deletedAt}): _contractItems = contractItems,_transactionItems = transactionItems,_attachments = attachments;
   factory _ContractIssue.fromJson(Map<String, dynamic> json) => _$ContractIssueFromJson(json);
 
 @override final  int id;
@@ -9342,6 +9349,7 @@ class _ContractIssue implements ContractIssue {
 @override final  User? updatedBy;
 @override final  String content;
 @override final  Currency currency;
+@override final  DateTime contractDate;
  final  List<ContractIssueItem> _contractItems;
 @override@JsonKey() List<ContractIssueItem> get contractItems {
   if (_contractItems is EqualUnmodifiableListView) return _contractItems;
@@ -9380,16 +9388,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ContractIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ContractIssue&&(identical(other.id, id) || other.id == id)&&(identical(other.category, category) || other.category == category)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.updatedBy, updatedBy) || other.updatedBy == updatedBy)&&(identical(other.content, content) || other.content == content)&&(identical(other.currency, currency) || other.currency == currency)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.deletedAt, deletedAt) || other.deletedAt == deletedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,currency,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_attachments),createdAt,updatedAt,deletedAt);
+int get hashCode => Object.hash(runtimeType,id,category,createdBy,updatedBy,content,currency,contractDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_attachments),createdAt,updatedAt,deletedAt);
 
 @override
 String toString() {
-  return 'ContractIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, currency: $currency, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
+  return 'ContractIssue(id: $id, category: $category, createdBy: $createdBy, updatedBy: $updatedBy, content: $content, currency: $currency, contractDate: $contractDate, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
 }
 
 
@@ -9400,7 +9408,7 @@ abstract mixin class _$ContractIssueCopyWith<$Res> implements $ContractIssueCopy
   factory _$ContractIssueCopyWith(_ContractIssue value, $Res Function(_ContractIssue) _then) = __$ContractIssueCopyWithImpl;
 @override @useResult
 $Res call({
- int id, IssueCategory category, User createdBy, User? updatedBy, String content, Currency currency, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
+ int id, IssueCategory category, User createdBy, User? updatedBy, String content, Currency currency, DateTime contractDate, List<ContractIssueItem> contractItems, List<TransactionIssueItem> transactionItems, List<IssueAttachment> attachments, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt
 });
 
 
@@ -9417,7 +9425,7 @@ class __$ContractIssueCopyWithImpl<$Res>
 
 /// Create a copy of ContractIssue
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? currency = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? category = null,Object? createdBy = null,Object? updatedBy = freezed,Object? content = null,Object? currency = null,Object? contractDate = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,Object? createdAt = null,Object? updatedAt = null,Object? deletedAt = freezed,}) {
   return _then(_ContractIssue(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
@@ -9425,7 +9433,8 @@ as IssueCategory,createdBy: null == createdBy ? _self.createdBy : createdBy // i
 as User,updatedBy: freezed == updatedBy ? _self.updatedBy : updatedBy // ignore: cast_nullable_to_non_nullable
 as User?,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,currency: null == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
-as Currency,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as Currency,contractDate: null == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<ContractIssueItem>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<TransactionIssueItem>,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -16845,7 +16854,7 @@ as List<int>?,
 /// @nodoc
 mixin _$CreateContractIssueRequest {
 
- int get projectId; int get categoryId; String get content; int get currencyId; List<CreateContractIssueItemRequest> get contractItems; List<CreateTransactionIssueItemRequest> get transactionItems; List<IssueAttachment> get attachments;
+ int get projectId; int get categoryId; String get content; int get currencyId; DateTime get contractDate; List<CreateContractIssueItemRequest> get contractItems; List<CreateTransactionIssueItemRequest> get transactionItems; List<IssueAttachment> get attachments;
 /// Create a copy of CreateContractIssueRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -16858,16 +16867,16 @@ $CreateContractIssueRequestCopyWith<CreateContractIssueRequest> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.attachments, attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.attachments, attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,contractDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(attachments));
 
 @override
 String toString() {
-  return 'CreateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
+  return 'CreateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractDate: $contractDate, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
 }
 
 
@@ -16878,7 +16887,7 @@ abstract mixin class $CreateContractIssueRequestCopyWith<$Res>  {
   factory $CreateContractIssueRequestCopyWith(CreateContractIssueRequest value, $Res Function(CreateContractIssueRequest) _then) = _$CreateContractIssueRequestCopyWithImpl;
 @useResult
 $Res call({
- int projectId, int categoryId, String content, int currencyId, List<CreateContractIssueItemRequest> contractItems, List<CreateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, int currencyId, DateTime contractDate, List<CreateContractIssueItemRequest> contractItems, List<CreateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
 });
 
 
@@ -16895,13 +16904,14 @@ class _$CreateContractIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateContractIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractDate = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
   return _then(_self.copyWith(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,currencyId: null == currencyId ? _self.currencyId : currencyId // ignore: cast_nullable_to_non_nullable
-as int,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as int,contractDate: null == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<CreateContractIssueItemRequest>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<CreateTransactionIssueItemRequest>,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
@@ -16989,10 +16999,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  List<CreateContractIssueItemRequest> contractItems,  List<CreateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  DateTime contractDate,  List<CreateContractIssueItemRequest> contractItems,  List<CreateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateContractIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractItems,_that.transactionItems,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments);case _:
   return orElse();
 
 }
@@ -17010,10 +17020,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  List<CreateContractIssueItemRequest> contractItems,  List<CreateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  DateTime contractDate,  List<CreateContractIssueItemRequest> contractItems,  List<CreateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)  $default,) {final _that = this;
 switch (_that) {
 case _CreateContractIssueRequest():
-return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractItems,_that.transactionItems,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -17030,10 +17040,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  int currencyId,  List<CreateContractIssueItemRequest> contractItems,  List<CreateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  int currencyId,  DateTime contractDate,  List<CreateContractIssueItemRequest> contractItems,  List<CreateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateContractIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractItems,_that.transactionItems,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments);case _:
   return null;
 
 }
@@ -17045,13 +17055,14 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,
 @JsonSerializable()
 
 class _CreateContractIssueRequest implements CreateContractIssueRequest {
-   _CreateContractIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.currencyId, required final  List<CreateContractIssueItemRequest> contractItems, required final  List<CreateTransactionIssueItemRequest> transactionItems, required final  List<IssueAttachment> attachments}): _contractItems = contractItems,_transactionItems = transactionItems,_attachments = attachments;
+   _CreateContractIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.currencyId, required this.contractDate, required final  List<CreateContractIssueItemRequest> contractItems, required final  List<CreateTransactionIssueItemRequest> transactionItems, required final  List<IssueAttachment> attachments}): _contractItems = contractItems,_transactionItems = transactionItems,_attachments = attachments;
   factory _CreateContractIssueRequest.fromJson(Map<String, dynamic> json) => _$CreateContractIssueRequestFromJson(json);
 
 @override final  int projectId;
 @override final  int categoryId;
 @override final  String content;
 @override final  int currencyId;
+@override final  DateTime contractDate;
  final  List<CreateContractIssueItemRequest> _contractItems;
 @override List<CreateContractIssueItemRequest> get contractItems {
   if (_contractItems is EqualUnmodifiableListView) return _contractItems;
@@ -17087,16 +17098,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,contractDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_attachments));
 
 @override
 String toString() {
-  return 'CreateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
+  return 'CreateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractDate: $contractDate, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
 }
 
 
@@ -17107,7 +17118,7 @@ abstract mixin class _$CreateContractIssueRequestCopyWith<$Res> implements $Crea
   factory _$CreateContractIssueRequestCopyWith(_CreateContractIssueRequest value, $Res Function(_CreateContractIssueRequest) _then) = __$CreateContractIssueRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int projectId, int categoryId, String content, int currencyId, List<CreateContractIssueItemRequest> contractItems, List<CreateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, int currencyId, DateTime contractDate, List<CreateContractIssueItemRequest> contractItems, List<CreateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
 });
 
 
@@ -17124,13 +17135,14 @@ class __$CreateContractIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of CreateContractIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractDate = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
   return _then(_CreateContractIssueRequest(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,currencyId: null == currencyId ? _self.currencyId : currencyId // ignore: cast_nullable_to_non_nullable
-as int,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as int,contractDate: null == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<CreateContractIssueItemRequest>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<CreateTransactionIssueItemRequest>,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
@@ -18860,7 +18872,7 @@ as List<IssueAttachment>,
 /// @nodoc
 mixin _$UpdateContractIssueRequest {
 
- int get projectId; int get categoryId; String get content; int get currencyId; List<UpdateContractIssueItemRequest> get contractItems; List<UpdateTransactionIssueItemRequest> get transactionItems; List<IssueAttachment> get attachments;
+ int get projectId; int get categoryId; String get content; int get currencyId; DateTime get contractDate; List<UpdateContractIssueItemRequest> get contractItems; List<UpdateTransactionIssueItemRequest> get transactionItems; List<IssueAttachment> get attachments;
 /// Create a copy of UpdateContractIssueRequest
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -18873,16 +18885,16 @@ $UpdateContractIssueRequestCopyWith<UpdateContractIssueRequest> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.attachments, attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UpdateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&const DeepCollectionEquality().equals(other.contractItems, contractItems)&&const DeepCollectionEquality().equals(other.transactionItems, transactionItems)&&const DeepCollectionEquality().equals(other.attachments, attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,contractDate,const DeepCollectionEquality().hash(contractItems),const DeepCollectionEquality().hash(transactionItems),const DeepCollectionEquality().hash(attachments));
 
 @override
 String toString() {
-  return 'UpdateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
+  return 'UpdateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractDate: $contractDate, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
 }
 
 
@@ -18893,7 +18905,7 @@ abstract mixin class $UpdateContractIssueRequestCopyWith<$Res>  {
   factory $UpdateContractIssueRequestCopyWith(UpdateContractIssueRequest value, $Res Function(UpdateContractIssueRequest) _then) = _$UpdateContractIssueRequestCopyWithImpl;
 @useResult
 $Res call({
- int projectId, int categoryId, String content, int currencyId, List<UpdateContractIssueItemRequest> contractItems, List<UpdateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, int currencyId, DateTime contractDate, List<UpdateContractIssueItemRequest> contractItems, List<UpdateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
 });
 
 
@@ -18910,13 +18922,14 @@ class _$UpdateContractIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpdateContractIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractDate = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
   return _then(_self.copyWith(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,currencyId: null == currencyId ? _self.currencyId : currencyId // ignore: cast_nullable_to_non_nullable
-as int,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as int,contractDate: null == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime,contractItems: null == contractItems ? _self.contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<UpdateContractIssueItemRequest>,transactionItems: null == transactionItems ? _self.transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<UpdateTransactionIssueItemRequest>,attachments: null == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
@@ -19004,10 +19017,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  List<UpdateContractIssueItemRequest> contractItems,  List<UpdateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  DateTime contractDate,  List<UpdateContractIssueItemRequest> contractItems,  List<UpdateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UpdateContractIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractItems,_that.transactionItems,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments);case _:
   return orElse();
 
 }
@@ -19025,10 +19038,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  List<UpdateContractIssueItemRequest> contractItems,  List<UpdateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int projectId,  int categoryId,  String content,  int currencyId,  DateTime contractDate,  List<UpdateContractIssueItemRequest> contractItems,  List<UpdateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)  $default,) {final _that = this;
 switch (_that) {
 case _UpdateContractIssueRequest():
-return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractItems,_that.transactionItems,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -19045,10 +19058,10 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  int currencyId,  List<UpdateContractIssueItemRequest> contractItems,  List<UpdateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int projectId,  int categoryId,  String content,  int currencyId,  DateTime contractDate,  List<UpdateContractIssueItemRequest> contractItems,  List<UpdateTransactionIssueItemRequest> transactionItems,  List<IssueAttachment> attachments)?  $default,) {final _that = this;
 switch (_that) {
 case _UpdateContractIssueRequest() when $default != null:
-return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractItems,_that.transactionItems,_that.attachments);case _:
+return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,_that.contractDate,_that.contractItems,_that.transactionItems,_that.attachments);case _:
   return null;
 
 }
@@ -19060,13 +19073,14 @@ return $default(_that.projectId,_that.categoryId,_that.content,_that.currencyId,
 @JsonSerializable()
 
 class _UpdateContractIssueRequest implements UpdateContractIssueRequest {
-   _UpdateContractIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.currencyId, required final  List<UpdateContractIssueItemRequest> contractItems, required final  List<UpdateTransactionIssueItemRequest> transactionItems, required final  List<IssueAttachment> attachments}): _contractItems = contractItems,_transactionItems = transactionItems,_attachments = attachments;
+   _UpdateContractIssueRequest({required this.projectId, required this.categoryId, required this.content, required this.currencyId, required this.contractDate, required final  List<UpdateContractIssueItemRequest> contractItems, required final  List<UpdateTransactionIssueItemRequest> transactionItems, required final  List<IssueAttachment> attachments}): _contractItems = contractItems,_transactionItems = transactionItems,_attachments = attachments;
   factory _UpdateContractIssueRequest.fromJson(Map<String, dynamic> json) => _$UpdateContractIssueRequestFromJson(json);
 
 @override final  int projectId;
 @override final  int categoryId;
 @override final  String content;
 @override final  int currencyId;
+@override final  DateTime contractDate;
  final  List<UpdateContractIssueItemRequest> _contractItems;
 @override List<UpdateContractIssueItemRequest> get contractItems {
   if (_contractItems is EqualUnmodifiableListView) return _contractItems;
@@ -19102,16 +19116,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateContractIssueRequest&&(identical(other.projectId, projectId) || other.projectId == projectId)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.content, content) || other.content == content)&&(identical(other.currencyId, currencyId) || other.currencyId == currencyId)&&(identical(other.contractDate, contractDate) || other.contractDate == contractDate)&&const DeepCollectionEquality().equals(other._contractItems, _contractItems)&&const DeepCollectionEquality().equals(other._transactionItems, _transactionItems)&&const DeepCollectionEquality().equals(other._attachments, _attachments));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_attachments));
+int get hashCode => Object.hash(runtimeType,projectId,categoryId,content,currencyId,contractDate,const DeepCollectionEquality().hash(_contractItems),const DeepCollectionEquality().hash(_transactionItems),const DeepCollectionEquality().hash(_attachments));
 
 @override
 String toString() {
-  return 'UpdateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
+  return 'UpdateContractIssueRequest(projectId: $projectId, categoryId: $categoryId, content: $content, currencyId: $currencyId, contractDate: $contractDate, contractItems: $contractItems, transactionItems: $transactionItems, attachments: $attachments)';
 }
 
 
@@ -19122,7 +19136,7 @@ abstract mixin class _$UpdateContractIssueRequestCopyWith<$Res> implements $Upda
   factory _$UpdateContractIssueRequestCopyWith(_UpdateContractIssueRequest value, $Res Function(_UpdateContractIssueRequest) _then) = __$UpdateContractIssueRequestCopyWithImpl;
 @override @useResult
 $Res call({
- int projectId, int categoryId, String content, int currencyId, List<UpdateContractIssueItemRequest> contractItems, List<UpdateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
+ int projectId, int categoryId, String content, int currencyId, DateTime contractDate, List<UpdateContractIssueItemRequest> contractItems, List<UpdateTransactionIssueItemRequest> transactionItems, List<IssueAttachment> attachments
 });
 
 
@@ -19139,13 +19153,14 @@ class __$UpdateContractIssueRequestCopyWithImpl<$Res>
 
 /// Create a copy of UpdateContractIssueRequest
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? projectId = null,Object? categoryId = null,Object? content = null,Object? currencyId = null,Object? contractDate = null,Object? contractItems = null,Object? transactionItems = null,Object? attachments = null,}) {
   return _then(_UpdateContractIssueRequest(
 projectId: null == projectId ? _self.projectId : projectId // ignore: cast_nullable_to_non_nullable
 as int,categoryId: null == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
 as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
 as String,currencyId: null == currencyId ? _self.currencyId : currencyId // ignore: cast_nullable_to_non_nullable
-as int,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
+as int,contractDate: null == contractDate ? _self.contractDate : contractDate // ignore: cast_nullable_to_non_nullable
+as DateTime,contractItems: null == contractItems ? _self._contractItems : contractItems // ignore: cast_nullable_to_non_nullable
 as List<UpdateContractIssueItemRequest>,transactionItems: null == transactionItems ? _self._transactionItems : transactionItems // ignore: cast_nullable_to_non_nullable
 as List<UpdateTransactionIssueItemRequest>,attachments: null == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
 as List<IssueAttachment>,
