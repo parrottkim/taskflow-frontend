@@ -7,12 +7,14 @@ import 'package:taskflow/src/shared/tool/responsive.dart';
 
 class ContractDisplayItem extends StatelessWidget {
   final Currency currency;
+  final DateTime contractDate;
   final List<ContractIssueItem> contractItems;
   final List<TransactionIssueItem> transactionItems;
 
   const ContractDisplayItem({
     super.key,
     required this.currency,
+    required this.contractDate,
     required this.contractItems,
     required this.transactionItems,
   });
@@ -30,7 +32,38 @@ class ContractDisplayItem extends StatelessWidget {
     });
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 4.0,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: colorScheme.surfaceContainer,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  Intl.message('project_detail_contract'),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 8.0),
+                Text(
+                  DateFormat.yMMMd(
+                    Intl.getCurrentLocale(),
+                  ).format(contractDate.toLocal()),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16.0),
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

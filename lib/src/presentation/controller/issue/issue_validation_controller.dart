@@ -23,6 +23,8 @@ class IssueValidationController extends _$IssueValidationController {
 
     state = IssueValidationState(
       contentInvalid: contentIsEmpty,
+      contractDateMissing:
+          value.category is IssueContract && value.contractDate == null,
       contractItemsMissing:
           value.category is IssueContract && contractItems.isEmpty,
       contractItemInvalid:
@@ -67,6 +69,7 @@ class IssueValidationController extends _$IssueValidationController {
 
   bool isValid() {
     return !state.contentInvalid &&
+        !state.contractDateMissing &&
         !state.contractItemsMissing &&
         !state.contractItemInvalid &&
         !state.transactionItemsMissing &&
@@ -82,6 +85,9 @@ class IssueValidationController extends _$IssueValidationController {
   }
 
   void clearContent() => state = state.copyWith(contentInvalid: false);
+
+  void clearContractDate() =>
+      state = state.copyWith(contractDateMissing: false);
 
   void clearContract() => state = state.copyWith(
     contractItemsMissing: false,

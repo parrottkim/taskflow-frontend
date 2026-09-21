@@ -4,6 +4,7 @@ part of '../controller.dart';
 abstract class IssueValidationState with _$IssueValidationState {
   factory IssueValidationState({
     @Default(false) bool contentInvalid,
+    @Default(false) bool contractDateMissing,
     @Default(false) bool contractItemsMissing,
     @Default(false) bool contractItemInvalid,
     @Default(false) bool transactionItemsMissing,

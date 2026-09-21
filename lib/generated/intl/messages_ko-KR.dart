@@ -514,6 +514,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "issue_form_contract_4": MessageLookupByLibrary.simpleMessage("금액 (원)"),
         "issue_form_contract_5": MessageLookupByLibrary.simpleMessage("품목 추가"),
         "issue_form_contract_8": MessageLookupByLibrary.simpleMessage("수주 금액"),
+        "issue_form_contract_9": MessageLookupByLibrary.simpleMessage("계약 체결일"),
+        "issue_form_contract_10":
+            MessageLookupByLibrary.simpleMessage("체결일 선택"),
+        "issue_form_contract_date_invalid":
+            MessageLookupByLibrary.simpleMessage("계약 체결일을 선택해 주세요"),
         "issue_form_contract_drop":
             MessageLookupByLibrary.simpleMessage("견적서 여기에 놓기"),
         "issue_form_contract_format_invalid": m3,
@@ -850,6 +855,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "project_detail_action_closed": MessageLookupByLibrary.simpleMessage(
             "프로젝트가 종결되어 업무 등록은 사용할 수 없습니다."),
         "project_detail_client": MessageLookupByLibrary.simpleMessage("고객사"),
+        "project_detail_contract":
+            MessageLookupByLibrary.simpleMessage("계약 체결일"),
         "project_detail_kickoff": MessageLookupByLibrary.simpleMessage("착수일"),
         "project_detail_no_approvals":
             MessageLookupByLibrary.simpleMessage("작성된 사양 승인 내역이 없습니다"),

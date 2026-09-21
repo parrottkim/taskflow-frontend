@@ -1554,7 +1554,7 @@ final class IssueFormControllerProvider
 }
 
 String _$issueFormControllerHash() =>
-    r'ffddd067923604d60015e75a1f1fdc56e7a428ab';
+    r'1fa7004aa1568a34d04ef09e3e339765079b27b4';
 
 final class IssueFormControllerFamily extends $Family
     with
@@ -1664,7 +1664,7 @@ final class IssueListControllerProvider
 }
 
 String _$issueListControllerHash() =>
-    r'2dd19e7d33f6ca046f992ce93c97eb88cbaef1ca';
+    r'19ce930e9ee13ac646aadee9a4af04b1b30ab773';
 
 final class IssueListControllerFamily extends $Family
     with
@@ -1745,7 +1745,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'3ebbdeffb8739854276f6ac0fd090553749e2925';
+    r'473a0fde6b4c55ca6af1643fc2418c11036e64ca';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -1798,7 +1798,7 @@ final class IssueValidationControllerProvider
 }
 
 String _$issueValidationControllerHash() =>
-    r'617afb45f2fdc1f3080e9bcfec6631b2c130b65e';
+    r'8ec75c9d7ecec01429dbbe17061fde07feca465a';
 
 abstract class _$IssueValidationController
     extends $Notifier<IssueValidationState> {
@@ -2080,7 +2080,7 @@ final class ProjectDetailControllerProvider
 }
 
 String _$projectDetailControllerHash() =>
-    r'6cfb28a4776adc4d95f25c26848752e1e76170e8';
+    r'd9468e0a050bbd585d883ad3e961f8f0b09d5e9c';
 
 final class ProjectDetailControllerFamily extends $Family
     with

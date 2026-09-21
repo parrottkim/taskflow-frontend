@@ -8,6 +8,7 @@ abstract class IssueFormState with _$IssueFormState {
     @Default(<IssueAttachment>[]) List<IssueAttachment> attachments,
     @Default(<XFile>[]) List<XFile> files,
     Currency? currency,
+    DateTime? contractDate,
     DateTime? kickoffDate,
     @Default([]) List<ContractIssueItem> contractItems,
     @Default([]) List<TransactionIssueItem> transactionItems,
