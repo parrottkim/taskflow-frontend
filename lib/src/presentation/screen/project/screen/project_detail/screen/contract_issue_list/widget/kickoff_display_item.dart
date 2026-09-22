@@ -107,7 +107,7 @@ class KickoffDisplayItem extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        Symbols.numbers_rounded,
+                        Symbols.text_fields_rounded,
                         color: colorScheme.onSurface.strong,
                         size: 16.0,
                       ),
