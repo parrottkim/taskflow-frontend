@@ -188,28 +188,22 @@ class _ParticipantInfo extends StatelessWidget {
         ),
         const SizedBox(width: 6.0),
         Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                participant.username,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.w500),
-              ),
-              if (item.role.isNotEmpty)
-                Text(
-                  item.role,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.outline.strong,
-                  ),
-                ),
-            ],
+          child: Text(
+            participant.username,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
         ),
+        if (item.role.isNotEmpty)
+          Text(
+            item.role,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: textTheme.bodySmall?.copyWith(
+              color: colorScheme.outline.strong,
+            ),
+          ),
       ],
     );
   }
