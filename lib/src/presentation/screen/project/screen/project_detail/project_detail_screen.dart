@@ -49,6 +49,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
             issueId: issueId,
             reportId: reportId,
             project: value.project,
+            participantSummary: value.participantSummary,
             costSummary: value.costSummary,
             contracts: value.contracts,
             approvals: value.approvals,
@@ -60,6 +61,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
             issueId: issueId,
             reportId: reportId,
             project: value.project,
+            participantSummary: value.participantSummary,
             costSummary: value.costSummary,
             contracts: value.contracts,
             approvals: value.approvals,
@@ -78,6 +80,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
               issueId: issueId,
               reportId: reportId,
               project: Project.dummy(),
+              participantSummary: const ProjectParticipantSummary(),
               costSummary: ProjectCostSummary.dummy(),
             ),
             mobile: _MobileWidget(
@@ -85,6 +88,7 @@ class ProjectDetailScreen extends HookConsumerWidget {
               issueId: issueId,
               reportId: reportId,
               project: Project.dummy(),
+              participantSummary: const ProjectParticipantSummary(),
               costSummary: ProjectCostSummary.dummy(),
             ),
           ),
@@ -99,6 +103,7 @@ class _DesktopWidget extends StatelessWidget {
   final int? issueId;
   final int? reportId;
   final Project project;
+  final ProjectParticipantSummary participantSummary;
   final ProjectCostSummary costSummary;
   final int contracts;
   final int approvals;
@@ -110,6 +115,7 @@ class _DesktopWidget extends StatelessWidget {
     this.issueId,
     this.reportId,
     required this.project,
+    required this.participantSummary,
     required this.costSummary,
     this.contracts = 0,
     this.approvals = 0,
@@ -130,6 +136,7 @@ class _DesktopWidget extends StatelessWidget {
               issueId: issueId,
               reportId: reportId,
               project: project,
+              participantSummary: participantSummary,
               costSummary: costSummary,
               contracts: contracts,
               approvals: approvals,
@@ -138,7 +145,16 @@ class _DesktopWidget extends StatelessWidget {
             ),
           ),
           SizedBox(width: 16.0),
-          SummaryWidget(project: project, costSummary: costSummary),
+          SizedBox(
+            width: 320.0,
+            child: SingleChildScrollView(
+              child: SummaryWidget(
+                project: project,
+                participantSummary: participantSummary,
+                costSummary: costSummary,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -150,6 +166,7 @@ class _MobileWidget extends StatelessWidget {
   final int? issueId;
   final int? reportId;
   final Project project;
+  final ProjectParticipantSummary participantSummary;
   final ProjectCostSummary costSummary;
   final int contracts;
   final int approvals;
@@ -161,6 +178,7 @@ class _MobileWidget extends StatelessWidget {
     this.issueId,
     this.reportId,
     required this.project,
+    required this.participantSummary,
     required this.costSummary,
     this.contracts = 0,
     this.approvals = 0,
@@ -182,6 +200,7 @@ class _MobileWidget extends StatelessWidget {
               issueId: issueId,
               reportId: reportId,
               project: project,
+              participantSummary: participantSummary,
               costSummary: costSummary,
               contracts: contracts,
               approvals: approvals,

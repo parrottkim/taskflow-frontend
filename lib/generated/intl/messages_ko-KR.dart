@@ -508,6 +508,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "issue_form_camera_4": MessageLookupByLibrary.simpleMessage("사진 사용"),
         "issue_form_content": MessageLookupByLibrary.simpleMessage("본문"),
         "issue_form_contract_1": MessageLookupByLibrary.simpleMessage("견적 품목"),
+        "issue_form_contract_10":
+            MessageLookupByLibrary.simpleMessage("체결일 선택"),
         "issue_form_contract_2":
             MessageLookupByLibrary.simpleMessage("현대/기아 견적서만 업로드 가능합니다"),
         "issue_form_contract_3": MessageLookupByLibrary.simpleMessage("계약 내역"),
@@ -515,8 +517,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "issue_form_contract_5": MessageLookupByLibrary.simpleMessage("품목 추가"),
         "issue_form_contract_8": MessageLookupByLibrary.simpleMessage("수주 금액"),
         "issue_form_contract_9": MessageLookupByLibrary.simpleMessage("계약 체결일"),
-        "issue_form_contract_10":
-            MessageLookupByLibrary.simpleMessage("체결일 선택"),
         "issue_form_contract_date_invalid":
             MessageLookupByLibrary.simpleMessage("계약 체결일을 선택해 주세요"),
         "issue_form_contract_drop":
@@ -898,6 +898,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("프로젝트 손익"),
         "project_detail_summary_3_5_subtitle":
             MessageLookupByLibrary.simpleMessage("(계약금액 - 비용 합계)"),
+        "project_detail_summary_4":
+            MessageLookupByLibrary.simpleMessage("직접인건비"),
+        "project_detail_summary_5":
+            MessageLookupByLibrary.simpleMessage("일반관리비"),
+        "project_detail_summary_6":
+            MessageLookupByLibrary.simpleMessage("기타 비용"),
+        "project_detail_summary_7": MessageLookupByLibrary.simpleMessage("PM"),
+        "project_detail_summary_8": MessageLookupByLibrary.simpleMessage("참여자"),
         "project_edit": MessageLookupByLibrary.simpleMessage("프로젝트 수정"),
         "project_filter_1": MessageLookupByLibrary.simpleMessage("고객사"),
         "project_filter_1_1": MessageLookupByLibrary.simpleMessage("고객사 선택"),
