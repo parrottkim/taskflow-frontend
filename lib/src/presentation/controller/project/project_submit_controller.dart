@@ -67,8 +67,58 @@ class ProjectSubmitController extends _$ProjectSubmitController {
       ref
           .read(projectDetailControllerProvider(projectId: project.id).notifier)
           .updateProject(project: project);
+      await ref
+          .read(projectDetailControllerProvider(projectId: project.id).notifier)
+          .refreshParticipantSummary();
 
       state = ProjectSubmitState.updated(project);
+    } catch (e) {
+      state = ProjectSubmitState.failure(e.toString());
+    }
+  }
+
+  Future<void> assignProjectManager({
+    required Project project,
+    required User manager,
+  }) async {
+    state = const ProjectSubmitState.pending();
+
+    try {
+      final request = UpdateProjectRequest(
+        managerId: manager.id,
+        clientId: project.clients.last.id,
+        projectCode: project.code,
+        projectName: project.name,
+        isPreexecuted: project.isPreexecuted,
+      );
+
+      final updatedProject = await ref
+          .read(projectRepositoryProvider)
+          .updateProject(id: project.id, request: request);
+
+      ref
+          .read(
+            projectListControllerProvider(
+              ProjectFilterScope.projectPage,
+            ).notifier,
+          )
+          .updateListItem(item: ProjectListItem.fromProject(updatedProject));
+      ref
+          .read(
+            projectDetailControllerProvider(
+              projectId: updatedProject.id,
+            ).notifier,
+          )
+          .updateProject(project: updatedProject);
+      await ref
+          .read(
+            projectDetailControllerProvider(
+              projectId: updatedProject.id,
+            ).notifier,
+          )
+          .refreshParticipantSummary();
+
+      state = ProjectSubmitState.updated(updatedProject);
     } catch (e) {
       state = ProjectSubmitState.failure(e.toString());
     }

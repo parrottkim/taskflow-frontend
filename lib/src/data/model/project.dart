@@ -117,6 +117,17 @@ abstract class ProjectSummary with _$ProjectSummary {
 }
 
 @freezed
+abstract class ProjectParticipantSummary with _$ProjectParticipantSummary {
+  const factory ProjectParticipantSummary({
+    User? manager,
+    @Default([]) List<KickoffIssueParticipantItem> participants,
+  }) = _ProjectParticipantSummary;
+
+  factory ProjectParticipantSummary.fromJson(Map<String, dynamic> json) =>
+      _$ProjectParticipantSummaryFromJson(json);
+}
+
+@freezed
 abstract class ProjectCostSummary with _$ProjectCostSummary {
   const factory ProjectCostSummary({
     required int contractAmount,

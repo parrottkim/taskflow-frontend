@@ -9,10 +9,14 @@ class ProjectDetailController extends _$ProjectDetailController {
     if (projectId == 0) {
       return ProjectDetailState(
         project: Project.dummy(),
+        participantSummary: const ProjectParticipantSummary(),
         costSummary: ProjectCostSummary.dummy(),
       );
     }
 
+    final participantSummary = await ref
+        .read(projectRepositoryProvider)
+        .getProjectParticipantSummary(id: projectId);
     final costSummary = await ref
         .read(projectRepositoryProvider)
         .getProjectCostSummary(id: projectId);
@@ -25,6 +29,7 @@ class ProjectDetailController extends _$ProjectDetailController {
 
     return ProjectDetailState(
       project: result,
+      participantSummary: participantSummary,
       costSummary: costSummary,
       contracts: counts.contracts,
       approvals: counts.approvals,
@@ -45,6 +50,31 @@ class ProjectDetailController extends _$ProjectDetailController {
     final value = state.requireValue;
 
     state = AsyncValue.data(value.copyWith(costSummary: costSummary));
+  }
+
+  void updateParticipantSummary({
+    required ProjectParticipantSummary participantSummary,
+  }) {
+    if (!state.hasValue) return;
+    final value = state.requireValue;
+
+    state = AsyncValue.data(
+      value.copyWith(participantSummary: participantSummary),
+    );
+  }
+
+  Future<void> refreshParticipantSummary() async {
+    try {
+      final participantSummary = await ref
+          .read(projectRepositoryProvider)
+          .getProjectParticipantSummary(id: projectId);
+      if (!ref.mounted) return;
+
+      updateParticipantSummary(participantSummary: participantSummary);
+    } catch (error, stackTrace) {
+      debugPrint('Project participant summary refresh failed: $error');
+      debugPrintStack(stackTrace: stackTrace);
+    }
   }
 
   Future<void> toggleBookmark({required bool bookmarked}) async {

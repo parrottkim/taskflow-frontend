@@ -3650,6 +3650,56 @@ class S {
     );
   }
 
+  /// `직접인건비`
+  String get project_detail_summary_4 {
+    return Intl.message(
+      '직접인건비',
+      name: 'project_detail_summary_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `일반관리비`
+  String get project_detail_summary_5 {
+    return Intl.message(
+      '일반관리비',
+      name: 'project_detail_summary_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `기타 비용`
+  String get project_detail_summary_6 {
+    return Intl.message(
+      '기타 비용',
+      name: 'project_detail_summary_6',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PM`
+  String get project_detail_summary_7 {
+    return Intl.message(
+      'PM',
+      name: 'project_detail_summary_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `참여자`
+  String get project_detail_summary_8 {
+    return Intl.message(
+      '참여자',
+      name: 'project_detail_summary_8',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `업무 내용 공유`
   String get project_issue_mail {
     return Intl.message(

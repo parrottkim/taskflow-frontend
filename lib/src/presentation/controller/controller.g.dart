@@ -146,7 +146,7 @@ final class AuthControllerProvider
   }
 }
 
-String _$authControllerHash() => r'6cb0c2f0530de906acf643eb2c1ca1853c5d969e';
+String _$authControllerHash() => r'd24be86a924a2a4f00b56a20ebea5692622cf0a0';
 
 abstract class _$AuthController extends $Notifier<AuthState> {
   AuthState build();
@@ -1745,7 +1745,7 @@ final class IssueSubmitControllerProvider
 }
 
 String _$issueSubmitControllerHash() =>
-    r'473a0fde6b4c55ca6af1643fc2418c11036e64ca';
+    r'744c1506552ad0e210b65be7a28fa755c2b73b60';
 
 abstract class _$IssueSubmitController extends $Notifier<IssueSubmitState> {
   IssueSubmitState build();
@@ -2080,7 +2080,7 @@ final class ProjectDetailControllerProvider
 }
 
 String _$projectDetailControllerHash() =>
-    r'd9468e0a050bbd585d883ad3e961f8f0b09d5e9c';
+    r'03f99aa8b2412927181916495f65a626e5c042a2';
 
 final class ProjectDetailControllerFamily extends $Family
     with
@@ -2506,7 +2506,7 @@ final class ProjectSubmitControllerProvider
 }
 
 String _$projectSubmitControllerHash() =>
-    r'ffa8e0db23c21df7de15136efbb0e03a462896f2';
+    r'21196a72c8a744853c3b995aa422b06422167f50';
 
 abstract class _$ProjectSubmitController extends $Notifier<ProjectSubmitState> {
   ProjectSubmitState build();
