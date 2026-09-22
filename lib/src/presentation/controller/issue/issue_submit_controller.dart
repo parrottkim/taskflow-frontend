@@ -238,6 +238,13 @@ class IssueSubmitController extends _$IssueSubmitController {
       if (value.category is IssueContract) {
         await _refreshProjectCostSummary(projectId: projectId);
       }
+      if (value.category is IssueKickoff) {
+        await ref
+            .read(
+              projectDetailControllerProvider(projectId: projectId).notifier,
+            )
+            .refreshParticipantSummary();
+      }
 
       state = IssueSubmitState.created(issue);
     } catch (e) {
@@ -468,6 +475,13 @@ class IssueSubmitController extends _$IssueSubmitController {
           .updateListItem(issue);
       if (value.category is IssueContract) {
         await _refreshProjectCostSummary(projectId: projectId);
+      }
+      if (value.category is IssueKickoff) {
+        await ref
+            .read(
+              projectDetailControllerProvider(projectId: projectId).notifier,
+            )
+            .refreshParticipantSummary();
       }
 
       state = IssueSubmitState.updated(issue);

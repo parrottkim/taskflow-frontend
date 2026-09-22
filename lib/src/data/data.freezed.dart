@@ -12773,6 +12773,302 @@ as int,
 
 
 /// @nodoc
+mixin _$ProjectParticipantSummary {
+
+ User? get manager; List<KickoffIssueParticipantItem> get participants;
+/// Create a copy of ProjectParticipantSummary
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProjectParticipantSummaryCopyWith<ProjectParticipantSummary> get copyWith => _$ProjectParticipantSummaryCopyWithImpl<ProjectParticipantSummary>(this as ProjectParticipantSummary, _$identity);
+
+  /// Serializes this ProjectParticipantSummary to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProjectParticipantSummary&&(identical(other.manager, manager) || other.manager == manager)&&const DeepCollectionEquality().equals(other.participants, participants));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,manager,const DeepCollectionEquality().hash(participants));
+
+@override
+String toString() {
+  return 'ProjectParticipantSummary(manager: $manager, participants: $participants)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProjectParticipantSummaryCopyWith<$Res>  {
+  factory $ProjectParticipantSummaryCopyWith(ProjectParticipantSummary value, $Res Function(ProjectParticipantSummary) _then) = _$ProjectParticipantSummaryCopyWithImpl;
+@useResult
+$Res call({
+ User? manager, List<KickoffIssueParticipantItem> participants
+});
+
+
+$UserCopyWith<$Res>? get manager;
+
+}
+/// @nodoc
+class _$ProjectParticipantSummaryCopyWithImpl<$Res>
+    implements $ProjectParticipantSummaryCopyWith<$Res> {
+  _$ProjectParticipantSummaryCopyWithImpl(this._self, this._then);
+
+  final ProjectParticipantSummary _self;
+  final $Res Function(ProjectParticipantSummary) _then;
+
+/// Create a copy of ProjectParticipantSummary
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? manager = freezed,Object? participants = null,}) {
+  return _then(_self.copyWith(
+manager: freezed == manager ? _self.manager : manager // ignore: cast_nullable_to_non_nullable
+as User?,participants: null == participants ? _self.participants : participants // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,
+  ));
+}
+/// Create a copy of ProjectParticipantSummary
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get manager {
+    if (_self.manager == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.manager!, (value) {
+    return _then(_self.copyWith(manager: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [ProjectParticipantSummary].
+extension ProjectParticipantSummaryPatterns on ProjectParticipantSummary {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProjectParticipantSummary value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ProjectParticipantSummary() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProjectParticipantSummary value)  $default,){
+final _that = this;
+switch (_that) {
+case _ProjectParticipantSummary():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProjectParticipantSummary value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ProjectParticipantSummary() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User? manager,  List<KickoffIssueParticipantItem> participants)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ProjectParticipantSummary() when $default != null:
+return $default(_that.manager,_that.participants);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User? manager,  List<KickoffIssueParticipantItem> participants)  $default,) {final _that = this;
+switch (_that) {
+case _ProjectParticipantSummary():
+return $default(_that.manager,_that.participants);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User? manager,  List<KickoffIssueParticipantItem> participants)?  $default,) {final _that = this;
+switch (_that) {
+case _ProjectParticipantSummary() when $default != null:
+return $default(_that.manager,_that.participants);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ProjectParticipantSummary implements ProjectParticipantSummary {
+  const _ProjectParticipantSummary({this.manager, final  List<KickoffIssueParticipantItem> participants = const []}): _participants = participants;
+  factory _ProjectParticipantSummary.fromJson(Map<String, dynamic> json) => _$ProjectParticipantSummaryFromJson(json);
+
+@override final  User? manager;
+ final  List<KickoffIssueParticipantItem> _participants;
+@override@JsonKey() List<KickoffIssueParticipantItem> get participants {
+  if (_participants is EqualUnmodifiableListView) return _participants;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_participants);
+}
+
+
+/// Create a copy of ProjectParticipantSummary
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ProjectParticipantSummaryCopyWith<_ProjectParticipantSummary> get copyWith => __$ProjectParticipantSummaryCopyWithImpl<_ProjectParticipantSummary>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ProjectParticipantSummaryToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProjectParticipantSummary&&(identical(other.manager, manager) || other.manager == manager)&&const DeepCollectionEquality().equals(other._participants, _participants));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,manager,const DeepCollectionEquality().hash(_participants));
+
+@override
+String toString() {
+  return 'ProjectParticipantSummary(manager: $manager, participants: $participants)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ProjectParticipantSummaryCopyWith<$Res> implements $ProjectParticipantSummaryCopyWith<$Res> {
+  factory _$ProjectParticipantSummaryCopyWith(_ProjectParticipantSummary value, $Res Function(_ProjectParticipantSummary) _then) = __$ProjectParticipantSummaryCopyWithImpl;
+@override @useResult
+$Res call({
+ User? manager, List<KickoffIssueParticipantItem> participants
+});
+
+
+@override $UserCopyWith<$Res>? get manager;
+
+}
+/// @nodoc
+class __$ProjectParticipantSummaryCopyWithImpl<$Res>
+    implements _$ProjectParticipantSummaryCopyWith<$Res> {
+  __$ProjectParticipantSummaryCopyWithImpl(this._self, this._then);
+
+  final _ProjectParticipantSummary _self;
+  final $Res Function(_ProjectParticipantSummary) _then;
+
+/// Create a copy of ProjectParticipantSummary
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? manager = freezed,Object? participants = null,}) {
+  return _then(_ProjectParticipantSummary(
+manager: freezed == manager ? _self.manager : manager // ignore: cast_nullable_to_non_nullable
+as User?,participants: null == participants ? _self._participants : participants // ignore: cast_nullable_to_non_nullable
+as List<KickoffIssueParticipantItem>,
+  ));
+}
+
+/// Create a copy of ProjectParticipantSummary
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res>? get manager {
+    if (_self.manager == null) {
+    return null;
+  }
+
+  return $UserCopyWith<$Res>(_self.manager!, (value) {
+    return _then(_self.copyWith(manager: value));
+  });
+}
+}
+
+
+/// @nodoc
 mixin _$ProjectCostSummary {
 
  int get contractAmount; int get purchaseAmount; int get tripSettlementAmount; int get totalCost; int get profitAmount;

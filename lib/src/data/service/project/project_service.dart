@@ -7,6 +7,11 @@ abstract class ProjectService {
   @GET('project/{id}/count')
   Future<ProjectItemCount> getProjectItemCount({@Path() required int id});
 
+  @GET('project/{id}/participant-summary')
+  Future<ProjectParticipantSummary> getProjectParticipantSummary({
+    @Path() required int id,
+  });
+
   @GET('project/{id}/cost-summary')
   Future<ProjectCostSummary> getProjectCostSummary({@Path() required int id});
 

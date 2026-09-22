@@ -1274,6 +1274,29 @@ Map<String, dynamic> _$ProjectSummaryToJson(_ProjectSummary instance) =>
       'active': instance.active,
     };
 
+_ProjectParticipantSummary _$ProjectParticipantSummaryFromJson(
+  Map<String, dynamic> json,
+) => _ProjectParticipantSummary(
+  manager: json['manager'] == null
+      ? null
+      : User.fromJson(json['manager'] as Map<String, dynamic>),
+  participants:
+      (json['participants'] as List<dynamic>?)
+          ?.map(
+            (e) =>
+                KickoffIssueParticipantItem.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
+);
+
+Map<String, dynamic> _$ProjectParticipantSummaryToJson(
+  _ProjectParticipantSummary instance,
+) => <String, dynamic>{
+  'manager': instance.manager,
+  'participants': instance.participants,
+};
+
 _ProjectCostSummary _$ProjectCostSummaryFromJson(Map<String, dynamic> json) =>
     _ProjectCostSummary(
       contractAmount: (json['contractAmount'] as num).toInt(),
@@ -6128,6 +6151,35 @@ class _ProjectService implements ProjectService {
     late ProjectItemCount _value;
     try {
       _value = ProjectItemCount.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ProjectParticipantSummary> getProjectParticipantSummary({
+    required int id,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ProjectParticipantSummary>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'project/${id}/participant-summary',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ProjectParticipantSummary _value;
+    try {
+      _value = ProjectParticipantSummary.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
