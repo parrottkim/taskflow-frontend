@@ -70,6 +70,8 @@ abstract class IssueDraftPayload with _$IssueDraftPayload {
     Currency? currency,
     DateTime? contractDate,
     DateTime? kickoffDate,
+    @Default([]) List<KickoffIssueParticipantItem> participantItems,
+    @Default([]) List<KickoffIssueTripItem> tripItems,
     @Default([]) List<ContractIssueItem> contractItems,
     @Default([]) List<TransactionIssueItem> transactionItems,
     @Default([]) List<ProcurementIssueItem> procurementItems,
