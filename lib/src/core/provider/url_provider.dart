@@ -4,7 +4,9 @@ part of '../core.dart';
 String serviceUrl(Ref ref) {
   const environment = String.fromEnvironment('ENVIRONMENT');
 
-  if (environment == 'local') return 'https://192.168.150.87:3000/';
+  if (environment == 'local') {
+    return 'https://hyunjins-macbook-pro.local:3000/';
+  }
 
   final hostname = 'taskflow.dan-tech.com';
   final url = environment == 'dev'
@@ -18,7 +20,9 @@ String serviceUrl(Ref ref) {
 String clientUrl(Ref ref) {
   const environment = String.fromEnvironment('ENVIRONMENT');
 
-  if (environment == 'local') return 'http://192.168.150.87:8000/';
+  if (environment == 'local') {
+    return 'https://hyunjins-macbook-pro.local:8080/';
+  }
 
   final hostname = 'taskflow.dan-tech.com';
   final url = environment == 'dev'

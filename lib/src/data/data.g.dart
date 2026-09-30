@@ -353,6 +353,19 @@ _IssueDraftPayload _$IssueDraftPayloadFromJson(
   kickoffDate: json['kickoffDate'] == null
       ? null
       : DateTime.parse(json['kickoffDate'] as String),
+  participantItems:
+      (json['participantItems'] as List<dynamic>?)
+          ?.map(
+            (e) =>
+                KickoffIssueParticipantItem.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
+  tripItems:
+      (json['tripItems'] as List<dynamic>?)
+          ?.map((e) => KickoffIssueTripItem.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
   contractItems:
       (json['contractItems'] as List<dynamic>?)
           ?.map((e) => ContractIssueItem.fromJson(e as Map<String, dynamic>))
@@ -377,6 +390,8 @@ Map<String, dynamic> _$IssueDraftPayloadToJson(_IssueDraftPayload instance) =>
       'currency': instance.currency,
       'contractDate': instance.contractDate?.toIso8601String(),
       'kickoffDate': instance.kickoffDate?.toIso8601String(),
+      'participantItems': instance.participantItems,
+      'tripItems': instance.tripItems,
       'contractItems': instance.contractItems,
       'transactionItems': instance.transactionItems,
       'procurementItems': instance.procurementItems,
