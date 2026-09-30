@@ -1554,7 +1554,7 @@ final class IssueFormControllerProvider
 }
 
 String _$issueFormControllerHash() =>
-    r'1fa7004aa1568a34d04ef09e3e339765079b27b4';
+    r'7035a1aa64424b2a522a89c36315d9a8b235aa51';
 
 final class IssueFormControllerFamily extends $Family
     with
