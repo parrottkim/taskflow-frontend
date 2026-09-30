@@ -48,7 +48,7 @@ final class ServiceUrlProvider
   }
 }
 
-String _$serviceUrlHash() => r'a2c3e087520fdf16d3406e6fdde9499ffb53e6a1';
+String _$serviceUrlHash() => r'1dd50bbf56878215fe0ed2f5d5a4d26d14311e66';
 
 @ProviderFor(clientUrl)
 final clientUrlProvider = ClientUrlProvider._();
@@ -89,7 +89,7 @@ final class ClientUrlProvider
   }
 }
 
-String _$clientUrlHash() => r'5e9b346d13d04a5ef079c1fbad13b480c215416f';
+String _$clientUrlHash() => r'2ed03d92e4d1879fdd6fca83706646f34bded197';
 
 @ProviderFor(indexedDatabase)
 final indexedDatabaseProvider = IndexedDatabaseProvider._();
