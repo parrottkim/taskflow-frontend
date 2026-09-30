@@ -3,11 +3,13 @@ part of '../widget.dart';
 class ValidationErrorMessage extends HookWidget {
   final bool visible;
   final String text;
+  final EdgeInsetsGeometry padding;
 
   const ValidationErrorMessage({
     super.key,
     required this.visible,
     required this.text,
+    this.padding = const EdgeInsets.only(top: 4.0),
   });
 
   @override
@@ -44,7 +46,7 @@ class ValidationErrorMessage extends HookWidget {
       child: FadeTransition(
         opacity: opacityController,
         child: Padding(
-          padding: const EdgeInsets.only(top: 4.0),
+          padding: padding,
           child: Row(
             children: [
               Icon(Symbols.error_rounded, size: 16.0, color: colorScheme.error),

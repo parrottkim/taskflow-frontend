@@ -42,7 +42,7 @@ class ProgressWidget extends ConsumerWidget {
         .isEmpty;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
+      padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class ProgressWidget extends ConsumerWidget {
               child: Skeleton.unite(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    context.goNamed(
+                    context.pushNamed(
                       RouteNames.issueProcurementRequestNew,
                       pathParameters: {
                         'project_id': projectId.toString(),
